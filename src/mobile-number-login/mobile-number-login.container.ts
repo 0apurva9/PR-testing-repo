@@ -80,7 +80,7 @@ const mapDispatchToProps = (disptach: Function) => {
             disptach(setMnlApiData(apiData));
             disptach(addnewEmail());
         },
-        generateOtpChangeProfileNumber : (apiData: MnlApiData) => {
+        generateOtpChangeProfileNumber: (apiData: MnlApiData) => {
             disptach(setMnlApiData(apiData));
             disptach(generateOtpChangeProfileNumber())
         },
@@ -99,7 +99,8 @@ const mapStateToProps = (state: RootState) => {
         steps: state.mobileNumberLogin.steps,
         mnlApiData: state.mobileNumberLogin.mnlApiData,
         mnlApiResponse: state.mobileNumberLogin.mnlApiResponse,
-        resendOtpTime: state.mobileNumberLogin.resendOtpTimmer
+        resendOtpTime: state.mobileNumberLogin.resendOtpTimmer,
+        userMobileNumber: state.profile.userDetails.mobileNumber,
     };
 };
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MobileNumberLogin));

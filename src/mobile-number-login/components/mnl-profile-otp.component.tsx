@@ -4,14 +4,15 @@ import { MnlApiData, MnlApiResponse } from "../mobile-number-login.types";
 
 export class MnlProfileOtp extends React.Component<MnlOtpProps, MnlOtpState> {
   public state: Readonly<MnlOtpState> = {
-    otp: "      ",
-    otp2 : "      ",
+    currentOtp: "      ",
+    newOtp: "      ",
     isInputValid: false,
     isInputValid2: false,
     resendOtp: false,
-    resendOtpIn: 30
+    resendOtpIn: 60
   };
-  private _otfDivRef = React.createRef<HTMLDivElement>();
+  private _currentMobileOtpRef = React.createRef<HTMLDivElement>();
+  private _newMobileOtpRef = React.createRef<HTMLDivElement>();
 
   public componentDidMount() {
     let maxTime = this.state.resendOtpIn;
@@ -25,9 +26,9 @@ export class MnlProfileOtp extends React.Component<MnlOtpProps, MnlOtpState> {
     }, 1000);
   }
 
-  private moveToNext(event: React.KeyboardEvent<HTMLInputElement>, id: string) {
-    if (this._otfDivRef.current && !Object.is(parseInt(event.key), NaN)) {
-      const focusEle = this._otfDivRef.current.querySelector<HTMLInputElement>(
+  private moveToNext(event: React.KeyboardEvent<HTMLInputElement>, id: string, ref: React.RefObject<HTMLDivElement>) {
+    if (ref.current && !Object.is(parseInt(event.key), NaN)) {
+      const focusEle = ref.current.querySelector<HTMLInputElement>(
         `#${id}`
       );
       if (focusEle) {
@@ -43,18 +44,18 @@ export class MnlProfileOtp extends React.Component<MnlOtpProps, MnlOtpState> {
   ) {
     event.stopPropagation();
     if (event.keyCode === 8) {
-      const otpArr = this.state.otp.split("");
+      const otpArr = this.state.currentOtp.split("");
       otpArr[idx] = " ";
-      const otp = otpArr.join("");
-      if (!/ /g.test(otp)) {
-        this.setState({ otp, isInputValid: true });
+      const currentOtp = otpArr.join("");
+      if (!/ /g.test(currentOtp)) {
+        this.setState({ currentOtp, isInputValid: true });
       } else {
-        this.setState({ otp, isInputValid: false });
+        this.setState({ currentOtp, isInputValid: false });
       }
-      if (this._otfDivRef.current) {
-        const focusEle = this._otfDivRef.current.querySelector<
+      if (this._currentMobileOtpRef.current) {
+        const focusEle = this._currentMobileOtpRef.current.querySelector<
           HTMLInputElement
-        >(`#${id}`);
+          >(`#${id}`);
         if (focusEle) {
           focusEle.focus();
         }
@@ -62,25 +63,25 @@ export class MnlProfileOtp extends React.Component<MnlOtpProps, MnlOtpState> {
     }
   }
 
-  private onKeyDown2(
+  private onKeyDownNew(
     event: React.KeyboardEvent<HTMLInputElement>,
     id: string,
     idx: number
   ) {
     event.stopPropagation();
     if (event.keyCode === 8) {
-      const otpArr = this.state.otp2.split("");
+      const otpArr = this.state.newOtp.split("");
       otpArr[idx] = " ";
-      const otp = otpArr.join("");
-      if (!/ /g.test(otp)) {
-        this.setState({ otp2 : otp, isInputValid2: true });
+      const currentOtp = otpArr.join("");
+      if (!/ /g.test(currentOtp)) {
+        this.setState({ newOtp: currentOtp, isInputValid2: true });
       } else {
-        this.setState({ otp2 : otp, isInputValid2: false });
+        this.setState({ newOtp: currentOtp, isInputValid2: false });
       }
-      if (this._otfDivRef.current) {
-        const focusEle = this._otfDivRef.current.querySelector<
+      if (this._newMobileOtpRef.current) {
+        const focusEle = this._newMobileOtpRef.current.querySelector<
           HTMLInputElement
-        >(`#${id}`);
+          >(`#${id}`);
         if (focusEle) {
           focusEle.focus();
         }
@@ -95,13 +96,13 @@ export class MnlProfileOtp extends React.Component<MnlOtpProps, MnlOtpState> {
     if (!event.target.value || event.target.value.length > 1) {
       return;
     }
-    const otpArr = this.state.otp.split("");
+    const otpArr = this.state.currentOtp.split("");
     otpArr[index] = event.target.value;
-    const otp = otpArr.join("");
-    if (!/ /g.test(otp)) {
-      this.setState({ otp, isInputValid: true });
+    const currentOtp = otpArr.join("");
+    if (!/ /g.test(currentOtp)) {
+      this.setState({ currentOtp, isInputValid: true });
     } else {
-      this.setState({ otp, isInputValid: false });
+      this.setState({ currentOtp, isInputValid: false });
     }
   }
 
@@ -112,13 +113,13 @@ export class MnlProfileOtp extends React.Component<MnlOtpProps, MnlOtpState> {
     if (!event.target.value || event.target.value.length > 1) {
       return;
     }
-    const otpArr = this.state.otp2.split("");
+    const otpArr = this.state.newOtp.split("");
     otpArr[index] = event.target.value;
-    const otp = otpArr.join("");
-    if (!/ /g.test(otp)) {
-      this.setState({ otp2 : otp, isInputValid: true });
+    const currentOtp = otpArr.join("");
+    if (!/ /g.test(currentOtp)) {
+      this.setState({ newOtp: currentOtp, isInputValid: true });
     } else {
-      this.setState({ otp2 : otp, isInputValid: false });
+      this.setState({ newOtp: currentOtp, isInputValid: false });
     }
   }
 
@@ -128,8 +129,8 @@ export class MnlProfileOtp extends React.Component<MnlOtpProps, MnlOtpState> {
 
   private onContinueBtnClick() {
     const mnlApidata = Object.assign({}, this.props.mnlApidata, {
-      otp: this.state.otp,
-      otp2: this.state.otp2
+      currentOtp: this.state.currentOtp,
+      newOtp: this.state.newOtp
     });
 
     this.props.updateProfileMobileNumber(mnlApidata);
@@ -143,14 +144,13 @@ export class MnlProfileOtp extends React.Component<MnlOtpProps, MnlOtpState> {
           <h2>Almost There</h2>
           <p>
             Please enter the 6 digit OTP that we just sent on +91{" "}
-            {this.props.mnlApiResponse && this.props.mnlApiResponse.userData.customer.maskedPhoneNumber ||
-              this.props.mnlApidata.phoneNumber}
+            {this.props.userMobileNumber}
           </p>
         </div>
         <div className={styles.formSec}>
           <div className={styles.feildSec}>
-            <div className={styles.otpRow} ref={this._otfDivRef}>
-              {this.state.otp.split("").map((val, idx) => {
+            <div className={styles.otpRow} ref={this._currentMobileOtpRef}>
+              {this.state.currentOtp.split("").map((val, idx) => {
                 return (
                   <div className={styles.otpCol}>
                     <input
@@ -159,21 +159,27 @@ export class MnlProfileOtp extends React.Component<MnlOtpProps, MnlOtpState> {
                       id={`otp_${idx}`}
                       size={1}
                       onKeyUp={event =>
-                        this.moveToNext(event, `otp_${idx + 1}`)
+                        this.moveToNext(event, `otp_${idx + 1}`, this._currentMobileOtpRef)
                       }
                       onKeyDown={event =>
                         this.onKeyDown(event, `otp_${idx - 1}`, idx)
                       }
                       maxLength={1}
-                      value={this.state.otp.split("")[idx]}
+                      value={this.state.currentOtp.split("")[idx]}
                       onChange={event => this.onChangeInput(event, idx)}
                     />
                   </div>
                 );
               })}
             </div>
-            <div className={styles.otpRow} ref={this._otfDivRef}>
-              {this.state.otp.split("").map((val, idx) => {
+            <div className={styles.headSec}>
+              <p>
+                Please enter the 6 digit OTP that we just sent on +91{" "}
+                {this.props.mnlApidata && this.props.mnlApidata.phoneNumber}
+              </p>
+            </div>
+            <div className={styles.otpRow} ref={this._newMobileOtpRef}>
+              {this.state.newOtp.split("").map((val, idx) => {
                 return (
                   <div className={styles.otpCol}>
                     <input
@@ -182,13 +188,13 @@ export class MnlProfileOtp extends React.Component<MnlOtpProps, MnlOtpState> {
                       id={`otp_${idx}`}
                       size={1}
                       onKeyUp={event =>
-                        this.moveToNext(event, `otp_${idx + 1}`)
+                        this.moveToNext(event, `otp_${idx + 1}`, this._newMobileOtpRef)
                       }
                       onKeyDown={event =>
-                        this.onKeyDown2(event, `otp_${idx - 1}`, idx)
+                        this.onKeyDownNew(event, `otp_${idx - 1}`, idx)
                       }
                       maxLength={1}
-                      value={this.state.otp2.split("")[idx]}
+                      value={this.state.newOtp.split("")[idx]}
                       onChange={event => this.onChangeInput2(event, idx)}
                     />
                   </div>
@@ -238,14 +244,15 @@ export interface MnlOtpProps {
   changeLoginStep: (stepKey: string) => void;
   mnlApiResponse: MnlApiResponse;
   validateChallenge: (apiData: MnlApiData) => void;
-  isStepValidateOtp : boolean;
-  validateProfileOtp : (apiData: MnlApiData) => void;
-  updateProfileMobileNumber : (apiData: MnlApiData) => void;
+  isStepValidateOtp: boolean;
+  validateProfileOtp: (apiData: MnlApiData) => void;
+  updateProfileMobileNumber: (apiData: MnlApiData) => void;
+  userMobileNumber: string;
 }
 
 export interface MnlOtpState {
-  otp: string;
-  otp2 : string;
+  currentOtp: string;
+  newOtp: string;
   isInputValid: boolean;
   resendOtp: boolean;
   resendOtpIn: number;
