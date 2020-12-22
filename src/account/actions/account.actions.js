@@ -5805,13 +5805,12 @@ export function getRecentTicketHistoryDetails(
       if (Object.keys(ticketDetailsState).length && paginated && ticketStatus) {
         currentPage = ticketDetailsState.currentPage + 1;
       }
-
       const result = await api.get(
         `${USER_PATH}/${
           JSON.parse(userDetails).userName
         }/getTicketHistory?currentPage=${currentPage}&access_token=${
           JSON.parse(customerCookie).access_token
-        }&pageSize=${10}&ticketYear=${ticketYear}&ticketStatus=${
+        }&pageSize=${5}&ticketYear=${ticketYear}&ticketStatus=${
           ticketStatus === "all" ? "" : ticketStatus
         }`
       );

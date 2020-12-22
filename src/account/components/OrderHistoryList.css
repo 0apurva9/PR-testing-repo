@@ -1,18 +1,17 @@
-.base{
+.base {
     width: 75%;
     display: -ms-flexbox;
     padding-left: 9px;
-
 }
 
-.whiteCard{
-
+.whiteCard {
     background: #fff;
     padding: 20px;
     width: 100%;
     border-radius: 6px;
 }
-.headerBox{
+
+.headerBox {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -20,35 +19,40 @@
     padding-bottom: 10px;
     position: relative;
 }
-.header{
+
+.header {
     font-size: 16px;
     font-family: semibold;
     color: #212121;
 }
-.noRecentOrder{
+
+.noRecentOrder {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 35px 0px;
     flex-direction: column;
 }
-.heading{
+
+.heading {
     font-size: 16px;
     color: #4a4a44;
     font-family: semibold;
 }
-.txt{
+
+.txt {
     font-size: 16px;
     color: #4a4a44;
     padding: 15px 0px;
 }
-.date{
+
+.date {
     color: #da1c5c;
     font-family: semibold;
     font-size: 16px;
-
 }
-.filter{
+
+.filter {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -61,7 +65,8 @@
     font-family: regular;
     cursor: pointer;
 }
-.filterCard{
+
+.filterCard {
     position: absolute;
     right: 0px;
     top: 0px;
@@ -71,27 +76,32 @@
     border-radius: 4px;
     padding: 18px;
 }
-.filterType{
+
+.filterType {
     font-size: 14px;
     font-family: regular;
     color: #4a4a4a;
     cursor: pointer;
     margin-bottom: 16px;
 }
-.orderDetailsCardBox{
+
+.orderDetailsCardBox {
     display: flex;
     padding: 20px 0px;
     cursor: pointer;
 }
-.orderDetailsCardBox:not(:last-child){
+
+.orderDetailsCardBox:not(:last-child) {
     border-bottom: 1px solid #d8d8d8;
 }
-.orderImg{
-    width: 100px;
+
+.orderImg {
     height: 100px;
     border-radius: 4px;
+    width: 78px;
 }
-.nonOrderIcon{
+
+.nonOrderIcon {
     width: 100px;
     height: 100px;
     border-radius: 4px;
@@ -101,22 +111,24 @@
     background: #f1f1f1;
 }
 
-.orderDetails{
+.orderDetails {
     margin-left: 3%;
     line-height: 1.7;
 }
-.productName{
+
+.productName {
     font-size: 14px;
     color: #4a4a4a;
     font-family: regular;
 }
-.fontLight{
+
+.fontLight {
     font-size: 14px;
     color: #4a4a4a;
     font-family: light;
-
 }
-.orderStatusIconDelay{
+
+.orderStatusIconDelay {
     width: 12px;
     height: 12px;
     border: 1px solid #499b1f;
@@ -124,7 +136,8 @@
     display: inline-block;
     margin-right: 6px;
 }
-.orderStatusIconProgress{
+
+.orderStatusIconProgress {
     width: 12px;
     height: 12px;
     border-radius: 50%;
@@ -132,7 +145,8 @@
     margin-right: 6px;
     background: #f34c14;
 }
-.orderStatusIconResolve{
+
+.orderStatusIconResolve {
     width: 12px;
     height: 12px;
     border-radius: 50%;
@@ -140,27 +154,30 @@
     margin-right: 6px;
     background: #338715;
 }
-.fontBold{
+
+.fontBold {
     font-size: 14px;
     color: #4a4a4a;
     font-family: semibold;
 }
 
-.orderInfo{
+.orderInfo {
     padding: 20px 0px;
     line-height: 1.7;
 }
-.orderInfoDetails{
+
+.orderInfoDetails {
     display: flex;
     padding: 20px 0px;
     /* cursor: pointer; */
 }
-.statusDisplay{
+
+.statusDisplay {
     border: 1px dashed #d8d8d8;
     padding: 19px;
-    
 }
-.note{
+
+.note {
     font-size: 12px;
     color: #8d8d8d;
     font-family: regular;
@@ -168,77 +185,93 @@
     margin-top: 10px;
     padding-top: 10px;
 }
-.communication{
-margin-top: 23px;
+
+.communication {
+    margin-top: 23px;
 }
-.customerCircle{
+
+.customerCircle {
     width: 32px;
     height: 32px;
     background: #d8d8d8;
     border-radius: 50px;
     margin-right: 20px;
 }
-.customerCetails{
-display: flex;
-margin-top: 12px;
+
+.customerCetails {
+    display: flex;
+    margin-top: 12px;
 }
 
-.previousPageBtn{
+.previousPageBtn {
     font-size: 14px;
     font-family: semibold;
     color: #da1c5c;
     cursor: pointer;
 }
 
-.colorGreen{
+.colorGreen {
     color: #338715;
     font-family: semibold;
 }
-.colorMaroon{
+
+.colorMaroon {
     color: #f34c14;
     font-family: semibold;
 }
-.resolved{
-width: 12px;
-height: 12px;
-background: #338715;
-border-radius: 50px;
-display: inline-block;
-margin-right: 8px;
+
+.resolved {
+    width: 12px;
+    height: 12px;
+    background: #338715;
+    border-radius: 50px;
+    display: inline-block;
+    margin-right: 8px;
 }
-.delayed{
- width: 12px;
- height: 12px;
- background: #f34c14;
- border-radius: 50px;
- display: inline-block;
- margin-right: 8px;
+
+.delayed {
+    width: 12px;
+    height: 12px;
+    background: #eabb05;
+    border-radius: 50px;
+    display: inline-block;
+    margin-right: 8px;
 }
-.inProcess{
-   width: 12px;
-   height: 12px;
-   border: 1px solid #499b1f;
-   border-radius: 50px;
-   display: inline-block;
-   margin-right: 8px;
+
+.inProcess {
+    width: 12px;
+    height: 12px;
+    border: 1px solid #499b1f;
+    border-radius: 50px;
+    display: inline-block;
+    margin-right: 8px;
 }
-.delayedStatus{
-    font-size: 14px;
-    color: #d83e09;
-    font-family: regular;
-    margin-top: 10px;
+
+.delayedStatus {
+    background: #fff9e4;
+    display: flex;
+    align-items: center;
+    padding: 2px 15px;
+    border-radius: 5px;
 }
-.delayedStatusText{
+
+.delayedStatusText {
     font-size: 14px;
     font-family: semibold;
     color: #d83e09;
 }
-.statusText{
+
+.statusText {
     font-size: 14px;
     font-family: semibold;
-    color: #338715;   
+    color: #338715;
 }
-.nonRelatedIcon{
+
+.esclaIcon {
+    margin-right: 6px;
+}
+
+.nonRelatedIcon {
     width: 100%;
     height: 100%;
     background: #fafafa;
@@ -248,17 +281,16 @@ margin-right: 8px;
     border-radius: 4px;
 }
 
-.showMoreButtonBox{
+.showMoreButtonBox {
     display: flex;
     align-items: center;
     justify-content: center;
     margin-top: 20px;
-    
 }
 
-.showMore{
+.showMore {
     cursor: pointer;
-    color: rgb(33,33,33);
+    color: rgb(33, 33, 33);
     font-family: regular;
     font-size: 14px;
     transition: 300ms;
@@ -268,5 +300,27 @@ margin-right: 8px;
     background: none transparent;
     border: 2px solid rgb(33, 33, 33);
     padding: 6px 35px;
-   
+}
+
+.escalationBody {
+    display: flex;
+    padding: 12px 26px 10px 13px;
+    border-radius: 4px;
+    background-color: #fff9e4;
+}
+
+.iconBody {
+    margin-top: 4px;
+    margin-right: 9px;
+}
+
+.txtBody {
+    font-size: 12px;
+    color: #8d8d8d;
+    line-height: 18px;
+    font-family: light;
+}
+
+.lightTxt {
+    color: #9c6c00;
 }

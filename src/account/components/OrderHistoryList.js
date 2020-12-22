@@ -3,10 +3,11 @@ import PropTypes from "prop-types";
 import Styles from "./OrderHistoryList.css";
 import Icon from "../../xelpmoc-core/Icon";
 import downArrow from "./img/down-arrow-grey.svg";
+import infoIcon from "./img/infoIcon.svg";
 import ProductImage from "../../general/components/ProductImage";
 import OrderHistoryDetails from "./OrderHistoryDetails";
 import moment from "moment";
-
+const CREATION_DATE_FORMAT = "DD MMM YYYY";
 const ticketStatusDropDownMenu = [
   { label: "All Tickets", value: "all" },
   { label: "In Process", value: "In Process" },
@@ -28,16 +29,14 @@ export default class OrderHistoryList extends Component {
                 ? "Ticket Details"
                 : "All Tickets"}
             </div>
-               {this.props.isRecentOrderDetails && (
-                <div
-              className={Styles.previousPageBtn}
-              onClick={() => this.props.navigatePreviousPage()}
-            >
-              Go to Previous Page
-            </div>
-               )} 
-            
-
+            {this.props.isRecentOrderDetails && (
+              <div
+                className={Styles.previousPageBtn}
+                onClick={() => this.props.navigatePreviousPage()}
+              >
+                Go to Previous Page
+              </div>
+            )}
             {!this.props.isRecentOrderDetails && (
               <div
                 className={Styles.filter}
@@ -68,7 +67,7 @@ export default class OrderHistoryList extends Component {
           <div className={Styles.contentBox}>
             {ticketHistoryDetails &&
               !this.props.isRecentOrderDetails &&
-              ticketHistoryDetails.map(tickets => {
+              ticketHistoryDetails.tickets.map(tickets => {
                 return (
                   <div
                     className={Styles.orderDetailsCardBox}
@@ -100,19 +99,24 @@ export default class OrderHistoryList extends Component {
                       <div className={Styles.fontLight}>
                         <span
                           className={
-                            tickets.ticketStatus === "Resolved"
+                            tickets.status === "Resolved"
                               ? Styles.resolved
-                              : tickets.slaBreach === "true"
+                              : tickets.escalationFlag === "true"
                               ? Styles.delayed
                               : Styles.inProcess
                           }
                         ></span>
                         Status :{" "}
                         <span className={Styles.fontBold}>
-                          {tickets.ticketStatus}
+                          {tickets.status}|{" "}
+                          {tickets.status === "Resolved" &&
+                            moment(tickets.creationDate, "DD-MM-YYYY").format(
+                              `ddd ${STATUS_DATE_FORMAT}`
+                            )}
                         </span>
                       </div>
-                      {tickets.resolutionDate && (
+
+                      {tickets.resolutionDate && tickets.status !== "Resolved" && (
                         <div className={Styles.fontLight}>
                           {" "}
                           Estimated Resolution Date:{" "}
@@ -125,9 +129,12 @@ export default class OrderHistoryList extends Component {
                         </div>
                       )}
 
-                      {tickets.slaBreach === "true" && (
+                      {tickets.escalationFlag === "true" && (
                         <div className={Styles.delayedStatus}>
-                          Resolution delayed
+                          <div className={Styles.esclaIcon}>
+                            <Icon image={infoIcon} size={14}></Icon>
+                          </div>
+                          Your issue has been escalated
                         </div>
                       )}
                     </div>
@@ -143,11 +150,19 @@ export default class OrderHistoryList extends Component {
             )}
           </div>
         </div>
-        {!this.props.isRecentOrderDetails && (
-          <div className={Styles.showMoreButtonBox}>
-            <div className={Styles.showMore}>Show More</div>
-          </div>
-        )}
+        {!this.props.isRecentOrderDetails &&
+          ticketHistoryDetails &&
+          ticketHistoryDetails.ticketCount >=
+            ticketHistoryDetails.tickets.length + 1 && (
+            <div className={Styles.showMoreButtonBox}>
+              <div
+                className={Styles.showMore}
+                onClick={() => this.props.loadMoreData()}
+              >
+                Show More
+              </div>
+            </div>
+          )}
       </div>
     );
   }
@@ -165,14 +180,19 @@ OrderHistoryList.propTypes = {
     PropTypes.shape({
       creationDate: PropTypes.string,
       customerComment: PropTypes.string,
+      issueBucket: PropTypes.string,
+      issueType: PropTypes.string,
       orderId: PropTypes.string,
       productImage: PropTypes.string,
       productTitle: PropTypes.string,
       resolutionDate: PropTypes.string,
       slaBreach: PropTypes.string,
       ticketId: PropTypes.string,
-      ticketStatus: PropTypes.string,
-      transactionId: PropTypes.string
+      status: PropTypes.string,
+      transactionId: PropTypes.string,
+      escalationFlag: PropTypes.string,
+      statusMessage: PropTypes.string,
+      agentComment: PropTypes.string
     })
   )
 };

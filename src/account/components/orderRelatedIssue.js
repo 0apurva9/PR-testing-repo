@@ -334,6 +334,8 @@ export default class OrderRelatedIssue extends React.Component {
               this.props.setSelfServeState(null);
             }, 2000);
           }
+        } else {
+          this.setState({ raiseTiketRequest: false, showLoader: false });
         }
       }, 2000);
 
@@ -842,6 +844,7 @@ export default class OrderRelatedIssue extends React.Component {
     }, 2000);
   }
 
+  //Render first ticket history details.
   renderLatestTicketDetails(recentOrder) {
     return (
       <div className={styles.recentOrder}>
@@ -855,7 +858,7 @@ export default class OrderRelatedIssue extends React.Component {
             </div>
           ) : (
             <React.Fragment>
-              <div className={styles.recentTxt}> Your Recent Ticket(s)</div>
+              <div className={styles.recentTxt}> Your ticket (s) </div>
               <div
                 className={styles.viewAll}
                 onClick={() => this.showRecentOrderHistory("closeTicket")}
@@ -866,7 +869,7 @@ export default class OrderRelatedIssue extends React.Component {
           )}
         </div>
         {this.state.isRecentOrderHistory ? (
-          <div className={styles.tickets}>Your ticket(s)</div>
+          <div className={styles.tickets}> Your ticket(s)</div>
         ) : (
           <div
             className={styles.recentTicketDetailsBox}
@@ -905,21 +908,22 @@ export default class OrderRelatedIssue extends React.Component {
                   Ticket Status:{" "}
                   <span className={styles.fontBold}>
                     {" "}
-                    {recentOrder.ticketStatus}{" "}
+                    {recentOrder.status}{" "}
                   </span>
                 </div>
-                <div className={styles.recentStatus}>
-                  {" "}
-                  Estimated Resolution:{" "}
-                  <span className={styles.fontBold}>
+                {recentOrder.resolutionDate && (
+                  <div className={styles.recentStatus}>
                     {" "}
-                    {recentOrder.resolutionDate &&
-                      moment(
+                    Estimated Resolution:{" "}
+                    <span className={styles.fontBold}>
+                      {" "}
+                      {moment(
                         recentOrder.resolutionDate.split(" ")[0],
                         "DD-MM-YYYY"
                       ).format(STATUS_DATE_FORMAT)}
-                  </span>
-                </div>
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -941,10 +945,12 @@ export default class OrderRelatedIssue extends React.Component {
   handleFilterClick = () => {
     this.setState({ filterCard: true });
   };
+
   handleSelectedFilterClick = filterData => {
     this.setState({ filterTypeData: filterData.label, filterCard: false });
     this.props.getRecentTicketHistoryDetails(false, filterData.value);
   };
+
   showRecentOrderDetails = (selectedTickerHistory, recentTicketClicked) => {
     if (recentTicketClicked == "recentTicketClicked") {
       this.setState({ recentTicketClicked: true });
@@ -958,6 +964,10 @@ export default class OrderRelatedIssue extends React.Component {
       showQuestionList: false
     });
   };
+
+  loadMoreData() {
+    this.props.getRecentTicketHistoryDetails(true, this.state.filterTypeData);
+  }
 
   render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -988,6 +998,7 @@ export default class OrderRelatedIssue extends React.Component {
       genesysResponseLoading,
       genesysCustomerCallRequestData,
       ticketHistoryDetails,
+      ticketDetailsDataLoading,
       initialTicketDetailsData
     } = this.props;
     if (
@@ -1001,7 +1012,8 @@ export default class OrderRelatedIssue extends React.Component {
       FAQRelatedDataLoading ||
       loadingForFetchOrderDetails ||
       loadingForSendInvoice ||
-      cliq2CallConfigDataLoading
+      cliq2CallConfigDataLoading ||
+      ticketDetailsDataLoading
     ) {
       this.props.showSecondaryLoader();
     } else {
@@ -1259,11 +1271,9 @@ export default class OrderRelatedIssue extends React.Component {
                           navigatePreviousPage={() =>
                             this.navigatePreviousPage()
                           }
-                          ticketHistoryDetails={
-                            this.props.ticketHistoryDetails &&
-                            this.props.ticketHistoryDetails.tickets
-                          }
+                          ticketHistoryDetails={this.props.ticketHistoryDetails}
                           userName={this.state.name}
+                          loadMoreData={() => this.loadMoreData()}
                         />
                       ) : (
                         <div className={styles.formHolder}>
