@@ -22,7 +22,11 @@ export class MnlAddMobileNumber extends React.Component<MnlAddMobileNumberProps,
         mnlApiData.phoneNumber = this.state.mobileNumber;
         if (this.props.isChangeProfileMobile) {
             this.props.generateOtpChangeProfileNumber(mnlApiData)
-        } else {
+        } else if(this.props.isForgotPasswordClicked){
+            this.props.generateOtp(mnlApiData)
+            this.props.toggleForgotPassswordClick();
+        }
+        else {
             this.props.addMobileNumber(mnlApiData);
         }
     }
@@ -68,6 +72,10 @@ export interface MnlAddMobileNumberProps {
     mnlApiData: MnlApiData;
     isChangeProfileMobile: boolean
     generateOtpChangeProfileNumber: (apiData: MnlApiData) => void;
+    isForgotPasswordClicked : boolean;
+    generateOtp: (apiData: MnlApiData) => void;
+    toggleForgotPassswordClick : () => void
+
 }
 
 export interface MnlAddMobileNumberState {

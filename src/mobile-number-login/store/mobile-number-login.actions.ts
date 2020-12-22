@@ -229,10 +229,6 @@ export function generateOTP() {
         const globalAccessToken = await getFetchGlobalAccessToken(dispatch);
         const mnlApiResponseState = getState().mobileNumberLogin.mnlApiResponse;
 
-        if (mnlApiResponseState && mnlApiResponseState.userData.customer && mnlApiResponseState.userData.customer.maskedPhoneNumber.length) {
-            apiData.maskedPhoneNumber = mnlApiResponseState.userData.customer.maskedPhoneNumber;
-        }
-
         let otpHeader = {
             Authorization: `Bearer ${globalAccessToken.access_token}`,
             "register-user": false,
@@ -260,6 +256,9 @@ export function generateOTP() {
         dispatch(setMnlApiResponse(mnlApiResponse));
         if (mnlApiResponse.userData && mnlApiResponse.userData.validation && mnlApiResponse.userData.validation.otpSent) {
             dispatch(changeLoginStep("isStepValidateOtp"));
+        }
+        if(mnlApiResponse.userData && mnlApiResponse.userData.customer && mnlApiResponse.userData.validation && mnlApiResponse.userData.validation.validated && mnlApiResponse.userData.customer.passwordSet){
+            dispatch(changeLoginStep("isForgotPassword"));
         }
         dispatch(hideSecondaryLoader());
     };
@@ -469,9 +468,12 @@ export function updatePassword() {
         }
         dispatch(setMnlApiResponse(mnlApiResponse));
         dispatch(hideSecondaryLoader());
-        if (mnlApiResponseState.userData.customer.numberAdded) {
-            const response = await dispatch(validateOtp());
-            console.log(response);
+        if(mnlApiResponseState.userData && mnlApiResponseState.userData.customer.maskedPhoneNumber){
+         await dispatch(validateOtp());
+         dispatch(changeLoginStep("isStepLoginSuccess1"));
+        }
+        else {
+            dispatch(changeLoginStep("isStepAddMobileNumber"));
         }
     }
 }
