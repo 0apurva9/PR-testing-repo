@@ -42,7 +42,7 @@ export default class AttachmentUpload extends Component {
             customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
         if (!userDetails && !customerCookie) {
             this.navigateToLogin();
-        } else if (customerId == userDetails.customerId) {
+        } else if (customerId !== userDetails.customerId) {
             this.showAlertRetry();
         } else {
             this.props.getCustomerQueriesFieldsv2(this.state.queryParamsObj.templateId, false);
