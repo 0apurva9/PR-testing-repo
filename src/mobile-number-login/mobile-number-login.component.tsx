@@ -13,7 +13,7 @@ import { MnlEmail } from "./components/mnl-email-component";
 import { MnlProfileOtp } from './components/mnl-profile-otp.component';
 import { MnlEmailChangeOtp } from "./components/mnl-change-email-otp.component";
 import { MnlChangeEmailSucess } from "./components/mnl-change-email-succes.component"
-import {MnlChangeProfillePasswordSuccess} from "./components/mnl-change-profile-password-success";
+import { MnlChangeProfillePasswordSuccess } from "./components/mnl-change-profile-password-success";
 export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, MobileNumberLoginState> {
 
     public state: Readonly<MobileNumberLoginState> = {
@@ -43,6 +43,7 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
                                 isStepValidateOtp={this.props.steps.isStepValidateOtp}
                                 validateProfileOtp={(apidata) => this.props.validateProfileOtp(apidata)}
                                 updateProfileMobileNumber={(apidata) => this.props.updateProfileMobileNumber(apidata)}
+                                userMobileNumber={this.props.userMobileNumber}
                             />
                         }
                         {this.props.steps.isStepEmail && (
@@ -86,7 +87,7 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
                                 mnlApiData={this.props.mnlApiData}
                                 addMobileNumber={(apiData) => this.props.generateOtp(apiData)}
                                 isChangeProfileMobile={this.props.steps.isChangeProfileMobile}
-                                generateOtpChangeProfileNumber = {(apiData) => this.props.generateOtpChangeProfileNumber(apiData)}
+                                generateOtpChangeProfileNumber={(apiData) => this.props.generateOtpChangeProfileNumber(apiData)}
                             />
                         )}
                         {isStepOtp && (
@@ -165,10 +166,11 @@ export interface MobileNumberLoginProps extends RouteComponentProps {
     updateProfileMobileNumber: (apiData: MnlApiData) => void;
     validateEmailOtp: (apiData: MnlApiData) => void;
     addnewEmail: (apiData: MnlApiData) => void;
-    generateOtpChangeProfileNumber : (apiData: MnlApiData) => void;
+    generateOtpChangeProfileNumber: (apiData: MnlApiData) => void;
     updateEmailOtp: () => void;
     setResendOtpTimmer: (resendOtpTimmer: number) => void;
     resendOtpTime: number;
+    userMobileNumber: string;
 }
 
 

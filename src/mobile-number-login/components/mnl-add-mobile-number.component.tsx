@@ -1,6 +1,6 @@
 import React from "react";
 import * as styles from "../mobile-number-login.css";
-import { MOBILE_PATTERN } from "../../lib/constants";
+import { MOBILE_PATTERN, MOBILE_PATTERN_11_DIGIT } from "../../lib/constants";
 import { MnlApiData } from "../mobile-number-login.types";
 
 export class MnlAddMobileNumber extends React.Component<MnlAddMobileNumberProps, MnlAddMobileNumberState> {
@@ -10,7 +10,7 @@ export class MnlAddMobileNumber extends React.Component<MnlAddMobileNumberProps,
     };
 
     private onChangeInput(event: React.ChangeEvent<HTMLInputElement>) {
-        if (MOBILE_PATTERN.test(event.target.value)) {
+        if (MOBILE_PATTERN.test(event.target.value) || MOBILE_PATTERN_11_DIGIT.test(event.target.value)) {
             this.setState({ mobileNumber: event.target.value, isInputValid: true });
             return;
         }
