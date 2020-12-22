@@ -306,8 +306,8 @@ class ProductListingsPage extends Component {
             this.props.productListings &&
             this.props.productListings.seo &&
             this.props.productListings.seo.breadcrumbs &&
+            Array.isArray(this.props.productListings.seo.breadcrumbs) &&
             this.props.productListings.seo.breadcrumbs.reverse();
-          //console.log("=================12345===========", breadcrumbs);
           if (
             (breadcrumbs &&
               breadcrumbs[0] &&

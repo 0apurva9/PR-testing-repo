@@ -347,8 +347,8 @@ export function getProductDescription(
           setDataLayer(
             ADOBE_PDP_TYPE,
             resultJson,
-            getState().icid.value,
-            getState().icid.icidType,
+            getState() && getState().icid && getState().icid.value,
+            getState() && getState().icid && getState().icid.icidType,
             behaviorOfPageTheCurrent
           );
         }

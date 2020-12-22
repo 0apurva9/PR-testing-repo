@@ -44,6 +44,7 @@ export default class SelectBoxDesktop extends React.Component {
     //     }
     //   }
     // }
+    //removed this block of code as it is common component
     if (!this.props.disabled) {
       const selectedValue = event.target.value;
       const index = event.nativeEvent.target.selectedIndex;

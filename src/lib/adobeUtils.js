@@ -1675,20 +1675,24 @@ export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
   const selectedColour =
     pdpResponse &&
     pdpResponse.variantOptions &&
+    Array.isArray(pdpResponse.variantOptions) &&
     pdpResponse.variantOptions.filter(val => {
       return val.colorlink.selected;
     })[0].colorlink.color;
   const selectedSize =
     pdpResponse &&
     pdpResponse.variantOptions &&
+    Array.isArray(pdpResponse.variantOptions) &&
     pdpResponse.variantOptions.filter(val => {
       return val.colorlink.selected;
     })[0].sizelink.size;
   let seasonData = {};
   if (pdpResponse && pdpResponse.seasonDetails !== undefined) {
-    seasonData = pdpResponse.seasonDetails.find(item => {
-      return item.key === "Season";
-    });
+    seasonData =
+      Array.isArray(pdpResponse.seasonDetails) &&
+      pdpResponse.seasonDetails.find(item => {
+        return item.key === "Season";
+      });
   }
 
   let productTag;

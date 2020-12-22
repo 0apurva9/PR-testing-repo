@@ -2941,7 +2941,7 @@ export function autoWishlistComponent(productId) {
           }
         });
       if (Array.isArray(productList) && productList.length > 0) {
-        let viewMore = {
+        const viewMore = {
           productName: "View More"
         };
         productList.push(viewMore);
