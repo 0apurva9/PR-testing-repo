@@ -21,23 +21,21 @@ export default class DetailsComponent extends React.Component {
           onClick={e => this.handleDetailsScroll(e, "detailsLong")}
         >
           <div className={styles["what-it-is-heading"]}>What it is:</div>
-          {stylenotes &&
-            stylenotes.length > 189 && (
-              <div className={styles["what-it-is-desc"]}>
-                {`${stylenotes.substring(0, 215)}..`}
-                <a
-                  href={""}
-                  onClick={e => this.handleDetailsScroll(e, "detailsLong")}
-                  className={styles["what-it-is-link"]}
-                >
-                  More
-                </a>
-              </div>
-            )}
-          {stylenotes &&
-            stylenotes.length <= 215 && (
-              <div className={styles["what-it-is-desc"]}>{`${stylenotes}`}</div>
-            )}
+          {stylenotes && stylenotes.length > 189 && (
+            <div className={styles["what-it-is-desc"]}>
+              {`${stylenotes.substring(0, 215)}..`}
+              <a
+                href={""}
+                onClick={e => this.handleDetailsScroll(e, "detailsLong")}
+                className={styles["what-it-is-link"]}
+              >
+                More
+              </a>
+            </div>
+          )}
+          {stylenotes && stylenotes.length <= 215 && (
+            <div className={styles["what-it-is-desc"]}>{`${stylenotes}`}</div>
+          )}
         </div>
       </div>
     );

@@ -846,6 +846,28 @@ export async function setDataLayer(
   //     window._satellite.track(PDP_PRODUCT_SIMILAR);
   //   }
   // }
+  if (icidType === ICID2) {
+    let data = window.digitalData;
+    data.flag = INTERNAL_CAMPAIGN;
+    data.internal = {
+      campaign: {
+        id: icid
+      }
+    };
+    window.digitalData = data;
+    if (window._satellite) {
+      window._satellite.track(INTERNAL_CAMPAIGN_TRACK);
+    }
+  } else if (icidType === CID) {
+    let data = window.digitalData;
+    data.external = {
+      campaign: {
+        id: icid
+      }
+    };
+    data.flag = EXTERNAL_CAMPAIGN;
+    window.digitalData = data;
+  }
   if (type === ADOBE_MY_ACCOUNT_TAB_CLICKED) {
     let currentDigitalData = window.digitalData;
     if (apiResponse) {
@@ -1223,29 +1245,6 @@ export async function setDataLayer(
         }
       });
     }
-    window.digitalData = data;
-  }
-
-  if (icidType === ICID2) {
-    let data = window.digitalData;
-    data.flag = INTERNAL_CAMPAIGN;
-    data.internal = {
-      campaign: {
-        id: icid
-      }
-    };
-    window.digitalData = data;
-    if (window._satellite) {
-      window._satellite.track(INTERNAL_CAMPAIGN_TRACK);
-    }
-  } else if (icidType === CID) {
-    let data = window.digitalData;
-    data.external = {
-      campaign: {
-        id: icid
-      }
-    };
-    data.flag = EXTERNAL_CAMPAIGN;
     window.digitalData = data;
   }
 
@@ -1673,45 +1672,69 @@ export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
       }
     });
   }
-  const selectedColour =
+  const selectedData =
     pdpResponse &&
     pdpResponse.variantOptions &&
+    Array.isArray(pdpResponse.variantOptions) &&
     pdpResponse.variantOptions.filter(val => {
       return val.colorlink.selected;
-    })[0].colorlink.color;
+    });
+  const selectedColour =
+    selectedData &&
+    Array.isArray(selectedData) &&
+    selectedData[0].colorlink &&
+    selectedData[0].colorlink.color;
+  const selectedSize =
+    selectedData &&
+    Array.isArray(selectedData) &&
+    selectedData[0].sizelink &&
+    selectedData[0].sizelink.size;
   let seasonData = {};
   if (pdpResponse && pdpResponse.seasonDetails !== undefined) {
-    seasonData = pdpResponse.seasonDetails.find(item => {
-      return item.key === "Season";
-    });
+    seasonData =
+      Array.isArray(pdpResponse.seasonDetails) &&
+      pdpResponse.seasonDetails.find(item => {
+        return item.key === "Season";
+      });
   }
-  const selectedSizeOption =
+
+  let productTag;
+  if (pdpResponse && pdpResponse.allOOStock === true) {
+    productTag = "Out of Stock";
+  } else if (pdpResponse && pdpResponse.isProductNew === "Y") {
+    productTag = "New";
+  } else if (seasonData && seasonData.key === "Season") {
+    productTag = seasonData.value;
+  } else if (
     pdpResponse &&
-    pdpResponse.variantOptions &&
-    pdpResponse.variantOptions.find(option => option.colorlink.selected);
-  const selectedSize =
-    selectedSizeOption &&
-    selectedSizeOption.sizelink &&
-    selectedSizeOption.sizelink.size;
-  let productTag =
-    pdpResponse && pdpResponse.allOOStock === true
-      ? "Out of Stock"
-      : pdpResponse && pdpResponse.isProductNew === "Y"
-      ? "New"
-      : seasonData && seasonData.key === "Season"
-      ? seasonData.value
-      : pdpResponse.isOnlineExclusive === "Y"
-      ? "New"
-      : pdpResponse.isExchangeAvailable === true &&
-        pdpResponse.showExchangeTag === true
-      ? "Exchange Offer"
-      : pdpResponse && pdpResponse.discount && pdpResponse.discount !== "0"
-      ? `${parseInt(pdpResponse.discount, 10)}% off`
-      : pdpResponse &&
-        pdpResponse.isOfferExisting &&
-        pdpResponse.isOfferExisting == "Y"
-      ? "On Offer"
-      : "";
+    pdpResponse.isOnlineExclusive &&
+    pdpResponse.isOnlineExclusive === "Y"
+  ) {
+    productTag = "New";
+  } else if (
+    pdpResponse &&
+    pdpResponse.isExchangeAvailable &&
+    pdpResponse.showExchangeTag &&
+    pdpResponse.isExchangeAvailable === true &&
+    pdpResponse.showExchangeTag === true
+  ) {
+    productTag = "Exchange Offer";
+  } else if (
+    pdpResponse &&
+    pdpResponse.discount &&
+    pdpResponse.discount !== "0"
+  ) {
+    productTag = `${parseInt(pdpResponse.discount, 10)}% off`;
+  } else if (
+    pdpResponse &&
+    pdpResponse.isOfferExisting &&
+    pdpResponse.isOfferExisting == "Y"
+  ) {
+    productTag = "On Offer";
+  } else {
+    productTag = "";
+  }
+
   let productCategoryId = pdpResponse && pdpResponse.categoryHierarchy;
   let APlusTamplete =
     pdpResponse &&
@@ -1722,13 +1745,13 @@ export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
       product: {
         id: pdpResponse ? pdpResponse.productListingId : "",
         category: pdpResponse ? pdpResponse.rootCategory : "",
-        ccategory_id: productCategoryId
+        category_id: productCategoryId
           ? productCategoryId && productCategoryId[productCategoryId.length - 1]
           : pdpResponse && pdpResponse.categoryL4Code,
-        colour: selectedColour ? selectedColour : "",
-        tag: productTag ? productTag : "",
-        size: selectedSize || "",
-        name: pdpResponse && pdpResponse.productName
+        colour: selectedColour || "",
+        tag: productTag || "",
+        productName: pdpResponse && pdpResponse.productName,
+        size: selectedSize || ""
       },
       brand: {
         name: pdpResponse ? pdpResponse.brandName : ""
@@ -2322,20 +2345,17 @@ function getProductsDigitalData(response, type) {
       product &&
         product.productName &&
         productNameArray.push(product.productName);
-      productPriceArray.push(
-        parseInt(
-          product.offerPrice
-            ? product.offerPrice
-            : product.pricevalue
-            ? product.pricevalue
-            : product.price
-            ? product.price
-            : product.mrp && product.mrp.value
-            ? product.mrp.value
-            : null,
-          10
-        )
-      );
+      if (product && product.offerPrice) {
+        productPriceArray.push(parseInt(product.offerPrice, 10));
+      } else if (product && product.pricevalue) {
+        productPriceArray.push(parseInt(product.pricevalue, 10));
+      } else if (product && product.price) {
+        productPriceArray.push(parseInt(product.price, 10));
+      } else if (product && product.mrp && product.mrp.value) {
+        productPriceArray.push(parseInt(product.mrp.value, 10));
+      } else {
+        productPriceArray.push(null);
+      }
       productBrandArray.push(
         product.productBrand &&
           product.productBrand.replace(/ /g, "_").toLowerCase()
@@ -2349,6 +2369,7 @@ function getProductsDigitalData(response, type) {
             product.productName === "Gift Card"
               ? "Gift card"
               : product.categoryHierarchy &&
+                  Array.isArray(product.categoryHierarchy) &&
                   product.categoryHierarchy[currentReverseArray] &&
                   product.categoryHierarchy[currentReverseArray]
                     .category_name &&
@@ -2365,6 +2386,7 @@ function getProductsDigitalData(response, type) {
             product.productName === "Gift Card"
               ? "Gift card"
               : product.categoryHierarchy &&
+                  Array.isArray(product.categoryHierarchy) &&
                   product.categoryHierarchy[0] &&
                   product.categoryHierarchy[0].category_name &&
                   product.categoryHierarchy[0].category_name
@@ -2623,6 +2645,7 @@ export function setDataLayerForPdpDirectCalls(type, layerData: null, response) {
   if (type === SET_DATA_LAYER_FOR_BUY_NOW_EVENT) {
     if (window._satellite) {
       window._satellite.track(ADOBE_BUY_NOW);
+      window._satellite.track(ADOBE_ADD_TO_CART);
     }
   }
   if (type === SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP) {
@@ -2928,7 +2951,8 @@ export function getDigitalDataForPlp(type, response) {
   } else {
     Object.assign(data.page, {
       pageInfo: {
-        pageName: "product grid"
+        pageName: "product grid",
+        pageType: "PLP"
       },
       category: { ...subCategories }
     });

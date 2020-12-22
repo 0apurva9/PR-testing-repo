@@ -294,8 +294,8 @@ export default class ValidateOffersPopUp extends React.Component {
               {this.props.result.couponMessage
                 ? this.props.result.couponMessage
                 : this.props.result.error
-                  ? this.props.result.error
-                  : ""}
+                ? this.props.result.error
+                : ""}
             </div>
             {this.props.offerType === BANK_OFFER_TYPE && (
               <div className={styles.invalidCouponHeading}>
@@ -307,34 +307,26 @@ export default class ValidateOffersPopUp extends React.Component {
                 {this.getValidNCEOfferTemplate()}
               </div>
             )}
-            {data &&
-              data.userCoupon &&
-              data.userCoupon && (
-                <div className={styles.invalidCouponHeading}>
-                  {this.getInvalidUserCouponTemplate(data.userCoupon)}
-                </div>
-              )}
-            {data &&
-              data.bankOffer &&
-              data.bankOffer && (
-                <div className={styles.invalidCouponHeading}>
-                  {this.getInvalidBankOfferTemplate(data.bankOffer)}
-                </div>
-              )}
-            {data &&
-              data.noCostEmiCoupon &&
-              data.noCostEmiCoupon && (
-                <div className={styles.invalidCouponHeading}>
-                  {this.getInvalidNCEOfferTemplate(data.noCostEmiCoupon)}
-                </div>
-              )}
-            {data &&
-              data.noCostEMI &&
-              data.noCostEMI && (
-                <div className={styles.invalidCouponHeading}>
-                  {this.getInvalidNCEOfferTemplate(data.noCostEMI)}
-                </div>
-              )}
+            {data && data.userCoupon && data.userCoupon && (
+              <div className={styles.invalidCouponHeading}>
+                {this.getInvalidUserCouponTemplate(data.userCoupon)}
+              </div>
+            )}
+            {data && data.bankOffer && data.bankOffer && (
+              <div className={styles.invalidCouponHeading}>
+                {this.getInvalidBankOfferTemplate(data.bankOffer)}
+              </div>
+            )}
+            {data && data.noCostEmiCoupon && data.noCostEmiCoupon && (
+              <div className={styles.invalidCouponHeading}>
+                {this.getInvalidNCEOfferTemplate(data.noCostEmiCoupon)}
+              </div>
+            )}
+            {data && data.noCostEMI && data.noCostEMI && (
+              <div className={styles.invalidCouponHeading}>
+                {this.getInvalidNCEOfferTemplate(data.noCostEMI)}
+              </div>
+            )}
             {/* {data &&
               ((data.noCostEmiCoupon &&
                 data.noCostEmiCoupon.status &&

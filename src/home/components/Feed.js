@@ -401,12 +401,7 @@ export const typeComponentMapping = {
   msdAutomatedBannerProductCarouselComponent: props => (
     <MsdAutomatedBrandProductCarousel {...props} />
   ),
-  AutoWishlist: props => (
-    <HomeAutoWishlistComponent
-      {...props}
-      wishListedItem={this.state && this.state.wishListedItem}
-    />
-  ),
+  AutoWishlist: props => <HomeAutoWishlistComponent {...props} />,
   msdAutoDiscoverMoreComponent: props => <DiscoverMoreMsd {...props} />,
 
   "Simple Banner Component": props => {
@@ -474,10 +469,10 @@ class Feed extends Component {
   }
   componentDidMount() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    setDataLayer(ADOBE_VIRTUAL_PAGELOAD);
     if (!userDetails) {
       setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER);
     }
-    setDataLayer(ADOBE_VIRTUAL_PAGELOAD);
     this.props.seo
       ? this.props.seo.title
         ? (document.title = this.props.seo.title)
@@ -598,6 +593,7 @@ class Feed extends Component {
         <WidgetContainer
           {...props}
           wishListedItem={this.props.wishlistProductId}
+          wishlistCount={this.props.wishlistCount}
         >
           {typeComponentMapping[feedDatum.type] &&
             typeComponentMapping[feedDatum.type]}
@@ -714,13 +710,12 @@ class Feed extends Component {
             {this.renderFeedComponent}
           </List>
         ) : null}
-        {this.props.clpUrl &&
-          this.props.chatbotDetailsData && (
-            <Chatbot
-              clpUrl={this.props.clpUrl}
-              chatbotDetailsData={this.props.chatbotDetailsData}
-            />
-          )}
+        {this.props.clpUrl && this.props.chatbotDetailsData && (
+          <Chatbot
+            clpUrl={this.props.clpUrl}
+            chatbotDetailsData={this.props.chatbotDetailsData}
+          />
+        )}
         <MobileOnly>
           <div
             style={{
