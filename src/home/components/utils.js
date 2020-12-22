@@ -28,6 +28,9 @@ export function transformData(datum) {
   if (datum.mrpPrice) {
     price = datum.mrpPrice.doubleValue;
   }
+  if (datum.price) {
+    price = datum.price;
+  }
   let discountPrice;
   if (datum.winningSellerMOP) {
     discountPrice = datum.winningSellerMOP;

@@ -112,7 +112,7 @@ export default class ProductDetailsMainCard extends React.Component {
   getDiscountPercentage() {
     if (this.props.discountPrice !== this.props.price) {
       let calculatedPercentage =
-        100 - [this.props.discountPrice * 100 / this.props.price];
+        100 - [(this.props.discountPrice * 100) / this.props.price];
       let flooredPrice = Math.floor(calculatedPercentage);
       return flooredPrice;
     } else {
@@ -268,17 +268,16 @@ export default class ProductDetailsMainCard extends React.Component {
             </div>
           </div>
         )}
-        {!averageRating &&
-          this.props.isPdp && (
-            <DesktopOnly>
-              <div
-                className={styles.noRatingText}
-                onClick={() => this.handleRatingLink()}
-              >
-                {NO_REVIEW_TEXT}
-              </div>
-            </DesktopOnly>
-          )}
+        {!averageRating && this.props.isPdp && (
+          <DesktopOnly>
+            <div
+              className={styles.noRatingText}
+              onClick={() => this.handleRatingLink()}
+            >
+              {NO_REVIEW_TEXT}
+            </div>
+          </DesktopOnly>
+        )}
       </div>
     );
   }

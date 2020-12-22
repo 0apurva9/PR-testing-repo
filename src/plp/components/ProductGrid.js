@@ -59,9 +59,7 @@ export default class ProductGrid extends React.Component {
   };
 
   renderComponent = (data, index) => {
-    const altTag = `${data.productname}-${data.brandname}-${
-      data.productCategoryType
-    }-TATA CLIQ`;
+    const altTag = `${data.productname}-${data.brandname}-${data.productCategoryType}-TATA CLIQ`;
     return (
       <ProductModuleContainer
         key={index}
@@ -119,6 +117,7 @@ export default class ProductGrid extends React.Component {
         exchangeOfferAvailable={data.exchangeOfferAvailable}
         maxExchangePrice={data.maxExchangePrice}
         maxExchangeBumpUp={data.maxExchangeBumpUp}
+        variantCount={data.variantCount}
       />
     );
   };

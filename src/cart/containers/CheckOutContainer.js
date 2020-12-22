@@ -39,7 +39,6 @@ import {
   createJusPayOrderForGiftCardFromSavedCards,
   clearCaptureOrderExperience,
   applyUserCouponForAnonymous,
-  getEmiEligibility,
   getBankAndTenureDetails,
   getEmiTermsAndConditionsForBank,
   applyNoCostEmi,
@@ -79,8 +78,10 @@ import {
   upiPaymentHowItWorksMidddleLayer,
   upiPaymentCombinedLogoMidddleLayer,
   instaCredISEnableMidddleLayer,
+  getBankDetailsforDCEmi,
+  getEMIEligibilityDetails,
   getDCEmiEligibility,
-  getBankDetailsforDCEmi
+  submitAppliancesExchangeData
 } from "../actions/cart.actions";
 import {
   showSecondaryLoader,
@@ -99,7 +100,8 @@ import {
   EXCHANGE_CASHBACK_INFO_MODAL,
   hideModal,
   CLIQ_CASH_MODULE,
-  POP_UP
+  POP_UP,
+  CASHBACK_DETAILS_POPUP
   // UPIHOWTOPAY_MODAL
 } from "../../general/modal.actions";
 import {
@@ -404,10 +406,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     hideSecondaryLoader: () => {
       dispatch(hideSecondaryLoader());
-    },
-
-    getEmiEligibility: cartGuId => {
-      dispatch(getEmiEligibility(cartGuId));
     },
     getBankAndTenureDetails: (
       retryFlagForEmiCoupon,
@@ -841,8 +839,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     instaCredISEnableMidddleLayer: () => {
       dispatch(instaCredISEnableMidddleLayer());
     },
-    getDCEmiEligibility: async () => {
-      return await dispatch(getDCEmiEligibility());
+    getEMIEligibilityDetails: async cartGuId => {
+      return await dispatch(getEMIEligibilityDetails(cartGuId));
     },
     getBankDetailsforDCEmi: (price, cartGuid) => {
       dispatch(getBankDetailsforDCEmi(price, cartGuid));
@@ -870,6 +868,17 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     showChangeExchangeCashabackModal: data => {
       dispatch(showModal(CHANGE_EXCHANGE_CASHBACK_MODAL, data));
+    },
+    showAddNewPinPop: data => {
+      dispatch(showModal(CASHBACK_DETAILS_POPUP, data));
+    },
+    closeModal: () => {
+      dispatch(hideModal());
+    },
+    submitAppliancesExchangeData: (orderId, status, removeLocalStorage) => {
+      dispatch(
+        submitAppliancesExchangeData(orderId, status, removeLocalStorage)
+      );
     }
   };
 };
@@ -888,7 +897,10 @@ const mapStateToProps = state => {
     addUserUPIDetails: state.profile.addUserUPIDetails,
     completedOrderDetails: state.profile.fetchOrderDetails,
     orderDetailsPaymentPage: state.profile.fetchOrderDetails,
-    dCEmiEligibiltyDetails: state.cart.dCEmiEligibiltyDetails
+    emiEligibiltyDetails: state.cart.emiEligibiltyDetails,
+    dCEmiEligibiltyDetails: state.cart.dCEmiEligibiltyDetails,
+    appliancesExchangePincodeDetails:
+      state.productDescription.appliancesExchangeCheckPincodeDetails
   };
 };
 

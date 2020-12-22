@@ -31,7 +31,9 @@ export default class PlpBannerComponentMonetization extends React.Component {
       this.setState({ plpBanner, bannerLoading: false });
       if (
         window._osAdImpression &&
-        (plpBanner.ads && plpBanner.ads[0] && plpBanner.ads[0].uclid)
+        plpBanner.ads &&
+        plpBanner.ads[0] &&
+        plpBanner.ads[0].uclid
       ) {
         window._osAdImpression({ uclid: plpBanner.ads[0].uclid });
       }

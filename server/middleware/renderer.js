@@ -56,7 +56,6 @@ export function blpOrClpRenderer(req, res, next) {
   const filePath = path.resolve(__dirname, "..", "..", "..", "index.html");
   fs.readFile(filePath, "utf8", (err, htmlData) => {
     if (err) {
-      console.log("err", err);
       return res.status(404).end();
     }
 
@@ -73,7 +72,6 @@ export function blpOrClpRenderer(req, res, next) {
 
           store.dispatch(setSearchString(searchText));
           store.dispatch(getProductListings(SUFFIX)).then(plpData => {
-            console.log("IN PLP", plpData);
             preloadedState = store.getState();
 
             renderedBody = ReactDOMServer.renderToStaticMarkup(
@@ -137,23 +135,15 @@ export function blpOrClpRenderer(req, res, next) {
 }
 
 export function plpRenderer(req, res, next) {
-  console.log("HITTING PLP RENDER");
   const searchCategory = req.query.searchCategory;
-  // console.log("REQ PARAMS");
-  // console.log(req.params);
   let match;
   if (req.originalUrl.indexOf("custom") > -1) {
     match = matchPath(req.originalUrl, routes[1]);
   } else if (req.originalUrl.indexOf("CustomSkuCollection") > -1) {
     match = matchPath(req.originalUrl, routes[2]);
-    // console.log(match);
   } else {
     match = matchPath(req.originalUrl, routes[0]);
   }
-
-  console.log("MATCH");
-  console.log(req.query);
-  console.log(req.params.page);
 
   const searchText =
     match &&
@@ -162,14 +152,10 @@ export function plpRenderer(req, res, next) {
       match
     );
 
-  console.log("SEARCH TEXT");
-  console.log(searchText);
-
   // Let's see if I can just use the APP?
   const filePath = path.resolve(__dirname, "..", "..", "..", "index.html");
   fs.readFile(filePath, "utf8", (err, htmlData) => {
     if (err) {
-      console.log("err", err);
       return res.status(404).end();
     }
 
@@ -183,9 +169,7 @@ export function plpRenderer(req, res, next) {
       store.dispatch(getProductListings(SUFFIX)).then(plpData => {
         // store.dispatch(setSearchString(searchText)).then(() => {
         //store.dispatch(getProductListings(SUFFIX)).then(pdpData => {
-        console.log("HERE");
         const preloadedState = store.getState();
-        console.log(preloadedState.productListings);
         const renderedBody = ReactDOMServer.renderToStaticMarkup(
           <StaticRouter location={req.originalUrl}>
             <Provider store={store}>
@@ -210,9 +194,6 @@ export function plpRenderer(req, res, next) {
           preloadedState: preloadedState
         });
 
-        // console.log("HTML");
-        // console.log(html);
-
         // Up, up, and away...
         return res.send(html);
       });
@@ -225,7 +206,6 @@ export function pdpRenderer(req, res, next) {
   const filePath = path.resolve(__dirname, "..", "..", "..", "index.html");
   fs.readFile(filePath, "utf8", (err, htmlData) => {
     if (err) {
-      console.log("err", err);
       return res.status(404).end();
     }
     const store = configureStore();
@@ -270,7 +250,6 @@ export default (req, res, next) => {
   const filePath = path.resolve(__dirname, "..", "..", "..", "index.html");
   fs.readFile(filePath, "utf8", (err, htmlData) => {
     if (err) {
-      console.log("err", err);
       return res.status(404).end();
     }
     const store = configureStore();

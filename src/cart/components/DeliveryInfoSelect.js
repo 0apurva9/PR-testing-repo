@@ -28,7 +28,7 @@ export default class DeliveryInfoSelect extends React.Component {
       }
     });
   }
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.selected !== this.state.selectedCode) {
       this.setState({ selectedCode: nextProps.selected });
     }
@@ -359,10 +359,10 @@ export default class DeliveryInfoSelect extends React.Component {
                   availableStores > 1 && storeDetails
                     ? availableStores + " more stores"
                     : availableStores > 1
-                      ? availableStores + " stores"
-                      : availableStores === 1
-                        ? availableStores + " more store"
-                        : "more store"
+                    ? availableStores + " stores"
+                    : availableStores === 1
+                    ? availableStores + " more store"
+                    : "more store"
                 } nearby`
               }
               splitIntoTwoLine={false}
@@ -505,20 +505,19 @@ export default class DeliveryInfoSelect extends React.Component {
                 />
               </div>
             )}
-          {isCod === "Y" &&
-            !this.props.inCartPage && (
-              <div className={styles.infoHolder}>
-                <DeliveryInformation
-                  paddingTop={"0px"}
-                  paddingBottom={"0px"}
-                  paddingRight={"0px"}
-                  pdpApparel={this.props.pdpApparel}
-                  isCod={isCod}
-                  placedTimeForCod={"Available"}
-                  available={isCod === "Y"}
-                />
-              </div>
-            )}
+          {isCod === "Y" && !this.props.inCartPage && (
+            <div className={styles.infoHolder}>
+              <DeliveryInformation
+                paddingTop={"0px"}
+                paddingBottom={"0px"}
+                paddingRight={"0px"}
+                pdpApparel={this.props.pdpApparel}
+                isCod={isCod}
+                placedTimeForCod={"Available"}
+                available={isCod === "Y"}
+              />
+            </div>
+          )}
         </div>
       </div>
     );

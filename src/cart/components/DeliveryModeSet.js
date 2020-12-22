@@ -81,8 +81,8 @@ export default class DeliveryModeSet extends React.Component {
         dayFormat === productDayFormat
           ? `Today, `
           : nextDayFormat === productDayFormat
-            ? `Tomorrow, `
-            : "";
+          ? `Tomorrow, `
+          : "";
       switch (date) {
         case 1:
         case 21:
@@ -175,14 +175,14 @@ export default class DeliveryModeSet extends React.Component {
                       data.isDigitalBundled
                         ? "Activation Post Delivery"
                         : deliveryOption.code === COLLECT
+                        ? textForCollect
                           ? textForCollect
-                            ? textForCollect
-                            : ""
-                          : this.getDayNumberSuffix(
-                              deliveryOption.name,
-                              data.USSID,
-                              expectedDeliveryDate
-                            )
+                          : ""
+                        : this.getDayNumberSuffix(
+                            deliveryOption.name,
+                            data.USSID,
+                            expectedDeliveryDate
+                          )
                     }`}
                 </div>
               </div>

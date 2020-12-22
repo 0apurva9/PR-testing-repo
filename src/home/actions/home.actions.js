@@ -1189,9 +1189,10 @@ export function autoWishlistComponent(productId) {
       const successfulPromises = results.filter(
         request => request.status === "fulfilled"
       );
-      let productListWithStatus = await Promise.all(successfulPromises).then(
-        response =>
-          Promise.all(response.map(r => r && r.value && r.value.json()))
+      let productListWithStatus = await Promise.all(
+        successfulPromises
+      ).then(response =>
+        Promise.all(response.map(r => r && r.value && r.value.json()))
       );
       productListWithStatus &&
         productListWithStatus.map(product => {

@@ -68,7 +68,7 @@ export default class SimilarProductsOOSModal extends React.Component {
             let seoDoublePrice = transformedDatum && transformedDatum.mop;
             let discount =
               mrpInteger && seoDoublePrice
-                ? Math.floor((mrpInteger - seoDoublePrice) / mrpInteger * 100)
+                ? Math.floor(((mrpInteger - seoDoublePrice) / mrpInteger) * 100)
                 : "";
             let imageURL =
               transformedDatum &&

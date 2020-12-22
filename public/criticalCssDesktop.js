@@ -29,7 +29,6 @@ function addTextToFile(file_path, new_text, prependString) {
 var args = process.argv.slice(2);
 
 if (args[0] == "index") {
-  console.log("Generating critcal css for index.html.....");
   critical.generate(
     {
       /* The path of the Webpack bundle */
@@ -56,7 +55,6 @@ if (args[0] == "index") {
     },
     function(err) {
       if (!err) {
-        console.log("inlining home html.....");
         var contents = fs.readFileSync(
           resolveApp("build/critical-index.html"),
           "utf8"
@@ -69,7 +67,6 @@ if (args[0] == "index") {
         );
       } else {
         console.log(err);
-        console.log("Failed index");
       }
     }
   );

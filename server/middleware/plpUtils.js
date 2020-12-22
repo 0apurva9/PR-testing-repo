@@ -43,8 +43,6 @@ export function getPlpSearchText(location) {
   let match;
   let searchText;
   const parsedQueryString = queryString.parse(location.search);
-  console.log("PARSED QUERY STRING");
-  console.log(parsedQueryString);
   if (parsedQueryString && parsedQueryString.q) {
     searchText = parsedQueryString.q;
     return searchText;
@@ -71,16 +69,9 @@ export function getPlpSearchText(location) {
 }
 
 export function getSearchTextFromUrl(location, match) {
-  console.log("SERACH");
-  console.log(location.search);
   const parsedQueryString = queryString.parse(location.search);
-  console.log("PARSED QUERY STRING");
-  console.log(parsedQueryString);
   const searchCategory = parsedQueryString.searchCategory;
   let searchText = parsedQueryString.q;
-  console.log("SEARCH TEXT");
-  console.log(searchText);
-  console.log(location);
   if (
     searchCategory &&
     searchCategory !== "" &&

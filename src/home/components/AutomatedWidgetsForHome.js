@@ -106,7 +106,7 @@ class AutomatedWidgetsForHome extends React.Component {
             // }
             discount =
               mrpInteger && seoDoublePrice
-                ? Math.floor((mrpInteger - seoDoublePrice) / mrpInteger * 100)
+                ? Math.floor(((mrpInteger - seoDoublePrice) / mrpInteger) * 100)
                 : "";
             return (
               <ProductModule

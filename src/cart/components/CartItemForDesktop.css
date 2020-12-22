@@ -132,6 +132,11 @@
   vertical-align: middle;
   margin-bottom: 5px;
 }
+.aeExchangeDetailsSectionOne{
+	display: inline-block;
+  width: 70%;
+  vertical-align: middle;
+}
 .exchangeDetailsSectionTwo{
   display: inline-block;
   width: 30%;

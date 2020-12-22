@@ -13,6 +13,13 @@ export default class RatingsAndReviewsComponent extends React.Component {
     this.props.history.push(url);
   }
 
+  handleDetailsScroll(e, sectionToScroll) {
+    e.preventDefault();
+    if (this.props.handleDetailsScroll) {
+      this.props.handleDetailsScroll(sectionToScroll);
+    }
+  }
+
   render() {
     const { averageRating, ratingCount, numberOfReviews } =
       this.props && this.props.productDetails;
@@ -25,7 +32,10 @@ export default class RatingsAndReviewsComponent extends React.Component {
     return (
       <React.Fragment>
         {averageRatingNew && (
-          <div className={styles["rating-review-component"]}>
+          <div
+            className={styles["rating-review-component"]}
+            onClick={e => this.handleDetailsScroll(e, "ratingsLong")}
+          >
             <div className={styles["review-rating-block"]}>
               <span className={styles["rating-value"]}>{averageRatingNew}</span>
               {averageRatingNew > 2.5 && (
@@ -34,7 +44,7 @@ export default class RatingsAndReviewsComponent extends React.Component {
                     styles["rating-star"],
                     styles["rating-star-green"]
                   ].join(" ")}
-                ></span>
+                />
               )}
               {averageRatingNew < 2.5 && (
                 <span
@@ -42,7 +52,7 @@ export default class RatingsAndReviewsComponent extends React.Component {
                     styles["rating-star"],
                     styles["rating-star-orange"]
                   ].join(" ")}
-                ></span>
+                />
               )}
               <span className={styles["rating-total-count"]}>
                 {ratingCount}

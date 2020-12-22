@@ -43,8 +43,8 @@ const NON_ORDER_REALTED_QUESTION = "NonOrderRelated";
 const FAQ_PAGE = "ss-faq";
 const YES = "Yes";
 const NO = "No";
-const CLIQ_2_CALL_CONFIG = "cliq2call-config-file";
 const STATUS_DATE_FORMAT = "DD MMM, YYYY";
+const CLIQ_2_CALL_CONFIG = "cliq2call-config-file-v1";
 export default class OrderRelatedIssue extends React.Component {
   constructor(props) {
     super(props);

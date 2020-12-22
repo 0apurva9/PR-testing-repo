@@ -110,9 +110,7 @@ export function createUrlFromQueryAndCategory(query, pathName, val, name) {
         subquery = subquery.replace(/category:[a-zA-Z0-9]+:/, "");
         subquery = subquery.replace(/:brand:[a-zA-Z0-9]+$/, "");
         const brand = BRAND_URL_REGEX.exec(query);
-        url = `/${modifiedCode}/?q=${subquery}:category:${val}:brand:${
-          brand[1]
-        }`;
+        url = `/${modifiedCode}/?q=${subquery}:category:${val}:brand:${brand[1]}`;
       } else {
         // Now we don't have a category or brand, but we have some q value.
         // As we had the earlier if, we know that there is a sort here, but we don't know if there is a text.

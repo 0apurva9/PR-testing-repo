@@ -2642,3 +2642,418 @@ export const getBankDetailsforDCEmiSuccessMockData = {
   bankSpecificTnC: [],
   nonEmiProdList: []
 };
+
+export const bankConvFeeIsZero = {
+  isNoCostEmiApplied: true,
+  selectedEMIType: "No Cost EMI",
+  bankList: [
+    {
+      bankCode: "AXISDC",
+      bankName: "AXIS DC BANK",
+      code: "8796256913027",
+      logoUrl: "",
+      noCostEMICouponList: [
+        {
+          description: "AXISDCNCE3",
+          emicouponCode: "AXISDCNCE3",
+          emicouponName: "AXISDCNCE3",
+          isPercentage: "true",
+          tenure: "3",
+          value: "2.78"
+        }
+      ]
+    }
+  ],
+  noCostEmiProductCount: "1",
+  totalProductCount: 1,
+  noCostEmiDetails: {
+    type: "applyCouponsDTO",
+    status: "success",
+    appliedCouponDiscount: {
+      currencyIso: "INR",
+      currencySymbol: "₹",
+      doubleValue: 0,
+      formattedValue: "₹0.00",
+      formattedValueNoDecimal: "₹0",
+      priceType: "BUY",
+      value: 0
+    },
+    cartAmount: {
+      bagTotal: {
+        currencyIso: "INR",
+        currencySymbol: "₹",
+        doubleValue: 67990,
+        formattedValue: "₹67990.00",
+        formattedValueNoDecimal: "₹67990",
+        priceType: "BUY",
+        value: 67990
+      },
+      noCostEMIConvCharge: {
+        currencyIso: "INR",
+        currencySymbol: "₹",
+        doubleValue: 0,
+        formattedValue: "₹0.00",
+        formattedValueNoDecimal: "₹0",
+        priceType: "BUY",
+        value: 0
+      },
+      noCostEMIDiscountValue: {
+        currencyIso: "INR",
+        currencySymbol: "₹",
+        doubleValue: 1098.1,
+        formattedValue: "₹1098.10",
+        formattedValueNoDecimal: "₹1098",
+        priceType: "BUY",
+        value: 1098.1
+      },
+      noCostEMIInterestValue: {
+        currencyIso: "INR",
+        currencySymbol: "₹",
+        doubleValue: 1098.1,
+        formattedValue: "₹1098.10",
+        formattedValueNoDecimal: "₹1098",
+        priceType: "BUY",
+        value: 1098.1
+      },
+      noCostEMIOrderValue: {
+        currencyIso: "INR",
+        currencySymbol: "₹",
+        doubleValue: 39500,
+        formattedValue: "₹39500.00",
+        formattedValueNoDecimal: "₹39500",
+        priceType: "BUY",
+        value: 39500
+      },
+      noCostEMIPerMonthPayable: {
+        currencyIso: "INR",
+        currencySymbol: "₹",
+        doubleValue: 13166.666666666666,
+        formattedValue: "₹13166.67",
+        formattedValueNoDecimal: "₹13166",
+        priceType: "BUY",
+        value: 13166.666666666666
+      },
+      noCostEMITotalPayable: {
+        currencyIso: "INR",
+        currencySymbol: "₹",
+        doubleValue: 39500,
+        formattedValue: "₹39500.00",
+        formattedValueNoDecimal: "₹39500",
+        priceType: "BUY",
+        value: 39500
+      },
+      paybleAmount: {
+        currencyIso: "INR",
+        currencySymbol: "₹",
+        doubleValue: 38401.9,
+        formattedValue: "₹38401.90",
+        formattedValueNoDecimal: "₹38401",
+        priceType: "BUY",
+        value: 38401.9
+      },
+      shippingCharge: {
+        currencyIso: "INR",
+        currencySymbol: "₹",
+        doubleValue: 0,
+        formattedValue: "₹0.00",
+        formattedValueNoDecimal: "₹0",
+        priceType: "BUY",
+        value: 0
+      },
+      totalDiscountAmount: {
+        currencyIso: "INR",
+        currencySymbol: "₹",
+        doubleValue: 28490,
+        formattedValue: "₹28490.00",
+        formattedValueNoDecimal: "₹28490",
+        priceType: "BUY",
+        value: 28490
+      }
+    },
+    cliqCashApplied: false,
+    cliqCashBalance: {
+      currencyIso: "INR",
+      currencySymbol: "₹",
+      doubleValue: 4951,
+      formattedValue: "₹4951.00",
+      formattedValueNoDecimal: "₹4951",
+      priceType: "BUY",
+      value: 4951
+    },
+    cliqCashPaidAmount: {
+      currencyIso: "INR",
+      currencySymbol: "₹",
+      doubleValue: 0,
+      formattedValue: "₹0.00",
+      formattedValueNoDecimal: "₹0",
+      priceType: "BUY",
+      value: 0
+    },
+    couponDiscount: "0",
+    deliveryCharges: {
+      currencyIso: "INR",
+      currencySymbol: "₹",
+      doubleValue: 0,
+      formattedValue: "₹0.00",
+      formattedValueNoDecimal: "₹0",
+      priceType: "BUY",
+      value: 0
+    },
+    isBankPromotionApplied: false,
+    isRemainingAmount: true,
+    otherDiscount: {
+      currencyIso: "INR",
+      currencySymbol: "₹",
+      doubleValue: 1098.1,
+      formattedValue: "₹1098.10",
+      formattedValueNoDecimal: "₹1098",
+      priceType: "BUY",
+      value: 1098.1
+    },
+    subTotalPrice: {
+      currencyIso: "INR",
+      currencySymbol: "₹",
+      doubleValue: 39500,
+      formattedValue: "₹39500.00",
+      formattedValueNoDecimal: "₹39500",
+      priceType: "BUY",
+      value: 39500
+    },
+    totalPrice: {
+      currencyIso: "INR",
+      currencySymbol: "₹",
+      doubleValue: 38401.9,
+      formattedValue: "₹38401.90",
+      formattedValueNoDecimal: "₹38401",
+      priceType: "BUY",
+      value: 38401.9
+    }
+  },
+  isNoCostEmiProceeded: false,
+  cardDetails: {
+    is_emi: true,
+    emi_bank: "AXISDC",
+    emi_tenure: "3",
+    selectedMonth: 0,
+    selectedCouponCode: "AXISDCNCE3",
+    selectedBankName: "AXIS DC BANK"
+  },
+  emiBinValidationErrorMessage: null,
+  isRetryPaymentFromURL: false,
+  retryPaymentDetails: null,
+  isDebitCard: true,
+  emiEligibiltyDetails: {
+    type: "dcemiEligibilityDTO",
+    status: "Success",
+    DCEMIEligibleMessage:
+      "Please enter the card details registered with +91 7754556878",
+    isDCEMIEligible: true
+  }
+};
+export const bankConvFeeNonZero = {
+  isNoCostEmiApplied: true,
+  selectedEMIType: "No Cost EMI",
+  bankList: [
+    {
+      bankCode: "AXISDC",
+      bankName: "AXIS DC BANK",
+      code: "8796256913027",
+      logoUrl: "",
+      noCostEMICouponList: [
+        {
+          description: "AXISDCNCE3",
+          emicouponCode: "AXISDCNCE3",
+          emicouponName: "AXISDCNCE3",
+          isPercentage: "true",
+          tenure: "3",
+          value: "2.78"
+        }
+      ]
+    }
+  ],
+  noCostEmiProductCount: "1",
+  totalProductCount: 1,
+  noCostEmiDetails: {
+    type: "applyCouponsDTO",
+    status: "success",
+    appliedCouponDiscount: {
+      currencyIso: "INR",
+      currencySymbol: "₹",
+      doubleValue: 0,
+      formattedValue: "₹0.00",
+      formattedValueNoDecimal: "₹0",
+      priceType: "BUY",
+      value: 0
+    },
+    cartAmount: {
+      bagTotal: {
+        currencyIso: "INR",
+        currencySymbol: "₹",
+        doubleValue: 67990,
+        formattedValue: "₹67990.00",
+        formattedValueNoDecimal: "₹67990",
+        priceType: "BUY",
+        value: 67990
+      },
+      noCostEMIConvCharge: {
+        currencyIso: "INR",
+        currencySymbol: "₹",
+        doubleValue: 0,
+        formattedValue: "₹0.00",
+        formattedValueNoDecimal: "₹0",
+        priceType: "BUY",
+        value: 10
+      },
+      noCostEMIDiscountValue: {
+        currencyIso: "INR",
+        currencySymbol: "₹",
+        doubleValue: 1098.1,
+        formattedValue: "₹1098.10",
+        formattedValueNoDecimal: "₹1098",
+        priceType: "BUY",
+        value: 1098.1
+      },
+      noCostEMIInterestValue: {
+        currencyIso: "INR",
+        currencySymbol: "₹",
+        doubleValue: 1098.1,
+        formattedValue: "₹1098.10",
+        formattedValueNoDecimal: "₹1098",
+        priceType: "BUY",
+        value: 1098.1
+      },
+      noCostEMIOrderValue: {
+        currencyIso: "INR",
+        currencySymbol: "₹",
+        doubleValue: 39500,
+        formattedValue: "₹39500.00",
+        formattedValueNoDecimal: "₹39500",
+        priceType: "BUY",
+        value: 39500
+      },
+      noCostEMIPerMonthPayable: {
+        currencyIso: "INR",
+        currencySymbol: "₹",
+        doubleValue: 13166.666666666666,
+        formattedValue: "₹13166.67",
+        formattedValueNoDecimal: "₹13166",
+        priceType: "BUY",
+        value: 13166.666666666666
+      },
+      noCostEMITotalPayable: {
+        currencyIso: "INR",
+        currencySymbol: "₹",
+        doubleValue: 39500,
+        formattedValue: "₹39500.00",
+        formattedValueNoDecimal: "₹39500",
+        priceType: "BUY",
+        value: 39500
+      },
+      paybleAmount: {
+        currencyIso: "INR",
+        currencySymbol: "₹",
+        doubleValue: 38401.9,
+        formattedValue: "₹38401.90",
+        formattedValueNoDecimal: "₹38401",
+        priceType: "BUY",
+        value: 38401.9
+      },
+      shippingCharge: {
+        currencyIso: "INR",
+        currencySymbol: "₹",
+        doubleValue: 0,
+        formattedValue: "₹0.00",
+        formattedValueNoDecimal: "₹0",
+        priceType: "BUY",
+        value: 0
+      },
+      totalDiscountAmount: {
+        currencyIso: "INR",
+        currencySymbol: "₹",
+        doubleValue: 28490,
+        formattedValue: "₹28490.00",
+        formattedValueNoDecimal: "₹28490",
+        priceType: "BUY",
+        value: 28490
+      }
+    },
+    cliqCashApplied: false,
+    cliqCashBalance: {
+      currencyIso: "INR",
+      currencySymbol: "₹",
+      doubleValue: 4951,
+      formattedValue: "₹4951.00",
+      formattedValueNoDecimal: "₹4951",
+      priceType: "BUY",
+      value: 4951
+    },
+    cliqCashPaidAmount: {
+      currencyIso: "INR",
+      currencySymbol: "₹",
+      doubleValue: 0,
+      formattedValue: "₹0.00",
+      formattedValueNoDecimal: "₹0",
+      priceType: "BUY",
+      value: 0
+    },
+    couponDiscount: "0",
+    deliveryCharges: {
+      currencyIso: "INR",
+      currencySymbol: "₹",
+      doubleValue: 0,
+      formattedValue: "₹0.00",
+      formattedValueNoDecimal: "₹0",
+      priceType: "BUY",
+      value: 0
+    },
+    isBankPromotionApplied: false,
+    isRemainingAmount: true,
+    otherDiscount: {
+      currencyIso: "INR",
+      currencySymbol: "₹",
+      doubleValue: 1098.1,
+      formattedValue: "₹1098.10",
+      formattedValueNoDecimal: "₹1098",
+      priceType: "BUY",
+      value: 1098.1
+    },
+    subTotalPrice: {
+      currencyIso: "INR",
+      currencySymbol: "₹",
+      doubleValue: 39500,
+      formattedValue: "₹39500.00",
+      formattedValueNoDecimal: "₹39500",
+      priceType: "BUY",
+      value: 39500
+    },
+    totalPrice: {
+      currencyIso: "INR",
+      currencySymbol: "₹",
+      doubleValue: 38401.9,
+      formattedValue: "₹38401.90",
+      formattedValueNoDecimal: "₹38401",
+      priceType: "BUY",
+      value: 38401.9
+    }
+  },
+  isNoCostEmiProceeded: false,
+  cardDetails: {
+    is_emi: true,
+    emi_bank: "AXISDC",
+    emi_tenure: "3",
+    selectedMonth: 0,
+    selectedCouponCode: "AXISDCNCE3",
+    selectedBankName: "AXIS DC BANK"
+  },
+  emiBinValidationErrorMessage: null,
+  isRetryPaymentFromURL: false,
+  retryPaymentDetails: null,
+  isDebitCard: true,
+  emiEligibiltyDetails: {
+    type: "dcemiEligibilityDTO",
+    status: "Success",
+    DCEMIEligibleMessage:
+      "Please enter the card details registered with +91 7754556878",
+    isDCEMIEligible: true
+  }
+};

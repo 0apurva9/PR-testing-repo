@@ -1,6 +1,7 @@
 /***Review and Rating****/
 .rating-review-component {
   margin: 0 0 20px 0;
+  cursor: pointer;
 }
 
 .rating-star {

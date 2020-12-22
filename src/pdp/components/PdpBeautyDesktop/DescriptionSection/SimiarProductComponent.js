@@ -14,9 +14,7 @@ export default class MoreFromBrand extends Component {
   render() {
     return (
       <Fragment>
-        {this.props.similarProductResponse &&
-        this.props.similarProductResponse.status &&
-        this.props.similarProductResponse.status.toLowerCase() === SUCCESS ? (
+        {this.props.similarProductResponse ? (
           <div>
             <div className={styles.container}>
               <div className={styles["sp-heading"]}>{this.props.heading}</div>
@@ -30,22 +28,31 @@ export default class MoreFromBrand extends Component {
               sliderWidthFull={true}
             >
               {this.props.similarProductResponse &&
-                this.props.similarProductResponse.results &&
-                this.props.similarProductResponse.results.length > 0 &&
-                this.props.similarProductResponse.results.map((val, i) => {
+                this.props.similarProductResponse.length > 0 &&
+                this.props.similarProductResponse.map((val, i) => {
                   const transformedDatum = transformData(val);
                   const productImage = transformedDatum.image;
                   const discountedPrice = transformedDatum.discountPrice;
-                  const mrpInteger = parseInt(
-                    transformedDatum.price.replace(RUPEE_SYMBOL, ""),
-                    10
-                  );
-                  const discount = Math.floor(
-                    ((mrpInteger -
-                      parseInt(discountedPrice.replace(RUPEE_SYMBOL, ""), 10)) /
-                      mrpInteger) *
-                      100
-                  );
+                  let mrpInteger = null;
+                  if (transformData.price) {
+                    mrpInteger = parseInt(
+                      transformedDatum.price.replace(RUPEE_SYMBOL, ""),
+                      10
+                    );
+                  }
+
+                  let discount = null;
+                  if (discountedPrice && mrpInteger) {
+                    discount = Math.floor(
+                      ((mrpInteger -
+                        parseInt(
+                          discountedPrice.replace(RUPEE_SYMBOL, ""),
+                          10
+                        )) /
+                        mrpInteger) *
+                        100
+                    );
+                  }
 
                   return (
                     <ProductModule

@@ -14,10 +14,11 @@ import {
   CUSTOMER_ACCESS_TOKEN,
   LOGGED_IN_USER_DETAILS,
   ANONYMOUS_USER,
-  TIME_OUT_FOR_APIS,
   LOW_INTERNET_CONNECTION_MESSAGE,
   CHANNEL,
-  PLATFORM
+  AC_PDP_EXCHANGE_DETAILS,
+  PLATFORM,
+  AC_CART_EXCHANGE_DETAILS
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -240,6 +241,7 @@ const WIDGET_LIST_FREQUENTLY_BOUGHT = [4];
 const WIDGET_LIST_FOR_ABOUT_BRAND = [114];
 const NUMBER_RESULTS = [10];
 const WIDGET_LIST_FOR_SIMILAR_PRODUCT = [0];
+const env = process.env;
 //TPR-9957 for Desktop
 export const PDP_MANUFACTURER_REQUEST = "PDP_MANUFACTURER_REQUEST";
 export const PDP_MANUFACTURER_SUCCESS = "PDP_MANUFACTURER_SUCCESS";
@@ -272,6 +274,23 @@ export const ADD_BUNDLED_PRODUCTS_TO_CART_FAILURE =
 
 export const BEAUTY_POP_UP_TOGGLE = "BEAUTY_POP_UP_TOGGLE";
 
+export const GET_APPLIANCES_EXCHANGE_DETAILS_REQUEST =
+  "GET_APPLIANCES_EXCHANGE_DETAILS_REQUEST";
+export const GET_APPLIANCES_EXCHANGE_DETAILS_SUCCESS =
+  "GET_APPLIANCES_EXCHANGE_DETAILS_SUCCESS";
+export const GET_APPLIANCES_EXCHANGE_DETAILS_FAILURE =
+  "GET_APPLIANCES_EXCHANGE_DETAILS_FAILURE";
+
+export const UPDATE_APPLIANCES_EXCHANGE_DETAILS =
+  "UPDATE_APPLIANCES_EXCHANGE_DETAILS";
+
+export const APPLIANCE_EXCHANGE_CHECK_PINCODE_REQUEST =
+  "APPLIANCE_EXCHANGE_CHECK_PINCODE_REQUEST";
+export const APPLIANCE_EXCHANGE_CHECK_PINCODE_SUCCESS =
+  "APPLIANCE_EXCHANGE_CHECK_PINCODE_SUCCESS";
+export const APPLIANCE_EXCHANGE_CHECK_PINCODE_FAILURE =
+  "APPLIANCE_EXCHANGE_CHECK_PINCODE_FAILURE";
+
 export function getProductDescriptionRequest() {
   return {
     type: PRODUCT_DESCRIPTION_REQUEST,
@@ -303,11 +322,6 @@ export function getProductDescription(
     dispatch(getProductDescriptionRequest());
     try {
       let behaviorOfPageTheCurrent = behaviorOfPage ? behaviorOfPage : null;
-      setTimeout(() => {
-        if (getState().productDescription.getProductDetailsLoading) {
-          dispatch(displayToast(LOW_INTERNET_CONNECTION_MESSAGE));
-        }
-      }, TIME_OUT_FOR_APIS);
       const result = await api.getMiddlewareUrl(
         `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true&isMDE=true`
       );
@@ -515,7 +529,7 @@ export function getMoreFromBrand(productId) {
     msdFormData.append("api_key", API_KEY);
     msdFormData.append("num_results", JSON.stringify(NUMBER_RESULTS));
     msdFormData.append("mad_uuid", mcvId);
-    msdFormData.append("details", false);
+    msdFormData.append("details", true);
     msdFormData.append(
       "widget_list",
       JSON.stringify(WIDGET_LIST_FOR_ABOUT_BRAND)
@@ -541,23 +555,14 @@ export function getMoreFromBrand(productId) {
 
       let finalProductDetails = null;
 
-      if (moreBrandJson.data && moreBrandJson.data.length > 0) {
-        let productCode = moreBrandJson.data[0].itemIds.toString();
-        const getProductdetails = await api.getMiddlewareUrl(
-          `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCode}`
-        );
-        finalProductDetails = await getProductdetails.json();
+      if (
+        moreBrandJson &&
+        moreBrandJson.data &&
+        moreBrandJson.data.length > 0
+      ) {
+        finalProductDetails = moreBrandJson.data[0];
       }
 
-      if (finalProductDetails && finalProductDetails.status === FAILURE) {
-        const finalProductStatus = ErrorHandling.getFailureResponse(
-          finalProductDetails
-        );
-
-        if (finalProductStatus.status) {
-          throw new Error();
-        }
-      }
       return dispatch(getMoreFromBrandSuccess(finalProductDetails));
     } catch (error) {
       dispatch(getMoreFromBrandFailure(error.message));
@@ -601,7 +606,7 @@ export function getSimilarProduct(productId) {
     msdFormData.append("api_key", API_KEY);
     msdFormData.append("num_results", JSON.stringify(NUMBER_RESULTS));
     msdFormData.append("mad_uuid", mcvId);
-    msdFormData.append("details", false);
+    msdFormData.append("details", true);
     msdFormData.append(
       "widget_list",
       JSON.stringify(WIDGET_LIST_FOR_SIMILAR_PRODUCT)
@@ -627,23 +632,14 @@ export function getSimilarProduct(productId) {
 
       let finalProductDetails = null;
 
-      if (similarProductJson.data && similarProductJson.data.length > 0) {
-        let productCode = similarProductJson.data[0].toString();
-        const getProductdetails = await api.getMiddlewareUrl(
-          `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${productCode}`
-        );
-        finalProductDetails = await getProductdetails.json();
+      if (
+        similarProductJson &&
+        similarProductJson.data &&
+        similarProductJson.data.length > 0
+      ) {
+        finalProductDetails = similarProductJson.data[0];
       }
 
-      if (finalProductDetails && finalProductDetails.status === FAILURE) {
-        const finalProductStatus = ErrorHandling.getFailureResponse(
-          finalProductDetails
-        );
-
-        if (finalProductStatus.status) {
-          throw new Error();
-        }
-      }
       return dispatch(getSimilarProductSuccess(finalProductDetails));
     } catch (error) {
       dispatch(getSimilarProductFailure(error.message));
@@ -914,6 +910,18 @@ export function addProductToCart(productDetails) {
   }
   let cartId = cartDetails ? JSON.parse(cartDetails).code : null;
 
+  let acPdpExchangeDetails = localStorage.getItem(AC_PDP_EXCHANGE_DETAILS);
+  let acPdpExchangeData =
+    acPdpExchangeDetails && JSON.parse(acPdpExchangeDetails);
+  let acCartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+  let acCartExchangeData =
+    acCartExchangeDetails && JSON.parse(acCartExchangeDetails);
+  let isProductInExchangeData =
+    acCartExchangeData &&
+    acCartExchangeData.find((data, index) => {
+      return data.ussid === productDetails.ussId;
+    });
+
   return async (dispatch, getState, { api }) => {
     //get verify imei api response,check exchange avail or not,get product already in cart
     let IMEIApiResponse = productDetails.verifyIMEINumberAPIResponse;
@@ -943,7 +951,29 @@ export function addProductToCart(productDetails) {
           );
           disableNext = true;
         }
+
+        // check if current product with exchange is in pdp local stoarge
+        // check if current product with exchange is in cart local stoarge
         if (
+          isProductInCart &&
+          acPdpExchangeData &&
+          acPdpExchangeData.ussid === productDetails.ussId &&
+          isProductInExchangeData
+        ) {
+          dispatch(
+            showModal(PRODUCT_IN_BAG_MODAL, {
+              isWithExchange: true
+            })
+          );
+          disableNext = true;
+        } else if (
+          isProductInCart &&
+          acPdpExchangeData &&
+          acPdpExchangeData.ussid === productDetails.ussId &&
+          !isProductInExchangeData
+        ) {
+          disableNext = false;
+        } else if (
           isProductInCart &&
           !isProductInCart.exchangeDetails &&
           !productDetails.isFromMobileExchange
@@ -1034,6 +1064,41 @@ export function addProductToCart(productDetails) {
         CART_BAG_DETAILS,
         JSON.stringify(bagItemsInJsonFormat)
       );
+
+      // appliance exchange poc
+      if (
+        acPdpExchangeData &&
+        acPdpExchangeData.ussid === productDetails.ussId &&
+        acPdpExchangeData.isExchangeSelected
+      ) {
+        if (acCartExchangeDetails) {
+          delete acPdpExchangeData.isExchangeSelected;
+          let productIndex = "";
+          let isProductInExchangeData =
+            acCartExchangeData &&
+            acCartExchangeData.find((data, index) => {
+              if (data.ussid === productDetails.ussId) {
+                productIndex = index;
+              }
+              return data.ussid === productDetails.ussId;
+            });
+          if (isProductInExchangeData) {
+            acCartExchangeData[productIndex] = acPdpExchangeData;
+          } else {
+            acCartExchangeData.push(acPdpExchangeData);
+          }
+          localStorage.setItem(
+            AC_CART_EXCHANGE_DETAILS,
+            JSON.stringify(acCartExchangeData)
+          );
+        } else {
+          delete acPdpExchangeData.isExchangeSelected;
+          localStorage.setItem(
+            AC_CART_EXCHANGE_DETAILS,
+            JSON.stringify([acPdpExchangeData])
+          );
+        }
+      }
 
       // here we dispatch a modal to show something was added to the bag
       dispatch(setBagCount(bagItemsInJsonFormat.length));
@@ -1910,11 +1975,6 @@ export function getBundleproduct(productCode, isApiCall = 0) {
   return async (dispatch, getState, { api }) => {
     dispatch(getbundleProductRequest());
     try {
-      setTimeout(() => {
-        if (getState().productDescription.getProductDetailsLoading) {
-          dispatch(displayToast(LOW_INTERNET_CONNECTION_MESSAGE));
-        }
-      }, TIME_OUT_FOR_APIS);
       const result = await api.getMiddlewareUrl(
         `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true`
       );
@@ -2304,11 +2364,6 @@ export function getRelevantBundleProduct(productCode, isApiCall = 0, sequence) {
       ? dispatch(firstGetRelevantBundleProductRequest())
       : secondGetRelevantBundleProductRequest();
     try {
-      setTimeout(() => {
-        if (getState().productDescription.relevantBundleProductLoading) {
-          dispatch(displayToast(LOW_INTERNET_CONNECTION_MESSAGE));
-        }
-      }, TIME_OUT_FOR_APIS);
       const result = await api.getMiddlewareUrl(
         `${PRODUCT_DESCRIPTION_PATH}/${productCode}?isPwa=true`
       );
@@ -2841,6 +2896,109 @@ export function addBundledProductsToCart(data) {
       dispatch(addBundledProductsToCartSuccess(resultJson));
     } catch (e) {
       dispatch(addBundledProductsToCartFailure(e.message));
+    }
+  };
+}
+
+export function getAppliancesExchangeDetailsRequest() {
+  return {
+    type: GET_APPLIANCES_EXCHANGE_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getAppliancesExchangeDetailsSuccess(data) {
+  return {
+    type: GET_APPLIANCES_EXCHANGE_DETAILS_SUCCESS,
+    status: SUCCESS,
+    data
+  };
+}
+
+export function getAppliancesExchangeDetailsFailure(error) {
+  return {
+    type: GET_APPLIANCES_EXCHANGE_DETAILS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getAppliancesExchangeDetails() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getAppliancesExchangeDetailsRequest());
+    try {
+      const result = await api.customGetMiddlewareUrl(
+        env.REACT_APP_APPLIANCES_EXCHANGE
+      );
+      if (result.status === 200) {
+        const resultJson = await result.json();
+        return dispatch(getAppliancesExchangeDetailsSuccess(resultJson));
+      } else {
+        dispatch(getAppliancesExchangeDetailsFailure(result.statusText));
+      }
+    } catch (e) {
+      dispatch(getAppliancesExchangeDetailsFailure(e.message));
+    }
+  };
+}
+
+// This function accepts selected details of appliances exchange
+// This function updates PDP UI with selected exchange details on modal close
+export function updateAppliancesExchangeDetails(exchangeData) {
+  return {
+    type: UPDATE_APPLIANCES_EXCHANGE_DETAILS,
+    status: SUCCESS,
+    exchangeData
+  };
+}
+
+// appliance exchange pincode check serviceability API
+export function appliancesExchangeCheckPincodeRequest() {
+  return {
+    type: APPLIANCE_EXCHANGE_CHECK_PINCODE_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function appliancesExchangeCheckPincodeSuccess(data) {
+  return {
+    type: APPLIANCE_EXCHANGE_CHECK_PINCODE_SUCCESS,
+    status: SUCCESS,
+    data
+  };
+}
+
+export function appliancesExchangeCheckPincodeFailure(error) {
+  return {
+    type: APPLIANCE_EXCHANGE_CHECK_PINCODE_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function appliancesExchangeCheckPincode(productCode, pincode) {
+  let userDetails = getLoggedInUserDetails();
+  let accessToken = getGlobalAccessToken();
+  let userId = ANONYMOUS_USER;
+  if (userDetails) {
+    userId = userDetails.userName;
+    accessToken = getCustomerAccessToken();
+  }
+  return async (dispatch, getState, { api }) => {
+    dispatch(appliancesExchangeCheckPincodeRequest());
+    try {
+      const result = await api.post(
+        `${PRODUCT_DETAILS_PATH}/${userId}/appliancePincodeCheck?access_token=${accessToken}&productCode=${productCode}&pin=${pincode}&exchangeAvailable=true&isMDE=true&platform=${PLATFORM}`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status && result.status !== 200) {
+        dispatch(appliancesExchangeCheckPincodeFailure(result.statusText));
+      } else {
+        dispatch(appliancesExchangeCheckPincodeSuccess(resultJson));
+      }
+    } catch (e) {
+      dispatch(appliancesExchangeCheckPincodeFailure(e.message));
     }
   };
 }

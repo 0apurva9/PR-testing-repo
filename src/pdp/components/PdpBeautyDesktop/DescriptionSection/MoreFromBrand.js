@@ -15,9 +15,7 @@ export default class MoreFromBrand extends Component {
   render() {
     return (
       <Fragment>
-        {this.props.moreFromBrandResponse &&
-        this.props.moreFromBrandResponse.status &&
-        this.props.moreFromBrandResponse.status.toLowerCase() === SUCCESS ? (
+        {this.props.moreFromBrandResponse ? (
           <div>
             <div className={styles.container}>
               <div className={styles["mfb-heading"]}>{this.props.heading}</div>
@@ -31,22 +29,30 @@ export default class MoreFromBrand extends Component {
               sliderWidthFull={true}
             >
               {this.props.moreFromBrandResponse &&
-                this.props.moreFromBrandResponse.results &&
-                this.props.moreFromBrandResponse.results.length > 0 &&
-                this.props.moreFromBrandResponse.results.map((val, i) => {
+                this.props.moreFromBrandResponse.length > 0 &&
+                this.props.moreFromBrandResponse.map((val, i) => {
                   const transformedDatum = transformData(val);
                   const productImage = transformedDatum.image;
                   const discountedPrice = transformedDatum.discountPrice;
-                  const mrpInteger = parseInt(
-                    transformedDatum.price.replace(RUPEE_SYMBOL, ""),
-                    10
-                  );
-                  const discount = Math.floor(
-                    ((mrpInteger -
-                      parseInt(discountedPrice.replace(RUPEE_SYMBOL, ""), 10)) /
-                      mrpInteger) *
-                      100
-                  );
+                  let mrpInteger = null;
+                  if (transformData.price) {
+                    mrpInteger = parseInt(
+                      transformedDatum.price.replace(RUPEE_SYMBOL, ""),
+                      10
+                    );
+                  }
+                  let discount = null;
+                  if (discountedPrice && mrpInteger) {
+                    discount = Math.floor(
+                      ((mrpInteger -
+                        parseInt(
+                          discountedPrice.replace(RUPEE_SYMBOL, ""),
+                          10
+                        )) /
+                        mrpInteger) *
+                        100
+                    );
+                  }
 
                   return (
                     <ProductModule

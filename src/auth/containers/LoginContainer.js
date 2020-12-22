@@ -120,10 +120,10 @@ const mapDispatchToProps = dispatch => {
                   JSON.parse(cartDetailsLoggedInUser).code,
                   localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE),
                   lastUrl === "/cart" &&
-                  parseInt(
-                    mergeCartIdWithOldOneResponse.cartDetails.count,
-                    10
-                  ) !== currentBagCount
+                    parseInt(
+                      mergeCartIdWithOldOneResponse.cartDetails.count,
+                      10
+                    ) !== currentBagCount
                     ? true
                     : false
                 )

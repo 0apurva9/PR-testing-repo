@@ -11,17 +11,17 @@ export default class SelectBoxMobileExchange extends React.Component {
       value: this.props.value
         ? this.props.value
         : this.props.placeholder
-          ? this.props.placeholder
-          : this.props.options
-            ? this.props.options[0].value
-            : "",
+        ? this.props.placeholder
+        : this.props.options
+        ? this.props.options[0].value
+        : "",
       label: this.props.label
         ? this.props.label
         : this.props.placeholder
-          ? this.props.placeholder
-          : this.props.options
-            ? this.props.options[0].label
-            : "",
+        ? this.props.placeholder
+        : this.props.options
+        ? this.props.options[0].label
+        : "",
       touched: false
     };
   }
@@ -90,16 +90,15 @@ export default class SelectBoxMobileExchange extends React.Component {
           label={this.state.label}
         >
           <React.Fragment>
-            {this.props.placeholder &&
-              !this.state.touched && (
-                <option
-                  value={this.props.placeholder}
-                  label={this.props.placeholder}
-                  disabled
-                >
-                  {this.props.placeholder}
-                </option>
-              )}
+            {this.props.placeholder && !this.state.touched && (
+              <option
+                value={this.props.placeholder}
+                label={this.props.placeholder}
+                disabled
+              >
+                {this.props.placeholder}
+              </option>
+            )}
             {this.props.options &&
               this.props.options.map((item, i) => {
                 return (

@@ -176,24 +176,22 @@ export default class CliqGiftCardPurchase extends Component {
 
             <div className={styles.popularCardBox}>
               <div className={styles.popularHeading}>Send a CLiQ Gift Card</div>
-              {offerDetails &&
-                offerDetails.cashbackType === "Fixed" && (
-                  <div className={styles.cashBackOfferLong}>
-                    Get ₹{offerDetails.offerValue} cashback up to{" "}
-                    {offerDetails.maxCashback.formattedValueNoDecimal} on gift
-                    voucher of{" "}
-                    {offerDetails.offerThreshold.formattedValueNoDecimal} and
-                    above*
-                  </div>
-                )}
-              {offerDetails &&
-                offerDetails.cashbackType !== "Fixed" && (
-                  <div className={styles.cashBackOfferSmall}>
-                    Get {offerDetails.offerValue}% cashback on gift voucher of{" "}
-                    {offerDetails.offerThreshold.formattedValueNoDecimal} and
-                    above*
-                  </div>
-                )}
+              {offerDetails && offerDetails.cashbackType === "Fixed" && (
+                <div className={styles.cashBackOfferLong}>
+                  Get ₹{offerDetails.offerValue} cashback up to{" "}
+                  {offerDetails.maxCashback.formattedValueNoDecimal} on gift
+                  voucher of{" "}
+                  {offerDetails.offerThreshold.formattedValueNoDecimal} and
+                  above*
+                </div>
+              )}
+              {offerDetails && offerDetails.cashbackType !== "Fixed" && (
+                <div className={styles.cashBackOfferSmall}>
+                  Get {offerDetails.offerValue}% cashback on gift voucher of{" "}
+                  {offerDetails.offerThreshold.formattedValueNoDecimal} and
+                  above*
+                </div>
+              )}
               <div className={styles.popularCardPriceBox}>
                 {this.props.giftCardsDetails &&
                   this.props.giftCardsDetails.amountOptions &&
@@ -229,9 +227,7 @@ export default class CliqGiftCardPurchase extends Component {
                 )}
                 <Input2
                   hollow={true}
-                  placeholder={`Or enter an amount between ${RUPEE_SYMBOL}${
-                    this.state.minPrice
-                  }-${RUPEE_SYMBOL}${this.state.maxPrice}`}
+                  placeholder={`Or enter an amount between ${RUPEE_SYMBOL}${this.state.minPrice}-${RUPEE_SYMBOL}${this.state.maxPrice}`}
                   value={this.state.selectedAmount}
                   onChange={amount => this.selectAmount(amount)}
                   textStyle={{ fontSize: 14, letterSpacing: "0.03px" }}

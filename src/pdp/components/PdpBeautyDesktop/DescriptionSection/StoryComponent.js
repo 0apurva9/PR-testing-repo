@@ -55,17 +55,29 @@ export default class StoryComponent extends React.Component {
         ? productDetails.detailsSection
         : [];
     let detailsSectionContentSorted = [];
-    detailsSectionContentSorted =
-      detailsSectionContent.length > 0 &&
-      sortArrayOfObjectByIntegerKeyValue(detailsSectionContent, "order");
     let setInformationContentSorted = [];
-    setInformationContentSorted =
-      setInformationContent.length > 0 &&
-      sortArrayOfObjectByIntegerKeyValue(setInformationContent, "order");
-    const items = detailsSectionContentSorted.length;
-    const halfSet = Math.ceil(items / 2);
-    const halfSetItems = detailsSectionContentSorted.slice(0, halfSet);
-    const remSetItems = detailsSectionContentSorted.slice(halfSet, items);
+    let items = 0;
+    let halfSet = 0;
+    let halfSetItems,
+      remSetItems = [];
+
+    if (detailsSectionContent && detailsSectionContent.length > 0) {
+      detailsSectionContentSorted = sortArrayOfObjectByIntegerKeyValue(
+        detailsSectionContent,
+        "order"
+      );
+    }
+
+    if (setInformationContent && setInformationContent.length > 0) {
+      setInformationContentSorted = sortArrayOfObjectByIntegerKeyValue(
+        setInformationContent,
+        "order"
+      );
+    }
+    items = detailsSectionContentSorted.length;
+    halfSet = Math.ceil(items / 2);
+    halfSetItems = detailsSectionContentSorted.slice(0, halfSet);
+    remSetItems = detailsSectionContentSorted.slice(halfSet, items);
     const hasStory =
       (shortStorySmallContent && shortStorySmallContent.length > 0) ||
       (shortStoryLargeContentSorted && shortStoryLargeContentSorted.length > 0);
@@ -80,30 +92,34 @@ export default class StoryComponent extends React.Component {
             }
           >
             <div className={styles.base}>
-              <div
-                className={styles.holder}
-                onClick={() => {
-                  this.openMenu();
-                }}
-              >
-                {((shortStorySmallContent &&
-                  shortStorySmallContent.length > 0) ||
-                  (shortStoryLargeContentSorted &&
-                    shortStoryLargeContentSorted.length > 0)) && (
+              {((shortStorySmallContent && shortStorySmallContent.length > 0) ||
+                (shortStoryLargeContentSorted &&
+                  shortStoryLargeContentSorted.length > 0)) && (
+                <div
+                  className={styles.holder}
+                  onClick={() => {
+                    this.openMenu();
+                  }}
+                >
                   <React.Fragment>
                     <div className={styles["details-heading"]}>
                       {HEADING.toUpperCase()}
                     </div>
                     <div className={iconActive} />
                   </React.Fragment>
-                )}
-              </div>
-
+                </div>
+              )}
               <Collapse isOpened={this.state.isOpen}>
-                <ShortAndLargeStoryComponent
-                  shortStorySmallContent={shortStorySmallContent}
-                  shortStoryLargeContentSorted={shortStoryLargeContentSorted}
-                />
+                {((shortStorySmallContent &&
+                  shortStorySmallContent.length > 0) ||
+                  (shortStoryLargeContentSorted &&
+                    shortStoryLargeContentSorted.length > 0)) && (
+                  <ShortAndLargeStoryComponent
+                    shortStorySmallContent={shortStorySmallContent}
+                    shortStoryLargeContentSorted={shortStoryLargeContentSorted}
+                  />
+                )}
+
                 <DetailsLongComponent
                   hasStory={hasStory}
                   detailsLongRef={this.props.detailsLongRef}

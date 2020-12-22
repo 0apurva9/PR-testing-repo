@@ -13,6 +13,22 @@
   margin: auto;
   min-height: initial;
 }
+.appliancesExchangeBase {
+  position: absolute;
+  width: 496px;
+  height: auto;
+  max-height: 100%;
+  background: #fff;
+  padding: 0;
+  transform: translateX(100%);
+  animation: slideIn 200ms forwards;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+	min-height: initial;
+	z-index: 2;
+}
 .content {
   width: 100%;
   height: auto;
@@ -25,14 +41,6 @@
   font-size: 20px;
   color: #212121;
   float: left;
-}
-.exchangeInfoLinks{
-  font-family: semibold;
-  font-size: 14px;
-  line-height: 2;
-  color: #6c6c6c;
-  float: right;
-  cursor: pointer;
 }
 @keyframes slideIn {
   0% {
@@ -67,7 +75,7 @@
   height: 38px;
   border-radius: 19.5px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
-  background-color: #ff1744;
+  background-color: #da1c5c;
   font-family: semibold;
   font-size: 14px;
   text-align: center;
@@ -280,7 +288,7 @@
   float: left;
 }
 .tncText,.knowMore,.changeDevice{
-  color: #ff1744;
+  color: #da1c5c;
   font-family: semibold;
   cursor: pointer;
 }
@@ -329,6 +337,24 @@
   position: relative;
   padding: 0px 40px 25px 40px;
 }
+.appliancesExchangeTopContainer{
+  position: sticky;
+  padding: 20px 32px 0px 32px;
+  width: 100%;
+  background-color: #f7f5f6;
+  top: 0;
+  z-index: 1;
+  min-height: 58px;
+  height: auto;
+}
+.appliancesExchangeBottomContainer{
+  position: relative;
+  padding: 15px 9px 25px 32px;
+  overflow-y: scroll;
+  width: 100%;
+  height: calc(100% - 61px);
+  background-color: #f7f5f6;
+}
 .modalBackArrow{
   border: solid #000;
   border-width: 0 1px 1px 0;
@@ -346,6 +372,11 @@
   font-size: 20px;
   line-height: 1.2;
   color: #212121;
+}
+.aeHowExchangeWorksHeading{
+	font-family: light;
+	font-size: 24px;
+	color: #2c2627;
 }
 .contentHeading{
   font-size: 13px;
@@ -565,4 +596,439 @@ ul.contentHeading{
 }
 .asterik{
   color: #ff1744;
+}
+.modalForwardArrowContainer{
+  position: relative;
+  float: right;
+  width: 50px;
+  font-size: 12px;
+  font-family: semibold;
+  color: #2c2627;
+  line-height: 2;
+  cursor: pointer;
+}
+.modalForwardArrow{
+  border: 1px solid #000;
+  border-width: 1px 0 0 1px;
+  padding: 4px;
+  -ms-transform: rotate(135deg);
+  transform: rotate(135deg);
+  -webkit-transform: rotate(135deg);
+  position: absolute;
+  top: 7px;
+  right: 12px;
+}
+.brandNameContainer{
+  width: 131px;
+  height: 131px;
+  border-radius: 4.9px;
+  box-shadow: -6px -6px 10px 0 #ffffff, 6px 6px 10px 0 #e5e5e5;
+  background-color: #f7f5f6;
+  margin: 0 19px 15px 0;
+  float: left;
+  text-align: center;
+  cursor: pointer;
+}
+.capacityNameContainer{
+  width: 432px;
+  height: 35px;
+  border-radius: 5px;
+  box-shadow: -5px -5px 8px 0 #ffffff, 5px 5px 8px 0 #e5e5e5;
+  background-color: #f7f5f6;
+  margin-bottom: 16px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+.conditionNameContainer{
+  width: 180px;
+  height: 161px;
+  border-radius: 4.9px;
+  box-shadow: -6px -6px 10px 0 #ffffff, 6px 6px 10px 0 #e5e5e5;
+  background-color: #f7f5f6;
+  text-align: center;
+  cursor: pointer;
+  margin: 0 auto 62px auto;
+}
+.conditionNameContainer:first-child{
+  margin-top: 30px;
+}
+.brandNameContainer:hover,
+.capacityNameContainer:hover,
+.conditionNameContainer:hover{
+  box-shadow: 0 0 5px 0 #ffffff, 0 0 5px 0 #e5e5e5;
+}
+.brandName,.capacityName,.conditionName{
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 14px;
+  color: #5c5456;
+}
+.conditionName{
+  font-size: 15px;
+}
+.brandSearchContainer{
+  position: relative;
+}
+.iconHolder{
+  position: absolute;
+  top: 11px;
+  left: 10px;
+}
+.searchInput{
+  width: 100%;
+  height: 37px;
+  border-radius: 18.7px;
+  box-shadow: inset 4px 4px 8px 0 #e5e5e5, inset -4px -4px 5px 0 #ffffff;
+  background-color: #f7f5f6;
+  padding-left: 35px;
+  border: none;
+  color: #5c5456;
+  font-size: 13px;
+}
+.searchInput::placeholder{
+  color: #5c545680;
+  font-size: 13px;
+}
+.searchInput:focus{
+  outline: none;
+}
+.brandImage{
+  margin: 15px auto;
+  display: block;
+  width: 70px;
+}
+.clicked{
+  box-shadow: inset 3px 3px 6px 0 #e5e5e5, inset -3px -3px 4px 0 #ffffff;
+}
+.searchButton{
+  position: absolute;
+  top: 18px;
+  right: 32px;
+  cursor: pointer;
+  width: 102px;
+  height: 38px;
+  border-radius: 19px;
+  box-shadow: -8px -8px 16px 0 #ffffff, 8px 8px 16px 0 #e5e5e5;
+  background-color: #f7f5f6;
+  padding: 10px;
+}
+.searchIconHolder{
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: top;
+}
+.searchTitle{
+  display: inline-block;
+  color: #5c5456;
+  font-size: 14px;
+  font-family: regular;
+  vertical-align: top;
+  padding-top: 2px;
+}
+.progressBarOne{
+  width: 164px;
+  height: 4px;
+  border-radius: 3px;
+  background-image: linear-gradient(103deg, #da1c5c 11%, #ff99b8 81%);
+}
+.progressBarTwo{
+  width: 328px;
+  height: 4px;
+  border-radius: 3px;
+  background-image: linear-gradient(103deg, #da1c5c 11%, #ff99b8 81%);
+}
+.progressBarThree{
+  width: 492px;
+  height: 4px;
+  border-radius: 3px;
+  background-image: linear-gradient(103deg, #da1c5c 11%, #ff99b8 81%);
+}
+.closeSearchIconHolder{
+  position: absolute;
+  top: 12px;
+  right: 21px;
+  cursor: pointer;
+}
+.backButtonContainer{
+  display: inline-block;
+  padding: 8px;
+  margin-right: 16px;
+  width: 28px;
+  height: 28px;
+  border-radius: 5px;
+  box-shadow: -5px -5px 8px 0 #ffffff, 5px 5px 8px 0 #e5e5e5;
+  background-color: #f7f5f6;
+  cursor: pointer;
+}
+.sectionName{
+  display: inline-block;
+  vertical-align: top;
+	padding-top: 3px;
+	color: #2c2627;
+  font-size: 24px;
+}
+.capacityHeading:not(:first-child){
+  margin-top: 40px;
+}
+.capacityIconContainer{
+  display: inline-block;
+  vertical-align: middle;
+  margin: 2px 10px 10px 0;
+}
+.capacityModelType{
+  display: inline-block;
+  font-size: 14px;
+  font-family: semibold;
+  color: #5c5456;
+  vertical-align: middle;
+  margin-bottom: 10px;
+}
+.conditionIconContainer{
+  margin: 0 auto;
+  padding: 44px 0 25px 0;
+  width: 45px;
+  height: auto;
+}
+.deviceDetails{
+  width: 432px;
+  height: 210px;
+  border-radius: 6.7px;
+  box-shadow: -7px -7px 11px 0 #ffffff, 7px 7px 11px 0 #e5e5e5, inset 7px 7px 80px #e5e5e5;
+  /* background-color: #f7f5f6; */
+  background-color: #ffffff;
+  padding: 16px;
+  margin-bottom: 29px;
+}
+.yourDeviceText{
+  display: inline-block;
+  font-size: 16px;
+  color: #807779;
+  margin-right: 8px;
+}
+.changeDeviceText{
+  display: inline-block;
+  font-size: 14px;
+  font-family: semibold;
+  text-align: right;
+  color: #da1c5c;
+  cursor: pointer;
+}
+.exchangeCashbackText{
+  font-size: 14px;
+  color: #807779;
+  margin: 29px 0 9px 0;
+}
+.exchangeDetailsContainer{
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 12px;
+  width: calc(100% - 139px);
+}
+.exchangeCashbackContainer{
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 12px;
+}
+.aeDeviceName{
+  font-size: 16px;
+  font-family: semibold;
+  color: #2c2627;
+  line-height: 1.43;
+}
+.aeDeviceInfo{
+  font-size: 14px;
+  color: #2c2627;
+  line-height: 1.43;
+}
+.exchangePrice{
+  display: inline-block;
+  margin-right: 5px;
+  vertical-align: middle;
+  font-size: 24px;
+  font-family: semibold;
+  color: #2c2627;
+}
+.cashbackIconContainer{
+  display: inline-block;
+	vertical-align: middle;
+	position: relative;
+}
+.cashbackTooltip{
+	visibility: hidden;
+  position: absolute;
+	left: -42px;
+	top: 25px;
+  width: 201px;
+  height: auto;
+  opacity: 0.96;
+  box-shadow: 0 24px 30px 0 #e5e5e5;
+  border: solid 1px #e5e5e5;
+  background-color: #212121;
+  color: #ffffff;
+  padding: 12px;
+  border-radius: 8px;
+}
+.cashbackTooltip::before {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+  left: 60px;
+  top: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 7px solid #212121;
+  border-color: transparent transparent #212121 #212121;
+  -webkit-transform-origin: 0 0;
+  -ms-transform-origin: 0 0;
+  transform-origin: 0 0;
+  -webkit-transform: rotate(135deg);
+  -ms-transform: rotate(135deg);
+  transform: rotate(135deg);
+}
+.cashbackIconContainer:hover .cashbackTooltip{
+	visibility: visible;
+}
+.cashbackDetailsHeading{
+  display: inline-block;
+  width: 75%;
+  font-size: 12px;
+  color: #f4f4f4;
+  font-family: semibold;
+}
+.leftSection{
+  display: inline-block;
+  width: 75%;
+  font-size: 11px;
+  font-family: light;
+  color: #f5f2f3;
+}
+.rightSection{
+  display: inline-block;
+  width: 25%;
+  font-size: 11px;
+  font-family: light;
+  color: #f5f2f3;
+  text-align: right;
+}
+.aeSmallHeading{
+	display: inline-block;
+	font-family: semibold;
+	font-size: 16px;
+	color: #2c2627;
+	width: calc(100% - 85px);
+}
+.aeKnowMoreContainer{
+	display: inline-block;
+	width: 85px;
+  height: 34px;
+  border-radius: 6.7px;
+  box-shadow: -8px -8px 16px 0 #ffffff, 8px 8px 16px 0 #e5e5e5;
+	background-color: #f7f5f6;
+	padding: 5px 10px;
+	cursor: pointer;
+}
+.aeKnowMoreText{
+	font-family: semibold;
+	font-size: 12px;
+	color: #da1c5c;
+}
+.aeBottomContainer{
+	padding-right: 18px;
+}
+.aeContentDescription{
+	font-size: 14px;
+	font-family: light;
+	line-height: 1.21;
+	color: #231f20;
+	margin-bottom: 10px;
+}
+.aeWorksLessDetailsContainer{
+	display: inline-block;
+	width: 100%;
+	margin-top: 12px;
+}
+.aeItalicStyle{
+	font-style:italic;
+	font-family: regular;
+}
+.aeBottomButtonLinkContainer{
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #f7f5f6;
+}
+.aeTncContainer{
+	display: inline-block;
+	width: 100%;
+	padding: 12px 0 12px 32px;
+	box-shadow: 0 -2px 4px 0 #e9e9e9;
+	background-color: #f7f5f6;
+}
+.aeExchangeButtonContainer{
+	display: flex;
+  align-items: center;
+  justify-content: center;
+  width:100%;
+  height: auto;
+	background-color: #f1f1f1;
+	padding: 15px 0 15px 0;
+}
+.brandNameContainerSelected{
+	position: relative;
+	float: left;
+	width: 131px;
+	height: 131px;
+	margin: 0 19px 15px 0;
+	border-radius: 4.9px;
+	box-shadow: inset 3px 3px 6px 0 #e5e5e5, inset -3px -3px 4px 0 #ffffff;
+	background-color: #f7f5f6;
+	text-align: center;
+	cursor: pointer;
+	color: #5c5456;
+	font-family: semibold;
+}
+.capacityNameContainerSelected{
+	position: relative;
+  width: 432px;
+  height: 35px;
+  border-radius: 5px;
+  box-shadow: inset 3px 3px 6px 0 #e5e5e5, inset -3px -3px 4px 0 #ffffff;
+  background-color: #f7f5f6;
+  margin-bottom: 16px;
+  padding: 6px 10px;
+	cursor: pointer;
+	color: #5c5456;
+	font-family: semibold;
+}
+.conditionNameContainerSelected{
+	position: relative;
+  width: 180px;
+  height: 161px;
+  border-radius: 4.9px;
+  box-shadow: inset 3px 3px 6px 0 #e5e5e5, inset -3px -3px 4px 0 #ffffff;
+  background-color: #f7f5f6;
+  text-align: center;
+  cursor: pointer;
+  margin: 0 auto 62px auto;
+}
+.conditionNameContainerSelected:first-child{
+  margin-top: 30px;
+}
+.brandNameContainerSelected::after,
+.capacityNameContainerSelected::after,
+.conditionNameContainerSelected::after{
+	content: url('../../general/components/img/checkGreen.svg');
+	position: absolute;
+	right: 8px;
+	top: 8px;
+}
+.noteContentContainer{
+	display: inline-block;
+	width: 100%;
+	margin-bottom: 112px;
+}
+.mb5{
+	margin-bottom: 5px;
 }

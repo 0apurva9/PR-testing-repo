@@ -39,7 +39,8 @@ import {
   DESKTOP_AUTH,
   EXCHANGE_TnC_MODAL,
   EXCHANGE_REMOVE_MODAL,
-  CLIQ_PIQ_MODAL
+  CLIQ_PIQ_MODAL,
+  APPLIANCES_EXCHANGE_MODAL
 } from "../../general/modal.actions";
 import { SUCCESS, NO } from "../../lib/constants";
 import {
@@ -50,7 +51,8 @@ import {
 import {
   verifyIMEINumber,
   getBundledProductSuggestion,
-  addBundledProductsToCart
+  addBundledProductsToCart,
+  appliancesExchangeCheckPincode
 } from "../../pdp/actions/pdp.actions";
 const mapDispatchToProps = dispatch => {
   return {
@@ -272,6 +274,12 @@ const mapDispatchToProps = dispatch => {
     },
     getWishlist: () => {
       dispatch(getWishlist());
+    },
+    openAppliancesExchangeModal: data => {
+      dispatch(showModal(APPLIANCES_EXCHANGE_MODAL, data));
+    },
+    appliancesExchangeCheckPincode: (productCode, pincode) => {
+      dispatch(appliancesExchangeCheckPincode(productCode, pincode));
     }
   };
 };
@@ -288,7 +296,9 @@ const mapStateToProps = state => {
     addBundledProductsToCartDetails:
       state.productDescription.addBundledProductsToCartDetails,
     bundledProductSuggestionStatus:
-      state.productDescription.getBundledProductSuggestionStatus
+      state.productDescription.getBundledProductSuggestionStatus,
+    appliancesExchangePincodeDetails:
+      state.productDescription.appliancesExchangeCheckPincodeDetails
   };
 };
 const CartContainer = withRouter(

@@ -21,8 +21,10 @@ import Icon from "../../xelpmoc-core/Icon";
 import similarIcon from "../../general/components/img/similarIcon.svg";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
 import { isBrowser } from "browser-or-node";
-const ELECTRONICS = "Electronics";
 
+const ELECTRONICS = "Electronics";
+const VARIANT_REGEX = /^\d+\s[A-Za-z]+$/;
+const TEST_FOR_NUMBER_REGEX = /(\d+)/;
 export default class ProductModule extends React.Component {
   onDownload = () => {
     if (this.props.onDownload) {
@@ -97,7 +99,50 @@ export default class ProductModule extends React.Component {
     }
   };
 
+  sanitizeVariantString = (el, multiVariant = false) => {
+    let variantCount = 0;
+    if (el && el.length > 0) {
+      if (TEST_FOR_NUMBER_REGEX.test(el)) {
+        let match = el.trim().match(VARIANT_REGEX);
+        if (match && match.length > 0) {
+          variantCount = match[0].match(TEST_FOR_NUMBER_REGEX);
+          // check if the count of variant is > 1
+          if (variantCount[0] > 1) {
+            if (multiVariant) {
+              return match[0].toString();
+            } else {
+              return [match[0]];
+            }
+          } else {
+            return [];
+          }
+        } else {
+          return [];
+        }
+      } else {
+        return [];
+      }
+    } else return [];
+  };
+
   render() {
+    let numberOfVariants = [];
+    let rawVariantCount = this.props.variantCount
+      ? this.props.variantCount
+      : "";
+    // check if rawVariantCount has something in it
+    if (rawVariantCount && rawVariantCount.length > 0) {
+      // multivariant case
+      if (rawVariantCount.includes("|")) {
+        numberOfVariants = rawVariantCount.split("|").map(el => {
+          return this.sanitizeVariantString(el, true);
+        });
+      }
+      // non-multivariant case
+      else {
+        numberOfVariants = this.sanitizeVariantString(rawVariantCount);
+      }
+    }
     // let electronicView =
     //   this.props.productListings &&
     //   this.props.productListings.facetdatacategory &&
@@ -122,13 +167,30 @@ export default class ProductModule extends React.Component {
           this.props.shouldShowSimilarIcon &&
           this.showSimilarIcons(electronicView)}
 
+        {numberOfVariants && numberOfVariants.length > 0 && (
+          <div
+            className={[
+              styles.sizesBlock,
+              this.props.view === "grid" ? styles.topGrid : styles.topList
+            ].join(" ")}
+          >
+            <div className={styles.sizesBlockContent}>
+              {numberOfVariants.map(el => {
+                if (el && el.length > 0) {
+                  return <div className={styles.variantString}>{el}</div>;
+                } else return null;
+              })}
+            </div>
+          </div>
+        )}
+
         <div
           className={
             electronicView
               ? styles.electronicsBase
               : this.props.autoWidget
-                ? styles.whiteBase
-                : styles.base
+              ? styles.whiteBase
+              : styles.base
           }
           onClick={this.onClick}
           id={`ProductModule-${this.props.productId}`}

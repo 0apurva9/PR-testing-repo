@@ -37,16 +37,15 @@ export default class CuponDetails extends React.Component {
               <span className={styles.cuponCodeColor}>
                 {this.props.promotionTitle}
               </span>
-              {this.props.couponType === COUPON_TYPE &&
-                this.props.selectItem && (
-                  <div
-                    className={styles.checkBoxHolder}
-                    onClick={val => this.handleClick(val)}
-                    data-test={`coupon-radio-btn-${this.props.promotionTitle}`}
-                  >
-                    <CheckBox selected={this.props.selected} />
-                  </div>
-                )}
+              {this.props.couponType === COUPON_TYPE && this.props.selectItem && (
+                <div
+                  className={styles.checkBoxHolder}
+                  onClick={val => this.handleClick(val)}
+                  data-test={`coupon-radio-btn-${this.props.promotionTitle}`}
+                >
+                  <CheckBox selected={this.props.selected} />
+                </div>
+              )}
             </div>
           }
           <div className={styles.promotionDetailsText}>

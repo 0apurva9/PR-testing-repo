@@ -52,17 +52,16 @@ export default class Banner extends React.Component {
                     <div className={styles.subTitle}>{this.props.subTitle}</div>
                   )}
 
-                  {this.props.showButton &&
-                    this.props.buttonLabel && (
-                      <div className={styles.button}>
-                        <Button
-                          width={195}
-                          height={46}
-                          label={this.props.buttonLabel}
-                          type={"primary"}
-                        />
-                      </div>
-                    )}
+                  {this.props.showButton && this.props.buttonLabel && (
+                    <div className={styles.button}>
+                      <Button
+                        width={195}
+                        height={46}
+                        label={this.props.buttonLabel}
+                        type={"primary"}
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

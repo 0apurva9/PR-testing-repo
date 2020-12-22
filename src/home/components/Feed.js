@@ -25,7 +25,8 @@ import {
 } from "../../lib/constants";
 import {
   renderMetaTags,
-  renderMetaTagsWithoutSeoObject
+  renderMetaTagsWithoutSeoObject,
+  addCanonicalUrl
 } from "../../lib/seoUtils";
 import Loadable from "react-loadable";
 import delay from "lodash.delay";
@@ -662,12 +663,7 @@ class Feed extends Component {
   };
 
   renderMetaTags = () => {
-    const data = this.props.homeFeedData;
-    if (this.props.feedType !== "secondaryFeed") {
-      return data.seo
-        ? renderMetaTags(data)
-        : renderMetaTagsWithoutSeoObject(data);
-    }
+    return addCanonicalUrl(window.location.href);
   };
 
   renderAmpTags = () => {
@@ -706,7 +702,8 @@ class Feed extends Component {
     }
     return (
       <React.Fragment>
-        {this.props.feedType !== "secondaryFeed" && this.renderMetaTags()}
+        {/* {this.props.feedType !== "secondaryFeed" && this.renderMetaTags()} */}
+        {this.renderMetaTags()}
         {this.props.isHomePage ? this.renderAmpTags() : null}
         {this.props.homeFeedData ? (
           <List
@@ -717,14 +714,12 @@ class Feed extends Component {
             {this.renderFeedComponent}
           </List>
         ) : null}
-
         {this.props.clpUrl && this.props.chatbotDetailsData && (
           <Chatbot
             clpUrl={this.props.clpUrl}
             chatbotDetailsData={this.props.chatbotDetailsData}
           />
         )}
-
         <MobileOnly>
           <div
             style={{

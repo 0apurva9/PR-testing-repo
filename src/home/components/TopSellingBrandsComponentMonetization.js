@@ -35,9 +35,9 @@ export default class TopSellingBrandsMonetization extends React.Component {
       this.setState({ bannerComponent, bannerLoading: false });
       if (
         window._osAdImpression &&
-        (bannerComponent.ads &&
-          bannerComponent.ads[0] &&
-          bannerComponent.ads[0].uclid)
+        bannerComponent.ads &&
+        bannerComponent.ads[0] &&
+        bannerComponent.ads[0].uclid
       ) {
         window._osAdImpression({ uclid: bannerComponent.ads[0].uclid });
       }

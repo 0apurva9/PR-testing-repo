@@ -12,23 +12,43 @@ import DescriptionContainer from "./DescriptionSection/DescriptionContainer";
 import { sortArrayOfObjectByIntegerKeyValue } from "../../../pdp/reducers/utils";
 import { setTracker, VIEW_PRODUCT } from "../../../lib/onlinesalesUtils";
 import { setDataLayer, ADOBE_VIRTUAL_PAGELOAD } from "../../../lib/adobeUtils";
+import { renderMetaTags } from "../../../lib/seoUtils";
+// import smoothscroll from "smoothscroll-polyfill";
+// smoothscroll.polyfill();
 
 export default class PdpBeautyDesktop extends React.Component {
   constructor(props) {
     super(props);
     this.detailsRef = React.createRef();
+    this.ratingReviewsRef = React.createRef();
   }
 
-  handleDetailsScroll = () => {
-    if (this.detailsRef.current) {
-      let headerOffset = 45,
-        elementPosition = this.detailsRef.current.getBoundingClientRect().top,
-        offsetPosition = elementPosition - headerOffset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: "smooth"
-      });
+  handleDetailsScroll = sectionToScroll => {
+    if (sectionToScroll && sectionToScroll === "ratingsLong") {
+      if (this.ratingReviewsRef.current) {
+        let offset = 35;
+        window.scrollTo({
+          behavior: "smooth",
+          top:
+            document.getElementById("rating-parent").getBoundingClientRect()
+              .top -
+            document.body.getBoundingClientRect().top -
+            offset
+        });
+      }
+    }
+    if (sectionToScroll && sectionToScroll === "detailsLong") {
+      if (this.detailsRef.current) {
+        let offset = 35;
+        window.scrollTo({
+          behavior: "smooth",
+          top:
+            document.getElementById("details-parent").getBoundingClientRect()
+              .top -
+            document.body.getBoundingClientRect().top -
+            offset
+        });
+      }
     }
   };
 
@@ -135,6 +155,7 @@ export default class PdpBeautyDesktop extends React.Component {
               <BreadCrumbs {...this.props} />
             </div>
           )}
+          {renderMetaTags(this.props.productDetails)}
           <div className={styles.container}>
             <ImageGalleryContentComponent
               {...this.props}
@@ -148,6 +169,7 @@ export default class PdpBeautyDesktop extends React.Component {
               compDetails={sectionOfImageAndContentComponent}
               {...this.props}
               detailsLongRef={this.detailsRef}
+              ratingReviewsRef={this.ratingReviewsRef}
             />
           </div>
         </div>

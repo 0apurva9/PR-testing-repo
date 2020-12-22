@@ -33,9 +33,9 @@ export default class SplitBannerComponentMonetization extends React.Component {
       this.setState({ bannerComponent, bannerLoading: false });
       if (
         window._osAdImpression &&
-        (bannerComponent.ads &&
-          bannerComponent.ads[0] &&
-          bannerComponent.ads[0].uclid)
+        bannerComponent.ads &&
+        bannerComponent.ads[0] &&
+        bannerComponent.ads[0].uclid
       ) {
         window._osAdImpression({ uclid: bannerComponent.ads[0].uclid });
       }
@@ -83,24 +83,22 @@ export default class SplitBannerComponentMonetization extends React.Component {
             this.props.positionInFeed === 1 ? styles.firstItemBase : styles.base
           }
         >
-          {bannerComponent &&
-            bannerComponent.title && (
-              <div className={styles.shopeRangeHeader}>
-                {bannerComponent.title}
-              </div>
-            )}
-          {bannerComponent &&
-            bannerComponent.ads && (
-              <div className={styles.splitColumn}>
-                {bannerComponent.ads
-                  .filter((val, i) => {
-                    return i % 2 === 0 && i < 4;
-                  })
-                  .map(feedComponentDatum => {
-                    return this.renderCard(feedComponentDatum);
-                  })}
-              </div>
-            )}
+          {bannerComponent && bannerComponent.title && (
+            <div className={styles.shopeRangeHeader}>
+              {bannerComponent.title}
+            </div>
+          )}
+          {bannerComponent && bannerComponent.ads && (
+            <div className={styles.splitColumn}>
+              {bannerComponent.ads
+                .filter((val, i) => {
+                  return i % 2 === 0 && i < 4;
+                })
+                .map(feedComponentDatum => {
+                  return this.renderCard(feedComponentDatum);
+                })}
+            </div>
+          )}
           <div className={styles.splitColumn}>
             {bannerComponent.ads
               .filter((val, i) => {

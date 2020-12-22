@@ -128,9 +128,7 @@ export default class ExchangeModeSelection extends React.Component {
 
     //go to add/update bank details screen with bank details
     this.props.history.push({
-      pathname: `${RETURNS_PREFIX}/${
-        this.state.orderId
-      }${RETURN_LANDING}${RETURNS_STORE_BANK_FORM}`,
+      pathname: `${RETURNS_PREFIX}/${this.state.orderId}${RETURN_LANDING}${RETURNS_STORE_BANK_FORM}`,
       state: {
         authorizedRequest: true,
         bankData: details,

@@ -714,6 +714,13 @@ const SELF_SERVE_NON_ORDER_PAGE_LOAD = "selfserve_AR_Load";
 const SELF_SERVE_NON_ORDER_QUESTION_CLICK = "selfserve_AR_Topic_Selection";
 const SELF_SERVE_FAQ_PAGE_LOAD = "selfserve_IW_Load";
 
+// for appliances exchange
+const MDE = "MDE";
+export const ADOBE_TRACK_APPLIANCES_EXCHANGE_JOURNEY =
+  "ADOBE_TRACK_APPLIANCES_EXCHANGE_JOURNEY";
+export const ADOBE_TRACK_APPLIANCES_EXCHANGE_AC_JOURNEY =
+  "ADOBE_TRACK_APPLIANCES_EXCHANGE_AC_JOURNEY";
+
 export const ADOBE_SELF_SERVE_OTHER_ISSUES_CLICK =
   "ADOBE_SELF_SERVE_OTHER_ISSUES_CLICK";
 export const ADOBE_SELF_SERVE_ALL_HELP_TOPIC_CLICK =
@@ -1635,6 +1642,22 @@ export async function setDataLayer(
       window._satellite.track(ADOBE_REMOVE_BUNDLED_PRODUCT_FROM_CART);
     }
   }
+  if (type === ADOBE_TRACK_APPLIANCES_EXCHANGE_JOURNEY) {
+    Object.assign(window.digitalData, {
+      journey: {
+        name: MDE
+      }
+    });
+  }
+  if (type === ADOBE_TRACK_APPLIANCES_EXCHANGE_AC_JOURNEY) {
+    if (apiResponse) {
+      Object.assign(window.digitalData, {
+        journey: {
+          name: apiResponse
+        }
+      });
+    }
+  }
 }
 
 export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
@@ -1666,23 +1689,21 @@ export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
     pdpResponse && pdpResponse.allOOStock === true
       ? "Out of Stock"
       : pdpResponse && pdpResponse.isProductNew === "Y"
-        ? "New"
-        : seasonData && seasonData.key === "Season"
-          ? seasonData.value
-          : pdpResponse.isOnlineExclusive === "Y"
-            ? "New"
-            : pdpResponse.isExchangeAvailable === true &&
-              pdpResponse.showExchangeTag === true
-              ? "Exchange Offer"
-              : pdpResponse &&
-                pdpResponse.discount &&
-                pdpResponse.discount !== "0"
-                ? `${parseInt(pdpResponse.discount, 10)}% off`
-                : pdpResponse &&
-                  pdpResponse.isOfferExisting &&
-                  pdpResponse.isOfferExisting == "Y"
-                  ? "On Offer"
-                  : "";
+      ? "New"
+      : seasonData && seasonData.key === "Season"
+      ? seasonData.value
+      : pdpResponse.isOnlineExclusive === "Y"
+      ? "New"
+      : pdpResponse.isExchangeAvailable === true &&
+        pdpResponse.showExchangeTag === true
+      ? "Exchange Offer"
+      : pdpResponse && pdpResponse.discount && pdpResponse.discount !== "0"
+      ? `${parseInt(pdpResponse.discount, 10)}% off`
+      : pdpResponse &&
+        pdpResponse.isOfferExisting &&
+        pdpResponse.isOfferExisting == "Y"
+      ? "On Offer"
+      : "";
   let productCategoryId = pdpResponse && pdpResponse.categoryHierarchy;
   let APlusTamplete =
     pdpResponse &&
@@ -1927,8 +1948,8 @@ export function setDataLayerForRetryPaymentAccountSection(
           product.winningSellerPrice && product.winningSellerPrice.doubleValue
             ? product.winningSellerPrice.doubleValue
             : product.mrpPrice && product.mrpPrice.doubleValue
-              ? product.mrpPrice.doubleValue
-              : null;
+            ? product.mrpPrice.doubleValue
+            : null;
         let quantity =
           totalPrice > originalPrice ? totalPrice / originalPrice : 1;
         productQuantityArray.push(quantity);
@@ -1936,16 +1957,16 @@ export function setDataLayerForRetryPaymentAccountSection(
           totalPrice
             ? totalPrice
             : product.mrpPrice && product.mrpPrice.doubleValue
-              ? product.mrpPrice.doubleValue
-              : null
+            ? product.mrpPrice.doubleValue
+            : null
         );
       } else {
         productPriceArray.push(
           product.winningSellerPrice && product.winningSellerPrice.doubleValue
             ? product.winningSellerPrice.doubleValue
             : product.mrpPrice && product.mrpPrice.doubleValue
-              ? product.mrpPrice.doubleValue
-              : null
+            ? product.mrpPrice.doubleValue
+            : null
         );
         productQuantityArray.push(1);
       }
@@ -2273,8 +2294,8 @@ function getProductsDigitalData(response, type) {
           product.qtySelectedByUser
             ? product.qtySelectedByUser
             : product.quantity
-              ? product.quantity
-              : 1,
+            ? product.quantity
+            : 1,
           10
         )
       );
@@ -2283,12 +2304,12 @@ function getProductsDigitalData(response, type) {
           product.offerPrice
             ? product.offerPrice
             : product.pricevalue
-              ? product.pricevalue
-              : product.price
-                ? product.price
-                : product.mrp && product.mrp.value
-                  ? product.mrp.value
-                  : null,
+            ? product.pricevalue
+            : product.price
+            ? product.price
+            : product.mrp && product.mrp.value
+            ? product.mrp.value
+            : null,
           10
         )
       );
@@ -2305,11 +2326,12 @@ function getProductsDigitalData(response, type) {
             product.productName === "Gift Card"
               ? "Gift card"
               : product.categoryHierarchy &&
-                product.categoryHierarchy[currentReverseArray] &&
-                product.categoryHierarchy[currentReverseArray].category_name &&
-                product.categoryHierarchy[currentReverseArray].category_name
-                  .replace(/ /g, "_")
-                  .toLowerCase()
+                  product.categoryHierarchy[currentReverseArray] &&
+                  product.categoryHierarchy[currentReverseArray]
+                    .category_name &&
+                  product.categoryHierarchy[currentReverseArray].category_name
+                    .replace(/ /g, "_")
+                    .toLowerCase()
           );
         } else if (product.rootCategory) {
           categoryArray.push(product.rootCategory);
@@ -2320,11 +2342,11 @@ function getProductsDigitalData(response, type) {
             product.productName === "Gift Card"
               ? "Gift card"
               : product.categoryHierarchy &&
-                product.categoryHierarchy[0] &&
-                product.categoryHierarchy[0].category_name &&
-                product.categoryHierarchy[0].category_name
-                  .replace(/ /g, "_")
-                  .toLowerCase()
+                  product.categoryHierarchy[0] &&
+                  product.categoryHierarchy[0].category_name &&
+                  product.categoryHierarchy[0].category_name
+                    .replace(/ /g, "_")
+                    .toLowerCase()
           );
         } else if (product.rootCategory) {
           categoryArray.push(product.rootCategory);

@@ -76,8 +76,8 @@ export default class CheckoutSavedCard extends React.Component {
       <MenuDetails
         text={SAVED_CARD_PAYMENT_MODE}
         icon={savedCardIcon}
-        onOpenMenu={() =>
-          this.props.onSelectPaymentsMode(SAVED_CARD_PAYMENT_MODE)
+        onOpenMenu={currentPaymentMode =>
+          this.props.onSelectPaymentsMode(currentPaymentMode)
         }
         isOpen={this.props.currentPaymentMode === SAVED_CARD_PAYMENT_MODE}
       >

@@ -32,6 +32,11 @@
   word-break: break-word;
   margin: auto;
 }
+
+.familyLight {
+  font-family: 'light';
+}
+
 .dateTimeBox {
   width: 100%;
   height: auto;

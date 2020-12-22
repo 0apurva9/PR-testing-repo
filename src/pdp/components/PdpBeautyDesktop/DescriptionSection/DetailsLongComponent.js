@@ -28,11 +28,14 @@ export default class DetailsLongComponent extends Component {
     }
 
     return (
-      <div className={styles.base}>
+      <div
+        id="details-parent"
+        className={styles.base}
+        ref={this.props.detailsLongRef}
+      >
         {this.props.detailsComponent && (
           <Fragment>
             <div
-              ref={this.props.detailsLongRef}
               className={
                 this.props.hasStory
                   ? styles["details-what-it-is-sec"]
@@ -64,27 +67,30 @@ export default class DetailsLongComponent extends Component {
                           {this.props.styleNotes && this.props.styleNotes}
                         </div>
                       </div>
-                      {this.props && this.props.setInformationContentSorted && (
-                        <div className={styles["details-what-it-is-block"]}>
-                          {this.props.setInformationHeading && (
-                            <div className={styles["details-what-it-is-head"]}>
-                              {this.props.setInformationHeading &&
-                                this.props.setInformationHeading}
+                      {this.props &&
+                        this.props.setInformationContentSorted &&
+                        this.props.setInformationContentSorted.length > 0 && (
+                          <div className={styles["details-what-it-is-block"]}>
+                            {this.props.setInformationHeading && (
+                              <div
+                                className={styles["details-what-it-is-head"]}
+                              >
+                                {this.props.setInformationHeading}
+                              </div>
+                            )}
+                            <div className={styles["details-what-it-is-desc"]}>
+                              <ul className={styles["set-information-list"]}>
+                                {this.props.setInformationContentSorted.length >
+                                  0 &&
+                                  this.props.setInformationContentSorted.map(
+                                    (el, i) => (
+                                      <li key={i}>{`${el.key}:${el.value}`}</li>
+                                    )
+                                  )}
+                              </ul>
                             </div>
-                          )}
-                          <div className={styles["details-what-it-is-desc"]}>
-                            <ul className={styles["set-information-list"]}>
-                              {this.props.setInformationContentSorted.length >
-                                0 &&
-                                this.props.setInformationContentSorted.map(
-                                  (el, i) => (
-                                    <li key={i}>{`${el.key}:${el.value}`}</li>
-                                  )
-                                )}
-                            </ul>
                           </div>
-                        </div>
-                      )}
+                        )}
                       {this.props &&
                         this.props.whatElseYouNeedToKnowContent &&
                         this.props.whatElseYouNeedToKnowContent.length > 0 && (
@@ -116,8 +122,10 @@ export default class DetailsLongComponent extends Component {
                 </Fragment>
               )}
             </div>
-            <Collapse isOpened={this.state.isOpen}>
-              {(this.props.halfSetItems || this.props.remSetItems) && (
+            {((this.props.halfSetItems && this.props.halfSetItems.length > 0) ||
+              (this.props.remSetItems &&
+                this.props.remSetItems.length > 0)) && (
+              <Collapse isOpened={this.state.isOpen}>
                 <div className={styles["product-details-section"]}>
                   {this.props.halfSetItems &&
                     this.props.halfSetItems.length > 0 &&
@@ -144,8 +152,8 @@ export default class DetailsLongComponent extends Component {
                       </div>
                     ))}
                 </div>
-              )}
-            </Collapse>
+              </Collapse>
+            )}
           </Fragment>
         )}
       </div>

@@ -65,15 +65,7 @@ export default class UpiForm extends React.Component {
     });
     localStorage.setItem(UPI_VPA, ele);
     const response = await this.props.addUPIDetails(ele, "checkout", btnType);
-    if (response && response.status === "Success") {
-      let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
-      if (cartDetails) {
-        let cartGuId = JSON.parse(cartDetails).guid;
-        if (this.props.getPaymentModes) {
-          await this.props.getPaymentModes(cartGuId);
-        }
-      }
-    } else if (
+    if (
       response &&
       response.upiResponse &&
       response.upiResponse.status === "FAILURE" &&
@@ -213,8 +205,8 @@ export default class UpiForm extends React.Component {
           ? styles.invalidFrm
           : this.props.addUserUPIDetails &&
             this.props.addUserUPIDetails.upiStatus === "VALID"
-            ? styles.verifiedFrm
-            : styles.invalidFrm
+          ? styles.verifiedFrm
+          : styles.invalidFrm
         : "";
     let combinedLogoUrl = this.props.combinedLogoUrl
       ? this.props.combinedLogoUrl
