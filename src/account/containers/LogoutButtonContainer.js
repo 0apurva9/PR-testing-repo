@@ -40,6 +40,7 @@ const mapStateToProps = state => {
     isMNLLogin: state.mobileNumberLogin.isMNLLogin,
   };
 };
+
 const LogoutButtonContainer = withRouter(
   connect(mapStateToProps, mapDispatchToProps)(LogoutButton)
 );
