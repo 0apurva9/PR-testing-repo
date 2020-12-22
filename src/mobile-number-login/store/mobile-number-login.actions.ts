@@ -7,7 +7,7 @@ import { getGlobalAccessToken, customerAccessTokenSuccess, refreshTokenSuccess }
 import * as ErrorHandling from "../../general/ErrorHandling.js";
 import { displayToast } from "../../general/toast.actions.js";
 import { showMobileNumberLoginModal } from "../../general/modal.actions";
-import { getUserDetails } from "../../account/actions/account.actions";
+import { getUserDetails, logoutUserByMobileNumber } from "../../account/actions/account.actions";
 import { loginUser } from "../../auth/actions/user.actions";
 import { CUSTOMER_ACCESS_TOKEN, LOGGED_IN_USER_DETAILS } from "../../lib/constants";
 
@@ -443,7 +443,7 @@ export function addnewEmail() {
 
             dispatch(changeLoginStep("isStepChangeEmailSucess"));
 
-            dispatch(getUserDetails(true));
+            dispatch(logoutUserByMobileNumber());
 
         }
         dispatch(hideSecondaryLoader());
@@ -503,6 +503,10 @@ export function sendOtpUpdatePassword() {
             return;
         }
         dispatch(changeLoginStep("isStepValidateProfileOtp"));
+
+        dispatch(logoutUserByMobileNumber());
+
+        dispatch(hideSecondaryLoader());
     }
 }
 
