@@ -1672,20 +1672,23 @@ export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
       }
     });
   }
+  const selectedData =
+    pdpResponse &&
+    pdpResponse.variantOptions &&
+    Array.isArray(pdpResponse.variantOptions) &&
+    pdpResponse.variantOptions.filter(val => {
+      return val.colorlink.selected;
+    });
   const selectedColour =
-    pdpResponse &&
-    pdpResponse.variantOptions &&
-    Array.isArray(pdpResponse.variantOptions) &&
-    pdpResponse.variantOptions.filter(val => {
-      return val.colorlink.selected;
-    })[0].colorlink.color;
+    selectedData &&
+    Array.isArray(selectedData) &&
+    selectedData[0].colorlink &&
+    selectedData[0].colorlink.color;
   const selectedSize =
-    pdpResponse &&
-    pdpResponse.variantOptions &&
-    Array.isArray(pdpResponse.variantOptions) &&
-    pdpResponse.variantOptions.filter(val => {
-      return val.colorlink.selected;
-    })[0].sizelink.size;
+    selectedData &&
+    Array.isArray(selectedData) &&
+    selectedData[0].sizelink &&
+    selectedData[0].sizelink.size;
   let seasonData = {};
   if (pdpResponse && pdpResponse.seasonDetails !== undefined) {
     seasonData =
@@ -2366,6 +2369,7 @@ function getProductsDigitalData(response, type) {
             product.productName === "Gift Card"
               ? "Gift card"
               : product.categoryHierarchy &&
+                  Array.isArray(product.categoryHierarchy) &&
                   product.categoryHierarchy[currentReverseArray] &&
                   product.categoryHierarchy[currentReverseArray]
                     .category_name &&
@@ -2382,6 +2386,7 @@ function getProductsDigitalData(response, type) {
             product.productName === "Gift Card"
               ? "Gift card"
               : product.categoryHierarchy &&
+                  Array.isArray(product.categoryHierarchy) &&
                   product.categoryHierarchy[0] &&
                   product.categoryHierarchy[0].category_name &&
                   product.categoryHierarchy[0].category_name
