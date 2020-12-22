@@ -92,9 +92,7 @@ export default class ConnectWidget extends React.Component {
           this.handleClick(this.props.feedComponentData.webURL);
         }}
         style={{
-          backgroundImage: `linear-gradient(165deg, ${
-            this.props.feedComponentData.startHexCode
-          } ,${this.props.feedComponentData.endHexCode})`
+          backgroundImage: `linear-gradient(165deg, ${this.props.feedComponentData.startHexCode} ,${this.props.feedComponentData.endHexCode})`
         }}
       >
         <MediaQuery query="(min-device-width: 1025px)">
@@ -110,9 +108,7 @@ export default class ConnectWidget extends React.Component {
             <div
               className={styles.buffer}
               style={{
-                backgroundImage: `url(${
-                  this.props.feedComponentData.backgroundImageURL
-                }`,
+                backgroundImage: `url(${this.props.feedComponentData.backgroundImageURL}`,
                 backgroundRepeat: "no-repeat",
                 backgroundSize: "100% 100%",
                 backgroundPosition: "center"

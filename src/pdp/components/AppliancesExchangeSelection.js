@@ -211,8 +211,8 @@ export default class AppliancesExchangeSelection extends React.Component {
                         !this.state.selectedBrandData
                           ? "one"
                           : !this.state.selectedCapacityData
-                            ? "two"
-                            : "three"
+                          ? "two"
+                          : "three"
                       )
                     }
                   >
@@ -223,10 +223,10 @@ export default class AppliancesExchangeSelection extends React.Component {
                 {!this.state.selectedBrandData
                   ? SELECT_BRAND
                   : !this.state.selectedCapacityData
-                    ? SELECT_CAPACITY
-                    : !this.state.selectedConditionData
-                      ? SELECT_WORKING_CONDITION
-                      : EXCHANGE_DETAILS}
+                  ? SELECT_CAPACITY
+                  : !this.state.selectedConditionData
+                  ? SELECT_WORKING_CONDITION
+                  : EXCHANGE_DETAILS}
               </div>
               {!this.state.selectedBrandData && (
                 <div

@@ -33,9 +33,8 @@ export default class AppliancesExchangeCheckout extends React.Component {
         <div className={styles.title}>Exchange Device:</div>
         <div className={styles.name}>
           {" "}
-          {this.state.exchangeData && this.state.exchangeData.brandName}-{this
-            .state.exchangeData && this.state.exchangeData.type}{" "}
-          AC
+          {this.state.exchangeData && this.state.exchangeData.brandName}-
+          {this.state.exchangeData && this.state.exchangeData.type} AC
         </div>
       </div>
     );
