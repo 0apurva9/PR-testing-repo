@@ -62,17 +62,19 @@ export default class ColorComponent extends React.Component {
       <React.Fragment>
         <div className={styles["shade-component"]}>
           <div className={styles["shade-block"]}>
-            <a
-              href={""}
-              onClick={e => this.expandShadeSelector(e)}
-              className={styles["shade-block-view-more"]}
-            >
-              {this.state.expandClass ? VIEW_LESS : VIEW_MORE}
-            </a>
-            <div className={styles["shade-heading"]}>
-              {selectedSizeSelectedColor &&
-                selectedSizeSelectedColor.length > 0 &&
-                selectedSizeSelectedColor[0].color}
+            <div className={styles["shade-top-block"]}>
+              <a
+                href={""}
+                onClick={e => this.expandShadeSelector(e)}
+                className={styles["shade-block-view-more"]}
+              >
+                {this.state.expandClass ? VIEW_LESS : VIEW_MORE}
+              </a>
+              <div className={styles["shade-heading"]}>
+                {selectedSizeSelectedColor &&
+                  selectedSizeSelectedColor.length > 0 &&
+                  selectedSizeSelectedColor[0].color}
+              </div>
             </div>
             <div
               className={
