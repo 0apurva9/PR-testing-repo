@@ -1,7 +1,7 @@
 import * as React from "react";
 import { RouteComponentProps } from "react-router";
 import * as styles from "./mobile-number-login.css";
-import { MobileNumberLoginSteps, MnlApiData, MnlApiResponse } from "mobile-number-login/mobile-number-login.types";
+import { MobileNumberLoginSteps, MnlApiData, MnlApiResponse, isMNLLogin } from "mobile-number-login/mobile-number-login.types";
 import { MnlChallenge } from "./components/mnl-challenge.component";
 import { MnlPassword } from "./components/mnl-password.component";
 import { MnlSucess1 } from "./components/mnl-succes1.component";
@@ -27,6 +27,10 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
 
     public routeToHome() {
         this.props.history.push("/");
+    }
+
+    componentDidMount() {
+        this.props.webMnlEmailHidden();
     }
 
     public render() {
@@ -56,6 +60,7 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
                                 setMnlApiData={(mnlApiData) => this.props.validateChallenge(mnlApiData)}
                                 validateOtp={(apidata) => this.props.validateOtp(apidata)}
                                 mnlApiData={this.props.mnlApiData}
+                                isWebMNLEmailHidden={this.props.isWebMNLEmailHidden}
                             />
 
                         )}
@@ -149,7 +154,7 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
                                 hideMobileNumberLoginModal={() => this.props.hideMobileNumberLoginModal()}
                                 changeLoginStep={(stepKey) => this.props.changeLoginStep(stepKey)}
                                 routeToHome={() => this.routeToHome()}
-                                />)}
+                            />)}
                         {this.props.steps.isChangeMobileNumberSuccess && (
                             <MnlChangeMobileSucess
                                 hideMobileNumberLoginModal={() => this.props.hideMobileNumberLoginModal()}
@@ -191,7 +196,9 @@ export interface MobileNumberLoginProps extends RouteComponentProps {
     setResendOtpTimmer: (resendOtpTimmer: number) => void;
     resendOtpTime: number;
     userMobileNumber: string;
-    displayToast : (msg : string) => void
+    webMnlEmailHidden: () => void;
+    isWebMNLEmailHidden: isMNLLogin;
+    displayToast: (msg: string) => void
 }
 
 

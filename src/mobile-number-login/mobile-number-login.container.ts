@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import { MobileNumberLogin } from "./mobile-number-login.component";
 import { withRouter } from "react-router";
 import { hideMobileNumberLoginModal } from "../general/modal.actions.js";
-import {displayToast} from "../general/toast.actions";
+import { displayToast } from "../general/toast.actions";
 import { RootState } from "common/models/root-state";
 import { MnlApiData } from "./mobile-number-login.types";
 import { showSecondaryLoader } from "../general/secondaryLoader.actions";
@@ -22,6 +22,7 @@ import {
     updateEmailOtp,
     setResendOtpTimmer,
     generateOtpChangeProfileNumber,
+    webMnlEmailHidden
 } from "./store/mobile-number-login.actions";
 
 const mapDispatchToProps = (disptach: Function) => {
@@ -91,7 +92,10 @@ const mapDispatchToProps = (disptach: Function) => {
         setResendOtpTimmer: (resendOtpTimmer: number) => {
             disptach(setResendOtpTimmer(resendOtpTimmer));
         },
-        displayToast : (msg : string) => {
+        webMnlEmailHidden: () => {
+            disptach(webMnlEmailHidden())
+        },
+        displayToast: (msg: string) => {
             disptach(displayToast(msg))
         }
     };
@@ -104,6 +108,7 @@ const mapStateToProps = (state: RootState) => {
         mnlApiResponse: state.mobileNumberLogin.mnlApiResponse,
         resendOtpTime: state.mobileNumberLogin.resendOtpTimmer,
         userMobileNumber: state.profile.userDetails && state.profile.userDetails.mobileNumber || "",
+        isWebMNLEmailHidden: state.mobileNumberLogin.isWebMNLEmailHidden
     };
 };
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MobileNumberLogin));

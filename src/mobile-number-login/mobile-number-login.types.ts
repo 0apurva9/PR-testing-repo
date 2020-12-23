@@ -4,6 +4,7 @@ export interface MobileNumberLoginReduxState {
     mnlApiResponse: MnlApiResponse | null;
     resendOtpTimmer: number;
     isMNLLogin : isMNLLogin;
+    isWebMNLEmailHidden : isMNLLogin;
 }
 
 export interface MobileNumberLoginSteps {

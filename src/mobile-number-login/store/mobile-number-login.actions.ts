@@ -16,6 +16,7 @@ export const SET_MNL_API_DATA = "SetMnlApiData";
 export const SET_MNL_API_Response = "SetMnlApiResponse";
 export const SET_RESEND_OTP_TIME = "SetResendOtpTimmer";
 export const WEB_MNL_LOGIN_SUCCESS = "WebMNLLoginSuccess";
+export const WEB_MNL_EMAIL_HIDDEN_SUCCESS = "WebMNLEmailHiddenSuccess"
 
 interface ChangeLoginStepAction {
     readonly type: typeof CHANGE_LOGIN_STEP;
@@ -41,6 +42,11 @@ interface SetMnlApiResponse {
 interface SetResendOtpTimmer {
     readonly type: typeof SET_RESEND_OTP_TIME;
     readonly payload: number;
+}
+
+interface SetWebMNLEmailHiddenSuccess{
+    readonly type: typeof WEB_MNL_EMAIL_HIDDEN_SUCCESS;
+    readonly payload: isMNLLogin;
 }
 
 export function setLoginCustomerData(mnlApiResponse: MnlApiResponse) {
@@ -79,6 +85,13 @@ export function setLoginCustomerData(mnlApiResponse: MnlApiResponse) {
 export function setWebMNLApiSuccess(result: isMNLLogin): MobileNumberLoginActions {
     return {
         type: WEB_MNL_LOGIN_SUCCESS,
+        payload: result,
+    };
+}
+
+export function setWebMNLEmailHiddenSuccess(result: isMNLLogin): MobileNumberLoginActions {
+    return {
+        type: WEB_MNL_EMAIL_HIDDEN_SUCCESS,
         payload: result,
     };
 }
@@ -619,4 +632,24 @@ export function validateOtpChangeProfileNumber() {
     }
 }
 
-export type MobileNumberLoginActions = ChangeLoginStepAction | SetMnlApiData | SetMnlApiResponse | SetResendOtpTimmer | setWebMNLApiSuccessAction;
+export function webMnlEmailHidden(){
+    return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
+        try {
+          const result = await api.customGetMiddlewareUrl(
+            `/otatacliq/getApplicationProperties.json?propertyNames=is_WEB_MNL_EMAIL_HIDDEN`
+          );
+          const resultJson = await result.json();
+          const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+    
+          if (resultJsonStatus.status) {
+            throw new Error(resultJsonStatus.message);
+          }
+          return dispatch(setWebMNLEmailHiddenSuccess(resultJson.applicationProperties[0]));
+        } catch (e) {
+          throw new Error(`${e.message}`);
+        }
+      };
+
+}
+
+export type MobileNumberLoginActions = ChangeLoginStepAction | SetMnlApiData | SetMnlApiResponse | SetResendOtpTimmer | setWebMNLApiSuccessAction | SetWebMNLEmailHiddenSuccess;

@@ -3,7 +3,7 @@ import * as styles from "../mobile-number-login.css";
 import {
     EMAIL_REGULAR_EXPRESSION,
 } from "../../lib/constants";
-import { MnlApiData } from "../mobile-number-login.types";
+import { MnlApiData, isMNLLogin } from "../mobile-number-login.types";
 
 export class MnlEmail extends React.Component<MnlChallengeProps, MnlChallengeState> {
     constructor(props: MnlChallengeProps) {
@@ -62,7 +62,7 @@ export class MnlEmail extends React.Component<MnlChallengeProps, MnlChallengeSta
                                 type="button"
                                 className={styles.btnLink}
                                 onClick={() => this.validateCall()}
-                                disabled
+                                disabled={this.props.isWebMNLEmailHidden.value}
                             >
                                 Do it later
                                 </button>
@@ -93,4 +93,5 @@ export interface MnlChallengeProps {
     setMnlApiData: (mnlApiData: MnlApiData) => void;
     validateOtp: (mnlApiData: MnlApiData) => void;
     mnlApiData: MnlApiData;
+    isWebMNLEmailHidden : isMNLLogin;
 }
