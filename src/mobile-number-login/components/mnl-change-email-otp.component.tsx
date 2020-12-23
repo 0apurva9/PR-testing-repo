@@ -1,13 +1,14 @@
 import React from "react";
 import * as styles from "../mobile-number-login.css";
 import { MnlApiData, MnlApiResponse } from "../mobile-number-login.types";
+import { OTP_RESEND_TIME } from "../../lib/constants";
 
 export class MnlEmailChangeOtp extends React.Component<MnlOtpProps, MnlOtpState> {
     public state: Readonly<MnlOtpState> = {
         otp: "      ",
         isInputValid: false,
         resendOtp: false,
-        resendOtpIn: 30,
+        resendOtpIn: OTP_RESEND_TIME,
     };
     private _otfDivRef = React.createRef<HTMLDivElement>();
 

@@ -100,7 +100,7 @@ const mapStateToProps = (state: RootState) => {
         mnlApiData: state.mobileNumberLogin.mnlApiData,
         mnlApiResponse: state.mobileNumberLogin.mnlApiResponse,
         resendOtpTime: state.mobileNumberLogin.resendOtpTimmer,
-        userMobileNumber: state.profile.userDetails.mobileNumber,
+        userMobileNumber: state.profile.userDetails && state.profile.userDetails.mobileNumber || "",
     };
 };
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MobileNumberLogin));
