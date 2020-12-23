@@ -121,13 +121,13 @@ export default class OrderSucessCard extends React.Component {
           <div className={styles.dataShow}>
             <div className={styles.productNameWithPrice}>
               <div className={styles.productName}>{this.props.productName}</div>
-              <div className={styles.productPrice}>{`₹ ${
-                this.props.price
-              }`}</div>
+              <div
+                className={styles.productPrice}
+              >{`₹ ${this.props.price}`}</div>
             </div>
-            <div className={styles.quantity}>{`Quantity: ${
-              this.props.quantity
-            }`}</div>
+            <div
+              className={styles.quantity}
+            >{`Quantity: ${this.props.quantity}`}</div>
           </div>
           <div className={styles.deliveryTimingShow}>
             <div className={styles.timingAndMode}>

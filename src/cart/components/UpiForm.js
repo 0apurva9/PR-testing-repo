@@ -205,8 +205,8 @@ export default class UpiForm extends React.Component {
           ? styles.invalidFrm
           : this.props.addUserUPIDetails &&
             this.props.addUserUPIDetails.upiStatus === "VALID"
-            ? styles.verifiedFrm
-            : styles.invalidFrm
+          ? styles.verifiedFrm
+          : styles.invalidFrm
         : "";
     let combinedLogoUrl = this.props.combinedLogoUrl
       ? this.props.combinedLogoUrl
