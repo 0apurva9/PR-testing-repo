@@ -9,7 +9,6 @@ import {
   submitOrderDetails,
   getUserDetails,
   clearOrderTransactionDetails,
-  // getCustomerQueriesDatav2,
   getCustomerQueriesFieldsv2,
   getNonOrderRelatedQuestions,
   getCliqCareWmsResponse,
@@ -22,8 +21,6 @@ import {
   getCliq2CallConfig,
   placeCustomerCallRequest,
   getRecentTicketHistoryDetails
-  // getGenesysCallConfigData
-  // setUrlToRedirectToAfterAuth
 } from "../actions/account.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 import {
@@ -45,10 +42,6 @@ const mapDispatchToProps = dispatch => {
     getOrderRelatedQuestions: async transactionId => {
       return dispatch(getOrderRelatedQuestions(transactionId));
     },
-    // getCustomerQueriesDatav2: () => {
-    //   dispatch(getCustomerQueriesDatav2());
-    // },
-    //Self-Serve Non-Order-Related Issue
     getNonOrderRelatedQuestions: () => {
       dispatch(getNonOrderRelatedQuestions());
     },
@@ -130,27 +123,10 @@ const mapDispatchToProps = dispatch => {
     clearOrderTransactionDetails: () => {
       dispatch(clearOrderTransactionDetails());
     }
-    // getGenesysCallConfigData: () => {
-    //   dispatch(getGenesysCallConfigData());
-    // }
-    // setHeaderText: text => {
-    //   dispatch(setHeaderText(text));
-    // },
-
-    // getCliqCareWmsResponse: () => {
-    //   dispatch(getCliqCareWmsResponse());
-    // }
   };
 };
 const mapStateToProps = state => {
   return {
-    // ordersRelatedLoading: state.profile.ordersRelatedLoading,
-    // customerQueriesData: state.profile.customerQueriesData,
-
-    // userDetails: state.profile.userDetails,
-    // customerQueriesField: state.profile.customerQueriesField,
-    // uploadUserFileStatus: state.profile.uploadUserFileStatus,
-    // uploadUserFileData: state.profile.uploadUserFile,
     userDetails: state.profile.userDetails,
     uploadUserFileLoading: state.profile.uploadUserFileLoading,
     loadingForUserDetails: state.profile.loadingForUserDetails,
@@ -174,7 +150,6 @@ const mapStateToProps = state => {
     FAQData: state.profile.FAQData,
 
     FAQRelatedDataLoading: state.profile.FAQRelatedDataLoading,
-    // QuestionsListData: state.profile.QuestionsListData,
     currentState: state.profile.currentState,
     logoutUserStatus: state.profile.logoutUserStatus,
     loadingForFetchOrderDetails: state.profile.loadingForFetchOrderDetails,

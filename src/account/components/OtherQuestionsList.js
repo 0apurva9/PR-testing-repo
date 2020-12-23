@@ -17,6 +17,11 @@ export default class OtherQuestionsList extends Component {
           <div className={styles.listBox}>
             {this.props.customerQueriesOtherIssueData &&
               this.props.customerQueriesOtherIssueData.parentIssueList &&
+              Array.isArray(
+                this.props.customerQueriesOtherIssueData.parentIssueList
+              ) &&
+              this.props.customerQueriesOtherIssueData.parentIssueList.length >
+                0 &&
               this.props.customerQueriesOtherIssueData.parentIssueList.map(
                 (parrentIssue, index) => {
                   bgImage = parrentIssue.parentIssueType.includes("EGV")
@@ -29,7 +34,6 @@ export default class OtherQuestionsList extends Component {
                       onClick={() =>
                         this.props.selectOtehrQuestion(parrentIssue)
                       }
-                      // style={{ backgroundImage: "url(" + bgImage + ")" }}
                       style={{
                         background: `url(${require(`./img/${bgImage}.svg`)})`,
                         backgroundSize: "cover",

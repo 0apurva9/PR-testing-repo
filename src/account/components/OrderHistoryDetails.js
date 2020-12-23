@@ -4,6 +4,7 @@ import ProductImage from "../../general/components/ProductImage";
 import Styles from "./OrderHistoryList.css";
 import Icon from "../../xelpmoc-core/Icon";
 import infoIcon from "./img/infoIcon.svg";
+import resolveIcon from "./img/resolve-icon.svg";
 import moment from "moment";
 const CREATION_DATE_FORMAT = "DD MMM, hh:mm";
 const STATUS_DATE_FORMAT = "DD MMM, YYYY";
@@ -67,10 +68,6 @@ export default class OrderHistoryDetails extends Component {
             <span className={Styles.fontBold}>
               {" "}
               {selectedTickerHistory.status}
-              {selectedTickerHistory.status === "Resolved" &&
-                moment(selectedTickerHistory.creationDate, "DD-MM-YYYY").format(
-                  `ddd ${STATUS_DATE_FORMAT}`
-                )}
             </span>
           </div>
           {selectedTickerHistory.resolutionDate &&
@@ -96,6 +93,16 @@ export default class OrderHistoryDetails extends Component {
                 ></span>
               </div>
             )}
+
+          {selectedTickerHistory.status === "Resolved" && (
+            <div className={Styles.resolvedBox}>
+              <Icon image={resolveIcon} width={26} height={15} />
+              <span className={Styles.resolvedStatusText}>
+                {selectedTickerHistory.statusMessage}
+              </span>
+            </div>
+          )}
+
           {selectedTickerHistory.escalationFlag === "true" && (
             <div className={Styles.escalationBody}>
               <div className={Styles.iconBody}>
@@ -145,7 +152,7 @@ export default class OrderHistoryDetails extends Component {
             </div>
           </div>
         )}
-        {selectedTickerHistory.agentComment && (
+        {selectedTickerHistory.agentResolution && (
           <div className={Styles.communication}>
             <div className={Styles.customerCetails}>
               <div className={Styles.customerCircle}></div>
@@ -161,7 +168,7 @@ export default class OrderHistoryDetails extends Component {
                   </span>
                 </div>
                 <div className={Styles.fontLight}>
-                  {selectedTickerHistory.agentComment}
+                  {selectedTickerHistory.agentResolution}
                 </div>
               </div>
             </div>
@@ -188,6 +195,6 @@ OrderHistoryDetails.propTypes = {
     transactionId: PropTypes.string,
     escalationFlag: PropTypes.string,
     statusMessage: PropTypes.string,
-    agentComment: PropTypes.string
+    agentResolution: PropTypes.string
   })
 };

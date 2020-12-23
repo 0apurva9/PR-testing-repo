@@ -108,7 +108,8 @@ export default class OrderHistoryList extends Component {
                         ></span>
                         Status :{" "}
                         <span className={Styles.fontBold}>
-                          {tickets.status}|{" "}
+                          {tickets.status}{" "}
+                          {tickets.status === "Resolved" ? "|" : null}{" "}
                           {tickets.status === "Resolved" &&
                             moment(tickets.creationDate, "DD-MM-YYYY").format(
                               `ddd ${STATUS_DATE_FORMAT}`
