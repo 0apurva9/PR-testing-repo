@@ -69,6 +69,7 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
                                 isForgotPassword={this.props.steps.isForgotPassword}
                                 changeProfilePassword={(apiData) => this.props.changeProfilePassword(apiData)}
                                 isForgotPasswordProfile={this.props.steps.isForgotPasswordProfile}
+                                displayToast={(msg) => this.props.displayToast(msg)}
                             />
                         )}
                         {this.props.steps.isStepLoginChallenge && (
@@ -190,6 +191,7 @@ export interface MobileNumberLoginProps extends RouteComponentProps {
     setResendOtpTimmer: (resendOtpTimmer: number) => void;
     resendOtpTime: number;
     userMobileNumber: string;
+    displayToast : (msg : string) => void
 }
 
 
