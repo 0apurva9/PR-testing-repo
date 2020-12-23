@@ -19,10 +19,7 @@ export default class ColorComponent extends React.Component {
 
   componentDidMount() {
     if (this.colorShadeRef.current) {
-      this.colorShadeRef.current.scrollIntoView({
-        block: "start",
-        behavior: "smooth"
-      });
+      this.colorShadeRef.current.scrollIntoView({ block: "nearest" });
     }
   }
 
@@ -44,8 +41,21 @@ export default class ColorComponent extends React.Component {
   }
 
   render() {
-    console.log("11111", this.props);
     let stockCount = 0;
+    const winningUssID =
+      this.props.productDetails && this.props.productDetails.winningUssID;
+    const pincodeListResponse =
+      this.props.productDetails &&
+      this.props.productDetails.pincodeListResponse &&
+      this.props.productDetails.pincodeListResponse.deliveryOptions &&
+      this.props.productDetails.pincodeListResponse.deliveryOptions
+        .pincodeListResponse
+        ? this.props.productDetails.pincodeListResponse.deliveryOptions
+            .pincodeListResponse
+        : [];
+    stockCount = pincodeListResponse
+      .filter(el => el.ussid === winningUssID)
+      .map(el => el.stockCount);
     const variantTheme = this.props.variantTheme;
     let selectedSizeColorOptions = [];
     let selectedSizeSelectedColor = {};
