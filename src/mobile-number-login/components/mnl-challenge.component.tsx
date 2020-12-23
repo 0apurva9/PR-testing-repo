@@ -2,7 +2,6 @@ import React from "react";
 import * as styles from "../mobile-number-login.css";
 import { EMAIL_REGULAR_EXPRESSION, MOBILE_PATTERN, PLAT_FORM_NUMBER, MOBILE_PATTERN_11_DIGIT } from "../../lib/constants";
 import { MnlApiData } from "../mobile-number-login.types";
-import { MnlSocialLogin } from "./mnl-social-login.component";
 
 export class MnlChallenge extends React.Component<MnlChallengeProps, MnlChallengeState> {
     constructor(props: MnlChallengeProps) {
@@ -112,7 +111,6 @@ export class MnlChallenge extends React.Component<MnlChallengeProps, MnlChalleng
                         Continue
                     </button>
                 </div>
-                <MnlSocialLogin />
             </div>
         );
     }

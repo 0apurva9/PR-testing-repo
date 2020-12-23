@@ -19,6 +19,7 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
 
     public onForgotPasswordClick() {
         const mnlApiData: MnlApiData = JSON.parse(JSON.stringify(this.props.mnlApiData));
+        mnlApiData.maskedPhoneNumber = ""
         this.props.generateOtp(mnlApiData);
         this.props.toggleForgotPassswordClick();
     }
@@ -44,7 +45,7 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
                 <div className={styles.whiteBox}>
                     <div className={styles.headSec}>
                         <h2>Welcome Back</h2>
-                        <p>Please enter your password tom proceed</p>
+                        <p>Please enter your password to proceed</p>
                     </div>
                     <div className={styles.formSec}>
                         <div className={styles.feildSec}>

@@ -47,6 +47,7 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
                                 isStepValidateOtp={this.props.steps.isStepValidateOtp}
                                 validateProfileOtp={(apidata) => this.props.validateProfileOtp(apidata)}
                                 updateProfileMobileNumber={(apidata) => this.props.updateProfileMobileNumber(apidata)}
+                                userMobileNumber={this.props.userMobileNumber}
                             />
                         }
                         {this.props.steps.isStepEmail && (
@@ -91,6 +92,9 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
                                 addMobileNumber={(apiData) => this.props.generateOtp(apiData)}
                                 isChangeProfileMobile={this.props.steps.isChangeProfileMobile}
                                 generateOtpChangeProfileNumber={(apiData) => this.props.generateOtpChangeProfileNumber(apiData)}
+                                isForgotPasswordClicked={this.state.isForgotPasswordClicked}
+                                generateOtp={(apiData) => this.props.generateOtp(apiData)}
+                                toggleForgotPassswordClick={() => this.toggleForgotPassswordClick()}
                             />
                         )}
                         {isStepOtp && (
@@ -175,6 +179,7 @@ export interface MobileNumberLoginProps extends RouteComponentProps {
     updateEmailOtp: () => void;
     setResendOtpTimmer: (resendOtpTimmer: number) => void;
     resendOtpTime: number;
+    userMobileNumber: string;
 }
 
 

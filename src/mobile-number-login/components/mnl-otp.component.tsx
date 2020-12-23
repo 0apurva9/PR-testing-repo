@@ -1,13 +1,14 @@
 import React from "react";
 import * as styles from "../mobile-number-login.css";
 import { MnlApiData, MnlApiResponse } from "../mobile-number-login.types";
+import { OTP_RESEND_TIME } from "../../lib/constants";
 
 export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
   public state: Readonly<MnlOtpState> = {
     otp: "      ",
     isInputValid: false,
     resendOtp: false,
-    resendOtpIn: this.props.resendOtpTime == 0 ? 60 : this.props.resendOtpTime > 0 ? this.props.resendOtpTime : 0,
+    resendOtpIn: this.props.resendOtpTime == 0 ? OTP_RESEND_TIME : this.props.resendOtpTime > 0 ? this.props.resendOtpTime : 0,
   };
   private _otfDivRef = React.createRef<HTMLDivElement>();
 
@@ -96,7 +97,7 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
     resendOtpTimmer ? this.props.setResendOtpTimmer(resendOtpTimmer) : this.props.setResendOtpTimmer(-1);
   }
 
-  private onContinueBtnClick() {
+  private async onContinueBtnClick() {
     const mnlApidata: MnlApiData = Object.assign({}, this.props.mnlApidata, {
       otp: this.state.otp,
     });
@@ -107,12 +108,17 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
     }
 
     if (this.props.isForgotPasswordClicked) {
-      this.props.validateChallenge(mnlApidata);
-      this.props.changeLoginStep("isForgotPassword");
-    } else if (this.props.mnlApiResponse.userData.customer.newUser && !this.props.mnlApiResponse.userData.customer.passwordSet) {
-      this.props.validateChallenge(mnlApidata);
-      this.props.changeLoginStep("isStepEmail");
+      await this.props.validateChallenge(mnlApidata);
+      await this.props.changeLoginStep("isForgotPassword");
+    } else if (this.props.mnlApiResponse.userData.customer.newUser && this.props.mnlApiResponse.userData.validation && this.props.mnlApiResponse.userData.validation.changedmailId) {
+      //login with new email id and registered mobile number
+      this.props.validateOtp(mnlApidata);
+    } else if (this.props.mnlApiResponse.userData.customer.newUser && !this.props.mnlApiResponse.userData.customer.passwordSet && !this.props.mnlApidata.email) {
+      //login with new mobile number
+      await this.props.validateChallenge(mnlApidata);
+      await this.props.changeLoginStep("isStepEmail");
     } else {
+      //login with new email id and new mobile number
       this.props.validateOtp(mnlApidata);
     }
   }
@@ -125,7 +131,7 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
           <p>
             Please enter the 6 digit OTP that we just sent on +91{" "}
             {
-              this.props.mnlApiResponse && this.props.mnlApiResponse.userData && this.props.mnlApiResponse.userData.customer.loginVia == "mobile" ? this.props.mnlApidata.phoneNumber : this.props.mnlApiResponse.userData.customer.maskedPhoneNumber
+              this.props.mnlApiResponse && this.props.mnlApiResponse.userData && this.props.mnlApiResponse.userData.customer.loginVia == "mobile" ? this.props.mnlApidata.phoneNumber : this.props.mnlApiResponse.userData.customer.maskedPhoneNumber || this.props.mnlApidata.phoneNumber
             }
           </p>
           {this.props.mnlApiResponse.userData.customer.passwordSet &&
