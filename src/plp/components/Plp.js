@@ -800,23 +800,26 @@ export default class Plp extends React.Component {
                           <Icon image={listImage} size={20} />
                         )}
                       </div>
-                      {!electronicView && this.state.showToggleButton && (
-                        <div className={styles.switchView}>
-                          <div
-                            className={styles.icon}
-                            onClick={() => this.toggleSwatchProductView()}
-                          >
-                            {this.state.gridBreakup && (
-                              <Icon image={gridImage} size={20} />
-                            )}
-                            {!this.state.gridBreakup && (
-                              <Icon image={listImage} size={20} />
-                            )}
-                          </div>
-                        </div>
-                      )}
                     </DesktopOnly>
                   </div>
+                )}
+                {!electronicView && this.state.showToggleButton && (
+                  <React.Fragment>
+                    <div className={styles["switch-view"]}>
+                      <p className={styles["switch-title"]}>Swatch Mode</p>
+                      <div className={styles["switch-item"]}>
+                        <input
+                          className={styles["switch-light"]}
+                          id="cb1"
+                          type="checkbox"
+                        />
+                        <label
+                          className={styles["switch-btn"]}
+                          for="cb1"
+                        ></label>
+                      </div>
+                    </div>
+                  </React.Fragment>
                 )}
               </div>
             </MediaQuery>
