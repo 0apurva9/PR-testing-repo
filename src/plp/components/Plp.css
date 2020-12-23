@@ -232,7 +232,7 @@
   width: 20px;
   height: 20px;
   border: 2px solid rgb(151,151,151);
-  box-shadow: 0 0 3px rgb(0, 0, 0, 0.5);
+  box-shadow: 0 0 3px rgb(0, 0, 0, 0.6);
   top: -5px;
 }
 .switch-light + .switch-btn:after {
@@ -244,7 +244,7 @@
 .switch-light:checked + .switch-btn:after {
   left: 40%;
   border: 2px solid rgb(51,135,21);
-  box-shadow: 0 0 3px rgb(51,135,21, 0.5);
+  box-shadow: 0 0 3px rgb(51,135,21, 0.6);
 }
 .switch-light + .switch-btn {
   background: rgb(213,213,213);
