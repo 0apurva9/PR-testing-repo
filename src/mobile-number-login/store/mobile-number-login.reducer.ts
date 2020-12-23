@@ -4,7 +4,8 @@ import {
     SET_MNL_API_DATA,
     SET_MNL_API_Response,
     SET_RESEND_OTP_TIME,
-    WEB_MNL_LOGIN_SUCCESS
+    WEB_MNL_LOGIN_SUCCESS,
+    WEB_MNL_EMAIL_HIDDEN_SUCCESS
 } from "./mobile-number-login.actions";
 import { PLAT_FORM_NUMBER } from "../../lib/constants";
 import { MobileNumberLoginReduxState } from "../mobile-number-login.types";
@@ -20,16 +21,16 @@ const initailState: MobileNumberLoginReduxState = {
         isStepLoginSuccess3: false,
         isStepValidateOtp: false,
         isForgotPassword: false,
-        isStepEmail : false,
-        isChangeNumberOtp : false,
+        isStepEmail: false,
+        isChangeNumberOtp: false,
         isStepChangeEmailOtp: false,
         isStepChangeEmail: false,
         isStepChangeEmailSucess: false,
-        isStepValidateProfileOtp:false,
-        isForgotPasswordProfile : false,
-        isChangeProfilePasswordSuccess : false,
-        isChangeProfileMobile : false,
-        isChangeMobileNumberSuccess : false
+        isStepValidateProfileOtp: false,
+        isForgotPasswordProfile: false,
+        isChangeProfilePasswordSuccess: false,
+        isChangeProfileMobile: false,
+        isChangeMobileNumberSuccess: false
     },
     mnlApiData: {
         email: "",
@@ -38,14 +39,18 @@ const initailState: MobileNumberLoginReduxState = {
         pass: "",
         phoneNumber: "",
         platformNumber: PLAT_FORM_NUMBER,
-        newOtp : "",
-        currentOtp : ""
+        newOtp: "",
+        currentOtp: ""
     },
     mnlApiResponse: null,
     resendOtpTimmer: 0,
-    isMNLLogin : {
-        name : "",
-        value : false
+    isMNLLogin: {
+        name: "",
+        value: false
+    },
+    isWebMNLEmailHidden: {
+        name: "",
+        value: false
     }
 };
 
@@ -80,7 +85,11 @@ export function mobileNumberLoginReducer(
             }
         case WEB_MNL_LOGIN_SUCCESS:
             return Object.assign({}, state, {
-                    isMNLLogin: action.payload,
+                isMNLLogin: action.payload,
+            });
+        case WEB_MNL_EMAIL_HIDDEN_SUCCESS:
+            return Object.assign({}, state, {
+                isWebMNLEmailHidden: action.payload,
             });
         default:
             return state;

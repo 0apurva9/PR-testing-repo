@@ -21,6 +21,7 @@ import {
     updateEmailOtp,
     setResendOtpTimmer,
     generateOtpChangeProfileNumber,
+    webMnlEmailHidden
 } from "./store/mobile-number-login.actions";
 
 const mapDispatchToProps = (disptach: Function) => {
@@ -89,6 +90,9 @@ const mapDispatchToProps = (disptach: Function) => {
         },
         setResendOtpTimmer: (resendOtpTimmer: number) => {
             disptach(setResendOtpTimmer(resendOtpTimmer));
+        },
+        webMnlEmailHidden: () => {
+            disptach(webMnlEmailHidden())
         }
 
     };
@@ -101,6 +105,7 @@ const mapStateToProps = (state: RootState) => {
         mnlApiResponse: state.mobileNumberLogin.mnlApiResponse,
         resendOtpTime: state.mobileNumberLogin.resendOtpTimmer,
         userMobileNumber: state.profile.userDetails && state.profile.userDetails.mobileNumber || "",
+        isWebMNLEmailHidden : state.mobileNumberLogin.isWebMNLEmailHidden
     };
 };
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MobileNumberLogin));
