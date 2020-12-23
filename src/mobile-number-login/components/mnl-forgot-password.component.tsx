@@ -1,6 +1,7 @@
 import React from "react";
 import * as styles from "../mobile-number-login.css";
 import { MnlApiData } from "../mobile-number-login.types";
+const MNL_PASSWORD_POLICY_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
 
 export class MnlForgotPassword extends React.Component<MnlPasswordProps, MnlPasswordState> {
     public state: Readonly<MnlPasswordState> = {
@@ -25,13 +26,15 @@ export class MnlForgotPassword extends React.Component<MnlPasswordProps, MnlPass
     public onContinuButtonClick() {
         const mnlApiData: MnlApiData = Object.assign({},this.props.mnlApiData );
         mnlApiData.pass = this.state.password;
+        if(!MNL_PASSWORD_POLICY_REGEX.test(this.state.password)){
+            this.props.displayToast("Please enter a valid password");
+            return false;
+        }
         if(this.props.isForgotPasswordProfile){
             this.props.changeProfilePassword(mnlApiData)
         }else {
             this.props.forgotPassword(mnlApiData);
         }
-
-        
     }
 
     public render() {
@@ -87,6 +90,7 @@ export interface MnlPasswordProps {
     isForgotPassword : boolean;
     changeProfilePassword : (apiData: MnlApiData) => void;
     isForgotPasswordProfile : boolean;
+    displayToast : (msg : string) => void
 }
 
 export interface MnlPasswordState {

@@ -246,11 +246,15 @@ export function generateOTP() {
             registerviamobile: false,
         }
         if (mnlApiResponseState && mnlApiResponseState.userData && mnlApiResponseState.userData.customer && mnlApiResponseState.userData.validation && mnlApiResponseState.userData.validation.validated) {
+            //case for forgot password
             otpHeader = {
                 Authorization: `Bearer ${globalAccessToken.access_token}`,
                 "register-user": true,
                 registerviamobile: false,
             }
+        } else if (mnlApiResponseState && mnlApiResponseState.userData.customer && mnlApiResponseState.userData.customer.maskedPhoneNumber.length) {
+            // case for use otp
+            apiData.maskedPhoneNumber = mnlApiResponseState.userData.customer.maskedPhoneNumber;
         }
 
         const result: Response = await api.post("mobileloginapi/v1/authnuser/otp", apiData, true, otpHeader);
@@ -268,7 +272,7 @@ export function generateOTP() {
         if (mnlApiResponse.userData && mnlApiResponse.userData.validation && mnlApiResponse.userData.validation.otpSent) {
             dispatch(changeLoginStep("isStepValidateOtp"));
         }
-        if(mnlApiResponse.userData && mnlApiResponse.userData.customer && mnlApiResponse.userData.validation && mnlApiResponse.userData.validation.validated && mnlApiResponse.userData.customer.passwordSet){
+        if (mnlApiResponse.userData && mnlApiResponse.userData.customer && mnlApiResponse.userData.validation && mnlApiResponse.userData.validation.validated && mnlApiResponse.userData.customer.passwordSet) {
             dispatch(changeLoginStep("isForgotPassword"));
         }
         dispatch(hideSecondaryLoader());
@@ -471,9 +475,9 @@ export function updatePassword() {
         }
         dispatch(setMnlApiResponse(mnlApiResponse));
         dispatch(hideSecondaryLoader());
-        if(mnlApiResponseState.userData && mnlApiResponseState.userData.customer.maskedPhoneNumber){
-         await dispatch(validateOtp());
-         dispatch(changeLoginStep("isStepLoginSuccess1"));
+        if (mnlApiResponseState.userData && mnlApiResponseState.userData.customer.maskedPhoneNumber) {
+            await dispatch(validateOtp());
+            dispatch(changeLoginStep("isStepLoginSuccess1"));
         }
         else {
             dispatch(changeLoginStep("isStepAddMobileNumber"));
@@ -566,7 +570,7 @@ export function updatePasswordProfile() {
             dispatch(changeLoginStep("isChangeProfilePasswordSuccess"))
         }
         dispatch(hideSecondaryLoader());
-        
+
     }
 
 }
