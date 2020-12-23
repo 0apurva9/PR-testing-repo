@@ -233,3 +233,78 @@ border-bottom:1px solid #e5e5e5;
 .radioTicketType label input[type="radio"]:checked + span:after {
     transform: scale(1);
 }
+
+.recentOrder{
+  margin-bottom: 20px;
+  background: #fff;
+  padding: 0px 24px 43px 24px;
+  border-radius: 6px;
+}
+
+.recentTicketBox{
+  border-bottom: 1px solid #eee;
+  padding: 24px 0px 16px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.recentTxt{
+  font-size: 16px;
+    font-family: semibold;
+    color: #212121;
+}
+.viewAll{
+  font-size: 12px;
+    font-family: semibold;
+    color: #da1c5c;
+    cursor: pointer;
+}
+.recentTicektImage{
+  width: 40px;
+  height: 54px;
+}
+.recentTicektImage img{
+  width: 40px;
+  height: 54px;
+}
+.recentTicketDetails{
+  display: flex;
+    /* align-items: center; */
+    /* justify-content: space-between; */
+    margin: 11px 0px;
+}
+.recentTicketTxt{
+  font-size: 12px;
+  color: #8d8d8d;
+  font-family: light;
+  padding-left: 10px;
+  width: 179px;
+}
+.recentTicketDetailsBox{
+  cursor: pointer;
+}
+.recentTiketStatusBox{
+  display: flex;
+}
+.inProcess{
+  width: 8px;
+  height: 8px;
+  border: 1px solid #499b1f;
+  border-radius: 50px;
+  margin-right: 10px;
+}
+
+.recentStatus{
+  font-size: 12px;
+    font-family: light;
+    color: #212121;
+}
+.tickets{
+    font-size: 16px;
+    font-family: semibold;
+    margin-top: 17px;
+    /* cursor: pointer; */
+}
+.homePage{
+  cursor: pointer;
+}

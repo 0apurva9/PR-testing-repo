@@ -340,7 +340,13 @@ const account = (
     submitCaptureAttachmentsStatus: null,
     submitCaptureAttachmentsLoading: false,
     submitCaptureAttachmentsData: null,
-    submitCaptureAttachmentsError: null
+    submitCaptureAttachmentsError: null,
+
+    ticketDetailsStatus: null,
+    ticketHistoryDetails: null,
+    initialTicketDetailsData: null,
+    ticketDetailsDataLoading: false,
+    ticketDetailsError: null
   },
   action
 ) => {
@@ -1595,7 +1601,7 @@ const account = (
         ordersTransactionDataError: action.error,
         ordersTransactionLoading: false
       });
-    case accountActions.Clear_ORDER_TRANSACTION_DATA: {
+    case accountActions.CLEAR_ORDER_TRANSACTION_DATA: {
       return Object.assign({}, state, {
         type: null,
         status: null,
@@ -2206,6 +2212,53 @@ const account = (
         submitCaptureAttachmentsLoading: false,
         submitCaptureAttachmentsError: action.error
       };
+    case accountActions.TICKET_RECENT_HISTORY_DETAILS_REQUEST:
+      return {
+        ...state,
+        ticketDetailsStatus: action.status,
+        ticketDetailsDataLoading: true
+      };
+    case accountActions.TICKET_RECENT_HISTORY_DETAILS_SUCCESS:
+      let ticketHistoryDetailsObj = { ...state.ticketHistoryDetails };
+      if (
+        action.isPaginated &&
+        ticketHistoryDetailsObj &&
+        ticketHistoryDetailsObj.tickets
+      ) {
+        ticketHistoryDetailsObj.tickets = ticketHistoryDetailsObj.tickets.concat(
+          action.ticketDetails.tickets
+        );
+        ticketHistoryDetailsObj.currentPage =
+          ticketHistoryDetailsObj.currentPage + 1;
+      } else {
+        ticketHistoryDetailsObj.tickets = action.ticketDetails.tickets;
+        Object.assign(ticketHistoryDetailsObj, {
+          currentPage: 0,
+          ticketCount: parseInt(action.ticketDetails.ticketCount, 10)
+        });
+      }
+      return {
+        ...state,
+        ticketDetailsStatus: action.status,
+        ticketHistoryDetails: ticketHistoryDetailsObj,
+        initialTicketDetailsData: !state.ticketHistoryDetails
+          ? ticketHistoryDetailsObj
+          : state.initialTicketDetailsData,
+        ticketDetailsDataLoading: false
+      };
+    case accountActions.TICKET_RECENT_HISTORY_DETAILS_FAILURE:
+      return {
+        ...state,
+        ticketDetailsStatus: action.status,
+        ticketDetailsError: action.error,
+        ticketDetailsDataLoading: false
+      };
+    case accountActions.RESET_TICKETS_HISTORY_DATA_TO_INITIAL:
+      return {
+        ...state,
+        ticketHistoryDetails: { ...state.initialTicketDetailsData }
+      };
+
     default:
       return state;
   }

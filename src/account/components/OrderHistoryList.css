@@ -1,0 +1,340 @@
+
+.base {
+    width: 75%;
+    display: -ms-flexbox;
+    padding-left: 9px;
+}
+
+.whiteCard {
+    background: #fff;
+    padding: 20px;
+    width: 100%;
+    border-radius: 6px;
+}
+
+.headerBox {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #d8d8d8;
+    padding-bottom: 10px;
+    position: relative;
+}
+
+.header {
+    font-size: 16px;
+    font-family: semibold;
+    color: #212121;
+}
+
+.noRecentOrder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 35px 0px;
+    flex-direction: column;
+}
+
+.heading {
+    font-size: 16px;
+    color: #4a4a44;
+    font-family: semibold;
+}
+
+.txt {
+    font-size: 16px;
+    color: #4a4a44;
+    padding: 15px 0px;
+}
+
+.date {
+    color: #da1c5c;
+    font-family: semibold;
+    font-size: 16px;
+}
+
+.filter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 141px;
+    padding: 8px 9px;
+    border: 1px solid #d8d8d8;
+    border-radius: 4px;
+    font-size: 12px;
+    color: #4a4a4a;
+    font-family: regular;
+    cursor: pointer;
+}
+
+.filterCard {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    background: #fff;
+    box-shadow: 0 0 6px 1px rgba(0, 0, 0, 0.2);
+    width: 141px;
+    border-radius: 4px;
+    padding: 18px;
+}
+
+.filterType {
+    font-size: 14px;
+    font-family: regular;
+    color: #4a4a4a;
+    cursor: pointer;
+    margin-bottom: 16px;
+}
+
+.orderDetailsCardBox {
+    display: flex;
+    padding: 20px 0px;
+    cursor: pointer;
+}
+
+.orderDetailsCardBox:not(:last-child) {
+    border-bottom: 1px solid #d8d8d8;
+}
+
+.orderImg {
+    height: 100px;
+    border-radius: 4px;
+    width: 78px;
+}
+
+.nonOrderIcon {
+    width: 100px;
+    height: 100px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f1f1;
+}
+
+.orderDetails {
+    margin-left: 3%;
+    line-height: 1.7;
+}
+
+.productName {
+    font-size: 14px;
+    color: #4a4a4a;
+    font-family: regular;
+}
+
+.fontLight {
+    font-size: 14px;
+    color: #4a4a4a;
+    font-family: light;
+}
+
+.orderStatusIconDelay {
+    width: 12px;
+    height: 12px;
+    border: 1px solid #499b1f;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 6px;
+}
+
+.orderStatusIconProgress {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 6px;
+    background: #f34c14;
+}
+
+.orderStatusIconResolve {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 6px;
+    background: #338715;
+}
+
+.fontBold {
+    font-size: 14px;
+    color: #4a4a4a;
+    font-family: semibold;
+}
+
+.orderInfo {
+    padding: 20px 0px;
+    line-height: 1.7;
+}
+
+.orderInfoDetails {
+    display: flex;
+    padding: 20px 0px;
+    /* cursor: pointer; */
+}
+
+.statusDisplay {
+    border: 1px dashed #d8d8d8;
+    padding: 19px;
+}
+
+.note {
+    font-size: 12px;
+    color: #8d8d8d;
+    font-family: regular;
+    border-top: 1px dashed #d8d8d8;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+
+.communication {
+    margin-top: 23px;
+}
+
+.customerCircle {
+    width: 32px;
+    height: 32px;
+    background: #d8d8d8;
+    border-radius: 50px;
+    margin-right: 20px;
+}
+
+.customerCetails {
+    display: flex;
+    margin-top: 12px;
+}
+
+.previousPageBtn {
+    font-size: 14px;
+    font-family: semibold;
+    color: #da1c5c;
+    cursor: pointer;
+}
+
+.colorGreen {
+    color: #338715;
+    font-family: semibold;
+}
+
+.colorMaroon {
+    color: #f34c14;
+    font-family: semibold;
+}
+
+.resolved {
+    width: 12px;
+    height: 12px;
+    background: #338715;
+    border-radius: 50px;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.delayed {
+    width: 12px;
+    height: 12px;
+    background: #eabb05;
+    border-radius: 50px;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.inProcess {
+    width: 12px;
+    height: 12px;
+    border: 1px solid #499b1f;
+    border-radius: 50px;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.delayedStatus {
+    background: #fff9e4;
+    display: flex;
+    align-items: center;
+    padding: 2px 15px;
+    border-radius: 5px;
+}
+
+.delayedStatusText {
+    font-size: 14px;
+    font-family: semibold;
+    color: #d83e09;
+}
+
+.statusText {
+    font-size: 14px;
+    font-family: semibold;
+    color: #338715;
+}
+
+.esclaIcon {
+    margin-right: 6px;
+}
+
+.nonRelatedIcon {
+    width: 100%;
+    height: 100%;
+    background: #fafafa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+.showMoreButtonBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.showMore {
+    cursor: pointer;
+    color: rgb(33, 33, 33);
+    font-family: regular;
+    font-size: 14px;
+    transition: 300ms;
+    padding: 0 15px;
+    user-select: none;
+    border-radius: 18px;
+    background: none transparent;
+    border: 2px solid rgb(33, 33, 33);
+    padding: 6px 35px;
+}
+
+.escalationBody {
+    display: flex;
+    padding: 12px 26px 10px 13px;
+    border-radius: 4px;
+    background-color: #fff9e4;
+}
+
+.iconBody {
+    margin-top: 4px;
+    margin-right: 9px;
+}
+
+.txtBody {
+    font-size: 12px;
+    color: #8d8d8d;
+    line-height: 18px;
+    font-family: light;
+}
+
+.lightTxt {
+    color: #9c6c00;
+}
+.resolvedBox{
+    border: 1px dashed #ccc;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    padding: 5px 16px 3px 3px;
+    margin-top: 10px;
+    border-radius: 4px;
+}
+.resolvedStatusText{
+    font-size: 12px;
+    color: #4a4a4a;
+    font-family: regular;
+}

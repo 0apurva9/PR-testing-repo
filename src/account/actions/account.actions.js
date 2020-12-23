@@ -395,8 +395,18 @@ export const GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_FAILURE =
 
 export const RESET_USER_ADDRESS = "RESET_USER_ADDRESS";
 
+export const TICKET_RECENT_HISTORY_DETAILS_REQUEST =
+  "TICKET_RECENT_HISTORY_DETAILS_REQUEST";
+export const TICKET_RECENT_HISTORY_DETAILS_SUCCESS =
+  "TICKET_RECENT_HISTORY_DETAILS_SUCCESS";
+export const TICKET_RECENT_HISTORY_DETAILS_FAILURE =
+  "TICKET_RECENT_HISTORY_DETAILS_FAILURE";
+
+export const RESET_TICKETS_HISTORY_DATA_TO_INITIAL =
+  "RESET_TICKETS_HISTORY_DATA_TO_INITIAL";
+
 export const Clear_ORDER_DATA = "Clear_ORDER_DATA";
-export const Clear_ORDER_TRANSACTION_DATA = "Clear_ORDER_TRANSACTION_DATA";
+export const CLEAR_ORDER_TRANSACTION_DATA = "CLEAR_ORDER_TRANSACTION_DATA";
 export const RE_SET_ADD_ADDRESS_DETAILS = "RE_SET_ADD_ADDRESS_DETAILS";
 export const CLEAR_CHANGE_PASSWORD_DETAILS = "CLEAR_CHANGE_PASSWORD_DETAILS";
 export const CLEAR_PIN_CODE_STATUS = "CLEAR_PIN_CODE_STATUS";
@@ -4726,7 +4736,7 @@ export function getOrdersTransactionData(paginated) {
 
 export function clearOrderTransactionDetails() {
   return {
-    type: Clear_ORDER_TRANSACTION_DATA
+    type: CLEAR_ORDER_TRANSACTION_DATA
   };
 }
 export function uploadUserFileRequest() {
@@ -5770,6 +5780,13 @@ export function captureAttachmentsSubmitRequest() {
   };
 }
 
+export function getRecentTicketHistoryDetailsRequest() {
+  return {
+    type: TICKET_RECENT_HISTORY_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+
 export function captureAttachmentsSubmitSuccess(attachmentResponseData) {
   return {
     type: SUBMIT_CAPTURE_ATTACHMENTS_SUCCESS,
@@ -5781,7 +5798,26 @@ export function captureAttachmentsSubmitSuccess(attachmentResponseData) {
 export function captureAttachmentsSubmitFailure(error) {
   return {
     type: SUBMIT_CAPTURE_ATTACHMENTS_FAILURE,
-    status: FAILURE,
+    status: FAILURE
+  };
+}
+
+export function getRecentTicketHistoryDetailsSuccess(
+  ticketDetails,
+  isPaginated = false
+) {
+  return {
+    type: TICKET_RECENT_HISTORY_DETAILS_SUCCESS,
+    status: SUCCESS,
+    ticketDetails,
+    isPaginated
+  };
+}
+
+export function getRecentTicketHistoryDetailsRequestFailure(error) {
+  return {
+    type: TICKET_RECENT_HISTORY_DETAILS_FAILURE,
+    status: ERROR,
     error
   };
 }
@@ -5810,5 +5846,53 @@ export function captureAttachmentsSubmit(custoemrId, sendData) {
     } catch (e) {
       dispatch(captureAttachmentsSubmitFailure(e.message));
     }
+  };
+}
+
+export function getRecentTicketHistoryDetails(
+  paginated = false,
+  ticketStatus = "",
+  ticketYear = ""
+) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getRecentTicketHistoryDetailsRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    try {
+      let currentPage = 0;
+      const ticketDetailsState = { ...getState().profile.ticketHistoryDetails };
+      if (Object.keys(ticketDetailsState).length && paginated && ticketStatus) {
+        currentPage = ticketDetailsState.currentPage + 1;
+      }
+      const result = await api.get(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getTicketHistory?currentPage=${currentPage}&access_token=${
+          JSON.parse(customerCookie).access_token
+        }&pageSize=${5}&ticketYear=${ticketYear}&ticketStatus=${
+          ticketStatus === "all" ? "" : ticketStatus
+        }`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      if (resultJson && !resultJson.tickets) {
+        dispatch(displayToast(resultJson.status));
+      }
+
+      dispatch(getRecentTicketHistoryDetailsSuccess(resultJson, paginated));
+    } catch (e) {
+      dispatch(
+        getRecentTicketHistoryDetailsRequestFailure(e.message, paginated)
+      );
+    }
+  };
+}
+
+export function resetTicketsDataToInitial() {
+  return {
+    type: RESET_TICKETS_HISTORY_DATA_TO_INITIAL
   };
 }
