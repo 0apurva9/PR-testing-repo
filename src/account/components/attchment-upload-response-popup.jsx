@@ -29,10 +29,10 @@ class AttachmentUploadResponse extends Component {
                     </div>
                     <div className={Styles.ticketTypeContentBody}>
                         <div className={Styles.ticketTypeHeading}>
-                            {isTicketDuplicate?"Files Already Received":"Files Uploaded"}
+                            {isTicketDuplicate ? "Files Already Received" : "Files Uploaded"}
                         </div>
                         {isTicketDuplicate ?
-                            <div className={Styles.iconBox}>
+                            <div className={Styles.duplicateIcon}>
                                 <Icon image={raiseTicketDuplicate} width={232} height={160} />
                             </div>
                             :
@@ -41,9 +41,10 @@ class AttachmentUploadResponse extends Component {
                             </div>
                         }
 
-                        <div className={Styles.messageBox}>
+                        <div className={isTicketDuplicate ? Styles.messageBox : null}>
                             {message}
                         </div>
+
                         <div className={Styles.btnBody}>
                             <Button
                                 type="primary"
