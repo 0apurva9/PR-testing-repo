@@ -25,6 +25,7 @@ export interface MobileNumberLoginSteps {
     isForgotPasswordProfile : boolean;
     isChangeProfilePasswordSuccess : boolean;
     isChangeProfileMobile : false;
+    isChangeMobileNumberSuccess : false;
 }
 export interface MnlApiData {
     email: string;
@@ -33,7 +34,8 @@ export interface MnlApiData {
     otp: string;
     pass: string;
     platformNumber: string;
-    otp2 : string;
+    currentOtp : string;
+    newOtp : string;
 }
 
 export interface isMNLLogin {

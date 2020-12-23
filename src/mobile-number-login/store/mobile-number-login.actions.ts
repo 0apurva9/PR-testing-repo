@@ -181,8 +181,6 @@ export function loginWithPassword() {
                 platformnumber: PLAT_FORM_NUMBER,
             });
             const mnlApiResponse: MnlApiResponse = await result.json();
-            Cookie.createCookie("MNL_ACCESS_TOKEN", JSON.stringify(mnlApiResponse.userData.authentication));
-            // console.log(Cookie.getCookie("MNL_ACCESS_TOKEN").authentication.access_token, "mnlApiResponse")
             const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
             if (errorStatus.status) {
                 dispatch(hideSecondaryLoader());
@@ -207,7 +205,7 @@ export function loginWithPassword() {
             const mnlApiResponse: MnlApiResponse = await result.json();
             const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
             if (errorStatus.status) {
-                dispatch(hideSecondaryLoader()); dispatch(setLoginCustomerData(mnlApiResponse));
+                dispatch(hideSecondaryLoader());
                 if (errorStatus.message) {
                     await dispatch(displayToast(errorStatus.message));
                 }
@@ -294,9 +292,6 @@ export function validateOtp() {
         }
         if (mnlApiResponseState && mnlApiResponseState.userData && mnlApiResponseState.userData.validation && mnlApiResponseState.userData.validation.changedmailId) {
             apiData.email = mnlApiResponseState.userData.validation.changedmailId;
-        }
-        if (mnlApiResponseState && !mnlApiResponseState.userData.customer.numberAdded) {
-            apiData.pass = "";
         }
         const result: Response = await api.post("mobileloginapi/v1/authnuser/authenticate", apiData, true, header);
         const mnlApiResponse: MnlApiResponse = await result.json();
@@ -433,12 +428,7 @@ export function addnewEmail() {
 
         dispatch(setMnlApiResponse(mnlApiResponse));
 
-        dispatch(changeLoginStep("isStepChangeEmailSucess"));
         if (mnlApiResponse.status === "Success") {
-
-            userDetails.email = apiData.email;
-
-            Cookie.createCookie(LOGGED_IN_USER_DETAILS, JSON.stringify(userDetails));
 
             dispatch(changeLoginStep("isStepChangeEmailSucess"));
 
@@ -559,7 +549,11 @@ export function updatePasswordProfile() {
             }
             return;
         }
-        dispatch(changeLoginStep("isChangeProfilePasswordSuccess"))
+        if (mnlApiResponse.status === "Success") {
+            dispatch(changeLoginStep("isChangeProfilePasswordSuccess"))
+        }
+        dispatch(hideSecondaryLoader());
+        
     }
 
 }
@@ -597,8 +591,8 @@ export function validateOtpChangeProfileNumber() {
     return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
         const apiData = getState().profile.userDetails;
         const mnlApiData = getState().mobileNumberLogin.mnlApiData;
-        const { otp, otp2 } = mnlApiData;
-        const result: Response = await api.post(`marketplacewebservices/v2/mpl/users/${loginId}/updateprofile_V1?emailid&mobilenumber=${mnlApiData.phoneNumber}&${otp}&emailOld&mobileOld=${apiData.phoneNumber}&${otp2}&firstName&lastName&dateOfBirth&dateOfAnniversary&nickName&gender&ProfileDataRequired=true&isPwa=true`, {}, true, {
+        const { currentOtp, newOtp } = mnlApiData;
+        const result: Response = await api.post(`marketplacewebservices/v2/mpl/users/${loginId}/updateprofile_V1?mobilenumber=${mnlApiData.phoneNumber}&otp=${newOtp}&mobileOld=${apiData.mobileNumber}&otpOld=${currentOtp}&ProfileDataRequired=false&isPwa=true`, {}, true, {
             Authorization: `Bearer ${JSON.parse(authentication).accessToken}`
         });
         const mnlApiResponse: MnlApiResponse = await result.json();
@@ -610,7 +604,14 @@ export function validateOtpChangeProfileNumber() {
             }
             return;
         }
-        dispatch(changeLoginStep("isChangeProfilePasswordSuccess"))
+        if (mnlApiResponse.status === "Success") {
+
+            dispatch(changeLoginStep("isChangeMobileNumberSuccess"));
+
+            dispatch(logoutUserByMobileNumber());
+
+        }
+        dispatch(hideSecondaryLoader());
     }
 }
 

@@ -124,10 +124,6 @@ export class MnlProfileOtp extends React.Component<MnlOtpProps, MnlOtpState> {
     }
   }
 
-  private editMobileNumber() {
-    this.props.changeLoginStep("isStepAddMobileNumber");
-  }
-
   private onContinueBtnClick() {
     const mnlApidata = Object.assign({}, this.props.mnlApidata, {
       currentOtp: this.state.currentOtp,
@@ -203,15 +199,6 @@ export class MnlProfileOtp extends React.Component<MnlOtpProps, MnlOtpState> {
               })}
             </div>
             <div className={[styles.flexRow50, styles.justify_space].join(" ")}>
-              <div className={styles.flexRow50Cols}>
-                <button
-                  type="button"
-                  className={styles.btnLink}
-                  onClick={() => this.editMobileNumber()}
-                >
-                  Edit Number
-                </button>
-              </div>
               <div
                 className={[styles.flexRow50Cols, styles.text_right].join(" ")}
               >

@@ -13,7 +13,8 @@ import { MnlEmail } from "./components/mnl-email-component";
 import { MnlProfileOtp } from './components/mnl-profile-otp.component';
 import { MnlEmailChangeOtp } from "./components/mnl-change-email-otp.component";
 import { MnlChangeEmailSucess } from "./components/mnl-change-email-succes.component"
-import { MnlChangeProfillePasswordSuccess } from "./components/mnl-change-profile-password-success";
+import { MnlChangeProfilePasswordSuccess } from "./components/mnl-change-profile-password-success";
+import { MnlChangeMobileSucess } from './components/mnl-change-mobile-success.component'
 export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, MobileNumberLoginState> {
 
     public state: Readonly<MobileNumberLoginState> = {
@@ -143,9 +144,18 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
                             />
                         )}
                         {this.props.steps.isChangeProfilePasswordSuccess &&
-                            (<MnlChangeProfillePasswordSuccess
+                            (<MnlChangeProfilePasswordSuccess
                                 hideMobileNumberLoginModal={() => this.props.hideMobileNumberLoginModal()}
-                                changeLoginStep={(stepKey) => this.props.changeLoginStep(stepKey)} />)}
+                                changeLoginStep={(stepKey) => this.props.changeLoginStep(stepKey)}
+                                routeToHome={() => this.routeToHome()}
+                                />)}
+                        {this.props.steps.isChangeMobileNumberSuccess && (
+                            <MnlChangeMobileSucess
+                                hideMobileNumberLoginModal={() => this.props.hideMobileNumberLoginModal()}
+                                changeLoginStep={(stepKey) => this.props.changeLoginStep(stepKey)}
+                                routeToHome={() => this.routeToHome()}
+                            />
+                        )}
 
                         <button
                             type="button"

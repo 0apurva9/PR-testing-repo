@@ -28,7 +28,8 @@ const initailState: MobileNumberLoginReduxState = {
         isStepValidateProfileOtp:false,
         isForgotPasswordProfile : false,
         isChangeProfilePasswordSuccess : false,
-        isChangeProfileMobile : false
+        isChangeProfileMobile : false,
+        isChangeMobileNumberSuccess : false
     },
     mnlApiData: {
         email: "",
@@ -37,7 +38,8 @@ const initailState: MobileNumberLoginReduxState = {
         pass: "",
         phoneNumber: "",
         platformNumber: PLAT_FORM_NUMBER,
-        otp2 : ""
+        newOtp : "",
+        currentOtp : ""
     },
     mnlApiResponse: null,
     resendOtpTimmer: 0,
