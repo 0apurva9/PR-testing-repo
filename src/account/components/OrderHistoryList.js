@@ -111,8 +111,9 @@ export default class OrderHistoryList extends Component {
                           {tickets.status}{" "}
                           {tickets.status === "Resolved" ? "|" : null}{" "}
                           {tickets.status === "Resolved" &&
-                            moment(tickets.creationDate, "DD-MM-YYYY").format(
-                              `ddd ${STATUS_DATE_FORMAT}`
+                            tickets.resolvedDate &&
+                            moment(tickets.resolvedDate, "DD-MM-YYYY").format(
+                              `${STATUS_DATE_FORMAT}`
                             )}
                         </span>
                       </div>
