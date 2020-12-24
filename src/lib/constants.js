@@ -586,6 +586,8 @@ export const APP_ID_FOR_SBA = "dd669910-e0d3-11e8-b431-1d83bfd113a3";
 export const SBA_VENDOR_URL = "https://cliqbook.tatacliq.com";
 export const PRIVATE_KEY_FOR_AES = "SgVkYp2s5v8y/B?E(H+MbQeThWmZq4t7";
 export const PLATFORM = "desktop";
+
+export const CAPTURE_ATTACHMENTS = "/docs/upload(.*)";
 export const AC_PDP_EXCHANGE_DETAILS = "acPdpExchangeDetails";
 export const AC_CART_EXCHANGE_DETAILS = "acCartExchangeDetails";
 export const EXCHANGE_ADDED_MESSAGE = "Exchange has been added.";

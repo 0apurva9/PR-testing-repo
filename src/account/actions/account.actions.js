@@ -556,6 +556,13 @@ export const GENESYS_CUSTOMER_CALL_REQUEST_SUCCESS =
 export const GENESYS_CUSTOMER_CALL_REQUEST_FAILURE =
   "GENESYS_CUSTOMER_CALL_REQUEST_FAILURE";
 
+export const SUBMIT_CAPTURE_ATTACHMENTS_REQUEST =
+  "SUBMIT_CAPTURE_ATTACHMENTS_REQUEST";
+export const SUBMIT_CAPTURE_ATTACHMENTS_SUCCESS =
+  "SUBMIT_CAPTURE_ATTACHMENTS_SUCCESS";
+export const SUBMIT_CAPTURE_ATTACHMENTS_FAILURE =
+  "SUBMIT_CAPTURE_ATTACHMENTS_FAILURE";
+
 const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
 const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
 
@@ -4218,7 +4225,6 @@ export function getCustomerQueriesFieldsv2(UItemplateCode, isSelectRadio) {
       const result = await api.get(
         `v2/mpl/cms/defaultpage?pageId=${UItemplateCode}`
       );
-
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
@@ -4250,6 +4256,10 @@ export function getCustomerQueriesFieldsv2(UItemplateCode, isSelectRadio) {
           }
           if (ele.componentName === "checkboxComponent") {
             let checkboxData = getCheckboxApiData(ele);
+            fetchData.push(checkboxData);
+          }
+          if (ele.componentName === "errorComponent") {
+            let checkboxData = getLabelApiData(ele);
             fetchData.push(checkboxData);
           }
         });
@@ -5763,10 +5773,32 @@ export function placeCustomerCallRequest(callRequestData) {
   };
 }
 
+export function captureAttachmentsSubmitRequest() {
+  return {
+    type: SUBMIT_CAPTURE_ATTACHMENTS_REQUEST,
+    status: REQUESTING
+  };
+}
+
 export function getRecentTicketHistoryDetailsRequest() {
   return {
     type: TICKET_RECENT_HISTORY_DETAILS_REQUEST,
     status: REQUESTING
+  };
+}
+
+export function captureAttachmentsSubmitSuccess(attachmentResponseData) {
+  return {
+    type: SUBMIT_CAPTURE_ATTACHMENTS_SUCCESS,
+    attachmentResponseData,
+    status: SUCCESS
+  };
+}
+
+export function captureAttachmentsSubmitFailure(error) {
+  return {
+    type: SUBMIT_CAPTURE_ATTACHMENTS_FAILURE,
+    status: FAILURE
   };
 }
 
@@ -5787,6 +5819,33 @@ export function getRecentTicketHistoryDetailsRequestFailure(error) {
     type: TICKET_RECENT_HISTORY_DETAILS_FAILURE,
     status: ERROR,
     error
+  };
+}
+
+export function captureAttachmentsSubmit(custoemrId, sendData) {
+  return async (dispatch, getState, { api }) => {
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    dispatch(captureAttachmentsSubmitRequest());
+    try {
+      const result = await api.post(
+        `v2/mpl/docs/upload?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&cId=${custoemrId}`,
+        sendData
+      );
+      let resultJson = await result.json();
+      if (resultJson.status === FAILURE) {
+        dispatch(displayToast(resultJson.message));
+      }
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(captureAttachmentsSubmitSuccess(resultJson));
+    } catch (e) {
+      dispatch(captureAttachmentsSubmitFailure(e.message));
+    }
   };
 }
 

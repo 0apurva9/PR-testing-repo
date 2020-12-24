@@ -1,0 +1,48 @@
+.base {
+    width: 667px;
+    height: 464px;
+    border-radius: 6px;
+    background-color: #ffffff;
+    position: relative;
+}
+
+.closeIconBody {
+    position: absolute;
+    right: 15px;
+    top: 15px;
+}
+
+.ticketTypeContentBody {
+    width: 320px;
+    margin: 0px auto;
+    padding: 60px 0px 40px 0px;
+    text-align: center;
+}
+
+.ticketTypeHeading {
+    font-size: 20px;
+    font-family: semibold;
+    color: #2d2d2d;
+}
+
+.iconBox {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.duplicateIcon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+.btnBody {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+}
+.messageBox{
+    margin-top: 20px;
+}

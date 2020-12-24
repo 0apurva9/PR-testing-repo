@@ -73,7 +73,13 @@ export default class OrderHistoryList extends Component {
                     className={Styles.orderDetailsCardBox}
                     onClick={() => this.props.showRecentOrderDetails(tickets)}
                   >
-                    <div className={Styles.orderImg}>
+                    <div
+                      className={
+                        tickets.issueBucket
+                          ? Styles.nonOrderImg
+                          : Styles.orderImg
+                      }
+                    >
                       {tickets.issueBucket ? (
                         <div className={Styles.nonRelatedIcon}>
                           <div
