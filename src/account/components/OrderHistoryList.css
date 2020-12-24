@@ -97,9 +97,13 @@
 }
 
 .orderImg {
+    border-radius: 4px;
+    width:89px;
+}
+.nonOrderImg{
     height: 100px;
     border-radius: 4px;
-    width: 78px;
+    width: 100px; 
 }
 
 .nonOrderIcon {
@@ -337,4 +341,5 @@
     font-size: 12px;
     color: #4a4a4a;
     font-family: regular;
+    line-height: 16px;
 }
