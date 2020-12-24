@@ -36,7 +36,13 @@ export default class OrderHistoryDetails extends Component {
           </span>
         </div>
         <div className={Styles.orderInfoDetails}>
-          <div className={Styles.orderImg}>
+          <div
+            className={
+              selectedTickerHistory.issueBucket
+                ? Styles.nonOrderImg
+                : Styles.orderImg
+            }
+          >
             {selectedTickerHistory.issueBucket ? (
               <div className={Styles.nonOrderIcon}>
                 <div

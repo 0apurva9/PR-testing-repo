@@ -423,14 +423,6 @@ const AttachmentUploadPopUp = Loadable({
   }
 });
 
-// import(/* webpackChunkName: "attchment-upload-response-popup" */ "../../account/components/attchment-upload-response-popup.jsx")
-// const AttachmentUploadPopUp = Loadable({
-//     loader: () => import(/* webpackChunkName: "attchment-upload-response-popup" */ "./account/components/attchment-upload-response-popup.jsx"),
-//     loading() {
-//         return <Loader />;
-//     },
-// });
-
 export default class ModalRoot extends React.Component {
   constructor(props) {
     super(props);
@@ -794,8 +786,8 @@ export default class ModalRoot extends React.Component {
     return await this.props.removeExchange(data);
   }
 
-  async logOutUser() {
-    return await this.props.logoutUser();
+  logOutUser() {
+    this.props.logoutUser();
   }
 
   render() {
@@ -1331,10 +1323,9 @@ export default class ModalRoot extends React.Component {
       AlertPopUp: (
         <AlertPopUp
           closeModal={() => this.handleClose()}
-          setUrlToRedirectToAfterAuth={() =>
-            this.props.setUrlToRedirectToAfterAuth()
-          }
+          setUrlToRedirectToAfterAuth={this.props.setUrlToRedirectToAfterAuth}
           logoutUser={() => this.logOutUser()}
+          logoutUserStatuss={this.props.logoutUserStatuss}
           {...this.props.ownProps}
         />
       ),

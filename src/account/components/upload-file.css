@@ -129,3 +129,8 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  .borderFile{
+    border-bottom: 1px solid #eee;
+      padding-bottom: 20px;
+  }

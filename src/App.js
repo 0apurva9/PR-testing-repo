@@ -357,13 +357,6 @@ const CleverTapUnsubscribeEmail = Loadable({
   }
 });
 
-// const AttachmentUploadContainer = Loadable({
-//   loader: () => import("./account/containers/attachment-upload-container"),
-//   loading() {
-//     return <Loader />;
-//   }
-// });
-
 const AttachmentUploadContainer = Loadable({
   loader: () =>
     import(

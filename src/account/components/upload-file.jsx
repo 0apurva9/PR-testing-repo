@@ -1,14 +1,10 @@
 import React, { Component } from 'react'
+import PropTypes from "prop-types";
 import download from "../components/img/download.svg";
 import deleteUpload from "../components/img/deleteUpload.svg";
 import Icon from "../../xelpmoc-core/Icon";
 import styles from './upload-file.css';
 export default class UploadFile extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-        }
-    }
 
     handleClick(event) {
         const { target = {} } = event || {};
@@ -95,3 +91,14 @@ export default class UploadFile extends Component {
         )
     }
 }
+
+UploadFile.propTypes = {
+    onUploadFile: PropTypes.func,
+    deleteFile: PropTypes.func,
+    attachmentComponent: {
+        heading: PropTypes.string,
+        itemsTitle: PropTypes.string,
+        maxFileSize: PropTypes.number,
+
+    }
+};

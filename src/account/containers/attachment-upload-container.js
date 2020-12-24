@@ -30,8 +30,8 @@ const mapDispatchToProps = dispatch => {
     hideSecondaryLoader: () => {
       dispatch(hideSecondaryLoader());
     },
-    uploadUserFile: async (issueType, title, file) => {
-      return dispatch(uploadUserFile(issueType, title, file));
+    uploadUserFile: (issueType, title, file) => {
+      dispatch(uploadUserFile(issueType, title, file));
     },
     displayToast: message => {
       dispatch(displayToast(message));
@@ -58,7 +58,8 @@ const mapStateToProps = state => {
     uploadUserFileLoading: state.profile.uploadUserFileLoading,
     submitCaptureAttachmentsLoading:
       state.profile.submitCaptureAttachmentsLoading,
-    submitCaptureAttachmentsData: state.profile.submitCaptureAttachmentsData
+    submitCaptureAttachmentsData: state.profile.submitCaptureAttachmentsData,
+    uploadUserFiles: state.profile.uploadUserFile
   };
 };
 

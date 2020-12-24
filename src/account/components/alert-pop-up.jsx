@@ -7,8 +7,21 @@ import { withRouter } from "react-router-dom";
 import BottomSlideModal from "../../general/components/BottomSlideModal";
 import Icon from '../../xelpmoc-core/Icon';
 import { LOGIN_PATH, HOME_ROUTER, } from "../../lib/constants";
+import { SUCCESS } from '../../general/header.actions';
 
 class AlertPopUp extends Component {
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.logoutUserStatuss !== this.props.logoutUserStatuss) {
+            if (nextProps.logoutUserStatuss.toLowerCase() === SUCCESS.toLowerCase()) {
+                const url = this.props.location.pathname + this.props.location.search;
+                this.props.setUrlToRedirectToAfterAuth(url);
+                this.props.closeModal();
+                this.props.history.push(LOGIN_PATH);
+            }
+
+        }
+    }
 
     closeButtonClickHandle(reDirectHomePage) {
         if (reDirectHomePage) {
@@ -20,17 +33,9 @@ class AlertPopUp extends Component {
 
     }
 
-    async navigateLogin() {
+    navigateLogin() {
         if (this.props.logoutUser) {
-            const logOutResponse = await this.props.logoutUser()
-            if (logOutResponse.status === "success") {
-                this.props.closeModal();
-                const url = this.props.location.pathname + this.props.location.search;
-                if (this.props.setUrlToRedirectToAfterAuth) {
-                    this.props.setUrlToRedirectToAfterAuth(url);
-                }
-                this.props.history.push(LOGIN_PATH);
-            }
+            this.props.logoutUser()
         }
 
     }

@@ -50,6 +50,19 @@ export default class AttachmentUpload extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        if (nextProps.uploadUserFiles !== this.props.uploadUserFiles) {
+            if (nextProps.uploadUserFiles.status.toLowerCase() === SUCCESS.toLowerCase()) {
+                this.setState(prevState => ({
+                    file: [...prevState.file, ...this.state.newFiles],
+                    btnDisable: false,
+                    uploadedAttachment: [
+                        ...prevState.uploadedAttachment,
+                        ...nextProps.uploadUserFiles.imageURLlist
+                    ]
+                }));
+            }
+        }
+        
         if (nextProps.submitCaptureAttachmentsData !== this.props.submitCaptureAttachmentsData) {
             if (nextProps.submitCaptureAttachmentsData.status.toLowerCase() == SUCCESS.toLowerCase()) {
                 if (this.props.attachmentUploadResponsePopUp) {
@@ -68,6 +81,7 @@ export default class AttachmentUpload extends Component {
                 )
             }
         }
+        
 
     }
 
@@ -111,22 +125,9 @@ export default class AttachmentUpload extends Component {
                     totalFile = [...newFile, ...this.state.file];
                 for (let f of totalFile) combinedSize += f.size / 1048576; //converting file size into MB
                 if (combinedSize <= maxFileSize && totalFile.length <= maxFileLimit) {
-                    const uploadFileResponse = await this.props.uploadUserFile(
-                        "",
-                        title,
-                        Array.from(newFile)
-                    );
-                    let { uploadUserFile, status } = uploadFileResponse;
-                    if (uploadFileResponse && status.toLowerCase() === SUCCESS.toLowerCase()) {
-                        this.setState(prevState => ({
-                            file: [...prevState.file, ...newFile],
-                            btnDisable: false,
-                            uploadedAttachment: [
-                                ...prevState.uploadedAttachment,
-                                ...uploadUserFile.imageURLlist
-                            ]
-                        }));
-                    }
+                    this.setState({ newFiles: [...newFile] })
+                    this.props.uploadUserFile("", title, Array.from(newFile));
+
                 } else {
                     if (totalFile.length > maxFileLimit) {
                         this.props.alertPopUp({ btnLabel: "GOT IT", txt: errorData.heading, reDirectHomePage: false });
@@ -181,7 +182,6 @@ export default class AttachmentUpload extends Component {
         if (this.props.alertPopUp) {
             this.props.alertPopUp({ btnLabel: "RETRY", txt: USE_ID_NOT_MATCH, reDirectHomePage: true });
         }
-        // return null
     }
 
     render() {
@@ -209,7 +209,7 @@ export default class AttachmentUpload extends Component {
                     <div className={Styles.contentBox}>
                         <div className={Styles.heading}>
                             Ticket ID : {" "}
-                            <span className={Styles.Id}>{queryParamsObj ? queryParamsObj.ticketId : ""}</span>
+                            <span className={Styles.ticketId}>{queryParamsObj ? queryParamsObj.ticketId : ""}</span>
                         </div>
                         <div className={Styles.content}>{labelData && labelData.heading}</div>
                     </div>

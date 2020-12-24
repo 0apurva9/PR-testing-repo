@@ -45,7 +45,6 @@ import {
   getProductPinCode,
   updateAppliancesExchangeDetails
 } from "../../pdp/actions/pdp.actions";
-import { updateProfile } from "../../account/actions/account.actions.js";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 import * as Cookies from "../../lib/Cookie";
 import { setDataLayerForMyAccountDirectCalls } from "../../lib/adobeUtils";
@@ -66,7 +65,9 @@ import {
   getOtpToActivateWallet,
   verifyWallet,
   submitSelfCourierReturnInfo,
-  changePassword
+  changePassword,
+  logoutUser,
+  updateProfile
 } from "../../account/actions/account.actions";
 import {
   createWishlist,
@@ -85,7 +86,6 @@ import {
 } from "../../lib/adobeUtils";
 import { addProductToCart } from "../../pdp/actions/pdp.actions.js";
 import { showSecondaryLoader } from "../../general/secondaryLoader.actions";
-import { logoutUser } from "./../../account/actions/account.actions";
 const ERROR_MESSAGE_IN_CANCELING_ORDER = "Error in Canceling order";
 const UPDATE_PASSWORD = "Password Updated Successfully";
 const mapStateToProps = (state, ownProps) => {
@@ -108,7 +108,8 @@ const mapStateToProps = (state, ownProps) => {
     genesysCallConfigDataLoading: state.profile.genesysResponseLoading,
     genesysCallConfigData: state.profile.genesysResponseData,
     appliancesExchangeDetails:
-      state.productDescription.getAppliancesExchangeDetails
+      state.productDescription.getAppliancesExchangeDetails,
+    logoutUserStatuss: state.profile.logoutUserStatus
   };
 };
 
@@ -460,8 +461,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     showSecondaryLoader: () => {
       dispatch(showSecondaryLoader());
     },
-    logoutUser: async () => {
-      return await dispatch(logoutUser());
+    logoutUser: () => {
+      dispatch(logoutUser());
     },
     updateAppliancesExchangeDetails: exchangeData => {
       dispatch(updateAppliancesExchangeDetails(exchangeData));

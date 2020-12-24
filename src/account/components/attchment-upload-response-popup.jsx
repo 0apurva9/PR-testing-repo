@@ -15,16 +15,13 @@ class AttachmentUploadResponse extends Component {
     continueShopping() {
         this.props.history.push(HOME_ROUTER);
     }
-    closeModal() {
-        this.props.closeModal()
-    }
 
     render() {
         const { message, isTicketDuplicate } = this.props;
         return (
             <BottomSlideModal>
                 <div className={Styles.base}>
-                    <div className={Styles.closeIconBody} onClick={() => this.closeModal()}>
+                    <div className={Styles.closeIconBody} onClick={() => this.continueShopping()}>
                         <Icon image={cancelGrey} size={14} />
                     </div>
                     <div className={Styles.ticketTypeContentBody}>
