@@ -14,13 +14,15 @@ import {
   ADOBE_PB_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_PDP
 } from "../../lib/adobeUtils";
 import PropTypes from "prop-types";
+import Icon from "../../xelpmoc-core/Icon";
+import comboDiscountIcon from "./img/comboDiscountIcon.svg";
 let allBundledProductData = [];
 let allBundledProductDataForAddToCart = [];
 let isBundledProductSelected = [];
 let productIds = [];
 let productCategories = [];
 let productPrices = [];
-
+let isBundlingDiscount = [];
 export default class ProductBundling extends React.Component {
   constructor(props) {
     super(props);
@@ -120,6 +122,7 @@ export default class ProductBundling extends React.Component {
     productIds = [];
     productCategories = [];
     productPrices = [];
+    isBundlingDiscount = [];
   }
 
   handleClick(
@@ -129,7 +132,8 @@ export default class ProductBundling extends React.Component {
     ussId,
     recommendationType,
     productCategory,
-    productPrice
+    productPrice,
+    isBundlingDiscountAvailable
   ) {
     let bundledProductData = {};
     let bundledProductDataForAddToCart = {};
@@ -194,6 +198,21 @@ export default class ProductBundling extends React.Component {
     }
     if (!isBundledProductSelected.includes(false)) {
       this.setState({ enableAddToCartButton: false });
+    }
+
+    if (!checkboxChecked && isBundlingDiscountAvailable) {
+      isBundlingDiscount[productIndex] = true;
+    }
+    if (
+      checkboxChecked &&
+      (isBundlingDiscountAvailable || !isBundlingDiscountAvailable)
+    ) {
+      isBundlingDiscount[productIndex] = false;
+    }
+    if (isBundlingDiscount.includes(true)) {
+      this.setState({ enableComboDiscountSection: true });
+    } else {
+      this.setState({ enableComboDiscountSection: false });
     }
   }
 
@@ -267,6 +286,9 @@ export default class ProductBundling extends React.Component {
                     if (isCurrentUssidInCart) {
                       isBundledProductInCart = true;
                     }
+                    let isBundlingDiscountAvailable =
+                      data.hasOwnProperty("bundlingDiscount") &&
+                      data.bundlingDiscount !== 0;
 
                     return (
                       <SingleBundledProduct
@@ -279,7 +301,8 @@ export default class ProductBundling extends React.Component {
                           ussId,
                           recommendationType,
                           productCategory,
-                          productPrice
+                          productPrice,
+                          isBundlingDiscountAvailable
                         ) =>
                           this.handleClick(
                             productIndex,
@@ -288,7 +311,8 @@ export default class ProductBundling extends React.Component {
                             ussId,
                             recommendationType,
                             productCategory,
-                            productPrice
+                            productPrice,
+                            isBundlingDiscountAvailable
                           )
                         }
                         productIndex={index}
@@ -297,6 +321,10 @@ export default class ProductBundling extends React.Component {
                         isBundledProductInCart={isBundledProductInCart}
                         history={this.props.history}
                         isMainProduct={false}
+                        mainProductName={this.props.productData.productName}
+                        isBundlingDiscountAvailable={
+                          isBundlingDiscountAvailable
+                        }
                       />
                     );
                   }
@@ -324,6 +352,17 @@ export default class ProductBundling extends React.Component {
                 {this.state.enableAddToCartButton &&
                 bundledPriceAPIStatus === SUCCESS ? (
                   <React.Fragment>
+                    {this.state.enableComboDiscountSection && (
+                      <div className={styles.comboDiscountContainer}>
+                        <div className={styles.comboDiscountIconContainer}>
+                          <Icon image={comboDiscountIcon} size={14} />
+                        </div>
+                        <div className={styles.comboDiscountText}>
+                          Combo discounts get auto-applied in bag
+                        </div>
+                      </div>
+                    )}
+
                     <div className={styles.totalDetailsText}>
                       Total Payable:{" "}
                     </div>
