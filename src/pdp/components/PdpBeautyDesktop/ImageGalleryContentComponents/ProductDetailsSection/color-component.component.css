@@ -10,6 +10,7 @@
   padding: 20px 0 0;
   position: relative;
 }
+
 .shade-top-block {
   padding: 0 0 12px;
   display: inline-block;
@@ -32,6 +33,7 @@
   align-items: center;
   margin-right: -15px;
 }
+
 .shade-block-view-more {
   font-family: "Rubik", sans-serif;
   font-weight: 500;
@@ -45,6 +47,7 @@
   text-decoration: none;
   display: block;
 }
+
 .shade-collapse-block {
   position: relative;
   max-height: 130px;
@@ -53,6 +56,7 @@
   padding: 5px 0 8px;
   left: -3px;
 }
+
 .shade-collapsed-block {
   position: relative;
   max-height: inherit;
@@ -61,21 +65,24 @@
   margin: 5px 0 8px;
   left: -3px;
 }
+
 .shade-subheading {
   font-family: "Rubik", sans-serif;
   font-weight: 500;
   font-size: 16px;
-  line-height: 16px;  
+  line-height: 16px;
   margin: 0 0 0 3px;
   color: rgb(33, 33, 33);
   display: inline-block;
 }
+
 .shade-list-block {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   margin: 0 -15px 0 0;
 }
+
 .shade-list {
   padding: 0;
   margin: 5px 12px 12px 0;
@@ -83,6 +90,7 @@
   position: relative;
   cursor: pointer;
 }
+
 .shade-list-img {
   display: block;
   width: 52px;
@@ -90,6 +98,7 @@
   border-radius: 9px;
   margin: 1px;
 }
+
 .shade-list-img-block {
   padding: 0;
   border-radius: 10px;
@@ -98,10 +107,12 @@
   margin: 0;
   float: left;
 }
+
 .shade-stock-dis-img {
   opacity: 0.4;
   position: relative;
 }
+
 .shade-stock-dis-img:after {
   content: "";
   width: 1px;
@@ -115,6 +126,7 @@
   left: 27px;
   top: -7px;
 }
+
 .shade-stock-selected-img:after {
   content: "";
   width: 30px;
@@ -128,15 +140,18 @@
     center/18px auto no-repeat;
   border-radius: 50%;
 }
+
 .shade-list-img-block:hover {
   padding: 0;
   border-radius: 10px;
   border: 2px solid rgb(33, 33, 33, 0.6);
 }
+
 .shade-stock-selected-img, .shade-stock-selected-img:hover {
   border: 2px solid rgb(33, 33, 33);
   border-radius: 10px;
 }
+
 .shade-stock-left {
   font-family: "Rubik", sans-serif;
   font-weight: 500;
@@ -146,6 +161,7 @@
   color: rgb(216, 62, 9);
   text-align: center;
 }
+
 .shade-stock-left {
   font-family: "Rubik", sans-serif;
   font-weight: 500;
@@ -176,6 +192,7 @@
   text-align: center;
   z-index: 9;
 }
+
 .shade-list:nth-child(7n+7) .shade-tool-tip, .shade-list:nth-child(7n+6) .shade-tool-tip{
   left: inherit;
   right: 50%;

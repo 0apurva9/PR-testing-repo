@@ -1,7 +1,8 @@
 import React from "react";
 
-import ColorComponent from "./ColorComponent";
+import ColorComponent from "./color-component.component";
 import styles from "./SizeComponent.css";
+import { findSelectedSize } from "../../../../reducers/utils";
 
 export default class SizeComponent extends React.Component {
   constructor(props) {
@@ -13,50 +14,29 @@ export default class SizeComponent extends React.Component {
   }
 
   componentDidMount() {
-    let sizeOptions = [];
-    let selectedSize = [];
-    if (
+    const variantTheme =
       this.props.productDetails &&
       this.props.productDetails.variantOptions &&
-      this.props.productDetails.variantTheme
+      this.props.productDetails.variantTheme;
+    const variantOptions =
+      this.props &&
+      this.props.productDetails &&
+      this.props.productDetails.variantOptions;
+    const productListingId =
+      this.props &&
+      this.props.productDetails &&
+      this.props.productDetails.productListingId;
+    if (
+      ((variantTheme && variantTheme.length > 0) ||
+        (variantOptions && variantOptions.length > 0)) &&
+      productListingId
     ) {
-      const variantTheme =
-        this.props &&
-        this.props.productDetails &&
-        this.props.productDetails.variantTheme;
-      sizeOptions = variantTheme && variantTheme.map(el => el.sizelink);
-      const productListingId =
-        this.props &&
-        this.props.productDetails &&
-        this.props.productDetails.productListingId;
-      selectedSize =
-        sizeOptions &&
-        sizeOptions.filter((el, i) => {
-          if (
-            el.productCode === productListingId &&
-            el.isAvailable === true &&
-            el.selected === true
-          ) {
-            this.setState({ isSelected: true, selectedIndex: i });
-          }
-        });
-    } else {
-      const variantOptions =
-        this.props &&
-        this.props.productDetails &&
-        this.props.productDetails.variantOptions;
-      sizeOptions = variantOptions && variantOptions.map(el => el.sizelink);
-      const productListingId =
-        this.props &&
-        this.props.productDetails &&
-        this.props.productDetails.productListingId;
-      selectedSize =
-        sizeOptions &&
-        sizeOptions.filter((el, i) => {
-          if (el.productCode === productListingId && el.isAvailable === true) {
-            this.setState({ isSelected: true, selectedIndex: i });
-          }
-        });
+      const sizeToSetInState = findSelectedSize(
+        variantTheme,
+        variantOptions,
+        productListingId
+      );
+      this.setState(sizeToSetInState);
     }
   }
 
@@ -91,15 +71,6 @@ export default class SizeComponent extends React.Component {
 
     return (
       <React.Fragment>
-        {this.props.colorComponentFound ? (
-          <ColorComponent
-            variantTheme={variantTheme}
-            selectedSizeIndex={
-              this.state.isSelected ? this.state.selectedIndex : -1
-            }
-            {...this.props}
-          />
-        ) : null}
         <div className={styles["size-component"]}>
           <div className={styles["size-block"]}>
             <div className={styles["size-heading"]}>SELECT SIZE:</div>

@@ -1,6 +1,7 @@
 import React from "react";
 
-import styles from "./ColorComponent.css";
+import styles from "./color-component.component.css";
+import { findSelectedSize } from "../../../../reducers/utils";
 
 const VIEW_MORE = "View More";
 const VIEW_LESS = "View Less";
@@ -12,7 +13,8 @@ export default class ColorComponent extends React.Component {
       expandClass: false,
       showTooltip: false,
       sizeIndex: -1,
-      toolTipIndex: -1
+      toolTipIndex: -1,
+      selectedSizeIndex: -1
     };
     this.colorShadeRef = React.createRef();
   }
@@ -20,6 +22,13 @@ export default class ColorComponent extends React.Component {
   componentDidMount() {
     if (this.colorShadeRef.current) {
       this.colorShadeRef.current.scrollIntoView({ block: "nearest" });
+    }
+    const variantTheme = this.props.productDetails && this.props.productDetails.variantOptions && this.props.productDetails.variantTheme;
+    const variantOptions =  this.props && this.props.productDetails && this.props.productDetails.variantOptions;
+    const productListingId =  this.props && this.props.productDetails && this.props.productDetails.productListingId;
+    if((variantTheme && variantTheme.length > 0 || variantOptions && variantOptions.length > 0) && productListingId) {
+      const sizeToSetInState = findSelectedSize(variantTheme, variantOptions, productListingId, true);
+      this.setState(sizeToSetInState);
     }
   }
 
@@ -41,6 +50,7 @@ export default class ColorComponent extends React.Component {
   }
 
   render() {
+    const variantTheme = this.props.productDetails && this.props.productDetails.variantTheme ? this.props.productDetails.variantTheme : [];
     let stockCount = 0;
     const winningUssID =
       this.props.productDetails && this.props.productDetails.winningUssID;
@@ -56,15 +66,15 @@ export default class ColorComponent extends React.Component {
     stockCount = pincodeListResponse
       .filter(el => el.ussid === winningUssID)
       .map(el => el.stockCount);
-    const variantTheme = this.props.variantTheme;
     let selectedSizeColorOptions = [];
     let selectedSizeSelectedColor = {};
-    if (this.props.selectedSizeIndex >= 0) {
+    if (this.state.selectedSizeIndex >= 0) {
       selectedSizeColorOptions =
         variantTheme &&
         variantTheme.length > 0 &&
-        variantTheme[this.props.selectedSizeIndex].colorOptions;
+        variantTheme[this.state.selectedSizeIndex].colorOptions;
     }
+
     selectedSizeSelectedColor =
       selectedSizeColorOptions &&
       selectedSizeColorOptions.filter(el => el.selected === true);
@@ -93,14 +103,14 @@ export default class ColorComponent extends React.Component {
                   : styles["shade-collapse-block"]
               }
             >
-              {variantTheme.map((colorAndSize, i) => {
+              {variantTheme && variantTheme.length > 0 && variantTheme.map((colorAndSize, i) => {
                 if (
                   colorAndSize.colorOptions &&
                   colorAndSize.colorOptions.length > 0 &&
                   colorAndSize.sizelink
                 ) {
                   return (
-                    <React.Fragment>
+                    <div key={i}>
                       <div className={styles["shade-subheading"]}>
                         {colorAndSize.sizelink.size &&
                           colorAndSize.sizelink.size}
@@ -110,7 +120,7 @@ export default class ColorComponent extends React.Component {
                           {colorAndSize.colorOptions.map((colorElement, j) => {
                             return (
                               <div
-                                key={i}
+                                key={j}
                                 className={styles["shade-list"]}
                                 onMouseEnter={() => this.onMouseEnter(i, j)}
                                 onMouseLeave={() => this.onMouseLeave(i, j)}
@@ -156,7 +166,7 @@ export default class ColorComponent extends React.Component {
                           })}
                         </div>
                       </React.Fragment>
-                    </React.Fragment>
+                      </div>
                   );
                 }
               })}

@@ -6,6 +6,7 @@ import {
   HOME_DELIVERY
 } from "../../lib/constants";
 const REGULAR_EXPRESSION_FOR_ALPHABET = /^[A-Z]$/i;
+
 export function transferPincodeToPdpPincode(validDeliveryModes) {
   let eligibleDeliveryModes = [];
   validDeliveryModes.forEach(delivery => {
@@ -22,6 +23,7 @@ export function transferPincodeToPdpPincode(validDeliveryModes) {
   });
   return eligibleDeliveryModes;
 }
+
 export function reverse(data) {
   var reverseObject = [],
     counter = 0;
@@ -31,6 +33,7 @@ export function reverse(data) {
   }
   return reverseObject;
 }
+
 export function groupByBrandAccordingToFirstLetter(arr, prop) {
   return arr.reduce(function(groups, item) {
     let val = item[prop][0].toUpperCase();
@@ -88,4 +91,47 @@ export function sortArrayOfObjectByIntegerKeyValue(array, keyName) {
 
     return 0;
   });
+}
+
+export function findSelectedSize(
+  variantTheme = [],
+  variantOptions = [],
+  productListingId,
+  fromColorComponent = false
+) {
+  let sizeOptions = [];
+  let selectedSize = [];
+  let sizeToSetInState = {};
+  if (variantTheme && variantTheme.length > 0) {
+    sizeOptions = variantTheme && variantTheme.map(el => el.sizelink);
+    selectedSize =
+      sizeOptions &&
+      sizeOptions.filter((el, i) => {
+        if (
+          el.productCode === productListingId &&
+          el.isAvailable === true &&
+          el.selected === true
+        ) {
+          if (fromColorComponent) {
+            sizeToSetInState = { selectedSizeIndex: i };
+          } else {
+            sizeToSetInState = { isSelected: true, selectedIndex: i };
+          }
+        }
+      });
+  } else {
+    sizeOptions = variantOptions && variantOptions.map(el => el.sizelink);
+    selectedSize =
+      sizeOptions &&
+      sizeOptions.filter((el, i) => {
+        if (el.productCode === productListingId && el.isAvailable === true) {
+          if (fromColorComponent) {
+            sizeToSetInState = { selectedIndex: i };
+          } else {
+            sizeToSetInState = { isSelected: true, selectedSizeIndex: i };
+          }
+        }
+      });
+  }
+  return sizeToSetInState;
 }
