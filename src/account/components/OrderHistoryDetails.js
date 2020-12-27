@@ -7,6 +7,7 @@ import infoIcon from "./img/infoIcon.svg";
 import resolveIcon from "./img/resolve-icon.svg";
 import resolvedTick from "./img/resolvedTick.svg";
 import moment from "moment";
+import { RESOLVED } from "../../lib/constants";
 const CREATION_DATE_FORMAT = "DD MMM, hh:mm";
 const STATUS_DATE_FORMAT = "DD MMM, YYYY";
 export default class OrderHistoryDetails extends Component {
@@ -38,7 +39,7 @@ export default class OrderHistoryDetails extends Component {
         </div>
         <div className={Styles.orderInfoDetails}>
           <div className={Styles.orderImg}>
-            {selectedTickerHistory.status == "Resolved" ? (
+            {selectedTickerHistory.status === RESOLVED ? (
               <div className={Styles.resolvedIcon}>
                 <Icon image={resolvedTick} width={22} height={22} />
               </div>
@@ -78,12 +79,12 @@ export default class OrderHistoryDetails extends Component {
           </div>
           <div className={Styles.fontLight}>
             {" "}
-            {selectedTickerHistory.status == "Resolved"
+            {selectedTickerHistory.status === RESOLVED
               ? "Resolved On"
               : "Estimated Resolution"}{" "}
             :{" "}
             <span className={Styles.fontBold}>
-              {selectedTickerHistory.status == "Resolved"
+              {selectedTickerHistory.status === RESOLVED
                 ? selectedTickerHistory.resolvedDate &&
                   moment(
                     selectedTickerHistory.resolvedDate.split(" ")[0],
@@ -104,7 +105,7 @@ export default class OrderHistoryDetails extends Component {
             ></span>
           </div>
 
-          {selectedTickerHistory.status === "Resolved" && (
+          {selectedTickerHistory.status === RESOLVED && (
             <div className={Styles.resolvedBox}>
               <Icon image={resolveIcon} width={26} height={15} />
               <span className={Styles.resolvedStatusText}>

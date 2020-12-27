@@ -7,6 +7,7 @@ import infoIcon from "./img/infoIcon.svg";
 import ProductImage from "../../general/components/ProductImage";
 import OrderHistoryDetails from "./OrderHistoryDetails";
 import moment from "moment";
+import { RESOLVED } from "../../lib/constants";
 const CREATION_DATE_FORMAT = "DD MMM YYYY";
 const ticketStatusDropDownMenu = [
   { label: "All Tickets", value: "all" },
@@ -105,7 +106,7 @@ export default class OrderHistoryList extends Component {
                       <div className={Styles.fontLight}>
                         <span
                           className={
-                            tickets.status === "Resolved"
+                            tickets.status === RESOLVED
                               ? Styles.resolved
                               : tickets.escalationFlag === "true"
                               ? Styles.delayed
@@ -115,8 +116,8 @@ export default class OrderHistoryList extends Component {
                         Status :{" "}
                         <span className={Styles.fontBold}>
                           {tickets.status}{" "}
-                          {tickets.status === "Resolved" ? "|" : null}{" "}
-                          {tickets.status === "Resolved" &&
+                          {tickets.status === RESOLVED ? "|" : null}{" "}
+                          {tickets.status === RESOLVED &&
                             tickets.resolvedDate &&
                             moment(tickets.resolvedDate, "DD-MM-YYYY").format(
                               `${STATUS_DATE_FORMAT}`
@@ -124,7 +125,7 @@ export default class OrderHistoryList extends Component {
                         </span>
                       </div>
 
-                      {tickets.resolutionDate && tickets.status !== "Resolved" && (
+                      {tickets.resolutionDate && tickets.status !== RESOLVED && (
                         <div className={Styles.fontLight}>
                           {" "}
                           Estimated Resolution Date:{" "}
