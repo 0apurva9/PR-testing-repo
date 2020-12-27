@@ -36,7 +36,7 @@ export default class AttachmentUpload extends Component {
     }
 
 
-    async componentDidMount() {
+     componentDidMount() {
         const customerId = this.state.queryParamsObj ? this.state.queryParamsObj.customerId : "",
             userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS),
             customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
