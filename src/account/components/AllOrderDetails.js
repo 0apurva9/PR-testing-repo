@@ -225,10 +225,15 @@ export default class AllOrderDetails extends React.Component {
     }
   };
 
+  redirectCliqCarePage() {
+    this.props.history.push(`${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`);
+  }
+
   redirectToHelp = url => {
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
   };
+
   renderToContinueShopping() {
     setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING);
     this.props.history.push(HOME_ROUTER);
@@ -588,7 +593,7 @@ export default class AllOrderDetails extends React.Component {
                     </div>
                     <div className={styles.linkTabHolder}>
                       <AccountUsefulLink
-                        onClick={() => this.redirectToHelp(HELP_URL)}
+                        onClick={() => this.redirectCliqCarePage()}
                       >
                         <div className={styles.usefulLinkText}>
                           Help & Services
@@ -623,11 +628,6 @@ export default class AllOrderDetails extends React.Component {
                         onClick={() => this.redirectToHelp(ABOUT_US_URL)}
                       >
                         <div className={styles.usefulLinkText}>About us</div>
-                      </AccountUsefulLink>
-                      <AccountUsefulLink
-                        onClick={() => this.redirectToHelp(FAQ_URL)}
-                      >
-                        <div className={styles.usefulLinkText}>FAQ</div>
                       </AccountUsefulLink>
                     </div>
                   </div>
