@@ -287,15 +287,23 @@ export async function postAdobeTargetUrl(
   return result;
 }
 
-async function corePost(path, postData, doNotUseApiSuffix) {
+async function corePost(path, postData, channel) {
   const url = `${API_URL_ROOT}/${path}`;
+
+  const headers = {
+    Authorization: "Basic " + btoa("gauravj@dewsolutions.in:gauravj@12#"),
+    "Content-Type": "application/json"
+  };
+
+  // SFC - 60 (Additional header for forgotPassword API)
+  if (channel) {
+    headers.appPlatform = channel;
+  }
+
   return await fetch(url, {
     method: "POST",
-    body: JSON.stringify(postData),
-    headers: {
-      Authorization: "Basic " + btoa("gauravj@dewsolutions.in:gauravj@12#"),
-      "Content-Type": "application/json"
-    }
+    body: postData && JSON.stringify(postData),
+    headers
   });
 }
 
@@ -458,8 +466,8 @@ export async function postFormData(url, payload) {
   }
 }
 
-export async function post(path, postData, doNotUseApiSuffix: true) {
-  const result = await corePost(path, postData, doNotUseApiSuffix);
+export async function post(path, postData, channel, doNotUseApiSuffix: true) {
+  const result = await corePost(path, postData, channel);
   const resultClone = result.clone();
   const resultJson = await result.json();
   const errorStatus = ErrorHandling.getFailureResponse(resultJson);
