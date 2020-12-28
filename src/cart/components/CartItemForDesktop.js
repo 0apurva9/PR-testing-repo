@@ -417,6 +417,12 @@ export default class CartItemForDesktop extends React.Component {
                       </React.Fragment>
                     ))}
             </div>
+            {this.props.product.comboDiscount && (
+              <div className={styles.bundlingComboDiscount}>
+                Combo Discount Applied: {RUPEE_SYMBOL}
+                {this.props.product.comboDiscount}
+              </div>
+            )}
             {this.props.isGiveAway === YES && (
               <div className={styles.isGiveAwayQuantity}>
                 Quantity:
@@ -764,6 +770,7 @@ export default class CartItemForDesktop extends React.Component {
                     )
                   }
                   history={this.props.history}
+                  comboDiscount={digitalProduct.comboDiscount}
                 />
               );
             }
