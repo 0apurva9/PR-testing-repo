@@ -376,8 +376,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getTotalBundledPrice: data => {
       dispatch(getTotalBundledPrice(data));
     },
-    addBundledProductsToCart: data => {
-      dispatch(addBundledProductsToCart(data));
+    addBundledProductsToCart: (data, source) => {
+      dispatch(addBundledProductsToCart(data, source));
     },
     getCartCountForLoggedInUser: () => {
       dispatch(getCartCountForLoggedInUser());

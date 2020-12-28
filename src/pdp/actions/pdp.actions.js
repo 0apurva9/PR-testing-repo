@@ -52,6 +52,7 @@ import {
   getCartDetailsForAnonymousInUser
 } from "../../lib/getCookieDetails.js";
 import { MSD_ROOT_PATH } from "../../../src/plp/actions/plp.actions";
+import testData from "../../mock/bundlingSuggestion.json";
 export const SUBMIT_REVIEW_TEXT = "Thanks! Review submitted successfully";
 export const PRODUCT_DESCRIPTION_REQUEST = "PRODUCT_DESCRIPTION_REQUEST";
 export const PRODUCT_DESCRIPTION_SUCCESS = "PRODUCT_DESCRIPTION_SUCCESS";
@@ -2710,11 +2711,12 @@ export function getBundledProductSuggestion(
       let headers = {
         "access-token": accessToken
       };
-      const result = await api.getDataWithMicroservicesWithHeaders(
-        `marketplacemicroscervices/getSuggestions?productCode=${productId}&ussid=${ussId}&categoryCode=${categoryCode}&brandCode=${brandCode}&channel=${CHANNEL}&updatedFlag=true&source=${source}&pinCode=${pincode}`,
-        headers
-      );
-      const resultJson = await result.json();
+      // const result = await api.getDataWithMicroservicesWithHeaders(
+      //   `marketplacemicroscervices/getSuggestions?productCode=${productId}&ussid=${ussId}&categoryCode=${categoryCode}&brandCode=${brandCode}&channel=${CHANNEL}&updatedFlag=true&source=${source}&pinCode=${pincode}`,
+      //   headers
+      // );
+      // const resultJson = await result.json();
+      const resultJson = testData;
       if (
         resultJson &&
         resultJson.status &&
@@ -2796,7 +2798,7 @@ export function addBundledProductsToCartFailure(error) {
   };
 }
 
-export function addBundledProductsToCart(data) {
+export function addBundledProductsToCart(data, source) {
   let userDetails = getLoggedInUserDetails();
   let accessToken = getGlobalAccessToken();
   let userId = ANONYMOUS_USER;
@@ -2885,7 +2887,7 @@ export function addBundledProductsToCart(data) {
       const result = await api.post(
         `${PRODUCT_DETAILS_PATH}/${userId}/carts/${
           cartId ? cartId + "/" : ""
-        }productBundlingAdditionToCart?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&quantity=1&addedToCartWl=false&channel=${CHANNEL}`,
+        }productBundlingAdditionToCart?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&quantity=1&addedToCartWl=false&channel=${CHANNEL}&additionSource=${source}`,
         data
       );
       const resultJson = await result.json();
