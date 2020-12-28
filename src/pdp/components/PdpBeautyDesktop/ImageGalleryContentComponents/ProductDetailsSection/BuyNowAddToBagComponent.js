@@ -104,27 +104,63 @@ export default class BuyNowAddToBagComponent extends React.Component {
   }
 
   checkIfSizeSelected = () => {
+    let sizeOptions = [];
+    let selectedSize = [];
+
     if (this.props.location.state && this.props.location.state.isSizeSelected) {
       return true;
     }
 
-    if (this.props.productDetails.variantOptions) {
+    if (
+      this.props.productDetails.variantOptions &&
+      this.props.productDetails.variantOptions.length > 0
+    ) {
       const variantOptions =
         this.props &&
         this.props.productDetails &&
         this.props.productDetails.variantOptions;
-      let sizeOptions = [];
-      sizeOptions = variantOptions && variantOptions.map(el => el.sizelink);
+      sizeOptions =
+        variantOptions &&
+        variantOptions.length > 0 &&
+        variantOptions.map(el => el.sizelink);
       const productListingId =
         this.props &&
         this.props.productDetails &&
         this.props.productDetails.productListingId;
-      let selectedSize = [];
       selectedSize =
         sizeOptions &&
         sizeOptions.filter(
           (el, i) =>
             el.productCode === productListingId && el.isAvailable === true
+        );
+      if (selectedSize && selectedSize.length > 0) {
+        return true;
+      }
+    }
+
+    if (
+      this.props.productDetails.variantTheme &&
+      this.props.productDetails.variantTheme.length > 0
+    ) {
+      const variantOptions =
+        this.props &&
+        this.props.productDetails &&
+        this.props.productDetails.variantTheme;
+      sizeOptions =
+        variantOptions &&
+        variantOptions.length > 0 &&
+        variantOptions.map(el => el.sizelink);
+      const productListingId =
+        this.props &&
+        this.props.productDetails &&
+        this.props.productDetails.productListingId;
+      selectedSize =
+        sizeOptions &&
+        sizeOptions.filter(
+          (el, i) =>
+            el.productCode === productListingId &&
+            el.isAvailable === true &&
+            el.selected === true
         );
       if (selectedSize && selectedSize.length > 0) {
         return true;

@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import styles from "./color-component.component.css";
 import { findSelectedSize } from "../../../../reducers/utils";
@@ -177,3 +178,62 @@ export default class ColorComponent extends React.Component {
     );
   }
 }
+
+
+ColorComponent.propTypes = {
+  productDetails: PropTypes.shape({
+    variantOptions: PropTypes.arrayOf(PropTypes.shape({
+      colorlink: PropTypes.shape({
+        colorurl: PropTypes.string.isRequired,
+        selected: PropTypes.bool.isRequired
+      }).isRequired,
+      sizelink: PropTypes.shape({
+        imageUrl: PropTypes.string.isRequired,
+        isAvailable: PropTypes.bool.isRequired,
+        productCode: PropTypes.string.isRequired,
+        size: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired
+      }).isRequired
+    }).isRequired),
+    variantTheme: PropTypes.arrayOf(PropTypes.shape({
+      colorOptions: PropTypes.arrayOf(PropTypes.shape({
+        color: PropTypes.string.isRequired,
+        colorHexCode: PropTypes.string.isRequired,
+        isAvailable: PropTypes.bool.isRequired,
+        productCode: PropTypes.string,
+        selected: PropTypes.bool.isRequired,
+        swatchUrl: PropTypes.string.isRequired,
+        url: PropTypes.string
+      }).isRequired).isRequired,
+      sizelink: PropTypes.shape({
+        imageUrl: PropTypes.string.isRequired,
+        isAvailable: PropTypes.bool.isRequired,
+        productCode: PropTypes.string.isRequired,
+        selected: PropTypes.bool.isRequired,
+        size: PropTypes.string.isRequired,
+        url: PropTypes.string.isRequired
+      }).isRequired
+    }).isRequired).isRequired,
+    winningUssID: PropTypes.string,
+    productListingId: PropTypes.string,
+    pincodeListResponse: PropTypes.shape({
+      deliveryOptions: PropTypes.shape({
+          pincodeListResponse: PropTypes.arrayOf(PropTypes.shape({
+            cod: PropTypes.string.isRequired,
+            exchangeServiceable: PropTypes.bool.isRequired,
+            fulfilmentType: PropTypes.string.isRequired,
+            isCODLimitFailed: PropTypes.string.isRequired,
+            isFragile: PropTypes.string.isRequired,
+            isPickupAvailableForExchange: PropTypes.bool.isRequired,
+            isPrecious: PropTypes.string.isRequired,
+            isPrepaidEligible: PropTypes.string.isRequired,
+            isServicable: PropTypes.string.isRequired,
+            quickDeliveryMode: PropTypes.string.isRequired,
+            stockCount: PropTypes.number.isRequired,
+            transportMode: PropTypes.string.isRequired,
+            ussid: PropTypes.string.isRequired,
+          }).isRequired).isRequired
+      })
+    })
+  }).isRequired
+};
