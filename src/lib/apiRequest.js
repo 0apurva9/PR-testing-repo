@@ -302,7 +302,7 @@ async function corePost(path, postData, channel) {
 
   return await fetch(url, {
     method: "POST",
-    body: JSON.stringify(postData),
+    body: postData && JSON.stringify(postData),
     headers
   });
 }
