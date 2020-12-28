@@ -93,6 +93,23 @@ export function sortArrayOfObjectByIntegerKeyValue(array, keyName) {
   });
 }
 
+/**
+ * This functions take two different arrays and a matching key with a flag and returns an object to the caller to set in state.
+ *
+ * @param {array} variantTheme - Array of objects
+ * @param {array} variantOptions - Array of objects
+ * @param {string} productListingId - String for comparision with productCode inside the key in the objects inside the arrays
+ * @param {boolean} fromColorComponent - Flag to determine from where the function is called
+ * @typedef {Object} StateObject1
+ * @property {boolean} isSelected - Selected Size
+ * @property {number} selectedIndex - Selected Size Index
+ * @typedef {Object} StateObject2
+ * @property {number} selectedSizeIndex - Selected Size Index
+ * @return {StateObject1 | StateObject2}
+ * @example
+ * findSelectedSize(variantTheme, variantOptions, productListingId, true);
+ */
+
 export function findSelectedSize(
   variantTheme = [],
   variantOptions = [],
