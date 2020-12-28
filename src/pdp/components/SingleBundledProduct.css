@@ -131,3 +131,16 @@
 .showProducts{
   display: block;
 }
+.productNameDisabled{
+	pointer-events: none;
+}
+.imageHolderMainProductDisabled{
+  width: 68px;
+	height: 90px;
+	pointer-events: none;
+}
+.imageHolderDisabled{
+  width: 96px;
+  height: 128px;
+  pointer-events: none;
+}
