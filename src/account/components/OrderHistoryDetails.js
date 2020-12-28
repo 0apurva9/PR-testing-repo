@@ -5,7 +5,9 @@ import Styles from "./OrderHistoryList.css";
 import Icon from "../../xelpmoc-core/Icon";
 import infoIcon from "./img/infoIcon.svg";
 import resolveIcon from "./img/resolve-icon.svg";
+import resolvedTick from "./img/resolvedTick.svg";
 import moment from "moment";
+import { RESOLVED } from "../../lib/constants";
 const CREATION_DATE_FORMAT = "DD MMM, hh:mm";
 const STATUS_DATE_FORMAT = "DD MMM, YYYY";
 export default class OrderHistoryDetails extends Component {
@@ -32,17 +34,16 @@ export default class OrderHistoryDetails extends Component {
               moment(
                 selectedTickerHistory.creationDate,
                 "DD-MM-YYYY hh:mm:ss"
-              ).format(`ddd ${CREATION_DATE_FORMAT}`)}
+              ).format(`${CREATION_DATE_FORMAT}`)}
           </span>
         </div>
         <div className={Styles.orderInfoDetails}>
-          <div
-            className={
-              selectedTickerHistory.issueBucket
-                ? Styles.nonOrderImg
-                : Styles.orderImg
-            }
-          >
+          <div className={Styles.orderImg}>
+            {selectedTickerHistory.status === RESOLVED ? (
+              <div className={Styles.resolvedIcon}>
+                <Icon image={resolvedTick} width={22} height={22} />
+              </div>
+            ) : null}
             {selectedTickerHistory.issueBucket ? (
               <div className={Styles.nonOrderIcon}>
                 <div
@@ -76,31 +77,35 @@ export default class OrderHistoryDetails extends Component {
               {selectedTickerHistory.status}
             </span>
           </div>
-          {selectedTickerHistory.resolutionDate &&
-            selectedTickerHistory.status !== "Resolved" && (
-              <div className={Styles.fontLight}>
-                {" "}
-                {selectedTickerHistory.status == "Resolved"
-                  ? "Resolved On"
-                  : "Estimated Resolution"}{" "}
-                <span className={Styles.fontBold}>
-                  {selectedTickerHistory.resolutionDate &&
-                    moment(
-                      selectedTickerHistory.resolutionDate.split(" ")[0],
-                      "DD-MM-YYYY"
-                    ).format(STATUS_DATE_FORMAT)}
-                </span>{" "}
-                <span
-                  className={
-                    selectedTickerHistory.slaBreach === "true"
-                      ? Styles.delayedStatusText
-                      : Styles.statusText
-                  }
-                ></span>
-              </div>
-            )}
+          <div className={Styles.fontLight}>
+            {" "}
+            {selectedTickerHistory.status === RESOLVED
+              ? "Resolved On"
+              : "Estimated Resolution"}{" "}
+            :{" "}
+            <span className={Styles.fontBold}>
+              {selectedTickerHistory.status === RESOLVED
+                ? selectedTickerHistory.resolvedDate &&
+                  moment(
+                    selectedTickerHistory.resolvedDate.split(" ")[0],
+                    "DD-MM-YYYY"
+                  ).format(STATUS_DATE_FORMAT)
+                : selectedTickerHistory.resolutionDate &&
+                  moment(
+                    selectedTickerHistory.resolutionDate.split(" ")[0],
+                    "DD-MM-YYYY"
+                  ).format(STATUS_DATE_FORMAT)}
+            </span>{" "}
+            <span
+              className={
+                selectedTickerHistory.slaBreach === "true"
+                  ? Styles.delayedStatusText
+                  : Styles.statusText
+              }
+            ></span>
+          </div>
 
-          {selectedTickerHistory.status === "Resolved" && (
+          {selectedTickerHistory.status === RESOLVED && (
             <div className={Styles.resolvedBox}>
               <Icon image={resolveIcon} width={26} height={15} />
               <span className={Styles.resolvedStatusText}>
@@ -137,7 +142,7 @@ export default class OrderHistoryDetails extends Component {
             </div>
             <div className={Styles.customerCetails}>
               <div className={Styles.customerCircle}></div>
-              <div>
+              <div className={Styles.commentBody}>
                 <div className={Styles.fontBold}>
                   {this.props.userName} |{" "}
                   <span className={Styles.fontLight}>
@@ -162,13 +167,13 @@ export default class OrderHistoryDetails extends Component {
           <div className={Styles.communication}>
             <div className={Styles.customerCetails}>
               <div className={Styles.customerCircle}></div>
-              <div>
+              <div className={Styles.commentBody}>
                 <div className={Styles.fontBold}>
                   CLiQ Care |{" "}
                   <span className={Styles.fontLight}>
-                    {selectedTickerHistory.creationDate &&
+                    {selectedTickerHistory.resolutionDate &&
                       moment(
-                        selectedTickerHistory.creationDate,
+                        selectedTickerHistory.resolutionDate,
                         "DD-MM-YYYY hh:mm:ss"
                       ).format(CREATION_DATE_FORMAT)}
                   </span>

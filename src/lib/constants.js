@@ -601,3 +601,4 @@ export const MAIN_PRODUCT_NOT_SERVICEABLE_WITH_EXCHANGE =
   "Cannot service Exchange since main product not serviceable";
 export const EXCHANGE_DISABLED =
   "Exchange is not available for this Pincode currently, please change Pincode or remove exchange";
+export const RESOLVED = "Resolved";
