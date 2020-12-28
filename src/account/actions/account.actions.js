@@ -3193,7 +3193,8 @@ export function sendInvoice(lineID, orderNumber) {
           JSON.parse(userDetails).userName
         }/sendInvoice?access_token=${
           JSON.parse(customerCookie).access_token
-        }&orderNumber=${orderNumber}&lineID=${lineID}`
+        }&orderNumber=${orderNumber}&lineID=${lineID}`,
+        "desktop"
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);

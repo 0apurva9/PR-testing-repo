@@ -312,26 +312,30 @@ export async function mockGetFooter() {
   return await fetch(url);
 }
 
-export async function coreGet(url) {
+export async function coreGet(url, channel) {
   function btoa(str) {
     if (Buffer.byteLength(str) !== str.length) throw new Error("bad string!");
     return Buffer(str, "binary").toString("base64");
   }
+  const headers = {
+    Authorization: "Basic " + btoa("gauravj@dewsolutions.in:gauravj@12#"),
+    "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
+    "Content-Length": 1897,
+    "Content-Type": "application/json; charset=utf-8",
+    Expires: "Mon, 01 Jan 1990 00:00:00 GMT",
+    Pragma: "no-cache",
+    Server: "Microsoft-IIS/8.0"
+  };
+  if (channel) {
+    headers.appPlatform = channel;
+  }
   return await fetch(`${API_URL_ROOT}/${url}`, {
-    headers: {
-      Authorization: "Basic " + btoa("gauravj@dewsolutions.in:gauravj@12#"),
-      "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
-      "Content-Length": 1897,
-      "Content-Type": "application/json; charset=utf-8",
-      Expires: "Mon, 01 Jan 1990 00:00:00 GMT",
-      Pragma: "no-cache",
-      Server: "Microsoft-IIS/8.0"
-    }
+    headers
   });
 }
 
-export async function get(url) {
-  const result = await coreGet(url);
+export async function get(url, channel) {
+  const result = await coreGet(url, channel);
   const resultClone = result.clone();
   const resultJson = await result.json();
   const errorStatus = ErrorHandling.getFailureResponse(resultJson);
