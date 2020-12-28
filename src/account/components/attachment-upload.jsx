@@ -36,13 +36,14 @@ export default class AttachmentUpload extends Component {
     }
 
 
-    async componentDidMount() {
+     componentDidMount() {
         const customerId = this.state.queryParamsObj ? this.state.queryParamsObj.customerId : "",
             userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS),
             customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+        const parseUserDetails = JSON.parse(userDetails);
         if (!userDetails && !customerCookie) {
             this.navigateToLogin();
-        } else if (customerId !== userDetails.customerId) {
+        } else if (customerId !== parseUserDetails.customerId) {
             this.showAlertRetry();
         } else {
             this.props.getCustomerQueriesFieldsv2(this.state.queryParamsObj.templateId, false);
@@ -62,7 +63,7 @@ export default class AttachmentUpload extends Component {
                 }));
             }
         }
-        
+
         if (nextProps.submitCaptureAttachmentsData !== this.props.submitCaptureAttachmentsData) {
             if (nextProps.submitCaptureAttachmentsData.status.toLowerCase() == SUCCESS.toLowerCase()) {
                 if (this.props.attachmentUploadResponsePopUp) {
@@ -81,7 +82,7 @@ export default class AttachmentUpload extends Component {
                 )
             }
         }
-        
+
 
     }
 
