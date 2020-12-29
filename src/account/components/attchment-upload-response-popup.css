@@ -1,10 +1,36 @@
 .base {
-    width: 667px;
     height: 464px;
-    border-radius: 6px;
-    background-color: #ffffff;
-    position: relative;
-}
+    background-color: #fff;
+    border-radius: 15px;
+    position: absolute;
+    padding: 24px;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    animation: slideInUp 200ms forwards;
+    text-align: center;
+  }
+  
+  @keyframes slideInUp {
+    0% {
+      transform: translateY(100%);
+    }
+    100% {
+      transform: translateY(0%);
+    }
+  }
+  .headerText {
+    font-family: semibold;
+    font-size: 20px;
+    color: #2d2d2d;
+  }
+  @media screen and (min-width: 1025px) {
+    .base {
+      width: 667px;
+    }
+  }
 
 .closeIconBody {
     position: absolute;
@@ -13,9 +39,9 @@
 }
 
 .ticketTypeContentBody {
-    width: 320px;
+    width: 437px;
     margin: 0px auto;
-    padding: 60px 0px 40px 0px;
+    padding: 34px 0px 40px 0px;
     text-align: center;
 }
 
