@@ -371,7 +371,7 @@ export function getMasterTemplate(categoryId) {
     dispatch(getMasterTemplateRequest());
     try {
       const result = await api.customGetMiddlewareUrl(
-        `/otatacliq/mobile/template/${categoryId}`
+        `/otatacliq/desktop/template/${categoryId}`
       );
       let resultJson = await result.json();
       let finalJson = {};
