@@ -83,6 +83,11 @@ export const CHECK_PIN_CODE_FROM_PLP_SUCCESS =
 export const CHECK_PIN_CODE_FROM_PLP_FAILURE =
   "CHECK_PIN_CODE_FROM_PLP_FAILURE";
 
+export const GET_DEFAULT_PLP_VIEW_REQUEST = "GET_DEFAULT_PLP_VIEW_REQUEST";
+export const GET_DEFAULT_PLP_VIEW_SUCCESS = "GET_DEFAULT_PLP_VIEW_SUCCESS";
+export const GET_DEFAULT_PLP_VIEW_FAILURE = "GET_DEFAULT_PLP_VIEW_FAILURE";
+const DEFAULT_PLP_VIEW = "defaultPlpView";
+
 export function setProductModuleRef(ref) {
   return {
     type: SET_PRODUCT_MODULE_REF,
@@ -693,6 +698,59 @@ export function checkPincodeFromPLP(
       );
     } catch (e) {
       return dispatch(checkPincodeFromPLPFailure(e.message));
+    }
+  };
+}
+
+export function getDefaultPlpViewRequest() {
+  return {
+    type: GET_DEFAULT_PLP_VIEW_REQUEST,
+    status: REQUESTING
+  };
+}
+export function getDefaultPlpViewSuccess(data) {
+  return {
+    type: GET_DEFAULT_PLP_VIEW_SUCCESS,
+    status: SUCCESS,
+    data
+  };
+}
+
+export function getDefaultPlpViewFailure(error) {
+  return {
+    type: GET_DEFAULT_PLP_VIEW_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function getDefaultPlpView() {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getDefaultPlpViewRequest());
+    try {
+      const result = await api.customGetMiddlewareUrl(
+        `/otatacliq/getApplicationProperties.json?propertyNames=DEFAULT_PLP_VIEW`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+
+      if (
+        resultJson &&
+        resultJson.applicationProperties &&
+        resultJson.applicationProperties.length >= 1
+      ) {
+        Cookie.createCookie(
+          DEFAULT_PLP_VIEW,
+          JSON.stringify(resultJson.applicationProperties)
+        );
+      }
+      return dispatch(getDefaultPlpViewSuccess(resultJson));
+    } catch (e) {
+      dispatch(getDefaultPlpViewFailure(e.message));
     }
   };
 }
