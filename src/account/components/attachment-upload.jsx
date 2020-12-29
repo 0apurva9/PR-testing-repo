@@ -29,18 +29,18 @@ export default class AttachmentUpload extends Component {
         const parsedQueryString = queryString.parse(this.props.location.search);
         const cIdList = parsedQueryString.cId ? parsedQueryString.cId.split("-") : [];
         if (cIdList.length) {
-            return { customerId: cIdList[0], ticketId: cIdList[1], templateId: parsedQueryString.templateId };
+            return { customerId: cIdList[0], ticketId: cIdList[2], templateId: parsedQueryString.templateId };
         } else {
             return null;
         }
     }
 
 
-     componentDidMount() {
+    componentDidMount() {
         const customerId = this.state.queryParamsObj ? this.state.queryParamsObj.customerId : "",
             userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS),
             customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-        const parseUserDetails = JSON.parse(userDetails);
+        const parseUserDetails = userDetails && JSON.parse(userDetails);
         if (!userDetails && !customerCookie) {
             this.navigateToLogin();
         } else if (customerId !== parseUserDetails.customerId) {
@@ -65,22 +65,10 @@ export default class AttachmentUpload extends Component {
         }
 
         if (nextProps.submitCaptureAttachmentsData !== this.props.submitCaptureAttachmentsData) {
-            if (nextProps.submitCaptureAttachmentsData.status.toLowerCase() == SUCCESS.toLowerCase()) {
-                if (this.props.attachmentUploadResponsePopUp) {
-                    this.props.attachmentUploadResponsePopUp({
-                        message: nextProps.submitCaptureAttachmentsData.message,
-                        isTicketDuplicate: false
-                    }
-                    )
-                }
+            this.props.attachmentUploadResponsePopUp({
+                submitResponseData: nextProps.submitCaptureAttachmentsData
             }
-            else {
-                this.props.attachmentUploadResponsePopUp({
-                    message: nextProps.submitCaptureAttachmentsData.message,
-                    isTicketDuplicate: true
-                }
-                )
-            }
+            )
         }
 
 

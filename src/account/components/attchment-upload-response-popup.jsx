@@ -6,9 +6,9 @@ import Button from "../../general/components/Button.js";
 import { withRouter } from "react-router-dom";
 import raisedTicket from "../components/img/raisedTicket.svg";
 import raiseTicketDuplicate from "../components/img/raiseTicketDuplicate.svg";
-import BottomSlideModal from "../../general/components/BottomSlideModal";
 import Icon from '../../xelpmoc-core/Icon';
 import { HOME_ROUTER } from "../../lib/constants";
+const DUPLICATE = "Duplicate";
 
 class AttachmentUploadResponse extends Component {
 
@@ -17,47 +17,45 @@ class AttachmentUploadResponse extends Component {
     }
 
     render() {
-        const { message, isTicketDuplicate } = this.props;
+        const { message, status } = this.props.submitResponseData;
         return (
-            <BottomSlideModal>
-                <div className={Styles.base}>
-                    <div className={Styles.closeIconBody} onClick={() => this.continueShopping()}>
-                        <Icon image={cancelGrey} size={14} />
+            <div className={Styles.base}>
+                <div className={Styles.closeIconBody} onClick={() => this.continueShopping()}>
+                    <Icon image={cancelGrey} size={14} />
+                </div>
+                <div className={Styles.ticketTypeContentBody}>
+                    <div className={Styles.ticketTypeHeading}>
+                        {status == DUPLICATE ? "Files Already Received" : "Files Uploaded Successfully"}
                     </div>
-                    <div className={Styles.ticketTypeContentBody}>
-                        <div className={Styles.ticketTypeHeading}>
-                            {isTicketDuplicate ? "Files Already Received" : "Files Uploaded"}
+                    {status == DUPLICATE ?
+                        <div className={Styles.duplicateIcon}>
+                            <Icon image={raiseTicketDuplicate} width={232} height={160} />
                         </div>
-                        {isTicketDuplicate ?
-                            <div className={Styles.duplicateIcon}>
-                                <Icon image={raiseTicketDuplicate} width={232} height={160} />
-                            </div>
-                            :
-                            <div className={Styles.iconBox}>
-                                <Icon image={raisedTicket} size={214} />
-                            </div>
-                        }
+                        :
+                        <div className={Styles.iconBox}>
+                            <Icon image={raisedTicket} size={214} />
+                        </div>
+                    }
 
-                        <div className={isTicketDuplicate ? Styles.messageBox : null}>
-                            {message}
-                        </div>
+                    <div className={status == DUPLICATE ? Styles.messageBox : null}>
+                        {message}
+                    </div>
 
-                        <div className={Styles.btnBody}>
-                            <Button
-                                type="primary"
-                                backgroundColor="#da1c5c"
-                                height={40}
-                                label={"CONTINUE SHOPPING"}
-                                borderRadius={6}
-                                width={205}
-                                textStyle={{ color: "#FFF", fontSize: 14 }}
-                                disabled={false}
-                                onClick={() => this.continueShopping()}
-                            />
-                        </div>
+                    <div className={Styles.btnBody}>
+                        <Button
+                            type="primary"
+                            backgroundColor="#da1c5c"
+                            height={40}
+                            label={"CONTINUE SHOPPING"}
+                            borderRadius={6}
+                            width={205}
+                            textStyle={{ color: "#FFF", fontSize: 14 }}
+                            disabled={false}
+                            onClick={() => this.continueShopping()}
+                        />
                     </div>
                 </div>
-            </BottomSlideModal>
+            </div>
         )
     }
 }
@@ -65,6 +63,6 @@ class AttachmentUploadResponse extends Component {
 export default withRouter(AttachmentUploadResponse)
 
 AttachmentUploadResponse.propTypes = {
-    isTicketDuplicate: PropTypes.bool,
+    status: PropTypes.string,
     message: PropTypes.string
 };
