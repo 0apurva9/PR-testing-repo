@@ -8,7 +8,7 @@ import resolveIcon from "./img/resolve-icon.svg";
 import resolvedTick from "./img/resolvedTick.svg";
 import moment from "moment";
 import { RESOLVED } from "../../lib/constants";
-const CREATION_DATE_FORMAT = "DD MMM, hh:mm";
+const CREATION_DATE_FORMAT = "DD MMM";
 const STATUS_DATE_FORMAT = "DD MMM, YYYY";
 export default class OrderHistoryDetails extends Component {
   componentDidMount() {
@@ -34,7 +34,7 @@ export default class OrderHistoryDetails extends Component {
               moment(
                 selectedTickerHistory.creationDate,
                 "DD-MM-YYYY hh:mm:ss"
-              ).format(`${CREATION_DATE_FORMAT}`)}
+              ).format(`${CREATION_DATE_FORMAT},YYYY | hh:mm A`)}
           </span>
         </div>
         <div className={Styles.orderInfoDetails}>
@@ -145,17 +145,17 @@ export default class OrderHistoryDetails extends Component {
               <div className={Styles.commentBody}>
                 <div className={Styles.fontBold}>
                   {this.props.userName} |{" "}
-                  <span className={Styles.fontLight}>
+                  <span className={Styles.dateBox}>
                     {selectedTickerHistory.creationDate &&
                       moment(
                         selectedTickerHistory.creationDate,
                         "DD-MM-YYYY hh:mm:ss"
-                      ).format(CREATION_DATE_FORMAT)}
+                      ).format(`${CREATION_DATE_FORMAT}, hh:mm A`)}
                   </span>
                 </div>
 
                 {selectedTickerHistory.customerComment && (
-                  <div className={Styles.fontLight}>
+                  <div className={Styles.commentTxt}>
                     {selectedTickerHistory.customerComment}
                   </div>
                 )}
@@ -170,15 +170,15 @@ export default class OrderHistoryDetails extends Component {
               <div className={Styles.commentBody}>
                 <div className={Styles.fontBold}>
                   CLiQ Care |{" "}
-                  <span className={Styles.fontLight}>
+                  <span className={Styles.dateBox}>
                     {selectedTickerHistory.resolutionDate &&
                       moment(
                         selectedTickerHistory.resolutionDate,
                         "DD-MM-YYYY hh:mm:ss"
-                      ).format(CREATION_DATE_FORMAT)}
+                      ).format(`${CREATION_DATE_FORMAT}, hh:mm A`)}
                   </span>
                 </div>
-                <div className={Styles.fontLight}>
+                <div className={Styles.commentTxt}>
                   {selectedTickerHistory.agentResolution}
                 </div>
               </div>
