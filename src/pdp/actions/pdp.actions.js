@@ -52,7 +52,6 @@ import {
   getCartDetailsForAnonymousInUser
 } from "../../lib/getCookieDetails.js";
 import { MSD_ROOT_PATH } from "../../../src/plp/actions/plp.actions";
-import testData from "../../mock/bundlingSuggestion.json";
 export const SUBMIT_REVIEW_TEXT = "Thanks! Review submitted successfully";
 export const PRODUCT_DESCRIPTION_REQUEST = "PRODUCT_DESCRIPTION_REQUEST";
 export const PRODUCT_DESCRIPTION_SUCCESS = "PRODUCT_DESCRIPTION_SUCCESS";
@@ -2711,12 +2710,11 @@ export function getBundledProductSuggestion(
       let headers = {
         "access-token": accessToken
       };
-      // const result = await api.getDataWithMicroservicesWithHeaders(
-      //   `marketplacemicroscervices/getSuggestions?productCode=${productId}&ussid=${ussId}&categoryCode=${categoryCode}&brandCode=${brandCode}&channel=${CHANNEL}&updatedFlag=true&source=${source}&pinCode=${pincode}`,
-      //   headers
-      // );
-      // const resultJson = await result.json();
-      const resultJson = testData;
+      const result = await api.getDataWithMicroservicesWithHeaders(
+        `marketplacemicroscervices/getSuggestions?productCode=${productId}&ussid=${ussId}&categoryCode=${categoryCode}&brandCode=${brandCode}&channel=${CHANNEL}&updatedFlag=true&source=${source}&pinCode=${pincode}`,
+        headers
+      );
+      const resultJson = await result.json();
       if (
         resultJson &&
         resultJson.status &&
