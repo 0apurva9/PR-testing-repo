@@ -360,3 +360,23 @@
 .commentBody {
     width: 90%;
 }
+
+.commentTxt {
+    font-size: 14px;
+    color: #4a4a4a;
+    font-family: light;
+    word-break: break-word;
+}
+
+.dateBox {
+    font-size: 14px;
+    color: #8d8d8d;
+    font-family: light;
+}
+
+.noTicket {
+    height: 212px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

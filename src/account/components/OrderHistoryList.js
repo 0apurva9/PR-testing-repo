@@ -66,91 +66,103 @@ export default class OrderHistoryList extends Component {
             )}
           </div>
           <div className={Styles.contentBox}>
-            {ticketHistoryDetails &&
-              !this.props.isRecentOrderDetails &&
-              ticketHistoryDetails.tickets.map(tickets => {
-                return (
-                  <div
-                    className={Styles.orderDetailsCardBox}
-                    onClick={() => this.props.showRecentOrderDetails(tickets)}
-                  >
+            {!this.props.isRecentOrderDetails &&
+            ticketHistoryDetails &&
+            Array.isArray(ticketHistoryDetails.tickets) &&
+            ticketHistoryDetails.tickets.length > 0 ? (
+              <div>
+                {ticketHistoryDetails.tickets.map(tickets => {
+                  return (
                     <div
-                      className={
-                        tickets.issueBucket
-                          ? Styles.nonOrderImg
-                          : Styles.orderImg
-                      }
+                      className={Styles.orderDetailsCardBox}
+                      onClick={() => this.props.showRecentOrderDetails(tickets)}
                     >
-                      {tickets.issueBucket ? (
-                        <div className={Styles.nonRelatedIcon}>
-                          <div
-                            style={{
-                              background: `url(${require(`./img/${tickets.issueBucket
-                                .split(" ")[0]
-                                .toLowerCase()}_ticket.svg`)})`,
-                              backgroundSize: "auto",
-                              backgroundRepeat: "no-repeat",
-                              width: "42px",
-                              height: "42px"
-                            }}
-                          ></div>
+                      <div
+                        className={
+                          tickets.issueBucket
+                            ? Styles.nonOrderImg
+                            : Styles.orderImg
+                        }
+                      >
+                        {tickets.issueBucket ? (
+                          <div className={Styles.nonRelatedIcon}>
+                            <div
+                              style={{
+                                background: `url(${require(`./img/${tickets.issueBucket
+                                  .split(" ")[0]
+                                  .toLowerCase()}_ticket.svg`)})`,
+                                backgroundSize: "auto",
+                                backgroundRepeat: "no-repeat",
+                                width: "42px",
+                                height: "42px"
+                              }}
+                            ></div>
+                          </div>
+                        ) : (
+                          <ProductImage image={tickets.productImage} />
+                        )}
+                      </div>
+                      <div className={Styles.orderDetails}>
+                        <div className={Styles.productName}>
+                          {tickets.issueType}
                         </div>
-                      ) : (
-                        <ProductImage image={tickets.productImage} />
-                      )}
-                    </div>
-                    <div className={Styles.orderDetails}>
-                      <div className={Styles.productName}>
-                        {tickets.issueType}
-                      </div>
-                      <div className={Styles.fontLight}>
-                        <span
-                          className={
-                            tickets.status === RESOLVED
-                              ? Styles.resolved
-                              : tickets.escalationFlag === "true"
-                              ? Styles.delayed
-                              : Styles.inProcess
-                          }
-                        ></span>
-                        Status :{" "}
-                        <span className={Styles.fontBold}>
-                          {tickets.status}{" "}
-                          {tickets.status === RESOLVED ? "|" : null}{" "}
-                          {tickets.status === RESOLVED &&
-                            tickets.resolvedDate &&
-                            moment(tickets.resolvedDate, "DD-MM-YYYY").format(
-                              `${STATUS_DATE_FORMAT}`
-                            )}
-                        </span>
-                      </div>
-
-                      {tickets.resolutionDate && tickets.status !== RESOLVED && (
                         <div className={Styles.fontLight}>
-                          {" "}
-                          Estimated Resolution Date:{" "}
+                          <span
+                            className={
+                              tickets.status === RESOLVED
+                                ? Styles.resolved
+                                : tickets.escalationFlag === "true"
+                                ? Styles.delayed
+                                : Styles.inProcess
+                            }
+                          ></span>
+                          Status :{" "}
                           <span className={Styles.fontBold}>
-                            {moment(
-                              tickets.resolutionDate.split(" ")[0],
-                              "DD-MM-YYYY"
-                            ).format(STATUS_DATE_FORMAT)}
+                            {tickets.status}{" "}
+                            {tickets.status === RESOLVED ? "|" : null}{" "}
+                            {tickets.status === RESOLVED &&
+                              tickets.resolvedDate &&
+                              moment(
+                                tickets.resolvedDate.split(" ")[0],
+                                "DD-MM-YYYY"
+                              ).format(`${STATUS_DATE_FORMAT}`)}
                           </span>
                         </div>
-                      )}
 
-                      {tickets.escalationFlag === "true" && (
-                        <div className={Styles.delayedStatus}>
-                          <div className={Styles.esclaIcon}>
-                            <Icon image={infoIcon} size={14}></Icon>
+                        {tickets.resolutionDate && tickets.status !== RESOLVED && (
+                          <div className={Styles.fontLight}>
+                            {" "}
+                            Estimated Resolution Date:{" "}
+                            <span className={Styles.fontBold}>
+                              {moment(
+                                tickets.resolutionDate.split(" ")[0],
+                                "DD-MM-YYYY"
+                              ).format(STATUS_DATE_FORMAT)}
+                            </span>
                           </div>
-                          Your issue has been escalated
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                );
-              })}
+                        )}
 
+                        {tickets.escalationFlag === "true" && (
+                          <div className={Styles.delayedStatus}>
+                            <div className={Styles.esclaIcon}>
+                              <Icon image={infoIcon} size={14}></Icon>
+                            </div>
+                            Your issue has been escalated
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              !this.props.isRecentOrderDetails && (
+                <div className={Styles.noTicket}>
+                  {" "}
+                  You have no tickets matching selected criteria{" "}
+                </div>
+              )
+            )}
             {this.props.isRecentOrderDetails && (
               <OrderHistoryDetails
                 selectedTickerHistory={this.props.selectedTickerHistory}
@@ -161,6 +173,8 @@ export default class OrderHistoryList extends Component {
         </div>
         {!this.props.isRecentOrderDetails &&
           ticketHistoryDetails &&
+          ticketHistoryDetails.tickets &&
+          Array.isArray(ticketHistoryDetails.tickets) &&
           ticketHistoryDetails.ticketCount >=
             ticketHistoryDetails.tickets.length + 1 && (
             <div className={Styles.showMoreButtonBox}>
