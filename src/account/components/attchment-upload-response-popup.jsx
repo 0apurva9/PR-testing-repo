@@ -25,9 +25,9 @@ class AttachmentUploadResponse extends Component {
                 </div>
                 <div className={Styles.ticketTypeContentBody}>
                     <div className={Styles.ticketTypeHeading}>
-                        {status == DUPLICATE ? "Files Already Received" : "Files Uploaded Successfully"}
+                        {status === DUPLICATE ? "Files Already Received" : "Files Uploaded Successfully"}
                     </div>
-                    {status == DUPLICATE ?
+                    {status === DUPLICATE ?
                         <div className={Styles.duplicateIcon}>
                             <Icon image={raiseTicketDuplicate} width={232} height={160} />
                         </div>
@@ -37,7 +37,7 @@ class AttachmentUploadResponse extends Component {
                         </div>
                     }
 
-                    <div className={status == DUPLICATE ? Styles.messageBox : null}>
+                    <div className={status === DUPLICATE ? Styles.messageBox : null}>
                         {message}
                     </div>
 
