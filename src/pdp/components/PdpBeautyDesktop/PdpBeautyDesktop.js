@@ -81,7 +81,8 @@ export default class PdpBeautyDesktop extends React.Component {
     }
 
     if (categoryHierarchy.length > 0) {
-      masterCategoryId = categoryHierarchy[2].category_id;
+      masterCategoryId =
+        categoryHierarchy[categoryHierarchy.length - 1].category_id;
     }
     if (masterCategoryId) {
       this.props.getMasterTemplate(masterCategoryId);
@@ -150,12 +151,11 @@ export default class PdpBeautyDesktop extends React.Component {
 
       return (
         <div className={styles["main-container"]}>
-          {showBreadCrumbs &&
-            showBreadCrumbs === true && (
-              <div className={styles.container}>
-                <BreadCrumbs {...this.props} />
-              </div>
-            )}
+          {showBreadCrumbs && showBreadCrumbs === true && (
+            <div className={styles.container}>
+              <BreadCrumbs {...this.props} />
+            </div>
+          )}
           {renderMetaTags(this.props.productDetails)}
           <div className={styles.container}>
             <ImageGalleryContentComponent

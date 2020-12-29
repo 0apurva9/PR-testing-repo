@@ -91,6 +91,19 @@ const CertifiedComponent = Loadable({
   }
 });
 
+import(
+  /* webpackChunkName: "ColorComponent" */ "./color-component.component.jsx"
+);
+const ColorComponent = Loadable({
+  loader: () =>
+    import(
+      /* webpackChunkName: "ColorComponent" */ "./color-component.component.jsx"
+    ),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const typeComponentMapping = {
   [PRODUCT_AND_BRAND_COMPONENT]: props => (
     <ProductAndBrandComponent {...props} />
@@ -102,7 +115,8 @@ const typeComponentMapping = {
   [OFFERS_COMPONENT]: props => <OffersComponent {...props} />,
   [BUYNOW_ADDTOBAG_COMPONENT]: props => <BuyNowAddToBagComponent {...props} />,
   [SHIPPING_DETAIL_COMPONENT]: props => <ShippingDetailsComponent {...props} />,
-  [CERTIFIED_COMPONENT]: props => <CertifiedComponent {...props} />
+  [CERTIFIED_COMPONENT]: props => <CertifiedComponent {...props} />,
+  [COLOR_COMPONENT]: props => <ColorComponent {...props} />
 };
 
 export default class ProductsDetailsSection extends React.Component {
