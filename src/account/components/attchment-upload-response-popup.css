@@ -12,12 +12,7 @@
     animation: slideInUp 200ms forwards;
     text-align: center;
   }
-  /* .heightOrder {
-    height: 302px;
-  }
-  .heightOther {
-    height: 339px;
-  } */
+  
   @keyframes slideInUp {
     0% {
       transform: translateY(100%);
