@@ -1,7 +1,7 @@
 .base {
     height: 464px;
     background-color: #fff;
-    border-radius: 15px;
+    border-radius: 6px;
     position: absolute;
     padding: 24px;
     right: 0;
@@ -36,6 +36,7 @@
     position: absolute;
     right: 15px;
     top: 15px;
+    cursor: pointer;
 }
 
 .ticketTypeContentBody {
@@ -55,6 +56,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 20px 0px 34px 0px;
 }
 .duplicateIcon{
     display: flex;

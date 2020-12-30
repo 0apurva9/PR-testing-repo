@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import Styles from './attchment-upload-response-popup.css';
-import cancelGrey from "../components/img/cancelGrey.svg";
+import cancleSvg from "../components/img/cancleSvg.svg";
 import Button from "../../general/components/Button.js";
 import { withRouter } from "react-router-dom";
-import raisedTicket from "../components/img/raisedTicket.svg";
+import successIcon from "../components/img/successIcon.svg";
 import raiseTicketDuplicate from "../components/img/raiseTicketDuplicate.svg";
 import Icon from '../../xelpmoc-core/Icon';
 import { HOME_ROUTER } from "../../lib/constants";
@@ -21,7 +21,7 @@ class AttachmentUploadResponse extends Component {
         return (
             <div className={Styles.base}>
                 <div className={Styles.closeIconBody} onClick={() => this.continueShopping()}>
-                    <Icon image={cancelGrey} size={14} />
+                    <Icon image={cancleSvg} size={15} />
                 </div>
                 <div className={Styles.ticketTypeContentBody}>
                     <div className={Styles.ticketTypeHeading}>
@@ -29,11 +29,11 @@ class AttachmentUploadResponse extends Component {
                     </div>
                     {status === DUPLICATE ?
                         <div className={Styles.duplicateIcon}>
-                            <Icon image={raiseTicketDuplicate} width={232} height={160} />
+                            <Icon image={raiseTicketDuplicate} width={232} height={170} />
                         </div>
                         :
                         <div className={Styles.iconBox}>
-                            <Icon image={raisedTicket} size={214} />
+                            <Icon image={successIcon} width={232} height={159} />
                         </div>
                     }
 

@@ -57,7 +57,7 @@ export default class UploadFile extends Component {
                                 accept="application/pdf, image/*" // accepting only pdf/images(all types)
                             />
                             <div className={styles.fileSize}>
-                                {`Upload JPEG, PNG or PDF (Maximum size ${attachmentComponent &&
+                                {`Upload JPEG, PNG or PDF (Maximum size of ${attachmentComponent &&
                                     attachmentComponent.maxFileSize} MB)`}
                             </div>
                         </div>
