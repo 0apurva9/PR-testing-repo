@@ -878,7 +878,13 @@ export default class OrderRelatedIssue extends React.Component {
             }
           >
             <div className={styles.recentTicketDetails}>
-              <div className={styles.recentTicektImage}>
+              <div
+                className={
+                  recentOrder.issueBucket
+                    ? styles.nonOrderRelatedImg
+                    : styles.recentTicektImage
+                }
+              >
                 {recentOrder.issueBucket ? (
                   <div
                     className={styles.nonOrderIcon}
@@ -938,7 +944,6 @@ export default class OrderRelatedIssue extends React.Component {
       isOrderDatails: false,
       FAQquestion: false,
       showQuestionList: false
-      // isViewAllClick: true
     });
   }
 
@@ -1191,7 +1196,7 @@ export default class OrderRelatedIssue extends React.Component {
                           this.props.initialTicketDetailsData.tickets.length >
                             0 &&
                           this.renderLatestTicketDetails(
-                            initialTicketDetailsData.tickets[0]
+                            initialTicketDetailsData.tickets[2]
                           )}
 
                         <div className={styles.tabHolderBox}>

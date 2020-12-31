@@ -4,6 +4,7 @@
   background: #ececec;
   min-height: 100vh;
 }
+
 @media screen and (min-width: 1025px) {
   .baseWrapper {
     width: 100%;
@@ -53,24 +54,17 @@
     font-size: 12px;
     font-family: light;
     color: #4a4a4a;
-    /* white-space: nowrap; */
-    /* overflow: hidden; */
-    /* text-overflow: ellipsis; */
-    /* width: 176px; */
   }
   .faqList {
-    /* position: relative; */
-    /* padding-left: 53px; */
     line-height: 14px;
     margin-top: 16px;
     cursor: pointer;
   }
-  .faqListBox{
+  .faqListBox {
     display: flex;
-    /* align-items: center; */
     margin-bottom: 24px;
   }
-  .faqIcon{
+  .faqIcon {
     padding-right: 20px;
   }
   .recentTicket {
@@ -83,101 +77,97 @@
   }
 }
 
-.faqIconBox{
+.faqIconBox {
   width: 40px;
   height: 40px;
   position: relative;
 }
 
-.faqIcon{
-  /* width: 100%;
-    height: 100%;
-    position: absolute; */
-    /* left: 0;
-    top: 0; */
-    /* background-position: center; */
-    /* background-size: 80%; */
-    /* background-repeat: no-repeat; */
-}
-
-.colorRed{
+.colorRed {
   color: #da1c5c;
 }
 
-.callMeBackFormBox{
+.callMeBackFormBox {
   display: flex;
   align-items: center;
   justify-content: center;
   width: 100%;
 }
-.formBox{
-    width: 460px;
-    background: #fff;
-    border-radius: 8px;
-    padding: 32px;
-    margin: 20px 0px;
+
+.formBox {
+  width: 460px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 32px;
+  margin: 20px 0px;
 }
-.mobileNumberBox{
+
+.mobileNumberBox {
   border: 1px solid #cdcdcd;
-    border-radius: 8px;
-    padding: 24px;
+  border-radius: 8px;
+  padding: 24px;
 }
-.fieldLabel{
+
+.fieldLabel {
   font-size: 16px;
   font-family: semibold;
   color: #212121;
   margin-bottom: 8px;
 }
-.languageBox{
+
+.languageBox {
   margin-top: 24px;
 }
-.language{
+
+.language {
   border: 1px solid #cdcdcd;
   border-radius: 8px;
   padding: 0px 24px;
   margin: 20px 0px;
 }
-.inputField{
+
+.inputField {
   position: relative;
 }
-.inputField > .customBtn{
+
+.inputField>.customBtn {
   position: absolute;
-    top: 6px;
-    right: 2px;
+  top: 6px;
+  right: 2px;
 }
-.customBtn{
+
+.customBtn {
   color: rgb(218, 28, 92);
-    font-size: 14px;
-    font-family: semibold;
-    cursor: pointer;
+  font-size: 14px;
+  font-family: semibold;
+  cursor: pointer;
 }
-.requestButtonBox{
-  
-  /* margin-top: 120px; */
+
+.requestButtonBox {
   margin-top: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.buttonBox{
+
+.buttonBox {
   margin-top: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-
-.radioTicketType{
-  margin:0px;
+.radioTicketType {
+  margin: 0px;
   font-size: 14px;
   font-family: regular;
   width: 100%;
   color: #4a4a4a;
   padding: 17px 0px;
-
 }
-.radioTicketType:not(:last-child){
-border-bottom:1px solid #e5e5e5; 
+
+.radioTicketType:not(:last-child) {
+  border-bottom: 1px solid #e5e5e5;
 }
 
 .radioTicketType label {
@@ -187,12 +177,9 @@ border-bottom:1px solid #e5e5e5;
   width: 100%;
   font-family: light;
   margin-bottom: 0px;
-  /* color: #4a4a4a;
-  
-  font-size: 14px;
-  font-family: light; */
 }
-.fontBold{
+
+.fontBold {
   font-weight: 600!important;
 }
 
@@ -207,7 +194,7 @@ border-bottom:1px solid #e5e5e5;
   padding: 0;
 }
 
-.radioTicketType label input[type="radio"] + span {
+.radioTicketType label input[type="radio"]+span {
   width: 18px;
   height: 18px;
   position: absolute;
@@ -219,92 +206,111 @@ border-bottom:1px solid #e5e5e5;
   right: 0px;
 }
 
-.radioTicketType label input[type="radio"] + span:after {
+.radioTicketType label input[type="radio"]+span:after {
   content: url(./img/active.svg);
   width: 20px;
   height: 20px;
   border-radius: 100%;
   position: absolute;
   left: -2px;
-    top: -2px;
+  top: -2px;
   transform: scale(0);
 }
 
-.radioTicketType label input[type="radio"]:checked + span:after {
-    transform: scale(1);
+.radioTicketType label input[type="radio"]:checked+span:after {
+  transform: scale(1);
 }
 
-.recentOrder{
+.recentOrder {
   margin-bottom: 20px;
   background: #fff;
   padding: 0px 24px 43px 24px;
   border-radius: 6px;
 }
 
-.recentTicketBox{
+.recentTicketBox {
   border-bottom: 1px solid #eee;
   padding: 24px 0px 16px 0px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.recentTxt{
+
+.recentTxt {
   font-size: 16px;
-    font-family: semibold;
-    color: #212121;
+  font-family: semibold;
+  color: #212121;
 }
-.viewAll{
+
+.viewAll {
   font-size: 12px;
-    font-family: semibold;
-    color: #da1c5c;
-    cursor: pointer;
+  font-family: semibold;
+  color: #da1c5c;
+  cursor: pointer;
 }
-.recentTicektImage{
+
+.recentTicektImage {
   width: 40px;
   height: 54px;
 }
-.recentTicektImage img{
+
+.recentTicektImage img {
   width: 40px;
   height: 54px;
 }
-.recentTicketDetails{
+
+.recentTicketDetails {
   display: flex;
-    /* align-items: center; */
-    /* justify-content: space-between; */
-    margin: 11px 0px;
+  margin: 11px 0px;
 }
-.recentTicketTxt{
+
+.recentTicketTxt {
   font-size: 12px;
   color: #8d8d8d;
   font-family: light;
   padding-left: 10px;
   width: 179px;
 }
-.recentTicketDetailsBox{
+
+.recentTicketDetailsBox {
   cursor: pointer;
-}
-.recentTiketStatusBox{
-  display: flex;
-}
-.inProcess{
-  width: 8px;
-  height: 8px;
-  border: 1px solid #499b1f;
-  border-radius: 50px;
-  margin-right: 10px;
 }
 
-.recentStatus{
+.recentTiketStatusBox {
+  display: flex;
+}
+
+.inProcess {
+  width: 8px;
+  height: 8px;
+  border: 1.4px solid #499b1f;
+  border-radius: 50px;
+  margin-right: 10px;
+  margin-top: 3px;
+}
+
+.recentStatus {
   font-size: 12px;
-    font-family: light;
-    color: #212121;
+  font-family: light;
+  color: #212121;
 }
-.tickets{
-    font-size: 16px;
-    font-family: semibold;
-    margin-top: 17px;
-    /* cursor: pointer; */
+
+.tickets {
+  font-size: 16px;
+  font-family: semibold;
+  margin-top: 17px;
 }
-.homePage{
+
+.homePage {
   cursor: pointer;
+}
+
+.nonOrderRelatedImg {
+  width: 59px;
+  height: 59px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f1f1;
 }

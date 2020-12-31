@@ -93,8 +93,12 @@ export default class OrderHistoryList extends Component {
                                   .toLowerCase()}_ticket.svg`)})`,
                                 backgroundSize: "auto",
                                 backgroundRepeat: "no-repeat",
-                                width: "42px",
-                                height: "42px"
+                                width: tickets.issueBucket.includes("EGV")
+                                  ? "44px"
+                                  : "42px",
+                                height: tickets.issueBucket.includes("EGV")
+                                  ? "30px"
+                                  : "42px"
                               }}
                             ></div>
                           </div>

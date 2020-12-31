@@ -53,8 +53,12 @@ export default class OrderHistoryDetails extends Component {
                       .toLowerCase()}_ticket.svg`)})`,
                     backgroundSize: "contain",
                     backgroundRepeat: "no-repeat",
-                    width: "50px",
-                    height: "50px"
+                    width: selectedTickerHistory.issueBucket.includes("EGV")
+                      ? "44px"
+                      : "42px",
+                    height: selectedTickerHistory.issueBucket.includes("EGV")
+                      ? "30px"
+                      : "42px"
                   }}
                 />
               </div>
