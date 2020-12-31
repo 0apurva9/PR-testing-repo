@@ -6,7 +6,11 @@
   justify-content: center;
 }
 
-.perfume-note-section:last-child:before {
+.separator {
+  position: relative;
+}
+
+.separator:last-child:before {
   content: "";
   width: 1px;
   height: 70%;
