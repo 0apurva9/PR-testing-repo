@@ -4283,15 +4283,12 @@ export function getCustomerQueriesFieldsv2(UItemplateCode, isSelectRadio) {
 }
 
 export const getFormattedString = (strValue = "") => {
-  debugger;
   let formattedValue = "";
   if (strValue.includes("(") && strValue.includes(")")) {
     formattedValue = strValue.replace(/\\/g, "");
-    debugger;
   } else {
     formattedValue = strValue;
   }
-
   return formattedValue;
 };
 
