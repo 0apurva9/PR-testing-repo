@@ -205,10 +205,10 @@ export default class AttachmentUpload extends Component {
                 </div>
                 <div className={Styles.attachmentSection}>
                     <div className={Styles.attachHeading}>
-                        Add attachments
+                        Add attachments {" "}
                       {attachmentData && attachmentData.isMandatory
                             ? "*"
-                            : " (optional)"} {" "}
+                            : " (optional)"} 
                     </div>
                     <UploadFile
                         attachmentComponent={attachmentData}

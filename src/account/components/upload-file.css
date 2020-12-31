@@ -73,11 +73,12 @@
 
   .fileUpload input[type="file"] {
     position: absolute;
-    left: 112px;
-    top: 0;
+    left:94px;
+    top: -12px;
     opacity: 0;
     width: 174px;
     height: 38px;
+    cursor: pointer;
   }
 
   .fileSize {

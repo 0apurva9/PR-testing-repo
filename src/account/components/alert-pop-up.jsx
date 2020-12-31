@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import Styles from './alert-pop-up.css';
-import cancelGrey from "../components/img/cancelGrey.svg";
+import cancleSvg from "../components/img/cancleSvg.svg";
 import Button from "../../general/components/Button.js";
 import { withRouter } from "react-router-dom";
 import BottomSlideModal from "../../general/components/BottomSlideModal";
@@ -47,7 +47,7 @@ class AlertPopUp extends Component {
                 <div className={Styles.base}>
                     <div className={Styles.cotentBody}>
                         <div className={Styles.closeIconBody} onClick={() => this.closeButtonClickHandle(reDirectHomePage)}>
-                            <Icon image={cancelGrey} size={14} />
+                            <Icon image={cancleSvg} size={15} />
                         </div>
                         <div className={Styles.content}>
                             {txt}

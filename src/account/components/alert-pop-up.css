@@ -25,7 +25,9 @@
 
 .closeIconBody {
     position: absolute;
-    right: 10px;
+    right: -3px;
+    top: -7px;
+    cursor: pointer;
 }
 
 .btnBody {

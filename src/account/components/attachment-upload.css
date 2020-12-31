@@ -8,7 +8,6 @@
     background: #fff;
     height: auto;
     display: flex;
-    align-items: center;
     padding: 40px;
     width: 889px;
     margin: 0px auto;
@@ -28,6 +27,7 @@
 
 .contentBox {
     margin-left: 40px;
+    margin-top: 10px;
 }
 
 .heading {
@@ -65,7 +65,7 @@
 }
 
 .btnSection {
-    margin: 40px auto;
+    margin: 40px auto 21px auto;
     display: flex;
     align-items: center;
     justify-content: center;
