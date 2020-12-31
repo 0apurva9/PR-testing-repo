@@ -130,7 +130,7 @@ export function loginUser(userLoginDetails) {
         dispatch(loginUserRequest());
         try {
             let url = `${LOGIN_PATH}/${userLoginDetails.username}/customerLogin?access_token=${
-                JSON.parse(customerCookie).accessToken
+                JSON.parse(customerCookie).access_token
             }&platformNumber=${PLAT_FORM_NUMBER}`;
             if (userLoginDetails.otp) {
                 url = `${url}&otp=${userLoginDetails.otp}`;
