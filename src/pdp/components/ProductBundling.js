@@ -288,7 +288,7 @@ export default class ProductBundling extends React.Component {
                     }
                     let isBundlingDiscountAvailable =
                       data.hasOwnProperty("bundlingDiscount") &&
-                      data.bundlingDiscount !== 0;
+                      parseFloat(data.bundlingDiscount) !== 0;
 
                     return (
                       <SingleBundledProduct
