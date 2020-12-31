@@ -1,8 +1,15 @@
 import React from "react";
+import Loadable from "react-loadable";
 
 import styles from "./GalleryImagesComponent.css";
 import Image from "../../../.../../../../xelpmoc-core/Image";
 const IMAGE = "Image";
+const ReactPlayer = Loadable({
+  loader: () => import("react-player"),
+  loading() {
+    return <div />;
+  }
+});
 export default class GalleryImagesComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -38,82 +45,99 @@ export default class GalleryImagesComponent extends React.Component {
 
   render() {
     const galleryImages = this.props && this.props.productDetails;
-    const images =
-      galleryImages && galleryImages.galleryImagesList
-        ? galleryImages.galleryImagesList.filter(val => {
-            return val.mediaType === IMAGE;
-          })
-        : [];
-    const productImages =
-      images &&
-      images
-        .map(galleryImageList => {
-          if (galleryImageList.mediaType === IMAGE) {
-            return galleryImageList.galleryImages.filter(galleryImages => {
-              return {
-                product: galleryImages.key === "product",
-                type: "image"
-              };
-            });
-          }
+    const images = galleryImages.galleryImagesList
+      ? galleryImages.galleryImagesList.filter(val => {
+          return val.mediaType === IMAGE || val.mediaType === "Video";
         })
-        .map(image => {
-          if (image[0].value) {
+      : [];
+    const productImages = images
+      .map(galleryImageList => {
+        if (galleryImageList.mediaType === IMAGE) {
+          return galleryImageList.galleryImages.filter(galleryImages => {
             return {
-              value: image[0].value,
-              type: image[0].key === "product" ? "image" : ""
+              product: galleryImages.key === "product",
+              type: "image"
             };
-          } else {
-            return image;
-          }
-        });
+          });
+        } else if (galleryImageList.mediaType === "Video") {
+          return galleryImageList.galleryImages.filter(galleryImages => {
+            return {
+              product: galleryImages.key === "thumbnail",
+              type: "video"
+            };
+          });
+        }
+      })
+      .map(image => {
+        if (image[0].value) {
+          return {
+            value: image[0].value,
+            type: image[0].key === "product" ? "image" : "video"
+          };
+        } else {
+          return image;
+        }
+      });
 
-    const zoomImages =
-      images &&
-      images
-        .map(galleryImageList => {
-          if (galleryImageList.mediaType === IMAGE) {
-            return galleryImageList.galleryImages.filter(galleryImages => {
-              if (galleryImages.key === "superZoom") {
-                return galleryImages.key === "superZoom";
-              } else {
-                return galleryImages.key === "zoom";
-              }
-            });
-          } else if (galleryImageList.mediaType === "Video") {
-            return galleryImageList.galleryImages.filter(galleryImages => {
-              return galleryImages.key === "thumbnail";
-            });
-          }
-        })
-        .map(image => {
-          if (image[0] && image[0].value) {
-            return image[0].value;
-          }
-        });
+    const zoomImages = images
+      .map(galleryImageList => {
+        if (galleryImageList.mediaType === IMAGE) {
+          return galleryImageList.galleryImages.filter(galleryImages => {
+            if (galleryImages.key === "superZoom") {
+              return galleryImages.key === "superZoom";
+            } else {
+              return galleryImages.key === "zoom";
+            }
+          });
+        } else if (galleryImageList.mediaType === "Video") {
+          return galleryImageList.galleryImages.filter(galleryImages => {
+            return galleryImages.key === "thumbnail";
+          });
+        }
+      })
+      .map(image => {
+        if (image[0] && image[0].value) {
+          return image[0].value;
+        }
+      });
+
     return (
       <div className={styles["image-gallery-Block"]}>
         <ul className={styles["image-gallery-list"]} id={styles.samples}>
           {productImages &&
             productImages.map((image, i) => {
-              if (i === this.state.position) {
-                this.type = image.type;
+              if (image.type === "video") {
+                return (
+                  <li key={i} className={styles["image-gallery-list-block"]}>
+                    <ReactPlayer
+                      url={image.value}
+                      playing={true}
+                      width="100%"
+                      height="100%"
+                      controls={true}
+                      muted={true}
+                      loop={true}
+                      className="video-beauty"
+                    />
+                  </li>
+                );
+              } else {
+                return (
+                  <li
+                    key={i}
+                    className={styles["image-gallery-list-block"]}
+                    id={`zoom${i}`}
+                  >
+                    <img
+                      src={`https:${image.value}`}
+                      data-src={zoomImages[i]}
+                      alt="image-gallery"
+                      className={styles["image-gallery-img"]}
+                      onClick={() => this.onZoomInClick(zoomImages, i)}
+                    />
+                  </li>
+                );
               }
-              return (
-                <li
-                  key={i}
-                  className={styles["image-gallery-list-block"]}
-                  id={`zoom${i}`}
-                >
-                  <img
-                    src={`https:${image.value}`}
-                    data-src={zoomImages[i]}
-                    alt="image-gallery"
-                    className={styles["image-gallery-img"]}
-                    onClick={() => this.onZoomInClick(zoomImages, i)}
-                  />
-                </li>
-              );
             })}
         </ul>
         <div
