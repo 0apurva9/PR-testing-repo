@@ -4283,19 +4283,10 @@ export function getCustomerQueriesFieldsv2(UItemplateCode, isSelectRadio) {
   };
 }
 
-const getFormattedString = (strValue = "") => {
-  let formattedValue = "",
-    startIndex = null,
-    endIndex = null;
+export const getFormattedString = (strValue = "") => {
+  let formattedValue = "";
   if (strValue.includes("(") && strValue.includes(")")) {
-    startIndex = strValue.indexOf("(");
-    endIndex = strValue.indexOf(")");
-    strValue = `${strValue.slice(0, startIndex - 1)}${strValue.slice(
-      startIndex
-    )}`;
-    formattedValue = `${strValue.slice(0, endIndex - 2)}${strValue.slice(
-      endIndex - 1
-    )}`;
+    formattedValue = strValue.replace(/\\/g, "");
   } else {
     formattedValue = strValue;
   }
