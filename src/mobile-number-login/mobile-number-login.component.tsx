@@ -14,7 +14,8 @@ import { MnlProfileOtp } from './components/mnl-profile-otp.component';
 import { MnlEmailChangeOtp } from "./components/mnl-change-email-otp.component";
 import { MnlChangeEmailSucess } from "./components/mnl-change-email-succes.component"
 import { MnlChangeProfilePasswordSuccess } from "./components/mnl-change-profile-password-success";
-import { MnlChangeMobileSucess } from './components/mnl-change-mobile-success.component'
+import { MnlChangeMobileSucess } from './components/mnl-change-mobile-success.component';
+import { MnlForgotPasswordOtp } from './components/mnl-forgot-password-otp.component';
 export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, MobileNumberLoginState> {
 
     public state: Readonly<MobileNumberLoginState> = {
@@ -88,9 +89,9 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
                                 useOtpViaMobile={() => this.props.changeLoginStep("isStepValidateOtp")}
                                 changeLoginStep={(stepKey) => this.props.changeLoginStep(stepKey)}
                                 generateOtp={(apiData) => this.props.generateOtp(apiData)}
-                                forgotPassword={(apiData) => this.props.forgotPassword(apiData)}
-                                toggleForgotPassswordClick={() => this.toggleForgotPassswordClick()}
                                 mnlApiResponse={this.props.mnlApiResponse}
+                                isStepForgotPasswordOtp={() => this.props.changeLoginStep("isStepForgotPasswordOtp")}
+                                setForgetPassword={(setForgetPassword) => this.props.setForgetPassword(setForgetPassword)}
                             />
                         )}
                         {isStepAddMobileNumber && (
@@ -162,6 +163,15 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
                                 routeToHome={() => this.routeToHome()}
                             />
                         )}
+                        {this.props.steps.isStepForgotPasswordOtp && (
+                            <MnlForgotPasswordOtp
+                                mnlApidata={this.props.mnlApiData}
+                                mnlApiResponse={this.props.mnlApiResponse}
+                                validateOtp={(mnlApiData) => this.props.validateOtp(mnlApiData)}
+                                validateChallenge={(mnlApiData) => this.props.validateChallenge(mnlApiData)}
+                                resendOtp={(mnlApiData) => this.props.generateOtp(mnlApiData)}
+                            />
+                        )}
 
                         <button
                             type="button"
@@ -198,7 +208,9 @@ export interface MobileNumberLoginProps extends RouteComponentProps {
     userMobileNumber: string;
     webMnlEmailHidden: () => void;
     isWebMNLEmailHidden: isMNLLogin;
-    displayToast: (msg: string) => void
+    displayToast: (msg: string) => void;
+    setForgetPassword: (isForgetPasswordValue: boolean) => void;
+    isForgetPasswordValue: boolean;
 }
 
 

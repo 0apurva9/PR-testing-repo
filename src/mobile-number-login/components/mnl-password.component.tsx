@@ -19,9 +19,9 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
 
     public onForgotPasswordClick() {
         const mnlApiData: MnlApiData = JSON.parse(JSON.stringify(this.props.mnlApiData));
-        mnlApiData.maskedPhoneNumber = ""
+        mnlApiData.maskedPhoneNumber = "";
+        this.props.setForgetPassword(true);
         this.props.generateOtp(mnlApiData);
-        this.props.toggleForgotPassswordClick();
     }
 
     public onContinuButtonClick() {
@@ -32,7 +32,10 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
 
     private onClickUseOtp() {
         if (this.props.mnlApiResponse.userData.customer.loginVia == "email") {
-            this.props.useOtpViaEmail(this.props.mnlApiData);
+            const mnlApiResponseState = this.props.mnlApiResponse;
+            const mnlApiData: MnlApiData = JSON.parse(JSON.stringify(this.props.mnlApiData));
+            mnlApiData.maskedPhoneNumber = mnlApiResponseState.userData.customer.maskedPhoneNumber;
+            this.props.useOtpViaEmail(mnlApiData);
         } else {
             this.props.useOtpViaMobile();
         }
@@ -107,9 +110,9 @@ export interface MnlPasswordProps {
     useOtpViaMobile: () => void;
     changeLoginStep: (stepKey: string) => void;
     generateOtp: (apiData: MnlApiData) => void;
-    forgotPassword: (apiData: MnlApiData) => void;
-    toggleForgotPassswordClick: () => void;
     mnlApiResponse: MnlApiResponse;
+    isStepForgotPasswordOtp: () => void;
+    setForgetPassword: (setForgetPassword: boolean) => void;
 }
 
 export interface MnlPasswordState {

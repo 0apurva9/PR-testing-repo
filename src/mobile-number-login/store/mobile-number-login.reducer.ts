@@ -5,7 +5,8 @@ import {
     SET_MNL_API_Response,
     SET_RESEND_OTP_TIME,
     WEB_MNL_LOGIN_SUCCESS,
-    WEB_MNL_EMAIL_HIDDEN_SUCCESS
+    WEB_MNL_EMAIL_HIDDEN_SUCCESS,
+    SET_FORGET_PASSWORD
 } from "./mobile-number-login.actions";
 import { PLAT_FORM_NUMBER } from "../../lib/constants";
 import { MobileNumberLoginReduxState } from "../mobile-number-login.types";
@@ -30,7 +31,8 @@ const initailState: MobileNumberLoginReduxState = {
         isForgotPasswordProfile: false,
         isChangeProfilePasswordSuccess: false,
         isChangeProfileMobile: false,
-        isChangeMobileNumberSuccess: false
+        isChangeMobileNumberSuccess: false,
+        isStepForgotPasswordOtp: false,
     },
     mnlApiData: {
         email: "",
@@ -51,7 +53,8 @@ const initailState: MobileNumberLoginReduxState = {
     isWebMNLEmailHidden: {
         name: "",
         value: false
-    }
+    },
+    isForgetPasswordValue: false,
 };
 
 export function mobileNumberLoginReducer(
@@ -91,6 +94,11 @@ export function mobileNumberLoginReducer(
             return Object.assign({}, state, {
                 isWebMNLEmailHidden: action.payload,
             });
+        case SET_FORGET_PASSWORD:
+            return {
+                ...state,
+                isForgetPasswordValue: action.payload,
+            }
         default:
             return state;
     }

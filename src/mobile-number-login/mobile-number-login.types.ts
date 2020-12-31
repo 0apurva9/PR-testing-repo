@@ -3,8 +3,9 @@ export interface MobileNumberLoginReduxState {
     mnlApiData: MnlApiData;
     mnlApiResponse: MnlApiResponse | null;
     resendOtpTimmer: number;
-    isMNLLogin : isMNLLogin;
-    isWebMNLEmailHidden : isMNLLogin;
+    isMNLLogin: isMNLLogin;
+    isWebMNLEmailHidden: isMNLLogin;
+    isForgetPasswordValue: boolean;
 }
 
 export interface MobileNumberLoginSteps {
@@ -16,17 +17,18 @@ export interface MobileNumberLoginSteps {
     isStepLoginSuccess2: boolean;
     isStepLoginSuccess3: boolean;
     isStepAddEmail: boolean;
-    isForgotPassword : boolean;
-    isStepEmail : boolean;
-    isChangeNumberOtp : boolean;
+    isForgotPassword: boolean;
+    isStepEmail: boolean;
+    isChangeNumberOtp: boolean;
     isStepChangeEmailOtp: boolean;
     isStepChangeEmail: boolean;
     isStepChangeEmailSucess: boolean;
-    isStepValidateProfileOtp : boolean;
-    isForgotPasswordProfile : boolean;
-    isChangeProfilePasswordSuccess : boolean;
-    isChangeProfileMobile : false;
-    isChangeMobileNumberSuccess : false;
+    isStepValidateProfileOtp: boolean;
+    isForgotPasswordProfile: boolean;
+    isChangeProfilePasswordSuccess: boolean;
+    isChangeProfileMobile: false;
+    isChangeMobileNumberSuccess: false;
+    isStepForgotPasswordOtp: false;
 }
 export interface MnlApiData {
     email: string;
@@ -35,13 +37,13 @@ export interface MnlApiData {
     otp: string;
     pass: string;
     platformNumber: string;
-    currentOtp : string;
-    newOtp : string;
+    currentOtp: string;
+    newOtp: string;
 }
 
 export interface isMNLLogin {
-    name : string;
-    value : boolean;
+    name: string;
+    value: boolean;
 }
 
 export interface Authentication {

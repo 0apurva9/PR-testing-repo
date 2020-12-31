@@ -16,7 +16,9 @@ export const SET_MNL_API_DATA = "SetMnlApiData";
 export const SET_MNL_API_Response = "SetMnlApiResponse";
 export const SET_RESEND_OTP_TIME = "SetResendOtpTimmer";
 export const WEB_MNL_LOGIN_SUCCESS = "WebMNLLoginSuccess";
-export const WEB_MNL_EMAIL_HIDDEN_SUCCESS = "WebMNLEmailHiddenSuccess"
+export const WEB_MNL_EMAIL_HIDDEN_SUCCESS = "WebMNLEmailHiddenSuccess";
+export const SET_FORGET_PASSWORD = "SetForgotPassword";
+
 
 interface ChangeLoginStepAction {
     readonly type: typeof CHANGE_LOGIN_STEP;
@@ -44,9 +46,14 @@ interface SetResendOtpTimmer {
     readonly payload: number;
 }
 
-interface SetWebMNLEmailHiddenSuccess{
+interface SetWebMNLEmailHiddenSuccess {
     readonly type: typeof WEB_MNL_EMAIL_HIDDEN_SUCCESS;
     readonly payload: isMNLLogin;
+}
+
+interface SetForgetPassword {
+    readonly type: typeof SET_FORGET_PASSWORD;
+    readonly payload: boolean;
 }
 
 export function setLoginCustomerData(mnlApiResponse: MnlApiResponse) {
@@ -124,6 +131,13 @@ export function setResendOtpTimmer(resendOtpTimmer: number): MobileNumberLoginAc
     };
 }
 
+export function setForgetPassword(isForgetPasswordValue: boolean): MobileNumberLoginActions {
+    return {
+        type: SET_FORGET_PASSWORD,
+        payload: isForgetPasswordValue,
+    };
+}
+
 async function getFetchGlobalAccessToken(dispatch: Function) {
     let globalAccessTokenCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
     if (!globalAccessTokenCookie) {
@@ -159,12 +173,13 @@ export function validateMnlChallenge() {
         dispatch(setMnlApiResponse(mnlApiResponse));
         if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.loginVia == "email" && mnlApiResponse.userData.customer.passwordSet) {
             dispatch(changeLoginStep("isStepLoginPassword"));
-        }
-        else if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.newUser) {
+        } else if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.newUser) {
             mnlApiResponse.userData.customer.loginVia === "email" ? dispatch(changeLoginStep("isStepAddMobileNumber")) : dispatch(changeLoginStep("isStepValidateOtp"));
-        }
-        else if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.maskedPhoneNumber.length) {
+        } else if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.maskedPhoneNumber.length) {
             mnlApiResponse.userData.customer.loginVia === "email" ? dispatch(generateOTP()) : dispatch(changeLoginStep("isStepValidateOtp"));
+        } else if (mnlApiResponse.userData && mnlApiResponse.userData.validation && mnlApiResponse.userData.validation.validated) {
+            dispatch(setForgetPassword(false));
+            dispatch(changeLoginStep("isForgotPassword"));
         }
         dispatch(hideSecondaryLoader());
     };
@@ -238,23 +253,20 @@ export function generateOTP() {
     return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
         const apiData = getState().mobileNumberLogin.mnlApiData;
         const globalAccessToken = await getFetchGlobalAccessToken(dispatch);
-        const mnlApiResponseState = getState().mobileNumberLogin.mnlApiResponse;
+        const isForgetPasswordValue = getState().mobileNumberLogin.isForgetPasswordValue
 
         let otpHeader = {
             Authorization: `Bearer ${globalAccessToken.access_token}`,
             "register-user": false,
             registerviamobile: false,
         }
-        if (mnlApiResponseState && mnlApiResponseState.userData && mnlApiResponseState.userData.customer && mnlApiResponseState.userData.validation && mnlApiResponseState.userData.validation.validated) {
+        if (isForgetPasswordValue) {
             //case for forgot password
             otpHeader = {
                 Authorization: `Bearer ${globalAccessToken.access_token}`,
                 "register-user": true,
                 registerviamobile: false,
             }
-        } else if (mnlApiResponseState && mnlApiResponseState.userData.customer && mnlApiResponseState.userData.customer.maskedPhoneNumber.length) {
-            // case for use otp
-            apiData.maskedPhoneNumber = mnlApiResponseState.userData.customer.maskedPhoneNumber;
         }
 
         const result: Response = await api.post("mobileloginapi/v1/authnuser/otp", apiData, true, otpHeader);
@@ -269,10 +281,11 @@ export function generateOTP() {
         }
 
         dispatch(setMnlApiResponse(mnlApiResponse));
-        if (mnlApiResponse.userData && mnlApiResponse.userData.validation && mnlApiResponse.userData.validation.otpSent) {
+        if (isForgetPasswordValue) {
+            dispatch(changeLoginStep("isStepForgotPasswordOtp"));
+        } else if (mnlApiResponse.userData && mnlApiResponse.userData.validation && mnlApiResponse.userData.validation.otpSent) {
             dispatch(changeLoginStep("isStepValidateOtp"));
-        }
-        if (mnlApiResponse.userData && mnlApiResponse.userData.customer && mnlApiResponse.userData.validation && mnlApiResponse.userData.validation.validated && mnlApiResponse.userData.customer.passwordSet) {
+        } else if (mnlApiResponse.userData && mnlApiResponse.userData.customer && mnlApiResponse.userData.validation && mnlApiResponse.userData.validation.validated && mnlApiResponse.userData.customer.passwordSet) {
             dispatch(changeLoginStep("isForgotPassword"));
         }
         dispatch(hideSecondaryLoader());
@@ -475,11 +488,12 @@ export function updatePassword() {
         }
         dispatch(setMnlApiResponse(mnlApiResponse));
         dispatch(hideSecondaryLoader());
-        if (mnlApiResponseState.userData && mnlApiResponseState.userData.customer.maskedPhoneNumber) {
+        if (mnlApiResponse.userData && mnlApiResponse.userData.profileUpdate && mnlApiResponse.userData.profileUpdate.updated) {
+            dispatch(changeLoginStep("isChangeProfilePasswordSuccess"));
+        } else if (mnlApiResponseState.userData && mnlApiResponseState.userData.customer.maskedPhoneNumber) {
             await dispatch(validateOtp());
             dispatch(changeLoginStep("isStepLoginSuccess1"));
-        }
-        else {
+        } else {
             dispatch(changeLoginStep("isStepAddMobileNumber"));
         }
     }
@@ -512,8 +526,6 @@ export function sendOtpUpdatePassword() {
             return;
         }
         dispatch(changeLoginStep("isStepValidateProfileOtp"));
-
-        dispatch(logoutUserByMobileNumber());
 
         dispatch(hideSecondaryLoader());
     }
@@ -632,24 +644,24 @@ export function validateOtpChangeProfileNumber() {
     }
 }
 
-export function webMnlEmailHidden(){
+export function webMnlEmailHidden() {
     return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
         try {
-          const result = await api.customGetMiddlewareUrl(
-            `/otatacliq/getApplicationProperties.json?propertyNames=is_WEB_MNL_EMAIL_HIDDEN`
-          );
-          const resultJson = await result.json();
-          const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-    
-          if (resultJsonStatus.status) {
-            throw new Error(resultJsonStatus.message);
-          }
-          return dispatch(setWebMNLEmailHiddenSuccess(resultJson.applicationProperties[0]));
+            const result = await api.customGetMiddlewareUrl(
+                `/otatacliq/getApplicationProperties.json?propertyNames=is_WEB_MNL_EMAIL_HIDDEN`
+            );
+            const resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+            if (resultJsonStatus.status) {
+                throw new Error(resultJsonStatus.message);
+            }
+            return dispatch(setWebMNLEmailHiddenSuccess(resultJson.applicationProperties[0]));
         } catch (e) {
-          throw new Error(`${e.message}`);
+            throw new Error(`${e.message}`);
         }
-      };
+    };
 
 }
 
-export type MobileNumberLoginActions = ChangeLoginStepAction | SetMnlApiData | SetMnlApiResponse | SetResendOtpTimmer | setWebMNLApiSuccessAction | SetWebMNLEmailHiddenSuccess;
+export type MobileNumberLoginActions = ChangeLoginStepAction | SetMnlApiData | SetMnlApiResponse | SetResendOtpTimmer | setWebMNLApiSuccessAction | SetWebMNLEmailHiddenSuccess | SetForgetPassword;
