@@ -176,7 +176,15 @@ export function validateMnlChallenge() {
         } else if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.newUser) {
             mnlApiResponse.userData.customer.loginVia === "email" ? dispatch(changeLoginStep("isStepAddMobileNumber")) : dispatch(changeLoginStep("isStepValidateOtp"));
         } else if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.maskedPhoneNumber.length) {
-            mnlApiResponse.userData.customer.loginVia === "email" ? dispatch(generateOTP()) : dispatch(changeLoginStep("isStepValidateOtp"));
+            if (mnlApiResponse.userData.customer.loginVia === "email") {
+                /* login with email, varified email/mob and password not set */
+                apiData.maskedPhoneNumber = mnlApiResponse.userData.customer.maskedPhoneNumber;
+                dispatch(setMnlApiData(apiData));
+                dispatch(generateOTP());
+            } else {
+                /* login with mobile, varified email/mob and password not set */
+                dispatch(changeLoginStep("isStepValidateOtp"));
+            }
         } else if (mnlApiResponse.userData && mnlApiResponse.userData.validation && mnlApiResponse.userData.validation.validated) {
             dispatch(setForgetPassword(false));
             dispatch(changeLoginStep("isForgotPassword"));
