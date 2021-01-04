@@ -9,7 +9,7 @@ import { displayToast } from "../../general/toast.actions.js";
 import { showMobileNumberLoginModal } from "../../general/modal.actions";
 import { getUserDetails, logoutUserByMobileNumber } from "../../account/actions/account.actions";
 import { loginUser } from "../../auth/actions/user.actions";
-import { CUSTOMER_ACCESS_TOKEN, LOGGED_IN_USER_DETAILS } from "../../lib/constants";
+import { CUSTOMER_ACCESS_TOKEN, LOGGED_IN_USER_DETAILS, GLOBAL_ACCESS_TOKEN_REFRESH_CODE } from "../../lib/constants";
 
 export const CHANGE_LOGIN_STEP = "ChangeLoginStep";
 export const SET_MNL_API_DATA = "SetMnlApiData";
@@ -163,10 +163,16 @@ export function validateMnlChallenge() {
         const mnlApiResponse: MnlApiResponse = await result.json();
         const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
         if (errorStatus.status) {
-            dispatch(hideSecondaryLoader());
-            if (errorStatus.message) {
-                await dispatch(displayToast(errorStatus.message));
+            if (mnlApiResponse.statusCode === GLOBAL_ACCESS_TOKEN_REFRESH_CODE) {
+                await Cookie.deleteCookie(GLOBAL_ACCESS_TOKEN);
+                dispatch(validateMnlChallenge());
+            } else {
+                dispatch(hideSecondaryLoader());
+                if (errorStatus.message) {
+                    await dispatch(displayToast(errorStatus.message));
+                }
             }
+
             return;
         }
 
