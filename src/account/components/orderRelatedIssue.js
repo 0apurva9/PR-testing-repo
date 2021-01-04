@@ -895,7 +895,9 @@ export default class OrderRelatedIssue extends React.Component {
                       backgroundSize: "contain",
                       backgroundRepeat: "no-repeat",
                       width: "35px",
-                      height: "35px"
+                      height: recentOrder.issueBucket.includes("EGV")
+                        ? "26px"
+                        : "35px"
                     }}
                   />
                 ) : (
@@ -1196,7 +1198,7 @@ export default class OrderRelatedIssue extends React.Component {
                           this.props.initialTicketDetailsData.tickets.length >
                             0 &&
                           this.renderLatestTicketDetails(
-                            initialTicketDetailsData.tickets[2]
+                            initialTicketDetailsData.tickets[0]
                           )}
 
                         <div className={styles.tabHolderBox}>
