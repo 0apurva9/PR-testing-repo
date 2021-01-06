@@ -13,6 +13,10 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
   private _otfDivRef = React.createRef<HTMLDivElement>();
 
   public componentDidMount() {
+    this.startTimer();
+  }
+
+  public startTimer = () => {
     let maxTime = this.state.resendOtpIn;
     if (!maxTime) {
       this.setState({ resendOtp: true });
@@ -89,6 +93,7 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
   private onClickResendOtp() {
     const mnlApidata = Object.assign({}, this.props.mnlApidata);
     this.props.resendOtp(mnlApidata);
+    this.setState({ resendOtp: false, resendOtpIn: OTP_RESEND_TIME }, () => this.startTimer());
   }
 
   private onClickUsePassword() {

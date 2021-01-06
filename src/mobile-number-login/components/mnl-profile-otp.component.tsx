@@ -16,6 +16,10 @@ export class MnlProfileOtp extends React.Component<MnlOtpProps, MnlOtpState> {
   private _newMobileOtpRef = React.createRef<HTMLDivElement>();
 
   public componentDidMount() {
+    this.startTimer();
+  }
+
+  public startTimer = () => {
     let maxTime = this.state.resendOtpIn;
     const intervalId = setInterval(() => {
       this.setState({ resendOtpIn: maxTime });
@@ -131,7 +135,12 @@ export class MnlProfileOtp extends React.Component<MnlOtpProps, MnlOtpState> {
     });
 
     this.props.updateProfileMobileNumber(mnlApidata);
+  }
 
+  private onClickResendOtp() {
+    const mnlApidata = Object.assign({}, this.props.mnlApidata);
+    this.props.resendOtpChangeProfileNumber(mnlApidata);
+    this.setState({ resendOtp: false, resendOtpIn: OTP_RESEND_TIME }, () => this.startTimer());
   }
 
   public render() {
@@ -198,18 +207,14 @@ export class MnlProfileOtp extends React.Component<MnlOtpProps, MnlOtpState> {
                 );
               })}
             </div>
-            <div className={[styles.flexRow50, styles.justify_space].join(" ")}>
-              <div
-                className={[styles.flexRow50Cols, styles.text_right].join(" ")}
-              >
-                {this.state.resendOtp ? (
-                  <button type="button" className={styles.btnLink}>
-                    Resend OTP
+            <div className={styles.formInfoTxt}>
+              {this.state.resendOtp ? (
+                <button type="button" className={styles.btnLink} onClick={() => this.onClickResendOtp()}>
+                  Resend OTP
                   </button>
-                ) : (
-                    <p>Resend OTP in 0:{this.state.resendOtpIn}</p>
-                  )}
-              </div>
+              ) : (
+                  <p>Resend OTP in 0:{this.state.resendOtpIn}</p>
+                )}
             </div>
           </div>
           <button
@@ -236,6 +241,7 @@ export interface MnlOtpProps {
   validateProfileOtp: (apiData: MnlApiData) => void;
   updateProfileMobileNumber: (apiData: MnlApiData) => void;
   userMobileNumber: string;
+  resendOtpChangeProfileNumber: (apiData: MnlApiData) => void;
 }
 
 export interface MnlOtpState {

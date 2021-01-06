@@ -54,6 +54,7 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
                                 validateProfileOtp={(apidata) => this.props.validateProfileOtp(apidata)}
                                 updateProfileMobileNumber={(apidata) => this.props.updateProfileMobileNumber(apidata)}
                                 userMobileNumber={this.props.userMobileNumber}
+                                resendOtpChangeProfileNumber={(apidata) => this.props.generateOtpChangeProfileNumber(apidata)}
                             />
                         }
                         {this.props.steps.isStepEmail && (

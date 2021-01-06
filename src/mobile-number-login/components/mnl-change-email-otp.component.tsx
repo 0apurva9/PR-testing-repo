@@ -13,6 +13,10 @@ export class MnlEmailChangeOtp extends React.Component<MnlOtpProps, MnlOtpState>
     private _otfDivRef = React.createRef<HTMLDivElement>();
 
     public componentDidMount() {
+        this.startTimer();
+    }
+
+    public startTimer = () => {
         let maxTime = this.state.resendOtpIn;
         const intervalId = setInterval(() => {
             this.setState({ resendOtpIn: maxTime });
@@ -73,8 +77,9 @@ export class MnlEmailChangeOtp extends React.Component<MnlOtpProps, MnlOtpState>
     }
 
     private onClickResendOtp() {
-        this.setState({ resendOtp: false });
         this.props.resendEmailOtp();
+        this.setState({ resendOtp: false, resendOtpIn: OTP_RESEND_TIME }, () => this.startTimer());
+
     }
 
     public render() {

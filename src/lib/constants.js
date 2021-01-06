@@ -553,5 +553,5 @@ export const MOBILE_PATTERN = /^[6,7,8,9]{1}[0-9]{9}$/;
 export const MOBILE_PATTERN_11_DIGIT = /^[6,7,8,9]{1}[0-9]{10}$/;
 export const CLIENT_ID = "gauravj@dewsolutions.in";
 export const CLIENT_SECRET = "secret";
-export const OTP_RESEND_TIME = 60;
+export const OTP_RESEND_TIME = 20;
 export const GLOBAL_ACCESS_TOKEN_REFRESH_CODE = 5004;
