@@ -155,6 +155,7 @@ export function validateMnlChallenge() {
     return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
         const apiData = getState().mobileNumberLogin.mnlApiData;
         const globalAccessToken = await getFetchGlobalAccessToken(dispatch);
+        const mnlApiResponseState = getState().mobileNumberLogin.mnlApiResponse;
         const result: Response = await api.post("mobileloginapi/v1/authnuser/validate", apiData, true, {
             Authorization: `Bearer ${globalAccessToken.access_token}`,
             "register-user": false,
@@ -175,7 +176,6 @@ export function validateMnlChallenge() {
 
             return;
         }
-
         dispatch(setMnlApiResponse(mnlApiResponse));
         if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.loginVia == "email" && mnlApiResponse.userData.customer.passwordSet) {
             dispatch(changeLoginStep("isStepLoginPassword"));
@@ -191,6 +191,8 @@ export function validateMnlChallenge() {
                 /* login with mobile, varified email/mob and password not set */
                 dispatch(changeLoginStep("isStepValidateOtp"));
             }
+        } else if (mnlApiResponseState && mnlApiResponseState.userData.customer && mnlApiResponseState.userData.customer.loginVia === "mobile" && mnlApiResponseState.userData.customer.newUser && !mnlApiResponseState.userData.customer.numberAdded && !mnlApiResponseState.userData.customer.passwordSet) {
+            dispatch(changeLoginStep("isStepEmail"))
         } else if (mnlApiResponse.userData && mnlApiResponse.userData.validation && mnlApiResponse.userData.validation.validated) {
             dispatch(setForgetPassword(false));
             dispatch(changeLoginStep("isForgotPassword"));

@@ -106,16 +106,14 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
       this.props.validateProfileOtp(mnlApidata)
       return
     }
-
     if (this.props.isForgotPasswordClicked) {
-      await this.props.changeLoginStep("isForgotPassword");
+      this.props.changeLoginStep("isForgotPassword");
     } else if (this.props.mnlApiResponse.userData.customer.newUser && this.props.mnlApiResponse.userData.validation && this.props.mnlApiResponse.userData.validation.changedmailId) {
       //login with new email id and registered mobile number
       this.props.validateOtp(mnlApidata);
-    } else if (this.props.mnlApiResponse.userData.customer.newUser && !this.props.mnlApiResponse.userData.customer.passwordSet && !this.props.mnlApidata.email) {
+    } else if (this.props.mnlApiResponse.userData.customer.newUser && !this.props.mnlApiResponse.userData.customer.passwordSet && this.props.mnlApiResponse.userData.customer.loginVia === "mobile") {
       //login with new mobile number
-      await this.props.validateChallenge(mnlApidata);
-      await this.props.changeLoginStep("isStepEmail");
+      this.props.validateChallenge(mnlApidata);
     } else {
       //login with new email id and new mobile number
       this.props.validateOtp(mnlApidata);

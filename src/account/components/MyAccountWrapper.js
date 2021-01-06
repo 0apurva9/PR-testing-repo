@@ -32,7 +32,8 @@ import {
   MY_ACCOUNT_CHECK_BALANCE_PAGE,
   MY_ACCOUNT_EXCHANGE_MODE_SELECTION_PAGE,
   MY_ACCOUNT_CLIQ_GIFT_CARD_PURCHASE_PAGE,
-  MY_ACCOUNT_CLIQ_CASH_PURCHASE_PAGE
+  MY_ACCOUNT_CLIQ_CASH_PURCHASE_PAGE,
+  HOME_ROUTER,
 } from "../../lib/constants.js";
 import AllOrderContainer from "../containers/AllOrderContainer";
 import MyAccountContainer from "../containers/MyAccountContainer";
@@ -70,9 +71,7 @@ export default class MyAccountWrapper extends React.Component {
   navigateToLogin() {
     const url = this.props.location.pathname;
     if (url.match(/cliq-cash/g)) {
-      this.props.setUrlToRedirectToAfterAuth(
-        `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}`
-      );
+      this.props.setUrlToRedirectToAfterAuth(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}`);
     } else if (url === `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`) {
       this.props.setUrlToRedirectToAfterAuth(`${url}`);
     } else if (url === `${MY_ACCOUNT_PAGE}${SAVE_LIST_PAGE}`) {
@@ -80,7 +79,13 @@ export default class MyAccountWrapper extends React.Component {
     } else {
       this.props.setUrlToRedirectToAfterAuth(`${MY_ACCOUNT_PAGE}`);
     }
-    this.props.history.push(LOGIN_PATH);
+    // added check for old and new login toggle
+    if (this.props.isMNLLogin.value) {
+      this.props.openMobileNumberLoginModal();
+      this.props.history.push(HOME_ROUTER);
+    } else {
+      this.props.history.push(LOGIN_PATH);
+    }
     return null;
   }
   render() {
@@ -97,54 +102,25 @@ export default class MyAccountWrapper extends React.Component {
         <Route
           exact
           path={`${MY_ACCOUNT_SUFFIX}${RETURN_TO_ADDRESS}${EDIT}`}
-          render={() => (
-            <ReturnEditAddressContainer
-              {...this.state}
-              {...this.props}
-              changeAddress={true}
-            />
-          )}
+          render={() => <ReturnEditAddressContainer {...this.state} {...this.props} changeAddress />}
         />
 
         <Route
           exact
           path={`${MY_ACCOUNT_SUFFIX}${RETURN_TO_ADDRESS}${ADD}`}
-          render={() => (
-            <ReturnAddAddressContainer
-              {...this.state}
-              {...this.props}
-              changeAddress={true}
-            />
-          )}
+          render={() => <ReturnAddAddressContainer {...this.state} {...this.props} changeAddress />}
         />
         <Route
           exact
           path={`${MY_ACCOUNT_SUFFIX}${RETURN_TO_ADDRESS}`}
-          render={() => (
-            <ReturnAddressContainer
-              {...this.state}
-              {...this.props}
-              changeAddress={true}
-            />
-          )}
+          render={() => <ReturnAddressContainer {...this.state} {...this.props} changeAddress />}
         />
         <Route exact path={MY_ACCOUNT_PAGE} component={MyAccountContainer} />
 
-        <Route
-          path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_SAVED_CARDS_PAGE}`}
-          component={SavedCardContainer}
-        />
+        <Route path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_SAVED_CARDS_PAGE}`} component={SavedCardContainer} />
         <Route path={REDMI_WALLET_FROM_EMAIL} component={CliqCashContainer} />
-        <Route
-          exact
-          path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ALERTS_PAGE}`}
-          component={UserAlertsAndCouponsContainer}
-        />
-        <Route
-          exact
-          path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_COUPON_PAGE}`}
-          component={UserAlertsAndCouponsContainer}
-        />
+        <Route exact path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ALERTS_PAGE}`} component={UserAlertsAndCouponsContainer} />
+        <Route exact path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_COUPON_PAGE}`} component={UserAlertsAndCouponsContainer} />
         {
           // This page has been revamped
           //   <Route
@@ -153,11 +129,7 @@ export default class MyAccountWrapper extends React.Component {
           //   component={GiftCardContainer}
           // />
         }
-        <Route
-          exact
-          path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`}
-          component={CliqGiftCardContainer}
-        />
+        <Route exact path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`} component={CliqGiftCardContainer} />
         <Route
           exact
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_GIFT_CARD_PURCHASE_PAGE}`}
@@ -173,16 +145,8 @@ export default class MyAccountWrapper extends React.Component {
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${MY_ACCOUNT_PROMOS_PAGE}`}
           component={CliqCashPromosContainer}
         />
-        <Route
-          exact
-          path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}`}
-          component={CliqCashContainer}
-        />
-        <Route
-          exact
-          path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CHECK_BALANCE_PAGE}`}
-          component={CheckBalanceContainer}
-        />
+        <Route exact path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}`} component={CliqCashContainer} />
+        <Route exact path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CHECK_BALANCE_PAGE}`} component={CheckBalanceContainer} />
 
         <Route
           exact
@@ -194,46 +158,17 @@ export default class MyAccountWrapper extends React.Component {
           path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${TRANSACTION_HISTORY}`}
           component={TransactionHistoryContainer}
         />
-        <Route
-          exact
-          path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_BRANDS_PAGE}`}
-          component={MyAccountBrandsContainer}
-        />
-        <Route
-          exact
-          path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_UPDATE_PROFILE_PAGE}`}
-          component={UpdateProfileContainer}
-        />
-        <Route
-          path={`${MY_ACCOUNT_PAGE}${SAVE_LIST_PAGE}`}
-          component={SaveListContainer}
-        />
+        <Route exact path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_BRANDS_PAGE}`} component={MyAccountBrandsContainer} />
+        <Route exact path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_UPDATE_PROFILE_PAGE}`} component={UpdateProfileContainer} />
+        <Route path={`${MY_ACCOUNT_PAGE}${SAVE_LIST_PAGE}`} component={SaveListContainer} />
 
-        <Route
-          path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`}
-          component={AllOrderContainer}
-        />
-        <Route
-          exact
-          path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ADDRESS_PAGE}`}
-          component={AddressBookContainer}
-        />
-        <Route
-          exact
-          path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ADDRESS_EDIT_PAGE}`}
-          component={EditAddressBookContainer}
-        />
-        <Route
-          exact
-          path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ADDRESS_ADD_PAGE}`}
-          component={AddAddressContainer}
-        />
+        <Route path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`} component={AllOrderContainer} />
+        <Route exact path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ADDRESS_PAGE}`} component={AddressBookContainer} />
+        <Route exact path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ADDRESS_EDIT_PAGE}`} component={EditAddressBookContainer} />
+        <Route exact path={`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ADDRESS_ADD_PAGE}`} component={AddAddressContainer} />
 
         <Route path={`${ORDER_PREFIX}`} component={OrderDetailsContainer} />
-        <Route
-          path={`${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`}
-          component={OrderRelatedIssueContainer}
-        />
+        <Route path={`${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`} component={OrderRelatedIssueContainer} />
         <Route path={`${CNC_TO_HD_ORDER}`} component={CncToHdFlowContainer} />
         <Route
           exact
