@@ -503,7 +503,7 @@ export function updatePassword() {
         dispatch(setMnlApiResponse(mnlApiResponse));
         dispatch(hideSecondaryLoader());
         if (mnlApiResponse.userData && mnlApiResponse.userData.profileUpdate && mnlApiResponse.userData.profileUpdate.updated) {
-            dispatch(changeLoginStep("isChangeProfilePasswordSuccess"));
+            dispatch(loginWithPassword());
         } else if (mnlApiResponseState.userData && mnlApiResponseState.userData.customer.maskedPhoneNumber) {
             await dispatch(validateOtp());
             dispatch(changeLoginStep("isStepLoginSuccess1"));
