@@ -30,7 +30,12 @@ class AlertPopUp extends Component {
         else {
             this.props.closeModal()
         }
-
+    }
+    componentWillUnmount(){
+        if(this.props.reDirectHomePage){
+            this.props.history.push(HOME_ROUTER);
+        }
+        this.props.closeModal()
     }
 
     navigateLogin() {
