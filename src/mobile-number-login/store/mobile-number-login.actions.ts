@@ -10,6 +10,10 @@ import { showMobileNumberLoginModal } from "../../general/modal.actions";
 import { getUserDetails, logoutUserByMobileNumber } from "../../account/actions/account.actions";
 import { loginUser } from "../../auth/actions/user.actions";
 import { CUSTOMER_ACCESS_TOKEN, LOGGED_IN_USER_DETAILS, GLOBAL_ACCESS_TOKEN_REFRESH_CODE } from "../../lib/constants";
+import {
+    getWishlist,
+    createWishlist,
+} from "../../wishlist/actions/wishlist.actions"
 
 export const CHANGE_LOGIN_STEP = "ChangeLoginStep";
 export const SET_MNL_API_DATA = "SetMnlApiData";
@@ -80,6 +84,10 @@ export function setLoginCustomerData(mnlApiResponse: MnlApiResponse) {
                 mnlApiResponse.userData.authentication && mnlApiResponse.userData.authentication.accessToken;
         }
 
+        const existingWishList = await dispatch(getWishlist());
+        if (!existingWishList || !existingWishList.wishlist) {
+            dispatch(createWishlist());
+        }
         Cookie.createCookie(LOGGED_IN_USER_DETAILS, JSON.stringify(userDetails));
         dispatch(customerAccessTokenSuccess(tokens));
         dispatch(refreshTokenSuccess(tokens));
@@ -333,6 +341,27 @@ export function validateOtp() {
                 platformnumber: PLAT_FORM_NUMBER,
             };
         }
+        if (
+          mnlApiResponseState &&
+          mnlApiResponseState.userData &&
+          mnlApiResponseState.userData.customer &&
+          mnlApiResponseState.userData.customer.loginVia === "email" &&
+          mnlApiResponseState.userData.validation &&
+          !mnlApiResponseState.userData.validation.validated &&
+          mnlApiResponseState.userData.customer.newUser &&
+          !mnlApiResponseState.userData.customer.passwordSet &&
+          !mnlApiResponseState.userData.validation.emailIdChanged
+        ) {
+          header = {
+            Authorization: `Bearer ${globalAccessToken.access_token}`,
+            "register-user": true,
+            registerviamobile: false,
+            grant_type: "password",
+            client_id: CLIENT_ID,
+            client_secret: CLIENT_SECRET,
+            platformnumber: PLAT_FORM_NUMBER
+          };
+        }
         if (mnlApiResponseState && mnlApiResponseState.userData && !mnlApiResponseState.userData.customer.numberAdded) {
             apiData.pass = "";
         }
@@ -392,7 +421,7 @@ export function updateEmailOtp() {
 
         dispatch(setMnlApiResponse(mnlApiResponse));
 
-        if (mnlApiResponse.status === "Success") {
+        if (mnlApiResponse.status === "Success" || mnlApiResponse.status === "success") {
             dispatch(showMobileNumberLoginModal());
             dispatch(changeLoginStep("isStepChangeEmailOtp"));
         }
@@ -436,7 +465,7 @@ export function validateEmailOtp() {
 
         dispatch(setMnlApiResponse(mnlApiResponse));
 
-        if (mnlApiResponse.status === "Success") {
+        if (mnlApiResponse.status === "Success" || mnlApiResponse.status === "success") {
 
             dispatch(changeLoginStep("isStepChangeEmail"));
         }
@@ -474,7 +503,7 @@ export function addnewEmail() {
 
         dispatch(setMnlApiResponse(mnlApiResponse));
 
-        if (mnlApiResponse.status === "Success") {
+        if (mnlApiResponse.status === "Success" || mnlApiResponse.status === "success") {
 
             dispatch(changeLoginStep("isStepChangeEmailSucess"));
 
@@ -594,7 +623,7 @@ export function updatePasswordProfile() {
             }
             return;
         }
-        if (mnlApiResponse.status === "Success") {
+        if (mnlApiResponse.status === "Success" || mnlApiResponse.status === "success") {
             dispatch(changeLoginStep("isChangeProfilePasswordSuccess"))
         }
         dispatch(hideSecondaryLoader());
@@ -649,7 +678,7 @@ export function validateOtpChangeProfileNumber() {
             }
             return;
         }
-        if (mnlApiResponse.status === "Success") {
+        if (mnlApiResponse.status === "Success" || mnlApiResponse.status === "success") {
 
             dispatch(changeLoginStep("isChangeMobileNumberSuccess"));
 
