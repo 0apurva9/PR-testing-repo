@@ -74,6 +74,7 @@ export const CUSTOMER_QUERY_ERROR_MODAL = "CustomerQueryErrorModal";
 export const TIME_SLOT_POP_UP = "TimeSlotPopUp";
 export const CUSTOMER_CALL_QUERY_SUCCESS = "CustomerCallQuerySuccess";
 export const APPLIANCES_EXCHANGE_MODAL = "AppliancesExchangeModal";
+export const NON_EMI_ELIGIBLE_TO_WISHLIST = "nonEmiEligibleToWishlist";
 export function showModal(type, ownProps) {
   const scrollPosition =
     window.pageYOffset || document.documentElement.scrollTop;
