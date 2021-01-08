@@ -29,9 +29,16 @@ export default class ShortAndLargeStoryComponent extends Component {
                           })`
                         }}
                       ></div>
-                      <div className={styles["perfume-guide-heading"]}>
-                        {el.key}
-                      </div>
+                      {el.description ? (
+                        <div className={styles["perfume-guide-description"]}>
+                          {el.description}
+                        </div>
+                      ) : null}
+                      {el.key ? (
+                        <div className={styles["perfume-guide-heading"]}>
+                          {el.key}
+                        </div>
+                      ) : null}
                     </div>
                   ))}
                 </div>
