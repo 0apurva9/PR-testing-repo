@@ -88,11 +88,13 @@ export function setLoginCustomerData(mnlApiResponse: MnlApiResponse) {
         if (!existingWishList || !existingWishList.wishlist) {
             dispatch(createWishlist());
         }
-        Cookie.createCookie(LOGGED_IN_USER_DETAILS, JSON.stringify(userDetails));
         dispatch(customerAccessTokenSuccess(tokens));
         dispatch(refreshTokenSuccess(tokens));
+        await dispatch(loginUser({ "username": userDetails.userName, "password": apiData.pass, "otp": apiData.otp }));
+        const customerInfo = getState().user.user && getState().user.user.customerInfo;
+        userDetails.userEmail = customerInfo.emailId;
+        Cookie.createCookie(LOGGED_IN_USER_DETAILS, JSON.stringify(userDetails));
         dispatch(getUserDetails(true));
-        dispatch(loginUser({ "username": userDetails.userName, "password": apiData.pass, "otp": apiData.otp }));
 
     }
 }

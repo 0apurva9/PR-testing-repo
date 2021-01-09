@@ -46,10 +46,7 @@ import {
   CLIQ_CASH_MODULE,
 } from "../../general/modal.actions.js";
 import format from "date-fns/format";
-import {
-  getPaymentModes,
-  USER_CART_PATH,
-} from "../../cart/actions/cart.actions.js";
+import { getPaymentModes, USER_CART_PATH } from "../../cart/actions/cart.actions.js";
 import {
   getMcvId,
   setDataLayerForMyAccountDirectCalls,
@@ -76,10 +73,7 @@ import {
   setDataLayerForRatingAndReview,
   SET_DATA_LAYER_RATING_MESSAGE,
 } from "../../lib/adobeUtils";
-import {
-  showSecondaryLoader,
-  hideSecondaryLoader,
-} from "../../general/secondaryLoader.actions";
+import { showSecondaryLoader, hideSecondaryLoader } from "../../general/secondaryLoader.actions";
 import * as ErrorHandling from "../../general/ErrorHandling.js";
 import { setBagCount } from "../../general/header.actions";
 import { displayToast } from "../../general/toast.actions";
@@ -144,19 +138,13 @@ export const GET_CLIQ_CASH_CONFIG_REQUEST = "GET_CLIQ_CASH_CONFIG_REQUEST";
 export const GET_CLIQ_CASH_CONFIG_SUCCESS = "GET_CLIQ_CASH_CONFIG_SUCCESS";
 export const GET_CLIQ_CASH_CONFIG_FAILURE = "GET_CLIQ_CASH_CONFIG_FAILURE";
 
-export const GET_USER_CLIQ_CASH_EXPIRING_DETAILS_REQUEST =
-  "GET_USER_CLIQ_CASH_EXPIRING_DETAILS_REQUEST";
-export const GET_USER_CLIQ_CASH_EXPIRING_DETAILS_SUCCESS =
-  "GET_USER_CLIQ_CASH_EXPIRING_DETAILS_SUCCESS";
-export const GET_USER_CLIQ_CASH_EXPIRING_DETAILS_FAILURE =
-  "GET_USER_CLIQ_CASH_EXPIRING_DETAILS_FAILURE";
+export const GET_USER_CLIQ_CASH_EXPIRING_DETAILS_REQUEST = "GET_USER_CLIQ_CASH_EXPIRING_DETAILS_REQUEST";
+export const GET_USER_CLIQ_CASH_EXPIRING_DETAILS_SUCCESS = "GET_USER_CLIQ_CASH_EXPIRING_DETAILS_SUCCESS";
+export const GET_USER_CLIQ_CASH_EXPIRING_DETAILS_FAILURE = "GET_USER_CLIQ_CASH_EXPIRING_DETAILS_FAILURE";
 
-export const GET_USER_CLIQ_CASHBACK_DETAILS_REQUEST =
-  "GET_USER_CLIQ_CASHBACK_DETAILS_REQUEST";
-export const GET_USER_CLIQ_CASHBACK_DETAILS_SUCCESS =
-  "GET_USER_CLIQ_CASHBACK_DETAILS_SUCCESS";
-export const GET_USER_CLIQ_CASHBACK_DETAILS_FAILURE =
-  "GET_USER_CLIQ_CASHBACK_DETAILS_FAILURE";
+export const GET_USER_CLIQ_CASHBACK_DETAILS_REQUEST = "GET_USER_CLIQ_CASHBACK_DETAILS_REQUEST";
+export const GET_USER_CLIQ_CASHBACK_DETAILS_SUCCESS = "GET_USER_CLIQ_CASHBACK_DETAILS_SUCCESS";
+export const GET_USER_CLIQ_CASHBACK_DETAILS_FAILURE = "GET_USER_CLIQ_CASHBACK_DETAILS_FAILURE";
 
 export const FETCH_ORDER_DETAILS_REQUEST = "FETCH_ORDER_DETAILS_REQUEST";
 export const FETCH_ORDER_DETAILS_SUCCESS = "FETCH_ORDER_DETAILS_SUCCESS";
@@ -165,12 +153,9 @@ export const FETCH_ORDER_DETAILS_FAILURE = "FETCH_ORDER_DETAILS_FAILURE";
 export const RETRY_ORDER_DETAILS_SUCCESS = "RETRY_ORDER_DETAILS_SUCCESS";
 export const RETRY_ORDER_DETAILS_FAILURE = "RETRY_ORDER_DETAILS_FAILURE";
 
-export const FETCH_ORDER_ITEM_DETAILS_REQUEST =
-  "FETCH_ORDER_ITEM_DETAILS_REQUEST";
-export const FETCH_ORDER_ITEM_DETAILS_SUCCESS =
-  "FETCH_ORDER_ITEM_DETAILS_SUCCESS";
-export const FETCH_ORDER_ITEM_DETAILS_FAILURE =
-  "FETCH_ORDER_ITEM_DETAILS_FAILURE";
+export const FETCH_ORDER_ITEM_DETAILS_REQUEST = "FETCH_ORDER_ITEM_DETAILS_REQUEST";
+export const FETCH_ORDER_ITEM_DETAILS_SUCCESS = "FETCH_ORDER_ITEM_DETAILS_SUCCESS";
+export const FETCH_ORDER_ITEM_DETAILS_FAILURE = "FETCH_ORDER_ITEM_DETAILS_FAILURE";
 
 export const GET_USER_COUPON_REQUEST = "GET_USER_COUPON_REQUEST";
 export const GET_USER_COUPON_SUCCESS = "GET_USER_COUPON_SUCCESS";
@@ -225,26 +210,17 @@ export const GET_GIFTCARD_REQUEST = "GET_GIFTCARD_REQUEST";
 export const GET_GIFTCARD_SUCCESS = "GET_GIFTCARD_SUCCESS";
 export const GET_GIFTCARD_FAILURE = "GET_GIFTCARD_FAILURE";
 
-export const FOLLOW_AND_UN_FOLLOW_BRANDS_IN_FEEDBACK_REQUEST =
-  "FOLLOW_AND_UN_FOLLOW_BRANDS_IN_FEEDBACK_REQUEST";
-export const FOLLOW_AND_UN_FOLLOW_BRANDS_IN_FEEDBACK_SUCCESS =
-  "FOLLOW_AND_UN_FOLLOW_BRANDS_IN_FEEDBACK_SUCCESS";
-export const FOLLOW_AND_UN_FOLLOW_BRANDS_IN_FEEDBACK_FAILURE =
-  "FOLLOW_AND_UN_FOLLOW_BRANDS_IN_FEEDBACK_FAILURE";
+export const FOLLOW_AND_UN_FOLLOW_BRANDS_IN_FEEDBACK_REQUEST = "FOLLOW_AND_UN_FOLLOW_BRANDS_IN_FEEDBACK_REQUEST";
+export const FOLLOW_AND_UN_FOLLOW_BRANDS_IN_FEEDBACK_SUCCESS = "FOLLOW_AND_UN_FOLLOW_BRANDS_IN_FEEDBACK_SUCCESS";
+export const FOLLOW_AND_UN_FOLLOW_BRANDS_IN_FEEDBACK_FAILURE = "FOLLOW_AND_UN_FOLLOW_BRANDS_IN_FEEDBACK_FAILURE";
 
-export const FOLLOW_AND_UN_FOLLOW_BRANDS_IN_HOME_FEED_SUCCESS =
-  "FOLLOW_AND_UN_FOLLOW_BRANDS_IN_HOME_FEED_SUCCESS";
-export const FOLLOW_AND_UN_FOLLOW_BRANDS_IN_PDP_SUCCESS =
-  "FOLLOW_AND_UN_FOLLOW_BRANDS_IN_PDP_SUCCESS";
-export const FOLLOW_AND_UN_FOLLOW_BRANDS_IN_MY_ACCOUNT_SUCCESS =
-  "FOLLOW_AND_UN_FOLLOW_BRANDS_IN_MY_ACCOUNT_SUCCESS";
+export const FOLLOW_AND_UN_FOLLOW_BRANDS_IN_HOME_FEED_SUCCESS = "FOLLOW_AND_UN_FOLLOW_BRANDS_IN_HOME_FEED_SUCCESS";
+export const FOLLOW_AND_UN_FOLLOW_BRANDS_IN_PDP_SUCCESS = "FOLLOW_AND_UN_FOLLOW_BRANDS_IN_PDP_SUCCESS";
+export const FOLLOW_AND_UN_FOLLOW_BRANDS_IN_MY_ACCOUNT_SUCCESS = "FOLLOW_AND_UN_FOLLOW_BRANDS_IN_MY_ACCOUNT_SUCCESS";
 
-export const GET_USER_CLIQ_CASH_DETAILS_REQUEST =
-  "GET_USER_CLIQ_CASH_DETAILS_REQUEST";
-export const GET_USER_CLIQ_CASH_DETAILS_SUCCESS =
-  "GET_USER_CLIQ_CASH_DETAILS_SUCCESS";
-export const GET_USER_CLIQ_CASH_DETAILS_FAILURE =
-  "GET_USER_CLIQ_CASH_DETAILS_FAILURE";
+export const GET_USER_CLIQ_CASH_DETAILS_REQUEST = "GET_USER_CLIQ_CASH_DETAILS_REQUEST";
+export const GET_USER_CLIQ_CASH_DETAILS_SUCCESS = "GET_USER_CLIQ_CASH_DETAILS_SUCCESS";
+export const GET_USER_CLIQ_CASH_DETAILS_FAILURE = "GET_USER_CLIQ_CASH_DETAILS_FAILURE";
 
 export const REDEEM_CLIQ_VOUCHER_REQUEST = "REDEEM_CLIQ_VOUCHER_REQUEST";
 export const REDEEM_CLIQ_VOUCHER_SUCCESS = "REDEEM_CLIQ_VOUCHER_SUCCESS";
@@ -254,40 +230,30 @@ export const CREATE_GIFT_CARD_REQUEST = "CREATE_GIFT_CARD_REQUEST";
 export const CREATE_GIFT_CARD_SUCCESS = "CREATE_GIFT_CARD_SUCCESS";
 export const CREATE_GIFT_CARD_FAILURE = "CREATE_GIFT_CARD_FAILURE";
 
-export const GET_OTP_TO_ACTIVATE_WALLET_REQUEST =
-  "GET_OTP_TO_ACTIVATE_WALLET_REQUEST";
-export const GET_OTP_TO_ACTIVATE_WALLET_SUCCESS =
-  "GET_OTP_TO_ACTIVATE_WALLET_SUCCESS";
-export const GET_OTP_TO_ACTIVATE_WALLET_FAILURE =
-  "GET_OTP_TO_ACTIVATE_WALLET_FAILURE";
+export const GET_OTP_TO_ACTIVATE_WALLET_REQUEST = "GET_OTP_TO_ACTIVATE_WALLET_REQUEST";
+export const GET_OTP_TO_ACTIVATE_WALLET_SUCCESS = "GET_OTP_TO_ACTIVATE_WALLET_SUCCESS";
+export const GET_OTP_TO_ACTIVATE_WALLET_FAILURE = "GET_OTP_TO_ACTIVATE_WALLET_FAILURE";
 
 export const VERIFY_WALLET_REQUEST = "VERIFY_WALLET_REQUEST";
 export const VERIFY_WALLET_SUCCESS = "VERIFY_WALLET_SUCCESS";
 export const VERIFY_WALLET_FAILURE = "VERIFY_WALLET_FAILURE";
 
-export const SUBMIT_SELF_COURIER_INFO_REQUEST =
-  "SUBMIT_SELF_COURIER_INFO_REQUEST";
-export const SUBMIT_SELF_COURIER_INFO_SUCCESS =
-  "SUBMIT_SELF_COURIER_INFO_SUCCESS";
-export const SUBMIT_SELF_COURIER_INFO_FAILURE =
-  "SUBMIT_SELF_COURIER_INFO_FAILURE";
+export const SUBMIT_SELF_COURIER_INFO_REQUEST = "SUBMIT_SELF_COURIER_INFO_REQUEST";
+export const SUBMIT_SELF_COURIER_INFO_SUCCESS = "SUBMIT_SELF_COURIER_INFO_SUCCESS";
+export const SUBMIT_SELF_COURIER_INFO_FAILURE = "SUBMIT_SELF_COURIER_INFO_FAILURE";
 
 export const CANCEL_PRODUCT_REQUEST = "CANCEL_PRODUCT_REQUEST";
 export const CANCEL_PRODUCT_SUCCESS = "CANCEL_PRODUCT_SUCCESS";
 export const CANCEL_PRODUCT_FAILURE = "CANCEL_PRODUCT_FAILURE";
 
-export const GET_CANCEL_PRODUCT_DETAILS_REQUEST =
-  "GET_CANCEL_PRODUCT_DETAILS_REQUEST";
-export const GET_CANCEL_PRODUCT_DETAILS_SUCCESS =
-  "GET_CANCEL_PRODUCT_DETAILS_SUCCESS";
-export const GET_CANCEL_PRODUCT_DETAILS_FAILURE =
-  "GET_CANCEL_PRODUCT_DETAILS_FAILURE";
+export const GET_CANCEL_PRODUCT_DETAILS_REQUEST = "GET_CANCEL_PRODUCT_DETAILS_REQUEST";
+export const GET_CANCEL_PRODUCT_DETAILS_SUCCESS = "GET_CANCEL_PRODUCT_DETAILS_SUCCESS";
+export const GET_CANCEL_PRODUCT_DETAILS_FAILURE = "GET_CANCEL_PRODUCT_DETAILS_FAILURE";
 
 export const UPDATE_PROFILE_REQUEST = "UPDATE_PROFILE_REQUEST";
 export const UPDATE_PROFILE_SUCCESS = "UPDATE_PROFILE_SUCCESS";
 export const UPDATE_PROFILE_FAILURE = "UPDATE_PROFILE_FAILURE";
-export const LOG_OUT_ACCOUNT_USING_MOBILE_NUMBER =
-  "LOG_OUT_ACCOUNT_USING_MOBILE_NUMBER";
+export const LOG_OUT_ACCOUNT_USING_MOBILE_NUMBER = "LOG_OUT_ACCOUNT_USING_MOBILE_NUMBER";
 
 export const GET_CLIQ_CARE_WMS_FAILURE = "GET_CLIQ_CARE_WMS_FAILURE";
 export const GET_CLIQ_CARE_WMS_SUCCESS = "GET_CLIQ_CARE_WMS_SUCCESS";
@@ -306,64 +272,41 @@ export const CHANGE_PASSWORD_REQUEST = "CHANGE_PASSWORD_REQUEST";
 export const CHANGE_PASSWORD_SUCCESS = "CHANGE_PASSWORD_SUCCESS";
 export const CHANGE_PASSWORD_FAILURE = "CHANGE_PASSWORD_FAILURE";
 
-export const GET_ORDERS_TRANSACTION_DATA_REQUEST =
-  "GET_ORDERS_TRANSACTION_DATA_REQUEST";
-export const GET_ORDERS_TRANSACTION_DATA_SUCCESS =
-  "GET_ORDERS_TRANSACTION_DATA_SUCCESS";
-export const GET_ORDERS_TRANSACTION_DATA_FAILURE =
-  "GET_ORDERS_TRANSACTION_DATA_FAILURE";
+export const GET_ORDERS_TRANSACTION_DATA_REQUEST = "GET_ORDERS_TRANSACTION_DATA_REQUEST";
+export const GET_ORDERS_TRANSACTION_DATA_SUCCESS = "GET_ORDERS_TRANSACTION_DATA_SUCCESS";
+export const GET_ORDERS_TRANSACTION_DATA_FAILURE = "GET_ORDERS_TRANSACTION_DATA_FAILURE";
 
-export const GET_CUSTOMER_QUERIES_DATA_REQUEST =
-  "GET_CUSTOMER_QUERIES_DATA_REQUEST";
-export const GET_CUSTOMER_QUERIES_DATA_SUCCESS =
-  "GET_CUSTOMER_QUERIES_DATA_SUCCESS";
-export const GET_CUSTOMER_QUERIES_DATA_FAILURE =
-  "GET_CUSTOMER_QUERIES_DATA_FAILURE";
+export const GET_CUSTOMER_QUERIES_DATA_REQUEST = "GET_CUSTOMER_QUERIES_DATA_REQUEST";
+export const GET_CUSTOMER_QUERIES_DATA_SUCCESS = "GET_CUSTOMER_QUERIES_DATA_SUCCESS";
+export const GET_CUSTOMER_QUERIES_DATA_FAILURE = "GET_CUSTOMER_QUERIES_DATA_FAILURE";
 
-export const GET_CUSTOMER_OTHER_ISSUE_DATA_REQUEST =
-  "GET_CUSTOMER_OTHER_ISSUE_DATA_REQUEST";
-export const GET_CUSTOMER_OTHER_ISSUE_DATA_SUCCESS =
-  "GET_CUSTOMER_OTHER_ISSUE_DATA_SUCCESS";
-export const GET_CUSTOMER_OTHER_ISSUE_DATA_FAILURE =
-  "GET_CUSTOMER_OTHER_ISSUE_DATA_FAILURE";
+export const GET_CUSTOMER_OTHER_ISSUE_DATA_REQUEST = "GET_CUSTOMER_OTHER_ISSUE_DATA_REQUEST";
+export const GET_CUSTOMER_OTHER_ISSUE_DATA_SUCCESS = "GET_CUSTOMER_OTHER_ISSUE_DATA_SUCCESS";
+export const GET_CUSTOMER_OTHER_ISSUE_DATA_FAILURE = "GET_CUSTOMER_OTHER_ISSUE_DATA_FAILURE";
 
 export const GET_ALL_OTHERS_HELP_REQUEST = "GET_ALL_OTHERS_HELP_REQUEST";
 export const GET_ALL_OTHERS_HELP_SUCCESS = "GET_ALL_OTHERS_HELP_SUCCESS";
 export const GET_ALL_OTHERS_HELP_FAILURE = "GET_ALL_OTHERS_HELP_FAILURE";
 
-export const GET_FAQ_RELATED_QUESTIONS_REQUEST =
-  "GET_FAQ_RELATED_QUESTIONS_REQUEST";
-export const GET_FAQ_RELATED_QUESTIONS_SUCCESS =
-  "GET_FAQ_RELATED_QUESTIONS_SUCCESS";
-export const GET_FAQ_RELATED_QUESTIONS_FAILURE =
-  "GET_FAQ_RELATED_QUESTIONS_FAILURE";
+export const GET_FAQ_RELATED_QUESTIONS_REQUEST = "GET_FAQ_RELATED_QUESTIONS_REQUEST";
+export const GET_FAQ_RELATED_QUESTIONS_SUCCESS = "GET_FAQ_RELATED_QUESTIONS_SUCCESS";
+export const GET_FAQ_RELATED_QUESTIONS_FAILURE = "GET_FAQ_RELATED_QUESTIONS_FAILURE";
 
-export const GET_ORDER_RELATED_QUESTIONS_REQUEST =
-  "GET_ORDER_RELATED_QUESTIONS_REQUEST";
-export const GET_ORDER_RELATED_QUESTIONS_SUCCESS =
-  "GET_ORDER_RELATED_QUESTIONS_SUCCESS";
-export const GET_ORDER_RELATED_QUESTIONS_FAILURE =
-  "GET_ORDER_RELATED_QUESTIONS_FAILURE";
+export const GET_ORDER_RELATED_QUESTIONS_REQUEST = "GET_ORDER_RELATED_QUESTIONS_REQUEST";
+export const GET_ORDER_RELATED_QUESTIONS_SUCCESS = "GET_ORDER_RELATED_QUESTIONS_SUCCESS";
+export const GET_ORDER_RELATED_QUESTIONS_FAILURE = "GET_ORDER_RELATED_QUESTIONS_FAILURE";
 
-export const GET_CUSTOMER_QUERIES_FIELDS_REQUEST =
-  "GET_CUSTOMER_QUERIES_FIELDS_REQUEST";
-export const GET_CUSTOMER_QUERIES_FIELDS_SUCCESS =
-  "GET_CUSTOMER_QUERIES_FIELDS_SUCCESS";
-export const GET_CUSTOMER_QUERIES_FIELDS_FAILURE =
-  "GET_CUSTOMER_QUERIES_FIELDS_FAILURE";
+export const GET_CUSTOMER_QUERIES_FIELDS_REQUEST = "GET_CUSTOMER_QUERIES_FIELDS_REQUEST";
+export const GET_CUSTOMER_QUERIES_FIELDS_SUCCESS = "GET_CUSTOMER_QUERIES_FIELDS_SUCCESS";
+export const GET_CUSTOMER_QUERIES_FIELDS_FAILURE = "GET_CUSTOMER_QUERIES_FIELDS_FAILURE";
 
-export const RESEND_EMAIL_FOR_GIFT_CARD_REQUEST =
-  "RESEND_EMAIL_FOR_GIFT_CARD_REQUEST";
-export const RESEND_EMAIL_FOR_GIFT_CARD_SUCCESS =
-  "RESEND_EMAIL_FOR_GIFT_CARD_SUCCESS";
-export const RESEND_EMAIL_FOR_GIFT_CARD_FAILURE =
-  "RESEND_EMAIL_FOR_GIFT_CARD_FAILURE";
+export const RESEND_EMAIL_FOR_GIFT_CARD_REQUEST = "RESEND_EMAIL_FOR_GIFT_CARD_REQUEST";
+export const RESEND_EMAIL_FOR_GIFT_CARD_SUCCESS = "RESEND_EMAIL_FOR_GIFT_CARD_SUCCESS";
+export const RESEND_EMAIL_FOR_GIFT_CARD_FAILURE = "RESEND_EMAIL_FOR_GIFT_CARD_FAILURE";
 
 export const GET_TRANSACTION_DETAILS_REQUEST = "TRANSACTION_DETAILS_REQUEST";
-export const GET_TRANSACTION_DETAILS_SUCCESS =
-  "GET_TRANSACTION_DETAILS_SUCCESS";
-export const GET_TRANSACTION_DETAILS_FAILURE =
-  "GET_TRANSACTION_DETAILS_FAILURE";
+export const GET_TRANSACTION_DETAILS_SUCCESS = "GET_TRANSACTION_DETAILS_SUCCESS";
+export const GET_TRANSACTION_DETAILS_FAILURE = "GET_TRANSACTION_DETAILS_FAILURE";
 
 export const UPLOAD_USER_FILE_REQUEST = "UPLOAD_USER_FILE_REQUEST";
 export const UPLOAD_USER_FILE_SUCCESS = "UPLOAD_USER_FILE_SUCCESS";
@@ -386,12 +329,9 @@ export const CNC_TO_HD_DETAILS_REQUEST = "CNC_TO_HD_DETAILS_REQUEST";
 export const CNC_TO_HD_DETAILS_SUCCESS = "CNC_TO_HD_DETAILS_SUCCESS";
 export const CNC_TO_HD_DETAILS_FAILURE = "CNC_TO_HD_DETAILS_FAILURE";
 
-export const GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_REQUEST =
-  "GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_REQUEST";
-export const GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_SUCCESS =
-  "GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_SUCCESS";
-export const GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_FAILURE =
-  "GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_FAILURE";
+export const GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_REQUEST = "GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_REQUEST";
+export const GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_SUCCESS = "GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_SUCCESS";
+export const GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_FAILURE = "GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_FAILURE";
 
 export const RESET_USER_ADDRESS = "RESET_USER_ADDRESS";
 
@@ -431,66 +371,45 @@ export const MSD_FEEDBACK = "feedback";
 const NEFT = "NEFT";
 const TITLE_NAME_ARRAY = ["Ms.", "Mr.", "Mr. & Mrs."];
 // cancel product
-export const SUBMIT_RETURNIMGUPLOAD_DETAILS_REQUEST =
-  "SUBMIT_RETURNIMGUPLOAD_DETAILS_REQUEST";
-export const SUBMIT_RETURNIMGUPLOAD_DETAILS_SUCCESS =
-  "SUBMIT_RETURNIMGUPLOAD_DETAILS_SUCCESS";
-export const SUBMIT_RETURNIMGUPLOAD_DETAILS_FAILURE =
-  "SUBMIT_RETURNIMGUPLOAD_DETAILS_FAILURE";
-export const GET_REFUND_OPTIONS_DATA_REQUEST =
-  "GET_REFUND_OPTIONS_DATA_REQUEST";
-export const GET_REFUND_OPTIONS_DATA_SUCCESS =
-  "GET_REFUND_OPTIONS_DATA_SUCCESS";
-export const GET_REFUND_OPTIONS_DATA_FAILURE =
-  "GET_REFUND_OPTIONS_DATA_FAILURE";
+export const SUBMIT_RETURNIMGUPLOAD_DETAILS_REQUEST = "SUBMIT_RETURNIMGUPLOAD_DETAILS_REQUEST";
+export const SUBMIT_RETURNIMGUPLOAD_DETAILS_SUCCESS = "SUBMIT_RETURNIMGUPLOAD_DETAILS_SUCCESS";
+export const SUBMIT_RETURNIMGUPLOAD_DETAILS_FAILURE = "SUBMIT_RETURNIMGUPLOAD_DETAILS_FAILURE";
+export const GET_REFUND_OPTIONS_DATA_REQUEST = "GET_REFUND_OPTIONS_DATA_REQUEST";
+export const GET_REFUND_OPTIONS_DATA_SUCCESS = "GET_REFUND_OPTIONS_DATA_SUCCESS";
+export const GET_REFUND_OPTIONS_DATA_FAILURE = "GET_REFUND_OPTIONS_DATA_FAILURE";
 export const GET_REFUND_MODES_REQUEST = "GET_REFUND_MODES_REQUEST";
 export const GET_REFUND_MODES_SUCCESS = "GET_REFUND_MODES_SUCCESS";
 export const GET_REFUND_MODES_FAILURE = "GET_REFUND_MODES_FAILURE";
 export const UPDATE_REFUND_MODE_REQUEST = "UPDATE_REFUND_MODE_REQUEST";
 export const UPDATE_REFUND_MODE_SUCCESS = "UPDATE_REFUND_MODE_SUCCESS";
 export const UPDATE_REFUND_MODE_FAILURE = "UPDATE_REFUND_MODE_FAILURE";
-export const GET_CUSTOMER_BANK_DETAILS_REQUEST =
-  "GET_CUSTOMER_BANK_DETAILS_REQUEST";
-export const GET_CUSTOMER_BANK_DETAILS_SUCCESS =
-  "GET_CUSTOMER_BANK_DETAILS_SUCCESS";
-export const GET_CUSTOMER_BANK_DETAILS_FAILURE =
-  "GET_CUSTOMER_BANK_DETAILS_FAILURE";
+export const GET_CUSTOMER_BANK_DETAILS_REQUEST = "GET_CUSTOMER_BANK_DETAILS_REQUEST";
+export const GET_CUSTOMER_BANK_DETAILS_SUCCESS = "GET_CUSTOMER_BANK_DETAILS_SUCCESS";
+export const GET_CUSTOMER_BANK_DETAILS_FAILURE = "GET_CUSTOMER_BANK_DETAILS_FAILURE";
 
-export const UPDATE_CUSTOMER_BANK_DETAILS_REQUEST =
-  "UPDATE_CUSTOMER_BANK_DETAILS_REQUEST";
-export const UPDATE_CUSTOMER_BANK_DETAILS_SUCCESS =
-  "UPDATE_CUSTOMER_BANK_DETAILS_SUCCESS";
-export const UPDATE_CUSTOMER_BANK_DETAILS_FAILURE =
-  "UPDATE_CUSTOMER_BANK_DETAILS_FAILURE";
+export const UPDATE_CUSTOMER_BANK_DETAILS_REQUEST = "UPDATE_CUSTOMER_BANK_DETAILS_REQUEST";
+export const UPDATE_CUSTOMER_BANK_DETAILS_SUCCESS = "UPDATE_CUSTOMER_BANK_DETAILS_SUCCESS";
+export const UPDATE_CUSTOMER_BANK_DETAILS_FAILURE = "UPDATE_CUSTOMER_BANK_DETAILS_FAILURE";
 
 export const GET_RETURN_MODES_REQUEST = "GET_RETURN_MODES_REQUEST";
 export const GET_RETURN_MODES_SUCCESS = "GET_RETURN_MODES_SUCCESS";
 export const GET_RETURN_MODES_FAILURE = "GET_RETURN_MODES_FAILURE";
 
-export const UPDATE_RETURN_CONFIRMATION_REQUEST =
-  "UPDATE_RETURN_CONFIRMATION_REQUEST";
-export const UPDATE_RETURN_CONFIRMATION_SUCCESS =
-  "UPDATE_RETURN_CONFIRMATION_SUCCESS";
-export const UPDATE_RETURN_CONFIRMATION_FAILURE =
-  "UPDATE_RETURN_CONFIRMATION_FAILURE";
+export const UPDATE_RETURN_CONFIRMATION_REQUEST = "UPDATE_RETURN_CONFIRMATION_REQUEST";
+export const UPDATE_RETURN_CONFIRMATION_SUCCESS = "UPDATE_RETURN_CONFIRMATION_SUCCESS";
+export const UPDATE_RETURN_CONFIRMATION_FAILURE = "UPDATE_RETURN_CONFIRMATION_FAILURE";
 
-export const GET_REFUND_TRANSACTION_SUMMARY_REQUEST =
-  "GET_REFUND_TRANSACTION_SUMMARY_REQUEST";
-export const GET_REFUND_TRANSACTION_SUMMARY_SUCCESS =
-  "GET_REFUND_TRANSACTION_SUMMARY_SUCCESS";
-export const GET_REFUND_TRANSACTION_SUMMARY_FAILURE =
-  "GET_REFUND_TRANSACTION_SUMMARY_FAILURE";
+export const GET_REFUND_TRANSACTION_SUMMARY_REQUEST = "GET_REFUND_TRANSACTION_SUMMARY_REQUEST";
+export const GET_REFUND_TRANSACTION_SUMMARY_SUCCESS = "GET_REFUND_TRANSACTION_SUMMARY_SUCCESS";
+export const GET_REFUND_TRANSACTION_SUMMARY_FAILURE = "GET_REFUND_TRANSACTION_SUMMARY_FAILURE";
 
 export const GET_RETURN_REASONS_REQUEST = "GET_RETURN_REASONS_REQUEST";
 export const GET_RETURN_REASONS_SUCCESS = "GET_RETURN_REASONS_SUCCESS";
 export const GET_RETURN_REASONS_FAILURE = "GET_RETURN_REASONS_FAILURE";
 
-export const UPDATE_RETURN_CANCELLATION_REQUEST =
-  "UPDATE_RETURN_CANCELLATION_REQUEST";
-export const UPDATE_RETURN_CANCELLATION_SUCCESS =
-  "UPDATE_RETURN_CANCELLATION_SUCCESS";
-export const UPDATE_RETURN_CANCELLATION_FAILURE =
-  "UPDATE_RETURN_CANCELLATION_FAILURE";
+export const UPDATE_RETURN_CANCELLATION_REQUEST = "UPDATE_RETURN_CANCELLATION_REQUEST";
+export const UPDATE_RETURN_CANCELLATION_SUCCESS = "UPDATE_RETURN_CANCELLATION_SUCCESS";
+export const UPDATE_RETURN_CANCELLATION_FAILURE = "UPDATE_RETURN_CANCELLATION_FAILURE";
 
 export const UPDATE_RETURN_HOTC_REQUEST = "UPDATE_RETURN_HOTC_REQUEST";
 export const UPDATE_RETURN_HOTC_SUCCESS = "UPDATE_RETURN_HOTC_SUCCESS";
@@ -500,37 +419,24 @@ export const GET_USER_RATING_REQUEST = "GET_USER_RATING_REQUEST";
 export const GET_USER_RATING_SUCCESS = "GET_USER_RATING_SUCCESS";
 export const GET_USER_RATING_FAILURE = "GET_USER_RATING_FAILURE";
 
-export const GET_USER_NOTIFICATION_DETAILS_REQUEST =
-  "GET_USER_NOTIFICATION_DETAILS_REQUEST";
-export const GET_USER_NOTIFICATION_DETAILS_SUCCESS =
-  "GET_USER_NOTIFICATION_DETAILS_SUCCESS";
-export const GET_USER_NOTIFICATION_DETAILS_FAILURE =
-  "GET_USER_NOTIFICATION_DETAILS_FAILURE";
+export const GET_USER_NOTIFICATION_DETAILS_REQUEST = "GET_USER_NOTIFICATION_DETAILS_REQUEST";
+export const GET_USER_NOTIFICATION_DETAILS_SUCCESS = "GET_USER_NOTIFICATION_DETAILS_SUCCESS";
+export const GET_USER_NOTIFICATION_DETAILS_FAILURE = "GET_USER_NOTIFICATION_DETAILS_FAILURE";
 
-export const SET_USER_SMS_NOTIFICATION_REQUEST =
-  "SET_USER_SMS_NOTIFICATION_REQUEST";
-export const SET_USER_SMS_NOTIFICATION_SUCCESS =
-  "SET_USER_SMS_NOTIFICATION_SUCCESS";
-export const SET_USER_SMS_NOTIFICATION_FAILURE =
-  "SET_USER_SMS_NOTIFICATION_FAILURE";
+export const SET_USER_SMS_NOTIFICATION_REQUEST = "SET_USER_SMS_NOTIFICATION_REQUEST";
+export const SET_USER_SMS_NOTIFICATION_SUCCESS = "SET_USER_SMS_NOTIFICATION_SUCCESS";
+export const SET_USER_SMS_NOTIFICATION_FAILURE = "SET_USER_SMS_NOTIFICATION_FAILURE";
 
-export const RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS =
-  "RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS";
+export const RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS = "RETRY_PAYMENT_RELEASE_BANK_OFFER_SUCCESS";
 export const SET_SELF_SERVE_STATE = "SET_SELF_SERVE_STATE";
 
-export const GET_EXCHANGE_CASHBACK_DETAILS_REQUEST =
-  "GET_EXCHANGE_CASHBACK_DETAILS_REQUEST";
-export const GET_EXCHANGE_CASHBACK_DETAILS_SUCCESS =
-  "GET_EXCHANGE_CASHBACK_DETAILS_SUCCESS";
-export const GET_EXCHANGE_CASHBACK_DETAILS_FAILURE =
-  "GET_EXCHANGE_CASHBACK_DETAILS_FAILURE";
+export const GET_EXCHANGE_CASHBACK_DETAILS_REQUEST = "GET_EXCHANGE_CASHBACK_DETAILS_REQUEST";
+export const GET_EXCHANGE_CASHBACK_DETAILS_SUCCESS = "GET_EXCHANGE_CASHBACK_DETAILS_SUCCESS";
+export const GET_EXCHANGE_CASHBACK_DETAILS_FAILURE = "GET_EXCHANGE_CASHBACK_DETAILS_FAILURE";
 
-export const SUBMIT_EXCHANGE_CASHBACK_DETAILS_REQUEST =
-  "SUBMIT_EXCHANGE_CASHBACK_DETAILS_REQUEST";
-export const SUBMIT_EXCHANGE_CASHBACK_DETAILS_SUCCESS =
-  "SUBMIT_EXCHANGE_CASHBACK_DETAILS_SUCCESS";
-export const SUBMIT_EXCHANGE_CASHBACK_DETAILS_FAILURE =
-  "SUBMIT_EXCHANGE_CASHBACK_DETAILS_FAILURE";
+export const SUBMIT_EXCHANGE_CASHBACK_DETAILS_REQUEST = "SUBMIT_EXCHANGE_CASHBACK_DETAILS_REQUEST";
+export const SUBMIT_EXCHANGE_CASHBACK_DETAILS_SUCCESS = "SUBMIT_EXCHANGE_CASHBACK_DETAILS_SUCCESS";
+export const SUBMIT_EXCHANGE_CASHBACK_DETAILS_FAILURE = "SUBMIT_EXCHANGE_CASHBACK_DETAILS_FAILURE";
 getCliq2CallConfig;
 export const GET_CLIQ_2_CALL_CONFIG_REQUEST = "GET_CLIQ_2_CALL_CONFIG_REQUEST";
 export const GET_CLIQ_2_CALL_CONFIG_SUCCESS = "GET_CLIQ_2_CALL_CONFIG_SUCCESS";
@@ -541,10 +447,8 @@ export const GET_GENESYS_RESPONSE_SUCCESS = "GET_GENESYS_RESPONSE_SUCCESS";
 export const GET_GENESYS_RESPONSE_FAILURE = "GET_GENESYS_RESPONSE_FAILURE";
 
 export const GENESYS_CUSTOMER_CALL_REQUEST = "GENESYS_CUSTOMER_CALL_REQUEST";
-export const GENESYS_CUSTOMER_CALL_REQUEST_SUCCESS =
-  "GENESYS_CUSTOMER_CALL_REQUEST_SUCCESS";
-export const GENESYS_CUSTOMER_CALL_REQUEST_FAILURE =
-  "GENESYS_CUSTOMER_CALL_REQUEST_FAILURE";
+export const GENESYS_CUSTOMER_CALL_REQUEST_SUCCESS = "GENESYS_CUSTOMER_CALL_REQUEST_SUCCESS";
+export const GENESYS_CUSTOMER_CALL_REQUEST_FAILURE = "GENESYS_CUSTOMER_CALL_REQUEST_FAILURE";
 
 const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
 const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -561,9 +465,7 @@ export function getDetailsOfCancelledProductRequest() {
     status: REQUESTING,
   };
 }
-export function getDetailsOfCancelledProductSuccess(
-  getDetailsOfCancelledProduct
-) {
+export function getDetailsOfCancelledProductSuccess(getDetailsOfCancelledProduct) {
   return {
     type: GET_CANCEL_PRODUCT_DETAILS_SUCCESS,
     status: SUCCESS,
@@ -581,23 +483,15 @@ export function getDetailsOfCancelledProduct(cancelProductDetails) {
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cancelProductObject = new FormData();
-  cancelProductObject.append(
-    "transactionId",
-    cancelProductDetails.transactionId
-  );
+  cancelProductObject.append("transactionId", cancelProductDetails.transactionId);
   cancelProductObject.append("orderCode", cancelProductDetails.orderCode);
   cancelProductObject.append("USSID", cancelProductDetails.USSID);
-  cancelProductObject.append(
-    "returnCancelFlag",
-    cancelProductDetails.returnCancelFlag
-  );
+  cancelProductObject.append("returnCancelFlag", cancelProductDetails.returnCancelFlag);
   return async (dispatch, getState, { api }) => {
     dispatch(getDetailsOfCancelledProductRequest());
     try {
       const result = await api.postFormData(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/returnProductDetails?access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/returnProductDetails?access_token=${
           JSON.parse(customerCookie).access_token
         }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&isMDE=true`,
         cancelProductObject
@@ -645,11 +539,9 @@ export function updateReturnForHOTC(data) {
       const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
       const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
       const result = await api.post(
-        `${USER_PATH}/${JSON.parse(userDetails).userName}/updateReturnForHOTC/${
-          data.orderId
-        }/${data.transactionId}?access_token=${
-          JSON.parse(customerCookie).access_token
-        }&isPwa=true`
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/updateReturnForHOTC/${data.orderId}/${
+          data.transactionId
+        }?access_token=${JSON.parse(customerCookie).access_token}&isPwa=true`
       );
       const resultJson = await result.json();
       if (resultJson.status === FAILURE) {
@@ -696,25 +588,17 @@ export function cancelProduct(cancelProductDetails, productDetails) {
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cancelProductObject = new FormData();
-  cancelProductObject.append(
-    "transactionId",
-    cancelProductDetails.transactionId
-  );
+  cancelProductObject.append("transactionId", cancelProductDetails.transactionId);
   cancelProductObject.append("orderCode", cancelProductDetails.orderCode);
   cancelProductObject.append("ussid", cancelProductDetails.USSID);
-  cancelProductObject.append(
-    "ticketTypeCode",
-    cancelProductDetails.ticketTypeCode
-  );
+  cancelProductObject.append("ticketTypeCode", cancelProductDetails.ticketTypeCode);
   cancelProductObject.append("reasonCode", cancelProductDetails.reasonCode);
   cancelProductObject.append("refundType", cancelProductDetails.refundType);
   return async (dispatch, getState, { api }) => {
     dispatch(cancelProductRequest());
     try {
       const result = await api.postFormData(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/initiateRefund?access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/initiateRefund?access_token=${
           JSON.parse(customerCookie).access_token
         }&login=${JSON.parse(userDetails).userName}&isPwa=true&isMDE=true`,
         cancelProductObject
@@ -728,10 +612,7 @@ export function cancelProduct(cancelProductDetails, productDetails) {
 
       dispatch(displayToast(SUCCESS_MESSAGE_IN_CANCELING_ORDER));
       let updatedObj = Object.assign({}, cancelProductDetails, productDetails);
-      setDataLayerForMyAccountDirectCalls(
-        ADOBE_MY_ACCOUNT_CANCEL_ORDER_SUCCESS,
-        updatedObj
-      );
+      setDataLayerForMyAccountDirectCalls(ADOBE_MY_ACCOUNT_CANCEL_ORDER_SUCCESS, updatedObj);
       return dispatch(cancelProductSuccess(resultJson));
     } catch (e) {
       return dispatch(cancelProductFailure(e.message));
@@ -768,18 +649,13 @@ export function returnProductDetails(productDetails) {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     returnProductFormData.append("transactionId", productDetails.transactionId);
-    returnProductFormData.append(
-      "returnCancelFlag",
-      productDetails.returnCancelFlag
-    );
+    returnProductFormData.append("returnCancelFlag", productDetails.returnCancelFlag);
     returnProductFormData.append("orderCode", productDetails.orderCode);
 
     dispatch(returnProductDetailsRequest());
     try {
       const result = await api.postFormData(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/newReturnProductDetails?access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/newReturnProductDetails?access_token=${
           JSON.parse(customerCookie).access_token
         }&isPwa=true`,
         returnProductFormData
@@ -818,12 +694,7 @@ export function getReturnModesFailure(error) {
   };
 }
 
-export function getReturnModes(
-  returnId,
-  orderId,
-  pickUpAddressId,
-  transactionId
-) {
+export function getReturnModes(returnId, orderId, pickUpAddressId, transactionId) {
   return async (dispatch, getState, { api }) => {
     dispatch(getReturnModesRequest());
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -836,9 +707,7 @@ export function getReturnModes(
       data.append("transactionId", transactionId);
 
       const result = await api.postFormData(
-        `v2/mpl/users/${
-          JSON.parse(userDetails).userName
-        }/getPickupAddrReturnPincodeServcblty?access_token=${
+        `v2/mpl/users/${JSON.parse(userDetails).userName}/getPickupAddrReturnPincodeServcblty?access_token=${
           JSON.parse(customerCookie).access_token
         }&isPwa=true&isMDE=true`,
         data
@@ -866,9 +735,7 @@ export function updateReturnConfirmationRequest() {
   };
 }
 
-export function updateReturnConfirmationSuccess(
-  updateReturnConfirmationDetails
-) {
+export function updateReturnConfirmationSuccess(updateReturnConfirmationDetails) {
   return {
     type: UPDATE_RETURN_CONFIRMATION_SUCCESS,
     status: SUCCESS,
@@ -960,9 +827,7 @@ export function getRefundTransactionSummaryRequest() {
   };
 }
 
-export function getRefundTransactionSummarySuccess(
-  getRefundTransactionDetails
-) {
+export function getRefundTransactionSummarySuccess(getRefundTransactionDetails) {
   return {
     type: GET_REFUND_TRANSACTION_SUMMARY_SUCCESS,
     status: SUCCESS,
@@ -1033,9 +898,7 @@ export function getReturnReasons(orderId, transactionId) {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.get(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/getReturnCancelReasons?access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/getReturnCancelReasons?access_token=${
           JSON.parse(customerCookie).access_token
         }&orderCode=${orderId}&transactionId=${transactionId}&isPwa=true`
       );
@@ -1058,9 +921,7 @@ export function updateReturnCancellationRequest() {
   };
 }
 
-export function updateReturnCancellationSuccess(
-  updateReturnCancellationDetails
-) {
+export function updateReturnCancellationSuccess(updateReturnCancellationDetails) {
   return {
     type: UPDATE_RETURN_CANCELLATION_SUCCESS,
     status: SUCCESS,
@@ -1088,13 +949,9 @@ export function updateReturnCancellation(data) {
         apiData.returnCancelComments = data.returnCancelComments;
       }
       const result = await api.post(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/updateReturnCancellation/${data.orderId}/${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/updateReturnCancellation/${data.orderId}/${
           data.transactionId
-        }?access_token=${
-          JSON.parse(customerCookie).access_token
-        }&isPwa=true&isMDE=true`,
+        }?access_token=${JSON.parse(customerCookie).access_token}&isPwa=true&isMDE=true`,
         apiData
       );
       const resultJson = await result.json();
@@ -1144,9 +1001,7 @@ export function getReturnRequest(orderCode, transactionId) {
     dispatch(getReturnRequestRequest());
     try {
       const result = await api.get(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/returnRequest?access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/returnRequest?access_token=${
           JSON.parse(customerCookie).access_token
         }&channel=${CHANNEL}&loginId=${
           JSON.parse(userDetails).userName
@@ -1201,9 +1056,7 @@ export function newReturnInitial(returnDetails, product = null) {
     }
     try {
       const result = await api.post(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/newReturnInitiate?access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/newReturnInitiate?access_token=${
           JSON.parse(customerCookie).access_token
         }&channel=${CHANNEL}`,
         returnDetails
@@ -1214,11 +1067,7 @@ export function newReturnInitial(returnDetails, product = null) {
         throw new Error(resultJsonStatus.message);
       }
       if (product) {
-        setDataLayerForMyAccountDirectCalls(
-          ADOBE_MY_ACCOUNT_ORDER_RETURN,
-          product,
-          returnDetails
-        );
+        setDataLayerForMyAccountDirectCalls(ADOBE_MY_ACCOUNT_ORDER_RETURN, product, returnDetails);
       }
       return dispatch(newReturnInitiateSuccess(resultJson));
     } catch (e) {
@@ -1259,13 +1108,11 @@ export function returnPinCode(productDetails) {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.post(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/returnPincode?access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/returnPincode?access_token=${
           JSON.parse(customerCookie).access_token
-        }&&orderCode=${productDetails.orderCode}&pincode=${
-          productDetails.pinCode
-        }&transactionId=${productDetails.transactionId}`
+        }&&orderCode=${productDetails.orderCode}&pincode=${productDetails.pinCode}&transactionId=${
+          productDetails.transactionId
+        }`
       );
       resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1314,19 +1161,14 @@ export function quickDropStore(pincode, ussId) {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.get(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/quickDropStores?access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/quickDropStores?access_token=${
           JSON.parse(customerCookie).access_token
         }&pincode=${pincode}&&ussid=${ussId}`
       );
 
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (
-        resultJsonStatus.status ||
-        resultJson.status === "Store Not available"
-      ) {
+      if (resultJsonStatus.status || resultJson.status === "Store Not available") {
         let errorMessage = resultJsonStatus.message;
         if (resultJson.status === "Store Not available") {
           errorMessage = "Store not available.Please try another pincode.";
@@ -1369,9 +1211,7 @@ export function getGiftCardDetails() {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.get(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/giftCard/egvProductInfo?access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/giftCard/egvProductInfo?access_token=${
           JSON.parse(customerCookie).access_token
         }`
       );
@@ -1384,10 +1224,7 @@ export function getGiftCardDetails() {
       ) {
         if (!resultJson.isWalletOtpVerified) {
           dispatch(showModal(GENERATE_OTP_FOR_EGV));
-        } else if (
-          resultJson.isWalletCreated &&
-          !resultJson.isWalletOtpVerified
-        ) {
+        } else if (resultJson.isWalletCreated && !resultJson.isWalletOtpVerified) {
           dispatch(
             showModal(GENERATE_OTP_FOR_EGV, {
               firstName: resultJson.firstName,
@@ -1438,9 +1275,7 @@ export function createGiftCardDetails(giftCardDetails) {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.post(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/createElectronicsGiftCardCartGuid?access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/createElectronicsGiftCardCartGuid?access_token=${
           JSON.parse(customerCookie).access_token
         }`,
         giftCardDetails
@@ -1489,9 +1324,7 @@ export function getOtpToActivateWallet(customerDetails, isFromCliqCash) {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.post(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/checkWalletMobileNumber?access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/checkWalletMobileNumber?access_token=${
           JSON.parse(customerCookie).access_token
         }&isUpdateProfile=false`,
         customerDetails
@@ -1543,17 +1376,14 @@ export function verifyWallet(customerDetailsWithOtp, isFromCliqCash) {
     dispatch(verifyWalletRequest());
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    const customerInfo = getState().user.user && getState().user.user.customerInfo;
     try {
       const result = await api.post(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/verifyWalletOtp?access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/verifyWalletOtp?access_token=${
           JSON.parse(customerCookie).access_token
-        }&otp=${customerDetailsWithOtp.otp}&firstName=${
-          customerDetailsWithOtp.firstName
-        }&lastName=${customerDetailsWithOtp.lastName}&mobileNumber=${
-          customerDetailsWithOtp.mobileNumber
-        }`
+        }&otp=${customerDetailsWithOtp.otp}&firstName=${customerDetailsWithOtp.firstName}&lastName=${
+          customerDetailsWithOtp.lastName
+        }&mobileNumber=${customerDetailsWithOtp.mobileNumber}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -1574,11 +1404,8 @@ export function verifyWallet(customerDetailsWithOtp, isFromCliqCash) {
       updatedUserCookie.userName = JSON.parse(userDetails).userName;
       updatedUserCookie.customerId = JSON.parse(userDetails).customerId;
       updatedUserCookie.loginType = JSON.parse(userDetails).loginType;
-
-      Cookie.createCookie(
-        LOGGED_IN_USER_DETAILS,
-        JSON.stringify(updatedUserCookie)
-      );
+      updatedUserCookie.userEmail = customerInfo.emailId;
+      Cookie.createCookie(LOGGED_IN_USER_DETAILS, JSON.stringify(updatedUserCookie));
       return dispatch(verifyWalletSuccess(resultJson));
     } catch (e) {
       return dispatch(verifyWalletFailure(e.message));
@@ -1594,11 +1421,9 @@ export function getReturnReasonsWithProductDetails(productDetails) {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.get(
-        `${USER_PATH}/${JSON.parse(userDetails).userName}/getReturnReasons/${
-          productDetails.orderCode
-        }/${productDetails.transactionId}/?access_token=${
-          JSON.parse(customerCookie).access_token
-        }&isPwa=true&isMDE=true`
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/getReturnReasons/${productDetails.orderCode}/${
+          productDetails.transactionId
+        }/?access_token=${JSON.parse(customerCookie).access_token}&isPwa=true&isMDE=true`
       );
 
       const resultJson = await result.json();
@@ -1648,19 +1473,14 @@ export function uploadProductImages(orderId, transactionId, file) {
       });
 
       const result = await api.postFormData(
-        `/v2/mpl/users/${
-          JSON.parse(userDetails).userName
-        }/uploadReturnImageFile?access_token=${
+        `/v2/mpl/users/${JSON.parse(userDetails).userName}/uploadReturnImageFile?access_token=${
           JSON.parse(customerCookie).access_token
         }&isPwa=true`,
         uploadFile
       );
 
       const resultJson = await result.json();
-      if (
-        resultJson.status === SUCCESS_CAMEL_CASE ||
-        resultJson.status === SUCCESS
-      ) {
+      if (resultJson.status === SUCCESS_CAMEL_CASE || resultJson.status === SUCCESS) {
         dispatch(displayToast("Images Uploaded Successfully"));
       }
       if (resultJson.status === FAILURE) {
@@ -1832,9 +1652,7 @@ export function updateRefundMode(orderId, transactionId, returnId, refundMode) {
         returnId: returnId,
       });
       const result = await api.post(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/updateRefundMode/${orderId}/${transactionId}?access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/updateRefundMode/${orderId}/${transactionId}?access_token=${
           JSON.parse(customerCookie).access_token
         }&isPwa=true&isMDE=true`,
         data
@@ -1883,9 +1701,7 @@ export function getCustomerBankDetails() {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.get(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/getCustomerBankDetails?access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/getCustomerBankDetails?access_token=${
           JSON.parse(customerCookie).access_token
         }&customerId=${JSON.parse(userDetails).customerId}&isPwa=true`
       );
@@ -1928,9 +1744,7 @@ export function updateCustomerBankDetails(bankDetails) {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.post(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/updateBankDetails?access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/updateBankDetails?access_token=${
           JSON.parse(customerCookie).access_token
         }&isPwa=true`,
         bankDetails
@@ -1953,9 +1767,7 @@ export function getCliqCashDetailsRefund() {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.post(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/cliqcash/getUserCliqCashDetails?access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/cliqcash/getUserCliqCashDetails?access_token=${
           JSON.parse(customerCookie).access_token
         }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
       );
@@ -2012,9 +1824,7 @@ export function submitSelfCourierReturnInfo(returnDetails) {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.postFormData(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/submitSelfCourierRetrunInfo?channel=${CHANNEL}&access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/submitSelfCourierRetrunInfo?channel=${CHANNEL}&access_token=${
           JSON.parse(customerCookie).access_token
         }`,
         returnDetailsObject
@@ -2114,9 +1924,7 @@ export function getTransactionDetails() {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.post(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/getWalletTransactions?access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/getWalletTransactions?access_token=${
           JSON.parse(customerCookie).access_token
         }&channel=${CHANNEL}`
       );
@@ -2160,9 +1968,7 @@ export function getPinCode(pinCode) {
     dispatch(getPinCodeRequest());
     try {
       const result = await api.get(
-        `${PIN_PATH}/getPincodeData?pincode=${pinCode}&access_token=${
-          JSON.parse(globalAccessToken).access_token
-        }`
+        `${PIN_PATH}/getPincodeData?pincode=${pinCode}&access_token=${JSON.parse(globalAccessToken).access_token}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2209,9 +2015,7 @@ export function getPinCodeChangeAddressOrderedProduct(address, orderCode) {
     dispatch(getPinCodeChangeAddressOrderedProductRequest());
     try {
       const result = await api.post(
-        `${PIN_PATH}/users/${
-          JSON.parse(userAccessToken).userName
-        }/changeDeliveryAddress/${orderCode}?access_token=${
+        `${PIN_PATH}/users/${JSON.parse(userAccessToken).userName}/changeDeliveryAddress/${orderCode}?access_token=${
           JSON.parse(customerCookie).access_token
         }`,
         address
@@ -2257,9 +2061,7 @@ export function removeSavedCardDetails(cardToken) {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.post(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/payments/removeSavedCards?access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/payments/removeSavedCards?access_token=${
           JSON.parse(customerCookie).access_token
         }&cardToken=${cardToken}`
       );
@@ -2270,12 +2072,7 @@ export function removeSavedCardDetails(cardToken) {
         throw new Error(resultJsonStatus.message);
       }
       dispatch(removeSavedCardSuccess(resultJson));
-      dispatch(
-        getSavedCardDetails(
-          JSON.parse(userDetails).userName,
-          JSON.parse(customerCookie).access_token
-        )
-      );
+      dispatch(getSavedCardDetails(JSON.parse(userDetails).userName, JSON.parse(customerCookie).access_token));
     } catch (e) {
       dispatch(removeSavedCardFailure(e.message));
     }
@@ -2314,9 +2111,7 @@ export function removeSavedUpiDetails(upiId) {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.post(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/payments/removeSavedUPIS?access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/payments/removeSavedUPIS?access_token=${
           JSON.parse(customerCookie).access_token
         }&upiId=${upiId}`
       );
@@ -2327,12 +2122,7 @@ export function removeSavedUpiDetails(upiId) {
         throw new Error(resultJsonStatus.message);
       }
       dispatch(removeSavedUpiSuccess(resultJson));
-      dispatch(
-        getSavedCardDetails(
-          JSON.parse(userDetails).userName,
-          JSON.parse(customerCookie).access_token
-        )
-      );
+      dispatch(getSavedCardDetails(JSON.parse(userDetails).userName, JSON.parse(customerCookie).access_token));
     } catch (e) {
       dispatch(removeSavedUpiFailure(e.message));
     }
@@ -2384,11 +2174,7 @@ export function addUPIDetails(upi, pageType, btnType) {
     if (localStorage.getItem("APPROVED_UPI_VPA")) {
       APPROVED_UPI = JSON.parse(localStorage.getItem("APPROVED_UPI_VPA"));
     }
-    if (
-      pageType === "checkout" &&
-      btnType === "select" &&
-      APPROVED_UPI.includes(upi)
-    ) {
+    if (pageType === "checkout" && btnType === "select" && APPROVED_UPI.includes(upi)) {
       return dispatch(
         addUserUPISuccess({
           type: "upiValidationDTO",
@@ -2400,9 +2186,7 @@ export function addUPIDetails(upi, pageType, btnType) {
       );
     }
     try {
-      const addUPI = `${USER_PATH}/${
-        JSON.parse(userDetails).userName
-      }/payments/upiValidation?access_token=${
+      const addUPI = `${USER_PATH}/${JSON.parse(userDetails).userName}/payments/upiValidation?access_token=${
         JSON.parse(customerCookie).access_token
       }&isPwa=true&channel=web&isUpdatedPwa=true&upiId=${upi}&isToValidateUpi=true&isToSaveUpi=true`;
       const result = await api.post(addUPI);
@@ -2411,22 +2195,13 @@ export function addUPIDetails(upi, pageType, btnType) {
 
       if (
         resultJsonStatus.status &&
-        (resultJson.upiStatus === "INVALID" ||
-          resultJson.upiStatus === "VALID") &&
+        (resultJson.upiStatus === "INVALID" || resultJson.upiStatus === "VALID") &&
         pageType !== "myaccount"
       ) {
         return dispatch(addUserUPISuccess(resultJson));
-      } else if (
-        resultJson.status === "FAILURE" &&
-        resultJson.upiStatus === "VALID" &&
-        pageType === "myaccount"
-      ) {
+      } else if (resultJson.status === "FAILURE" && resultJson.upiStatus === "VALID" && pageType === "myaccount") {
         dispatch(displayToast(resultJson.error));
-      } else if (
-        resultJson.status === "FAILURE" &&
-        resultJson.upiStatus === "INVALID" &&
-        pageType === "myaccount"
-      ) {
+      } else if (resultJson.status === "FAILURE" && resultJson.upiStatus === "INVALID" && pageType === "myaccount") {
         return dispatch(addUserUPISuccess(resultJson));
       } else if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.error);
@@ -2434,11 +2209,7 @@ export function addUPIDetails(upi, pageType, btnType) {
       // if (resultJsonStatus.status) {
       //   throw new Error(resultJsonStatus.message);
       // }
-      if (
-        resultJson.status !== "FAILURE" &&
-        resultJson.upiStatus === "VALID" &&
-        pageType === "myaccount"
-      ) {
+      if (resultJson.status !== "FAILURE" && resultJson.upiStatus === "VALID" && pageType === "myaccount") {
         dispatch(displayToast(UPI_ADDED_SUCCESS));
       }
       return dispatch(addUserUPISuccess(resultJson));
@@ -2474,12 +2245,7 @@ export function getAllOrdersFailure(error, isPaginated) {
     isPaginated,
   };
 }
-export function getAllOrdersDetails(
-  suffix: null,
-  paginated: false,
-  isSetDataLayer: true,
-  showDataAccordingToUser
-) {
+export function getAllOrdersDetails(suffix: null, paginated: false, isSetDataLayer: true, showDataAccordingToUser) {
   return async (dispatch, getState, { api }) => {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -2492,15 +2258,11 @@ export function getAllOrdersDetails(
     try {
       let getOrderDetails = "";
       if (showDataAccordingToUser) {
-        getOrderDetails = `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/orderhistorylist_V1?access_token=${
+        getOrderDetails = `${USER_PATH}/${JSON.parse(userDetails).userName}/orderhistorylist_V1?access_token=${
           JSON.parse(customerCookie).access_token
         }&channel=web&currentPage=${currentPage}&pageSize=${PAGE_SIZE}&orderYear=${showDataAccordingToUser}&isMDE=true`;
       } else {
-        getOrderDetails = `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/orderhistorylist_V1?access_token=${
+        getOrderDetails = `${USER_PATH}/${JSON.parse(userDetails).userName}/orderhistorylist_V1?access_token=${
           JSON.parse(customerCookie).access_token
         }&channel=web&currentPage=${currentPage}&pageSize=${PAGE_SIZE}&isMDE=true`;
       }
@@ -2681,9 +2443,7 @@ export function submitSellerReviewByUser(params) {
     try {
       const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
       const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-      let reqURL = `${USER_PATH}/${
-        JSON.parse(userDetails).userName
-      }/submitCustomerReview?access_token=${
+      let reqURL = `${USER_PATH}/${JSON.parse(userDetails).userName}/submitCustomerReview?access_token=${
         JSON.parse(customerCookie).access_token
       }`;
 
@@ -2716,9 +2476,7 @@ export function removeSellerReviewByUser(params) {
     try {
       const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
       const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-      let reqURL = `${USER_PATH}/${
-        JSON.parse(userDetails).userName
-      }/submitCustomerReview?access_token=${
+      let reqURL = `${USER_PATH}/${JSON.parse(userDetails).userName}/submitCustomerReview?access_token=${
         JSON.parse(customerCookie).access_token
       }`;
 
@@ -2762,9 +2520,7 @@ export function getUserDetails(isSetDataLayer) {
       const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
       const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
       const result = await api.get(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/getCustomerProfile?access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/getCustomerProfile?access_token=${
           JSON.parse(customerCookie).accessToken
         }&isPwa=true`
       );
@@ -2814,9 +2570,7 @@ export function getUserCoupons() {
       const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
       const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
       const result = await api.get(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/getCoupons?currentPage=${CURRENT_PAGE}&access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/getCoupons?currentPage=${CURRENT_PAGE}&access_token=${
           JSON.parse(customerCookie).access_token
         }&pageSize=${PAGE_SIZE}&usedCoupon=N&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}`
       );
@@ -2866,9 +2620,7 @@ export function getUserAlerts() {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.get(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/getOrderTrackingNotifications?access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/getOrderTrackingNotifications?access_token=${
           JSON.parse(customerCookie).access_token
         }&emailId=${JSON.parse(userDetails).userName}`
       );
@@ -3007,9 +2759,7 @@ export function editAddress(addressDetails) {
     addressObject.append("emailId", " ");
     try {
       const result = await api.postFormData(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/editAddress?access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/editAddress?access_token=${
           JSON.parse(customerCookie).access_token
         }&pageSize=${PAGE_SIZE}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`,
         addressObject
@@ -3058,9 +2808,7 @@ export function fetchOrderDetails(orderId, pageName) {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.get(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/getSelectedOrder_V1/${orderId}?access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/getSelectedOrder_V1/${orderId}?access_token=${
           JSON.parse(customerCookie).access_token
         }&isPwa=true&isMDE=true`
       );
@@ -3100,9 +2848,7 @@ export function getRetryOrderDetails(orderId) {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.get(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/getSelectedOrder_V1/${orderId}?access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/getSelectedOrder_V1/${orderId}?access_token=${
           JSON.parse(customerCookie).access_token
         }&isPwa=true&isMDE=true`
       );
@@ -3173,9 +2919,7 @@ export function sendInvoice(lineID, orderNumber) {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.get(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/sendInvoice?access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/sendInvoice?access_token=${
           JSON.parse(customerCookie).access_token
         }&orderNumber=${orderNumber}&lineID=${lineID}`
       );
@@ -3225,18 +2969,13 @@ export function updateProfileFailure(error) {
 }
 
 export function updateProfile(accountDetails, otp) {
-  let dateOfBirth = format(
-    accountDetails.dateOfBirth,
-    DATE_FORMAT_TO_UPDATE_PROFILE
-  );
+  let dateOfBirth = format(accountDetails.dateOfBirth, DATE_FORMAT_TO_UPDATE_PROFILE);
   return async (dispatch, getState, { api }) => {
     dispatch(updateProfileRequest());
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let updateProfileUrl;
-    let requestUrl = `isPwa=true&access_token=${
-      JSON.parse(customerCookie).access_token
-    }&ProfileDataRequired=true`;
+    let requestUrl = `isPwa=true&access_token=${JSON.parse(customerCookie).access_token}&ProfileDataRequired=true`;
     if (accountDetails.firstName) {
       requestUrl = requestUrl + `&firstName=${accountDetails.firstName.trim()}`;
     }
@@ -3250,9 +2989,7 @@ export function updateProfile(accountDetails, otp) {
       requestUrl = requestUrl + `&gender=${accountDetails.gender}`;
     }
     try {
-      updateProfileUrl = `${USER_PATH}/${
-        JSON.parse(userDetails).userName
-      }/updateprofile?${requestUrl}`;
+      updateProfileUrl = `${USER_PATH}/${JSON.parse(userDetails).userName}/updateprofile?${requestUrl}`;
       if (otp) {
         updateProfileUrl = `${updateProfileUrl}&otp=${otp}`;
       }
@@ -3365,11 +3102,7 @@ export function followAndUnFollowBrandRequest() {
 }
 
 // this reducer we need to handle in home reducer
-export function followAndUnFollowBrandSuccessForHomeFeed(
-  brandId,
-  followStatus,
-  positionInFeed
-) {
+export function followAndUnFollowBrandSuccessForHomeFeed(brandId, followStatus, positionInFeed) {
   return {
     type: FOLLOW_AND_UN_FOLLOW_BRANDS_IN_HOME_FEED_SUCCESS,
     status: SUCCESS,
@@ -3390,10 +3123,7 @@ export function followAndUnFollowBrandSuccessForPdp(brandId, followStatus) {
 }
 
 // this reducer we need to catch in account reducer
-export function followAndUnFollowBrandSuccessForMyAccount(
-  brandId,
-  followStatus
-) {
+export function followAndUnFollowBrandSuccessForMyAccount(brandId, followStatus) {
   return {
     type: FOLLOW_AND_UN_FOLLOW_BRANDS_IN_MY_ACCOUNT_SUCCESS,
     status: SUCCESS,
@@ -3409,19 +3139,11 @@ export function followAndUnFollowBrandFailure(error) {
   };
 }
 
-export function followAndUnFollowBrand(
-  brandId,
-  followStatus,
-  pageType: null,
-  positionInFeed: null
-) {
-  const followedText =
-    followStatus === "true" || followStatus === true ? UNFOLLOW : FOLLOW;
+export function followAndUnFollowBrand(brandId, followStatus, pageType: null, positionInFeed: null) {
+  const followedText = followStatus === "true" || followStatus === true ? UNFOLLOW : FOLLOW;
   //here sometimes  we are getting isFollowingStatus type of string "true" or "false"
   // so here we are converting it in to bool
-  const updatedFollowedStatus = !(
-    followStatus === "true" || followStatus === true
-  );
+  const updatedFollowedStatus = !(followStatus === "true" || followStatus === true);
   return async (dispatch, getState, { api }) => {
     dispatch(followAndUnFollowBrandRequest());
     const mcvId = await getMcvId();
@@ -3437,14 +3159,9 @@ export function followAndUnFollowBrand(
       ],
     };
     try {
-      const followInFeedBackApiResult = await api.postMsdRowData(
-        `feedback`,
-        updatedBrandObj
-      );
+      const followInFeedBackApiResult = await api.postMsdRowData(`feedback`, updatedBrandObj);
       const followInFeedBackApiResultJson = await followInFeedBackApiResult.json();
-      const followInFeedBackApiResultJsonStatus = ErrorHandling.getFailureResponse(
-        followInFeedBackApiResultJson
-      );
+      const followInFeedBackApiResultJsonStatus = ErrorHandling.getFailureResponse(followInFeedBackApiResultJson);
       if (!followInFeedBackApiResultJsonStatus.status) {
         // here we are hitting call for update follow brand on p2 and we don;t have to
         // wait for this response . we just need to wait for msd follow and un follow brand
@@ -3463,51 +3180,29 @@ export function followAndUnFollowBrand(
             return item.id === brandId;
           });
           let brandName = clonedComponent.data[indexOfBrand].brandName;
-          setDataLayerForFollowAndUnFollowBrand(
-            ADOBE_ON_FOLLOW_AND_UN_FOLLOW_BRANDS,
-            {
-              followStatus: updatedFollowedStatus,
-              brandName,
-            }
-          );
-          return dispatch(
-            followAndUnFollowBrandSuccessForHomeFeed(
-              brandId,
-              updatedFollowedStatus,
-              positionInFeed
-            )
-          );
+          setDataLayerForFollowAndUnFollowBrand(ADOBE_ON_FOLLOW_AND_UN_FOLLOW_BRANDS, {
+            followStatus: updatedFollowedStatus,
+            brandName,
+          });
+          return dispatch(followAndUnFollowBrandSuccessForHomeFeed(brandId, updatedFollowedStatus, positionInFeed));
         } else if (pageType === PDP_FOLLOW_AND_UN_FOLLOW) {
           const brandObj = getState().productDescription.aboutTheBrand;
           const brandName = brandObj.brandName;
-          setDataLayerForFollowAndUnFollowBrand(
-            ADOBE_ON_FOLLOW_AND_UN_FOLLOW_BRANDS,
-            {
-              followStatus: updatedFollowedStatus,
-              brandName,
-            }
-          );
-          return dispatch(
-            followAndUnFollowBrandSuccessForPdp(brandId, updatedFollowedStatus)
-          );
+          setDataLayerForFollowAndUnFollowBrand(ADOBE_ON_FOLLOW_AND_UN_FOLLOW_BRANDS, {
+            followStatus: updatedFollowedStatus,
+            brandName,
+          });
+          return dispatch(followAndUnFollowBrandSuccessForPdp(brandId, updatedFollowedStatus));
         } else if (pageType === MY_ACCOUNT_FOLLOW_AND_UN_FOLLOW) {
           const currentBrands = getState().profile.followedBrands;
           const brandObj = currentBrands.find(item => item.id === brandId);
           let brandName = brandObj.brandName;
-          setDataLayerForFollowAndUnFollowBrand(
-            ADOBE_ON_FOLLOW_AND_UN_FOLLOW_BRANDS,
-            {
-              followStatus: updatedFollowedStatus,
-              brandName,
-            }
-          );
+          setDataLayerForFollowAndUnFollowBrand(ADOBE_ON_FOLLOW_AND_UN_FOLLOW_BRANDS, {
+            followStatus: updatedFollowedStatus,
+            brandName,
+          });
 
-          return dispatch(
-            followAndUnFollowBrandSuccessForMyAccount(
-              brandId,
-              updatedFollowedStatus
-            )
-          );
+          return dispatch(followAndUnFollowBrandSuccessForMyAccount(brandId, updatedFollowedStatus));
         }
       } else {
         throw new Error(`Error in following Brand for feedback Api`);
@@ -3572,9 +3267,9 @@ export function changePassword(passwordDetails) {
           JSON.parse(userDetails).userName
         }/resetCustomerPassword?isPwa=true&access_token=${
           JSON.parse(customerCookie).access_token
-        }&isPwa=true&old=${encodeURIComponent(
-          passwordDetails.oldPassword
-        )}&newPassword=${encodeURIComponent(passwordDetails.newPassword)}`
+        }&isPwa=true&old=${encodeURIComponent(passwordDetails.oldPassword)}&newPassword=${encodeURIComponent(
+          passwordDetails.newPassword
+        )}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -3597,9 +3292,7 @@ export function getCliqCashDetails() {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.post(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/cliqcash/getUserCliqCashDetails?access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/cliqcash/getUserCliqCashDetails?access_token=${
           JSON.parse(customerCookie).access_token
         }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
       );
@@ -3651,13 +3344,9 @@ export function redeemCliqVoucher(cliqCashDetails, fromCheckout) {
     dispatch(redeemCliqVoucherRequest());
     try {
       const result = await api.postFormData(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/cliqcash/redeemCliqVoucher?access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/cliqcash/redeemCliqVoucher?access_token=${
           JSON.parse(customerCookie).access_token
-        }&cartGuid=&couponCode=${cliqCashDetails.cardNumber}&passKey=${
-          cliqCashDetails.cardPin
-        }`
+        }&cartGuid=&couponCode=${cliqCashDetails.cardNumber}&passKey=${cliqCashDetails.cardPin}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -3747,9 +3436,9 @@ export function logoutUser() {
     dispatch(logoutUserRequest());
     try {
       const result = await api.postFormData(
-        `${USER_PATH}/logout?userId=${
-          JSON.parse(userDetails).userName
-        }&access_token=${JSON.parse(globalAccessToken).access_token}`
+        `${USER_PATH}/logout?userId=${JSON.parse(userDetails).userName}&access_token=${
+          JSON.parse(globalAccessToken).access_token
+        }`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -3815,10 +3504,7 @@ export function updateProfileMsd(gender) {
         msdRequestObject.append("user_id", userData.customerId);
       }
 
-      const result = await api.postMsd(
-        `${API_MSD_URL_ROOT}/${MSD_FEEDBACK}`,
-        msdRequestObject
-      );
+      const result = await api.postMsd(`${API_MSD_URL_ROOT}/${MSD_FEEDBACK}`, msdRequestObject);
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
@@ -3858,16 +3544,11 @@ export function reSendEmailForGiftCard(orderId) {
     dispatch(reSendEmailForGiftCardRequest());
     try {
       let resendEmailObject = new FormData();
-      resendEmailObject.append(
-        "access_token",
-        JSON.parse(customerCookie).access_token
-      );
+      resendEmailObject.append("access_token", JSON.parse(customerCookie).access_token);
       resendEmailObject.append("orderId", orderId);
 
       const result = await api.post(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/resendEGV?isPwa=true&access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/resendEGV?isPwa=true&access_token=${
           JSON.parse(customerCookie).access_token
         }&orderId=${orderId}`
       );
@@ -3932,9 +3613,7 @@ export function getOrderRelatedQuestions(transactionId) {
     dispatch(getOrderRelatedQuestionsRequest());
     try {
       const result = await api.post(
-        `${USER_CART_PATH}/${
-          JSON.parse(userDetails).userName
-        }/getOrderRelatedQuestions?access_token=${
+        `${USER_CART_PATH}/${JSON.parse(userDetails).userName}/getOrderRelatedQuestions?access_token=${
           JSON.parse(customerCookie).access_token
         }&transactionId=${transactionId}`
       );
@@ -4010,9 +3689,7 @@ const formatFaqList = (list = []) => {
     FAQSubHeader: items && items[2] ? items[2] : "",
     FAQPageId: items && items[3] ? items[3] : "",
     componentName: list.componentName,
-    type: list.cmsParagraphComponent.type
-      ? list.cmsParagraphComponent.type
-      : "",
+    type: list.cmsParagraphComponent.type ? list.cmsParagraphComponent.type : "",
   };
   return returnFormat;
 };
@@ -4064,9 +3741,7 @@ export function getFaqRelatedQuestions(FAQPageId) {
   return async (dispatch, getState, { api }) => {
     dispatch(getFaqRelatedQuestionsRequest());
     try {
-      const result = await api.get(
-        `v2/mpl/cms/defaultpage?pageId=${FAQPageId}`
-      );
+      const result = await api.get(`v2/mpl/cms/defaultpage?pageId=${FAQPageId}`);
       let resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
@@ -4202,9 +3877,7 @@ export function getCustomerQueriesFieldsv2(UItemplateCode, isSelectRadio) {
   return async (dispatch, getState, { api }) => {
     dispatch(getCustomerQueriesFieldsRequestv2());
     try {
-      const result = await api.get(
-        `v2/mpl/cms/defaultpage?pageId=${UItemplateCode}`
-      );
+      const result = await api.get(`v2/mpl/cms/defaultpage?pageId=${UItemplateCode}`);
 
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -4243,16 +3916,13 @@ export function getCustomerQueriesFieldsv2(UItemplateCode, isSelectRadio) {
 
       if (isSelectRadio) {
         redioData = [...firstData];
-        let index =
-          redioData.findIndex(f => f.componentName === "radioComponent") + 1;
+        let index = redioData.findIndex(f => f.componentName === "radioComponent") + 1;
         redioData.splice(index, 0, ...fetchData);
       } else {
         firstData = [...fetchData];
       }
 
-      return dispatch(
-        getCustomerQueriesFieldsSuccessv2(isSelectRadio ? redioData : firstData)
-      );
+      return dispatch(getCustomerQueriesFieldsSuccessv2(isSelectRadio ? redioData : firstData));
     } catch (e) {
       return dispatch(getCustomerQueriesFieldsFailurev2(e.message));
     }
@@ -4266,12 +3936,8 @@ const getFormattedString = (strValue = "") => {
   if (strValue.includes("(") && strValue.includes(")")) {
     startIndex = strValue.indexOf("(");
     endIndex = strValue.indexOf(")");
-    strValue = `${strValue.slice(0, startIndex - 1)}${strValue.slice(
-      startIndex
-    )}`;
-    formattedValue = `${strValue.slice(0, endIndex - 2)}${strValue.slice(
-      endIndex - 1
-    )}`;
+    strValue = `${strValue.slice(0, startIndex - 1)}${strValue.slice(startIndex)}`;
+    formattedValue = `${strValue.slice(0, endIndex - 2)}${strValue.slice(endIndex - 1)}`;
   } else {
     formattedValue = strValue;
   }
@@ -4287,9 +3953,7 @@ const getTextAreaApiData = (apiData = []) => {
 
   let returnValue = {
     componentName: apiData.componentName,
-    componentId: apiData.singleBannerComponent.componentId
-      ? apiData.singleBannerComponent.componentId
-      : "",
+    componentId: apiData.singleBannerComponent.componentId ? apiData.singleBannerComponent.componentId : "",
     btnText: items && items.btnText ? items.btnText : "",
     heading:
       items && items.description
@@ -4298,11 +3962,7 @@ const getTextAreaApiData = (apiData = []) => {
           : ""
         : "",
     isMandatory:
-      items && items.description
-        ? items.description.split("|")
-          ? parseInt(items.description.split("|")[1])
-          : ""
-        : "",
+      items && items.description ? (items.description.split("|") ? parseInt(items.description.split("|")[1]) : "") : "",
     placeholder:
       items && items.description
         ? items.description.split("|")
@@ -4336,12 +3996,8 @@ const getTextAreaApiData = (apiData = []) => {
           : ""
         : "",
     webURL: items && items.webURL ? items.webURL : "",
-    title: apiData.singleBannerComponent.title
-      ? apiData.singleBannerComponent.title
-      : "",
-    type: apiData.singleBannerComponent.type
-      ? apiData.singleBannerComponent.type
-      : "",
+    title: apiData.singleBannerComponent.title ? apiData.singleBannerComponent.title : "",
+    type: apiData.singleBannerComponent.type ? apiData.singleBannerComponent.type : "",
   };
 
   return returnValue;
@@ -4355,9 +4011,7 @@ const getAttachmentApiData = (apiData = []) => {
 
   let returnValue = {
     componentName: apiData.componentName,
-    componentId: apiData.singleBannerComponent.componentId
-      ? apiData.singleBannerComponent.componentId
-      : "",
+    componentId: apiData.singleBannerComponent.componentId ? apiData.singleBannerComponent.componentId : "",
     btnText: items && items.btnText ? items.btnText : "",
     heading:
       items && items.description
@@ -4366,32 +4020,16 @@ const getAttachmentApiData = (apiData = []) => {
           : ""
         : "",
     isMandatory:
-      items && items.description
-        ? items.description.split("|")
-          ? parseInt(items.description.split("|")[1])
-          : ""
-        : "",
+      items && items.description ? (items.description.split("|") ? parseInt(items.description.split("|")[1]) : "") : "",
     itemsTitle: getFormattedString(itemsTitle),
     maxFileLimit:
-      items && items.hexCode
-        ? items.hexCode.split("|").length
-          ? parseInt(items.hexCode.split("|")[0])
-          : ""
-        : "",
+      items && items.hexCode ? (items.hexCode.split("|").length ? parseInt(items.hexCode.split("|")[0]) : "") : "",
     maxFileSize:
-      items && items.hexCode
-        ? items.hexCode.split("|").length
-          ? parseInt(items.hexCode.split("|")[1])
-          : ""
-        : "",
+      items && items.hexCode ? (items.hexCode.split("|").length ? parseInt(items.hexCode.split("|")[1]) : "") : "",
     imageURL: items && items.imageURL ? items.imageURL : "",
     webURL: items && items.webURL ? items.webURL : "",
-    title: apiData.singleBannerComponent.title
-      ? apiData.singleBannerComponent.title
-      : "",
-    type: apiData.singleBannerComponent.type
-      ? apiData.singleBannerComponent.type
-      : "",
+    title: apiData.singleBannerComponent.title ? apiData.singleBannerComponent.title : "",
+    type: apiData.singleBannerComponent.type ? apiData.singleBannerComponent.type : "",
   };
 
   return returnValue;
@@ -4420,9 +4058,7 @@ const getTextBoxApiData = (apiData = []) => {
 
   let returnValue = {
     componentName: apiData.componentName,
-    componentId: apiData.singleBannerComponent.componentId
-      ? apiData.singleBannerComponent.componentId
-      : "",
+    componentId: apiData.singleBannerComponent.componentId ? apiData.singleBannerComponent.componentId : "",
     btnText: items && items.btnText ? items.btnText : "",
     heading:
       items && items.description
@@ -4431,11 +4067,7 @@ const getTextBoxApiData = (apiData = []) => {
           : ""
         : "",
     isMandatory:
-      items && items.description
-        ? items.description.split("|")
-          ? parseInt(items.description.split("|")[1])
-          : ""
-        : "",
+      items && items.description ? (items.description.split("|") ? parseInt(items.description.split("|")[1]) : "") : "",
     placeholder:
       items && items.description
         ? items.description.split("|")
@@ -4483,12 +4115,8 @@ const getTextBoxApiData = (apiData = []) => {
     regex: regexExp ? getFormattedString(regexExp) : regexExp,
     regexError: regexErr,
     webURL: items && items.webURL ? items.webURL : "",
-    title: apiData.singleBannerComponent.title
-      ? apiData.singleBannerComponent.title
-      : "",
-    type: apiData.singleBannerComponent.type
-      ? apiData.singleBannerComponent.type
-      : "",
+    title: apiData.singleBannerComponent.title ? apiData.singleBannerComponent.title : "",
+    type: apiData.singleBannerComponent.type ? apiData.singleBannerComponent.type : "",
   };
 
   return returnValue;
@@ -4502,9 +4130,7 @@ const getLabelApiData = (apiData = []) => {
 
   let returnValue = {
     componentName: apiData.componentName,
-    componentId: apiData.singleBannerComponent.componentId
-      ? apiData.singleBannerComponent.componentId
-      : "",
+    componentId: apiData.singleBannerComponent.componentId ? apiData.singleBannerComponent.componentId : "",
     btnText: items && items.btnText ? items.btnText : "",
     heading:
       items && items.description
@@ -4534,12 +4160,8 @@ const getLabelApiData = (apiData = []) => {
     imageURL: items && items.imageURL ? items.imageURL : "",
     itemsTitle: itemsTitle,
     webURL: items && items.webURL ? items.webURL : "",
-    title: apiData.singleBannerComponent.title
-      ? apiData.singleBannerComponent.title
-      : "",
-    type: apiData.singleBannerComponent.type
-      ? apiData.singleBannerComponent.type
-      : "",
+    title: apiData.singleBannerComponent.title ? apiData.singleBannerComponent.title : "",
+    type: apiData.singleBannerComponent.type ? apiData.singleBannerComponent.type : "",
   };
   return returnValue;
 };
@@ -4564,9 +4186,7 @@ const getRadioApiData = (apiData = []) => {
 
   let returnValue = {
     componentName: apiData.componentName,
-    componentId: apiData.singleBannerComponent.componentId
-      ? apiData.singleBannerComponent.componentId
-      : "",
+    componentId: apiData.singleBannerComponent.componentId ? apiData.singleBannerComponent.componentId : "",
     btnText: items && items.btnText ? items.btnText : "",
     heading:
       items && items.description
@@ -4575,21 +4195,13 @@ const getRadioApiData = (apiData = []) => {
           : ""
         : "",
     isMandatory:
-      items && items.description
-        ? items.description.split("|")
-          ? parseInt(items.description.split("|")[1])
-          : ""
-        : "",
+      items && items.description ? (items.description.split("|") ? parseInt(items.description.split("|")[1]) : "") : "",
     hexCode: items && items.hexCode ? items.hexCode : "",
     imageURL: items && items.imageURL ? items.imageURL : "",
     optionArray,
     webURL: items && items.webURL ? items.webURL : "",
-    title: apiData.singleBannerComponent.title
-      ? apiData.singleBannerComponent.title
-      : "",
-    type: apiData.singleBannerComponent.type
-      ? apiData.singleBannerComponent.type
-      : "",
+    title: apiData.singleBannerComponent.title ? apiData.singleBannerComponent.title : "",
+    type: apiData.singleBannerComponent.type ? apiData.singleBannerComponent.type : "",
   };
   return returnValue;
 };
@@ -4614,32 +4226,17 @@ const getCheckboxApiData = (apiData = []) => {
 
   let returnValue = {
     componentName: apiData.componentName,
-    componentId: apiData.singleBannerComponent.componentId
-      ? apiData.singleBannerComponent.componentId
-      : "",
+    componentId: apiData.singleBannerComponent.componentId ? apiData.singleBannerComponent.componentId : "",
     btnText: items && items.btnText ? items.btnText : "",
-    heading:
-      items && items.description
-        ? items.description.split("|")
-          ? items.description.split("|")[0]
-          : ""
-        : "",
+    heading: items && items.description ? (items.description.split("|") ? items.description.split("|")[0] : "") : "",
     isMandatory:
-      items && items.description
-        ? items.description.split("|")
-          ? parseInt(items.description.split("|")[1])
-          : ""
-        : "",
+      items && items.description ? (items.description.split("|") ? parseInt(items.description.split("|")[1]) : "") : "",
     hexCode: items && items.hexCode ? items.hexCode : "",
     imageURL: items && items.imageURL ? items.imageURL : "",
     optionArray,
     webURL: items && items.webURL ? items.webURL : "",
-    title: apiData.singleBannerComponent.title
-      ? apiData.singleBannerComponent.title
-      : "",
-    type: apiData.singleBannerComponent.type
-      ? apiData.singleBannerComponent.type
-      : "",
+    title: apiData.singleBannerComponent.title ? apiData.singleBannerComponent.title : "",
+    type: apiData.singleBannerComponent.type ? apiData.singleBannerComponent.type : "",
   };
 
   return returnValue;
@@ -4651,10 +4248,7 @@ export function getOrdersTransactionDataRequest(paginated: false) {
     status: REQUESTING,
   };
 }
-export function getOrdersTransactionDataSuccess(
-  ordersTransactionData,
-  isPaginated: false
-) {
+export function getOrdersTransactionDataSuccess(ordersTransactionData, isPaginated: false) {
   return {
     type: GET_ORDERS_TRANSACTION_DATA_SUCCESS,
     status: SUCCESS,
@@ -4745,10 +4339,7 @@ export function uploadUserFile(issueType, title, file) {
       file.forEach(val => {
         uploadUserFileObject.append(title, val);
       });
-      const result = await api.postFormData(
-        `${PATH}/attachmentUpload`,
-        uploadUserFileObject
-      );
+      const result = await api.postFormData(`${PATH}/attachmentUpload`, uploadUserFileObject);
 
       const resultJson = await result.json();
 
@@ -4793,9 +4384,9 @@ export function submitOrderDetails(raiseTicketObj) {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.post(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/raiseTicket?access_token=${JSON.parse(customerCookie).access_token}`,
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/raiseTicket?access_token=${
+          JSON.parse(customerCookie).access_token
+        }`,
         raiseTicketObj
       );
 
@@ -4837,9 +4428,7 @@ export function getUserReview(pageIndex) {
     dispatch(getUserReviewRequest());
     try {
       const result = await api.get(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/viewUserReview?fields=BASIC&access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/viewUserReview?fields=BASIC&access_token=${
           JSON.parse(customerCookie).access_token
         }&page=${pageIndex}&pageSize=${PAGE_NUMBER}`
       );
@@ -4880,9 +4469,7 @@ export function retryPayment(retryPaymentGuId, retryPaymentUserId) {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.get(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/payments/failedorderdetails?&access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/payments/failedorderdetails?&access_token=${
           JSON.parse(customerCookie).access_token
         }&cartGuid=${retryPaymentGuId}&retryFlag=true&isUpdatedPwa=true&retryUserId=${retryPaymentUserId}&emiConvChargeFlag=true&isDuplicateImei=true`
       );
@@ -4897,21 +4484,10 @@ export function retryPayment(retryPaymentGuId, retryPaymentUserId) {
       if (resultJson.paymentRetryUrl) {
         localStorage.setItem(FAILED_ORDER, resultJson.paymentRetryUrl);
       }
-      if (
-        resultJson &&
-        resultJson.bankCouponName &&
-        resultJson.bankCouponName.couponName
-      ) {
-        localStorage.setItem(
-          BANK_COUPON_COOKIE,
-          resultJson.bankCouponName.couponName
-        );
+      if (resultJson && resultJson.bankCouponName && resultJson.bankCouponName.couponName) {
+        localStorage.setItem(BANK_COUPON_COOKIE, resultJson.bankCouponName.couponName);
       }
-      if (
-        resultJson &&
-        resultJson.exchangeInfo &&
-        resultJson.exchangeInfo.exchangeCancelMessage
-      ) {
+      if (resultJson && resultJson.exchangeInfo && resultJson.exchangeInfo.exchangeCancelMessage) {
         dispatch(displayToast(resultJson.exchangeInfo.exchangeCancelMessage));
       }
       return dispatch(retryPaymentSuccess(resultJson));
@@ -4949,9 +4525,7 @@ export function submitCncToHdDetails(userAddress, transactionId, orderId) {
       {
         countryIso: ISO_CODE,
         addressType: userAddress.addressType,
-        postalCode: userAddress.postalCode
-          ? userAddress.postalCode
-          : userAddress.postalcode,
+        postalCode: userAddress.postalCode ? userAddress.postalCode : userAddress.postalcode,
         state: userAddress.state,
         town: userAddress.town,
         defaultFlag: userAddress.defaultAddress,
@@ -4975,9 +4549,7 @@ export function submitCncToHdDetails(userAddress, transactionId, orderId) {
     }
     if (userAddress.line1 || userAddress.addressLine1) {
       Object.assign(addressDetails, {
-        line1: userAddress.line1
-          ? userAddress.line1.trim()
-          : userAddress.addressLine1.trim(),
+        line1: userAddress.line1 ? userAddress.line1.trim() : userAddress.addressLine1.trim(),
       });
     } else if (!userAddress.line1 && !userAddress.addressLine1) {
       Object.assign(addressDetails, {
@@ -4986,9 +4558,7 @@ export function submitCncToHdDetails(userAddress, transactionId, orderId) {
     }
     if (userAddress.line3 || userAddress.addressLine3) {
       Object.assign(addressDetails, {
-        line1: userAddress.line3
-          ? userAddress.line3.trim()
-          : userAddress.addressLine3.trim(),
+        line1: userAddress.line3 ? userAddress.line3.trim() : userAddress.addressLine3.trim(),
       });
     } else if (!userAddress.line1 && !userAddress.addressLine1) {
       Object.assign(addressDetails, {
@@ -4997,9 +4567,7 @@ export function submitCncToHdDetails(userAddress, transactionId, orderId) {
     }
     if (userAddress.line2 || userAddress.addressLine2) {
       Object.assign(addressDetails, {
-        line1: userAddress.line2
-          ? userAddress.line2.trim()
-          : userAddress.addressLine2.trim(),
+        line1: userAddress.line2 ? userAddress.line2.trim() : userAddress.addressLine2.trim(),
       });
     } else if (!userAddress.line2 && !userAddress.addressLine2) {
       Object.assign(addressDetails, {
@@ -5017,9 +4585,7 @@ export function submitCncToHdDetails(userAddress, transactionId, orderId) {
     }
     try {
       const result = await api.post(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/cncToHd/${orderId}?channel=${CHANNEL}&access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/cncToHd/${orderId}?channel=${CHANNEL}&access_token=${
           JSON.parse(customerCookie).access_token
         }&isPwa=true&orderlineId=${transactionId}`,
         addressDetails
@@ -5070,9 +4636,7 @@ export function getCliqCashPageConfiguration(startDate, endDate) {
 
     try {
       const result = await api.get(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/getCliqCashPageActions?channel=${CHANNEL}&access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/getCliqCashPageActions?channel=${CHANNEL}&access_token=${
           JSON.parse(customerCookie).access_token
         }`
       );
@@ -5121,9 +4685,7 @@ export function getCliqCashExpiring() {
     dispatch(getCliqCashExpiringRequest());
     try {
       const result = await api.get(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/getCliqCashExpiring?access_token=${customerAccessToken}`
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/getCliqCashExpiring?access_token=${customerAccessToken}`
       );
       let resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -5167,9 +4729,7 @@ export function getCliqCashbackDetails(cashbackmode) {
     dispatch(getCliqCashbackDetailsRequest());
     try {
       const result = await api.post(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/getCliqCashbackDetails?access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/getCliqCashbackDetails?access_token=${
           JSON.parse(customerCookie).access_token
         }&cashbackmode=${cashbackmode}`
       );
@@ -5212,11 +4772,7 @@ export function submitProductRatingByUser(ratingValue, propsData) {
   reviewData.append("comment", "");
   reviewData.append("rating", ratingValue);
   reviewData.append("headline", "");
-  if (
-    propsData &&
-    propsData.productDetails &&
-    propsData.productDetails.ratingId
-  ) {
+  if (propsData && propsData.productDetails && propsData.productDetails.ratingId) {
     reviewData.append("id", propsData.productDetails.ratingId);
   }
   return async (dispatch, getState, { api }) => {
@@ -5224,9 +4780,7 @@ export function submitProductRatingByUser(ratingValue, propsData) {
     try {
       const result = await api.postFormData(
         `${PRODUCT_PATH}/${propsData.productDetails.productcode}
-        /reviews?isPwa=true&access_token=${
-          JSON.parse(customerCookie).access_token
-        }`,
+        /reviews?isPwa=true&access_token=${JSON.parse(customerCookie).access_token}`,
         reviewData
       );
 
@@ -5286,9 +4840,7 @@ export function getUserNotifications() {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.get(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/getUserPreferences?access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/getUserPreferences?access_token=${
           JSON.parse(customerCookie).access_token
         }`
       );
@@ -5332,9 +4884,7 @@ export function setSMSNotification(val) {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     try {
       const result = await api.post(
-        `${USER_PATH}/${
-          JSON.parse(userDetails).userName
-        }/updateUserPreference?channel=web&sms=${val}&access_token=${
+        `${USER_PATH}/${JSON.parse(userDetails).userName}/updateUserPreference?channel=web&sms=${val}&access_token=${
           JSON.parse(customerCookie).access_token
         }`
       );
@@ -5375,9 +4925,7 @@ export function getPromotionalCashStatementRequest() {
     status: REQUESTING,
   };
 }
-export function getPromotionalCashStatementSuccess(
-  promotionalCashStatementDetails
-) {
+export function getPromotionalCashStatementSuccess(promotionalCashStatementDetails) {
   return {
     type: GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_SUCCESS,
     status: SUCCESS,
@@ -5575,16 +5123,12 @@ export function submitExchangeCashbackDetails(orderId, cashbackDetails) {
   const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cashbackDetailsData = new FormData();
-  Object.keys(cashbackDetails).forEach(key =>
-    cashbackDetailsData.append(key, cashbackDetails[key])
-  );
+  Object.keys(cashbackDetails).forEach(key => cashbackDetailsData.append(key, cashbackDetails[key]));
   return async (dispatch, getState, { api }) => {
     dispatch(submitExchangeCashbackDetailsRequest());
     try {
       const result = await api.postFormData(
-        `${PATH}/${
-          JSON.parse(userDetails).userName
-        }/submitExchangePaymentInfo?orderId=${orderId}&access_token=${
+        `${PATH}/${JSON.parse(userDetails).userName}/submitExchangePaymentInfo?orderId=${orderId}&access_token=${
           JSON.parse(customerCookie).access_token
         }`,
         cashbackDetailsData
@@ -5625,9 +5169,7 @@ export function getCliq2CallConfig(Cliq2CallConfigId) {
   return async (dispatch, getState, { api }) => {
     dispatch(getCliq2CallConfigRequest());
     try {
-      const result = await api.get(
-        `v2/mpl/cms/defaultpage?pageId=${Cliq2CallConfigId}`
-      );
+      const result = await api.get(`v2/mpl/cms/defaultpage?pageId=${Cliq2CallConfigId}`);
 
       let resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -5635,14 +5177,8 @@ export function getCliq2CallConfig(Cliq2CallConfigId) {
         throw new Error(resultJsonStatus.message);
       }
       let resultJsonParse = "";
-      if (
-        resultJson &&
-        resultJson.items &&
-        resultJson.items[0].cmsParagraphComponent
-      ) {
-        resultJsonParse = JSON.parse(
-          resultJson.items[0].cmsParagraphComponent.content
-        );
+      if (resultJson && resultJson.items && resultJson.items[0].cmsParagraphComponent) {
+        resultJsonParse = JSON.parse(resultJson.items[0].cmsParagraphComponent.content);
       }
       return dispatch(getCliq2CallConfigSuccess(resultJsonParse));
     } catch (e) {
@@ -5732,10 +5268,7 @@ export function placeCustomerCallRequest(callRequestData) {
     callRequestData.CustomerId = userDetails.customerId;
     callRequestData.Source = GENESYS_KEY;
     try {
-      const result = await api.postWithoutApiUrlRoot(
-        `${genesysApiUrl}/Push`,
-        callRequestData
-      );
+      const result = await api.postWithoutApiUrlRoot(`${genesysApiUrl}/Push`, callRequestData);
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 

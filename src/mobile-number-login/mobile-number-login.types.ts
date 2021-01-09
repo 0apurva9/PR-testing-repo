@@ -96,4 +96,5 @@ export interface UserDetails {
     loginType?: string;
     mobileNumber?: string;
     email?: string;
+    userEmail?: string;
 }

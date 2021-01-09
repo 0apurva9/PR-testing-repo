@@ -5,27 +5,12 @@ import ProfileMenu from "./ProfileMenu";
 import * as Cookie from "../../lib/Cookie";
 import FaqAndTcBase from "./FaqAndTcBase";
 import UserProfile from "./UserProfile";
-import {
-  LOGGED_IN_USER_DETAILS,
-  LOGIN_PATH,
-  GIFT_CARD,
-  RUPEE_SYMBOL
-} from "../../lib/constants";
-import PropTypes, {
-  array,
-  arrayOf,
-  string,
-  object,
-  bool,
-  number
-} from "prop-types";
+import { LOGGED_IN_USER_DETAILS, LOGIN_PATH, GIFT_CARD, RUPEE_SYMBOL } from "../../lib/constants";
+import PropTypes, { array, arrayOf, string, object, bool, number } from "prop-types";
 import { Redirect } from "react-router-dom";
 import { getCustomerAccessToken } from "../../common/services/common.services";
 import { numberWithCommas } from "../../lib/dateTimeFunction";
-import {
-  setDataLayerForGiftCard,
-  SET_DATA_LAYER_ADD_GIFT_CARD
-} from "../../lib/adobeUtils";
+import { setDataLayerForGiftCard, SET_DATA_LAYER_ADD_GIFT_CARD } from "../../lib/adobeUtils";
 import BackToCliqCashSection from "./BackToCliqCashSection";
 import Input2 from "../../general/components/Input2";
 import CliqGiftCardBuySend from "./CliqGiftCardBuySend";
@@ -39,9 +24,7 @@ export default class CliqGiftCardPurchase extends Component {
     super(props);
     this.state = {
       selectedAmount:
-        this.props.location &&
-        this.props.location.state &&
-        this.props.location.state.selectedAmount
+        this.props.location && this.props.location.state && this.props.location.state.selectedAmount
           ? this.props.location.state.selectedAmount
           : "",
       isValidAmount: true,
@@ -60,7 +43,7 @@ export default class CliqGiftCardPurchase extends Component {
         this.props.giftCardsDetails.amountOptions.minPrice &&
         this.props.giftCardsDetails.amountOptions.minPrice.value
           ? this.props.giftCardsDetails.amountOptions.minPrice.value
-          : MINIMUM_PRICE
+          : MINIMUM_PRICE,
     };
   }
   componentDidMount() {
@@ -69,10 +52,7 @@ export default class CliqGiftCardPurchase extends Component {
       this.props.getGiftCardDetails();
     }
     let offerDetails =
-      this.props &&
-      this.props.location &&
-      this.props.location.state &&
-      this.props.location.state.offerDetails;
+      this.props && this.props.location && this.props.location.state && this.props.location.state.offerDetails;
     if (offerDetails === undefined && this.props.getCliqCashbackDetails) {
       const cashbackmode = "EGV";
       this.props.getCliqCashbackDetails(cashbackmode);
@@ -134,25 +114,19 @@ export default class CliqGiftCardPurchase extends Component {
       } else {
         fullName = userData.firstName + " " + userData.lastName;
       }
-      email = userData.userName;
+      email = userData.userEmail;
     }
 
     if (!userDetails || !customerAccessToken) {
       return this.navigateToLogin();
     }
     let offerDetails =
-      this.props &&
-      this.props.location &&
-      this.props.location.state &&
-      this.props.location.state.offerDetails
+      this.props && this.props.location && this.props.location.state && this.props.location.state.offerDetails
         ? this.props.location.state.offerDetails
         : undefined;
 
-    (offerDetails &&
-      offerDetails.cashbackMode &&
-      offerDetails.cashbackMode === "TOPUP") ||
-    (offerDetails && offerDetails.cashbackMode && offerDetails.cashbackMode) ===
-      "EGV"
+    (offerDetails && offerDetails.cashbackMode && offerDetails.cashbackMode === "TOPUP") ||
+    (offerDetails && offerDetails.cashbackMode && offerDetails.cashbackMode) === "EGV"
       ? localStorage.setItem("cashback", "enabled")
       : localStorage.setItem("cashback", "disabled");
 
@@ -176,62 +150,44 @@ export default class CliqGiftCardPurchase extends Component {
 
             <div className={styles.popularCardBox}>
               <div className={styles.popularHeading}>Send a CLiQ Gift Card</div>
-              {offerDetails &&
-                offerDetails.cashbackType === "Fixed" && (
-                  <div className={styles.cashBackOfferLong}>
-                    Get ₹{offerDetails.offerValue} cashback up to{" "}
-                    {offerDetails.maxCashback.formattedValueNoDecimal} on gift
-                    voucher of{" "}
-                    {offerDetails.offerThreshold.formattedValueNoDecimal} and
-                    above*
-                  </div>
-                )}
-              {offerDetails &&
-                offerDetails.cashbackType !== "Fixed" && (
-                  <div className={styles.cashBackOfferSmall}>
-                    Get {offerDetails.offerValue}% cashback on gift voucher of{" "}
-                    {offerDetails.offerThreshold.formattedValueNoDecimal} and
-                    above*
-                  </div>
-                )}
+              {offerDetails && offerDetails.cashbackType === "Fixed" && (
+                <div className={styles.cashBackOfferLong}>
+                  Get ₹{offerDetails.offerValue} cashback up to {offerDetails.maxCashback.formattedValueNoDecimal} on
+                  gift voucher of {offerDetails.offerThreshold.formattedValueNoDecimal} and above*
+                </div>
+              )}
+              {offerDetails && offerDetails.cashbackType !== "Fixed" && (
+                <div className={styles.cashBackOfferSmall}>
+                  Get {offerDetails.offerValue}% cashback on gift voucher of{" "}
+                  {offerDetails.offerThreshold.formattedValueNoDecimal} and above*
+                </div>
+              )}
               <div className={styles.popularCardPriceBox}>
                 {this.props.giftCardsDetails &&
                   this.props.giftCardsDetails.amountOptions &&
                   this.props.giftCardsDetails.amountOptions.options &&
-                  this.props.giftCardsDetails.amountOptions.options
-                    .slice(0, 4)
-                    .map((option, index) => {
-                      return (
-                        <div
-                          className={
-                            this.state.selectedAmount == option.value
-                              ? styles.selectedCardPricePurchase
-                              : styles.popularCardPricePurchase
-                          }
-                          onClick={() => this.selectAmount(option.value)}
-                          key={index}
-                        >
-                          <span className={styles.popularCardPriceSymbol}>
-                            {RUPEE_SYMBOL}
-                          </span>{" "}
-                          {numberWithCommas(option.value)}
-                        </div>
-                      );
-                    })}
+                  this.props.giftCardsDetails.amountOptions.options.slice(0, 4).map((option, index) => {
+                    return (
+                      <div
+                        className={
+                          this.state.selectedAmount == option.value
+                            ? styles.selectedCardPricePurchase
+                            : styles.popularCardPricePurchase
+                        }
+                        onClick={() => this.selectAmount(option.value)}
+                        key={index}
+                      >
+                        <span className={styles.popularCardPriceSymbol}>{RUPEE_SYMBOL}</span>{" "}
+                        {numberWithCommas(option.value)}
+                      </div>
+                    );
+                  })}
               </div>
               <div className={styles.cliqCardPurchaseButton}>
-                {this.state.selectedAmount ? (
-                  <div className={styles.buySendPriceSymbol}>
-                    {RUPEE_SYMBOL}
-                  </div>
-                ) : (
-                  ""
-                )}
+                {this.state.selectedAmount ? <div className={styles.buySendPriceSymbol}>{RUPEE_SYMBOL}</div> : ""}
                 <Input2
                   hollow={true}
-                  placeholder={`Or enter an amount between ${RUPEE_SYMBOL}${
-                    this.state.minPrice
-                  }-${RUPEE_SYMBOL}${this.state.maxPrice}`}
+                  placeholder={`Or enter an amount between ${RUPEE_SYMBOL}${this.state.minPrice}-${RUPEE_SYMBOL}${this.state.maxPrice}`}
                   value={this.state.selectedAmount}
                   onChange={amount => this.selectAmount(amount)}
                   textStyle={{ fontSize: 14, letterSpacing: "0.03px" }}
@@ -254,12 +210,8 @@ export default class CliqGiftCardPurchase extends Component {
                     <img src={greenLightBulb} alt={"Offer Text"} />
                   </div>
                   <div className={styles.cashBackOfferMsg}>
-                    The cashback will be credited to your account as CLiQ Cash
-                    within 24 hrs. Please read the offer
-                    <Link
-                      to={"/cliqcashback-offers-tnc"}
-                      className={styles.knowMore}
-                    >
+                    The cashback will be credited to your account as CLiQ Cash within 24 hrs. Please read the offer
+                    <Link to={"/cliqcashback-offers-tnc"} className={styles.knowMore}>
                       {" "}
                       T&C{" "}
                     </Link>
@@ -275,9 +227,7 @@ export default class CliqGiftCardPurchase extends Component {
               minPrice={this.state.minPrice}
               maxPrice={this.state.maxPrice}
               displayToast={messageText => this.props.displayToast(messageText)}
-              createGiftCardDetails={giftCardDetails =>
-                this.props.createGiftCardDetails(giftCardDetails)
-              }
+              createGiftCardDetails={giftCardDetails => this.props.createGiftCardDetails(giftCardDetails)}
               giftCardDetailsStatus={this.props.giftCardDetailsStatus}
               giftCardDetails={this.props.giftCardDetails}
               history={this.props.history}
@@ -292,14 +242,8 @@ export default class CliqGiftCardPurchase extends Component {
               image={userData && userData.imageUrl}
               userLogin={userData && userData.userName}
               loginType={userData && userData.loginType}
-              firstName={
-                userData &&
-                userData.firstName &&
-                userData.firstName.trim().charAt(0)
-              }
-              heading={
-                userData && userData.firstName && `${userData.firstName} `
-              }
+              firstName={userData && userData.firstName && userData.firstName.trim().charAt(0)}
+              heading={userData && userData.firstName && `${userData.firstName} `}
               lastName={userData && userData.lastName && `${userData.lastName}`}
               userAddress={this.props.userAddress}
             />
@@ -324,10 +268,10 @@ CliqGiftCardPurchase.propTypes = {
         phone: string,
         postalCode: string,
         state: string,
-        town: string
+        town: string,
       })
     ),
-    status: string
+    status: string,
   }),
   history: PropTypes.object,
   setUrlToRedirectToAfterAuth: PropTypes.func.isRequired,
@@ -338,13 +282,13 @@ CliqGiftCardPurchase.propTypes = {
     amountOptions: PropTypes.shape({
       option: array,
       maxPrice: PropTypes.shape({
-        value: number
+        value: number,
       }),
       mixPrice: PropTypes.shape({
-        value: number
-      })
-    })
+        value: number,
+      }),
+    }),
   }),
   showCliqCashModule: PropTypes.func,
-  showKycVerification: PropTypes.func
+  showKycVerification: PropTypes.func,
 };
