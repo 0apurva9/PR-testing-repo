@@ -2562,11 +2562,6 @@ export function collectPaymentOrderForUPI(
       orderDetails = {
         wrapperItems: [
           {
-            wrapperInventoryItems: [
-              {
-                ...inventoryItems
-              }
-            ],
             wrapperAddressItems: [
               {
                 addressItems: [
@@ -7380,11 +7375,6 @@ export function stripe_juspay_Tokenize(
         orderDetails = {
           wrapperItems: [
             {
-              wrapperInventoryItems: [
-                {
-                  ...inventoryItems
-                }
-              ],
               wrapperAddressItems: [
                 {
                   addressItems: [
@@ -7577,11 +7567,6 @@ export function collectPaymentOrderForSavedCards(
       orderDetails = {
         wrapperItems: [
           {
-            wrapperInventoryItems: [
-              {
-                ...inventoryItems
-              }
-            ],
             wrapperAddressItems: [
               {
                 addressItems: [
@@ -7849,11 +7834,6 @@ export function collectPaymentOrderForNetBanking(
       orderDetails = {
         wrapperItems: [
           {
-            wrapperInventoryItems: [
-              {
-                ...inventoryItems
-              }
-            ],
             wrapperAddressItems: [
               {
                 addressItems: [
@@ -8135,11 +8115,6 @@ export function collectPaymentOrderForCliqCash(
       orderDetails = {
         wrapperItems: [
           {
-            wrapperInventoryItems: [
-              {
-                ...inventoryItems
-              }
-            ],
             wrapperAddressItems: [
               {
                 addressItems: [
