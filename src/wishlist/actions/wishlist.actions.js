@@ -9,7 +9,9 @@ import {
   LOGGED_IN_USER_DETAILS,
   SUCCESS_FOR_ADDING_TO_WSHLIST,
   PLAT_FORM_NUMBER,
-  CHANNEL
+  CHANNEL,
+  CART_DETAILS_FOR_LOGGED_IN_USER,
+  OLD_CART_GU_ID
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import * as ErrorHandling from "../../general/ErrorHandling.js";
@@ -41,6 +43,13 @@ export const ADD_PRODUCT_TO_WISH_LIST_SUCCESS =
   "ADD_PRODUCT_TO_WISH_LIST_SUCCESS";
 export const ADD_PRODUCT_TO_WISH_LIST_FAILURE =
   "ADD_PRODUCT_TO_WISH_LIST_FAILURE";
+
+export const ADD_ALL_PRODUCT_TO_WISH_LIST_REQUEST =
+  "ADD_ALL_PRODUCT_TO_WISH_LIST_REQUEST";
+export const ADD_ALL_PRODUCT_TO_WISH_LIST_SUCCESS =
+  "ADD_ALL_PRODUCT_TO_WISH_LIST_SUCCESS";
+export const ADD_ALL_PRODUCT_TO_WISH_LIST_FAILURE =
+  "ADD_ALL_PRODUCT_TO_WISH_LIST_FAILURE";
 
 export const REMOVE_PRODUCT_FROM_WISH_LIST_REQUEST =
   "REMOVE_PRODUCT_FROM_WISH_LIST_REQUEST";
@@ -184,6 +193,61 @@ export function addProductToWishList(productDetails, setDataLayerType: null) {
       return dispatch(addProductToWishListSuccess(productDetails));
     } catch (e) {
       return dispatch(addProductToWishListFailure(e.message));
+    }
+  };
+}
+export function addAllToWishListRequest() {
+  return {
+    type: ADD_ALL_PRODUCT_TO_WISH_LIST_REQUEST,
+    status: REQUESTING
+  };
+}
+export function addAllToWishListSuccess(response) {
+  return {
+    type: ADD_ALL_PRODUCT_TO_WISH_LIST_SUCCESS,
+    status: SUCCESS,
+    response
+  };
+}
+
+export function addAllToWishListFailure(error) {
+  return {
+    type: ADD_ALL_PRODUCT_TO_WISH_LIST_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function addAllToWishList(ussid) {
+  const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+  const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+  return async (dispatch, getState, { api }) => {
+    dispatch(addAllToWishListRequest());
+
+    let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+    let cartGuid =
+      cartDetails && JSON.parse(cartDetails).guid
+        ? JSON.parse(cartDetails).guid
+        : Cookie.getCookie(OLD_CART_GU_ID);
+
+    const ussidList = ussid;
+    try {
+      const result = await api.post(
+        `${PRODUCT_DETAILS_PATH}/${
+          JSON.parse(userDetails).userName
+        }/addAllToWishList?guid=${cartGuid}&ussids=${ussidList}&platformNumber=${PLAT_FORM_NUMBER}&access_token=${
+          JSON.parse(customerCookie).access_token
+        }`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      return dispatch(addAllToWishListSuccess(resultJson));
+    } catch (e) {
+      return dispatch(addAllToWishListFailure(e.message));
     }
   };
 }

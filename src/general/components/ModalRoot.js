@@ -117,6 +117,14 @@ const AddressModalContainer = Loadable({
   }
 });
 
+const NonEmiEligibleToWishlistContainer = Loadable({
+  loader: () =>
+    import("../../cart/containers/NonEmiEligibleToWishlistContainer"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const EmiModal = Loadable({
   loader: () => import("../../pdp/containers/EmiListContainer"),
   loading() {
@@ -140,7 +148,9 @@ const OfferDetailsModal = Loadable({
 
 const BeautyOfferDetailsModal = Loadable({
   loader: () =>
-    import("../../pdp/components/PdpBeautyDesktop/ImageGalleryContentComponents/ProductDetailsSection/BeautyOfferDetailsModal"),
+    import(
+      "../../pdp/components/PdpBeautyDesktop/ImageGalleryContentComponents/ProductDetailsSection/BeautyOfferDetailsModal"
+    ),
   loading() {
     return <Loader />;
   }
@@ -148,7 +158,9 @@ const BeautyOfferDetailsModal = Loadable({
 
 const BeautyPdpImageZoomIn = Loadable({
   loader: () =>
-    import("../../pdp/components/PdpBeautyDesktop/ImageGalleryContentComponents/ProductDetailsSection/BeautyPdpImageZoomIn"),
+    import(
+      "../../pdp/components/PdpBeautyDesktop/ImageGalleryContentComponents/ProductDetailsSection/BeautyPdpImageZoomIn"
+    ),
   loading() {
     return <Loader />;
   }
@@ -838,6 +850,14 @@ export default class ModalRoot extends React.Component {
         <AddressModalContainer
           closeModal={() => this.handleClose()}
           {...this.props.ownProps}
+        />
+      ),
+      nonEmiEligibleToWishlist: (
+        <NonEmiEligibleToWishlistContainer
+          {...this.props.ownProps}
+          closeModal={() => this.handleClose()}
+          changePaymentMethod={() => this.handleClose()}
+          addProductToWishList={() => this.props.addProductToWishList()}
         />
       ),
       ConnectDetails: (
