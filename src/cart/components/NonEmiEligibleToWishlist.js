@@ -19,14 +19,18 @@ export default class NonEmiEligibleToWishlist extends React.Component {
         closeModal={value => this.props.closeModal()}
       >
         <div className={styles.base}>
-          <div id="PINCodeLabel" className={styles.labelText}>
+          <div
+            id="PINCodeLabel"
+            className={styles.labelText}
+            data-test="nonEmiEligible-subheading"
+          >
             Sorry! The following items do not qualify for an EMI and can be
             moved to your wish list; they can be purchased later.
           </div>
 
           <div className={styles.body}>
             {this.props.data.map(ele => (
-              <div className={styles.marginTop}>
+              <div className={styles.marginTop} key={ele.USSID}>
                 <div className={styles.bodyDiv}>
                   <div className={styles.content}>{ele.productName}</div>
                   <div className={styles.image}>
@@ -46,6 +50,7 @@ export default class NonEmiEligibleToWishlist extends React.Component {
                   label="Move to wishlist"
                   textStyle={{ color: "#212121", fontSize: 14 }}
                   onClick={e => this.addToWishlist(e)}
+                  dataTest="move-to-wishlist"
                 />
               </div>
             </div>
@@ -58,6 +63,7 @@ export default class NonEmiEligibleToWishlist extends React.Component {
                   label="Change payment mode"
                   textStyle={{ color: "#FFF", fontSize: 14 }}
                   onClick={() => this.props.changePaymentMethod()}
+                  dataTest="change-payment-mode"
                 />
               </div>
             </div>
