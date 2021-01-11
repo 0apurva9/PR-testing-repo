@@ -200,7 +200,8 @@ export default class ProductBundling extends React.Component {
   addBundledProductToCart() {
     this.setState({ disableButton: true });
     this.props.addBundledProductsToCart(
-      this.state.bundledProductDataForAddToCart
+      this.state.bundledProductDataForAddToCart,
+      "PDP_WIDGET"
     );
     setTimeout(() => {
       this.setState({ disableButton: false });

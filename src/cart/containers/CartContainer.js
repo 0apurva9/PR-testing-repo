@@ -269,8 +269,8 @@ const mapDispatchToProps = dispatch => {
         )
       );
     },
-    addBundledProductsToCart: data => {
-      dispatch(addBundledProductsToCart(data));
+    addBundledProductsToCart: (data, source) => {
+      dispatch(addBundledProductsToCart(data, source));
     },
     getWishlist: () => {
       dispatch(getWishlist());
