@@ -20,12 +20,12 @@ import {
   CUSTOMER_ACCESS_TOKEN,
   GLOBAL_ACCESS_TOKEN,
   ANONYMOUS_USER,
-  AC_CART_EXCHANGE_DETAILS
+  AC_CART_EXCHANGE_DETAILS,
+  RUPEE_SYMBOL
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import ProductImage from "../../general/components/ProductImage.js";
 import styles from "./CartItemForDesktop.css";
-import { RUPEE_SYMBOL } from "../../lib/constants";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
 import { WISHLIST_BUTTON_TEXT_TYPE_SMALL } from "../../wishlist/components/AddToWishListButton";
 import { ADOBE_DIRECT_CALL_FOR_SAVE_ITEM_ON_CART } from "../../lib/adobeUtils";
@@ -50,6 +50,7 @@ import {
   getCartDetailsForLoggedInUser,
   getCartDetailsForAnonymousInUser
 } from "../../lib/getCookieDetails.js";
+import ComboOfferSection from "./ComboOfferSection";
 const NO_SIZE = "NO SIZE";
 const OUT_OF_STOCK = "Product is out of stock";
 export default class CartItemForDesktop extends React.Component {
@@ -345,6 +346,7 @@ export default class CartItemForDesktop extends React.Component {
     if (this.props.sizeType === "Power" && this.props.size > 0) {
       sizeValue = `+${this.props.size}`;
     }
+
     return (
       <div className={styles.base}>
         <div className={styles.productImage}>
@@ -417,12 +419,14 @@ export default class CartItemForDesktop extends React.Component {
                       </React.Fragment>
                     ))}
             </div>
+
             {this.props.product.comboDiscount && (
-              <div className={styles.bundlingComboDiscount}>
-                Combo Discount Applied: {RUPEE_SYMBOL}
-                {this.props.product.comboDiscount}
-              </div>
+              <ComboOfferSection
+                comboDiscount={this.props.product.comboDiscount}
+                comboDiscountWith={this.props.product.comboDiscountWith}
+              />
             )}
+
             {this.props.isGiveAway === YES && (
               <div className={styles.isGiveAwayQuantity}>
                 Quantity:
@@ -771,6 +775,7 @@ export default class CartItemForDesktop extends React.Component {
                   }
                   history={this.props.history}
                   comboDiscount={digitalProduct.comboDiscount}
+                  comboDiscountWith={digitalProduct.comboDiscountWith}
                 />
               );
             }

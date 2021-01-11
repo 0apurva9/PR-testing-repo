@@ -10,7 +10,6 @@
   background: #fff;
   border-radius: 4px;
   margin-bottom: 20px;
-  overflow: hidden;
 }
 .search {
   composes: cartItem;
@@ -101,35 +100,6 @@
   height: auto;
   padding: 20px 0px 0px;
   border-bottom: 1px solid #ececec;
-}
-
-.discountDetails{
-	padding-left: 56px;
-	margin-bottom: 10px;
-}
-
-.discountIconContainer{
-	display: inline-block;
-	vertical-align: top;
-}
-
-.bundlingDiscountTextContainer{
-	display: inline-block;
-	font-size: 13px;
-	vertical-align: top;
-	padding: 3px 5px;
-	border-radius: 2px;
-	border: solid 0.5px #b0e68a;
-	border-left: none;
-	background-color: #f3ffeb;
-}
-
-.bundlingDiscountText{
-	color: #338715;
-}
-
-.fontFamilyLight{
-	font-family: light;
 }
 
 @media only screen and (min-width: 1025px) {
@@ -249,7 +219,6 @@
     width: 100%;
     height: auto;
     border-radius: 4px;
-    overflow: hidden;
   }
   .saveAndSecure {
     background-color: #fff;

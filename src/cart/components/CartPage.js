@@ -61,8 +61,6 @@ import styles from "./CartPage.css";
 import CliqandPiqModal from "../../pdp//components/CliqandPiqModal.js";
 import ModalPanel from "../../general/components/ModalPanel.js";
 import { setTracker, VIEW_CART } from "../../lib/onlinesalesUtils";
-import Icon from "../../xelpmoc-core/Icon";
-import discountIcon from "../../pdp/components/img/discountIcon.svg";
 const DISCLAIMER =
   "Safe and secure payments. Easy returns. 100% Authentic products.";
 const PRODUCT_NOT_SERVICEABLE_MESSAGE =
@@ -828,7 +826,7 @@ class CartPage extends React.Component {
       }
       let productExchangeServiceable = [];
       let isQuoteExpired = [];
-      console.log(this.props);
+
       return (
         <div className={styles.base}>
           <MobileOnly>
@@ -909,24 +907,6 @@ class CartPage extends React.Component {
                 will be credited to your account as per T&C.
               </div>
             </DesktopOnly>
-
-            {this.props.cart.cartDetails.cartAmount.comboDiscountAmount && (
-              <div className={styles.discountDetails}>
-                <div className={styles.discountIconContainer}>
-                  <Icon image={discountIcon} size={24} />
-                </div>
-                <div className={styles.bundlingDiscountTextContainer}>
-                  <span className={styles.bundlingDiscountText}>
-                    Combo Offer Applied
-                  </span>
-                  <span className={styles.fontFamilyLight}>
-                    {" "}
-                    with{" "}
-                    {/* {this.trimProductName(this.props.mainProductName)} */}
-                  </span>
-                </div>
-              </div>
-            )}
 
             <div className={styles.content}>
               <div className={styles.desktopBuffer}>

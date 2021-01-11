@@ -9,7 +9,7 @@ import {
   ADOBE_PB_REMOVE_BUNDLED_PRODUCT_FROM_CART
 } from "../../lib/adobeUtils";
 import { trimProductName } from "../../lib/commonFunctionsUtils.js";
-
+import ComboOfferSection from "./ComboOfferSection";
 export default class DigitalBundledProduct extends React.Component {
   handleRemove(entryNumber, mainProductUssid, productcode, categoryHierarchy) {
     // for analytics
@@ -103,10 +103,10 @@ export default class DigitalBundledProduct extends React.Component {
               </div>
             )}
             {this.props.comboDiscount && (
-              <div className={styles.bundlingComboDiscount}>
-                Combo Discount Applied: {RUPEE_SYMBOL}
-                {this.props.comboDiscount}
-              </div>
+              <ComboOfferSection
+                comboDiscount={this.props.comboDiscount}
+                comboDiscountWith={this.props.comboDiscountWith}
+              />
             )}
           </div>
         </div>
