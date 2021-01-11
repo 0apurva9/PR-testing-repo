@@ -49,8 +49,20 @@
   font-family: "Rubik", sans-serif;
   color: rgb(74, 74, 74);
   font-weight: 300;
+  font-size: 14px;
+  line-height: 18px;
+  text-align: center;
+}
+
+.perfume-guide-description {
+  width: 110px;
+  display: block;
+  margin: 0 auto 6px;
+  font-family: "Rubik", sans-serif;
+  color: rgb(108, 108, 108);
+  font-weight: 300;
   font-size: 13px;
-  line-height: 17px;
+  line-height: 12px;
   text-align: center;
 }
 
