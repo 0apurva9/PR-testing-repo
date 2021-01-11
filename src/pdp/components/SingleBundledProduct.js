@@ -96,6 +96,11 @@ export default class SingleBundledProduct extends React.Component {
         this.props.productData.mrpPrice &&
         this.props.productData.mrpPrice.value;
     }
+
+    let bundlingDiscount =
+      this.props.productData.bundlingDiscount &&
+      parseFloat(this.props.productData.bundlingDiscount);
+
     return (
       <div className={!this.props.isMainProduct ? styleForExtraProducts : null}>
         {!this.props.isMainProduct &&
@@ -112,7 +117,7 @@ export default class SingleBundledProduct extends React.Component {
                 </div>
                 <div className={styles.bundlingDiscountTextContainer}>
                   <span className={styles.bundlingDiscountText}>
-                    Save additional ₹{this.props.productData.bundlingDiscount}
+                    Save additional ₹{bundlingDiscount}
                   </span>
                   <span className={styles.fontFamilyLight}>
                     {" "}
