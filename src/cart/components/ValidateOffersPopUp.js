@@ -150,17 +150,26 @@ export default class ValidateOffersPopUp extends React.Component {
   }
 
   async changePaymentMethod() {
-    if (this.props.offerType === BANK_OFFER_TYPE) {
-      this.props.showModal(BANK_OFFERS, { coupons: this.props.bankOffers });
-    } else if (this.props.offerType === NCE_OFFER_TYPE) {
-      this.props.changePaymentMethod();
-    } else if (this.props.offerType === OFFER_ERROR_PAYMENT_MODE_TYPE) {
+    if (
+      this.props &&
+      this.props.location &&
+      this.props.location.state &&
+      this.props.location.state.isFromRetryUrl
+    ) {
       this.props.closeModal();
-      const noCostEmiCoupon = localStorage.getItem(NO_COST_EMI_COUPON);
-      if (noCostEmiCoupon) {
-        await this.props.releaseNoCostEmiCoupon(noCostEmiCoupon);
+    } else {
+      if (this.props.offerType === BANK_OFFER_TYPE) {
+        this.props.showModal(BANK_OFFERS, { coupons: this.props.bankOffers });
+      } else if (this.props.offerType === NCE_OFFER_TYPE) {
+        this.props.changePaymentMethod();
+      } else if (this.props.offerType === OFFER_ERROR_PAYMENT_MODE_TYPE) {
+        this.props.closeModal();
+        const noCostEmiCoupon = localStorage.getItem(NO_COST_EMI_COUPON);
+        if (noCostEmiCoupon) {
+          await this.props.releaseNoCostEmiCoupon(noCostEmiCoupon);
+        }
+        this.props.resetAllPaymentModes();
       }
-      this.props.resetAllPaymentModes();
     }
   }
   async continueWithoutCoupon() {
@@ -269,6 +278,19 @@ export default class ValidateOffersPopUp extends React.Component {
     document.body.style.pointerEvents = "auto";
   }
   render() {
+    let Retryoffer;
+    if (
+      (this.props &&
+        this.props.location &&
+        this.props.location.state &&
+        this.props.location.state.isFromRetryUrl) ||
+      this.props.location.pathname.includes("payment-method")
+    ) {
+      Retryoffer = false;
+    } else {
+      Retryoffer = true;
+    }
+
     document.body.style.pointerEvents = "none";
     const parsedQueryString = queryString.parse(this.props.location.search);
     const isPaymentFailureCase = parsedQueryString.status;
@@ -381,24 +403,26 @@ export default class ValidateOffersPopUp extends React.Component {
             />
           </div>
         </div>
-        {(!isPaymentFailureCase ||
-          (isPaymentFailureCase &&
-            (!data ||
-              !data.userCoupon ||
-              !data.userCoupon.status ||
-              data.userCoupon.status.toLowerCase() !== FAILURE_LOWERCASE))) && (
-          <div className={styles.buttonHolderForContinueCouponForValidate}>
-            <div className={styles.button}>
-              <Button
-                type="secondary"
-                height={36}
-                label={labelForSecondButton}
-                width={211}
-                onClick={() => this.continueWithoutCoupon()}
-              />
+        {Retryoffer &&
+          (!isPaymentFailureCase ||
+            (isPaymentFailureCase &&
+              (!data ||
+                !data.userCoupon ||
+                !data.userCoupon.status ||
+                data.userCoupon.status.toLowerCase() !==
+                  FAILURE_LOWERCASE))) && (
+            <div className={styles.buttonHolderForContinueCouponForValidate}>
+              <div className={styles.button}>
+                <Button
+                  type="secondary"
+                  height={36}
+                  label={labelForSecondButton}
+                  width={211}
+                  onClick={() => this.continueWithoutCoupon()}
+                />
+              </div>
             </div>
-          </div>
-        )}
+          )}
       </div>
     );
   }
