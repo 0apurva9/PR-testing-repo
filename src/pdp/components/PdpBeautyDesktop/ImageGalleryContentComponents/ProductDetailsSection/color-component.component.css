@@ -136,7 +136,7 @@
   left: 15px;
   top: 14px;
   background: rgb(33, 33, 33, 0.3)
-    url("https://listimg.pinclipart.com/picdir/s/174-1740069_vector-check-icono-svg-freeuse-check-icon-svg.png") center
+    url("../../../img/selectedColorShade.svg") center
     center/18px auto no-repeat;
   border-radius: 50%;
 }
