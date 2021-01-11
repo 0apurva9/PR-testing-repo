@@ -93,6 +93,7 @@ export function setLoginCustomerData(mnlApiResponse: MnlApiResponse) {
         await dispatch(loginUser({ "username": userDetails.userName, "password": apiData.pass, "otp": apiData.otp }));
         const customerInfo = getState().user.user && getState().user.user.customerInfo;
         userDetails.userEmail = customerInfo.emailId;
+        userDetails.firstName = customerInfo.firstName;
         Cookie.createCookie(LOGGED_IN_USER_DETAILS, JSON.stringify(userDetails));
         dispatch(getUserDetails(true));
 
