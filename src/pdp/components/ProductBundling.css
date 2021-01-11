@@ -90,3 +90,19 @@
 	top: 7px;
 	right: -22px;
 }
+.comboDiscountContainer{
+	float: left;
+	padding-top: 12px;
+	padding: 8px;
+  background-color: #fff9e4;
+}
+.comboDiscountIconContainer{
+	display: inline-block;
+	vertical-align: middle;
+}
+.comboDiscountText{
+	display: inline-block;
+	vertical-align: middle;
+	padding-left: 4px;
+	font-size: 13px;
+}
