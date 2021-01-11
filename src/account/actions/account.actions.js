@@ -31,6 +31,7 @@ import {
   MALE,
   SUCCESSFUL_PRODUCT_RATING_BY_USER,
   PRODUCT_RATING_FAILURE_TEXT,
+  MOBILE_PATTERN_11_DIGIT,
 } from "../../lib/constants";
 import {
   showModal,
@@ -2971,6 +2972,7 @@ export function updateProfileFailure(error) {
 export function updateProfile(accountDetails, otp) {
   let dateOfBirth = format(accountDetails.dateOfBirth, DATE_FORMAT_TO_UPDATE_PROFILE);
   return async (dispatch, getState, { api }) => {
+    const isMNLLogin = getState().mobileNumberLogin && getState().mobileNumberLogin.isMNLLogin;
     dispatch(updateProfileRequest());
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -3001,7 +3003,6 @@ export function updateProfile(accountDetails, otp) {
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-
       if (accountDetails.gender && accountDetails.isGenderUpdate) {
         dispatch(updateProfileMsd(accountDetails.gender));
       }
@@ -3009,7 +3010,8 @@ export function updateProfile(accountDetails, otp) {
         dispatch(showModal(UPDATE_PROFILE_OTP_VERIFICATION, accountDetails));
       } else if (
         resultJson.emailId !== JSON.parse(userDetails).userName &&
-        !MOBILE_PATTERN.test(JSON.parse(userDetails).userName)
+        !MOBILE_PATTERN_11_DIGIT.test(JSON.parse(userDetails).userName) &&
+        !isMNLLogin.value
       ) {
         dispatch(setBagCount(0));
         dispatch(logoutUserByMobileNumber());
