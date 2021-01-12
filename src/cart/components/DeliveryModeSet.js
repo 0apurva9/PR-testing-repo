@@ -8,13 +8,22 @@ import {
   SAME_DAY_DELIVERY,
   SHORT_SAME_DAY_DELIVERY,
   SAME_DAY_DELIVERY_SHIPPING,
-  YES
+  YES,
+  NO_COST_EMI_COUPON,
+  IS_FORWARD_JOURNEY
 } from "../../lib/constants";
 import format from "date-fns/format";
 export default class DeliveryModeSet extends React.Component {
   handleClick() {
     if (this.props.changeDeliveryModes) {
       this.props.changeDeliveryModes();
+    }
+  }
+  componentDidMount() {
+    const isForwardJourney = localStorage.getItem(IS_FORWARD_JOURNEY);
+    const emiCoupon = localStorage.getItem(NO_COST_EMI_COUPON);
+    if (emiCoupon && isForwardJourney !== undefined && !isForwardJourney) {
+      this.props.removeNoCostEmi(emiCoupon);
     }
   }
   getDayNumberSuffix(selectedDeliveryModes, USSID, expectedDeliveryDate) {
