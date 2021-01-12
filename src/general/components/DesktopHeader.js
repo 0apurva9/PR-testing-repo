@@ -46,6 +46,12 @@ export default class DesktopHeader extends React.Component {
   //   );
   // }
   redirectToHome() {
+    if (
+      this.props.history.location.pathname.includes("/checkout") ||
+      this.props.history.location.pathname.includes("/cart")
+    ) {
+      return;
+    }
     setDataLayerForHeaderAndFooterDirectCalls(
       ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
       "Tata CLiQ Logo"
