@@ -907,6 +907,7 @@ class CartPage extends React.Component {
                 will be credited to your account as per T&C.
               </div>
             </DesktopOnly>
+
             <div className={styles.content}>
               <div className={styles.desktopBuffer}>
                 {cartDetails.products &&
