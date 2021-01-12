@@ -8,6 +8,7 @@
     align-items: center;
     justify-content: center;
     margin: 0px auto;
+    position: relative;
 }
 
 .content {
@@ -19,15 +20,11 @@
     text-align: center;
 }
 
-.cotentBody {
-    position: relative;
-}
-
 .closeIconBody {
     position: absolute;
-    right: -3px;
-    top: -7px;
     cursor: pointer;
+    right: 14px;
+    top: 13px;
 }
 
 .btnBody {
