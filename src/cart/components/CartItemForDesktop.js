@@ -347,6 +347,10 @@ export default class CartItemForDesktop extends React.Component {
       sizeValue = `+${this.props.size}`;
     }
 
+    let parsedComboDiscount =
+      this.props.product.comboDiscount &&
+      parseFloat(this.props.product.comboDiscount);
+
     return (
       <div className={styles.base}>
         <div className={styles.productImage}>
@@ -420,12 +424,14 @@ export default class CartItemForDesktop extends React.Component {
                     ))}
             </div>
 
-            {this.props.product.comboDiscount && (
-              <ComboOfferSection
-                comboDiscount={this.props.product.comboDiscount}
-                comboDiscountWith={this.props.product.comboDiscountWith}
-              />
-            )}
+            {this.props.product.comboDiscount &&
+              parsedComboDiscount &&
+              parsedComboDiscount !== 0 && (
+                <ComboOfferSection
+                  comboDiscount={this.props.product.comboDiscount}
+                  comboDiscountWith={this.props.product.comboDiscountWith}
+                />
+              )}
 
             {this.props.isGiveAway === YES && (
               <div className={styles.isGiveAwayQuantity}>

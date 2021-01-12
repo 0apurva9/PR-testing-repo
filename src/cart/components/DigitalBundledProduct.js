@@ -61,6 +61,10 @@ export default class DigitalBundledProduct extends React.Component {
       this.props.digitalProduct.productName,
       40
     );
+
+    let parsedComboDiscount =
+      this.props.comboDiscount && parseFloat(this.props.comboDiscount);
+
     return (
       <React.Fragment>
         <div className={mainContainerClass}>
@@ -102,12 +106,14 @@ export default class DigitalBundledProduct extends React.Component {
                 {this.props.digitalProduct.price}
               </div>
             )}
-            {this.props.comboDiscount && (
-              <ComboOfferSection
-                comboDiscount={this.props.comboDiscount}
-                comboDiscountWith={this.props.comboDiscountWith}
-              />
-            )}
+            {this.props.comboDiscount &&
+              parsedComboDiscount &&
+              parsedComboDiscount !== 0 && (
+                <ComboOfferSection
+                  comboDiscount={this.props.comboDiscount}
+                  comboDiscountWith={this.props.comboDiscountWith}
+                />
+              )}
           </div>
         </div>
         {this.props.pageType !== "CANCEL" &&
