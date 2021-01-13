@@ -812,6 +812,7 @@ export default class Plp extends React.Component {
                           className={styles["switch-light"]}
                           id="cb1"
                           type="checkbox"
+                          onClick={() => this.toggleSwatchProductView()}
                         />
                         <label
                           className={styles["switch-btn"]}
