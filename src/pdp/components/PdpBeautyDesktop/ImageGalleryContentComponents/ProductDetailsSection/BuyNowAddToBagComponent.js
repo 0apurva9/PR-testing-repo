@@ -384,6 +384,7 @@ export default class BuyNowAddToBagComponent extends React.Component {
   };
 
   render() {
+    let disabledStatus = false;
     const productDetails = this.props && this.props.productDetails;
     const compDetails =
       this.props && this.props.compDetails ? this.props.compDetails : [];
@@ -394,17 +395,21 @@ export default class BuyNowAddToBagComponent extends React.Component {
       addToBagBuyNowComp &&
       addToBagBuyNowComp[0].componentProperties &&
       addToBagBuyNowComp[0].componentProperties.cta;
-    let disabledStatus =
+    disabledStatus =
       productDetails.allOOStock ||
       this.props.pincodeError ||
-      (productDetails.isServiceableToPincode &&
-        productDetails.isServiceableToPincode.productOutOfStockMessage) ||
-      (productDetails.isServiceableToPincode &&
-        productDetails.isServiceableToPincode.productNotServiceableMessage) ||
       !productDetails.winningSellerPrice ||
       (productDetails.winningSellerAvailableStock === "0" &&
         this.checkIfSizeSelected());
-
+    if (productDetails.isServiceableToPincode) {
+      if (
+        "productNotServiceableMessage" in
+          productDetails.isServiceableToPincode ||
+        "productOutOfStockMessage" in productDetails.isServiceableToPincode
+      ) {
+        disabledStatus = true;
+      }
+    }
     return (
       <React.Fragment>
         {!this.state.showGotoCartButton && (
