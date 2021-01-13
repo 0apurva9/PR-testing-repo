@@ -165,8 +165,12 @@ export default class SingleBundledProduct extends React.Component {
             <div
               className={
                 !this.props.isMainProduct
-                  ? styles.imageHolder
-                  : styles.imageHolderMainProduct
+                  ? !this.props.productData.clickable
+                    ? styles.imageHolderDisabled
+                    : styles.imageHolder
+                  : !this.props.productData.clickable
+                    ? styles.imageHolderMainProductDisabled
+                    : styles.imageHolderMainProduct
               }
               onClick={() =>
                 this.goToPDP(this.props.productData.productListingId)
@@ -191,7 +195,11 @@ export default class SingleBundledProduct extends React.Component {
           >
             <div className={styles.productNameContainer}>
               <span
-                className={styles.productName}
+                className={
+                  !this.props.productData.clickable
+                    ? styles.productNameDisabled
+                    : styles.productName
+                }
                 onClick={() =>
                   this.goToPDP(this.props.productData.productListingId)
                 }

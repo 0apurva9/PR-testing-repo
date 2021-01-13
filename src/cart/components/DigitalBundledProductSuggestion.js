@@ -108,7 +108,7 @@ export default class DigitalBundledProductSuggestion extends React.Component {
     addToCartAnalyticsData.productCategory = digitalProduct.rootCategory;
     addToCartAnalyticsData.productPrice = productPrice;
     this.setState({ addToCartAnalyticsData });
-    this.props.addBundledProductsToCart(bundledProductDataForAddToCart);
+    this.props.addBundledProductsToCart(bundledProductDataForAddToCart, "CART");
   }
 
   render() {
