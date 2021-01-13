@@ -8,7 +8,8 @@ import {
   setDataLayer,
   ADOBE_PB_REMOVE_BUNDLED_PRODUCT_FROM_CART
 } from "../../lib/adobeUtils";
-
+import { trimProductName } from "../../lib/commonFunctionsUtils.js";
+import ComboOfferSection from "./ComboOfferSection";
 export default class DigitalBundledProduct extends React.Component {
   handleRemove(entryNumber, mainProductUssid, productcode, categoryHierarchy) {
     // for analytics
@@ -56,6 +57,14 @@ export default class DigitalBundledProduct extends React.Component {
       digitalProductName = styles.digitalProductNameCancel;
       digitalProductPrice = styles.digitalProductPriceCancel;
     }
+    let productName = trimProductName(
+      this.props.digitalProduct.productName,
+      40
+    );
+
+    let parsedComboDiscount =
+      this.props.comboDiscount && parseFloat(this.props.comboDiscount);
+
     return (
       <React.Fragment>
         <div className={mainContainerClass}>
@@ -83,9 +92,7 @@ export default class DigitalBundledProduct extends React.Component {
             />
           </div>
           <div className={digitalProductDetails}>
-            <div className={digitalProductName}>
-              {this.props.digitalProduct.productName}
-            </div>
+            <div className={digitalProductName}>{productName}</div>
             {this.props.showPriceSection &&
               this.props.digitalProduct.offerPrice && (
                 <div className={styles.digitalProductOfferPrice}>
@@ -99,6 +106,14 @@ export default class DigitalBundledProduct extends React.Component {
                 {this.props.digitalProduct.price}
               </div>
             )}
+            {this.props.comboDiscount &&
+              parsedComboDiscount &&
+              parsedComboDiscount !== 0 && (
+                <ComboOfferSection
+                  comboDiscount={this.props.comboDiscount}
+                  comboDiscountWith={this.props.comboDiscountWith}
+                />
+              )}
           </div>
         </div>
         {this.props.pageType !== "CANCEL" &&
