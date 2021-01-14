@@ -107,7 +107,6 @@ export default class DigitalBundledProduct extends React.Component {
               </div>
             )}
             {this.props.comboDiscount &&
-              parsedComboDiscount &&
               parsedComboDiscount !== 0 && (
                 <ComboOfferSection
                   comboDiscount={this.props.comboDiscount}
