@@ -44,7 +44,13 @@ class HomeAutoWishlistComponent extends React.Component {
     this.selector = React.createRef();
   }
 
-  goToProductDescription = url => {
+  goToProductDescription = (url, val, index) => {
+    if (typeof window != "undefined" && window.digitalData) {
+      const icidTracking = `"home":"AutoWishlist":"blank":${index + 1}:"blank ":"blank":"blank":${val.productListingId}`;
+      Object.assign(window.digitalData, {
+          icid2: icidTracking,
+      });
+  }
     this.props.history.push(url);
   };
 
@@ -83,7 +89,7 @@ class HomeAutoWishlistComponent extends React.Component {
                     isShowAddToWishlistIcon={false}
                     discountPercent={discount}
                     onClick={url =>
-                      this.goToProductDescription(url, val, "", i)
+                      this.goToProductDescription(url, val, i)
                     }
                     autoWidget="true"
                     sourceOfWidget="msd"
