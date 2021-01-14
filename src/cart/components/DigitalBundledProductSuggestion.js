@@ -124,7 +124,6 @@ export default class DigitalBundledProductSuggestion extends React.Component {
       <React.Fragment>
         {this.props.digitalProduct && (
           <div>
-            <div />
             <div className={styles.digitalBundledProductDetails}>
               {this.state.showLoader && <SectionLoaderDesktop />}
               <div className={styles.digitalBundledProductImage}>
