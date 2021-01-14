@@ -121,9 +121,9 @@ export default class EmiAccordion extends React.Component {
     this.setState({ planSelected: false });
   }
 
-  binValidation = (binNo, isDebitCard = false) => {
+  binValidation = binNo => {
     if (this.props.binValidation) {
-      this.props.binValidation(PAYMENT_MODE, binNo, isDebitCard);
+      this.props.binValidation(PAYMENT_MODE, binNo);
     }
   };
 
@@ -199,9 +199,7 @@ export default class EmiAccordion extends React.Component {
               onFocusInput={this.props.onFocusInput}
               cardDetails={this.props.cardDetails}
               onChangeCardDetail={val => this.onChangeCardDetail(val)}
-              binValidation={(binNo, isDebitCard) =>
-                this.binValidation(binNo, isDebitCard)
-              }
+              binValidation={binNo => this.binValidation(binNo)}
               displayToast={this.props.displayToast}
               onCheckout={this.props.onCheckout}
               emiBinValidationErrorMessage={

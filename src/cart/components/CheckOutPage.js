@@ -1381,8 +1381,7 @@ class CheckOutPage extends React.Component {
                 selectedSlaveIdObj = cloneDeep(this.state.selectedSlaveIdObj);
                 selectedSlaveIdObj[
                   this.state.selectedProductsUssIdForCliqAndPiq
-                ] =
-                  product.selectedStoreCNC;
+                ] = product.selectedStoreCNC;
                 this.setState(
                   {
                     ussIdAndDeliveryModesObj: updatedDeliveryModeUssid,
@@ -3587,22 +3586,8 @@ if you have order id in local storage then you have to show order confirmation p
     this.props.removeCliqCash();
   };
 
-  binValidation = async (paymentMode, binNo, isDebitCard = false) => {
+  binValidation = async (paymentMode, binNo) => {
     if (paymentMode === EMI) {
-      if (isDebitCard) {
-        localStorage.setItem(PAYMENT_MODE_TYPE, paymentMode);
-        localStorage.setItem(IS_DC_EMI_SELECTED, true);
-        this.setState({ paymentModeSelected: paymentMode });
-        this.props.binValidation(
-          paymentMode,
-          binNo,
-          this.state.isComingFromRetryUrl,
-          this.state.retryCartGuid
-        );
-        return;
-      } else {
-        localStorage.setItem(IS_DC_EMI_SELECTED, false);
-      }
       let binValidationOfEmiEligibleResponse = await this.props.binValidationOfEmiEligible(
         binNo
       );
@@ -3623,9 +3608,7 @@ if you have order id in local storage then you have to show order confirmation p
         ) {
           this.setState({
             emiBinValidationStatus: true,
-            emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${
-              this.state.cardDetails.emi_bank
-            } card.`
+            emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${this.state.cardDetails.emi_bank} card.`
           });
         } else if (
           binValidationOfEmiEligibleResponse.binValidationOfEmiEligible &&
@@ -3636,9 +3619,7 @@ if you have order id in local storage then you have to show order confirmation p
         ) {
           this.setState({
             emiBinValidationStatus: true,
-            emiBinValidationErrorMessage: `This card can’t be used to avail this EMI option. Please use a ${
-              this.state.cardDetails.selectedBankName
-            } card only.`
+            emiBinValidationErrorMessage: `This card can’t be used to avail this EMI option. Please use a ${this.state.cardDetails.selectedBankName} card only.`
           });
         } else if (
           this.props.cart &&
@@ -3706,9 +3687,7 @@ if you have order id in local storage then you have to show order confirmation p
       ) {
         this.setState({
           emiBinValidationStatus: true,
-          emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${
-            this.state.cardDetails.emi_bank
-          } card.`
+          emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${this.state.cardDetails.emi_bank} card.`
         });
       } else {
         this.setState({
@@ -4714,8 +4693,8 @@ if you have order id in local storage then you have to show order confirmation p
                         )
                       }
                       onChangeCardDetail={val => this.onChangeCardDetail(val)}
-                      binValidation={(paymentMode, binNo, isDebitCard) =>
-                        this.binValidation(paymentMode, binNo, isDebitCard)
+                      binValidation={(paymentMode, binNo) =>
+                        this.binValidation(paymentMode, binNo)
                       }
                       binValidationForCOD={paymentMode =>
                         this.binValidationForCOD(paymentMode)

@@ -6657,6 +6657,7 @@ export function binValidationOfEmiEligible(binNo) {
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let access_token = JSON.parse(customerCookie).access_token;
+  let dcemi = localStorage.getItem(IS_DC_EMI_SELECTED);
   return async (dispatch, getState, { api }) => {
     dispatch(binValidationOfEmiEligibleRequest());
     try {
@@ -6674,7 +6675,7 @@ export function binValidationOfEmiEligible(binNo) {
       const result = await api.corePostByUrlEncoded(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/payments/emiEligibleBin?access_token=${access_token}&bin=${binNo}`
+        }/payments/emiEligibleBin?access_token=${access_token}&bin=${binNo}&isDCEMI=${dcemi}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);

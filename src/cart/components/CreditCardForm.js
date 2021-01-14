@@ -90,10 +90,6 @@ export default class CreditCardForm extends React.Component {
   onChangeCardNumber(val) {
     this.setState({ cardNumber: val });
     this.onChange({ cardNumber: val });
-    // let allowEmiEligibleBin = false;
-    // if (this.props.isDebitCard == undefined) {
-    //   allowEmiEligibleBin = true;
-    // }
     if (val.replace(/\s/g, "").length < 6) {
       this.setState({ isCalledBinValidation: false });
     }
@@ -108,18 +104,12 @@ export default class CreditCardForm extends React.Component {
         this.state.cardNumber !== val)
     ) {
       this.setState({ isCalledBinValidation: true });
-      this.props.binValidation(
-        val.replace(/\s/g, "").substring(0, 6),
-        this.props.isDebitCard
-      );
+      this.props.binValidation(val.replace(/\s/g, "").substring(0, 6));
     }
     if (val.replace(/\s/g, "").length >= 6) {
       this.setState({ isCalledBinValidation: true });
       if (!this.state.isCalledBinValidation) {
-        this.props.binValidation(
-          val.replace(/\s/g, "").substring(0, 6),
-          this.props.isDebitCard
-        );
+        this.props.binValidation(val.replace(/\s/g, "").substring(0, 6));
       }
     }
   }
@@ -258,7 +248,10 @@ export default class CreditCardForm extends React.Component {
                 )}
               {this.state.emiInvalidCardError &&
                 this.state.cardNumber.length > 6 && (
-                  <span className={styles.invalidCardText}>
+                  <span
+                    className={styles.invalidCardText}
+                    data-test="creditCardForm-err-msg"
+                  >
                     {this.state.emiInvalidCardError}
                   </span>
                 )}
