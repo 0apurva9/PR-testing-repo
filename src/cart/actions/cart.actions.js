@@ -1548,6 +1548,9 @@ export function getOrderSummary(pincode) {
         }&pincode=${pincode}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
       );
       const resultJson = await result.json();
+      if (Cookie.getCookie("egvCartGuid")) {
+        Cookie.deleteCookie("egvCartGuid");
+      }
 
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
@@ -3258,7 +3261,7 @@ export function binValidation(
 ) {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-
+  let egvCartGuid = Cookie.getCookie("egvCartGuid");
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
   const parsedQueryString = queryString.parse(window.location.search);
   let cartId;
@@ -3268,10 +3271,14 @@ export function binValidation(
   if (isFromRetryUrl) {
     cartId = retryCartGuid;
   } else {
-    cartId =
-      cartDetails && JSON.parse(cartDetails).guid
-        ? JSON.parse(cartDetails).guid
-        : Cookie.getCookie(OLD_CART_GU_ID);
+    if (egvCartGuid) {
+      cartId = egvCartGuid;
+    } else {
+      cartId =
+        cartDetails && JSON.parse(cartDetails).guid
+          ? JSON.parse(cartDetails).guid
+          : Cookie.getCookie(OLD_CART_GU_ID);
+    }
   }
 
   let giftCartObj = JSON.parse(localStorage.getItem(EGV_GIFT_CART_ID));
