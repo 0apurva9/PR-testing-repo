@@ -31,6 +31,9 @@ export default class ColorComponent extends React.Component {
       const sizeToSetInState = findSelectedSize(variantTheme, variantOptions, productListingId, true);
       this.setState(sizeToSetInState);
     }
+    if(this.props.history && this.props.history.location && this.props.history.location.viewMoreLess) {
+      this.setState({expandClass: this.props.history.location.viewMoreLess.viewMoreLess});
+    }
   }
 
   expandShadeSelector(e) {
@@ -47,7 +50,10 @@ export default class ColorComponent extends React.Component {
   }
 
   handleColorOptionClick(url) {
-    this.props.history.push(url);
+    this.props.history.push({
+      pathname: `${url}`,
+      viewMoreLess: { viewMoreLess: this.state.expandClass }
+    });
   }
 
   render() {
@@ -69,11 +75,13 @@ export default class ColorComponent extends React.Component {
       .map(el => el.stockCount);
     let selectedSizeColorOptions = [];
     let selectedSizeSelectedColor = {};
+    let noOfColoursForSelectedSize = 0;
     if (this.state.selectedSizeIndex >= 0) {
       selectedSizeColorOptions =
         variantTheme &&
         variantTheme.length > 0 &&
         variantTheme[this.state.selectedSizeIndex].colorOptions;
+        noOfColoursForSelectedSize = selectedSizeColorOptions && selectedSizeColorOptions.length;
     }
 
     selectedSizeSelectedColor =
@@ -84,13 +92,15 @@ export default class ColorComponent extends React.Component {
         <div className={styles["shade-component"]}>
           <div className={styles["shade-block"]}>
             <div className={styles["shade-top-block"]}>
-              <a
+              {(noOfColoursForSelectedSize && noOfColoursForSelectedSize > 7 ) || (variantTheme && variantTheme.length > 1) ? (
+                <a
                 href={""}
                 onClick={e => this.expandShadeSelector(e)}
                 className={styles["shade-block-view-more"]}
-              >
+                >
                 {this.state.expandClass ? VIEW_LESS : VIEW_MORE}
-              </a>
+                </a>
+              ): null}
               <div className={styles["shade-heading"]}>
                 {selectedSizeSelectedColor &&
                   selectedSizeSelectedColor.length > 0 &&
