@@ -15,7 +15,8 @@ import {
   EDD_TEXT,
   PAYMENT_PENDING,
   PAYMENT_TIMEOUT,
-  PAYMENT_FAILED
+  PAYMENT_FAILED,
+  CANCEL_REASON_FOR_BUNDLED_PRODUCT
 } from "../../lib/constants";
 import {
   setDataLayer,
@@ -664,6 +665,16 @@ export default class OrderCard extends React.Component {
               <div className={styles.divider} />
               <div className={styles.cancelExchangeMessage}>
                 {this.props.exchangeDetails.exchangeCancelMessage}
+              </div>
+            </React.Fragment>
+          )}
+
+        {this.props.title === PRODUCT_CANCEL &&
+          this.props.discountBundlingCancelable && (
+            <React.Fragment>
+              <div className={styles.divider} />
+              <div className={styles.cancelExchangeMessage}>
+                {CANCEL_REASON_FOR_BUNDLED_PRODUCT}
               </div>
             </React.Fragment>
           )}
