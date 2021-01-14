@@ -89,6 +89,7 @@ export default class DigitalBundledProduct extends React.Component {
               onClickImage={() =>
                 this.handleImageClick(this.props.digitalProduct.productcode)
               }
+              isClickable={this.props.digitalProduct.clickable}
             />
           </div>
           <div className={digitalProductDetails}>

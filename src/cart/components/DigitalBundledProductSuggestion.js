@@ -134,6 +134,7 @@ export default class DigitalBundledProductSuggestion extends React.Component {
                       this.props.digitalProduct.productListingId
                     )
                   }
+                  isClickable={this.props.digitalProduct.clickable}
                 />
               </div>
               <div className={styles.digitalProductDetails}>

@@ -13,9 +13,34 @@ export default class SingleBundledProduct extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isCheckboxClicked: false
+      isCheckboxClicked: false,
+      userClicked: false
     };
     this.selectBundledProduct = this.selectBundledProduct.bind(this);
+  }
+
+  componentDidMount() {
+    if (!this.props.isMainProduct && this.props.productData.defaultSelected) {
+      let productPrice =
+        this.props.productData.winningSellerPrice &&
+        this.props.productData.winningSellerPrice.value;
+
+      if (!this.props.productData.winningSellerPrice) {
+        productPrice =
+          this.props.productData.mrpPrice &&
+          this.props.productData.mrpPrice.value;
+      }
+
+      this.props.handleClick(
+        this.props.productIndex,
+        false,
+        this.props.productData.productListingId,
+        this.props.productData.winningUssID,
+        this.props.productData.recommendationType,
+        this.props.productData.rootCategory,
+        productPrice
+      );
+    }
   }
 
   selectBundledProduct(
@@ -28,7 +53,10 @@ export default class SingleBundledProduct extends React.Component {
     productPrice,
     isBundlingDiscountAvailable
   ) {
-    this.setState({ isCheckboxClicked: !this.state.isCheckboxClicked });
+    this.setState({
+      isCheckboxClicked: !this.state.isCheckboxClicked,
+      userClicked: true
+    });
     this.props.handleClick(
       productIndex,
       checkboxChecked,
@@ -58,10 +86,18 @@ export default class SingleBundledProduct extends React.Component {
   render() {
     let checked = false;
     if (
-      this.props.bundledPriceAPIStatus === SUCCESS &&
-      this.state.isCheckboxClicked
+      (this.props.bundledPriceAPIStatus === SUCCESS &&
+        this.state.isCheckboxClicked) ||
+      this.props.productData.defaultSelected
     ) {
       checked = true;
+    }
+    if (
+      this.props.productData.defaultSelected &&
+      this.state.userClicked &&
+      this.state.isCheckboxClicked
+    ) {
+      checked = false;
     }
     let highlightMainProductPrice = false;
     if (
