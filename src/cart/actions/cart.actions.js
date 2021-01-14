@@ -1543,7 +1543,7 @@ export function getOrderSummary(pincode) {
       const result = await api.get(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/carts/${cartId}/displayOrderSummary?access_token=${
+        }/carts/${cartId}/displayOrderSummary_V2?access_token=${
           JSON.parse(customerCookie).access_token
         }&pincode=${pincode}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
       );
