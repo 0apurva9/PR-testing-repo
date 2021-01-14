@@ -3,7 +3,7 @@ import styles from "./ComboOfferStrip.css";
 import Icon from "../../xelpmoc-core/Icon";
 import discountIcon from "./img/discountIcon.svg";
 import { trimProductName } from "../../lib/commonFunctionsUtils.js";
-
+import PropTypes from "prop-types";
 export default class ComboOfferStrip extends React.Component {
   render() {
     let bundlingDiscount =
@@ -29,3 +29,9 @@ export default class ComboOfferStrip extends React.Component {
     );
   }
 }
+
+ComboOfferStrip.propTypes = {
+  bundlingDiscount: PropTypes.number,
+  productName: PropTypes.string,
+  isUIChange: PropTypes.bool
+};
