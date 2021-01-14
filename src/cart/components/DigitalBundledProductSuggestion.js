@@ -21,7 +21,7 @@ import {
   ADOBE_PB_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_CART
 } from "../../lib/adobeUtils";
 import SectionLoaderDesktop from "../../general/components/SectionLoaderDesktop";
-
+import { trimProductName } from "../../lib/commonFunctionsUtils.js";
 export default class DigitalBundledProductSuggestion extends React.Component {
   constructor(props) {
     super(props);
@@ -112,53 +112,68 @@ export default class DigitalBundledProductSuggestion extends React.Component {
   }
 
   render() {
+    let productName = trimProductName(
+      this.props.digitalProduct.productName,
+      40
+    );
+    let productDescription = trimProductName(
+      this.props.digitalProduct.productDescription,
+      55
+    );
     return (
       <React.Fragment>
         {this.props.digitalProduct && (
-          <div className={styles.digitalBundledProductDetails}>
-            {this.state.showLoader && <SectionLoaderDesktop />}
-            <div className={styles.digitalBundledProductImage}>
-              <ProductImage
-                image={this.props.digitalProduct.imageURL}
-                onClickImage={() =>
-                  this.handleImageClick(
-                    this.props.digitalProduct.productListingId
+          <div>
+            <div className={styles.digitalBundledProductDetails}>
+              {this.state.showLoader && <SectionLoaderDesktop />}
+              <div className={styles.digitalBundledProductImage}>
+                <ProductImage
+                  image={this.props.digitalProduct.imageURL}
+                  onClickImage={() =>
+                    this.handleImageClick(
+                      this.props.digitalProduct.productListingId
+                    )
+                  }
+                  isClickable={this.props.digitalProduct.clickable}
+                />
+              </div>
+              <div className={styles.digitalProductDetails}>
+                <div className={styles.digitalProductName}>{productName}</div>
+                <div className={styles.digitalProductDescription}>
+                  {productDescription}
+                </div>
+                {this.props.digitalProduct.winningSellerPrice &&
+                  this.props.digitalProduct.winningSellerPrice
+                    .formattedValueNoDecimal && (
+                    <div className={styles.digitalProductOfferPrice}>
+                      {
+                        this.props.digitalProduct.winningSellerPrice
+                          .formattedValueNoDecimal
+                      }
+                    </div>
+                  )}
+                {this.props.digitalProduct.mrpPrice &&
+                  this.props.digitalProduct.mrpPrice
+                    .formattedValueNoDecimal && (
+                    <div className={styles.digitalProductPrice}>
+                      {
+                        this.props.digitalProduct.mrpPrice
+                          .formattedValueNoDecimal
+                      }
+                    </div>
+                  )}
+              </div>
+              <div
+                className={styles.addButton}
+                onClick={() =>
+                  this.addBundledProductToCart(
+                    this.props.mainProduct,
+                    this.props.digitalProduct
                   )
                 }
-                isClickable={this.props.digitalProduct.clickable}
-              />
-            </div>
-            <div className={styles.digitalProductDetails}>
-              <div className={styles.digitalProductName}>
-                {this.props.digitalProduct.productName}
+              >
+                &#x2B; Add
               </div>
-              {this.props.digitalProduct.winningSellerPrice &&
-                this.props.digitalProduct.winningSellerPrice
-                  .formattedValueNoDecimal && (
-                  <div className={styles.digitalProductOfferPrice}>
-                    {
-                      this.props.digitalProduct.winningSellerPrice
-                        .formattedValueNoDecimal
-                    }
-                  </div>
-                )}
-              {this.props.digitalProduct.mrpPrice &&
-                this.props.digitalProduct.mrpPrice.formattedValueNoDecimal && (
-                  <div className={styles.digitalProductPrice}>
-                    {this.props.digitalProduct.mrpPrice.formattedValueNoDecimal}
-                  </div>
-                )}
-            </div>
-            <div
-              className={styles.addButton}
-              onClick={() =>
-                this.addBundledProductToCart(
-                  this.props.mainProduct,
-                  this.props.digitalProduct
-                )
-              }
-            >
-              &#x2B; Add
             </div>
           </div>
         )}
