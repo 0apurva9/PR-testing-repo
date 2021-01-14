@@ -2179,12 +2179,6 @@ if you have order id in local storage then you have to show order confirmation p
         JSON.stringify({ guid: orderRetryCartId })
       );
     }
-    if (!this.state.isComingFromRetryUrl) {
-      const emiCoupon = localStorage.getItem(NO_COST_EMI_COUPON);
-      if (emiCoupon) {
-        this.removeNoCostEmi(emiCoupon);
-      }
-    }
   }
 
   getEmiBankDetails = () => {
@@ -2413,7 +2407,8 @@ if you have order id in local storage then you have to show order confirmation p
           cartDetailsLoggedInUser && JSON.parse(cartDetailsLoggedInUser).guid
             ? JSON.parse(cartDetailsLoggedInUser).guid
             : Cookie.getCookie(OLD_CART_GU_ID).guid;
-        let cartId = JSON.parse(cartDetailsLoggedInUser).code;
+        let cartId =
+          cartDetailsLoggedInUser && JSON.parse(cartDetailsLoggedInUser).code;
         const removeNoCostEmiResponse = await this.props.removeNoCostEmi(
           couponCode,
           carGuId,
@@ -4601,6 +4596,7 @@ if you have order id in local storage then you have to show order confirmation p
                         selectedDeliveryDetails={
                           this.state.ussIdAndDeliveryModesObj
                         }
+                        removeNoCostEmi={coupon => this.removeNoCostEmi(coupon)}
                         // isShowDate={true}
                       />
                     </div>

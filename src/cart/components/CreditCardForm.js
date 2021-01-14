@@ -7,7 +7,7 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import cardValidator from "simple-card-validator";
 import styles from "./CreditCardForm.css";
 import MobileOnly from "../../general/components/MobileOnly";
-import { BANK_GATWAY_DOWN } from "../../lib/constants";
+import { BANK_GATWAY_DOWN, IS_FORWARD_JOURNEY } from "../../lib/constants";
 import {
   WHATSAPP_NOTIFICATION_CHECKED,
   WHATSAPP_NOTIFICATION_UNCHECKED,
@@ -194,6 +194,7 @@ export default class CreditCardForm extends React.Component {
       } else if (!this.props.whatsappSelected) {
         getWhatsAppNotification(WHATSAPP_NOTIFICATION_UNCHECKED);
       }
+      localStorage.setItem(IS_FORWARD_JOURNEY, true);
       this.props.onCheckout();
     }
   };
