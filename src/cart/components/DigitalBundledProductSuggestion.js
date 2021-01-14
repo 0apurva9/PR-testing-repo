@@ -22,6 +22,7 @@ import {
 } from "../../lib/adobeUtils";
 import SectionLoaderDesktop from "../../general/components/SectionLoaderDesktop";
 import { trimProductName } from "../../lib/commonFunctionsUtils.js";
+import ComboOfferStrip from "../../pdp/components/ComboOfferStrip";
 export default class DigitalBundledProductSuggestion extends React.Component {
   constructor(props) {
     super(props);
@@ -123,7 +124,15 @@ export default class DigitalBundledProductSuggestion extends React.Component {
     return (
       <React.Fragment>
         {this.props.digitalProduct && (
-          <div>
+          <div className={styles.base}>
+            {this.props.digitalProduct.bundlingDiscount &&
+              parseFloat(this.props.digitalProduct.bundlingDiscount) !== 0 && (
+                <ComboOfferStrip
+                  bundlingDiscount={this.props.digitalProduct.bundlingDiscount}
+                  productName={this.props.digitalProduct.productName}
+                  isUIChange={true}
+                />
+              )}
             <div className={styles.digitalBundledProductDetails}>
               {this.state.showLoader && <SectionLoaderDesktop />}
               <div className={styles.digitalBundledProductImage}>
