@@ -22,7 +22,7 @@
   font-size: 16px;
   letter-spacing: 0.03px;
   color: #338715;
-  margin-bottom: 18px;
+  margin-bottom: 10px;
 }
 .digitalProductOfferPrice{
   display: inline-block;
@@ -53,4 +53,9 @@
   padding: 8px;
   font-family: semibold;
   cursor: pointer;
+}
+.digitalProductDescription{
+	font-size: 14px;
+	color: #5d6c55;
+	margin-bottom: 10px;
 }

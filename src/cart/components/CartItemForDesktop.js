@@ -429,7 +429,11 @@ export default class CartItemForDesktop extends React.Component {
               parsedComboDiscount !== 0 && (
                 <ComboOfferSection
                   comboDiscount={this.props.product.comboDiscount}
-                  comboDiscountWith={this.props.product.comboDiscountWith}
+                  comboDiscountWith={
+                    this.props.product.comboDiscountWith
+                      ? this.props.product.comboDiscountWith
+                      : this.props.productName
+                  }
                 />
               )}
 
