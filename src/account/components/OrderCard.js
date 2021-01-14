@@ -324,6 +324,7 @@ export default class OrderCard extends React.Component {
             image={this.props.imageUrl}
             onClickImage={() => this.onClick()}
             flatImage={this.props.productName === "Gift Card"}
+            isClickable={this.props.isClickable}
           />
         </div>
         <div className={styles.productDetails}>
@@ -453,20 +454,21 @@ export default class OrderCard extends React.Component {
                       this.props.productName === "Gift Card"
                         ? "Gift card detail will be sent you on your specified email id shortly."
                         : this.props.price
-                        ? `${RUPEE_SYMBOL} ${NumberFormatter.convertNumber(
-                            this.props.price
-                          )}`
-                        : null}
+                          ? `${RUPEE_SYMBOL} ${NumberFormatter.convertNumber(
+                              this.props.price
+                            )}`
+                          : null}
                     </div>
                   )}
-                  {this.props.isEgvOrder && this.props.resendAvailable && (
-                    <div
-                      className={styles.reSendEmail}
-                      onClick={() => this.reSendEmailForGiftCard()}
-                    >
-                      Resend Email
-                    </div>
-                  )}
+                  {this.props.isEgvOrder &&
+                    this.props.resendAvailable && (
+                      <div
+                        className={styles.reSendEmail}
+                        onClick={() => this.reSendEmailForGiftCard()}
+                      >
+                        Resend Email
+                      </div>
+                    )}
                   {this.props.discountPrice &&
                     this.props.discountPrice != this.props.price && (
                       <div className={styles.discountPrice}>
@@ -498,14 +500,15 @@ export default class OrderCard extends React.Component {
               )}
             </div>
           )}
-          {this.props.idFromAllOrderDetails != "Y" && this.props.quantity && (
-            <div className={styles.priceWithQuantity}>
-              <div className={styles.price}>Qty</div>
-              <div className={styles.quantity}>
-                {this.props.numberOfQuantity}
+          {this.props.idFromAllOrderDetails != "Y" &&
+            this.props.quantity && (
+              <div className={styles.priceWithQuantity}>
+                <div className={styles.price}>Qty</div>
+                <div className={styles.quantity}>
+                  {this.props.numberOfQuantity}
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
           {this.props.children &&
             this.props.idFromAllOrderDetails != "Y" &&
@@ -582,46 +585,47 @@ export default class OrderCard extends React.Component {
                 )}
               </div>
             )}
-          {this.props && this.props.returnMode != "REFNOPCK" && (
-            <React.Fragment>
-              <div className={styles.pickupAddressHolder}>
-                <div className={styles.pickupAddressTitle}>
-                  {this.props.returnModeSelected == "Pick Up"
-                    ? "Pick up from"
-                    : this.props.returnModeSelected == "Self Courier"
-                    ? "Delivery Address"
-                    : this.props.returnModeSelected == "Return To Store"
-                    ? "Store Address"
-                    : ""}
+          {this.props &&
+            this.props.returnMode != "REFNOPCK" && (
+              <React.Fragment>
+                <div className={styles.pickupAddressHolder}>
+                  <div className={styles.pickupAddressTitle}>
+                    {this.props.returnModeSelected == "Pick Up"
+                      ? "Pick up from"
+                      : this.props.returnModeSelected == "Self Courier"
+                        ? "Delivery Address"
+                        : this.props.returnModeSelected == "Return To Store"
+                          ? "Store Address"
+                          : ""}
+                  </div>
+                  {this.props.pickupAddress && (
+                    <div className={styles.pickupAddressText}>
+                      {this.props.pickupAddress.line1}{" "}
+                      {this.props.pickupAddress.line1 ? "," : ""}&nbsp;
+                      {this.props.pickupAddress.landmark}{" "}
+                      {this.props.pickupAddress.landmark ? "," : ""}&nbsp;
+                      {this.props.pickupAddress.city}{" "}
+                      {this.props.pickupAddress.city ? "," : ""}&nbsp;
+                      {this.props.pickupAddress.state}{" "}
+                      {this.props.pickupAddress.state ? "," : ""}&nbsp;
+                      {this.props.pickupAddress.postalCode}
+                    </div>
+                  )}
+                  {this.props.returnStoreAddress && (
+                    <div className={styles.pickupAddressText}>
+                      {this.props.returnStoreAddress.address &&
+                        this.props.returnStoreAddress.address.line1}{" "}
+                      ,&nbsp;
+                      {this.props.returnStoreAddress.address &&
+                        this.props.returnStoreAddress.address.city}{" "}
+                      ,&nbsp;
+                      {this.props.returnStoreAddress.address &&
+                        this.props.returnStoreAddress.address.postalCode}
+                    </div>
+                  )}
                 </div>
-                {this.props.pickupAddress && (
-                  <div className={styles.pickupAddressText}>
-                    {this.props.pickupAddress.line1}{" "}
-                    {this.props.pickupAddress.line1 ? "," : ""}&nbsp;
-                    {this.props.pickupAddress.landmark}{" "}
-                    {this.props.pickupAddress.landmark ? "," : ""}&nbsp;
-                    {this.props.pickupAddress.city}{" "}
-                    {this.props.pickupAddress.city ? "," : ""}&nbsp;
-                    {this.props.pickupAddress.state}{" "}
-                    {this.props.pickupAddress.state ? "," : ""}&nbsp;
-                    {this.props.pickupAddress.postalCode}
-                  </div>
-                )}
-                {this.props.returnStoreAddress && (
-                  <div className={styles.pickupAddressText}>
-                    {this.props.returnStoreAddress.address &&
-                      this.props.returnStoreAddress.address.line1}{" "}
-                    ,&nbsp;
-                    {this.props.returnStoreAddress.address &&
-                      this.props.returnStoreAddress.address.city}{" "}
-                    ,&nbsp;
-                    {this.props.returnStoreAddress.address &&
-                      this.props.returnStoreAddress.address.postalCode}
-                  </div>
-                )}
-              </div>
-            </React.Fragment>
-          )}
+              </React.Fragment>
+            )}
         </div>
         {this.props.children &&
           this.props.idFromAllOrderDetails === "Y" &&
@@ -816,10 +820,12 @@ export default class OrderCard extends React.Component {
                               !shipmentStatus.includes(
                                 "Order Could be collected by"
                               )
-                            ? "Pickup Date:"
-                            : responseCode !== "REFUND_INITIATED"
-                            ? `${shipmentStatus ? shipmentStatus + ":" : ""}`
-                            : null}{" "}
+                              ? "Pickup Date:"
+                              : responseCode !== "REFUND_INITIATED"
+                                ? `${
+                                    shipmentStatus ? shipmentStatus + ":" : ""
+                                  }`
+                                : null}{" "}
                         </span>
                         {shipmentStatus.includes(EDD_TEXT) &&
                         estimatedDeliveryDateFormatted ? (
