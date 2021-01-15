@@ -36,7 +36,25 @@
 	z-index: 1;
 }
 
-.cashbackTooltip::before {
+.cashbackTooltipExpanded{
+	visibility: hidden;
+  position: absolute;
+	left: -45px;
+	top: 20px;
+  width: 315px;
+  height: auto;
+  opacity: 0.96;
+  box-shadow: 0 24px 30px 0 #e5e5e5;
+  border: solid 1px #e5e5e5;
+  background-color: #212121;
+  color: #ffffff;
+  padding: 24px 30px;
+	border-radius: 8px;
+	z-index: 1;
+}
+
+.cashbackTooltip::before,
+.cashbackTooltipExpanded::before {
   content: "";
   position: absolute;
   width: 0;
@@ -55,7 +73,8 @@
   transform: rotate(135deg);
 }
 
-.cashbackIconContainer:hover .cashbackTooltip{
+.cashbackIconContainer:hover .cashbackTooltip,
+.cashbackIconContainer:hover .cashbackTooltipExpanded{
 	visibility: visible;
 }
 
