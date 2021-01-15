@@ -1,10 +1,11 @@
+.base{
+	margin-left: 181px;
+}
 .digitalBundledProductDetails{
   position: relative;
-  margin-left: 181px;
   border-radius: 2px;
   padding: 16px;
   border: solid 0.5px #edfae3;
-  margin-top: 24px;
   background: linear-gradient(280deg, #f9fff5 5%, #edfae3);
 }
 .digitalBundledProductImage{

@@ -8,7 +8,8 @@ import styles from "./SingleBundledProduct.css";
 import { SUCCESS } from "../../lib/constants";
 import PropTypes from "prop-types";
 import checkboxEnabled from "../../general/components/img/checkboxEnabledProductBundling.svg";
-import discountIcon from "./img/discountIcon.svg";
+import ComboOfferStrip from "./ComboOfferStrip";
+
 export default class SingleBundledProduct extends React.Component {
   constructor(props) {
     super(props);
@@ -75,14 +76,6 @@ export default class SingleBundledProduct extends React.Component {
     }
   }
 
-  trimProductName(productName) {
-    if (productName && productName.length > 36) {
-      return productName.substring(0, 35) + ".. ";
-    } else {
-      return productName;
-    }
-  }
-
   render() {
     let checked = false;
     if (
@@ -133,10 +126,6 @@ export default class SingleBundledProduct extends React.Component {
         this.props.productData.mrpPrice.value;
     }
 
-    let bundlingDiscount =
-      this.props.productData.bundlingDiscount &&
-      parseFloat(this.props.productData.bundlingDiscount);
-
     return (
       <div className={!this.props.isMainProduct ? styleForExtraProducts : null}>
         {!this.props.isMainProduct &&
@@ -147,21 +136,10 @@ export default class SingleBundledProduct extends React.Component {
         <div className={styles.singleProductContainer}>
           {!this.props.isMainProduct &&
             this.props.isBundlingDiscountAvailable && (
-              <div className={styles.discountDetails}>
-                <div className={styles.discountIconContainer}>
-                  <Icon image={discountIcon} size={24} />
-                </div>
-                <div className={styles.bundlingDiscountTextContainer}>
-                  <span className={styles.bundlingDiscountText}>
-                    Save additional ₹{bundlingDiscount}
-                  </span>
-                  <span className={styles.fontFamilyLight}>
-                    {" "}
-                    when buy below item with{" "}
-                    {this.trimProductName(this.props.mainProductName)}
-                  </span>
-                </div>
-              </div>
+              <ComboOfferStrip
+                bundlingDiscount={this.props.productData.bundlingDiscount}
+                productName={this.props.mainProductName}
+              />
             )}
 
           {!this.props.isMainProduct ? (
