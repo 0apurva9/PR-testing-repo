@@ -48,7 +48,8 @@ import {
   IS_DC_EMI_SELECTED,
   STATUS_PROCESSING,
   AC_PDP_EXCHANGE_DETAILS,
-  AC_CART_EXCHANGE_DETAILS
+  AC_CART_EXCHANGE_DETAILS,
+  IS_FORWARD_JOURNEY
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -5836,17 +5837,17 @@ export function removeNoCostEmi(couponCode, cartGuId, cartId) {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (!cartGuId) {
-      const cartDetails = JSON.parse(
-        Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER)
-      );
+      const cartDetails =
+        Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER) &&
+        JSON.parse(Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER));
       if (cartDetails) {
         cartGuId = cartDetails.guid;
       }
     }
     if (!cartId) {
-      const cartDetails = JSON.parse(
-        Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER)
-      );
+      const cartDetails =
+        Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER) &&
+        JSON.parse(Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER));
       if (cartDetails) {
         cartId = cartDetails.code;
       }
@@ -5866,6 +5867,9 @@ export function removeNoCostEmi(couponCode, cartGuId, cartId) {
 
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
+      }
+      if (localStorage.getItem(IS_FORWARD_JOURNEY)) {
+        localStorage.removeItem(IS_FORWARD_JOURNEY);
       }
       return dispatch(removeNoCostEmiSuccess(resultJson, couponCode));
     } catch (e) {
