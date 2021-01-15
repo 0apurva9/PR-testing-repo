@@ -7437,7 +7437,7 @@ export function stripe_juspay_Tokenize(
         pspName: "Juspay",
         token: "",
         cardToken: juspayToken && juspayToken.token,
-        cardFingerprint: "",
+        cardFingerprint: juspayToken && juspayToken.fingerprint,
         cardRefNo: "",
         returnUrl: returnUrl
       };
