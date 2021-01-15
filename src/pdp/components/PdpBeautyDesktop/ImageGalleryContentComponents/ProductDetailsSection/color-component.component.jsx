@@ -130,48 +130,58 @@ export default class ColorComponent extends React.Component {
                         <div className={styles["shade-list-block"]}>
                           {colorAndSize.colorOptions.map((colorElement, j) => {
                             return (
-                              <div
-                                key={j}
-                                className={styles["shade-list"]}
-                                onMouseEnter={() => this.onMouseEnter(i, j)}
-                                onMouseLeave={() => this.onMouseLeave(i, j)}
-                                onClick={() =>
-                                  this.handleColorOptionClick(colorElement.url)
-                                }
-                                ref={
-                                  colorElement.selected === true
-                                    ? this.colorShadeRef
-                                    : null
-                                }
-                              >
+                              <div className={
+                                colorElement.isAvailable === false
+                                ? styles["dis-cursor"]
+                                : null
+                              }>
                                 <div
-                                  className={[
-                                    styles["shade-list-img-block"],
-                                    colorElement.selected === true
-                                      ? styles["shade-stock-selected-img"]
-                                      : "",
+                                  key={j}
+                                  className={
                                     colorElement.isAvailable === false
-                                      ? styles["shade-stock-dis-img"]
-                                      : ""
-                                  ].join(" ")}
+                                    ? styles["dis-outstock-img"]
+                                    : styles["shade-list"]
+                                  }
+                                  onMouseEnter={() => this.onMouseEnter(i, j)}
+                                  onMouseLeave={() => this.onMouseLeave(i, j)}
+                                  onClick={() =>
+                                    this.handleColorOptionClick(colorElement.url)
+                                  }
+                                  ref={
+                                    colorElement.selected === true
+                                      ? this.colorShadeRef
+                                      : null
+                                  }
                                 >
-                                  <img
-                                    src={colorElement.swatchUrl}
-                                    className={styles["shade-list-img"]}
-                                  />
-                                </div>
-                                {stockCount && stockCount <= 3 ? (
-                                  <div className={styles["shade-stock-left"]}>
-                                    {stockCount}
+                                  <div
+                                    className={[
+                                      styles["shade-list-img-block"],
+                                      colorElement.selected === true
+                                        ? styles["shade-stock-selected-img"]
+                                        : "",
+                                      colorElement.isAvailable === false
+                                        ? styles["shade-stock-dis-img"]
+                                        : ""
+                                    ].join(" ")}
+                                  >
+                                    <img
+                                      src={colorElement.swatchUrl}
+                                      className={styles["shade-list-img"]}
+                                    />
                                   </div>
-                                ) : null}
-                                {this.state.showTooltip &&
-                                  this.state.sizeIndex === i &&
-                                  this.state.toolTipIndex === j && (
-                                    <div className={styles["shade-tool-tip"]}>
-                                      {colorElement.color}
+                                  {stockCount && stockCount <= 3 ? (
+                                    <div className={styles["shade-stock-left"]}>
+                                      {stockCount}
                                     </div>
-                                  )}
+                                  ) : null}
+                                  {this.state.showTooltip &&
+                                    this.state.sizeIndex === i &&
+                                    this.state.toolTipIndex === j && (
+                                      <div className={styles["shade-tool-tip"]}>
+                                        {colorElement.color}
+                                      </div>
+                                    )}
+                                </div>
                               </div>
                             );
                           })}

@@ -113,14 +113,22 @@
   position: relative;
 }
 
+.dis-outstock-img {
+  pointer-events: none;
+}
+.dis-cursor {
+  cursor: not-allowed;
+}
+
+
 .shade-stock-dis-img:after {
   content: "";
   width: 1px;
   height: 67px;
   display: block;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
+  -webkit-transform: rotate(135deg);
+  -ms-transform: rotate(135deg);
+  transform: rotate(135deg);
   background-color: #ffffff;
   position: absolute;
   left: 27px;
@@ -135,9 +143,9 @@
   position: absolute;
   left: 15px;
   top: 14px;
-  background: rgb(33, 33, 33, 0.3)
+  background: transparent
     url("../../../img/selectedColorShade.svg") center
-    center/18px auto no-repeat;
+    center/30px auto no-repeat;
   border-radius: 50%;
 }
 
