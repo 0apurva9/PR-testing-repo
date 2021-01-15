@@ -602,3 +602,4 @@ export const MAIN_PRODUCT_NOT_SERVICEABLE_WITH_EXCHANGE =
 export const EXCHANGE_DISABLED =
   "Exchange is not available for this Pincode currently, please change Pincode or remove exchange";
 export const RESOLVED = "Resolved";
+export const IS_FORWARD_JOURNEY = "isForwardJourney";

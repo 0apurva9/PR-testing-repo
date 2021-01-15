@@ -37,6 +37,22 @@ export default class OrderViewPaymentDetails extends React.Component {
             this.props.coupon ? this.props.coupon : 0
           }`}</div>
         </div>
+        {this.props.noCostEmiDiscount && this.props.noCostEmiDiscount > 0 ? (
+          <div
+            className={styles.discountDataHolder}
+            data-test="nce-discount-section"
+          >
+            <div className={styles.labelText} data-test="nce-discount-text">
+              No Cost EMI Discount
+            </div>
+            <div
+              className={styles.infoText}
+              data-test="nce-discount-value"
+            >{`-${RUPEE_SYMBOL} ${this.props.noCostEmiDiscount}`}</div>
+          </div>
+        ) : (
+          ""
+        )}
         <div className={styles.chargeHolder}>
           <div className={styles.labelText}>Convenience Charges</div>
           {this.props.ConvenienceCharges && (
