@@ -131,14 +131,14 @@ export default class ColorComponent extends React.Component {
                           {colorAndSize.colorOptions.map((colorElement, j) => {
                             return (
                               <div className={
-                                colorElement.isAvailable === false
+                                !colorElement.isAvailable
                                 ? styles["dis-cursor"]
                                 : null
                               }>
                                 <div
                                   key={j}
                                   className={
-                                    colorElement.isAvailable === false
+                                    !colorElement.isAvailable
                                     ? styles["dis-outstock-img"]
                                     : styles["shade-list"]
                                   }
@@ -148,7 +148,7 @@ export default class ColorComponent extends React.Component {
                                     this.handleColorOptionClick(colorElement.url)
                                   }
                                   ref={
-                                    colorElement.selected === true
+                                    colorElement.selected
                                       ? this.colorShadeRef
                                       : null
                                   }
@@ -156,10 +156,10 @@ export default class ColorComponent extends React.Component {
                                   <div
                                     className={[
                                       styles["shade-list-img-block"],
-                                      colorElement.selected === true
+                                      colorElement.selected
                                         ? styles["shade-stock-selected-img"]
                                         : "",
-                                      colorElement.isAvailable === false
+                                      !colorElement.isAvailable
                                         ? styles["shade-stock-dis-img"]
                                         : ""
                                     ].join(" ")}
@@ -167,6 +167,7 @@ export default class ColorComponent extends React.Component {
                                     <img
                                       src={colorElement.swatchUrl}
                                       className={styles["shade-list-img"]}
+                                      alt={"swatch"}
                                     />
                                   </div>
                                   {stockCount && stockCount <= 3 ? (
