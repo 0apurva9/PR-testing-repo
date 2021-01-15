@@ -108,17 +108,18 @@ export default class OrderHistoryDetails extends Component {
               }
             ></span>
           </div>
+          {selectedTickerHistory.statusMessage &&
+            (!selectedTickerHistory.escalationFlag ||
+              selectedTickerHistory.escalationFlag === "false") && (
+              <div className={Styles.resolvedBox}>
+                <Icon image={resolveIcon} width={18} height={18} />
+                <span className={Styles.resolvedStatusText}>
+                  {selectedTickerHistory.statusMessage}
+                </span>
+              </div>
+            )}
 
-          {selectedTickerHistory.status === RESOLVED && (
-            <div className={Styles.resolvedBox}>
-              <Icon image={resolveIcon} width={26} height={15} />
-              <span className={Styles.resolvedStatusText}>
-                {selectedTickerHistory.statusMessage}
-              </span>
-            </div>
-          )}
-
-          {selectedTickerHistory.escalationFlag === "true" && (
+          {selectedTickerHistory.escalationFlag === "true" ? (
             <div className={Styles.escalationBody}>
               <div className={Styles.iconBody}>
                 <Icon image={infoIcon} size={14}></Icon>
@@ -137,7 +138,7 @@ export default class OrderHistoryDetails extends Component {
                 )}
               </div>
             </div>
-          )}
+          ) : null}
         </div>
         {selectedTickerHistory.customerComment && (
           <div className={Styles.communication}>

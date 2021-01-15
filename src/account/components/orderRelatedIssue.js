@@ -678,6 +678,9 @@ export default class OrderRelatedIssue extends React.Component {
     this.setState({ isAnswerHelpFull: false });
   }
   navigateCliqCarePage() {
+    if (this.state.isRecentOrderHistory) {
+      this.props.getRecentTicketHistoryDetails();
+    }
     setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_PAGE_LOAD, null, [
       CLIQ_CARE,
       "Care_Homepage"
@@ -852,7 +855,7 @@ export default class OrderRelatedIssue extends React.Component {
           {this.state.isRecentOrderHistory ? (
             <div
               className={styles.homePage}
-              onClick={() => this.setState(this.resetState)}
+              onClick={() => this.navigateCliqCarePage()}
             >
               CLiQCare
             </div>
