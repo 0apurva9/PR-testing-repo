@@ -39,7 +39,8 @@ export default class SingleBundledProduct extends React.Component {
         this.props.productData.winningUssID,
         this.props.productData.recommendationType,
         this.props.productData.rootCategory,
-        productPrice
+        productPrice,
+        this.props.isBundlingDiscountAvailable
       );
     }
   }
@@ -58,9 +59,13 @@ export default class SingleBundledProduct extends React.Component {
       isCheckboxClicked: !this.state.isCheckboxClicked,
       userClicked: true
     });
+    let verifyCheckboxChecked = checkboxChecked;
+    if (this.props.productData.defaultSelected) {
+      verifyCheckboxChecked = !checkboxChecked;
+    }
     this.props.handleClick(
       productIndex,
-      checkboxChecked,
+      verifyCheckboxChecked,
       productId,
       ussId,
       recommendationType,
