@@ -17,7 +17,10 @@ export default class ComboOfferSection extends React.Component {
 
     let showComboDiscountAppliedQuantity =
       this.props.comboDiscountAppliedQuantity &&
-      this.props.comboDiscountAppliedQuantity > 1;
+      this.props.quantitySelectedByUser &&
+      parseInt(this.props.quantitySelectedByUser) >
+        this.props.comboDiscountAppliedQuantity &&
+      this.props.comboDiscountAppliedQuantity;
 
     return (
       <div className={styles.bundlingComboDiscount}>
