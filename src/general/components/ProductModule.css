@@ -92,11 +92,11 @@
  }
 
  .topGrid{
-  top: 200px;
+  top: 196px;
  }
 
  .topList{
-  top: 299px;
+  top: 296px;
  }
 
 .sizesBlockContent {
@@ -109,7 +109,12 @@ vertical-align: bottom;
   background: rgba(255, 255, 255, 0.4);
   padding: 1px 3px;
   border-radius: 5px;
+  margin: 0 0 2px;
 }
+.variantString:last-child {
+  margin: 0;
+}
+
 
 @media screen and (min-width: 1025px) {
   .base {
