@@ -15,16 +15,29 @@ export default class ComboOfferSection extends React.Component {
       this.props.comboDiscountWith &&
       trimProductName(this.props.comboDiscountWith, 15);
 
+    let showComboDiscountAppliedQuantity =
+      this.props.comboDiscountAppliedQuantity &&
+      this.props.comboDiscountAppliedQuantity > 1;
+
     return (
       <div className={styles.bundlingComboDiscount}>
         <span className={styles.comboOfferText}>1 Combo Offer Applied </span>
         <div className={styles.cashbackIconContainer}>
           <Icon image={infoIcon} size={12} />
-          <div className={styles.cashbackTooltip}>
+          <div
+            className={
+              !showComboDiscountAppliedQuantity
+                ? styles.cashbackTooltip
+                : styles.cashbackTooltipExpanded
+            }
+          >
             <div className={styles.comboDiscountText1}>Offer Applied</div>
             {this.props.comboDiscountWith && (
               <div className={styles.comboDiscountText2}>
                 Combo Offer with {productName}
+                {showComboDiscountAppliedQuantity && (
+                  <span>X {this.props.comboDiscountAppliedQuantity} Qty</span>
+                )}
               </div>
             )}
             <div>

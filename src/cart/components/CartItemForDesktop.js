@@ -434,6 +434,9 @@ export default class CartItemForDesktop extends React.Component {
                       ? this.props.product.comboDiscountWith
                       : this.props.productName
                   }
+                  comboDiscountAppliedQuantity={
+                    this.props.product.comboDiscountAppliedQuantity
+                  }
                 />
               )}
 
