@@ -571,6 +571,12 @@ export default class CustomerQueryForm extends Component {
             l3: question.l3,
             l4: question.l4,
             ticketType: question.ticketType,
+            issueBucket: this.props.parentIssueType
+              ? this.props.parentIssueType
+              : "",
+            issueType: question.issueType
+              ? question.issueType
+              : question.subIssueType,
             transactionId:
               this.props.questionType == "orderRelated"
                 ? selectedOrder &&

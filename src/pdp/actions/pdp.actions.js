@@ -1649,8 +1649,8 @@ export function getMsdRequest(
         similarProducts === "SimilarProduct"
           ? SIMILAR_PRODUCTS_WIDGET_KEY
           : similarProducts === "similarOutOfStockProducts"
-            ? "similarOutOfStockProducts"
-            : RECOMMENDED_PRODUCTS_WIDGET_KEY;
+          ? "similarOutOfStockProducts"
+          : RECOMMENDED_PRODUCTS_WIDGET_KEY;
       if (
         resultJson &&
         resultJson.data &&

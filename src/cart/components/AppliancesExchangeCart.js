@@ -128,9 +128,8 @@ export default class AppliancesExchangeCart extends React.Component {
             <div className={styles.exchangeDetailsHeading}>
               Exchange Cashback for{" "}
               <span className={styles.exchangeProductName}>
-                {this.state.exchangeData && this.state.exchangeData.brandName}-{this
-                  .state.exchangeData && this.state.exchangeData.type}{" "}
-                AC
+                {this.state.exchangeData && this.state.exchangeData.brandName}-
+                {this.state.exchangeData && this.state.exchangeData.type} AC
               </span>
             </div>
           </div>
@@ -165,12 +164,11 @@ export default class AppliancesExchangeCart extends React.Component {
               {EXCHANGE_NOT_SERVICEABLE}
             </div>
           )}
-        {!this.props.productIsServiceable &&
-          !this.state.exchangeDisabled && (
-            <div className={styles.exchangeProductNotServiceable}>
-              {MAIN_PRODUCT_NOT_SERVICEABLE_WITH_EXCHANGE}
-            </div>
-          )}
+        {!this.props.productIsServiceable && !this.state.exchangeDisabled && (
+          <div className={styles.exchangeProductNotServiceable}>
+            {MAIN_PRODUCT_NOT_SERVICEABLE_WITH_EXCHANGE}
+          </div>
+        )}
       </React.Fragment>
     );
   }

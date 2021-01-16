@@ -395,8 +395,18 @@ export const GET_USER_PROMOTIONAL_CLIQ_CASH_DETAILS_FAILURE =
 
 export const RESET_USER_ADDRESS = "RESET_USER_ADDRESS";
 
+export const TICKET_RECENT_HISTORY_DETAILS_REQUEST =
+  "TICKET_RECENT_HISTORY_DETAILS_REQUEST";
+export const TICKET_RECENT_HISTORY_DETAILS_SUCCESS =
+  "TICKET_RECENT_HISTORY_DETAILS_SUCCESS";
+export const TICKET_RECENT_HISTORY_DETAILS_FAILURE =
+  "TICKET_RECENT_HISTORY_DETAILS_FAILURE";
+
+export const RESET_TICKETS_HISTORY_DATA_TO_INITIAL =
+  "RESET_TICKETS_HISTORY_DATA_TO_INITIAL";
+
 export const Clear_ORDER_DATA = "Clear_ORDER_DATA";
-export const Clear_ORDER_TRANSACTION_DATA = "Clear_ORDER_TRANSACTION_DATA";
+export const CLEAR_ORDER_TRANSACTION_DATA = "CLEAR_ORDER_TRANSACTION_DATA";
 export const RE_SET_ADD_ADDRESS_DETAILS = "RE_SET_ADD_ADDRESS_DETAILS";
 export const CLEAR_CHANGE_PASSWORD_DETAILS = "CLEAR_CHANGE_PASSWORD_DETAILS";
 export const CLEAR_PIN_CODE_STATUS = "CLEAR_PIN_CODE_STATUS";
@@ -545,6 +555,13 @@ export const GENESYS_CUSTOMER_CALL_REQUEST_SUCCESS =
   "GENESYS_CUSTOMER_CALL_REQUEST_SUCCESS";
 export const GENESYS_CUSTOMER_CALL_REQUEST_FAILURE =
   "GENESYS_CUSTOMER_CALL_REQUEST_FAILURE";
+
+export const SUBMIT_CAPTURE_ATTACHMENTS_REQUEST =
+  "SUBMIT_CAPTURE_ATTACHMENTS_REQUEST";
+export const SUBMIT_CAPTURE_ATTACHMENTS_SUCCESS =
+  "SUBMIT_CAPTURE_ATTACHMENTS_SUCCESS";
+export const SUBMIT_CAPTURE_ATTACHMENTS_FAILURE =
+  "SUBMIT_CAPTURE_ATTACHMENTS_FAILURE";
 
 const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
 const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -3176,7 +3193,8 @@ export function sendInvoice(lineID, orderNumber) {
           JSON.parse(userDetails).userName
         }/sendInvoice?access_token=${
           JSON.parse(customerCookie).access_token
-        }&orderNumber=${orderNumber}&lineID=${lineID}`
+        }&orderNumber=${orderNumber}&lineID=${lineID}`,
+        "desktop"
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -4208,7 +4226,6 @@ export function getCustomerQueriesFieldsv2(UItemplateCode, isSelectRadio) {
       const result = await api.get(
         `v2/mpl/cms/defaultpage?pageId=${UItemplateCode}`
       );
-
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       if (resultJsonStatus.status) {
@@ -4242,6 +4259,10 @@ export function getCustomerQueriesFieldsv2(UItemplateCode, isSelectRadio) {
             let checkboxData = getCheckboxApiData(ele);
             fetchData.push(checkboxData);
           }
+          if (ele.componentName === "errorComponent") {
+            let checkboxData = getLabelApiData(ele);
+            fetchData.push(checkboxData);
+          }
         });
 
       if (isSelectRadio) {
@@ -4262,19 +4283,10 @@ export function getCustomerQueriesFieldsv2(UItemplateCode, isSelectRadio) {
   };
 }
 
-const getFormattedString = (strValue = "") => {
-  let formattedValue = "",
-    startIndex = null,
-    endIndex = null;
+export const getFormattedString = (strValue = "") => {
+  let formattedValue = "";
   if (strValue.includes("(") && strValue.includes(")")) {
-    startIndex = strValue.indexOf("(");
-    endIndex = strValue.indexOf(")");
-    strValue = `${strValue.slice(0, startIndex - 1)}${strValue.slice(
-      startIndex
-    )}`;
-    formattedValue = `${strValue.slice(0, endIndex - 2)}${strValue.slice(
-      endIndex - 1
-    )}`;
+    formattedValue = strValue.replace(/\\/g, "");
   } else {
     formattedValue = strValue;
   }
@@ -4716,7 +4728,7 @@ export function getOrdersTransactionData(paginated) {
 
 export function clearOrderTransactionDetails() {
   return {
-    type: Clear_ORDER_TRANSACTION_DATA
+    type: CLEAR_ORDER_TRANSACTION_DATA
   };
 }
 export function uploadUserFileRequest() {
@@ -5750,5 +5762,129 @@ export function placeCustomerCallRequest(callRequestData) {
     } catch (e) {
       return dispatch(genesysCustomerCallRequestFailure(e.message));
     }
+  };
+}
+
+export function captureAttachmentsSubmitRequest() {
+  return {
+    type: SUBMIT_CAPTURE_ATTACHMENTS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getRecentTicketHistoryDetailsRequest() {
+  return {
+    type: TICKET_RECENT_HISTORY_DETAILS_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function captureAttachmentsSubmitSuccess(attachmentResponseData) {
+  return {
+    type: SUBMIT_CAPTURE_ATTACHMENTS_SUCCESS,
+    attachmentResponseData,
+    status: SUCCESS
+  };
+}
+
+export function captureAttachmentsSubmitFailure(error) {
+  return {
+    type: SUBMIT_CAPTURE_ATTACHMENTS_FAILURE,
+    status: FAILURE
+  };
+}
+
+export function getRecentTicketHistoryDetailsSuccess(
+  ticketDetails,
+  isPaginated = false
+) {
+  return {
+    type: TICKET_RECENT_HISTORY_DETAILS_SUCCESS,
+    status: SUCCESS,
+    ticketDetails,
+    isPaginated
+  };
+}
+
+export function getRecentTicketHistoryDetailsRequestFailure(error) {
+  return {
+    type: TICKET_RECENT_HISTORY_DETAILS_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function captureAttachmentsSubmit(custoemrId, sendData) {
+  return async (dispatch, getState, { api }) => {
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    dispatch(captureAttachmentsSubmitRequest());
+    try {
+      const result = await api.post(
+        `v2/mpl/docs/upload?access_token=${
+          JSON.parse(customerCookie).access_token
+        }&cId=${custoemrId}`,
+        sendData
+      );
+      let resultJson = await result.json();
+      if (resultJson.status === FAILURE) {
+        dispatch(displayToast(resultJson.message));
+      }
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      dispatch(captureAttachmentsSubmitSuccess(resultJson));
+    } catch (e) {
+      dispatch(captureAttachmentsSubmitFailure(e.message));
+    }
+  };
+}
+
+export function getRecentTicketHistoryDetails(
+  paginated = false,
+  ticketStatus = "",
+  ticketYear = ""
+) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getRecentTicketHistoryDetailsRequest());
+    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    try {
+      let currentPage = 0;
+      const ticketDetailsState = { ...getState().profile.ticketHistoryDetails };
+      if (Object.keys(ticketDetailsState).length && paginated && ticketStatus) {
+        currentPage = ticketDetailsState.currentPage + 1;
+      }
+      const result = await api.get(
+        `${USER_PATH}/${
+          JSON.parse(userDetails).userName
+        }/getTicketHistory?currentPage=${currentPage}&access_token=${
+          JSON.parse(customerCookie).access_token
+        }&pageSize=${5}&ticketYear=${ticketYear}&ticketStatus=${
+          ticketStatus === "all" ? "" : ticketStatus
+        }`
+      );
+      const resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      if (resultJson && !resultJson.tickets) {
+        dispatch(displayToast(resultJson.status));
+      }
+
+      dispatch(getRecentTicketHistoryDetailsSuccess(resultJson, paginated));
+    } catch (e) {
+      dispatch(
+        getRecentTicketHistoryDetailsRequestFailure(e.message, paginated)
+      );
+    }
+  };
+}
+
+export function resetTicketsDataToInitial() {
+  return {
+    type: RESET_TICKETS_HISTORY_DATA_TO_INITIAL
   };
 }

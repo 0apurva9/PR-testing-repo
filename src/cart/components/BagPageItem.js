@@ -50,36 +50,34 @@ export default class BagPageItem extends React.Component {
               {this.props.productDetails}
             </div>
           )}
-          {this.props.isGiveAway === NO &&
-            this.props.price && (
-              <div className={styles.informationText}>
-                {!this.props.offerPrice && (
-                  <React.Fragment>
-                    {` ${RUPEE_SYMBOL}${this.props.price}`}
-                  </React.Fragment>
-                )}
-                {this.props.offerPrice && (
-                  <React.Fragment>
-                    {` ${RUPEE_SYMBOL}${this.props.offerPrice}`}{" "}
-                    {this.props.offerPrice !== this.props.price && (
-                      <span className={styles.offerPrice}>
-                        {" "}
-                        {` ${RUPEE_SYMBOL}${this.props.price}`}
-                      </span>
-                    )}
-                  </React.Fragment>
-                )}
-              </div>
-            )}
+          {this.props.isGiveAway === NO && this.props.price && (
+            <div className={styles.informationText}>
+              {!this.props.offerPrice && (
+                <React.Fragment>
+                  {` ${RUPEE_SYMBOL}${this.props.price}`}
+                </React.Fragment>
+              )}
+              {this.props.offerPrice && (
+                <React.Fragment>
+                  {` ${RUPEE_SYMBOL}${this.props.offerPrice}`}{" "}
+                  {this.props.offerPrice !== this.props.price && (
+                    <span className={styles.offerPrice}>
+                      {" "}
+                      {` ${RUPEE_SYMBOL}${this.props.price}`}
+                    </span>
+                  )}
+                </React.Fragment>
+              )}
+            </div>
+          )}
           {this.props.isGiveAway === YES && (
             <div className={styles.informationText}>Free</div>
           )}
-          {this.props.size &&
-            this.props.size.toUpperCase() !== NO_SIZE && (
-              <div className={styles.informationText}>
-                {`${SizeType}: ${this.props.size}`}
-              </div>
-            )}
+          {this.props.size && this.props.size.toUpperCase() !== NO_SIZE && (
+            <div className={styles.informationText}>
+              {`${SizeType}: ${this.props.size}`}
+            </div>
+          )}
           {this.props.color && (
             <div className={styles.informationText}>
               {`Color: ${this.props.color}`}

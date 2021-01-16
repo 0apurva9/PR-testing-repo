@@ -44,12 +44,12 @@ export default class MoreFromBrand extends Component {
                   let discount = null;
                   if (discountedPrice && mrpInteger) {
                     discount = Math.floor(
-                      (mrpInteger -
+                      ((mrpInteger -
                         parseInt(
                           discountedPrice.replace(RUPEE_SYMBOL, ""),
                           10
                         )) /
-                        mrpInteger *
+                        mrpInteger) *
                         100
                     );
                   }

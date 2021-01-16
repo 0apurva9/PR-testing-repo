@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./CustomerIssue.css";
-import loginIcon from "../components/img/loginIcon.svg";
+import noLogin from "../components/img/noLogin.svg";
+import cliqCare from "../components/img/cliqCare.svg";
 import Button from "../../general/components/Button.js";
 import OtherQuestionsList from "./OtherQuestionsList";
 import OrderList from "./OrderList";
@@ -27,38 +28,54 @@ export default class CustomerIssue extends React.Component {
         {!this.props.orderAllList && (
           <div className={styles.base}>
             {this.props.orderList && (
-              <div className={styles.whiteCard}>
-                {!this.props.isUserLogin ? (
-                  <div className={styles.loginBox}>
-                    <div className={styles.loginImg}>
-                      <img src={loginIcon} alt="Login icon" />
+              <React.Fragment>
+                <div className={styles.cliqCare}>
+                  <div className={styles.cliqCareBox}>
+                    <div className={styles.cliqCareHeadingBox}>
+                      <div className={styles.cliqCareHeading}>CLiQ Care</div>
+                      <div className={styles.cliqCareSubHeading}>
+                        Your one stop solution center.We are happy to help you.
+                      </div>
                     </div>
-                    <div className={styles.loginHeading}>
-                      Need help with recent orders
-                    </div>
-                    <div className={styles.loginButton}>
-                      <Button
-                        type="primary"
-                        backgroundColor="#da1c5c"
-                        height={40}
-                        label="LOGIN"
-                        borderRadius={6}
-                        width={205}
-                        textStyle={{ color: "#FFF", fontSize: 14 }}
-                        onClick={() => this.props.navigateLogin()}
-                      />
+                    <div className={styles.cliqCareIcon}>
+                      <img src={cliqCare} alt="CLiQ Care" />
                     </div>
                   </div>
-                ) : (
-                  <OrderList
-                    ordersTransactionData={this.props.ordersTransactionData}
-                    getOrderRelatedQuestions={(orderData, product) =>
-                      this.props.getOrderRelatedQuestions(orderData, product)
-                    }
-                    showAllOrdersList={() => this.props.showAllOrdersList()}
-                  />
-                )}
-              </div>
+                </div>
+                <div className={styles.whiteCard}>
+                  {!this.props.isUserLogin ? (
+                    <div className={styles.loginBox}>
+                      <div className={styles.loginImg}>
+                        <img src={noLogin} alt="noLogin" />
+                      </div>
+                      <div className={styles.loginHeading}>
+                        Need help with recent orders?
+                      </div>
+                      <div className={styles.loginSubHeading}>
+                        You have to login to TATA CLiQ app in order <br />
+                        to view your recent orders.
+                      </div>
+
+                      <div className={styles.loginButton}>
+                        <div
+                          className={styles.loginBtn}
+                          onClick={() => this.props.navigateLogin()}
+                        >
+                          LOGIN NOW
+                        </div>
+                      </div>
+                    </div>
+                  ) : (
+                    <OrderList
+                      ordersTransactionData={this.props.ordersTransactionData}
+                      getOrderRelatedQuestions={(orderData, product) =>
+                        this.props.getOrderRelatedQuestions(orderData, product)
+                      }
+                      showAllOrdersList={() => this.props.showAllOrdersList()}
+                    />
+                  )}
+                </div>
+              </React.Fragment>
             )}
 
             {this.props.orderList && (

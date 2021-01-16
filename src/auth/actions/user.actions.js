@@ -357,7 +357,9 @@ export function forgotPassword(userDetails) {
       const result = await api.post(
         `${FORGOT_PASSWORD_PATH}?access_token=${
           JSON.parse(globalCookie).access_token
-        }&platformNumber=${PLAT_FORM_NUMBER}&isPwa=true&username=${userDetails}`
+        }&platformNumber=${PLAT_FORM_NUMBER}&isPwa=true&username=${userDetails}`,
+        null,
+        "desktop"
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
