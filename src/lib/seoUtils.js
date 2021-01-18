@@ -70,7 +70,6 @@ export const renderMetaTags = (productDetails, isReviewPage: false) => {
       productDetails.searchresult !== undefined &&
       productDetails.seo.title !== undefined
     ) {
-      // debugger;
       title = `Buy ${productDetails.searchresult[0].brandname} ${
         productDetails.seo.title.split("|")[0]
       } - Upto ${maxDiscount}% Off Online - TATA CLIQ`;
@@ -91,7 +90,6 @@ export const renderMetaTags = (productDetails, isReviewPage: false) => {
         productDetails.seo.title.split("|")[0]
       } Online`;
     } else {
-      // debugger;
       if (
         productDetails.seo !== undefined &&
         productDetails.seo.title !== undefined
