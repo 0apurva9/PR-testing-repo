@@ -22,8 +22,8 @@ export default class ColorComponent extends React.Component {
 
 
   handleScrollToTop() {
-    if (this.props.handleDetailsScroll) {
-      this.props.handleDetailsScroll();
+    if (this.props.handleScrollToTop) {
+      this.props.handleScrollToTop();
     }
   }
 
@@ -31,7 +31,7 @@ export default class ColorComponent extends React.Component {
     if (this.colorShadeRef.current) {
       this.colorShadeRef.current.scrollIntoView(true);
     }
-    this.props.handleScrollToTop();
+    this.handleScrollToTop();
     const variantTheme = this.props.productDetails && this.props.productDetails.variantOptions && this.props.productDetails.variantTheme;
     const variantOptions =  this.props && this.props.productDetails && this.props.productDetails.variantOptions;
     const productListingId =  this.props && this.props.productDetails && this.props.productDetails.productListingId;

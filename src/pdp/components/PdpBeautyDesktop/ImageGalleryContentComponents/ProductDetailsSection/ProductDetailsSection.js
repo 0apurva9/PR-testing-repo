@@ -120,18 +120,6 @@ const typeComponentMapping = {
 };
 
 export default class ProductsDetailsSection extends React.Component {
-  handleDetailsScroll = sectionToScroll => {
-    if (this.props.handleDetailsScroll) {
-      this.props.handleDetailsScroll(sectionToScroll);
-    }
-  };
-
-  handleScrollToTop = () => {
-    if (this.props.scrollToTop) {
-      this.props.scrollToTop();
-    }
-  };
-
   render() {
     return (
       <React.Fragment>

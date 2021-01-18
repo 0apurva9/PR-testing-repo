@@ -182,7 +182,7 @@ export default class PdpBeautyDesktop extends React.Component {
               {...this.props}
               compDetails={sectionOfImageAndContentComponent}
               handleDetailsScroll={this.handleDetailsScroll}
-              scrollToTop={() => this.scrollToTop()}
+              scrollToTop={this.scrollToTop}
             />
           </div>
           <div className={styles.container}>
