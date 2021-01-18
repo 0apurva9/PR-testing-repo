@@ -105,7 +105,6 @@
   border: 2px solid transparent;
   display: inline-block;
   margin: 0;
-  float: left;
 }
 
 .shade-stock-dis-img {
@@ -184,7 +183,7 @@
   border-radius: 4px;
   padding: 5px;
   font-family: "Rubik", sans-serif;
-  font-weight: 500;
+  font-weight: 300;
   font-size: 14px;
   line-height: 16px;
   margin: 0;
@@ -193,7 +192,7 @@
   position: absolute;
   left: 50%;
   bottom: -25%;
-  border: 1px solid rgb(151, 151, 151);
+  border: 0.5px solid rgb(151, 151, 151);
   background-color: #ffffff;
   min-width: 145px;
   width: 100%;
@@ -201,7 +200,7 @@
   z-index: 9;
 }
 
-.shade-list:nth-child(7n+7) .shade-tool-tip, .shade-list:nth-child(7n+6) .shade-tool-tip{
+.shade-list-block div:nth-child(7n+7) .shade-tool-tip, .shade-list-block div:nth-child(7n+6) .shade-tool-tip{
   left: inherit;
   right: 50%;
 }

@@ -20,10 +20,18 @@ export default class ColorComponent extends React.Component {
     this.colorShadeRef = React.createRef();
   }
 
+
+  handleScrollToTop() {
+    if (this.props.handleDetailsScroll) {
+      this.props.handleDetailsScroll();
+    }
+  }
+
   componentDidMount() {
     if (this.colorShadeRef.current) {
-      this.colorShadeRef.current.scrollIntoView({ block: "nearest" });
+      this.colorShadeRef.current.scrollIntoView(true);
     }
+    this.props.handleScrollToTop();
     const variantTheme = this.props.productDetails && this.props.productDetails.variantOptions && this.props.productDetails.variantTheme;
     const variantOptions =  this.props && this.props.productDetails && this.props.productDetails.variantOptions;
     const productListingId =  this.props && this.props.productDetails && this.props.productDetails.productListingId;
@@ -129,6 +137,7 @@ export default class ColorComponent extends React.Component {
                       <React.Fragment>
                         <div className={styles["shade-list-block"]}>
                           {colorAndSize.colorOptions.map((colorElement, j) => {
+                            let classForHexCode = (!colorElement.swatchUrl && colorElement.colorHexCode) ?  { backgroundColor: `${colorElement.colorHexCode}`, width: "58px", height: "58px"}: null;
                             return (
                               <div className={
                                 !colorElement.isAvailable
@@ -161,14 +170,17 @@ export default class ColorComponent extends React.Component {
                                         : "",
                                       !colorElement.isAvailable
                                         ? styles["shade-stock-dis-img"]
-                                        : ""
+                                        : "",
                                     ].join(" ")}
+                                    style={classForHexCode}
                                   >
-                                    <img
+                                    {colorElement.swatchUrl ? (
+                                      <img
                                       src={colorElement.swatchUrl}
                                       className={styles["shade-list-img"]}
                                       alt={"swatch"}
                                     />
+                                    ): null}
                                   </div>
                                   {stockCount && stockCount <= 3 ? (
                                     <div className={styles["shade-stock-left"]}>
