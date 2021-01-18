@@ -126,6 +126,12 @@ export default class ProductsDetailsSection extends React.Component {
     }
   };
 
+  handleScrollToTop = () => {
+    if (this.props.scrollToTop) {
+      this.props.scrollToTop();
+    }
+  };
+
   render() {
     return (
       <React.Fragment>

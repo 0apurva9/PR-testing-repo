@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import delay from "lodash.delay";
 
 import {
   IMAGE_GALLERY_COMPONENT,
@@ -62,6 +63,12 @@ export default class PdpBeautyDesktop extends React.Component {
         });
       }
     }
+  };
+
+  scrollToTop = () => {
+    delay(() => {
+      window.scrollTo(0, 0);
+    }, 50);
   };
 
   componentDidMount = () => {
@@ -175,6 +182,7 @@ export default class PdpBeautyDesktop extends React.Component {
               {...this.props}
               compDetails={sectionOfImageAndContentComponent}
               handleDetailsScroll={this.handleDetailsScroll}
+              scrollToTop={() => this.scrollToTop()}
             />
           </div>
           <div className={styles.container}>

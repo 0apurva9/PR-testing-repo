@@ -172,15 +172,6 @@ export default class Plp extends React.Component {
   }
 
   UNSAFE_componentWillReceiveProps() {
-    const viewInfoData =
-      this.props &&
-      this.props.productListings &&
-      this.props.productListings.view;
-    if (viewInfoData) {
-      if (viewInfoData.imageToggle) {
-        this.setState({ showToggleButton: true });
-      }
-    }
     let categoryCodes = [];
     let foundCategory = [];
     let defaultViewCategories =
@@ -208,12 +199,12 @@ export default class Plp extends React.Component {
               : "GRID";
             if (view.toUpperCase() === "LIST") {
               this.setState({
-                gridBreakup: !this.state.gridBreakup,
+                gridBreakup: true,
                 view: LIST
               });
             } else {
               this.setState({
-                gridBreakup: !this.state.gridBreakup,
+                gridBreakup: false,
                 view: GRID
               });
             }
