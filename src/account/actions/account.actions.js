@@ -5870,9 +5870,6 @@ export function getRecentTicketHistoryDetails(
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-      if (resultJson && !resultJson.tickets) {
-        dispatch(displayToast(resultJson.status));
-      }
 
       dispatch(getRecentTicketHistoryDetailsSuccess(resultJson, paginated));
     } catch (e) {
