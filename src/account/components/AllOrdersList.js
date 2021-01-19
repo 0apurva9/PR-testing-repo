@@ -57,7 +57,7 @@ export default class AllOrdersList extends Component {
     return (
       <div className={styles.whiteCard}>
         <div className={styles.headerBox}>
-          <div className={styles.header}>Recent orders</div>
+          <div className={styles.header}>All orders</div>
           <div className={styles.headerButton}>
             <Button
               type="hollow"
