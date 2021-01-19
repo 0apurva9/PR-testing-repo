@@ -67,9 +67,8 @@ export default class PdpBeautyDesktop extends React.Component {
 
   scrollToTop = () => {
     delay(() => {
-      console.log("inside scroll into view - 3");
       window.scrollTo(0, 0);
-    }, 50);
+    }, 400);
   };
 
   componentDidMount = () => {
