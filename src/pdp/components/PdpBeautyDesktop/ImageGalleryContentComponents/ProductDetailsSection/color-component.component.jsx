@@ -23,13 +23,15 @@ export default class ColorComponent extends React.Component {
 
   handleScrollToTop() {
     if (this.props.handleScrollToTop) {
+      console.log('inside scroll into view - 1.1');
       this.props.handleScrollToTop();
     }
   }
 
   componentDidMount() {
     if (this.colorShadeRef.current) {
-      this.colorShadeRef.current.scrollIntoView(true);
+      console.log('inside scroll into view - 1');
+      this.colorShadeRef.current.scrollIntoView({block: "start", inline: "nearest"});
     }
     this.handleScrollToTop();
     const variantTheme = this.props.productDetails && this.props.productDetails.variantOptions && this.props.productDetails.variantTheme;

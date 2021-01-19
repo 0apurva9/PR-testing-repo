@@ -64,6 +64,7 @@ export default class ImageGalleryContentComponent extends React.Component {
 
   handleScrollToTop = () => {
     if (this.props.scrollToTop) {
+      console.log("inside scroll into view - 2");
       this.props.scrollToTop();
     }
   };
