@@ -84,10 +84,6 @@ export function setLoginCustomerData(mnlApiResponse: MnlApiResponse) {
                 mnlApiResponse.userData.authentication && mnlApiResponse.userData.authentication.accessToken;
         }
 
-        const existingWishList = await dispatch(getWishlist());
-        if (!existingWishList || !existingWishList.wishlist) {
-            dispatch(createWishlist());
-        }
         dispatch(customerAccessTokenSuccess(tokens));
         dispatch(refreshTokenSuccess(tokens));
         await dispatch(loginUser({ "username": userDetails.userName, "password": apiData.pass, "otp": apiData.otp }));
@@ -96,7 +92,10 @@ export function setLoginCustomerData(mnlApiResponse: MnlApiResponse) {
         userDetails.firstName = customerInfo.firstName;
         Cookie.createCookie(LOGGED_IN_USER_DETAILS, JSON.stringify(userDetails));
         dispatch(getUserDetails(true));
-
+        const existingWishList = await dispatch(getWishlist());
+        if (!existingWishList || !existingWishList.wishlist) {
+            dispatch(createWishlist());
+        }
     }
 }
 
@@ -345,25 +344,25 @@ export function validateOtp() {
             };
         }
         if (
-          mnlApiResponseState &&
-          mnlApiResponseState.userData &&
-          mnlApiResponseState.userData.customer &&
-          mnlApiResponseState.userData.customer.loginVia === "email" &&
-          mnlApiResponseState.userData.validation &&
-          !mnlApiResponseState.userData.validation.validated &&
-          mnlApiResponseState.userData.customer.newUser &&
-          !mnlApiResponseState.userData.customer.passwordSet &&
-          !mnlApiResponseState.userData.validation.emailIdChanged
+            mnlApiResponseState &&
+            mnlApiResponseState.userData &&
+            mnlApiResponseState.userData.customer &&
+            mnlApiResponseState.userData.customer.loginVia === "email" &&
+            mnlApiResponseState.userData.validation &&
+            !mnlApiResponseState.userData.validation.validated &&
+            mnlApiResponseState.userData.customer.newUser &&
+            !mnlApiResponseState.userData.customer.passwordSet &&
+            !mnlApiResponseState.userData.validation.emailIdChanged
         ) {
-          header = {
-            Authorization: `Bearer ${globalAccessToken.access_token}`,
-            "register-user": true,
-            registerviamobile: false,
-            grant_type: "password",
-            client_id: CLIENT_ID,
-            client_secret: CLIENT_SECRET,
-            platformnumber: PLAT_FORM_NUMBER
-          };
+            header = {
+                Authorization: `Bearer ${globalAccessToken.access_token}`,
+                "register-user": true,
+                registerviamobile: false,
+                grant_type: "password",
+                client_id: CLIENT_ID,
+                client_secret: CLIENT_SECRET,
+                platformnumber: PLAT_FORM_NUMBER
+            };
         }
         if (mnlApiResponseState && mnlApiResponseState.userData && !mnlApiResponseState.userData.customer.numberAdded) {
             apiData.pass = "";
@@ -562,8 +561,8 @@ export function sendOtpUpdatePassword() {
             "otp": ""
         }, true, {
 
-                Authorization: `Bearer ${JSON.parse(authentication).accessToken}`
-            });
+            Authorization: `Bearer ${JSON.parse(authentication).accessToken}`
+        });
         const mnlApiResponse: MnlApiResponse = await result.json();
         const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
         if (errorStatus.status) {

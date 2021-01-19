@@ -28,19 +28,12 @@ import {
   getMoreFromBrand,
   getAboutTheBrand,
   getSimilarProduct,
-  openBeautyPopup
+  openBeautyPopup,
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
-import {
-  showSecondaryLoader,
-  hideSecondaryLoader
-} from "../../general/secondaryLoader.actions";
+import { showSecondaryLoader, hideSecondaryLoader } from "../../general/secondaryLoader.actions";
 import { setHeaderText } from "../../general/header.actions";
-import {
-  getUserAddress,
-  getMinicartProducts,
-  getCartCountForLoggedInUser
-} from "../../cart/actions/cart.actions";
+import { getUserAddress, getMinicartProducts, getCartCountForLoggedInUser } from "../../cart/actions/cart.actions";
 import {
   showModal,
   EMI_MODAL,
@@ -59,40 +52,31 @@ import {
   SIMILAR_PRODUCTS_MODAL,
   SIMILAR_PRODUCTS_OOS_MODAL,
   SIZE_SELECTOR_OOS_MODAL,
-  EXCHANGE_MODAL
+  EXCHANGE_MODAL,
+  showMobileNumberLoginModal,
 } from "../../general/modal.actions.js";
 import ProductDescriptionPageWrapper from "../components/ProductDescriptionPageWrapper";
 import { withRouter } from "react-router-dom";
-import {
-  SUCCESS,
-  DEFAULT_PIN_CODE_LOCAL_STORAGE,
-  NO,
-  SELECTED_STORE
-} from "../../lib/constants.js";
-import {
-  tempCartIdForLoggedInUser,
-  getDCEmiEligibility
-} from "../../cart/actions/cart.actions";
+import { SUCCESS, DEFAULT_PIN_CODE_LOCAL_STORAGE, NO, SELECTED_STORE } from "../../lib/constants.js";
+import { tempCartIdForLoggedInUser, getDCEmiEligibility } from "../../cart/actions/cart.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
 import {
   getCartDetails,
   addStoreCNC,
   addPickupPersonCNC,
-  mergeTempCartWithOldCart
+  mergeTempCartWithOldCart,
 } from "../../cart/actions/cart.actions";
 import {
   setDataLayerForCartDirectCalls,
   ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
-  ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE
+  ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE,
 } from "../../lib/adobeUtils";
 import { getUserDetails } from "../../account/actions/account.actions.js";
 import { getChatbotDetails } from "../../plp/actions/plp.actions";
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getProductDescription: async productCode => {
-      const productDetailsResponse = await dispatch(
-        getProductDescription(productCode, null, null, true)
-      );
+      const productDetailsResponse = await dispatch(getProductDescription(productCode, null, null, true));
       if (productDetailsResponse && productDetailsResponse.status === SUCCESS) {
         const pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
         if (pinCode) {
@@ -243,22 +227,16 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       return dispatch(getBundleproduct(data));
     },
     getBundleProductPinCode: async (pinCode, productCode, ussId) => {
-      return await dispatch(
-        getBundleProductPinCode(pinCode, productCode, ussId)
-      );
+      return await dispatch(getBundleProductPinCode(pinCode, productCode, ussId));
     },
     openInApp: async () => {
       return await dispatch(openInApp());
     },
     getRelevantBundleProduct: async (productCode, temp, sequence) => {
-      return await dispatch(
-        getRelevantBundleProduct(productCode, temp, sequence)
-      );
+      return await dispatch(getRelevantBundleProduct(productCode, temp, sequence));
     },
     relevantProductServibilty: async (pinCode, productCode, ussId) => {
-      return await dispatch(
-        relevantProductServibilty(pinCode, productCode, ussId)
-      );
+      return await dispatch(relevantProductServibilty(pinCode, productCode, ussId));
     },
     relevantBundleProductCode: async () => {
       return await dispatch(relevantBundleProductCode());
@@ -269,30 +247,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     addProductToCart1: async productDetails => {
       return await dispatch(addProductToCart(productDetails));
     },
-    getExchangeDetails: async (
-      listingId,
-      ussid,
-      maxExchangeAmount,
-      pickupCharge
-    ) => {
-      return await dispatch(
-        getExchangeDetails(listingId, ussid, maxExchangeAmount, pickupCharge)
-      );
+    getExchangeDetails: async (listingId, ussid, maxExchangeAmount, pickupCharge) => {
+      return await dispatch(getExchangeDetails(listingId, ussid, maxExchangeAmount, pickupCharge));
     },
     /** */
     addressModal: pinCodeObj => {
       dispatch(showModal(ADDRESS, pinCodeObj));
     },
-    getCartDetails: async (
-      cartId,
-      userId,
-      accessToken,
-      pinCode,
-      setDataLayerForPincode: false
-    ) => {
-      const cartDetailsObj = await dispatch(
-        getCartDetails(cartId, userId, accessToken, pinCode, true)
-      );
+    getCartDetails: async (cartId, userId, accessToken, pinCode, setDataLayerForPincode: false) => {
+      const cartDetailsObj = await dispatch(getCartDetails(cartId, userId, accessToken, pinCode, true));
       let productServiceAvailability =
         cartDetailsObj &&
         cartDetailsObj.cartDetails &&
@@ -301,26 +264,16 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           return (
             product.isGiveAway === NO &&
             (product.pinCodeResponse === undefined ||
-              (product.pinCodeResponse &&
-                product.pinCodeResponse.isServicable === "N") ||
+              (product.pinCodeResponse && product.pinCodeResponse.isServicable === "N") ||
               product.isOutOfStock)
           );
         });
       // here we are setting data layer for pincode change on cart page
       if (setDataLayerForPincode) {
-        if (
-          cartDetailsObj.status === SUCCESS &&
-          productServiceAvailability.length === 0
-        ) {
-          setDataLayerForCartDirectCalls(
-            ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
-            pinCode
-          );
+        if (cartDetailsObj.status === SUCCESS && productServiceAvailability.length === 0) {
+          setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS, pinCode);
         } else {
-          setDataLayerForCartDirectCalls(
-            ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE,
-            pinCode
-          );
+          setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE, pinCode);
         }
       }
     },
@@ -340,24 +293,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getChatbotDetails: async () => {
       await dispatch(getChatbotDetails());
     },
-    getBundledProductSuggestion: (
-      productId,
-      ussId,
-      categoryCode,
-      brandCode,
-      source,
-      pincode
-    ) => {
-      dispatch(
-        getBundledProductSuggestion(
-          productId,
-          ussId,
-          categoryCode,
-          brandCode,
-          source,
-          pincode
-        )
-      );
+    getBundledProductSuggestion: (productId, ussId, categoryCode, brandCode, source, pincode) => {
+      dispatch(getBundledProductSuggestion(productId, ussId, categoryCode, brandCode, source, pincode));
     },
     getTotalBundledPrice: data => {
       dispatch(getTotalBundledPrice(data));
@@ -385,7 +322,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     openBeautyPopup: toggle => {
       return dispatch(openBeautyPopup(toggle));
-    }
+    },
+    openMobileNumberLoginModal: () => {
+      dispatch(showMobileNumberLoginModal());
+    },
   };
 };
 
@@ -402,43 +342,30 @@ const mapStateToProps = state => {
     impulseOfferCalloutList: state.productDescription.impulseOfferCalloutList,
     manufacturerDetails: state.productDescription.manufacturerDetails,
     bundleProductData: state.productDescription.bundleProductData,
-    relevantBundleProductData:
-      state.productDescription.relevantBundleProductData,
-    relevantProductPinCodeStatus:
-      state.productDescription.relevantProductPinCodeStatus,
-    secondaryBundleProductData:
-      state.productDescription.secondaryBundleProductData,
-    relevantBundleProductCodeData:
-      state.productDescription.relevantBundleProductCodeData,
+    relevantBundleProductData: state.productDescription.relevantBundleProductData,
+    relevantProductPinCodeStatus: state.productDescription.relevantProductPinCodeStatus,
+    secondaryBundleProductData: state.productDescription.secondaryBundleProductData,
+    relevantBundleProductCodeData: state.productDescription.relevantBundleProductCodeData,
     exchangeDetails: state.productDescription.exchangeDetails,
     userDetails: state.profile.userDetails,
     loadingOfBuyNowSuccess: state.cart.tempCartIdForLoggedInUserStatus,
     loadingForAddStoreToCnc: state.cart.loadingForAddStore,
     loadingForCartDetail: state.cart.loadingForCartDetail,
     pincodeError: state.productDescription.pincodeError,
-    serviceableOtherSellersUssid:
-      state.productDescription.serviceableOtherSellersUssid,
+    serviceableOtherSellersUssid: state.productDescription.serviceableOtherSellersUssid,
     chatbotDetailsData: state.productListings.getChatbotDetailsData,
     addToCartResponseDetails: state.productDescription.addToCartResponseDetails,
     addToCartResponseLoading: state.productDescription.addToCartResponseLoading,
     cartCountDetails: state.cart.cartCountDetails,
-    checkPincodeDetailsLoading:
-      state.productDescription.checkPincodeDetailsLoading,
-    checkPincodeFromHaptikChatbot:
-      state.productDescription.checkPincodeFromHaptikChatbot,
+    checkPincodeDetailsLoading: state.productDescription.checkPincodeDetailsLoading,
+    checkPincodeFromHaptikChatbot: state.productDescription.checkPincodeFromHaptikChatbot,
     cartCountDetailsLoading: state.cart.cartCountDetailsLoading,
-    bundledProductSuggestionDetails:
-      state.productDescription.getBundledProductSuggestionDetails,
-    totalBundledPriceDetails:
-      state.productDescription.getTotalBundledPriceDetails,
-    getTotalBundledPriceLoading:
-      state.productDescription.getTotalBundledPriceLoading,
-    addBundledProductsToCartLoading:
-      state.productDescription.addBundledProductsToCartLoading,
-    addBundledProductsToCartDetails:
-      state.productDescription.addBundledProductsToCartDetails,
-    bundledProductSuggestionStatus:
-      state.productDescription.getBundledProductSuggestionStatus,
+    bundledProductSuggestionDetails: state.productDescription.getBundledProductSuggestionDetails,
+    totalBundledPriceDetails: state.productDescription.getTotalBundledPriceDetails,
+    getTotalBundledPriceLoading: state.productDescription.getTotalBundledPriceLoading,
+    addBundledProductsToCartLoading: state.productDescription.addBundledProductsToCartLoading,
+    addBundledProductsToCartDetails: state.productDescription.addBundledProductsToCartDetails,
+    bundledProductSuggestionStatus: state.productDescription.getBundledProductSuggestionStatus,
     logoutUserStatus: state.profile.logoutUserStatus,
     masterTemplateResponse: state.productDescription.masterTemplateDetails,
     masterTemplateError: state.productDescription.masterTemplateError,
@@ -454,7 +381,8 @@ const mapStateToProps = state => {
     aboutTheBrandLoading: state.productDescription.aboutTheBrandLoading,
     similarProductResponse: state.productDescription.similarProductDetails,
     similarProductError: state.productDescription.similarProductError,
-    similarProductLoading: state.productDescription.similarProductLoading
+    similarProductLoading: state.productDescription.similarProductLoading,
+    isMNLLogin: state.mobileNumberLogin.isMNLLogin,
   };
 };
 

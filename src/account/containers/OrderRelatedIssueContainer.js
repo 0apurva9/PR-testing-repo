@@ -20,15 +20,12 @@ import {
   setSelfServeState,
   fetchOrderItemDetails,
   getCliq2CallConfig,
-  placeCustomerCallRequest
+  placeCustomerCallRequest,
   // getGenesysCallConfigData
   // setUrlToRedirectToAfterAuth
 } from "../actions/account.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
-import {
-  showSecondaryLoader,
-  hideSecondaryLoader
-} from "../../general/secondaryLoader.actions";
+import { showSecondaryLoader, hideSecondaryLoader } from "../../general/secondaryLoader.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import {
   showModal,
@@ -36,7 +33,8 @@ import {
   CLIQ_2_CALL_POP_UP,
   TIME_SLOT_POP_UP,
   CUSTOMER_QUERY_ERROR_MODAL,
-  CUSTOMER_CALL_QUERY_SUCCESS
+  CUSTOMER_CALL_QUERY_SUCCESS,
+  showMobileNumberLoginModal,
 } from "../../general/modal.actions";
 import { stat } from "fs";
 const mapDispatchToProps = dispatch => {
@@ -52,9 +50,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(getNonOrderRelatedQuestions());
     },
     getCustomerQueriesFieldsv2: async (uItemplateCode, isSelectRadio) => {
-      return dispatch(
-        getCustomerQueriesFieldsv2(uItemplateCode, isSelectRadio)
-      );
+      return dispatch(getCustomerQueriesFieldsv2(uItemplateCode, isSelectRadio));
     },
     getOrdersTransactionData: paginated => {
       dispatch(getOrdersTransactionData(paginated));
@@ -104,9 +100,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(fetchOrderItemDetails(orderId, transactionId));
     },
     customerQueryErrorModal: getCustomerQueryDetailsObject => {
-      dispatch(
-        showModal(CUSTOMER_QUERY_ERROR_MODAL, getCustomerQueryDetailsObject)
-      );
+      dispatch(showModal(CUSTOMER_QUERY_ERROR_MODAL, getCustomerQueryDetailsObject));
     },
     getCliq2CallConfig: async Cliq2CallConfigId => {
       return dispatch(getCliq2CallConfig(Cliq2CallConfigId));
@@ -122,7 +116,10 @@ const mapDispatchToProps = dispatch => {
     },
     showCallQuerySuccessModal: callSuccessData => {
       dispatch(showModal(CUSTOMER_CALL_QUERY_SUCCESS, callSuccessData));
-    }
+    },
+    openMobileNumberLoginModal: () => {
+      dispatch(showMobileNumberLoginModal());
+    },
     // getGenesysCallConfigData: () => {
     //   dispatch(getGenesysCallConfigData());
     // }
@@ -153,10 +150,8 @@ const mapStateToProps = state => {
     loadingForUserDetails: state.profile.loadingForUserDetails,
     ordersTransactionData: state.profile.ordersTransactionData,
     ordersTransactionLoading: state.profile.ordersTransactionLoading,
-    customerQueriesOtherIssueDataStatus:
-      state.profile.customerQueriesOtherIssueDataStatus,
-    customerQueriesOtherIssueLoading:
-      state.profile.customerQueriesOtherIssueLoading,
+    customerQueriesOtherIssueDataStatus: state.profile.customerQueriesOtherIssueDataStatus,
+    customerQueriesOtherIssueLoading: state.profile.customerQueriesOtherIssueLoading,
     orderRelatedIssueLoading: state.profile.orderRelatedIssueLoading,
     customerQueriesOtherIssueData: state.profile.customerQueriesOtherIssueData,
     orderRelatedQuestionsStatus: state.profile.orderRelatedQuestionsStatus,
@@ -181,11 +176,10 @@ const mapStateToProps = state => {
     cliq2CallConfigData: state.profile.cliq2CallConfigData,
     genesysResponseLoading: state.profile.genesysResponseLoading,
     genesysResponseData: state.profile.genesysResponseData,
-    genesysCustomerCallRequestData: state.profile.genesysCustomerCallRequestData
+    genesysCustomerCallRequestData: state.profile.genesysCustomerCallRequestData,
+    isMNLLogin: state.mobileNumberLogin.isMNLLogin,
   };
 };
 
-const OrderRelatedIssueContainer = withRouter(
-  connect(mapStateToProps, mapDispatchToProps)(OrderRelatedIssue)
-);
+const OrderRelatedIssueContainer = withRouter(connect(mapStateToProps, mapDispatchToProps)(OrderRelatedIssue));
 export default OrderRelatedIssueContainer;

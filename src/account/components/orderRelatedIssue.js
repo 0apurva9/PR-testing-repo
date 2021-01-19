@@ -14,7 +14,7 @@ import {
   COSTUMER_CLIQ_CARE_ROUTE,
   MY_ACCOUNT_PAGE,
   HOME_ROUTER,
-  CLIQ_CARE
+  CLIQ_CARE,
 } from "../../lib/constants";
 import {
   setDataLayerForCLiQCarePage,
@@ -29,7 +29,7 @@ import {
   ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD,
   ADOBE_SELF_SERVE_NON_ORDER_QUESTION_CLICK,
   ADOBE_LOGIN_START,
-  ADOBE_SELF_SERVE_FAQ_PAGE_LOAD
+  ADOBE_SELF_SERVE_FAQ_PAGE_LOAD,
 } from "../../lib/adobeUtils";
 import { MOBILE_PATTERN } from "../../auth/components/Login";
 import SSRquest from "../../general/components/SSRequest";
@@ -45,13 +45,9 @@ export default class OrderRelatedIssue extends React.Component {
     super(props);
     this.userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     this.customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    const getUserDetails = this.userDetailsCookie
-      ? JSON.parse(this.userDetailsCookie)
-      : {};
+    const getUserDetails = this.userDetailsCookie ? JSON.parse(this.userDetailsCookie) : {};
     const selectedOrderObj =
-      this.props.location &&
-      this.props.location.state &&
-      this.props.location.state.selectedOrderObj;
+      this.props.location && this.props.location.state && this.props.location.state.selectedOrderObj;
     this.state = {
       isIssueOptions: false,
       isQuesryForm: false,
@@ -82,15 +78,11 @@ export default class OrderRelatedIssue extends React.Component {
       isScheduleACall: false,
       callMeBackJourney: false,
       copyMobileNumber:
-        getUserDetails &&
-        getUserDetails.loginType === "mobile" &&
-        getUserDetails.userName
+        getUserDetails && getUserDetails.loginType === "mobile" && getUserDetails.userName
           ? getUserDetails.userName
           : "",
       mobile:
-        getUserDetails &&
-        getUserDetails.loginType === "mobile" &&
-        getUserDetails.userName
+        getUserDetails && getUserDetails.loginType === "mobile" && getUserDetails.userName
           ? getUserDetails.userName
           : "",
       name:
@@ -102,16 +94,13 @@ export default class OrderRelatedIssue extends React.Component {
       selectedDate: "",
       cliq2CallConfigData: "",
       shift: "",
-      selectedSlot: ""
+      selectedSlot: "",
     };
     this.resetState = this.state;
   }
 
   componentDidMount() {
-    setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_PAGE_LOAD, null, [
-      CLIQ_CARE,
-      "Care_Homepage"
-    ]);
+    setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_PAGE_LOAD, null, [CLIQ_CARE, "Care_Homepage"]);
     if (this.props.getOrdersTransactionData) {
       this.props.getOrdersTransactionData(false);
     }
@@ -139,12 +128,8 @@ export default class OrderRelatedIssue extends React.Component {
           this.props.userDetails.firstName || this.props.userDetails.lastName
             ? `${this.props.userDetails.firstName} ${this.props.userDetails.lastName}`
             : "",
-        mobile: this.props.userDetails.mobileNumber
-          ? this.props.userDetails.mobileNumber
-          : "",
-        copyMobileNumber: this.props.userDetails.mobileNumber
-          ? this.props.userDetails.mobileNumber
-          : ""
+        mobile: this.props.userDetails.mobileNumber ? this.props.userDetails.mobileNumber : "",
+        copyMobileNumber: this.props.userDetails.mobileNumber ? this.props.userDetails.mobileNumber : "",
       });
     }
   }
@@ -165,34 +150,19 @@ export default class OrderRelatedIssue extends React.Component {
           nextProps.userDetails.firstName || nextProps.userDetails.lastName
             ? `${nextProps.userDetails.firstName} ${nextProps.userDetails.lastName}`
             : "",
-        mobile: nextProps.userDetails.mobileNumber
-          ? nextProps.userDetails.mobileNumber
-          : "",
-        copyMobileNumber: nextProps.userDetails.mobileNumber
-          ? nextProps.userDetails.mobileNumber
-          : ""
+        mobile: nextProps.userDetails.mobileNumber ? nextProps.userDetails.mobileNumber : "",
+        copyMobileNumber: nextProps.userDetails.mobileNumber ? nextProps.userDetails.mobileNumber : "",
       });
     }
   }
 
   moreHelps() {
-    setDataLayerForCLiQCarePage(
-      ADOBE_SELF_SERVE_FEEDBACK_SELECTION,
-      NO.toLowerCase()
-    );
+    setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_FEEDBACK_SELECTION, NO.toLowerCase());
     if (this.state.orderRelatedQuestion) {
-      setDataLayerForCLiQCarePage(
-        ADOBE_SELF_SERVE_PAGE_LOAD,
-        this.getOrderData(),
-        "Care_Order_MoreHelp"
-      );
+      setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_PAGE_LOAD, this.getOrderData(), "Care_Order_MoreHelp");
     }
     if (this.state.otherQuestion) {
-      setDataLayerForCLiQCarePage(
-        ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD,
-        this.getNonOrderData(),
-        "Care_Other_MoreHelp"
-      );
+      setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD, this.getNonOrderData(), "Care_Other_MoreHelp");
     }
 
     this.setState({ isIssueOptions: true, showFeedBack: false });
@@ -200,17 +170,14 @@ export default class OrderRelatedIssue extends React.Component {
 
   async getCustomerQueriesFields(issue, isSelecteRadio = false) {
     if (isSelecteRadio) {
-      const response = await this.props.getCustomerQueriesFieldsv2(
-        issue,
-        isSelecteRadio
-      );
+      const response = await this.props.getCustomerQueriesFieldsv2(issue, isSelecteRadio);
       if (response.status == SUCCESS) {
         this.setState({
           isIssueOptions: false,
           isQuesryForm: true,
           showFeedBack: false,
           isCallMeBackForm: false,
-          callMeBackJourney: false
+          callMeBackJourney: false,
         });
       }
     } else {
@@ -228,7 +195,7 @@ export default class OrderRelatedIssue extends React.Component {
               isQuesryForm: true,
               showFeedBack: false,
               isCallMeBackForm: false,
-              callMeBackJourney: false
+              callMeBackJourney: false,
             });
           }
         }
@@ -240,10 +207,7 @@ export default class OrderRelatedIssue extends React.Component {
   }
 
   feedBackHelpFull(e) {
-    setDataLayerForCLiQCarePage(
-      ADOBE_SELF_SERVE_FEEDBACK_SELECTION,
-      YES.toLowerCase()
-    );
+    setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_FEEDBACK_SELECTION, YES.toLowerCase());
     this.setState({ isAnswerHelpFull: true });
   }
 
@@ -259,24 +223,18 @@ export default class OrderRelatedIssue extends React.Component {
               ? this.state.question.issueType
               : this.state.question.subIssueType,
           tat: this.state.question.tat,
-          emailId: formData.customerInfo.contactEmail
+          emailId: formData.customerInfo.contactEmail,
         }
       );
       if ((this.state.questionType = NON_ORDER_REALTED_QUESTION)) {
         getCustomerQueryDetailsObject.issueCategory = this.state.parentIssueType;
       }
       setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_SUBMIT_CLICK);
-      const submitOrderDetailsResponse = await this.props.submitOrderDetails(
-        formData
-      );
+      const submitOrderDetailsResponse = await this.props.submitOrderDetails(formData);
       setTimeout(() => {
         if (submitOrderDetailsResponse.status === SUCCESS) {
-          if (
-            submitOrderDetailsResponse.submitOrder.referenceNum == "duplicate"
-          ) {
-            let pageName = this.state.otherQuestion
-              ? "Care_Other_Webform_Duplicate"
-              : "Care_Order_Webform_Duplicate";
+          if (submitOrderDetailsResponse.submitOrder.referenceNum == "duplicate") {
+            let pageName = this.state.otherQuestion ? "Care_Other_Webform_Duplicate" : "Care_Order_Webform_Duplicate";
             setDataLayerForCLiQCarePage(
               ADOBE_SELF_SERVE_PAGE_LOAD,
               submitOrderDetailsResponse.submitOrder.referenceNum,
@@ -285,16 +243,14 @@ export default class OrderRelatedIssue extends React.Component {
             this.setState({
               showLoader: false,
               raiseTiketRequest: false,
-              formSubmit: true
+              formSubmit: true,
             });
             this.props.showCustomerQueryModal({
-              ticketId: submitOrderDetailsResponse.submitOrder.referenceNum
+              ticketId: submitOrderDetailsResponse.submitOrder.referenceNum,
             });
             this.props.setSelfServeState(null);
           } else {
-            let pageName = this.state.otherQuestion
-              ? "Care_Other_Webform_Success"
-              : "Care_Order_Webform_Success";
+            let pageName = this.state.otherQuestion ? "Care_Other_Webform_Success" : "Care_Order_Webform_Success";
             setDataLayerForCLiQCarePage(
               ADOBE_SELF_SERVE_PAGE_LOAD,
               submitOrderDetailsResponse.submitOrder.referenceNum,
@@ -303,13 +259,13 @@ export default class OrderRelatedIssue extends React.Component {
             this.setState({
               raiseTiketSucess: true,
               raiseTiketRequest: false,
-              formSubmit: true
+              formSubmit: true,
             });
             setTimeout(() => {
               this.setState({ showLoader: false, raiseTiketSucess: false });
               this.props.showCustomerQueryModal({
                 ticketId: submitOrderDetailsResponse.submitOrder.referenceNum,
-                sla: submitOrderDetailsResponse.submitOrder.sla
+                sla: submitOrderDetailsResponse.submitOrder.sla,
               });
               this.props.setSelfServeState(null);
             }, 2000);
@@ -323,19 +279,16 @@ export default class OrderRelatedIssue extends React.Component {
   getNonOrderData = () => {
     return {
       name: this.state.parentIssueType,
-      question: this.state.question.subIssueType
+      question: this.state.question.subIssueType,
     };
   };
 
   selectOtehrQuestion(selectOtehrQuestion) {
-    setDataLayerForCLiQCarePage(
-      ADOBE_SELF_SERVE_NON_ORDER_CATEGORY_CLICK,
-      selectOtehrQuestion.parentIssueType
-    );
+    setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_NON_ORDER_CATEGORY_CLICK, selectOtehrQuestion.parentIssueType);
     setDataLayerForCLiQCarePage(
       ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD,
       {
-        name: selectOtehrQuestion.parentIssueType
+        name: selectOtehrQuestion.parentIssueType,
       },
       "Care_Other_Questions"
     );
@@ -349,41 +302,31 @@ export default class OrderRelatedIssue extends React.Component {
       questionList: selectOtehrQuestion.listofSubIssues,
       parentIssueType: selectOtehrQuestion.parentIssueType,
       questionType: NON_ORDER_REALTED_QUESTION,
-      callMeBackJourney: false
+      callMeBackJourney: false,
     });
   }
 
   async orderRelatedInfo(orderData) {
     if (this.props.fetchOrderItemDetails) {
-      this.props.fetchOrderItemDetails(
-        orderData.orderCode,
-        orderData.transactionId
-      );
+      this.props.fetchOrderItemDetails(orderData.orderCode, orderData.transactionId);
     }
     if (this.props.getOrderRelatedQuestions) {
-      const response = await this.props.getOrderRelatedQuestions(
-        orderData.transactionId
-      );
+      const response = await this.props.getOrderRelatedQuestions(orderData.transactionId);
 
       setDataLayerForCLiQCarePage(
         ADOBE_SELF_SERVE_PAGE_LOAD,
         {
           order: {
-            status:
-              orderData && orderData.product && orderData.product.statusDisplay,
-            id:
-              orderData && orderData.product && orderData.product.transactionId,
-            productId:
-              orderData && orderData.product && orderData.product.productcode
+            status: orderData && orderData.product && orderData.product.statusDisplay,
+            id: orderData && orderData.product && orderData.product.transactionId,
+            productId: orderData && orderData.product && orderData.product.productcode,
           },
           issue: {
             status:
-              response &&
-              response.orderRelatedQuestions &&
-              response.orderRelatedQuestions.listOfIssues
+              response && response.orderRelatedQuestions && response.orderRelatedQuestions.listOfIssues
                 ? "Found"
-                : "Not Found"
-          }
+                : "Not Found",
+          },
         },
         "Care_Order_Questions"
       );
@@ -400,7 +343,7 @@ export default class OrderRelatedIssue extends React.Component {
           questionList: response.orderRelatedQuestions.listOfIssues,
           parentIssueType: null,
           questionType: ORDER_REALTED_QUESTION,
-          slectOrderData: orderData.product
+          slectOrderData: orderData.product,
         });
       }
     }
@@ -410,30 +353,22 @@ export default class OrderRelatedIssue extends React.Component {
     const selectedOrder = {
       transactionId: product.transactionId,
       orderCode: orderData.orderId,
-      product: product
+      product: product,
     };
     this.orderRelatedInfo(selectedOrder);
   }
 
   async handleFAQClick(faq) {
-    setDataLayerForCLiQCarePage(
-      ADOBE_SELF_SERVE_ALL_HELP_TOPIC_CLICK,
-      faq.FAQHeader
-    );
+    setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_ALL_HELP_TOPIC_CLICK, faq.FAQHeader);
 
-    setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_FAQ_PAGE_LOAD, null, [
-      CLIQ_CARE,
-      "Care_FAQ_Questions"
-    ]);
+    setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_FAQ_PAGE_LOAD, null, [CLIQ_CARE, "Care_FAQ_Questions"]);
 
     if (this.state.parentIssueType !== faq.FAQHeader) {
       if (this.props.getFaqRelatedQuestions) {
         const response = await this.props.getFaqRelatedQuestions(faq.FAQPageId);
         if (response.status === SUCCESS) {
           if (response.data && response.data.items) {
-            const questionList = response.data.items[0].hasOwnProperty(
-              "cmsTextComponent"
-            )
+            const questionList = response.data.items[0].hasOwnProperty("cmsTextComponent")
               ? JSON.parse(response.data.items[0].cmsTextComponent.content)
               : JSON.parse(response.data.items[1].cmsTextComponent.content);
             this.setState({
@@ -449,7 +384,7 @@ export default class OrderRelatedIssue extends React.Component {
               questionType: NON_ORDER_REALTED_QUESTION,
               showFeedBack: false,
               isQuesryForm: false,
-              callMeBackJourney: false
+              callMeBackJourney: false,
             });
           }
         }
@@ -460,38 +395,32 @@ export default class OrderRelatedIssue extends React.Component {
     return {
       status: this.state.slectOrderData.statusDisplay,
       id: this.state.slectOrderData.transactionId,
-      productId: this.state.slectOrderData.productcode
+      productId: this.state.slectOrderData.productcode,
     };
   };
 
   selectQuestion(question, index) {
     if (this.state.orderRelatedQuestion) {
-      setDataLayerForCLiQCarePage(
-        ADOBE_SELF_SERVE_ISSUE_SELECTION,
-        question.issueType
-      );
+      setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_ISSUE_SELECTION, question.issueType);
 
       setDataLayerForCLiQCarePage(
         ADOBE_SELF_SERVE_PAGE_LOAD,
         {
           order: this.getOrderData(),
           issue: {
-            title: question.issueType
-          }
+            title: question.issueType,
+          },
         },
         "Care_Order_Solution"
       );
     }
     if (this.state.otherQuestion) {
-      setDataLayerForCLiQCarePage(
-        ADOBE_SELF_SERVE_NON_ORDER_QUESTION_CLICK,
-        question.subIssueType
-      );
+      setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_NON_ORDER_QUESTION_CLICK, question.subIssueType);
       setDataLayerForCLiQCarePage(
         ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD,
         {
           name: this.state.parentIssueType,
-          question: question.subIssueType
+          question: question.subIssueType,
         },
         "Care_Other_Solution"
       );
@@ -500,7 +429,7 @@ export default class OrderRelatedIssue extends React.Component {
     this.setState({
       question: question,
       showQuestionList: false,
-      showFeedBack: true
+      showFeedBack: true,
     });
   }
 
@@ -508,10 +437,7 @@ export default class OrderRelatedIssue extends React.Component {
     this.setState({ orderAllList: true });
   }
   hideAllOrder() {
-    setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_PAGE_LOAD, null, [
-      CLIQ_CARE,
-      "Care_Homepage"
-    ]);
+    setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_PAGE_LOAD, null, [CLIQ_CARE, "Care_Homepage"]);
     this.setState({ orderAllList: false });
   }
 
@@ -523,14 +449,17 @@ export default class OrderRelatedIssue extends React.Component {
       }
     }
     setDataLayerForCLiQCarePage(ADOBE_LOGIN_START);
-    this.props.history.push(LOGIN_PATH);
+    if (this.props.isMNLLogin.value) {
+      this.props.openMobileNumberLoginModal();
+    } else {
+      this.props.history.push(LOGIN_PATH);
+    }
   }
 
   getMoreOrder() {
     if (
       this.props.ordersTransactionData &&
-      (this.props.ordersTransactionData.currentPage + 1) *
-        this.props.ordersTransactionData.pageSize <
+      (this.props.ordersTransactionData.currentPage + 1) * this.props.ordersTransactionData.pageSize <
         this.props.ordersTransactionData.totalNoOfOrders
     ) {
       this.props.getOrdersTransactionData(true);
@@ -544,17 +473,14 @@ export default class OrderRelatedIssue extends React.Component {
 
   navigatePreviousPage() {
     if (this.state.showQuestionList) {
-      setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_PAGE_LOAD, null, [
-        CLIQ_CARE,
-        "Care_Homepage"
-      ]);
+      setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_PAGE_LOAD, null, [CLIQ_CARE, "Care_Homepage"]);
       this.setState(this.resetState);
     } else if (this.state.showFeedBack) {
       if (this.state.orderRelatedQuestion) {
         setDataLayerForCLiQCarePage(
           ADOBE_SELF_SERVE_PAGE_LOAD,
           {
-            order: this.getOrderData()
+            order: this.getOrderData(),
           },
           "Care_Order_Questions"
         );
@@ -564,7 +490,7 @@ export default class OrderRelatedIssue extends React.Component {
         setDataLayerForCLiQCarePage(
           ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD,
           {
-            name: this.state.parentIssueType
+            name: this.state.parentIssueType,
           },
           "Care_Other_Questions"
         );
@@ -574,15 +500,11 @@ export default class OrderRelatedIssue extends React.Component {
         question: null,
         showQuestionList: true,
         showFeedBack: false,
-        isAnswerHelpFull: false
+        isAnswerHelpFull: false,
       });
     } else if (this.state.isQuesryForm) {
       if (this.state.orderRelatedQuestion) {
-        setDataLayerForCLiQCarePage(
-          ADOBE_SELF_SERVE_PAGE_LOAD,
-          this.getOrderData(),
-          "Care_Order_MoreHelp"
-        );
+        setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_PAGE_LOAD, this.getOrderData(), "Care_Order_MoreHelp");
       }
       if (this.state.otherQuestion) {
         setDataLayerForCLiQCarePage(
@@ -594,7 +516,7 @@ export default class OrderRelatedIssue extends React.Component {
       this.setState({
         showQuestionList: false,
         isQuesryForm: false,
-        isIssueOptions: true
+        isIssueOptions: true,
       });
     } else if (this.state.isIssueOptions) {
       if (this.state.orderRelatedQuestion) {
@@ -603,8 +525,8 @@ export default class OrderRelatedIssue extends React.Component {
           {
             order: this.getOrderData(),
             issue: {
-              title: this.state.question.issueType
-            }
+              title: this.state.question.issueType,
+            },
           },
           "Care_Order_Solution"
         );
@@ -619,7 +541,7 @@ export default class OrderRelatedIssue extends React.Component {
       this.setState({
         isAnswerHelpFull: false,
         isIssueOptions: false,
-        showFeedBack: true
+        showFeedBack: true,
       });
     } else if (this.state.isCallMeBackForm) {
       this.setState({
@@ -630,7 +552,7 @@ export default class OrderRelatedIssue extends React.Component {
         timing: "",
         selectedDate: "",
         callMeBackJourney: false,
-        selectedSlot: ""
+        selectedSlot: "",
       });
     }
   }
@@ -642,10 +564,7 @@ export default class OrderRelatedIssue extends React.Component {
     this.setState({ isAnswerHelpFull: false });
   }
   navigateCliqCarePage() {
-    setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_PAGE_LOAD, null, [
-      CLIQ_CARE,
-      "Care_Homepage"
-    ]);
+    setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_PAGE_LOAD, null, [CLIQ_CARE, "Care_Homepage"]);
     this.setState(this.resetState);
   }
 
@@ -656,19 +575,14 @@ export default class OrderRelatedIssue extends React.Component {
       this.navigateLogin();
     } else {
       if (this.props.getCliq2CallConfig) {
-        const response = await this.props.getCliq2CallConfig(
-          CLIQ_2_CALL_CONFIG
-        );
+        const response = await this.props.getCliq2CallConfig(CLIQ_2_CALL_CONFIG);
         if (response.status === SUCCESS) {
           const cliq2CallData = response.cliq2CallConfigData;
           let currentTime = new Date().toLocaleTimeString("en-US", {
-            hour12: false
+            hour12: false,
           });
           let isUserWithinBusinessTime =
-            currentTime > cliq2CallData.businessStartTime &&
-            currentTime < cliq2CallData.businessEndTime
-              ? true
-              : false;
+            currentTime > cliq2CallData.businessStartTime && currentTime < cliq2CallData.businessEndTime ? true : false;
           const buttonShowObject = {
             businessEndTime: cliq2CallData.businessEndTime,
             businessStartTime: cliq2CallData.businessStartTime,
@@ -678,16 +592,13 @@ export default class OrderRelatedIssue extends React.Component {
             availableSlots: cliq2CallData.availableSlots,
             slotDuration: cliq2CallData.slotDuration,
             callMeBackClick: this.callMeBackCallClick,
-            scheduleACallClick: this.scheduleACallClick
+            scheduleACallClick: this.scheduleACallClick,
           };
-          if (
-            !cliq2CallData.scheduleCallFlag &&
-            (!cliq2CallData.callBackNowFlag || !isUserWithinBusinessTime)
-          ) {
+          if (!cliq2CallData.scheduleCallFlag && (!cliq2CallData.callBackNowFlag || !isUserWithinBusinessTime)) {
             this.props.customerQueryErrorModal({
               heading: "Sorry, no agents are available right now",
               subHeading: "Please try again later or choose other help options",
-              showBtn: false
+              showBtn: false,
             });
           } else {
             this.props.showCliq2CallOption(buttonShowObject);
@@ -695,16 +606,11 @@ export default class OrderRelatedIssue extends React.Component {
           this.setState({
             cliq2CallConfigData: cliq2CallData,
             name:
-              this.props.userDetails.firstName ||
-              this.props.userDetails.lastName
+              this.props.userDetails.firstName || this.props.userDetails.lastName
                 ? `${this.props.userDetails.firstName} ${this.props.userDetails.lastName}`
                 : "",
-            mobile: this.props.userDetails.mobileNumber
-              ? this.props.userDetails.mobileNumber
-              : "",
-            copyMobileNumber: this.props.userDetails.mobileNumber
-              ? this.props.userDetails.mobileNumber
-              : ""
+            mobile: this.props.userDetails.mobileNumber ? this.props.userDetails.mobileNumber : "",
+            copyMobileNumber: this.props.userDetails.mobileNumber ? this.props.userDetails.mobileNumber : "",
           });
         }
       }
@@ -716,7 +622,7 @@ export default class OrderRelatedIssue extends React.Component {
     this.setState({
       isCallMeBackForm: true,
       isIssueOptions: false,
-      isScheduleACall: false
+      isScheduleACall: false,
     });
   };
 
@@ -725,7 +631,7 @@ export default class OrderRelatedIssue extends React.Component {
     this.setState({
       isCallMeBackForm: true,
       isScheduleACall: true,
-      isIssueOptions: false
+      isIssueOptions: false,
     });
   };
 
@@ -736,8 +642,8 @@ export default class OrderRelatedIssue extends React.Component {
       callMeBackCallClick: this.callMeBackCallClick,
       selectedSlot: {
         date: this.state.selectedDate,
-        slotTime: this.state.selectedSlot
-      }
+        slotTime: this.state.selectedSlot,
+      },
     };
     if (this.props.timeSlotPopUP) {
       this.props.timeSlotPopUP(timeFunction);
@@ -748,7 +654,7 @@ export default class OrderRelatedIssue extends React.Component {
     this.setState({
       timing: time.label,
       selectedDate: date,
-      selectedSlot: time
+      selectedSlot: time,
     });
   };
 
@@ -759,12 +665,8 @@ export default class OrderRelatedIssue extends React.Component {
     if (this.state.selectedSlot.shiftDay) {
       date.setDate(date.getDate() + 1);
     }
-    start = Math.floor(
-      date.setHours(parseInt(this.state.selectedSlot.from, 10), 0, 0) / 1000
-    );
-    end = Math.floor(
-      date.setHours(parseInt(this.state.selectedSlot.to, 10), 0, 0) / 1000
-    );
+    start = Math.floor(date.setHours(parseInt(this.state.selectedSlot.from, 10), 0, 0) / 1000);
+    end = Math.floor(date.setHours(parseInt(this.state.selectedSlot.to, 10), 0, 0) / 1000);
     return `${start}-${end}`;
   }
 
@@ -780,21 +682,13 @@ export default class OrderRelatedIssue extends React.Component {
       PreferredSlot: this.state.isScheduleACall ? this.getEpochDateValue() : "",
       CustomerId: "",
       CustomerName: this.state.name,
-      IssueType: this.state.otherQuestion
-        ? this.state.question.subIssueType
-        : this.state.question.issueType,
-      OrderId: this.state.orderRelatedQuestion
-        ? this.props.selectedOrderDetails.orderId
-        : "",
-      TransactionId: this.state.orderRelatedQuestion
-        ? this.state.slectOrderData.transactionId
-        : "",
-      RequestSource: "MPL-desktop"
+      IssueType: this.state.otherQuestion ? this.state.question.subIssueType : this.state.question.issueType,
+      OrderId: this.state.orderRelatedQuestion ? this.props.selectedOrderDetails.orderId : "",
+      TransactionId: this.state.orderRelatedQuestion ? this.state.slectOrderData.transactionId : "",
+      RequestSource: "MPL-desktop",
     };
 
-    const placeCustomerResponse = await this.props.placeCustomerCallRequest(
-      callRequestObj
-    );
+    const placeCustomerResponse = await this.props.placeCustomerCallRequest(callRequestObj);
 
     this.setState({ raiseTiketRequest: true, showLoader: true });
     setTimeout(() => {
@@ -835,7 +729,7 @@ export default class OrderRelatedIssue extends React.Component {
       loadingForSendInvoice,
       cliq2CallConfigDataLoading,
       genesysResponseLoading,
-      genesysCustomerCallRequestData
+      genesysCustomerCallRequestData,
     } = this.props;
     if (
       customerQueriesOtherIssueLoading ||
@@ -871,9 +765,7 @@ export default class OrderRelatedIssue extends React.Component {
               <div className={styles.callMeBackFormBox}>
                 <div className={styles.formBox}>
                   <div className={styles.mobileNumberBox}>
-                    <div className={styles.fieldLabel}>
-                      Enter your Mobile Number
-                    </div>
+                    <div className={styles.fieldLabel}>Enter your Mobile Number</div>
                     <div className={styles.inputField}>
                       <FloatingLabelInputWithPlace
                         placeholder={"Mobile number *"}
@@ -888,47 +780,29 @@ export default class OrderRelatedIssue extends React.Component {
                     </div>
                   </div>
                   <div className={styles.languageBox}>
-                    <div className={styles.fieldLabel}>
-                      Select preferred language
-                    </div>
+                    <div className={styles.fieldLabel}>Select preferred language</div>
 
                     <div className={styles.language}>
                       <div className={styles.radioTicketType}>
-                        <label
-                          className={
-                            this.state.chooseLanguage == "English"
-                              ? styles.fontBold
-                              : null
-                          }
-                        >
+                        <label className={this.state.chooseLanguage == "English" ? styles.fontBold : null}>
                           English
                           <input
                             type="radio"
                             value="English"
                             checked={this.state.chooseLanguage == "English"}
-                            onChange={e =>
-                              this.setState({ chooseLanguage: e.target.value })
-                            }
+                            onChange={e => this.setState({ chooseLanguage: e.target.value })}
                           />
                           <span />
                         </label>
                       </div>
                       <div className={styles.radioTicketType}>
-                        <label
-                          className={
-                            this.state.chooseLanguage == "Hindi"
-                              ? styles.fontBold
-                              : null
-                          }
-                        >
+                        <label className={this.state.chooseLanguage == "Hindi" ? styles.fontBold : null}>
                           हिंदी
                           <input
                             type="radio"
                             value="Hindi"
                             checked={this.state.chooseLanguage == "Hindi"}
-                            onChange={e =>
-                              this.setState({ chooseLanguage: e.target.value })
-                            }
+                            onChange={e => this.setState({ chooseLanguage: e.target.value })}
                           />
                           <span />
                         </label>
@@ -937,26 +811,17 @@ export default class OrderRelatedIssue extends React.Component {
                   </div>
                   {this.state.isScheduleACall ? (
                     <div className={styles.mobileNumberBox}>
-                      <div className={styles.fieldLabel}>
-                        Select preferred time slot
-                      </div>
+                      <div className={styles.fieldLabel}>Select preferred time slot</div>
                       <div className={styles.inputField}>
                         <FloatingLabelInputWithPlace
                           placeholder={"Select your time slot"}
                           disabled={false}
                           value={
-                            this.state.timing
-                              ? this.state.timing +
-                                " , " +
-                                this.state.selectedDate
-                              : this.state.timing
+                            this.state.timing ? this.state.timing + " , " + this.state.selectedDate : this.state.timing
                           }
                           fontSize={"11px"}
                         />
-                        <div
-                          className={styles.customBtn}
-                          onClick={() => this.timeSlotPopUP()}
-                        >
+                        <div className={styles.customBtn} onClick={() => this.timeSlotPopUP()}>
                           {!this.state.timing ? "Select" : "Change"}
                         </div>
                       </div>
@@ -973,23 +838,12 @@ export default class OrderRelatedIssue extends React.Component {
                       width={205}
                       textStyle={{ color: "#FFF", fontSize: 14 }}
                       onClick={this.onCallRequestClick.bind(this)}
-                      disabled={
-                        this.state.isScheduleACall && !this.state.timing
-                          ? true
-                          : false
-                      }
-                      disabledLightGray={
-                        this.state.isScheduleACall && !this.state.timing
-                          ? true
-                          : false
-                      }
+                      disabled={this.state.isScheduleACall && !this.state.timing ? true : false}
+                      disabledLightGray={this.state.isScheduleACall && !this.state.timing ? true : false}
                     />
                   </div>
                   <div className={styles.buttonBox}>
-                    <div
-                      className={styles.customBtn}
-                      onClick={() => this.navigatePreviousPage()}
-                    >
+                    <div className={styles.customBtn} onClick={() => this.navigatePreviousPage()}>
                       Or go back to previous page
                     </div>
                   </div>
@@ -999,9 +853,7 @@ export default class OrderRelatedIssue extends React.Component {
               <React.Fragment>
                 {this.state.isIssueOptions ? (
                   <MoreHelps
-                    getCustomerQueriesFields={() =>
-                      this.getCustomerQueriesFields()
-                    }
+                    getCustomerQueriesFields={() => this.getCustomerQueriesFields()}
                     selectedOrder={this.state.question}
                     navigatePreviousPage={() => this.navigatePreviousPage()}
                     navigateHomePage={() => this.navigateHomePage()}
@@ -1012,9 +864,7 @@ export default class OrderRelatedIssue extends React.Component {
                     <div className={styles.formAbdTabHolder}>
                       <div className={styles.tabHolder}>
                         <div className={styles.tabHolderBox}>
-                          <div className={styles.tabHeader}>
-                            All Help Topics
-                          </div>
+                          <div className={styles.tabHeader}>All Help Topics</div>
 
                           <div className={styles.faqList}>
                             {FAQData &&
@@ -1029,15 +879,12 @@ export default class OrderRelatedIssue extends React.Component {
                                     <div className={styles.faqIcon}>
                                       <Icon
                                         image={
-                                          this.state.parentIssueType ==
-                                          faq.FAQHeader
+                                          this.state.parentIssueType == faq.FAQHeader
                                             ? `${require("../components/img/" +
                                                 faq.image.split(".")[0] +
                                                 "active" +
                                                 ".svg")}`
-                                            : `${require("../components/img/" +
-                                                faq.image.split(".")[0] +
-                                                ".svg")}`
+                                            : `${require("../components/img/" + faq.image.split(".")[0] + ".svg")}`
                                         }
                                         width={33}
                                         height={33}
@@ -1047,20 +894,14 @@ export default class OrderRelatedIssue extends React.Component {
                                       <div
                                         className={[
                                           styles.faqHeader,
-                                          this.state.parentIssueType ==
-                                          faq.FAQHeader
-                                            ? styles.colorRed
-                                            : null
+                                          this.state.parentIssueType == faq.FAQHeader ? styles.colorRed : null,
                                         ].join(" ")}
                                       >
                                         {faq.FAQHeader.replace("&amp;", "&")}
                                       </div>
                                       <div className={styles.faqSubheading}>
                                         {faq.FAQSubHeader.includes("&amp;")
-                                          ? faq.FAQSubHeader.replace(
-                                              /&amp;/g,
-                                              "&"
-                                            )
+                                          ? faq.FAQSubHeader.replace(/&amp;/g, "&")
                                           : faq.FAQSubHeader}
                                       </div>
                                     </div>
@@ -1073,58 +914,36 @@ export default class OrderRelatedIssue extends React.Component {
 
                       <div className={styles.formHolder}>
                         <CustomerIssue
-                          customerQueriesOtherIssueData={
-                            customerQueriesOtherIssueData
-                          }
-                          selectedOrder={
-                            this.props.selectedOrderDetails || null
-                          }
+                          customerQueriesOtherIssueData={customerQueriesOtherIssueData}
+                          selectedOrder={this.props.selectedOrderDetails || null}
                           orderList={this.state.orderList}
                           isOrderDatails={this.state.isOrderDatails}
                           moreHelps={() => this.moreHelps()}
                           ordersTransactionData={ordersTransactionData}
                           questionsList={this.state.questionList}
-                          selectQuestion={(listOfIssue, index) =>
-                            this.selectQuestion(listOfIssue, index)
-                          }
+                          selectQuestion={(listOfIssue, index) => this.selectQuestion(listOfIssue, index)}
                           showFeedBack={this.state.showFeedBack}
                           question={this.state.question}
                           getOrderRelatedQuestions={(orderData, product) =>
                             this.getOrderRelatedQuestions(orderData, product)
                           }
-                          orderRelatedQuestionsStatus={
-                            orderRelatedQuestionsStatus
-                          }
+                          orderRelatedQuestionsStatus={orderRelatedQuestionsStatus}
                           isQuesryForm={this.state.isQuesryForm}
-                          uploadUserFile={(issueType, title, file) =>
-                            this.props.uploadUserFile(issueType, title, file)
-                          }
+                          uploadUserFile={(issueType, title, file) => this.props.uploadUserFile(issueType, title, file)}
                           feedBackHelpFull={() => this.feedBackHelpFull()}
                           isAnswerHelpFull={this.state.isAnswerHelpFull}
                           uploadedAttachments={this.state.uploadedAttachments}
                           userDetails={this.props.userDetails}
-                          submitCustomerForms={formaData =>
-                            this.submitCustomerForms(formaData)
-                          }
-                          displayToast={message =>
-                            this.props.displayToast(message)
-                          }
+                          submitCustomerForms={formaData => this.submitCustomerForms(formaData)}
+                          displayToast={message => this.props.displayToast(message)}
                           customerQueriesField={customerQueriesField}
-                          getCustomerQueriesFields={(
-                            webFormTemplate,
-                            isIssueOptions
-                          ) =>
-                            this.getCustomerQueriesFields(
-                              webFormTemplate,
-                              isIssueOptions
-                            )
+                          getCustomerQueriesFields={(webFormTemplate, isIssueOptions) =>
+                            this.getCustomerQueriesFields(webFormTemplate, isIssueOptions)
                           }
                           orderRelatedQuestion={this.state.orderRelatedQuestion}
                           otherQuestion={this.state.otherQuestion}
                           FAQquestion={this.state.FAQquestion}
-                          selectOtehrQuestion={selectedOtehrQuestion =>
-                            this.selectOtehrQuestion(selectedOtehrQuestion)
-                          }
+                          selectOtehrQuestion={selectedOtehrQuestion => this.selectOtehrQuestion(selectedOtehrQuestion)}
                           parentIssueType={this.state.parentIssueType}
                           orderAllList={this.state.orderAllList}
                           showAllOrdersList={() => this.showAllOrdersList()}
@@ -1137,14 +956,10 @@ export default class OrderRelatedIssue extends React.Component {
                           sendInvoice={(ussid, sellerOrderNo) => {
                             this.sendInvoice(ussid, sellerOrderNo);
                           }}
-                          navigatePreviousPage={() =>
-                            this.navigatePreviousPage()
-                          }
+                          navigatePreviousPage={() => this.navigatePreviousPage()}
                           navigateHomePage={() => this.navigateHomePage()}
                           updateThanks={() => this.updateThanks()}
-                          navigateCliqCarePage={() =>
-                            this.navigateCliqCarePage()
-                          }
+                          navigateCliqCarePage={() => this.navigateCliqCarePage()}
                           slectOrderData={this.state.slectOrderData}
                           isCallMeBackForm={this.state.isCallMeBackForm}
                           isScheduleACall={this.state.isScheduleACall}

@@ -61,7 +61,7 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
       if (this._otfDivRef.current) {
         const focusEle = this._otfDivRef.current.querySelector<
           HTMLInputElement
-          >(`#${id}`);
+        >(`#${id}`);
         if (focusEle) {
           focusEle.focus();
         }
@@ -102,7 +102,7 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
     resendOtpTimmer ? this.props.setResendOtpTimmer(resendOtpTimmer) : this.props.setResendOtpTimmer(-1);
   }
 
-  private async onContinueBtnClick() {
+  private onContinueBtnClick() {
     const mnlApidata: MnlApiData = Object.assign({}, this.props.mnlApidata, {
       otp: this.state.otp,
     });
@@ -190,7 +190,7 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
                 {this.state.resendOtp ? (
                   <button type="button" className={styles.btnLink} onClick={() => this.onClickResendOtp()}>
                     Resend OTP
-                                    </button>
+                  </button>
                 ) : (
                     <p>Resend OTP in 0:{this.state.resendOtpIn}</p>
                   )}
