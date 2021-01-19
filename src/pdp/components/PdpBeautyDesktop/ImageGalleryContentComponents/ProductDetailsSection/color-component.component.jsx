@@ -53,12 +53,10 @@ export default class ColorComponent extends React.Component {
   }
 
   onMouseEnter(i, j) {
-    console.log('11111');
     this.setState({ showTooltip: true, sizeIndex: i, toolTipIndex: j });
   }
 
   onMouseLeave(i, j) {
-    console.log('2222');
     this.setState({ showTooltip: false, sizeIndex: i, toolTipIndex: j });
   }
 
