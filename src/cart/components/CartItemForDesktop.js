@@ -20,12 +20,12 @@ import {
   CUSTOMER_ACCESS_TOKEN,
   GLOBAL_ACCESS_TOKEN,
   ANONYMOUS_USER,
-  AC_CART_EXCHANGE_DETAILS
+  AC_CART_EXCHANGE_DETAILS,
+  RUPEE_SYMBOL
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import ProductImage from "../../general/components/ProductImage.js";
 import styles from "./CartItemForDesktop.css";
-import { RUPEE_SYMBOL } from "../../lib/constants";
 import AddToWishListButtonContainer from "../../wishlist/containers/AddToWishListButtonContainer";
 import { WISHLIST_BUTTON_TEXT_TYPE_SMALL } from "../../wishlist/components/AddToWishListButton";
 import { ADOBE_DIRECT_CALL_FOR_SAVE_ITEM_ON_CART } from "../../lib/adobeUtils";
@@ -50,6 +50,7 @@ import {
   getCartDetailsForLoggedInUser,
   getCartDetailsForAnonymousInUser
 } from "../../lib/getCookieDetails.js";
+import ComboOfferSection from "./ComboOfferSection";
 const NO_SIZE = "NO SIZE";
 const OUT_OF_STOCK = "Product is out of stock";
 export default class CartItemForDesktop extends React.Component {
@@ -293,8 +294,8 @@ export default class CartItemForDesktop extends React.Component {
     let productMessage = this.props.productNotServiceable
       ? this.props.productNotServiceable
       : !this.props.productOutOfStocks
-        ? NOT_SERVICEABLE
-        : null;
+      ? NOT_SERVICEABLE
+      : null;
     let pickUpDateDetails = "";
     if (this.props.storeDetails && this.props.storeDetails.slaveId) {
       let productSlaveId = this.props.storeDetails.slaveId;
@@ -345,6 +346,11 @@ export default class CartItemForDesktop extends React.Component {
     if (this.props.sizeType === "Power" && this.props.size > 0) {
       sizeValue = `+${this.props.size}`;
     }
+
+    let parsedComboDiscount =
+      this.props.product.comboDiscount &&
+      parseFloat(this.props.product.comboDiscount);
+
     return (
       <div className={styles.base}>
         <div className={styles.productImage}>
@@ -417,6 +423,24 @@ export default class CartItemForDesktop extends React.Component {
                       </React.Fragment>
                     ))}
             </div>
+
+            {this.props.product.comboDiscount &&
+              parsedComboDiscount &&
+              parsedComboDiscount !== 0 && (
+                <ComboOfferSection
+                  comboDiscount={this.props.product.comboDiscount}
+                  comboDiscountWith={
+                    this.props.product.comboDiscountWith
+                      ? this.props.product.comboDiscountWith
+                      : this.props.productName
+                  }
+                  comboDiscountAppliedQuantity={
+                    this.props.product.comboDiscountAppliedQuantity
+                  }
+                  quantitySelectedByUser={this.props.qtySelectedByUser}
+                />
+              )}
+
             {this.props.isGiveAway === YES && (
               <div className={styles.isGiveAwayQuantity}>
                 Quantity:
@@ -426,31 +450,30 @@ export default class CartItemForDesktop extends React.Component {
               </div>
             )}
 
-            {this.props.isGiveAway === NO &&
-              this.props.hasFooter && (
-                <div className={styles.dropDown}>
-                  <SelectBoxDesktop
-                    value={this.props.qtySelectedByUser}
-                    label={this.props.qtySelectedByUser}
-                    height={30}
-                    options={fetchedQuantityList}
-                    onChange={val => this.handleQuantityChange(val)}
-                    size={10}
-                    leftChild={this.props.dropdownLabel}
-                    leftChildSize={80}
-                    rightChildSize={30}
-                    labelWithLeftChild={true}
-                    arrowColour="black"
-                    disabled={this.props.isOutOfStock}
-                    theme="hollowBox"
-                    paddingLeftColour={"#212121"}
-                    paddingLeftFontFamily={"light"}
-                    paddingLeft={"0px"}
-                    rightArrow={0}
-                    hideArrow={hideQuantityArrow}
-                  />
-                </div>
-              )}
+            {this.props.isGiveAway === NO && this.props.hasFooter && (
+              <div className={styles.dropDown}>
+                <SelectBoxDesktop
+                  value={this.props.qtySelectedByUser}
+                  label={this.props.qtySelectedByUser}
+                  height={30}
+                  options={fetchedQuantityList}
+                  onChange={val => this.handleQuantityChange(val)}
+                  size={10}
+                  leftChild={this.props.dropdownLabel}
+                  leftChildSize={80}
+                  rightChildSize={30}
+                  labelWithLeftChild={true}
+                  arrowColour="black"
+                  disabled={this.props.isOutOfStock}
+                  theme="hollowBox"
+                  paddingLeftColour={"#212121"}
+                  paddingLeftFontFamily={"light"}
+                  paddingLeft={"0px"}
+                  rightArrow={0}
+                  hideArrow={hideQuantityArrow}
+                />
+              </div>
+            )}
             {(this.props.size || this.props.color) && (
               <div className={styles.colourSizeHolder}>
                 {this.props.color && (
@@ -467,37 +490,36 @@ export default class CartItemForDesktop extends React.Component {
               </div>
             )}
           </div>
-          {this.props.isGiveAway === NO &&
-            this.props.hasFooter && (
-              <div className={styles.footer}>
-                <div className={styles.wishlist}>
-                  <AddToWishListButtonContainer
-                    type={WISHLIST_BUTTON_TEXT_TYPE_SMALL}
-                    productListingId={this.props.product.productcode}
-                    winningUssID={this.props.product.USSID}
-                    setDataLayerType={ADOBE_DIRECT_CALL_FOR_SAVE_ITEM_ON_CART}
-                    index={this.props.index}
-                    exchangeDetails={this.props.product.exchangeDetails}
-                    entryNumber={this.props.entryNumber}
-                    isFromCartPage={true}
-                    removeAppliancesExchange={ussid =>
-                      this.removeAppliancesExchange(ussid)
-                    }
-                  />
-                </div>
-                <div
-                  className={styles.removeLabel}
-                  onClick={() =>
-                    this.handleRemove(
-                      this.props.product.entryNumber,
-                      this.props.product.USSID
-                    )
+          {this.props.isGiveAway === NO && this.props.hasFooter && (
+            <div className={styles.footer}>
+              <div className={styles.wishlist}>
+                <AddToWishListButtonContainer
+                  type={WISHLIST_BUTTON_TEXT_TYPE_SMALL}
+                  productListingId={this.props.product.productcode}
+                  winningUssID={this.props.product.USSID}
+                  setDataLayerType={ADOBE_DIRECT_CALL_FOR_SAVE_ITEM_ON_CART}
+                  index={this.props.index}
+                  exchangeDetails={this.props.product.exchangeDetails}
+                  entryNumber={this.props.entryNumber}
+                  isFromCartPage={true}
+                  removeAppliancesExchange={ussid =>
+                    this.removeAppliancesExchange(ussid)
                   }
-                >
-                  {this.props.removeText}
-                </div>
+                />
               </div>
-            )}
+              <div
+                className={styles.removeLabel}
+                onClick={() =>
+                  this.handleRemove(
+                    this.props.product.entryNumber,
+                    this.props.product.USSID
+                  )
+                }
+              >
+                {this.props.removeText}
+              </div>
+            </div>
+          )}
         </div>
         {this.props.isFromCnc &&
           this.props.storeDetails &&
@@ -532,12 +554,12 @@ export default class CartItemForDesktop extends React.Component {
                             pickUpDateDetails && pickUpDateDetails.pickupDate
                           )}`
                         : nextDayFormat === productDayFormatOfClqAndPiq
-                          ? `Tomorrow, ${this.getDayNumberSuffix(
-                              pickUpDateDetails && pickUpDateDetails.pickupDate
-                            )}`
-                          : `${this.getDayNumberSuffix(
-                              pickUpDateDetails && pickUpDateDetails.pickupDate
-                            )}`
+                        ? `Tomorrow, ${this.getDayNumberSuffix(
+                            pickUpDateDetails && pickUpDateDetails.pickupDate
+                          )}`
+                        : `${this.getDayNumberSuffix(
+                            pickUpDateDetails && pickUpDateDetails.pickupDate
+                          )}`
                       : ""}
                     {hours !== 0 ? ` | After ${strTime}` : ""}
                   </div>
@@ -764,6 +786,8 @@ export default class CartItemForDesktop extends React.Component {
                     )
                   }
                   history={this.props.history}
+                  comboDiscount={digitalProduct.comboDiscount}
+                  comboDiscountWith={digitalProduct.comboDiscountWith}
                 />
               );
             }
@@ -793,19 +817,18 @@ export default class CartItemForDesktop extends React.Component {
             />
           )}
 
-        {this.props.isGiveAway === NO &&
-          this.props.deliveryInformation && (
-            <div className={styles.deliveryInfo}>
-              <DeliveryInfoSelect
-                deliveryInformation={this.props.deliveryInformation}
-                selected={this.props.selected}
-                onSelect={val => this.selectDeliveryMode(val)}
-                onPiq={val => this.getPickUpDetails()}
-                isClickable={this.props.isClickable}
-                isShippingObjAvailable={this.props.isShippingObjAvailable}
-              />
-            </div>
-          )}
+        {this.props.isGiveAway === NO && this.props.deliveryInformation && (
+          <div className={styles.deliveryInfo}>
+            <DeliveryInfoSelect
+              deliveryInformation={this.props.deliveryInformation}
+              selected={this.props.selected}
+              onSelect={val => this.selectDeliveryMode(val)}
+              onPiq={val => this.getPickUpDetails()}
+              isClickable={this.props.isClickable}
+              isShippingObjAvailable={this.props.isShippingObjAvailable}
+            />
+          </div>
+        )}
       </div>
     );
   }

@@ -27,7 +27,6 @@ import { LOGIN_PATH } from "../../lib/constants";
 import * as UserAgent from "../../lib/UserAgent.js";
 import DesktopAuth from "../../auth/components/DesktopAuth.js";
 import CashBackDetailsPopupContainer from "../containers/CashBackDetailsPopupContainer";
-// import Cliq2CallPopUp from "../../account/components/Cliq2CallPopUp";
 import CustomerQueryErrorModal from "../../account/components/CustomerQueryErrorModal";
 import TimeSlotPopUp from "../../account/components/TimeSlotPopUp";
 const modalRoot = document.getElementById("modal-root");
@@ -140,7 +139,9 @@ const OfferDetailsModal = Loadable({
 
 const BeautyOfferDetailsModal = Loadable({
   loader: () =>
-    import("../../pdp/components/PdpBeautyDesktop/ImageGalleryContentComponents/ProductDetailsSection/BeautyOfferDetailsModal"),
+    import(
+      "../../pdp/components/PdpBeautyDesktop/ImageGalleryContentComponents/ProductDetailsSection/BeautyOfferDetailsModal"
+    ),
   loading() {
     return <Loader />;
   }
@@ -148,7 +149,9 @@ const BeautyOfferDetailsModal = Loadable({
 
 const BeautyPdpImageZoomIn = Loadable({
   loader: () =>
-    import("../../pdp/components/PdpBeautyDesktop/ImageGalleryContentComponents/ProductDetailsSection/BeautyPdpImageZoomIn"),
+    import(
+      "../../pdp/components/PdpBeautyDesktop/ImageGalleryContentComponents/ProductDetailsSection/BeautyPdpImageZoomIn"
+    ),
   loading() {
     return <Loader />;
   }
@@ -398,8 +401,23 @@ const CustomerCallQuerySuccess = Loadable({
   }
 });
 
+const AlertPopUp = Loadable({
+  loader: () => import("../../account/components/alert-pop-up"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const AppliancesExchangeModal = Loadable({
   loader: () => import("../../pdp/components/AppliancesExchangeModal"),
+  loading() {
+    return <Loader />;
+  }
+});
+
+const AttachmentUploadPopUp = Loadable({
+  loader: () =>
+    import("../../account/components/attchment-upload-response-popup.jsx"),
   loading() {
     return <Loader />;
   }
@@ -766,6 +784,10 @@ export default class ModalRoot extends React.Component {
 
   async removeExchange(data) {
     return await this.props.removeExchange(data);
+  }
+
+  logOutUser() {
+    this.props.logoutUser();
   }
 
   render() {
@@ -1298,6 +1320,23 @@ export default class ModalRoot extends React.Component {
           history={this.props.history}
         />
       ),
+      AlertPopUp: (
+        <AlertPopUp
+          closeModal={() => this.handleClose()}
+          setUrlToRedirectToAfterAuth={this.props.setUrlToRedirectToAfterAuth}
+          logoutUser={() => this.logOutUser()}
+          logoutUserStatuss={this.props.logoutUserStatuss}
+          {...this.props.ownProps}
+        />
+      ),
+
+      AttachmentUploadPopUp: (
+        <AttachmentUploadPopUp
+          closeModal={() => this.handleClose()}
+          {...this.props.ownProps}
+        />
+      ),
+
       AppliancesExchangeModal: (
         <AppliancesExchangeModal
           {...this.props.ownProps}

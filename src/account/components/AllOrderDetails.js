@@ -226,11 +226,10 @@ export default class AllOrderDetails extends React.Component {
   };
 
   redirectToHelp = url => {
-    // const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
-    // this.props.history.push(urlSuffix);
-
-    this.props.history.push(`${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`);
+    const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
+    this.props.history.push(urlSuffix);
   };
+
   renderToContinueShopping() {
     setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING);
     this.props.history.push(HOME_ROUTER);
