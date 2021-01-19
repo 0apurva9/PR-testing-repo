@@ -1543,11 +1543,14 @@ export function getOrderSummary(pincode) {
       const result = await api.get(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/carts/${cartId}/displayOrderSummary?access_token=${
+        }/carts/${cartId}/displayOrderSummary_V2?access_token=${
           JSON.parse(customerCookie).access_token
         }&pincode=${pincode}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
       );
       const resultJson = await result.json();
+      if (Cookie.getCookie("egvCartGuid")) {
+        Cookie.deleteCookie("egvCartGuid");
+      }
 
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
@@ -3258,7 +3261,7 @@ export function binValidation(
 ) {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-
+  let egvCartGuid = Cookie.getCookie("egvCartGuid");
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
   const parsedQueryString = queryString.parse(window.location.search);
   let cartId;
@@ -3268,10 +3271,14 @@ export function binValidation(
   if (isFromRetryUrl) {
     cartId = retryCartGuid;
   } else {
-    cartId =
-      cartDetails && JSON.parse(cartDetails).guid
-        ? JSON.parse(cartDetails).guid
-        : Cookie.getCookie(OLD_CART_GU_ID);
+    if (egvCartGuid) {
+      cartId = egvCartGuid;
+    } else {
+      cartId =
+        cartDetails && JSON.parse(cartDetails).guid
+          ? JSON.parse(cartDetails).guid
+          : Cookie.getCookie(OLD_CART_GU_ID);
+    }
   }
 
   let giftCartObj = JSON.parse(localStorage.getItem(EGV_GIFT_CART_ID));
@@ -6681,6 +6688,7 @@ export function binValidationOfEmiEligible(binNo) {
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let access_token = JSON.parse(customerCookie).access_token;
+  let dcemi = localStorage.getItem(IS_DC_EMI_SELECTED);
   return async (dispatch, getState, { api }) => {
     dispatch(binValidationOfEmiEligibleRequest());
     try {
@@ -6698,7 +6706,7 @@ export function binValidationOfEmiEligible(binNo) {
       const result = await api.corePostByUrlEncoded(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/payments/emiEligibleBin?access_token=${access_token}&bin=${binNo}`
+        }/payments/emiEligibleBin?access_token=${access_token}&bin=${binNo}&isDCEMI=${dcemi}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -7429,7 +7437,7 @@ export function stripe_juspay_Tokenize(
         pspName: "Juspay",
         token: "",
         cardToken: juspayToken && juspayToken.token,
-        cardFingerprint: "",
+        cardFingerprint: juspayToken && juspayToken.fingerprint,
         cardRefNo: "",
         returnUrl: returnUrl
       };

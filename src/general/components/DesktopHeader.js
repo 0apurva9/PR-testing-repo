@@ -277,7 +277,15 @@ export default class DesktopHeader extends React.Component {
       userCookie = JSON.parse(userCookie);
     }
     let className = styles.base;
-    let logo = styles.logoHolder;
+    let logo = "";
+    if (
+      this.props.history.location.pathname.includes("/checkout") ||
+      this.props.history.location.pathname.includes("/cart")
+    ) {
+      logo = styles.logoHolderWithoutPointer;
+    } else {
+      logo = styles.logoHolder;
+    }
     if (this.props.isSticky) {
       className = styles.stickyBase;
       logo = styles.stickyLogo;
