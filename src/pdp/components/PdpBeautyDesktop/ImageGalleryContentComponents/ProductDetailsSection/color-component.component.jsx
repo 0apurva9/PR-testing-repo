@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import delay from "lodash.delay";
 
 import styles from "./color-component.component.css";
 import { findSelectedSize } from "../../../../reducers/utils";
@@ -22,16 +23,18 @@ export default class ColorComponent extends React.Component {
 
 
   handleScrollToTop() {
-    if (this.props.handleDetailsScroll) {
-      this.props.handleDetailsScroll();
+    if (this.props.handleScrollToTop) {
+      this.props.handleScrollToTop();
     }
   }
 
   componentDidMount() {
-    if (this.colorShadeRef.current) {
-      this.colorShadeRef.current.scrollIntoView(true);
+    if (this.colorShadeRef && this.colorShadeRef.current) {
+      delay(() => {
+        this.colorShadeRef.current.scrollIntoView({block: "start", inline: "nearest"});
+      }, 300);
     }
-    this.props.handleScrollToTop();
+    this.handleScrollToTop();
     const variantTheme = this.props.productDetails && this.props.productDetails.variantOptions && this.props.productDetails.variantTheme;
     const variantOptions =  this.props && this.props.productDetails && this.props.productDetails.variantOptions;
     const productListingId =  this.props && this.props.productDetails && this.props.productDetails.productListingId;
