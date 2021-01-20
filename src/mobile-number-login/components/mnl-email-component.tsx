@@ -57,16 +57,16 @@ export class MnlEmail extends React.Component<MnlChallengeProps, MnlChallengeSta
                             />
                             <label htmlFor="emailAddress">E-Mail Address</label>
                         </div>
-                        <div className={styles.formInfoTxt}>
-                            <button
-                                type="button"
-                                className={styles.btnLink}
-                                onClick={() => this.validateCall()}
-                                disabled={this.props.isWebMNLEmailHidden.value}
-                            >
-                                Do it later
+                        {!this.props.isWebMNLEmailHidden.value &&
+                            <div className={styles.formInfoTxt}>
+                                <button
+                                    type="button"
+                                    className={styles.btnLink}
+                                    onClick={() => this.validateCall()}
+                                >
+                                    Do it later
                                 </button>
-                        </div>
+                            </div>}
                     </div>
                     <button
                         type="button"
@@ -93,5 +93,5 @@ export interface MnlChallengeProps {
     setMnlApiData: (mnlApiData: MnlApiData) => void;
     validateOtp: (mnlApiData: MnlApiData) => void;
     mnlApiData: MnlApiData;
-    isWebMNLEmailHidden : isMNLLogin;
+    isWebMNLEmailHidden: isMNLLogin;
 }

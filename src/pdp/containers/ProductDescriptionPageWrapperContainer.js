@@ -383,6 +383,8 @@ const mapStateToProps = state => {
     similarProductError: state.productDescription.similarProductError,
     similarProductLoading: state.productDescription.similarProductLoading,
     isMNLLogin: state.mobileNumberLogin.isMNLLogin,
+    isMobileNumberLoginModalActive: state.modal.isMobileNumberLoginModalActive,
+    tempCartIdForLoggedInUserLoading: state.cart.tempCartIdForLoggedInUserLoading,
   };
 };
 

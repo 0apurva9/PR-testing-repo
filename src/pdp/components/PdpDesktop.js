@@ -248,6 +248,7 @@ export default class PdpApparel extends React.Component {
   };
 
   componentWillReceiveProps(nextProps) {
+    const productDetailsForBuyNow = localStorage.getItem(BUY_NOW_PRODUCT_DETAIL);
     if (
       nextProps.bundledProductSuggestionStatus === SUCCESS &&
       nextProps.bundledProductSuggestionDetails &&
@@ -261,6 +262,37 @@ export default class PdpApparel extends React.Component {
       this.setState({
         bundledProductSuggestionDetails: null,
       });
+    }
+    if (
+      (nextProps.userDetails && nextProps.userDetails.status === "Success") ||
+      !nextProps.isMobileNumberLoginModalActive
+    ) {
+      this.setState({
+        isLoader: false,
+      });
+    }
+
+    if (
+      nextProps.isMNLLogin.value &&
+      productDetailsForBuyNow &&
+      !nextProps.tempCartIdForLoggedInUserLoading &&
+      nextProps.userDetails &&
+      nextProps.userDetails.status === "Success"
+    ) {
+      this.goForBuyNow();
+    }
+  }
+
+  async goForBuyNow() {
+    const productDetailsForBuyNow = localStorage.getItem(BUY_NOW_PRODUCT_DETAIL);
+    const buyNowResponse = await this.props.buyNow(JSON.parse(productDetailsForBuyNow));
+    if (buyNowResponse && buyNowResponse.status === SUCCESS) {
+      this.props.history.push(PRODUCT_CART_ROUTER);
+    } else {
+      this.props.displayToast(BUY_NOW_ERROR_MESSAGE);
+      if (this.props.redirectToAfterAuthUrl) {
+        this.props.clearUrlToRedirectToAfterAuth();
+      }
     }
   }
 
@@ -500,15 +532,15 @@ export default class PdpApparel extends React.Component {
     }
   };
   navigateToLogin(isBuyNow) {
-    const url = this.props.location.pathname;
-    if (isBuyNow) {
-      this.props.setUrlToRedirectToAfterAuth(PRODUCT_CART_ROUTER);
-    } else {
-      this.props.setUrlToRedirectToAfterAuth(url);
-    }
     if (this.props.isMNLLogin.value) {
       this.props.openMobileNumberLoginModal();
     } else {
+      const url = this.props.location.pathname;
+      if (isBuyNow) {
+        this.props.setUrlToRedirectToAfterAuth(PRODUCT_CART_ROUTER);
+      } else {
+        this.props.setUrlToRedirectToAfterAuth(url);
+      }
       this.props.history.push(LOGIN_PATH);
     }
   }
