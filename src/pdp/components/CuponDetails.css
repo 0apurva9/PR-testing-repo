@@ -71,7 +71,7 @@
 }
 @media only screen and (min-width: 1025px) {
   .cuponCard {
-    padding: 15px 0px;
+    padding: 15px 15px;
     border-bottom: 2px dotted #d8d8d8;
   }
 }
@@ -93,5 +93,13 @@
   color:#da1c5c;
   margin-left: 5px;
   font-weight: bold;
+  font-size: 12px;
+}
+.removeApplyCoupon{
+  color: #4a4a4a;
+  font-size: 12px;
+}
+.applyCoupon{
+  color:#da1c5c;
   font-size: 12px;
 }

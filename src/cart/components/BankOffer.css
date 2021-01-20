@@ -69,15 +69,16 @@
     margin-bottom: 20px;
   }
   .labelText {
-    width: 50%;
+    width: auto;
     height: 25px;
     line-height: 25px;
-    color: #212121;
-    font-family: semibold;
+    color:#499b1f;
     font-size: 16px;
     text-align: left;
     display: inline-block;
     vertical-align: top;
+    padding: 0px 5px;
+    background-color: #ecf9e5;
   }
   .buttonHolder {
     width: 50%;
@@ -90,23 +91,22 @@
   .offerShowHolder {
     width: 100%;
     height: auto;
-    padding: 0px 20px;
   }
   .offerCard {
     width: 100%;
     height: auto;
-    padding-left: 40px;
     position: relative;
     display: inline-block;
   }
   .checkBoxHolder {
     width: 20px;
     height: 20px;
-    left: 0;
-    top: 0;
+    width: fit-content;
+    /* left: 0;
+    top: 0; */
   }
   .dataShow {
-    width: 100%;
+    width: 90%;
     height: 22px;
     line-height: 22px;
     color: #000000;
@@ -119,4 +119,29 @@
   .dataShow .offerText1 {
     font-family: light;
   }
+}
+.viewtnc{
+  color:#da1c5c;
+  margin-left: 10px;
+  font-size: 14px;
+}
+.viewBankOffer{
+  color:#8d8d8d;
+  font-size: 14px;
+  margin-top: 5px;
+}
+.removeApplyCoupon{
+  color: #8d8d8d;
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 2px;
+}
+.applyCoupon{
+  color:#da1c5c;
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 2px;
+}
+.offerandTnc{
+  margin-top: 10px;
 }
