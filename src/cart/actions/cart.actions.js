@@ -3335,6 +3335,7 @@ export function binValidationForNetBanking(
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  let egvCartGuid = Cookie.getCookie("egvCartGuid");
   const parsedQueryString = queryString.parse(window.location.search);
   let cartId;
   if (parsedQueryString.value) {
@@ -3343,10 +3344,14 @@ export function binValidationForNetBanking(
   if (isFromRetryUrl) {
     cartId = retryCartGuid;
   } else {
-    cartId =
-      cartDetails && JSON.parse(cartDetails).guid
-        ? JSON.parse(cartDetails).guid
-        : Cookie.getCookie(OLD_CART_GU_ID);
+    if (egvCartGuid) {
+      cartId = egvCartGuid;
+    } else {
+      cartId =
+        cartDetails && JSON.parse(cartDetails).guid
+          ? JSON.parse(cartDetails).guid
+          : Cookie.getCookie(OLD_CART_GU_ID);
+    }
   }
 
   let giftCartObj = JSON.parse(localStorage.getItem(EGV_GIFT_CART_ID));
@@ -5068,6 +5073,8 @@ export function binValidationForCOD(
   }
   if (isFromRetryUrl) {
     cartId = retryCartGuid;
+  } else if (Cookie.getCookie("egvCartGuid")) {
+    cartId = Cookie.getCookie("egvCartGuid");
   } else {
     cartId = JSON.parse(cartDetails).guid;
   }
