@@ -78,48 +78,54 @@ export default class SizeComponent extends React.Component {
               {sizeOptions &&
                 sizeOptions.length > 0 &&
                 sizeOptions.map((val, i) => {
-                  if (val.isAvailable === true) {
-                    selectedClass =
-                      this.state.isSelected && this.state.selectedIndex === i
-                        ? [styles["size-outer"], styles["selected"]].join(" ")
-                        : styles["size-outer"];
-                    return (
-                      <div
-                        key={i}
-                        className={styles["size-select"]}
-                        onClick={() => this.handleSizeOptionClick(val.url)}
-                      >
-                        <div className={selectedClass}>
-                          <div
-                            className={styles["size-icon"]}
-                            style={{ backgroundImage: `url(${val.imageUrl})` }}
-                          ></div>
-                          {val.size}
+                  if (val.productCode) {
+                    if (val.isAvailable === true) {
+                      selectedClass =
+                        this.state.isSelected && this.state.selectedIndex === i
+                          ? [styles["size-outer"], styles["selected"]].join(" ")
+                          : styles["size-outer"];
+                      return (
+                        <div
+                          key={i}
+                          className={styles["size-select"]}
+                          onClick={() => this.handleSizeOptionClick(val.url)}
+                        >
+                          <div className={selectedClass}>
+                            <div
+                              className={styles["size-icon"]}
+                              style={{
+                                backgroundImage: `url(${val.imageUrl})`
+                              }}
+                            ></div>
+                            {val.size}
+                          </div>
                         </div>
-                      </div>
-                    );
-                  }
-                  if (val.isAvailable === false) {
-                    return (
-                      <div
-                        key={i}
-                        className={[
-                          styles["size-not-avail"],
-                          styles["size-select"]
-                        ].join(" ")}
-                      >
-                        <div className={styles["size-outer"]}>
-                          <div
-                            className={styles["size-icon"]}
-                            style={{
-                              backgroundImage: `url(${val.imageUrl})`,
-                              backgroundSize: `auto ${34}px`
-                            }}
-                          ></div>
-                          {val.size}
+                      );
+                    }
+                    if (val.isAvailable === false) {
+                      return (
+                        <div
+                          key={i}
+                          className={[
+                            styles["size-not-avail"],
+                            styles["size-select"]
+                          ].join(" ")}
+                        >
+                          <div className={styles["size-outer"]}>
+                            <div
+                              className={styles["size-icon"]}
+                              style={{
+                                backgroundImage: `url(${val.imageUrl})`,
+                                backgroundSize: `auto ${34}px`
+                              }}
+                            ></div>
+                            {val.size}
+                          </div>
                         </div>
-                      </div>
-                    );
+                      );
+                    }
+                  } else {
+                    return null;
                   }
                 })}
             </div>

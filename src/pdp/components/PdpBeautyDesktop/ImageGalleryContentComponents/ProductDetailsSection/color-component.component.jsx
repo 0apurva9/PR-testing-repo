@@ -22,9 +22,9 @@ export default class ColorComponent extends React.Component {
   }
 
 
-  handleScrollToTop() {
+  handleScrollToTop(delayValue, scrollBehavior = "") {
     if (this.props.handleScrollToTop) {
-      this.props.handleScrollToTop();
+      this.props.handleScrollToTop(delayValue, scrollBehavior);
     }
   }
 
@@ -32,9 +32,9 @@ export default class ColorComponent extends React.Component {
     if (this.colorShadeRef && this.colorShadeRef.current) {
       delay(() => {
         this.colorShadeRef.current.scrollIntoView({block: "start", inline: "nearest"});
-      }, 300);
+      }, 150);
     }
-    this.handleScrollToTop();
+    this.handleScrollToTop(160);
     const variantTheme = this.props.productDetails && this.props.productDetails.variantOptions && this.props.productDetails.variantTheme;
     const variantOptions =  this.props && this.props.productDetails && this.props.productDetails.variantOptions;
     const productListingId =  this.props && this.props.productDetails && this.props.productDetails.productListingId;
@@ -49,7 +49,14 @@ export default class ColorComponent extends React.Component {
 
   expandShadeSelector(e) {
     e.preventDefault();
-    this.setState({ expandClass: !this.state.expandClass });
+    this.setState({ expandClass: !this.state.expandClass }, () => {
+      if(!this.state.expandClass) {
+        if (this.colorShadeRef && this.colorShadeRef.current) {
+            this.colorShadeRef.current.scrollIntoView({block: "start", inline: "nearest"});
+            this.handleScrollToTop(200, "smooth");
+        }
+      }
+    });
   }
 
   onMouseEnter(i, j) {
@@ -141,65 +148,69 @@ export default class ColorComponent extends React.Component {
                         <div className={styles["shade-list-block"]}>
                           {colorAndSize.colorOptions.map((colorElement, j) => {
                             let classForHexCode = (!colorElement.swatchUrl && colorElement.colorHexCode) ?  { backgroundColor: `${colorElement.colorHexCode}`, width: "58px", height: "58px"}: null;
-                            return (
-                              <div className={
-                                !colorElement.isAvailable
-                                ? styles["dis-cursor"]
-                                : null
-                              }>
-                                <div
-                                  key={j}
-                                  className={
-                                    !colorElement.isAvailable
-                                    ? styles["dis-outstock-img"]
-                                    : styles["shade-list"]
-                                  }
-                                  onMouseEnter={() => this.onMouseEnter(i, j)}
-                                  onMouseLeave={() => this.onMouseLeave(i, j)}
-                                  onClick={() =>
-                                    this.handleColorOptionClick(colorElement.url)
-                                  }
-                                  ref={
-                                    colorElement.selected
-                                      ? this.colorShadeRef
-                                      : null
-                                  }
-                                >
+                            if(colorElement.productCode) {
+                              return (
+                                <div className={
+                                  !colorElement.isAvailable
+                                  ? styles["dis-cursor"]
+                                  : null
+                                }>
                                   <div
-                                    className={[
-                                      styles["shade-list-img-block"],
-                                      colorElement.selected
-                                        ? styles["shade-stock-selected-img"]
-                                        : "",
+                                    key={j}
+                                    className={
                                       !colorElement.isAvailable
-                                        ? styles["shade-stock-dis-img"]
-                                        : "",
-                                    ].join(" ")}
-                                    style={classForHexCode}
+                                      ? styles["dis-outstock-img"]
+                                      : styles["shade-list"]
+                                    }
+                                    onMouseEnter={() => this.onMouseEnter(i, j)}
+                                    onMouseLeave={() => this.onMouseLeave(i, j)}
+                                    onClick={() =>
+                                      this.handleColorOptionClick(colorElement.url)
+                                    }
+                                    ref={
+                                      colorElement.selected
+                                        ? this.colorShadeRef
+                                        : null
+                                    }
                                   >
-                                    {colorElement.swatchUrl ? (
-                                      <img
-                                      src={colorElement.swatchUrl}
-                                      className={styles["shade-list-img"]}
-                                      alt={"swatch"}
-                                    />
-                                    ): null}
-                                  </div>
-                                  {stockCount && stockCount <= 3 ? (
-                                    <div className={styles["shade-stock-left"]}>
-                                      {stockCount}
+                                    <div
+                                      className={[
+                                        styles["shade-list-img-block"],
+                                        colorElement.selected
+                                          ? styles["shade-stock-selected-img"]
+                                          : "",
+                                        !colorElement.isAvailable
+                                          ? styles["shade-stock-dis-img"]
+                                          : "",
+                                      ].join(" ")}
+                                      style={classForHexCode}
+                                    >
+                                      {colorElement.swatchUrl ? (
+                                        <img
+                                        src={colorElement.swatchUrl}
+                                        className={styles["shade-list-img"]}
+                                        alt={"swatch"}
+                                      />
+                                      ): null}
                                     </div>
-                                  ) : null}
-                                  {this.state.showTooltip &&
-                                    this.state.sizeIndex === i &&
-                                    this.state.toolTipIndex === j && (
-                                      <div className={styles["shade-tool-tip"]}>
-                                        {colorElement.color}
+                                    {stockCount && stockCount <= 3 ? (
+                                      <div className={styles["shade-stock-left"]}>
+                                        {stockCount}
                                       </div>
-                                    )}
+                                    ) : null}
+                                    {this.state.showTooltip &&
+                                      this.state.sizeIndex === i &&
+                                      this.state.toolTipIndex === j && (
+                                        <div className={styles["shade-tool-tip"]}>
+                                          {colorElement.color}
+                                        </div>
+                                      )}
+                                  </div>
                                 </div>
-                              </div>
-                            );
+                              );
+                            } else {
+                              return null;
+                            }
                           })}
                         </div>
                       </React.Fragment>

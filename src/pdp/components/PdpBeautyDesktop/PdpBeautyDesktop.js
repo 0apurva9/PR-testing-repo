@@ -65,10 +65,18 @@ export default class PdpBeautyDesktop extends React.Component {
     }
   };
 
-  scrollToTop = () => {
+  scrollToTop = (delayValue, scrollBehavior) => {
+    let behavior = {};
+    if (scrollBehavior === "smooth") {
+      behavior = { behavior: "smooth" };
+    }
     delay(() => {
-      window.scrollTo(0, 0);
-    }, 400);
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        ...behavior
+      });
+    }, delayValue);
   };
 
   componentDidMount = () => {
@@ -182,7 +190,9 @@ export default class PdpBeautyDesktop extends React.Component {
               {...this.props}
               compDetails={sectionOfImageAndContentComponent}
               handleDetailsScroll={this.handleDetailsScroll}
-              scrollToTop={this.scrollToTop}
+              scrollToTop={(delayValue, scrollBehavior) =>
+                this.scrollToTop(delayValue, scrollBehavior)
+              }
             />
           </div>
           <div className={styles.container}>
