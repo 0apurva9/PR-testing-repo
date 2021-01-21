@@ -824,14 +824,14 @@ export default class Plp extends React.Component {
                 )}
                 {!electronicView && this.state.showToggleButton && (
                   <React.Fragment>
-                    <div
-                      className={[
-                        styles["switch-view"],
-                        this.state.toggleView ? null : styles["switch-off"]
-                      ].join(" ")}
-                    >
+                    <div className={styles["switch-view"]}>
                       <p className={styles["switch-title"]}>Swatch Mode </p>
-                      <div className={styles["switch-item"]}>
+                      <div
+                        className={[
+                          styles["switch-item"],
+                          this.state.toggleView ? null : styles["switch-off"]
+                        ].join(" ")}
+                      >
                         <input
                           className={styles["switch-light"]}
                           id="cb1"
