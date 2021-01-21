@@ -193,6 +193,9 @@
     vertical-align: middle;
     position: relative;
 }
+.switch-off {
+  border-color: red;
+}
 .switch-title {
   font-family: "Rubik", sans-serif;
   font-weight: 500;
