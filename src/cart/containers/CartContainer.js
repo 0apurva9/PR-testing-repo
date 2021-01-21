@@ -16,7 +16,8 @@ import {
   mergeTempCartWithOldCart,
   getMinicartProducts,
   getAllStoresCNC,
-  getCartCodeAndGuidForLoggedInUser
+  getCartCodeAndGuidForLoggedInUser,
+  removeNoCostEmi
 } from "../actions/cart.actions.js";
 import { displayToast } from "../../general/toast.actions";
 import { withRouter } from "react-router-dom";
@@ -269,8 +270,8 @@ const mapDispatchToProps = dispatch => {
         )
       );
     },
-    addBundledProductsToCart: data => {
-      dispatch(addBundledProductsToCart(data));
+    addBundledProductsToCart: (data, source) => {
+      dispatch(addBundledProductsToCart(data, source));
     },
     getWishlist: () => {
       dispatch(getWishlist());
@@ -280,6 +281,9 @@ const mapDispatchToProps = dispatch => {
     },
     appliancesExchangeCheckPincode: (productCode, pincode) => {
       dispatch(appliancesExchangeCheckPincode(productCode, pincode));
+    },
+    removeNoCostEmi: (couponCode, carGuId, cartId) => {
+      return dispatch(removeNoCostEmi(couponCode, carGuId, cartId));
     }
   };
 };

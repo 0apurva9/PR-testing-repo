@@ -4,11 +4,10 @@ import PropTypes from "prop-types";
 import Button from "../../general/components/Button.js";
 import Icon from "../../xelpmoc-core/Icon";
 import format from "date-fns/format";
-// import orderSuccess from "../components/img/orderSuccess.svg";
 import raisedTicket from "../components/img/raisedTicket.svg";
 import cancleSvg from "../components/img/cancleSvg.svg";
 import raiseTicketDuplicate from "../components/img/raiseTicketDuplicate.svg";
-import { MY_ACCOUNT_PAGE, HOME_ROUTER } from "../../lib/constants";
+import { HOME_ROUTER } from "../../lib/constants";
 const DATE_FORMAT = "Do MMMM";
 export default class CustomerQueryPopUp extends React.Component {
   constructor() {
@@ -46,7 +45,11 @@ export default class CustomerQueryPopUp extends React.Component {
         <div className={styles.closeModal} onClick={() => this.closeModal()}>
           <Icon image={cancleSvg} size={17} />
         </div>
-        <div className={styles.headerText}>
+        <div
+          className={
+            isTicketDuplicate ? styles.headerTextDuplicate : styles.headerText
+          }
+        >
           {isTicketDuplicate ? "Duplicate Ticket" : "Your Ticket Details"}
         </div>
         <div className={styles.image}>
@@ -96,7 +99,6 @@ export default class CustomerQueryPopUp extends React.Component {
             label={"CONTINUE SHOPPING"}
             width={204}
             textStyle={{ color: "#FFF", fontSize: 14 }}
-            // disabled={true}
             onClick={() => this.submit()}
           />
         </div>

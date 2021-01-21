@@ -14,7 +14,6 @@ export default class ProductImage extends React.Component {
   }
 
   render() {
-    // let electronicView = this.props.electronicView === "Electronics";
     return (
       <div
         className={
@@ -25,12 +24,11 @@ export default class ProductImage extends React.Component {
               : styles.base
         }
       >
-        {/* <div className={styles.imageHolder} onClick={() => this.onClickImage()}> */}
         <div
           className={
-            this.props.electronicView
-              ? styles.electronicImageHolder
-              : styles.imageHolder
+            this.props.isClickable
+              ? styles.imageHolder
+              : styles.imageHolderDisabled
           }
           onClick={() => this.onClickImage()}
         >
@@ -49,4 +47,7 @@ export default class ProductImage extends React.Component {
 ProductImage.propTypes = {
   image: PropTypes.string,
   flatImage: false
+};
+ProductImage.defaultProps = {
+  isClickable: true
 };

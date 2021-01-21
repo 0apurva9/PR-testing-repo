@@ -1734,7 +1734,6 @@ export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
   } else {
     productTag = "";
   }
-
   let productCategoryId = pdpResponse && pdpResponse.categoryHierarchy;
   let APlusTamplete =
     pdpResponse &&

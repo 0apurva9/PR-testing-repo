@@ -1,0 +1,35 @@
+.base {
+    width: 415px;
+    height: 233px;
+    padding: 18px 20px 60px 43px;
+    border-radius: 6px;
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0px auto;
+    position: relative;
+}
+
+.content {
+    color: #2d2d2d;
+    font-family: light;
+    margin-top: 40px;
+    font-size: 14px;
+    line-height: 21px;
+    text-align: center;
+}
+
+.closeIconBody {
+    position: absolute;
+    cursor: pointer;
+    right: 14px;
+    top: 13px;
+}
+
+.btnBody {
+    margin-top: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
