@@ -9,7 +9,6 @@ import {
   submitOrderDetails,
   getUserDetails,
   clearOrderTransactionDetails,
-  // getCustomerQueriesDatav2,
   getCustomerQueriesFieldsv2,
   getNonOrderRelatedQuestions,
   getCliqCareWmsResponse,
@@ -20,9 +19,8 @@ import {
   setSelfServeState,
   fetchOrderItemDetails,
   getCliq2CallConfig,
-  placeCustomerCallRequest
-  // getGenesysCallConfigData
-  // setUrlToRedirectToAfterAuth
+  placeCustomerCallRequest,
+  getRecentTicketHistoryDetails
 } from "../actions/account.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 import {
@@ -44,10 +42,6 @@ const mapDispatchToProps = dispatch => {
     getOrderRelatedQuestions: async transactionId => {
       return dispatch(getOrderRelatedQuestions(transactionId));
     },
-    // getCustomerQueriesDatav2: () => {
-    //   dispatch(getCustomerQueriesDatav2());
-    // },
-    //Self-Serve Non-Order-Related Issue
     getNonOrderRelatedQuestions: () => {
       dispatch(getNonOrderRelatedQuestions());
     },
@@ -122,32 +116,17 @@ const mapDispatchToProps = dispatch => {
     },
     showCallQuerySuccessModal: callSuccessData => {
       dispatch(showModal(CUSTOMER_CALL_QUERY_SUCCESS, callSuccessData));
+    },
+    getRecentTicketHistoryDetails: (paginated, ticketStatus) => {
+      dispatch(getRecentTicketHistoryDetails(paginated, ticketStatus));
+    },
+    clearOrderTransactionDetails: () => {
+      dispatch(clearOrderTransactionDetails());
     }
-    // getGenesysCallConfigData: () => {
-    //   dispatch(getGenesysCallConfigData());
-    // }
-    // setHeaderText: text => {
-    //   dispatch(setHeaderText(text));
-    // },
-
-    // clearOrderTransactionDetails: () => {
-    //   dispatch(clearOrderTransactionDetails());
-    // },
-
-    // getCliqCareWmsResponse: () => {
-    //   dispatch(getCliqCareWmsResponse());
-    // }
   };
 };
 const mapStateToProps = state => {
   return {
-    // ordersRelatedLoading: state.profile.ordersRelatedLoading,
-    // customerQueriesData: state.profile.customerQueriesData,
-
-    // userDetails: state.profile.userDetails,
-    // customerQueriesField: state.profile.customerQueriesField,
-    // uploadUserFileStatus: state.profile.uploadUserFileStatus,
-    // uploadUserFileData: state.profile.uploadUserFile,
     userDetails: state.profile.userDetails,
     uploadUserFileLoading: state.profile.uploadUserFileLoading,
     loadingForUserDetails: state.profile.loadingForUserDetails,
@@ -171,7 +150,6 @@ const mapStateToProps = state => {
     FAQData: state.profile.FAQData,
 
     FAQRelatedDataLoading: state.profile.FAQRelatedDataLoading,
-    // QuestionsListData: state.profile.QuestionsListData,
     currentState: state.profile.currentState,
     logoutUserStatus: state.profile.logoutUserStatus,
     loadingForFetchOrderDetails: state.profile.loadingForFetchOrderDetails,
@@ -181,7 +159,11 @@ const mapStateToProps = state => {
     cliq2CallConfigData: state.profile.cliq2CallConfigData,
     genesysResponseLoading: state.profile.genesysResponseLoading,
     genesysResponseData: state.profile.genesysResponseData,
-    genesysCustomerCallRequestData: state.profile.genesysCustomerCallRequestData
+    genesysCustomerCallRequestData:
+      state.profile.genesysCustomerCallRequestData,
+    ticketDetailsDataLoading: state.profile.ticketDetailsDataLoading,
+    ticketHistoryDetails: state.profile.ticketHistoryDetails,
+    initialTicketDetailsData: state.profile.initialTicketDetailsData
   };
 };
 

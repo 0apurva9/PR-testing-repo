@@ -2798,7 +2798,7 @@ export function addBundledProductsToCartFailure(error) {
   };
 }
 
-export function addBundledProductsToCart(data) {
+export function addBundledProductsToCart(data, source) {
   let userDetails = getLoggedInUserDetails();
   let accessToken = getGlobalAccessToken();
   let userId = ANONYMOUS_USER;
@@ -2887,7 +2887,7 @@ export function addBundledProductsToCart(data) {
       const result = await api.post(
         `${PRODUCT_DETAILS_PATH}/${userId}/carts/${
           cartId ? cartId + "/" : ""
-        }productBundlingAdditionToCart?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&quantity=1&addedToCartWl=false&channel=${CHANNEL}`,
+        }productBundlingAdditionToCart?access_token=${accessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&quantity=1&addedToCartWl=false&channel=${CHANNEL}&additionSource=${source}`,
         data
       );
       const resultJson = await result.json();

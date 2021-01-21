@@ -714,13 +714,12 @@ class Feed extends Component {
             {this.renderFeedComponent}
           </List>
         ) : null}
-        {this.props.clpUrl &&
-          this.props.chatbotDetailsData && (
-            <Chatbot
-              clpUrl={this.props.clpUrl}
-              chatbotDetailsData={this.props.chatbotDetailsData}
-            />
-          )}
+        {this.props.clpUrl && this.props.chatbotDetailsData && (
+          <Chatbot
+            clpUrl={this.props.clpUrl}
+            chatbotDetailsData={this.props.chatbotDetailsData}
+          />
+        )}
         <MobileOnly>
           <div
             style={{
