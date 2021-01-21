@@ -62,9 +62,9 @@ export default class ImageGalleryContentComponent extends React.Component {
     }
   };
 
-  handleScrollToTop = () => {
+  handleScrollToTop = (delayValue, scrollBehavior) => {
     if (this.props.scrollToTop) {
-      this.props.scrollToTop();
+      this.props.scrollToTop(delayValue, scrollBehavior);
     }
   };
 
@@ -116,7 +116,9 @@ export default class ImageGalleryContentComponent extends React.Component {
             {...this.props}
             handleDetailsScroll={this.handleDetailsScroll}
             productCompDetails={productCompDetails}
-            handleScrollToTop={this.handleScrollToTop}
+            handleScrollToTop={(delayValue, scrollBehavior) =>
+              this.handleScrollToTop(delayValue, scrollBehavior)
+            }
           />
         </div>
       </div>
