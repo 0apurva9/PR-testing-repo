@@ -303,7 +303,14 @@ export default class CliqGiftCard extends Component {
               </div>
             </div>
             <div className={styles.faqAndTcHolder}>
-              <FaqAndTcBase history={this.props.history} />
+              <FaqAndTcBase
+                history={this.props.history}
+                keyCallOutCliqCash_Egv={
+                  this.props &&
+                  this.props.giftCardsDetails &&
+                  this.props.giftCardsDetails.keyCallOutEgv
+                }
+              />
             </div>
           </div>
           <div className={MyAccountStyles.userProfile}>
