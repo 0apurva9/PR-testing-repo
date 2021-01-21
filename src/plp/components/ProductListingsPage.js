@@ -18,6 +18,7 @@ import {
   CATEGORY_CAPTURE_REGEX,
   BRAND_CAPTURE_REGEX
 } from "./PlpBrandCategoryWrapper.js";
+import { setDataLayer, ADOBE_PLP_TYPE, ICID2, CID } from "../../lib/adobeUtils";
 import { isBrowser } from "browser-or-node";
 
 const OUT_OF_STOCK_FLAG = "inStockFlag";
@@ -285,6 +286,56 @@ class ProductListingsPage extends Component {
             }, 50);
           }
         }
+        let icid, icidType;
+        if (
+          this.props.lastVisitedPlpUrl &&
+          (this.props.lastVisitedPlpUrl.includes("icid2") ||
+            this.props.lastVisitedPlpUrl.includes("cid"))
+        ) {
+          const search = queryString.parse(
+            this.props.location && this.props.location.search
+          );
+          if (search.icid2) {
+            icid = search.icid2;
+            icidType = ICID2;
+          } else if (search.cid) {
+            icid = search.cid;
+            icidType = CID;
+          }
+          const breadcrumbs =
+            this.props.productListings &&
+            this.props.productListings.seo &&
+            this.props.productListings.seo.breadcrumbs &&
+            Array.isArray(this.props.productListings.seo.breadcrumbs) &&
+            this.props.productListings.seo.breadcrumbs.reverse();
+          if (
+            (breadcrumbs &&
+              breadcrumbs[0] &&
+              window.digitalData &&
+              window.digitalData.page &&
+              window.digitalData.page.category &&
+              window.digitalData.page.category.subCategory1 &&
+              breadcrumbs[0].name &&
+              breadcrumbs[0].name.replace(/ /g, "_").toLowerCase() !==
+                window.digitalData.page.category.subCategory1 &&
+              breadcrumbs[1].name &&
+              breadcrumbs[1].name.replace(/ /g, "_").toLowerCase() !==
+                window.digitalData.page.category.subCategory2) ||
+            (breadcrumbs[0] &&
+              window.digitalData &&
+              window.digitalData.page &&
+              window.digitalData.page.category &&
+              !window.digitalData.page.category.subCategory1)
+          ) {
+            setDataLayer(
+              ADOBE_PLP_TYPE,
+              this.props.productListings,
+              icid,
+              icidType
+            );
+          }
+        }
+
         return;
       }
     }

@@ -174,46 +174,6 @@ export default class Plp extends React.Component {
       : this.handleScroll();
     window.addEventListener("scroll", this.throttledScroll);
     this.setHeaderText();
-    if (this.props.lastVisitedPlpUrl === window.location.href) {
-      this.setState({ isCurrentUrl: this.state.isCurrentUrl + 1 }, () => {
-        if (this.state.isCurrentUrl === 1) {
-          if (
-            !window.digitalData ||
-            !window.digitalData.page ||
-            !window.digitalData.page.pageInfo ||
-            window.digitalData.page.pageInfo.pageName !== "product grid"
-          ) {
-            if (
-              this.props.lastVisitedPlpUrl &&
-              (this.props.lastVisitedPlpUrl.includes("icid2") ||
-                this.props.lastVisitedPlpUrl.includes("cid"))
-            ) {
-              const search = parse(
-                this.props.location && this.props.location.search
-              );
-              let icid, icidType;
-              if (search.icid2) {
-                icid = search.icid2;
-                icidType = ICID2;
-              } else if (search.cid) {
-                icid = search.cid;
-                icidType = CID;
-              }
-              setDataLayer(
-                ADOBE_PLP_TYPE,
-                this.props.productListings,
-                icid,
-                icidType
-              );
-            } else {
-              setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
-            }
-          }
-        }
-      });
-    } else {
-      setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
-    }
 
     //show refine if filtersOpenAmp is true
     const parsedQueryString = queryString.parse(this.props.location.search);
