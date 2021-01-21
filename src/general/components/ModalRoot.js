@@ -416,6 +416,12 @@ const AppliancesExchangeModal = Loadable({
     return <Loader />;
   }
 });
+const ValidateCliqCashPopUpContainer = Loadable({
+  loader: () => import("../../cart/containers/ValidateCliqCashPopUpContainer"),
+  loading() {
+    return <Loader />;
+  }
+});
 
 export default class ModalRoot extends React.Component {
   constructor(props) {
@@ -1328,7 +1334,14 @@ export default class ModalRoot extends React.Component {
             this.props.updateAppliancesExchangeDetails(exchangeData)
           }
         />
-      )
+      ),
+      ValidateCliqCashPopUp: (
+        <ValidateCliqCashPopUpContainer
+          {...this.props.ownProps}
+          closeModal={() => this.handleClose()}
+          changePaymentMethod={() => this.handleClose()}
+        />
+      ),
     };
 
     let SelectedModal = MODAL_COMPONENTS[this.props.modalType];
