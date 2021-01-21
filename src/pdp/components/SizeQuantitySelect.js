@@ -32,6 +32,40 @@ export default class SizeQuantitySelect extends React.Component {
       this.props.showSizeGuide();
     }
   }
+
+  updateQuantityAndSizeOnInitialMount = (productUrl, quantity) => {
+    if (this.props.updateQuantity && this.props.updateSize) {
+      this.props.updateSize();
+      this.props.updateQuantity(quantity);
+      this.props.history.push({
+        pathname: `${productUrl}`,
+        state: { isQuantitySelected: true, isSizeSelected: true }
+      });
+    }
+  };
+
+  componentDidMount() {
+    if (this.props.rootCategory === "HomeFurnishing") {
+      const selectedVariant =
+        this.props.data &&
+        this.props.data.length > 0 &&
+        this.props.data.filter(val => {
+          return val.colorlink.selected;
+        })[0];
+      if (
+        selectedVariant &&
+        selectedVariant.sizelink &&
+        selectedVariant.sizelink.url
+      ) {
+        this.updateQuantityAndSizeOnInitialMount(selectedVariant.sizelink.url, {
+          label: "1",
+          value: "1",
+          isImageApplicable: null
+        });
+      }
+    }
+  }
+
   render() {
     const selectedVariant = this.props.data.filter(val => {
       return val.colorlink.selected;

@@ -52,7 +52,9 @@ export default class Plp extends React.Component {
       fixedScroll: false,
       view: GRID,
       gridBreakup: false,
-      isCurrentUrl: 0
+      isCurrentUrl: 0,
+      showToggleButton: false,
+      toggleView: false
     };
   }
   toggleFilter = () => {
@@ -168,6 +170,50 @@ export default class Plp extends React.Component {
       this.props.paginate(this.props.pageNumber + 1, SUFFIX);
     }
   }
+
+  UNSAFE_componentWillReceiveProps() {
+    let categoryCodes = [];
+    let foundCategory = [];
+    let defaultViewCategories =
+      this.props.defaultViewData[0] && this.props.defaultViewData[0].value;
+    if (
+      this.props.productListings &&
+      this.props.productListings.facetdatacategory &&
+      this.props.productListings.facetdatacategory.filters &&
+      this.props.productListings.facetdatacategory.filters[0] &&
+      this.props.productListings.facetdatacategory.filters[0].categoryCode
+    ) {
+      const filterCategory = this.props.productListings.facetdatacategory
+        .filters[0].categoryCode;
+      if (defaultViewCategories) {
+        categoryCodes = Object.keys(
+          JSON.parse(this.props.defaultViewData[0].value)
+        );
+        if (categoryCodes && categoryCodes.length > 0) {
+          foundCategory = categoryCodes.filter(
+            el => el.toUpperCase() == filterCategory.toUpperCase()
+          );
+          if (foundCategory && foundCategory.length > 0) {
+            let view = JSON.parse(defaultViewCategories)[foundCategory[0]]
+              ? JSON.parse(defaultViewCategories)[foundCategory[0]]
+              : "GRID";
+            if (view.toUpperCase() === "LIST") {
+              this.setState({
+                gridBreakup: true,
+                view: LIST
+              });
+            } else {
+              this.setState({
+                gridBreakup: false,
+                view: GRID
+              });
+            }
+          }
+        }
+      }
+    }
+  }
+
   componentDidMount() {
     this.throttledScroll = !UserAgent.checkUserAgentIsMobile()
       ? () => this.handleScroll()
@@ -405,6 +451,7 @@ export default class Plp extends React.Component {
       isFilter: false
     });
   }
+
   componentDidUpdate(prevProps) {
     this.setHeaderText();
     if (!UserAgent.checkUserAgentIsMobile()) {
@@ -420,7 +467,22 @@ export default class Plp extends React.Component {
         this.setState({ totalHeight: maxHeight });
       }
     }
+    if (
+      (prevProps.productListings && prevProps.productListings.view) !==
+      (this.props.productListings && this.props.productListings.view)
+    ) {
+      const viewInfoData =
+        this.props &&
+        this.props.productListings &&
+        this.props.productListings.view;
+      if (viewInfoData) {
+        if (viewInfoData.imageToggle) {
+          this.setState({ showToggleButton: true });
+        }
+      }
+    }
   }
+
   backPage = () => {
     if (this.props.isFilterOpen) {
       this.props.hideFilter();
@@ -550,6 +612,10 @@ export default class Plp extends React.Component {
       );
     }
   };
+
+  toggleSwatchProductView() {
+    this.setState({ toggleView: !this.state.toggleView });
+  }
 
   render() {
     let selectedFilterCount = 0;
@@ -728,6 +794,25 @@ export default class Plp extends React.Component {
                     </DesktopOnly>
                   </div>
                 )}
+                {!electronicView && this.state.showToggleButton && (
+                  <React.Fragment>
+                    <div className={styles["switch-view"]}>
+                      <p className={styles["switch-title"]}>Swatch Mode </p>
+                      <div className={styles["switch-item"]}>
+                        <input
+                          className={styles["switch-light"]}
+                          id="cb1"
+                          type="checkbox"
+                          onClick={() => this.toggleSwatchProductView()}
+                        />
+                        <label
+                          className={styles["switch-btn"]}
+                          for="cb1"
+                        ></label>
+                      </div>
+                    </div>
+                  </React.Fragment>
+                )}
               </div>
             </MediaQuery>
 
@@ -822,6 +907,7 @@ export default class Plp extends React.Component {
                       gridBreakup={this.state.gridBreakup}
                       productListings={this.props.productListings}
                       secondaryFeedData={this.props.secondaryFeedData}
+                      toggleView={this.state.toggleView}
                     />
                   </div>
                   <DesktopOnly>

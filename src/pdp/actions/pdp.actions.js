@@ -371,22 +371,24 @@ export function getMasterTemplate(categoryId) {
     dispatch(getMasterTemplateRequest());
     try {
       const result = await api.customGetMiddlewareUrl(
-        `/otatacliq/getApplicationProperties.json?propertyNames=${categoryId}_desktop`
+        `/otatacliq/desktop/template/${categoryId}`
       );
-      const resultJson = await result.json();
-      const value =
-        resultJson &&
-        resultJson.applicationProperties[0] &&
-        JSON.parse(resultJson.applicationProperties[0].value);
-      const finalJson = { name: categoryId, value };
+      let resultJson = await result.json();
+      let finalJson = {};
+      if (
+        resultJson.status === SUCCESS ||
+        resultJson.status === SUCCESS_UPPERCASE ||
+        resultJson.status === SUCCESS_CAMEL_CASE
+      ) {
+        const value = resultJson && resultJson.response && resultJson.response;
+        finalJson = { name: categoryId, value };
+        return dispatch(getMasterTemplateSuccess(finalJson));
+      }
 
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-
-      return dispatch(getMasterTemplateSuccess(finalJson));
     } catch (error) {
       dispatch(getMasterTemplateFailure(error.message));
     }

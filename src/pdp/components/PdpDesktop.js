@@ -1613,6 +1613,7 @@ export default class PdpApparel extends React.Component {
                                       productData.rootCategory ===
                                         "FashionJewellery"
                                     }
+                                    rootCategory={productData.rootCategory}
                                   />
                                 </div>
                               </React.Fragment>

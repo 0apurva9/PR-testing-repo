@@ -104,27 +104,63 @@ export default class BuyNowAddToBagComponent extends React.Component {
   }
 
   checkIfSizeSelected = () => {
+    let sizeOptions = [];
+    let selectedSize = [];
+
     if (this.props.location.state && this.props.location.state.isSizeSelected) {
       return true;
     }
 
-    if (this.props.productDetails.variantOptions) {
+    if (
+      this.props.productDetails.variantOptions &&
+      this.props.productDetails.variantOptions.length > 0
+    ) {
       const variantOptions =
         this.props &&
         this.props.productDetails &&
         this.props.productDetails.variantOptions;
-      let sizeOptions = [];
-      sizeOptions = variantOptions && variantOptions.map(el => el.sizelink);
+      sizeOptions =
+        variantOptions &&
+        variantOptions.length > 0 &&
+        variantOptions.map(el => el.sizelink);
       const productListingId =
         this.props &&
         this.props.productDetails &&
         this.props.productDetails.productListingId;
-      let selectedSize = [];
       selectedSize =
         sizeOptions &&
         sizeOptions.filter(
           (el, i) =>
             el.productCode === productListingId && el.isAvailable === true
+        );
+      if (selectedSize && selectedSize.length > 0) {
+        return true;
+      }
+    }
+
+    if (
+      this.props.productDetails.variantTheme &&
+      this.props.productDetails.variantTheme.length > 0
+    ) {
+      const variantOptions =
+        this.props &&
+        this.props.productDetails &&
+        this.props.productDetails.variantTheme;
+      sizeOptions =
+        variantOptions &&
+        variantOptions.length > 0 &&
+        variantOptions.map(el => el.sizelink);
+      const productListingId =
+        this.props &&
+        this.props.productDetails &&
+        this.props.productDetails.productListingId;
+      selectedSize =
+        sizeOptions &&
+        sizeOptions.filter(
+          (el, i) =>
+            el.productCode === productListingId &&
+            el.isAvailable === true &&
+            el.selected === true
         );
       if (selectedSize && selectedSize.length > 0) {
         return true;
@@ -348,6 +384,7 @@ export default class BuyNowAddToBagComponent extends React.Component {
   };
 
   render() {
+    let disabledStatus = false;
     const productDetails = this.props && this.props.productDetails;
     const compDetails =
       this.props && this.props.compDetails ? this.props.compDetails : [];
@@ -358,17 +395,21 @@ export default class BuyNowAddToBagComponent extends React.Component {
       addToBagBuyNowComp &&
       addToBagBuyNowComp[0].componentProperties &&
       addToBagBuyNowComp[0].componentProperties.cta;
-    let disabledStatus =
+    disabledStatus =
       productDetails.allOOStock ||
       this.props.pincodeError ||
-      (productDetails.isServiceableToPincode &&
-        productDetails.isServiceableToPincode.productOutOfStockMessage) ||
-      (productDetails.isServiceableToPincode &&
-        productDetails.isServiceableToPincode.productNotServiceableMessage) ||
       !productDetails.winningSellerPrice ||
       (productDetails.winningSellerAvailableStock === "0" &&
         this.checkIfSizeSelected());
-
+    if (productDetails.isServiceableToPincode) {
+      if (
+        "productNotServiceableMessage" in
+          productDetails.isServiceableToPincode ||
+        "productOutOfStockMessage" in productDetails.isServiceableToPincode
+      ) {
+        disabledStatus = true;
+      }
+    }
     return (
       <React.Fragment>
         {!this.state.showGotoCartButton && (
