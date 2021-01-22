@@ -60,7 +60,8 @@ import {
   EMI_BANK_TERMS_AND_CONDITIONS,
   INVALID_BANK_COUPON_POPUP,
   VALIDATE_OFFERS_POPUP,
-  NON_EMI_ELIGIBLE_TO_WISHLIST
+  NON_EMI_ELIGIBLE_TO_WISHLIST,
+  VALIDATE_CLIQ_CASH_POPUP
 } from "../../general/modal.actions";
 import { displayToast } from "../../general/toast.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
