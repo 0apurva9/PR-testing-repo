@@ -328,7 +328,9 @@ class CartPage extends React.Component {
     }
     if (this.props.cart.cartDetails !== prevProps.cart.cartDetails) {
       this.validateLocalStorageProducts();
-      let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+      const cartExchangeDetails = localStorage.getItem(
+        AC_CART_EXCHANGE_DETAILS
+      );
       let parsedExchangeDetails =
         cartExchangeDetails && JSON.parse(cartExchangeDetails);
       if (parsedExchangeDetails && parsedExchangeDetails.length > 0) {
@@ -341,6 +343,7 @@ class CartPage extends React.Component {
         exchangeProductUssids.map(exchangeProductUssid => {
           this.props.cart.cartDetails &&
             this.props.cart.cartDetails.products &&
+            Array.isArray(this.props.cart.cartDetails.products) &&
             this.props.cart.cartDetails.products.map(product => {
               if (product.USSID === exchangeProductUssid) {
                 productIds.push(product.productcode);
@@ -784,7 +787,7 @@ class CartPage extends React.Component {
       cartProducts.map(product => {
         return product.USSID;
       });
-    let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+    const cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
     let parsedExchangeDetails =
       cartExchangeDetails && JSON.parse(cartExchangeDetails);
     if (parsedExchangeDetails && parsedExchangeDetails.length > 0) {
