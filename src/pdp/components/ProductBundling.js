@@ -262,7 +262,9 @@ export default class ProductBundling extends React.Component {
         {this.props.bundledProductSuggestionDetails ? (
           <div className={styles.bundlingMainContainer}>
             <div className={styles.bundlingHeadingContainer}>
-              Customer buy these together
+              {this.state.enableComboDiscountSection
+                ? "Combo Offers"
+                : "Customer buy these together"}
             </div>
             <div className={styles.details}>
               {(this.props.getTotalBundledPriceLoading ||
