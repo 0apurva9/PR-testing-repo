@@ -60,7 +60,8 @@ import {
   EMI_BANK_TERMS_AND_CONDITIONS,
   INVALID_BANK_COUPON_POPUP,
   VALIDATE_OFFERS_POPUP,
-  NON_EMI_ELIGIBLE_TO_WISHLIST
+  NON_EMI_ELIGIBLE_TO_WISHLIST,
+  VALIDATE_CLIQ_CASH_POPUP
 } from "../../general/modal.actions";
 import { displayToast } from "../../general/toast.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
@@ -510,6 +511,7 @@ const ERROR_CODE_FOR_BANK_OFFER_INVALID_3 = "B9599";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_4 = "B9509";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_5 = "B9303";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_6 = "B9510";
+const ERROR_CODE_FOR_BANK_OFFER_INVALID_7 = "E0056";
 const INVALID_COUPON_ERROR_MESSAGE = "invalid coupon";
 const JUS_PAY_STATUS_REG_EX = /(status=[A-Za-z0-9_]*)/;
 
@@ -2472,7 +2474,14 @@ export function collectPaymentOrderForGiftCardUPI(
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
+      if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_7) {
+        dispatch(collectPaymentOrderFailure(resultJson && resultJson.error));
+        return dispatch(
+          showModal(VALIDATE_CLIQ_CASH_POPUP, {
+            result: resultJson
+          })
+        );
+      } else if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
       localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
@@ -2628,7 +2637,14 @@ export function collectPaymentOrderForUPI(
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
-      if (resultJsonStatus.status) {
+      if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_7) {
+        dispatch(collectPaymentOrderFailure(resultJson && resultJson.error));
+        return dispatch(
+          showModal(VALIDATE_CLIQ_CASH_POPUP, {
+            result: resultJson
+          })
+        );
+      } else if (resultJsonStatus.status) {
         if (
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_1 ||
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_2
@@ -7154,7 +7170,14 @@ export function collectPaymentOrderForGiftCard(
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
+      if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_7) {
+        dispatch(collectPaymentOrderFailure(resultJson && resultJson.error));
+        return dispatch(
+          showModal(VALIDATE_CLIQ_CASH_POPUP, {
+            result: resultJson
+          })
+        );
+      } else if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
       dispatch(collectPaymentOrderForGiftCardSuccess(resultJson, egvCartGuid));
@@ -7261,7 +7284,14 @@ export function collectPaymentOrder(
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
+      if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_7) {
+        dispatch(collectPaymentOrderFailure(resultJson && resultJson.error));
+        return dispatch(
+          showModal(VALIDATE_CLIQ_CASH_POPUP, {
+            result: resultJson
+          })
+        );
+      } else if (resultJsonStatus.status) {
         if (
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_1 ||
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_2
@@ -7647,7 +7677,14 @@ export function collectPaymentOrderForSavedCards(
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
+      if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_7) {
+        dispatch(collectPaymentOrderFailure(resultJson && resultJson.error));
+        return dispatch(
+          showModal(VALIDATE_CLIQ_CASH_POPUP, {
+            result: resultJson
+          })
+        );
+      } else if (resultJsonStatus.status) {
         if (
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_1 ||
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_2
@@ -7758,7 +7795,14 @@ export function collectPaymentOrderForGiftCardFromSavedCards(
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
+      if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_7) {
+        dispatch(collectPaymentOrderFailure(resultJson && resultJson.error));
+        return dispatch(
+          showModal(VALIDATE_CLIQ_CASH_POPUP, {
+            result: resultJson
+          })
+        );
+      } else if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
       localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
@@ -7914,7 +7958,14 @@ export function collectPaymentOrderForNetBanking(
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
+      if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_7) {
+        dispatch(collectPaymentOrderFailure(resultJson && resultJson.error));
+        return dispatch(
+          showModal(VALIDATE_CLIQ_CASH_POPUP, {
+            result: resultJson
+          })
+        );
+      } else if (resultJsonStatus.status) {
         if (
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_1 ||
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_2
@@ -8043,7 +8094,14 @@ export function collectPaymentOrderForGiftCardNetBanking(
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
+      if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_7) {
+        dispatch(collectPaymentOrderFailure(resultJson && resultJson.error));
+        return dispatch(
+          showModal(VALIDATE_CLIQ_CASH_POPUP, {
+            result: resultJson
+          })
+        );
+      } else if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
       localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
@@ -8195,7 +8253,14 @@ export function collectPaymentOrderForCliqCash(
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
+      if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_7) {
+        dispatch(collectPaymentOrderFailure(resultJson && resultJson.error));
+        return dispatch(
+          showModal(VALIDATE_CLIQ_CASH_POPUP, {
+            result: resultJson
+          })
+        );
+      } else if (resultJsonStatus.status) {
         if (
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_1 ||
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_2
