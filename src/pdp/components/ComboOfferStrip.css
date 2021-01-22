@@ -20,6 +20,18 @@
 	background-color: #f3ffeb;
 }
 
+.bundlingDiscountTextContainerPDP{
+	display: inline-block;
+	width: calc(55% - 24px);
+	font-size: 13px;
+	vertical-align: top;
+	padding: 3px 5px;
+	border-radius: 2px;
+	border: solid 0.5px #b0e68a;
+	border-left: none;
+	background-color: #f3ffeb;
+}
+
 .bundlingDiscountText{
 	color: #338715;
 }

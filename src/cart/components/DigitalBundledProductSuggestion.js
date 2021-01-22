@@ -130,7 +130,7 @@ export default class DigitalBundledProductSuggestion extends React.Component {
                 <ComboOfferStrip
                   bundlingDiscount={this.props.digitalProduct.bundlingDiscount}
                   productName={this.props.digitalProduct.productName}
-                  isUIChange={true}
+                  isFromCartPage={true}
                 />
               )}
             <div className={styles.digitalBundledProductDetails}>
