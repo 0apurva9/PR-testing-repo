@@ -1757,6 +1757,15 @@ class CheckOutPage extends React.Component {
         this.props.getPrepaidOrderPaymentConfirmation(stripeDetails);
       }
     }
+    if (localStorage.getItem("cliqCashAppliedWithOffer")) {
+      this.setState({
+        isCliqCashApplied: false,
+        captchaReseponseForCOD: null,
+        PAYMENT_MODE_TYPE: null,
+        binValidationCOD: false
+      });
+      localStorage.removeItem("cliqCashAppliedWithOffer");
+    }
   }
 
   componentWillUnmount() {
