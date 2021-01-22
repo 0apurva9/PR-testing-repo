@@ -512,6 +512,7 @@ const ERROR_CODE_FOR_BANK_OFFER_INVALID_4 = "B9509";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_5 = "B9303";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_6 = "B9510";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_7 = "E0056";
+const ERROR_CODE_FOR_BANK_OFFER_INVALID_8 = "E0025";
 const INVALID_COUPON_ERROR_MESSAGE = "invalid coupon";
 const JUS_PAY_STATUS_REG_EX = /(status=[A-Za-z0-9_]*)/;
 
@@ -2481,6 +2482,11 @@ export function collectPaymentOrderForGiftCardUPI(
             result: resultJson
           })
         );
+      } else if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_8) {
+        dispatch(displayToast(resultJson && resultJson.errorMessage));
+        dispatch(
+          collectPaymentOrderFailure(resultJson && resultJson.errorMessage)
+        );
       } else if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
@@ -2643,6 +2649,11 @@ export function collectPaymentOrderForUPI(
           showModal(VALIDATE_CLIQ_CASH_POPUP, {
             result: resultJson
           })
+        );
+      } else if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_8) {
+        dispatch(displayToast(resultJson && resultJson.errorMessage));
+        dispatch(
+          collectPaymentOrderFailure(resultJson && resultJson.errorMessage)
         );
       } else if (resultJsonStatus.status) {
         if (
@@ -7177,6 +7188,11 @@ export function collectPaymentOrderForGiftCard(
             result: resultJson
           })
         );
+      } else if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_8) {
+        dispatch(displayToast(resultJson && resultJson.errorMessage));
+        dispatch(
+          collectPaymentOrderFailure(resultJson && resultJson.errorMessage)
+        );
       } else if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
@@ -7290,6 +7306,11 @@ export function collectPaymentOrder(
           showModal(VALIDATE_CLIQ_CASH_POPUP, {
             result: resultJson
           })
+        );
+      } else if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_8) {
+        dispatch(displayToast(resultJson && resultJson.errorMessage));
+        dispatch(
+          collectPaymentOrderFailure(resultJson && resultJson.errorMessage)
         );
       } else if (resultJsonStatus.status) {
         if (
@@ -7684,6 +7705,11 @@ export function collectPaymentOrderForSavedCards(
             result: resultJson
           })
         );
+      } else if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_8) {
+        dispatch(displayToast(resultJson && resultJson.errorMessage));
+        dispatch(
+          collectPaymentOrderFailure(resultJson && resultJson.errorMessage)
+        );
       } else if (resultJsonStatus.status) {
         if (
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_1 ||
@@ -7801,6 +7827,11 @@ export function collectPaymentOrderForGiftCardFromSavedCards(
           showModal(VALIDATE_CLIQ_CASH_POPUP, {
             result: resultJson
           })
+        );
+      } else if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_8) {
+        dispatch(displayToast(resultJson && resultJson.errorMessage));
+        dispatch(
+          collectPaymentOrderFailure(resultJson && resultJson.errorMessage)
         );
       } else if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
@@ -7965,6 +7996,11 @@ export function collectPaymentOrderForNetBanking(
             result: resultJson
           })
         );
+      } else if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_8) {
+        dispatch(displayToast(resultJson && resultJson.errorMessage));
+        dispatch(
+          collectPaymentOrderFailure(resultJson && resultJson.errorMessage)
+        );
       } else if (resultJsonStatus.status) {
         if (
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_1 ||
@@ -8100,6 +8136,11 @@ export function collectPaymentOrderForGiftCardNetBanking(
           showModal(VALIDATE_CLIQ_CASH_POPUP, {
             result: resultJson
           })
+        );
+      } else if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_8) {
+        dispatch(displayToast(resultJson && resultJson.errorMessage));
+        dispatch(
+          collectPaymentOrderFailure(resultJson && resultJson.errorMessage)
         );
       } else if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
@@ -8259,6 +8300,11 @@ export function collectPaymentOrderForCliqCash(
           showModal(VALIDATE_CLIQ_CASH_POPUP, {
             result: resultJson
           })
+        );
+      } else if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_8) {
+        dispatch(displayToast(resultJson && resultJson.errorMessage));
+        dispatch(
+          collectPaymentOrderFailure(resultJson && resultJson.errorMessage)
         );
       } else if (resultJsonStatus.status) {
         if (
