@@ -12,11 +12,19 @@ export default class ComboOfferStrip extends React.Component {
       this.props.productName && trimProductName(this.props.productName, 35);
 
     return (
-      <div className={!this.props.isUIChange ? styles.discountDetails : null}>
+      <div
+        className={!this.props.isFromCartPage ? styles.discountDetails : null}
+      >
         <div className={styles.discountIconContainer}>
           <Icon image={discountIcon} size={24} />
         </div>
-        <div className={styles.bundlingDiscountTextContainer}>
+        <div
+          className={
+            this.props.isFromPdpPage
+              ? styles.bundlingDiscountTextContainerPDP
+              : styles.bundlingDiscountTextContainer
+          }
+        >
           <span className={styles.bundlingDiscountText}>
             Save additional ₹{bundlingDiscount}
           </span>
