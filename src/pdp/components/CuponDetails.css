@@ -98,8 +98,11 @@
 .removeApplyCoupon{
   color: #4a4a4a;
   font-size: 12px;
+  cursor: pointer;
 }
 .applyCoupon{
   color:#da1c5c;
   font-size: 12px;
+  cursor: pointer;
+
 }

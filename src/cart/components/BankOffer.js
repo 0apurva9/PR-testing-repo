@@ -105,7 +105,7 @@ export default class BankOffer extends React.Component {
                 </div>
               </div>
             </div>
-            {!this.props.showTermAndCondition && (
+            {!this.props.border && !this.props.padding && (
               <div className={styles.offerandTnc}>
                 <span
                   className={styles.viewBankOffer}
