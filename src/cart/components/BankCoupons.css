@@ -72,6 +72,16 @@
   font-size: 13px;
   font-family: regular;
 }
+.removeApplyCoupon{
+  color: #4a4a4a;
+  font-size: 12px;
+  cursor: pointer;
+}
+.applyCoupon{
+  color:#da1c5c;
+  font-size: 12px;
+  cursor: pointer;
+}
 @media only screen and (min-width: 1025px) {
   .base {
     background:#f9f9f9;

@@ -124,23 +124,28 @@
   color:#da1c5c;
   margin-left: 10px;
   font-size: 14px;
+  cursor: pointer;
 }
 .viewBankOffer{
   color:#8d8d8d;
   font-size: 14px;
   margin-top: 5px;
+  cursor: pointer;
 }
 .removeApplyCoupon{
   color: #8d8d8d;
   font-size: 14px;
   font-weight: bold;
   margin-top: 2px;
+  cursor: pointer;
 }
 .applyCoupon{
   color:#da1c5c;
   font-size: 14px;
   font-weight: bold;
   margin-top: 2px;
+  cursor: pointer;
+
 }
 .offerandTnc{
   margin-top: 10px;
