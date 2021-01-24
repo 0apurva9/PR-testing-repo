@@ -105,37 +105,12 @@ export default class BuyNowAddToBagComponent extends React.Component {
 
   checkIfSizeSelected = () => {
     let sizeOptions = [];
+    let colorOptions = [];
     let selectedSize = [];
+    let selectedColor = [];
 
     if (this.props.location.state && this.props.location.state.isSizeSelected) {
       return true;
-    }
-
-    if (
-      this.props.productDetails.variantOptions &&
-      this.props.productDetails.variantOptions.length > 0
-    ) {
-      const variantOptions =
-        this.props &&
-        this.props.productDetails &&
-        this.props.productDetails.variantOptions;
-      sizeOptions =
-        variantOptions &&
-        variantOptions.length > 0 &&
-        variantOptions.map(el => el.sizelink);
-      const productListingId =
-        this.props &&
-        this.props.productDetails &&
-        this.props.productDetails.productListingId;
-      selectedSize =
-        sizeOptions &&
-        sizeOptions.filter(
-          (el, i) =>
-            el.productCode === productListingId && el.isAvailable === true
-        );
-      if (selectedSize && selectedSize.length > 0) {
-        return true;
-      }
     }
 
     if (
@@ -156,12 +131,36 @@ export default class BuyNowAddToBagComponent extends React.Component {
         this.props.productDetails.productListingId;
       selectedSize =
         sizeOptions &&
-        sizeOptions.filter(
-          (el, i) =>
-            el.productCode === productListingId &&
-            el.isAvailable === true &&
-            el.selected === true
-        );
+        sizeOptions.length > 0 &&
+        sizeOptions.filter((el, i) => {
+          if (el) {
+            return (
+              el.productCode === productListingId &&
+              el.isAvailable === true &&
+              el &&
+              el.selected === true
+            );
+          }
+        });
+      if (sizeOptions && sizeOptions.length === 0) {
+        colorOptions =
+          variantOptions &&
+          variantOptions.length > 0 &&
+          variantOptions[0].colorOptions;
+        selectedColor =
+          colorOptions &&
+          colorOptions.length > 0 &&
+          colorOptions[0].filter((el, i) => {
+            if (el) {
+              return (
+                el.productCode === productListingId &&
+                el.isAvailable === true &&
+                el.selected === true
+              );
+            }
+          });
+        return true;
+      }
       if (selectedSize && selectedSize.length > 0) {
         return true;
       }

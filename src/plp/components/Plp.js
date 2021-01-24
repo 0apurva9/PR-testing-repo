@@ -172,6 +172,24 @@ export default class Plp extends React.Component {
   }
 
   UNSAFE_componentWillReceiveProps() {
+    if (
+      this.props.productListings &&
+      this.props.productListings.view &&
+      this.props.productListings.view.imageToggle
+    ) {
+      const viewInfoData =
+        this.props &&
+        this.props.productListings &&
+        this.props.productListings.view;
+      if (viewInfoData && viewInfoData.imageToggle) {
+        if (!this.setState.showToggleButton) {
+          this.setState({ showToggleButton: true });
+        }
+      }
+    } else {
+      this.setState({ showToggleButton: false });
+    }
+
     let categoryCodes = [];
     let foundCategory = [];
     let defaultViewCategories =
@@ -448,7 +466,8 @@ export default class Plp extends React.Component {
       this.props.userSelectedOutOfStock(true);
     }
     this.props.history.push(url, {
-      isFilter: false
+      isFilter: false,
+      onClickCancel: true
     });
   }
 
@@ -465,20 +484,6 @@ export default class Plp extends React.Component {
         ((filterHeight ^ gridHeight) & -(filterHeight < gridHeight));
       if (this.state.totalHeight !== maxHeight) {
         this.setState({ totalHeight: maxHeight });
-      }
-    }
-    if (
-      (prevProps.productListings && prevProps.productListings.view) !==
-      (this.props.productListings && this.props.productListings.view)
-    ) {
-      const viewInfoData =
-        this.props &&
-        this.props.productListings &&
-        this.props.productListings.view;
-      if (viewInfoData) {
-        if (viewInfoData.imageToggle) {
-          this.setState({ showToggleButton: true });
-        }
       }
     }
   }
