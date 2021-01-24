@@ -487,7 +487,8 @@ export default class Plp extends React.Component {
       if (
         this.props.history.location.state.clearFilter ||
         this.props.history.location.state.clearCategorySelect ||
-        this.props.history.location.state.onFilterClick
+        this.props.history.location.state.onFilterClick ||
+        this.props.history.location.state.onClickCancel
       ) {
         if (this.state.toggleView) {
           this.setState({ toggleView: false });
