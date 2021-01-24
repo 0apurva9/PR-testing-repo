@@ -471,7 +471,35 @@ export default class Plp extends React.Component {
     });
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      (!prevState.toggleView && this.state.toggleView) ||
+      (prevState.toggleView && !this.state.toggleView)
+    ) {
+      return;
+    }
+
+    if (
+      this.props.history &&
+      this.props.history.location &&
+      this.props.history.location.state
+    ) {
+      if (
+        this.props.history.location.state.clearFilter ||
+        this.props.history.location.state.clearCategorySelect ||
+        this.props.history.location.state.onFilterClick
+      ) {
+        if (this.state.toggleView) {
+          this.setState({ toggleView: false });
+        }
+      }
+    }
+    if (this.props.sortHasBeenClicked) {
+      if (this.state.toggleView) {
+        this.setState({ toggleView: false });
+      }
+    }
+
     this.setHeaderText();
     if (!UserAgent.checkUserAgentIsMobile()) {
       const filterDOM = document.getElementById("filter_desktop");
@@ -803,7 +831,12 @@ export default class Plp extends React.Component {
                   <React.Fragment>
                     <div className={styles["switch-view"]}>
                       <p className={styles["switch-title"]}>Swatch Mode </p>
-                      <div className={styles["switch-item"]}>
+                      <div
+                        className={[
+                          styles["switch-item"],
+                          this.state.toggleView ? null : styles["switch-off"]
+                        ].join(" ")}
+                      >
                         <input
                           className={styles["switch-light"]}
                           id="cb1"
