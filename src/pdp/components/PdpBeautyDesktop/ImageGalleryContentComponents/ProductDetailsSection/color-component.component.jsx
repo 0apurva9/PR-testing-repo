@@ -39,11 +39,11 @@ export default class ColorComponent extends React.Component {
     }
     this.handleScrollToTop(210);
     const compDetails = this.props.compDetails ? this.props.compDetails : [];
-    const sizeAndColorComp = compDetails && compDetails.length > 0 && compDetails.filter(el => (el.componentId === COLOR_COMPONENT || el.componentId === SIZE_COMPONENT));
+    const sizeAndColorComp = Array.isArray(compDetails) && compDetails.length > 0 && compDetails.filter(el => (el.componentId === COLOR_COMPONENT || el.componentId === SIZE_COMPONENT));
     this.setState({sizeAndColorComp: sizeAndColorComp});
     const variantTheme = this.props.productDetails && this.props.productDetails.variantTheme ? this.props.productDetails.variantTheme : [];
     const productListingId =  this.props && this.props.productDetails && this.props.productDetails.productListingId ? this.props.productDetails.productListingId : null;
-    if((variantTheme && variantTheme.length > 0) && (sizeAndColorComp && sizeAndColorComp.length === 2) && productListingId) {
+    if((Array.isArray(variantTheme) && variantTheme.length > 0) && (sizeAndColorComp && sizeAndColorComp.length === 2) && productListingId) {
       const sizeToSetInState = findSelectedSize(variantTheme, productListingId, true);
       this.setState(sizeToSetInState);
     }
@@ -118,7 +118,7 @@ export default class ColorComponent extends React.Component {
     if(this.state.sizeAndColorComp.length === 2) {
       if (this.state.selectedSizeIndex >= 0) {
         selectedSizeColorOptions =
-          variantTheme &&
+          Array.isArray(variantTheme) &&
           variantTheme.length > 0 &&
           variantTheme[this.state.selectedSizeIndex].colorOptions;
           noOfColoursForSelectedSize = selectedSizeColorOptions && selectedSizeColorOptions.length;
@@ -128,7 +128,7 @@ export default class ColorComponent extends React.Component {
         selectedSizeColorOptions &&
         selectedSizeColorOptions.filter(el => el.selected === true);
     } else {
-      selectedColorOptions = variantTheme && variantTheme.length > 0 && variantTheme[0].colorOptions;
+      selectedColorOptions = Array.isArray(variantTheme) && variantTheme.length > 0 && variantTheme[0].colorOptions;
       noOfColours = selectedColorOptions && selectedColorOptions.length;
       selectedColor = selectedColorOptions && selectedColorOptions.filter(el => el.selected === true);
     }

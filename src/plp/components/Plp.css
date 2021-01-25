@@ -67,7 +67,7 @@
     text-align: left;
   }
   .sort {
-    width: 15%;
+    width: 25%;
     right: 35px;
     height: auto;
     display: inline-block;
@@ -81,7 +81,7 @@
     position: relative;
   }
   .selectedFilter {
-    width: 68%;
+    width: 70%;
     min-height: 40px;
     left: 0px;
     display: inline-block;
@@ -258,4 +258,10 @@
   background: #fff;
   -webkit-transition: all .2s ease;
   transition: all .2s ease;
+}
+.showToggleButton .sort {
+  width: 15%;
+}
+.showToggleButton .selectedFilter {
+  width: 68%;
 }

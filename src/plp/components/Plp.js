@@ -773,7 +773,12 @@ export default class Plp extends React.Component {
               query="(min-device-width:1025px)"
               values={{ deviceWidth: 1026 }}
             >
-              <div className={styles.headerSortWithFilter}>
+              <div
+                className={[
+                  styles.headerSortWithFilter,
+                  this.state.showToggleButton ? styles.showToggleButton : null
+                ].join(" ")}
+              >
                 <div
                   className={
                     electronicView

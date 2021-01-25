@@ -24,7 +24,11 @@ export default class SizeComponent extends React.Component {
       this.props &&
       this.props.productDetails &&
       this.props.productDetails.productListingId;
-    if (variantTheme && variantTheme.length > 0 && productListingId) {
+    if (
+      Array.isArray(variantTheme) &&
+      variantTheme.length > 0 &&
+      productListingId
+    ) {
       const sizeToSetInState = findSelectedSize(variantTheme, productListingId);
       this.setState(sizeToSetInState);
     }
@@ -43,7 +47,8 @@ export default class SizeComponent extends React.Component {
         this.props &&
         this.props.productDetails &&
         this.props.productDetails.variantTheme;
-      sizeOptions = variantOptions && variantOptions.map(el => el.sizelink);
+      sizeOptions =
+        Array.isArray(variantOptions) && variantOptions.map(el => el.sizelink);
     }
 
     return (
