@@ -84,11 +84,15 @@ export default class ColorComponent extends React.Component {
     this.setState({ showTooltip: false, sizeIndex: i, toolTipIndex: j });
   }
 
-  handleColorOptionClick(url) {
-    this.props.history.push({
-      pathname: `${url}`,
-      viewMoreLess: { viewMoreLess: this.state.expandClass }
-    });
+  handleColorOptionClick(url, isAvailable) {
+    if(!isAvailable){
+      return;
+    } else {
+      this.props.history.push({
+        pathname: `${url}`,
+        viewMoreLess: { viewMoreLess: this.state.expandClass }
+      });
+    }
   }
 
   render() {
@@ -184,22 +188,14 @@ export default class ColorComponent extends React.Component {
                             let classForHexCode = (!colorElement.swatchUrl && colorElement.colorHexCode) ?  { backgroundColor: `${colorElement.colorHexCode}`, width: "58px", height: "58px"}: null;
                             if(colorElement.productCode) {
                               return (
-                                <div className={
-                                  !colorElement.isAvailable
-                                  ? styles["dis-cursor"]
-                                  : null
-                                }>
+                                <div>
                                   <div
                                     key={j}
-                                    className={
-                                      !colorElement.isAvailable
-                                      ? styles["dis-outstock-img"]
-                                      : styles["shade-list"]
-                                    }
+                                    className={styles["shade-list"]}
                                     onMouseEnter={() => this.onMouseEnter(i, j)}
                                     onMouseLeave={() => this.onMouseLeave(i, j)}
                                     onClick={() =>
-                                      this.handleColorOptionClick(colorElement.url)
+                                      this.handleColorOptionClick(colorElement.url, colorElement.isAvailable)
                                     }
                                     ref={
                                       colorElement.selected
