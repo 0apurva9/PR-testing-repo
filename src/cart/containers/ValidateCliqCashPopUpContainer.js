@@ -4,6 +4,7 @@ import {
   releaseBankOffer,
   releaseUserCoupon,
   removeCliqCash,
+  resetAllPaymentModes
 } from "../actions/cart.actions";
 import { withRouter } from "react-router";
 import { showModal, hideModal } from "../../general/modal.actions";
@@ -23,6 +24,9 @@ const mapDispatchToProps = dispatch => {
     },
     removeCliqCash:()=>{
       return dispatch(removeCliqCash())
+    },
+    resetAllPaymentModes: () => {
+      return dispatch(resetAllPaymentModes());
     }
   };
 };
