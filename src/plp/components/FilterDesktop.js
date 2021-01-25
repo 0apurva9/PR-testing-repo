@@ -63,7 +63,8 @@ export default class FilterDesktop extends React.Component {
         }
 
         this.props.history.push(url, {
-          isFilter: false
+          isFilter: false,
+          clearFilter: true
         });
       } else {
         let brandOrCategoryId = null;
@@ -84,7 +85,8 @@ export default class FilterDesktop extends React.Component {
             url = `${this.props.location.pathname}?q=${clearedQuery}${EOOF_Flag}`;
           }
           this.props.history.push(url, {
-            isFilter: false
+            isFilter: false,
+            clearFilter: true
           });
         }
       }
@@ -170,7 +172,8 @@ export default class FilterDesktop extends React.Component {
 
     this.props.history.push(url, {
       isFilter,
-      componentName: "isFilterTrue"
+      componentName: "isFilterTrue",
+      clearCategorySelect: true
     });
     if (isFilter === false) {
       this.props.onL3CategorySelect();
@@ -251,7 +254,8 @@ export default class FilterDesktop extends React.Component {
 
     this.props.history.push(url, {
       isFilter: false,
-      componentName: "isFilterTrue"
+      componentName: "isFilterTrue",
+      onFilterClick: true
     });
   };
   onOpenAccordion = filterName => {

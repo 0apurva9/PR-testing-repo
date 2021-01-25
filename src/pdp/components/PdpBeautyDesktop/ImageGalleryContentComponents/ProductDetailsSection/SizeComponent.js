@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React from "react";
 
 import ColorComponent from "./color-component.component";
@@ -15,27 +16,20 @@ export default class SizeComponent extends React.Component {
 
   componentDidMount() {
     const variantTheme =
-      this.props.productDetails &&
-      this.props.productDetails.variantOptions &&
-      this.props.productDetails.variantTheme;
-    const variantOptions =
-      this.props &&
-      this.props.productDetails &&
-      this.props.productDetails.variantOptions;
+      this.props.productDetails && this.props.productDetails.variantTheme
+        ? this.props.productDetails.variantTheme
+        : [];
+
     const productListingId =
       this.props &&
       this.props.productDetails &&
       this.props.productDetails.productListingId;
     if (
-      ((variantTheme && variantTheme.length > 0) ||
-        (variantOptions && variantOptions.length > 0)) &&
+      Array.isArray(variantTheme) &&
+      variantTheme.length > 0 &&
       productListingId
     ) {
-      const sizeToSetInState = findSelectedSize(
-        variantTheme,
-        variantOptions,
-        productListingId
-      );
+      const sizeToSetInState = findSelectedSize(variantTheme, productListingId);
       this.setState(sizeToSetInState);
     }
   }
@@ -45,28 +39,16 @@ export default class SizeComponent extends React.Component {
   }
 
   render() {
-    const variantTheme =
-      this.props &&
-      this.props.productDetails &&
-      this.props.productDetails.variantTheme;
     let sizeOptions = [];
     let selectedClass = "";
-    if (
-      this.props.productDetails &&
-      this.props.productDetails.variantOptions &&
-      this.props.productDetails.variantTheme
-    ) {
-      const variantOptions =
+    let variantOptions = [];
+    if (this.props.productDetails && this.props.productDetails.variantTheme) {
+      variantOptions =
         this.props &&
         this.props.productDetails &&
         this.props.productDetails.variantTheme;
-      sizeOptions = variantOptions && variantOptions.map(el => el.sizelink);
-    } else {
-      const variantOptions =
-        this.props &&
-        this.props.productDetails &&
-        this.props.productDetails.variantOptions;
-      sizeOptions = variantOptions && variantOptions.map(el => el.sizelink);
+      sizeOptions =
+        Array.isArray(variantOptions) && variantOptions.map(el => el.sizelink);
     }
 
     return (
@@ -135,3 +117,13 @@ export default class SizeComponent extends React.Component {
     );
   }
 }
+
+SizeComponent.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func
+  }),
+  productDetails: PropTypes.shape({
+    productListingId: PropTypes.string,
+    variantTheme: PropTypes.any
+  })
+};

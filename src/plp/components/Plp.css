@@ -67,7 +67,7 @@
     text-align: left;
   }
   .sort {
-    width: 15%;
+    width: 25%;
     right: 35px;
     height: auto;
     display: inline-block;
@@ -81,8 +81,8 @@
     position: relative;
   }
   .selectedFilter {
-    width: 68%;
-    height: 45px;
+    width: 70%;
+    min-height: 40px;
     left: 0px;
     display: inline-block;
   }
@@ -190,14 +190,15 @@
     width: 12%;
     display: inline-block;
     height: 45px;
-    vertical-align: middle;
+    vertical-align: top;
     position: relative;
 }
+
 .switch-title {
   font-family: "Rubik", sans-serif;
   font-weight: 500;
   font-size: 14px;
-  color: rgb(33, 33, 33);
+  color: #212121;
   display: inline-block;
   line-height: 40px;
 }
@@ -225,34 +226,32 @@
       -ms-user-select: none;
           user-select: none;
 }
-.switch-light + .switch-btn:after, .switch-light + .switch-btn:before {
+
+.switch-light + .switch-btn {
+  background: #338715;
+}
+.switch-off .switch-btn, .switch-btn {
+  background: #D5D5D5;
+  border-radius: 10px;
+  padding: 0;
+  -webkit-transition: all .4s ease;
+  transition: all .4s ease;
+}
+.switch-light + .switch-btn:after {
   position: relative;
   display: block;
   content: "";
   width: 20px;
   height: 20px;
-  border: 2px solid rgb(151,151,151);
-  box-shadow: 0 0 3px rgb(0, 0, 0, 0.6);
+  left: 40%;
+  border: 2px solid #338715;
+  box-shadow: 0 0 3px rgb(51,135,21, 0.6);
   top: -5px;
 }
-.switch-light + .switch-btn:after {
-  left: 0;
-}
-.switch-light + .switch-btn:before {
-  display: none;
-}
-.switch-light:checked + .switch-btn:after {
-  left: 40%;
-  border: 2px solid rgb(51,135,21);
-  box-shadow: 0 0 3px rgb(51,135,21, 0.6);
-}
-.switch-light + .switch-btn {
-  background: rgb(213,213,213);
-  border-radius: 10px;
-  padding: 0;
-  -webkit-transition: all .4s ease;
-  transition: all .4s ease;
-
+.switch-off .switch-light + .switch-btn:after {
+  border: 2px solid #979797;
+  box-shadow: 0 0 3px rgb(0, 0, 0, 0.6);
+  left:0;
 }
 .switch-light + .switch-btn:after {
   border-radius: 50%;
@@ -260,6 +259,9 @@
   -webkit-transition: all .2s ease;
   transition: all .2s ease;
 }
-.switch-light:checked + .switch-btn {
-  background: rgb(51,135,21);
+.showToggleButton .sort {
+  width: 15%;
+}
+.showToggleButton .selectedFilter {
+  width: 68%;
 }
