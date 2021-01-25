@@ -4,6 +4,7 @@ import delay from "lodash.delay";
 
 import styles from "./color-component.component.css";
 import { findSelectedSize } from "../../../../reducers/utils";
+import { COLOR_COMPONENT, SIZE_COMPONENT } from "../../ComponentConstants";
 
 const VIEW_MORE = "View More";
 const VIEW_LESS = "View Less";
@@ -16,11 +17,11 @@ export default class ColorComponent extends React.Component {
       showTooltip: false,
       sizeIndex: -1,
       toolTipIndex: -1,
-      selectedSizeIndex: -1
+      selectedSizeIndex: -1,
+      sizeAndColorComp: [],
     };
     this.colorShadeRef = React.createRef();
   }
-
 
   handleScrollToTop(delayValue, scrollBehavior = "") {
     if (this.props.handleScrollToTop) {
@@ -31,19 +32,31 @@ export default class ColorComponent extends React.Component {
   componentDidMount() {
     if (this.colorShadeRef && this.colorShadeRef.current) {
       delay(() => {
-        this.colorShadeRef.current.scrollIntoView({block: "start", inline: "nearest"});
-      }, 150);
+        if(this.colorShadeRef && this.colorShadeRef.current) {
+          this.colorShadeRef.current.scrollIntoView({block: "start", inline: "nearest"});
+        }
+      }, 200);
     }
-    this.handleScrollToTop(160);
-    const variantTheme = this.props.productDetails && this.props.productDetails.variantOptions && this.props.productDetails.variantTheme;
-    const variantOptions =  this.props && this.props.productDetails && this.props.productDetails.variantOptions;
-    const productListingId =  this.props && this.props.productDetails && this.props.productDetails.productListingId;
-    if((variantTheme && variantTheme.length > 0 || variantOptions && variantOptions.length > 0) && productListingId) {
-      const sizeToSetInState = findSelectedSize(variantTheme, variantOptions, productListingId, true);
+    this.handleScrollToTop(210);
+    const compDetails = this.props.compDetails ? this.props.compDetails : [];
+    const sizeAndColorComp = Array.isArray(compDetails) && compDetails.length > 0 && compDetails.filter(el => (el.componentId === COLOR_COMPONENT || el.componentId === SIZE_COMPONENT));
+    this.setState({sizeAndColorComp: sizeAndColorComp});
+    const variantTheme = this.props.productDetails && this.props.productDetails.variantTheme ? this.props.productDetails.variantTheme : [];
+    const productListingId =  this.props && this.props.productDetails && this.props.productDetails.productListingId ? this.props.productDetails.productListingId : null;
+    if((Array.isArray(variantTheme) && variantTheme.length > 0) && (sizeAndColorComp && sizeAndColorComp.length === 2) && productListingId) {
+      const sizeToSetInState = findSelectedSize(variantTheme, productListingId, true);
       this.setState(sizeToSetInState);
     }
     if(this.props.history && this.props.history.location && this.props.history.location.viewMoreLess) {
-      this.setState({expandClass: this.props.history.location.viewMoreLess.viewMoreLess});
+      this.setState({expandClass: this.props.history.location.viewMoreLess.viewMoreLess}, () => {
+        if(this.colorShadeRef && this.colorShadeRef.current) {
+          delay(() => {
+            if(this.colorShadeRef && this.colorShadeRef.current) {
+              this.colorShadeRef.current.scrollIntoView({block: "nearest"});
+            }
+          }, 200);
+        }
+      });
     }
   }
 
@@ -54,6 +67,10 @@ export default class ColorComponent extends React.Component {
         if (this.colorShadeRef && this.colorShadeRef.current) {
             this.colorShadeRef.current.scrollIntoView({block: "start", inline: "nearest"});
             this.handleScrollToTop(200, "smooth");
+        }
+      } else {
+        if(this.colorShadeRef && this.colorShadeRef.current) {
+          this.colorShadeRef.current.scrollIntoView({block: "nearest"});
         }
       }
     });
@@ -91,26 +108,36 @@ export default class ColorComponent extends React.Component {
     stockCount = pincodeListResponse
       .filter(el => el.ussid === winningUssID)
       .map(el => el.stockCount);
-    let selectedSizeColorOptions = [];
-    let selectedSizeSelectedColor = {};
-    let noOfColoursForSelectedSize = 0;
-    if (this.state.selectedSizeIndex >= 0) {
-      selectedSizeColorOptions =
-        variantTheme &&
-        variantTheme.length > 0 &&
-        variantTheme[this.state.selectedSizeIndex].colorOptions;
-        noOfColoursForSelectedSize = selectedSizeColorOptions && selectedSizeColorOptions.length;
-    }
 
-    selectedSizeSelectedColor =
-      selectedSizeColorOptions &&
-      selectedSizeColorOptions.filter(el => el.selected === true);
+    let selectedSizeColorOptions = [];
+    let noOfColoursForSelectedSize = 0;
+    let selectedSizeSelectedColor = [];
+    let noOfColours = 0;
+    let selectedColorOptions = [];
+    let selectedColor = {};
+    if(this.state.sizeAndColorComp.length === 2) {
+      if (this.state.selectedSizeIndex >= 0) {
+        selectedSizeColorOptions =
+          Array.isArray(variantTheme) &&
+          variantTheme.length > 0 &&
+          variantTheme[this.state.selectedSizeIndex].colorOptions;
+          noOfColoursForSelectedSize = selectedSizeColorOptions && selectedSizeColorOptions.length;
+      }
+
+      selectedSizeSelectedColor =
+        selectedSizeColorOptions &&
+        selectedSizeColorOptions.filter(el => el.selected === true);
+    } else {
+      selectedColorOptions = Array.isArray(variantTheme) && variantTheme.length > 0 && variantTheme[0].colorOptions;
+      noOfColours = selectedColorOptions && selectedColorOptions.length;
+      selectedColor = selectedColorOptions && selectedColorOptions.filter(el => el.selected === true);
+    }
     return (
       <React.Fragment>
         <div className={styles["shade-component"]}>
           <div className={styles["shade-block"]}>
             <div className={styles["shade-top-block"]}>
-              {(noOfColoursForSelectedSize && noOfColoursForSelectedSize > 7 ) || (variantTheme && variantTheme.length > 1) ? (
+              {(noOfColoursForSelectedSize && noOfColoursForSelectedSize > 7 ) || (variantTheme && variantTheme.length > 1) || (noOfColours && noOfColours > 7 ) ? (
                 <a
                 href={""}
                 onClick={e => this.expandShadeSelector(e)}
@@ -119,11 +146,15 @@ export default class ColorComponent extends React.Component {
                 {this.state.expandClass ? VIEW_LESS : VIEW_MORE}
                 </a>
               ): null}
-              <div className={styles["shade-heading"]}>
-                {selectedSizeSelectedColor &&
-                  selectedSizeSelectedColor.length > 0 &&
-                  selectedSizeSelectedColor[0].color}
-              </div>
+                <div className={styles["shade-heading"]}>
+                  {this.state.sizeAndColorComp.length === 2 ?
+                    (selectedSizeSelectedColor &&
+                    selectedSizeSelectedColor.length > 0 &&
+                    selectedSizeSelectedColor[0].color) :
+                    selectedColor &&
+                    selectedColor.length > 0 &&
+                    selectedColor[0].color}
+                </div>
             </div>
             <div
               className={
@@ -133,17 +164,20 @@ export default class ColorComponent extends React.Component {
               }
             >
               {variantTheme && variantTheme.length > 0 && variantTheme.map((colorAndSize, i) => {
+                if(this.state.sizeAndColorComp && this.state.sizeAndColorComp.length === 1 && i > 0) {
+                  return null;
+                }
                 if (
                   colorAndSize.colorOptions &&
-                  colorAndSize.colorOptions.length > 0 &&
-                  colorAndSize.sizelink
+                  colorAndSize.colorOptions.length > 0
                 ) {
                   return (
                     <div key={i}>
-                      <div className={styles["shade-subheading"]}>
-                        {colorAndSize.sizelink.size &&
-                          colorAndSize.sizelink.size}
+                      {this.state.sizeAndColorComp && this.state.sizeAndColorComp.length === 2 ? (
+                        <div className={styles["shade-subheading"]}>
+                          {colorAndSize.sizelink && colorAndSize.sizelink.size ? colorAndSize.sizelink.size : null}
                       </div>
+                      ): null}
                       <React.Fragment>
                         <div className={styles["shade-list-block"]}>
                           {colorAndSize.colorOptions.map((colorElement, j) => {
@@ -229,19 +263,6 @@ export default class ColorComponent extends React.Component {
 
 ColorComponent.propTypes = {
   productDetails: PropTypes.shape({
-    variantOptions: PropTypes.arrayOf(PropTypes.shape({
-      colorlink: PropTypes.shape({
-        colorurl: PropTypes.string.isRequired,
-        selected: PropTypes.bool.isRequired
-      }).isRequired,
-      sizelink: PropTypes.shape({
-        imageUrl: PropTypes.string.isRequired,
-        isAvailable: PropTypes.bool.isRequired,
-        productCode: PropTypes.string.isRequired,
-        size: PropTypes.string.isRequired,
-        url: PropTypes.string.isRequired
-      }).isRequired
-    }).isRequired),
     variantTheme: PropTypes.arrayOf(PropTypes.shape({
       colorOptions: PropTypes.arrayOf(PropTypes.shape({
         color: PropTypes.string.isRequired,

@@ -115,6 +115,7 @@
 
 .dis-outstock-img {
   pointer-events: none;
+  margin: 5px 12px 12px 0;
 }
 .dis-cursor {
   cursor: not-allowed;
