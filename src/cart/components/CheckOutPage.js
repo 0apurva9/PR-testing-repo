@@ -1762,7 +1762,10 @@ class CheckOutPage extends React.Component {
         isCliqCashApplied: false,
         captchaReseponseForCOD: null,
         PAYMENT_MODE_TYPE: null,
-        binValidationCOD: false
+        binValidationCOD: false,
+        currentPaymentMode: null,
+        paymentModeSelected: null,
+        savedCardDetails: null
       });
       localStorage.removeItem("cliqCashAppliedWithOffer");
     }

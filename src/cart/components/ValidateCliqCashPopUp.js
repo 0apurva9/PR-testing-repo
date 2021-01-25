@@ -18,6 +18,7 @@ export default class ValidateCliqCashPopUp extends React.Component {
         this.props.result.bankCoupontoRelease
       );
     }
+    this.props.resetAllPaymentModes();
     this.props.closeModal();
   }
   componentWillUnmount() {
