@@ -94,10 +94,9 @@ export function sortArrayOfObjectByIntegerKeyValue(array, keyName) {
 }
 
 /**
- * This functions take two different arrays and a matching key with a flag and returns an object to the caller to set in state.
+ * This functions takes an array and a matching key with a flag and returns an object to the caller to set in state.
  *
  * @param {array} variantTheme - Array of objects
- * @param {array} variantOptions - Array of objects
  * @param {string} productListingId - String for comparision with productCode inside the key in the objects inside the arrays
  * @param {boolean} fromColorComponent - Flag to determine from where the function is called
  * @typedef {Object} StateObject1
@@ -112,7 +111,6 @@ export function sortArrayOfObjectByIntegerKeyValue(array, keyName) {
 
 export function findSelectedSize(
   variantTheme = [],
-  variantOptions = [],
   productListingId,
   fromColorComponent = false
 ) {
@@ -125,27 +123,14 @@ export function findSelectedSize(
       sizeOptions &&
       sizeOptions.filter((el, i) => {
         if (
-          el.productCode === productListingId &&
-          el.isAvailable === true &&
-          el.selected === true
+          (el && el.productCode) === productListingId &&
+          (el && el.isAvailable) === true &&
+          (el && el.selected) === true
         ) {
           if (fromColorComponent) {
             sizeToSetInState = { selectedSizeIndex: i };
           } else {
             sizeToSetInState = { isSelected: true, selectedIndex: i };
-          }
-        }
-      });
-  } else {
-    sizeOptions = variantOptions && variantOptions.map(el => el.sizelink);
-    selectedSize =
-      sizeOptions &&
-      sizeOptions.filter((el, i) => {
-        if (el.productCode === productListingId && el.isAvailable === true) {
-          if (fromColorComponent) {
-            sizeToSetInState = { selectedIndex: i };
-          } else {
-            sizeToSetInState = { isSelected: true, selectedSizeIndex: i };
           }
         }
       });

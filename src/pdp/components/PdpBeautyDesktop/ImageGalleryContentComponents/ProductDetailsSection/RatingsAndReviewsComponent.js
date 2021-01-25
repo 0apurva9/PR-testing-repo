@@ -46,7 +46,7 @@ export default class RatingsAndReviewsComponent extends React.Component {
                   ].join(" ")}
                 />
               )}
-              {averageRatingNew < 2.5 && (
+              {averageRatingNew <= 2.5 && (
                 <span
                   className={[
                     styles["rating-star"],

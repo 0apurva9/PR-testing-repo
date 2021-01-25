@@ -172,6 +172,24 @@ export default class Plp extends React.Component {
   }
 
   UNSAFE_componentWillReceiveProps() {
+    if (
+      this.props.productListings &&
+      this.props.productListings.view &&
+      this.props.productListings.view.imageToggle
+    ) {
+      const viewInfoData =
+        this.props &&
+        this.props.productListings &&
+        this.props.productListings.view;
+      if (viewInfoData && viewInfoData.imageToggle) {
+        if (!this.setState.showToggleButton) {
+          this.setState({ showToggleButton: true });
+        }
+      }
+    } else {
+      this.setState({ showToggleButton: false });
+    }
+
     let categoryCodes = [];
     let foundCategory = [];
     let defaultViewCategories =
@@ -448,11 +466,41 @@ export default class Plp extends React.Component {
       this.props.userSelectedOutOfStock(true);
     }
     this.props.history.push(url, {
-      isFilter: false
+      isFilter: false,
+      onClickCancel: true
     });
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
+    if (
+      (!prevState.toggleView && this.state.toggleView) ||
+      (prevState.toggleView && !this.state.toggleView)
+    ) {
+      return;
+    }
+
+    if (
+      this.props.history &&
+      this.props.history.location &&
+      this.props.history.location.state
+    ) {
+      if (
+        this.props.history.location.state.clearFilter ||
+        this.props.history.location.state.clearCategorySelect ||
+        this.props.history.location.state.onFilterClick ||
+        this.props.history.location.state.onClickCancel
+      ) {
+        if (this.state.toggleView) {
+          this.setState({ toggleView: false });
+        }
+      }
+    }
+    if (this.props.sortHasBeenClicked) {
+      if (this.state.toggleView) {
+        this.setState({ toggleView: false });
+      }
+    }
+
     this.setHeaderText();
     if (!UserAgent.checkUserAgentIsMobile()) {
       const filterDOM = document.getElementById("filter_desktop");
@@ -465,20 +513,6 @@ export default class Plp extends React.Component {
         ((filterHeight ^ gridHeight) & -(filterHeight < gridHeight));
       if (this.state.totalHeight !== maxHeight) {
         this.setState({ totalHeight: maxHeight });
-      }
-    }
-    if (
-      (prevProps.productListings && prevProps.productListings.view) !==
-      (this.props.productListings && this.props.productListings.view)
-    ) {
-      const viewInfoData =
-        this.props &&
-        this.props.productListings &&
-        this.props.productListings.view;
-      if (viewInfoData) {
-        if (viewInfoData.imageToggle) {
-          this.setState({ showToggleButton: true });
-        }
       }
     }
   }
@@ -739,7 +773,12 @@ export default class Plp extends React.Component {
               query="(min-device-width:1025px)"
               values={{ deviceWidth: 1026 }}
             >
-              <div className={styles.headerSortWithFilter}>
+              <div
+                className={[
+                  styles.headerSortWithFilter,
+                  this.state.showToggleButton ? styles.showToggleButton : null
+                ].join(" ")}
+              >
                 <div
                   className={
                     electronicView
@@ -798,7 +837,12 @@ export default class Plp extends React.Component {
                   <React.Fragment>
                     <div className={styles["switch-view"]}>
                       <p className={styles["switch-title"]}>Swatch Mode </p>
-                      <div className={styles["switch-item"]}>
+                      <div
+                        className={[
+                          styles["switch-item"],
+                          this.state.toggleView ? null : styles["switch-off"]
+                        ].join(" ")}
+                      >
                         <input
                           className={styles["switch-light"]}
                           id="cb1"
