@@ -102,11 +102,11 @@ export default class ColorComponent extends React.Component {
       this.props.productDetails && this.props.productDetails.winningUssID;
     const pincodeListResponse =
       this.props.productDetails &&
-      this.props.productDetails.pincodeListResponse &&
-      this.props.productDetails.pincodeListResponse.deliveryOptions &&
-      this.props.productDetails.pincodeListResponse.deliveryOptions
+      this.props.productDetails.pincodeResponseList &&
+      this.props.productDetails.pincodeResponseList.deliveryOptions &&
+      this.props.productDetails.pincodeResponseList.deliveryOptions
         .pincodeListResponse
-        ? this.props.productDetails.pincodeListResponse.deliveryOptions
+        ? this.props.productDetails.pincodeResponseList.deliveryOptions
             .pincodeListResponse
         : [];
     stockCount = pincodeListResponse
@@ -223,9 +223,9 @@ export default class ColorComponent extends React.Component {
                                       />
                                       ): null}
                                     </div>
-                                    {stockCount && stockCount <= 3 ? (
+                                    {stockCount <= 3 && colorElement.isAvailable && colorElement.selected ? (
                                       <div className={styles["shade-stock-left"]}>
-                                        {stockCount}
+                                        {`${stockCount} left`}
                                       </div>
                                     ) : null}
                                     {this.state.showTooltip &&

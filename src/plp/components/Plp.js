@@ -171,20 +171,15 @@ export default class Plp extends React.Component {
     }
   }
 
-  UNSAFE_componentWillReceiveProps() {
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    //Logic to show/hide toggle button
     if (
-      this.props.productListings &&
-      this.props.productListings.view &&
-      this.props.productListings.view.imageToggle
+      nextProps.productListings &&
+      nextProps.productListings.view &&
+      nextProps.productListings.view.imageToggle
     ) {
-      const viewInfoData =
-        this.props &&
-        this.props.productListings &&
-        this.props.productListings.view;
-      if (viewInfoData && viewInfoData.imageToggle) {
-        if (!this.setState.showToggleButton) {
-          this.setState({ showToggleButton: true });
-        }
+      if (!this.state.showToggleButton) {
+        this.setState({ showToggleButton: true });
       }
     } else {
       this.setState({ showToggleButton: false });
@@ -472,35 +467,6 @@ export default class Plp extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (
-      (!prevState.toggleView && this.state.toggleView) ||
-      (prevState.toggleView && !this.state.toggleView)
-    ) {
-      return;
-    }
-
-    if (
-      this.props.history &&
-      this.props.history.location &&
-      this.props.history.location.state
-    ) {
-      if (
-        this.props.history.location.state.clearFilter ||
-        this.props.history.location.state.clearCategorySelect ||
-        this.props.history.location.state.onFilterClick ||
-        this.props.history.location.state.onClickCancel
-      ) {
-        if (this.state.toggleView) {
-          this.setState({ toggleView: false });
-        }
-      }
-    }
-    if (this.props.sortHasBeenClicked) {
-      if (this.state.toggleView) {
-        this.setState({ toggleView: false });
-      }
-    }
-
     this.setHeaderText();
     if (!UserAgent.checkUserAgentIsMobile()) {
       const filterDOM = document.getElementById("filter_desktop");
@@ -513,6 +479,15 @@ export default class Plp extends React.Component {
         ((filterHeight ^ gridHeight) & -(filterHeight < gridHeight));
       if (this.state.totalHeight !== maxHeight) {
         this.setState({ totalHeight: maxHeight });
+      }
+    }
+
+    if (
+      prevProps.location.pathname !== this.props.location.pathname ||
+      prevProps.location.search !== this.props.location.search
+    ) {
+      if (this.state.toggleView && this.state.showToggleButton) {
+        this.setState({ toggleView: false });
       }
     }
   }
