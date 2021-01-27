@@ -32,6 +32,10 @@ import {
   ADOBE_LOGIN_START,
   ADOBE_SELF_SERVE_FAQ_PAGE_LOAD
 } from "../../lib/adobeUtils";
+import {
+  HaptikChatBotInitSetup,
+  toggleHaptikBot
+} from "../../lib/HaptikChatBotInit";
 import { MOBILE_PATTERN } from "../../auth/components/Login";
 import SSRquest from "../../general/components/SSRequest";
 import OrderHistoryList from "./OrderHistoryList";
@@ -163,13 +167,25 @@ export default class OrderRelatedIssue extends React.Component {
           : ""
       });
     }
+
+    /**
+     * HaptikChatBotInitSetup();
+     * // Will add haptik chatbot script
+     */
+    !window.haptikInitSettings && HaptikChatBotInitSetup();
   }
   componentDidUpdate(prevProps, prevState) {
+    if (this.state.orderList) {
+      toggleHaptikBot(false);
+    } else {
+      toggleHaptikBot(true);
+    }
     if (this.state.callMeBackJourney && !this.state.isCallMeBackForm) {
       window.scrollTo(0, 0);
     }
   }
   componentWillUnmount() {
+    toggleHaptikBot(true);
     this.props.clearOrderTransactionDetails();
   }
 
@@ -948,7 +964,8 @@ export default class OrderRelatedIssue extends React.Component {
       isRecentOrderHistory: true,
       isOrderDatails: false,
       FAQquestion: false,
-      showQuestionList: false
+      showQuestionList: false,
+      orderList: false
     });
   }
 
@@ -971,7 +988,8 @@ export default class OrderRelatedIssue extends React.Component {
       isRecentOrderHistory: true,
       isOrderDatails: false,
       FAQquestion: false,
-      showQuestionList: false
+      showQuestionList: false,
+      orderList: false
     });
   };
 
