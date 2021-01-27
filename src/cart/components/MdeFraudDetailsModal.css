@@ -1,0 +1,52 @@
+.base {
+  position: absolute;
+  width: 638px;
+  height: auto;
+  text-align: center;
+  max-height: 100%;
+  background: #fff;
+  transform: translateY(100%);
+  animation: slideIn 200ms forwards;
+  top: 23%;
+  margin: auto;
+  padding: 30px 55px;
+  border-radius: 4px;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateY(100%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+.iconContainer{
+	display: inline-block;
+}
+
+.heading{
+	font-size: 22px;
+	font-family: semibold;
+	margin-bottom: 12px;
+}
+
+.description{
+  font-size: 18px;
+	font-family: light;
+	margin-bottom: 36px;
+}
+
+.okButton{
+  border-radius: 18px;
+  border: solid 2px #da1c5c;
+  background-color: #da1c5c;
+  font-size: 18px;
+  width: 156px;
+  padding: 5px;
+  color: #ffffff;
+  font-family: semibold;
+  display: inline-block;
+  cursor: pointer;
+}

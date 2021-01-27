@@ -81,7 +81,8 @@ import {
   getBankDetailsforDCEmi,
   getEMIEligibilityDetails,
   getDCEmiEligibility,
-  submitAppliancesExchangeData
+  submitAppliancesExchangeData,
+  mdeFraudCheck
 } from "../actions/cart.actions";
 import {
   showSecondaryLoader,
@@ -879,6 +880,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(
         submitAppliancesExchangeData(orderId, status, removeLocalStorage)
       );
+    },
+    mdeFraudCheck: () => {
+      dispatch(mdeFraudCheck());
     }
   };
 };
@@ -900,7 +904,8 @@ const mapStateToProps = state => {
     emiEligibiltyDetails: state.cart.emiEligibiltyDetails,
     dCEmiEligibiltyDetails: state.cart.dCEmiEligibiltyDetails,
     appliancesExchangePincodeDetails:
-      state.productDescription.appliancesExchangeCheckPincodeDetails
+      state.productDescription.appliancesExchangeCheckPincodeDetails,
+    mdeFraudCheckError: state.cart.mdeFraudCheckError
   };
 };
 

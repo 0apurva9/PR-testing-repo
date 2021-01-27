@@ -25,7 +25,8 @@ import {
   DEFAULT_PIN_CODE_ID_LOCAL_STORAGE,
   AC_CART_EXCHANGE_DETAILS,
   NO_COST_EMI_COUPON,
-  OLD_CART_GU_ID
+  OLD_CART_GU_ID,
+  MDE_FRAUD_CHECK_ERROR
 } from "../../lib/constants";
 import SavedProduct from "./SavedProduct";
 import filter from "lodash.filter";
@@ -225,6 +226,11 @@ class CartPage extends React.Component {
           : Cookie.getCookie(OLD_CART_GU_ID).guid;
       let cartId = JSON.parse(cartDetailsLoggedInUser).code;
       this.props.removeNoCostEmi(emiCoupon, carGuId, cartId);
+    }
+
+    const mdeFraudCheckError = sessionStorage.getItem(MDE_FRAUD_CHECK_ERROR);
+    if (mdeFraudCheckError) {
+      this.props.openMdeFraudDetailsModal({ errorMessage: mdeFraudCheckError });
     }
   }
 
@@ -1320,7 +1326,9 @@ class CartPage extends React.Component {
                     this.props.wishListCount > 0 && (
                       <div className={styles.wishListCountSection}>
                         <div className={styles.iconWishList} />
-                        <span>{`You have ${this.props.wishListCount} items in your saved list`}</span>
+                        <span>{`You have ${
+                          this.props.wishListCount
+                        } items in your saved list`}</span>
                         <div className={styles.buttonHolder}>
                           <UnderLinedButton
                             size="14px"
