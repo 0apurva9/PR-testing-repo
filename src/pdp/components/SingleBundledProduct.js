@@ -8,14 +8,41 @@ import styles from "./SingleBundledProduct.css";
 import { SUCCESS } from "../../lib/constants";
 import PropTypes from "prop-types";
 import checkboxEnabled from "../../general/components/img/checkboxEnabledProductBundling.svg";
+import ComboOfferStrip from "./ComboOfferStrip";
 
 export default class SingleBundledProduct extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isCheckboxClicked: false
+      isCheckboxClicked: false,
+      userClicked: false
     };
     this.selectBundledProduct = this.selectBundledProduct.bind(this);
+  }
+
+  componentDidMount() {
+    if (!this.props.isMainProduct && this.props.productData.defaultSelected) {
+      let productPrice =
+        this.props.productData.winningSellerPrice &&
+        this.props.productData.winningSellerPrice.value;
+
+      if (!this.props.productData.winningSellerPrice) {
+        productPrice =
+          this.props.productData.mrpPrice &&
+          this.props.productData.mrpPrice.value;
+      }
+
+      this.props.handleClick(
+        this.props.productIndex,
+        false,
+        this.props.productData.productListingId,
+        this.props.productData.winningUssID,
+        this.props.productData.recommendationType,
+        this.props.productData.rootCategory,
+        productPrice,
+        this.props.isBundlingDiscountAvailable
+      );
+    }
   }
 
   selectBundledProduct(
@@ -25,17 +52,26 @@ export default class SingleBundledProduct extends React.Component {
     ussId,
     recommendationType,
     productCategory,
-    productPrice
+    productPrice,
+    isBundlingDiscountAvailable
   ) {
-    this.setState({ isCheckboxClicked: !this.state.isCheckboxClicked });
+    this.setState({
+      isCheckboxClicked: !this.state.isCheckboxClicked,
+      userClicked: true
+    });
+    let verifyCheckboxChecked = checkboxChecked;
+    if (this.props.productData.defaultSelected) {
+      verifyCheckboxChecked = !checkboxChecked;
+    }
     this.props.handleClick(
       productIndex,
-      checkboxChecked,
+      verifyCheckboxChecked,
       productId,
       ussId,
       recommendationType,
       productCategory,
-      productPrice
+      productPrice,
+      isBundlingDiscountAvailable
     );
   }
 
@@ -48,10 +84,18 @@ export default class SingleBundledProduct extends React.Component {
   render() {
     let checked = false;
     if (
-      this.props.bundledPriceAPIStatus === SUCCESS &&
-      this.state.isCheckboxClicked
+      (this.props.bundledPriceAPIStatus === SUCCESS &&
+        this.state.isCheckboxClicked) ||
+      this.props.productData.defaultSelected
     ) {
       checked = true;
+    }
+    if (
+      this.props.productData.defaultSelected &&
+      this.state.userClicked &&
+      this.state.isCheckboxClicked
+    ) {
+      checked = false;
     }
     let highlightMainProductPrice = false;
     if (
@@ -86,10 +130,23 @@ export default class SingleBundledProduct extends React.Component {
         this.props.productData.mrpPrice &&
         this.props.productData.mrpPrice.value;
     }
+
     return (
       <div className={!this.props.isMainProduct ? styleForExtraProducts : null}>
-        {!this.props.isMainProduct ? <div className={styles.divider} /> : null}
+        {!this.props.isMainProduct &&
+        !this.props.isBundlingDiscountAvailable ? (
+          <div className={styles.divider} />
+        ) : null}
+
         <div className={styles.singleProductContainer}>
+          {!this.props.isMainProduct &&
+            this.props.isBundlingDiscountAvailable && (
+              <ComboOfferStrip
+                bundlingDiscount={this.props.productData.bundlingDiscount}
+                productName={this.props.mainProductName}
+              />
+            )}
+
           {!this.props.isMainProduct ? (
             <div className={styles.checkboxContainer}>
               {this.props.isBundledProductInCart ? (
@@ -108,7 +165,8 @@ export default class SingleBundledProduct extends React.Component {
                       this.props.productData.winningUssID,
                       this.props.productData.recommendationType,
                       this.props.productData.rootCategory,
-                      productPrice
+                      productPrice,
+                      this.props.isBundlingDiscountAvailable
                     )
                   }
                 />
@@ -126,8 +184,12 @@ export default class SingleBundledProduct extends React.Component {
             <div
               className={
                 !this.props.isMainProduct
-                  ? styles.imageHolder
-                  : styles.imageHolderMainProduct
+                  ? !this.props.productData.clickable
+                    ? styles.imageHolderDisabled
+                    : styles.imageHolder
+                  : !this.props.productData.clickable
+                    ? styles.imageHolderMainProductDisabled
+                    : styles.imageHolderMainProduct
               }
               onClick={() =>
                 this.goToPDP(this.props.productData.productListingId)
@@ -152,7 +214,11 @@ export default class SingleBundledProduct extends React.Component {
           >
             <div className={styles.productNameContainer}>
               <span
-                className={styles.productName}
+                className={
+                  !this.props.productData.clickable
+                    ? styles.productNameDisabled
+                    : styles.productName
+                }
                 onClick={() =>
                   this.goToPDP(this.props.productData.productListingId)
                 }
@@ -170,9 +236,9 @@ export default class SingleBundledProduct extends React.Component {
                     >
                       {this.props.productData.ratingCount !== 0 &&
                         this.props.productData.ratingCount && (
-                          <div
-                            className={styles.totalNoOfReviews}
-                          >{`(${this.props.productData.ratingCount})`}</div>
+                          <div className={styles.totalNoOfReviews}>{`(${
+                            this.props.productData.ratingCount
+                          })`}</div>
                         )}
                     </StarRating>
                   )
@@ -201,8 +267,8 @@ export default class SingleBundledProduct extends React.Component {
                     ? styles.productMop
                     : styles.productMopGrey
                   : checked
-                  ? styles.productMop
-                  : styles.productMopGrey
+                    ? styles.productMop
+                    : styles.productMopGrey
               }
             >
               {this.props.productData.winningSellerPrice &&

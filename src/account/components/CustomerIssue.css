@@ -2,7 +2,6 @@
   background: #fff;
   padding: 20px;
   width: 100%;
-  /* height: 200px; */
   border-radius: 6px;
 }
 
@@ -13,19 +12,30 @@
   justify-content: center;
 }
 .loginHeading {
-  font-size: 16px;
+  font-size: 18px;
   font-family: semibold;
   color: #212121;
+  margin-top: 22px;
+  margin-bottom: 6px;
+}
+.loginSubHeading{
+  font-size: 14px;
+  font-family: light;
+  color: #8d8d8d;
+  text-align: center;
 }
 .loginButton {
   padding: 21px 0px 3px 0px;
 }
+.loginBtn{
+  font-size: 18px;
+  color: #da1c5c;
+  font-family: semibold;
+  cursor: pointer;
+}
 .orderDataCard {
   background: #fff;
-  /* box-shadow: 0px 0px 7px 0 rgba(0, 0, 0, 0.1); */
-  /* text-shadow: 0 0 black; */
   width: 100%;
-  /* border-radius: 6px; */
   cursor: pointer;
   border-radius: 8px;
   box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.07);
@@ -43,11 +53,6 @@
 .orderImageBox {
   width: 100px;
   height: 100px;
-  /* background: #eee;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px; */
 }
 .orderDatils {
   width: 100%;
@@ -59,20 +64,20 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 35px 0px 30px 0px;
+  padding: 6px 0px 6px 0px;
 }
 .noOrderHeader {
-  font-size: 16px;
+  font-size: 18px;
   font-family: semibold;
-  color: #4a4a4a;
+  color: #212121;
+  margin-top: 10px;
 }
 .noOrderTxt {
-  font-size: 16px;
+  font-size: 14px;
   font-family: light;
-  color: #4a4a4a;
-  padding: 8px 0px 24px 0px;
-}
-.continueShoping {
+  color: #8d8d8d;
+  padding: 8px 0px 17px 0px;
+  text-align: center;
 }
 
 .productName {
@@ -89,7 +94,6 @@
   color: #4a4a4a;
   font-family: light;
   padding-bottom: 6px;
-  /* width: 100; */
   white-space: initial;
 }
 .fontBold {
@@ -122,21 +126,15 @@
   color: #da1c5c;
   font-size: 14px;
   font-family: light;
-  /* line-height: 22px; */
   padding: 0px;
   padding-bottom: 11px;
 }
 .btn:not(:first-child) {
 }
 
-/* Order Details */
 .orderDetailsBox {
   display: flex;
   padding: 20px 0px;
-  /* border-bottom: 1px solid #eee;
-    margin-bottom: 20px; */
-  /* border-top: 1px solid #eee; */
-  /* border-bottom: 1px solid #eee; */
 }
 .orderDetailsCard {
   width: 50%;
@@ -150,14 +148,12 @@
 }
 .orderDetailsImgBox {
   width: 80px;
-  /* height: 120px; */
 }
 .orderImg {
   width: 100%;
   height: 100%;
 }
 .orderDetailsContent {
-  /* width: 76%; */
   padding-left: 24px;
 }
 .orderDesc {
@@ -202,7 +198,6 @@
   cursor: pointer;
 }
 
-/* Question Answer */
 .feedBack {
   background: rgba(218, 28, 92, 0.22);
   padding: 13px 20px;
@@ -254,7 +249,6 @@
   line-height: 23px;
 }
 .solution a {
-  /* border-bottom: 2px solid #ff1744; */
   font-family: semibold;
   color: #ff1744;
 }
@@ -307,17 +301,11 @@
   padding: 16px;
   margin-bottom: 16px;
 }
-/* .allOrderDataBox:not(:last-child){
-margin-bottom: 20px;
-} */
 .allOrderImageBox {
   width: 80px;
-  /* height: 100px; */
 }
 
 .allOrderDatils {
-  /* width: 87%; */
-  /* overflow: hidden; */
   padding-left: 14px;
 }
 .allOrderImage {
@@ -403,8 +391,6 @@ margin-bottom: 20px;
   color: #4a4a4a;
   font-family: light;
   padding-bottom: 6px;
-  /* width: 189px; */
-  /* white-space: initial; */
 }
 .subIssueType {
   font-size: 14px;
@@ -435,4 +421,27 @@ margin-bottom: 20px;
 .dateStyle {
   font-size: 12px;
   font-family: semibold;
+}
+.cliqCare{
+  background: #fff;
+  padding: 24px 80px 24px 30px;
+  width: 100%;
+  border-radius: 6px;
+  margin-bottom: 18px;
+}
+.cliqCareBox{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.cliqCareHeading{
+  font-size: 24px;
+  color: #212121;
+  font-family: semibold;
+  margin-bottom: 14px;
+}
+.cliqCareSubHeading{
+  font-size: 16px;
+  color: #4a4a4a;
+  font-family: light;
 }

@@ -248,7 +248,7 @@ export default class ShippingDetailsComponent extends React.Component {
                 }
               </div>
             ) : this.props.productDetails.isServiceableToPincode
-              .productNotServiceableMessage ? (
+                .productNotServiceableMessage ? (
               <div className={styles["pin-code-error"]}>
                 *{" "}
                 {
@@ -262,8 +262,8 @@ export default class ShippingDetailsComponent extends React.Component {
               </div>
             ) : null
           ) : this.props.productDetails &&
-          this.props.productDetails.isServiceableToPincode &&
-          this.props.productDetails.isServiceableToPincode.pinCode ? (
+            this.props.productDetails.isServiceableToPincode &&
+            this.props.productDetails.isServiceableToPincode.pinCode ? (
             <div className={styles["ship-deli-pick-block"]}>
               <BeautyPdpDeliveryModes
                 onPiq={() => this.handleShowPiqPage()}

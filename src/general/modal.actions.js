@@ -71,9 +71,11 @@ export const CHANGE_EXCHANGE_CASHBACK_MODAL = "ChangeExchangeCashabackModal";
 export const CASHBACK_DETAILS_POPUP = "cashBackDetailsPopup";
 
 export const CLIQ_2_CALL_POP_UP = "Cliq2CallPopUp";
+export const ALERT_POPUP = "AlertPopUp";
 export const CUSTOMER_QUERY_ERROR_MODAL = "CustomerQueryErrorModal";
 export const TIME_SLOT_POP_UP = "TimeSlotPopUp";
 export const CUSTOMER_CALL_QUERY_SUCCESS = "CustomerCallQuerySuccess";
+export const ATTACHMENT_UPLOAD_RESPONSE_POPUP = "AttachmentUploadPopUp";
 export const APPLIANCES_EXCHANGE_MODAL = "AppliancesExchangeModal";
 export const NON_EMI_ELIGIBLE_TO_WISHLIST = "nonEmiEligibleToWishlist";
 export function showModal(type, ownProps) {

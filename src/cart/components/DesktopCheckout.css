@@ -183,3 +183,7 @@
 .shippingChargeMsgIcon {
   width: 12%;
 }
+.labelComboDiscount {
+  composes: label;
+  color: #67b70b;
+}
