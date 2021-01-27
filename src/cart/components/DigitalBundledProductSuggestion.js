@@ -129,7 +129,7 @@ export default class DigitalBundledProductSuggestion extends React.Component {
               parseFloat(this.props.digitalProduct.bundlingDiscount) !== 0 && (
                 <ComboOfferStrip
                   bundlingDiscount={this.props.digitalProduct.bundlingDiscount}
-                  productName={this.props.digitalProduct.productName}
+                  productName={this.props.mainProduct.productName}
                   isFromCartPage={true}
                 />
               )}
