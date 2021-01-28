@@ -188,19 +188,19 @@ export default class Plp extends React.Component {
     let categoryCodes = [];
     let foundCategory = [];
     let defaultViewCategories =
-      this.props.defaultViewData[0] && this.props.defaultViewData[0].value;
+      nextProps.defaultViewData[0] && nextProps.defaultViewData[0].value;
     if (
-      this.props.productListings &&
-      this.props.productListings.facetdatacategory &&
-      this.props.productListings.facetdatacategory.filters &&
-      this.props.productListings.facetdatacategory.filters[0] &&
-      this.props.productListings.facetdatacategory.filters[0].categoryCode
+      nextProps.productListings &&
+      nextProps.productListings.facetdatacategory &&
+      nextProps.productListings.facetdatacategory.filters &&
+      nextProps.productListings.facetdatacategory.filters[0] &&
+      nextProps.productListings.facetdatacategory.filters[0].categoryCode
     ) {
-      const filterCategory = this.props.productListings.facetdatacategory
-        .filters[0].categoryCode;
+      const filterCategory =
+        nextProps.productListings.facetdatacategory.filters[0].categoryCode;
       if (defaultViewCategories) {
         categoryCodes = Object.keys(
-          JSON.parse(this.props.defaultViewData[0].value)
+          JSON.parse(nextProps.defaultViewData[0].value)
         );
         if (categoryCodes && categoryCodes.length > 0) {
           foundCategory = categoryCodes.filter(
@@ -221,6 +221,11 @@ export default class Plp extends React.Component {
                 view: GRID
               });
             }
+          } else {
+            this.setState({
+              gridBreakup: false,
+              view: GRID
+            });
           }
         }
       }
