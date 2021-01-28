@@ -1243,7 +1243,12 @@ export function addAddressToCartFailure(error) {
   };
 }
 
-export function addAddressToCart(addressId, pinCode, isComingFromCliqAndPiq) {
+export function addAddressToCart(
+  addressId,
+  pinCode,
+  isComingFromCliqAndPiq,
+  isExchangeProductInCart
+) {
   let newPinCode;
   if (isComingFromCliqAndPiq) {
     newPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
@@ -1278,7 +1283,11 @@ export function addAddressToCart(addressId, pinCode, isComingFromCliqAndPiq) {
         localStorage.removeItem(SELECTED_STORE);
       }
       dispatch(checkApplianceExchangeData());
-      dispatch(mdeFraudCheck());
+      if (isExchangeProductInCart) {
+        dispatch(mdeFraudCheck());
+      } else {
+        dispatch(mdeFraudCheckSuccess());
+      }
       dispatch(
         getCartDetailsCNC(userId, access_token, cartId, newPinCode, false)
       );

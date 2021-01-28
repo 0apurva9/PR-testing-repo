@@ -2947,6 +2947,21 @@ if you have order id in local storage then you have to show order confirmation p
       ADDRESS_FOR_PLACE_ORDER,
       JSON.stringify(this.state.selectedAddress)
     );
+
+    let isExchangeProductInCart = false;
+    let cartProductsData =
+      this.props.cart &&
+      this.props.cart.cartDetailsCNC &&
+      this.props.cart.cartDetailsCNC.products;
+    let productsExchangeData =
+      cartProductsData &&
+      cartProductsData.filter(product => {
+        return product.exchangeDetails;
+      });
+    if (productsExchangeData && productsExchangeData.length > 0) {
+      isExchangeProductInCart = true;
+    }
+
     if (!this.state.isPaymentFailed) {
       if (this.state.isFirstAddress) {
         this.addAddress(this.state.addressDetails);
@@ -2961,7 +2976,8 @@ if you have order id in local storage then you have to show order confirmation p
         this.props.addAddressToCart(
           this.state.addressId,
           this.state.selectedAddress.postalCode,
-          this.state.isComingFromCliqAndPiq
+          this.state.isComingFromCliqAndPiq,
+          isExchangeProductInCart
         );
         this.setState({ confirmAddress: true });
         if (this.state.isComingFromCliqAndPiq) {
