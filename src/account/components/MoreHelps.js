@@ -11,7 +11,6 @@ import editIcon from "../components/img/edit.svg";
 import chatIcon from "../components/img/chatIcon.svg";
 import callMeBack from "../components/img/callMeBack.svg";
 import call from "../components/img/call.svg";
-import downArrow from "../../general/components/img/down-arrow-pink.png";
 const WRITE_TO_US = "Write to us/ Raise a complaint";
 const CHAT_WITH_US = "Chat with us";
 const CALL_ME_BACK = "Call me back";
@@ -27,6 +26,7 @@ class MoreHelps extends Component {
       this.props.getCustomerQueriesFields();
     }
   };
+
   render() {
     return (
       <div className={styles.baseWrapper}>

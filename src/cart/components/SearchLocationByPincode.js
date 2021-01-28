@@ -1,9 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Input2 from "../../general/components/Input2.js";
-import gpsIcon from "../../general/components/img/GPS.svg";
 import Icon from "../../xelpmoc-core/Icon";
-import CircleButton from "../../xelpmoc-core/CircleButton";
 import Location from "./img/location.png";
 import styles from "./SearchLocationByPincode.css";
 import { DEFAULT_PIN_CODE_LOCAL_STORAGE } from "../../lib/constants";
@@ -20,6 +18,7 @@ export default class SearchLocationByPincode extends React.Component {
       errorMessage: null
     };
   }
+
   getValue(pincode) {
     if (pincode.length <= 6) {
       this.setState({ pinCode: pincode });
@@ -47,8 +46,8 @@ export default class SearchLocationByPincode extends React.Component {
       this.setState({ errorMessage: "Please enter a  valid pincode" });
     }
   }
+
   render() {
-    const defaultPincode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
     return (
       <div className={styles.base}>
         {this.props.header && (

@@ -25,6 +25,7 @@ export default class ProductFeatureDetails extends Component {
       );
     }
   }
+
   renderOfferData() {
     if (this.props.offerData && this.props.electronicView) {
       if (
@@ -157,9 +158,9 @@ export default class ProductFeatureDetails extends Component {
               </div>
               {this.props &&
                 this.props.plpAttrMap &&
-                this.props.plpAttrMap.map(key => {
+                this.props.plpAttrMap.map((key, i) => {
                   return (
-                    <div>
+                    <div key={i}>
                       <li className={styles.elctronicList}>
                         {key.key} :
                         {key.value}

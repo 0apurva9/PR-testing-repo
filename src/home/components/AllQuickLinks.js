@@ -25,7 +25,7 @@ export default class AllQuickLinks extends React.Component {
                     <QuickLinks
                       key={i}
                       imageURL={val.imageURL}
-                      onClick={data => this.onClick(val.webURL)}
+                      onClick={() => this.onClick(val.webURL)}
                     />
                   );
                 })}

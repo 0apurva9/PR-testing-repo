@@ -31,6 +31,7 @@ export default class SellerCard extends React.Component {
   handleChange(val) {
     this.setState({ comment: val });
   }
+
   onRatingChange = val => {
     this.setState({ rating: val });
   };
@@ -216,7 +217,13 @@ SellerCard.propTypes = {
   price: PropTypes.number,
   discountPrice: PropTypes.string,
   isSelect: PropTypes.bool,
-  pathURL: PropTypes.string
+  pathURL: PropTypes.string,
+  onSellerReviewSubmit: PropTypes.func,
+  title: PropTypes.string,
+  placedTime: PropTypes.string,
+  orderNumber: PropTypes.string,
+  orderFullfilledBy: PropTypes.string,
+  sellerData: PropTypes.object,
 };
 SellerCard.defaultProps = {
   quantity: false,

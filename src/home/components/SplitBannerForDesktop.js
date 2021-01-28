@@ -22,6 +22,7 @@ export default class SplitBannerForDesktop extends React.Component {
       }
     }
   }
+
   renderCard = feedComponentDatum => {
     return (
       <div

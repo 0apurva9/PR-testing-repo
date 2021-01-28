@@ -71,7 +71,6 @@ import {
 } from "../../account/actions/account.actions";
 import {
   createWishlist,
-  getWishListItems,
   getWishlist
 } from "../../wishlist/actions/wishlist.actions";
 import {
@@ -88,7 +87,7 @@ import { addProductToCart } from "../../pdp/actions/pdp.actions.js";
 import { showSecondaryLoader } from "../../general/secondaryLoader.actions";
 const ERROR_MESSAGE_IN_CANCELING_ORDER = "Error in Canceling order";
 const UPDATE_PASSWORD = "Password Updated Successfully";
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = state => {
   return {
     bankOfferTncDetails: state.cart.bankOfferTncDetails,
     modalType: state.modal.modalType,
@@ -359,12 +358,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
 
     verifyWallet: async (customerDetailsWithOtp, isFromCliqCash) => {
-      const createdCartVal = await dispatch(
+      await dispatch(
         verifyWallet(customerDetailsWithOtp, isFromCliqCash)
       );
-      // if (createdCartVal.error !== ERROR_MESSAGE_FOR_VERIFY_OTP) {
-      //   dispatch(modalActions.hideModal());
-      // }
     },
 
     submitSelfCourierReturnInfo: returnDetails => {

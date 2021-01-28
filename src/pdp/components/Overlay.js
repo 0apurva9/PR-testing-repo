@@ -14,5 +14,6 @@ export default class Overlay extends React.Component {
   }
 }
 Overlay.propTypes = {
-  labelText: PropTypes.string
+  labelText: PropTypes.string,
+  children: PropTypes.node
 };

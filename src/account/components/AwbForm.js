@@ -17,11 +17,13 @@ export default class AwbForm extends React.Component {
       courierCharge: this.props.courierCharge ? this.props.courierCharge : ""
     };
   }
+
   updateLater() {
     if (this.props.updateLater) {
       this.props.updateLater();
     }
   }
+
   onUpdate() {
     if (!this.state.awbNumber) {
       this.props.displayToast("Enter AWB number");
@@ -50,6 +52,7 @@ export default class AwbForm extends React.Component {
       this.props.onUpdate(this.state);
     }
   }
+
   onUploadFile(file) {
     if (file) {
       if (file.size <= 5000000) {
@@ -59,6 +62,7 @@ export default class AwbForm extends React.Component {
       }
     }
   }
+
   render() {
     return (
       <div className={styles.base}>
@@ -162,5 +166,7 @@ AwbForm.propTypes = {
   courierCharge: PropTypes.string,
   onChange: PropTypes.func,
   isUpload: PropTypes.bool,
-  isShowButton: PropTypes.bool
+  isShowButton: PropTypes.bool,
+  displayToast: PropTypes.func,
+  onUpdate: PropTypes.func,
 };

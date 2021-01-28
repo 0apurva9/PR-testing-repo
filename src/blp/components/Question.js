@@ -11,7 +11,7 @@ export default class Question extends React.Component {
         <div className={styles.answerHolder}>
           <GridSelect limit={1} offset={0} elementWidthMobile={100}>
             {this.props.options.map((val, i) => {
-              return <CheckBoxPoint label={val.label} value={i} />;
+              return <CheckBoxPoint key={i} label={val.label} value={i} />;
             })}
           </GridSelect>
         </div>

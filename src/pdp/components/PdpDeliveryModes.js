@@ -15,17 +15,14 @@ import {
 } from "../../lib/constants";
 import PropTypes from "prop-types";
 import styles from "./PdpDeliveryModes.css";
-import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
-import { isBrowser } from "browser-or-node";
 export default class PdpDeliveryModes extends React.Component {
   render() {
-    let deliveryMode = "";
     let deliveryDates = "";
     let baseClass = styles.base;
     let firstSlaveData;
     let availableStores = this.props.availableStores;
     let ussid;
-    const { eligibleDeliveryModes, deliveryModesATP } = this.props;
+    const { deliveryModesATP } = this.props;
     let getDeliveryModesByWinningUssid = "";
     if (this.props.fromSellerCard) {
       baseClass = `${styles.base} ${styles.sellerBase}`;
@@ -371,7 +368,15 @@ export default class PdpDeliveryModes extends React.Component {
   }
 }
 PdpDeliveryModes.propTypes = {
-  iconShow: PropTypes.bool
+  iconShow: PropTypes.bool,
+  availableStores: PropTypes.number,
+  fromSellerCard: PropTypes.bool,
+  pincodeDetails: PropTypes.object,
+  winningUssID: PropTypes.number,
+  isCod: PropTypes.bool,
+  pdpApparel: PropTypes.bool,
+  deliveryModesATP: PropTypes.array,
+  onPiq: PropTypes.func
 };
 PdpDeliveryModes.defaultProps = {
   iconShow: false

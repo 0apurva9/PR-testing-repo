@@ -8,6 +8,7 @@ export default class NewBrandDesktop extends React.Component {
       this.props.onClick(val);
     }
   }
+
   render() {
     return (
       <div className={styles.base}>
@@ -51,7 +52,7 @@ export default class NewBrandDesktop extends React.Component {
                     webUrl={this.props.data[1].webURL}
                     brandId={this.props.data[1].id}
                     isFollowing={this.props.data[1].isFollowing}
-                    onClick={val =>
+                    onClick={() =>
                       this.onClick({
                         itemIds: this.props.data[1].itemIds,
                         image: this.props.data[1].imageURL,
@@ -76,7 +77,7 @@ export default class NewBrandDesktop extends React.Component {
                     webUrl={this.props.data[2].webURL}
                     brandId={this.props.data[2].id}
                     isFollowing={this.props.data[2].isFollowing}
-                    onClick={val =>
+                    onClick={() =>
                       this.onClick({
                         itemIds: this.props.data[2].itemIds,
                         image: this.props.data[2].imageURL,
@@ -103,7 +104,7 @@ export default class NewBrandDesktop extends React.Component {
                     webUrl={this.props.data[3].webURL}
                     brandId={this.props.data[3].id}
                     isFollowing={this.props.data[3].isFollowing}
-                    onClick={val =>
+                    onClick={() =>
                       this.onClick({
                         itemIds: this.props.data[3].itemIds,
                         image: this.props.data[3].imageURL,
@@ -129,7 +130,7 @@ export default class NewBrandDesktop extends React.Component {
                     webUrl={this.props.data[4].webURL}
                     brandId={this.props.data[4].id}
                     isFollowing={this.props.data[4].isFollowing}
-                    onClick={val =>
+                    onClick={() =>
                       this.onClick({
                         itemIds: this.props.data[4].itemIds,
                         image: this.props.data[4].imageURL,
@@ -153,5 +154,9 @@ NewBrandDesktop.propTypes = {
   imageURL: PropTypes.string,
   brandLogo: PropTypes.string,
   title: PropTypes.string,
-  webURL: PropTypes.string
+  webURL: PropTypes.string,
+  data: PropTypes.array,
+  history: PropTypes.object,
+  positionInFeed: PropTypes.number
+
 };

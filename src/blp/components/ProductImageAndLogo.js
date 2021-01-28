@@ -9,6 +9,7 @@ export default class ProductImageAndLogo extends React.Component {
       this.props.onClick();
     }
   }
+
   render() {
     return (
       <div className={styles.base} onClick={() => this.handleClick()}>

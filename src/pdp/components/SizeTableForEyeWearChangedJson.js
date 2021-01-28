@@ -12,6 +12,7 @@ export default class SizeTableForEyeWearChangedJson extends Component {
       tableDimensionSize: null
     };
   }
+
   getHeader = data => {
     let header = [];
     data &&
@@ -69,13 +70,16 @@ export default class SizeTableForEyeWearChangedJson extends Component {
     ];
     this.setState({ tableDimensionSize: tableDimensionSize });
   }
+
   componentDidMount() {
     this.getHeader(this.props.data);
     this.getSizeHeader();
   }
+
   componentWillReceiveProps(nextProps) {
     this.getHeader(nextProps.data);
   }
+
   getdata(data) {
     let value = [];
     value.length = this.state.header && this.state.header.length;
@@ -96,7 +100,6 @@ export default class SizeTableForEyeWearChangedJson extends Component {
 
   render() {
     var details = "";
-    let sizeGuide = [];
 
     return (
       <div className={styles.tablebase}>
@@ -109,9 +112,9 @@ export default class SizeTableForEyeWearChangedJson extends Component {
                   : styles.shortHeader
               }
             >
-              {this.state.header.map(val => {
+              {this.state.header.map((val, i) => {
                 return (
-                  <div className={styles.headerLabelHolder}>
+                  <div className={styles.headerLabelHolder} key={i}>
                     {val.toUpperCase()}
                   </div>
                 );
@@ -119,10 +122,11 @@ export default class SizeTableForEyeWearChangedJson extends Component {
             </div>
             <div className={styles.tableHolder}>
               {this.state.tableDimensionSize &&
-                this.state.tableDimensionSize.map(val => {
+                this.state.tableDimensionSize.map((val, index) => {
                   details = this.getdata(val.dimensionList);
                   return (
                     <div
+                    key={index}
                       className={
                         this.state.header.length > 3
                           ? styles.tableRow
@@ -135,7 +139,7 @@ export default class SizeTableForEyeWearChangedJson extends Component {
 
                       {details &&
                         details.map((data, i) => {
-                          return <div className={styles.tableData}>{data}</div>;
+                          return <div className={styles.tableData} key={i}>{data}</div>;
                         })}
                     </div>
                   );

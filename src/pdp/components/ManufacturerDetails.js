@@ -12,7 +12,7 @@ export default class ManufacturerDetails extends React.Component {
 
           {details.map((detail, index) => {
             return (
-              <div className={styles.manufacturer}>
+              <div className={styles.manufacturer} key = {index}>
                 <span>{index + 1}. </span>
                 {detail.value}
               </div>
@@ -25,12 +25,13 @@ export default class ManufacturerDetails extends React.Component {
         <div className={styles.content1}>
           <div>{Text} by:</div>
           {details.map((detail, index) => {
-            return <div>{detail.value}</div>;
+            return <div key = {index}>{detail.value}</div>;
           })}
         </div>
       );
     }
   }
+
   render() {
     let manufacturerDetails = this.props;
     return (
@@ -55,9 +56,9 @@ export default class ManufacturerDetails extends React.Component {
           </div>
         </div>
         <div className={styles.subHeader}>
-          <div className={styles.box1}>Manufacturer's Details</div>
-          <div className={styles.box2}>Importer's Details</div>
-          <div className={styles.box3}>Packer's Details</div>
+          <div className={styles.box1}>Manufacturer&apos;s Details</div>
+          <div className={styles.box2}>Importer&apos;s Details</div>
+          <div className={styles.box3}>Packer&apos;s Details</div>
         </div>
         <div className={styles.manuImportPackerInfo}>
           {manufacturerDetails.manufacturer &&

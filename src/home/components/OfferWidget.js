@@ -26,6 +26,7 @@ export default class OfferWidget extends React.Component {
       this.props.setClickedElementId();
     }
   };
+
   render() {
     let { feedComponentData, rest } = this.props;
     const data = feedComponentData.items ? feedComponentData.items : false;
@@ -73,5 +74,9 @@ OfferWidget.propTypes = {
     )
   }),
   onClick: PropTypes.func,
-  textLine: PropTypes.string
+  textLine: PropTypes.string,
+  history: PropTypes.object,
+  setClickedElementId: PropTypes.func,
+  rest: PropTypes.object,
+  positionInFeed: PropTypes.number
 };

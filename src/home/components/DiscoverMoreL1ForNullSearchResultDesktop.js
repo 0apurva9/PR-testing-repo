@@ -1,7 +1,6 @@
 import React from "react";
 import cloneDeep from "lodash.clonedeep";
 import CircleProductImage from "../../general/components/CircleProductImage";
-import CommonCenter from "../../general/components/CommonCenter";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import PropTypes from "prop-types";
 import styles from "./DiscoverMoreL1ForNullSearchResultDesktop.css";
@@ -70,6 +69,7 @@ export default class DiscoverMoreL1ForNullSearchResultDesktop extends React.Comp
                       return (
                         <div
                           className={styles.listLink}
+                          key={i}
                           onClick={() => this.onClick(val.webURL)}
                         >
                           {val.title}
@@ -97,5 +97,7 @@ DiscoverMoreL1ForNullSearchResultDesktop.propTypes = {
         })
       )
     })
-  )
+  ),
+  setClickedElementId: PropTypes.func,
+  history: PropTypes.object
 };

@@ -52,11 +52,12 @@ class DesktopFooterProductList extends Component {
                   .slice(0, 10)
                   .map((value, i) => {
                     return (
-                      <div className={styles.productListRow}>
+                      <div className={styles.productListRow} key={i}>
                         <div className={styles.productListDetailWrapper}>
                           <span>{i + 1}. </span>
                           <a
                             target="_blank"
+                            rel="noreferrer"
                             href={`${window.location.origin}${value.webURL}`}
                             className={styles.productListDetail}
                           >

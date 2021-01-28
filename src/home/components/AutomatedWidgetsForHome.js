@@ -1,42 +1,12 @@
 import React from "react";
 import CarouselWithControls from "../../general/components/CarouselWithControls.js";
-import Carousel from "../../general/components/Carousel";
 import ProductModule from "../../general/components/ProductModule.js";
-import ProductImageHeader from "../../general/components/ProductImageHeader.js";
-import MobileOnly from "../../general/components/MobileOnly.js";
-import UnderLinedButton from "../../general/components/UnderLinedButton.js";
-import Logo from "../../general/components/Logo";
-import DesktopOnly from "../../general/components/DesktopOnly.js";
 import { transformData } from "../../home/components/utils.js";
-import Button from "../../general/components/Button.js";
 import { withRouter } from "react-router-dom";
-import Observer from "@researchgate/react-intersection-observer";
 import CommonCenter from "../../general/components/CommonCenter";
 import ImageFlexible from "../../general/components/ImageFlexible";
-import {
-  ABOUT_THE_BRAND_WIDGET_KEY,
-  SIMILAR_PRODUCTS_WIDGET_KEY
-} from "../../pdp/actions/pdp.actions.js";
-import { FollowUnFollowButtonContainer } from "../../pdp/containers/FollowUnFollowButtonContainer";
 import styles from "./AutomatedWidgetsForHome.css";
-import {
-  PDP_FOLLOW_AND_UN_FOLLOW,
-  PRODUCT_DESCRIPTION_PRODUCT_CODE,
-  PRODUCT_DESCRIPTION_SLUG_PRODUCT_CODE,
-  RUPEE_SYMBOL
-} from "../../lib/constants.js";
-import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
-import {
-  setDataLayerForVisitBrand,
-  getDigitalDataForPdp,
-  SIMILAR_PRODUCTS_PDP_WIDGET,
-  setDataLayerForMsdItemWidgets,
-  ADOBE_CAROUSEL_CLICK,
-  ADOBE_CAROUSEL_SHOW,
-  widgetsTrackingForRecommendation,
-  ICIDTracking
-} from "../../lib/adobeUtils.js";
-import { automatedWidgetsForHome } from "../actions/home.actions.js";
+import { ICIDTracking } from "../../lib/adobeUtils.js";
 
 // only want to kick off a request for the MSD stuff if they are visible.
 
@@ -68,42 +38,10 @@ class AutomatedWidgetsForHome extends React.Component {
           {items.map((val, i) => {
             const transformedDatum = transformData(val);
             let productImage, mrpInteger, seoDoublePrice, discount, imageURL;
-            // if (widgetId === "114") {
-            // productImage = transformedDatum && transformedDatum.imageUrl;
-            // mrpInteger = transformedDatum && transformedDatum.mrp;
-            // seoDoublePrice =
-            //   transformedDatum && transformedDatum.winningSellerMOP;
-            // discount =
-            //   mrpInteger && seoDoublePrice
-            //     ? Math.floor((mrpInteger - seoDoublePrice) / mrpInteger * 100)
-            //     : "";
-            // imageURL = val.webURL;
-            //   productImage =
-            //   transformedDatum &&
-            //   transformedDatum.galleryImagesList &&
-            //   Array.isArray(transformedDatum.galleryImagesList) &&
-            //   transformedDatum.galleryImagesList[0] &&
-            //   transformedDatum.galleryImagesList[0].galleryImages && commented for productDetails api
-            //   Array.isArray(
-            //     transformedDatum.galleryImagesList[0].galleryImages
-            //   ) &&
-            //   transformedDatum.galleryImagesList[0].galleryImages[0] &&
-            //   transformedDatum.galleryImagesList[0].galleryImages[0].value;
-            // mrpInteger =
-            //   transformedDatum &&
-            //   transformedDatum.mrpPrice &&
-            //   transformedDatum.mrpPrice.doubleValue;
-            // seoDoublePrice =
-            //   transformedDatum.winningSellerPrice &&
-            //   transformedDatum.winningSellerPrice.doubleValue
-            //     ? transformedDatum.winningSellerPrice.doubleValue
-            //     : mrpInteger;
-            // } else {
             productImage = transformedDatum && transformedDatum.image_link;
             mrpInteger = transformedDatum && transformedDatum.price;
             seoDoublePrice = transformedDatum && transformedDatum.mop;
-            imageURL = val.link && val.link.replace(/^.*\/\/[^\/]+/, "");
-            // }
+            imageURL = val.link && val.link.replace(/^.*\/\/[^\\/]+/, "");
             discount =
               mrpInteger && seoDoublePrice
                 ? Math.floor(((mrpInteger - seoDoublePrice) / mrpInteger) * 100)
@@ -118,7 +56,7 @@ class AutomatedWidgetsForHome extends React.Component {
                 isShowAddToWishlistIcon={false}
                 discountPrice={seoDoublePrice}
                 discountPercent={discount}
-                onClick={url =>
+                onClick={() =>
                   this.goToProductDescription(imageURL, val, widgetId, i)
                 }
                 autoWidget="true"
@@ -130,8 +68,8 @@ class AutomatedWidgetsForHome extends React.Component {
       </div>
     );
   }
+
   getProductTitle(WidgetTitle, imageUrl) {
-    //let imageURL = "https://assets.tatacliq.com/medias/sys_master/images/27773874831390.jpg";
     if (imageUrl) {
       return <ImageFlexible image={imageUrl} />;
     } else if (WidgetTitle) {

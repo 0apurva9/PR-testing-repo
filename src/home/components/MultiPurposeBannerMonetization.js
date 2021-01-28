@@ -81,6 +81,7 @@ export default class MultiPurposeBanner_Monetization extends React.Component {
                   ? styles.firstPositionHolder
                   : styles.holder
               }
+              key={i}
               onClick={() => {
                 this.handleClick(elements.click_tracking_url);
               }}
@@ -141,5 +142,8 @@ export default class MultiPurposeBanner_Monetization extends React.Component {
 }
 MultiPurposeBanner_Monetization.propTypes = {
   knowMore: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  location: PropTypes.object,
+  history: PropTypes.object,
+  positionInFeed: PropTypes.number
 };

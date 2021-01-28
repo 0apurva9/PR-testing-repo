@@ -8,6 +8,7 @@ export default class FilterCategoryDetails extends React.Component {
       isOpen: true
     };
   }
+
   handleClick() {
     this.setState({ isOpen: !this.state.isOpen }, () => {
       if (this.props.onClick) {
@@ -20,6 +21,7 @@ export default class FilterCategoryDetails extends React.Component {
       }
     });
   }
+
   render() {
     let className = styles.subCategoryRegular;
     if (this.state.isOpen) {
@@ -44,5 +46,7 @@ export default class FilterCategoryDetails extends React.Component {
 FilterCategoryDetails.propTypes = {
   onClick: PropTypes.func,
   category: PropTypes.string,
-  categoryCount: PropTypes.number
+  categoryCount: PropTypes.number,
+  children: PropTypes.node,
+  value: PropTypes.string
 };

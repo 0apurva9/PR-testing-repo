@@ -6,6 +6,7 @@ import BrandsTypeList from "./BrandsTypeList";
 import Grid from "../../general/components/GridSelect";
 import PropTypes from "prop-types";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
+import { RouterPropTypes } from "../../general/router-prop-types";
 
 export default class AllBrandTypes extends React.Component {
   selectItem(val) {
@@ -13,6 +14,7 @@ export default class AllBrandTypes extends React.Component {
       this.props.selectItem(val);
     }
   }
+
   handleSelect(val) {
     const urlSuffix = val[0].replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
@@ -20,6 +22,7 @@ export default class AllBrandTypes extends React.Component {
       this.props.setClickedElementId();
     }
   }
+
   render() {
     let feedComponentData = this.props.feedComponentData;
     return (
@@ -65,6 +68,8 @@ export default class AllBrandTypes extends React.Component {
 AllBrandTypes.propTypes = {
   shopeName: PropTypes.func,
   brandsItem: PropTypes.func,
+  selectItem: PropTypes.func,
+  setClickedElementId: PropTypes.func,
   brandsTypeList: PropTypes.arrayOf(
     PropTypes.shape({
       brandsType: PropTypes.string,
@@ -74,5 +79,6 @@ AllBrandTypes.propTypes = {
         })
       )
     })
-  )
+  ),
+  ...RouterPropTypes
 };

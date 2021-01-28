@@ -16,6 +16,7 @@ export default class ConnectWidgetPersonalisedComponent extends React.Component 
       targetData: ""
     };
   }
+
   componentDidMount = async () => {
     let check =
       this.props.feedComponentData &&
@@ -44,6 +45,7 @@ export default class ConnectWidgetPersonalisedComponent extends React.Component 
       }
     }
   };
+
   handleClick(webURL) {
     if (webURL) {
       // Check if URL starts https://www.tatacliq.com or https://tatacliq.com
@@ -141,7 +143,12 @@ export default class ConnectWidgetPersonalisedComponent extends React.Component 
 }
 ConnectWidgetPersonalisedComponent.propTypes = {
   knowMore: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  feedComponentData: PropTypes.object,
+  getTargetMboxData: PropTypes.func,
+  history: PropTypes.object,
+  setClickedElementId: PropTypes.func,
+  positionInFeed: PropTypes.bool
 };
 ConnectWidgetPersonalisedComponent.defaultProps = {
   header: "Faster Delivery, Easier Returns.",

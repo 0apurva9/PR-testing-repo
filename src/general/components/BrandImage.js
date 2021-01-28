@@ -8,6 +8,7 @@ export default class BrandImage extends React.Component {
       this.props.onClick(this.props.value);
     }
   }
+
   render() {
     let iconClass = styles.checkIcon;
     if (this.props.selected) {
@@ -36,7 +37,10 @@ export default class BrandImage extends React.Component {
 BrandImage.propTypes = {
   image: PropTypes.string,
   selected: PropTypes.bool,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  value: PropTypes.string,
+  fit: PropTypes.string,
+  text: PropTypes.string
 };
 BrandImage.defaultProps = {
   image: "",

@@ -6,7 +6,6 @@ import Icon from "../../xelpmoc-core/Icon";
 import similarIcon from "../../general/components/img/similarIcon.svg";
 import {
   setDataLayer,
-  ADOBE_PDP_SIMILAR_PRODUCT,
   ADOBE_SIMILAR_PRODUCTS_PDP
 } from "../../lib/adobeUtils";
 import Video from "../../general/components/Video";
@@ -28,7 +27,9 @@ export default class ProductGalleryDesktop extends React.Component {
     this.zoomHeight = null;
     this.zoomWidth = null;
     this.type = null;
+    this.zoom = React.createRef();
   }
+
   swapViews(prev, next) {
     if (
       prev > -1 &&
@@ -43,6 +44,7 @@ export default class ProductGalleryDesktop extends React.Component {
       });
     }
   }
+
   getPosition(element) {
     let xPosition = 0;
     let yPosition = 0;
@@ -56,6 +58,7 @@ export default class ProductGalleryDesktop extends React.Component {
     this.zoomPositionX = xPosition;
     this.zoomPositionY = yPosition;
   }
+
   getDimensions(element) {
     this.zoomHeight = element.offsetHeight;
     this.zoomWidth = element.offsetWidth;
@@ -63,20 +66,20 @@ export default class ProductGalleryDesktop extends React.Component {
 
   showSimilarProducts() {
     this.props.showSimilarProducts();
-    //setDataLayer(ADOBE_PDP_SIMILAR_PRODUCT, this.props.productDetails);
     setDataLayer(ADOBE_SIMILAR_PRODUCTS_PDP, this.props.productData);
   }
+
   componentDidMount() {
     if (this.type === "image") {
-      this.getPosition(this.refs.zoom);
-      this.getDimensions(this.refs.zoom);
+      this.getPosition(this.zoom);
+      this.getDimensions(this.zoom);
     }
   }
 
   handleZoomMove(evt) {
     const scrollTop =
-      (window.pageYOffset || this.refs.zoom.scrollTop) -
-      (this.refs.zoom.clientTop || 0);
+      (window.pageYOffset || this.zoom.scrollTop) -
+      (this.zoom.clientTop || 0);
     const zoomX =
       ((evt.clientX - this.zoomPositionX) / this.zoomWidth) * -100 + 25;
     const zoomY =
@@ -93,12 +96,15 @@ export default class ProductGalleryDesktop extends React.Component {
       }
     }, 0);
   }
+
   handleMouseEnter() {
     this.setState({ isZoom: true });
   }
+
   handleMouseLeave() {
     this.setState({ isZoom: false });
   }
+
   getKeyValue = key => {
     let details = this.props.details;
 
@@ -114,6 +120,7 @@ export default class ProductGalleryDesktop extends React.Component {
       })
     );
   };
+
   render() {
     return (
       <div className={styles.base}>
@@ -173,7 +180,7 @@ export default class ProductGalleryDesktop extends React.Component {
           {this.type === "image" && (
             <div
               className={styles.image}
-              ref="zoom"
+              ref={this.zoom}
               onMouseMove={evt => this.handleZoomMove(evt)}
               onMouseEnter={evt => this.handleMouseEnter(evt)}
               onMouseLeave={evt => this.handleMouseLeave(evt)}
@@ -199,7 +206,7 @@ export default class ProductGalleryDesktop extends React.Component {
                 onClick={() => {
                   this.swapViews(position, i);
                 }}
-              >
+              key = {i}>
                 {this.props.productImages[i].type === "image" && (
                   <div className={styles.image}>
                     <Image image={val} fit="contain" alt={this.props.alt} />
@@ -263,8 +270,13 @@ export default class ProductGalleryDesktop extends React.Component {
   }
 }
 
-ProductGalleryDesktop = {
+ProductGalleryDesktop.propTypes = {
   productImages: PropTypes.arrayOf(PropTypes.string),
   thumbNailImages: PropTypes.arrayOf(PropTypes.string),
-  zoomImages: PropTypes.arrayOf(PropTypes.string)
+  zoomImages: PropTypes.arrayOf(PropTypes.string),
+  showSimilarProducts: PropTypes.func,
+  details: PropTypes.object,
+  alt: PropTypes.string,
+  category: PropTypes.string,
+  productData: PropTypes.object
 };

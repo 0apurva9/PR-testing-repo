@@ -10,6 +10,7 @@ export default class PlpAds extends React.Component {
       this.props.onClick();
     }
   }
+
   render() {
     return (
       <div className={styles.base}>
@@ -35,7 +36,8 @@ export default class PlpAds extends React.Component {
 PlpAds.propTypes = {
   text: PropTypes.string,
   imageURL: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  buttonText: PropTypes.string,
 };
 PlpAds.defaultProps = {
   text: "See the best sellers in Women Top Wear",

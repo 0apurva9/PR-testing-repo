@@ -12,7 +12,7 @@ export default class SizeGuideElement extends React.Component {
             <div className={styles.dimensionValue}>
               {data.map((datum, i) => {
                 return (
-                  <div className={styles.dimensionValueList}>{datum.age}</div>
+                  <div key={i} className={styles.dimensionValueList}>{datum.age}</div>
                 );
               })}
             </div>
@@ -24,7 +24,7 @@ export default class SizeGuideElement extends React.Component {
             <div className={styles.dimensionValue}>
               {data.map((datum, i) => {
                 return (
-                  <div className={styles.dimensionValueList}>
+                  <div className={styles.dimensionValueList} key={i}>
                     {datum.dimensionSize}
                   </div>
                 );
@@ -39,7 +39,7 @@ export default class SizeGuideElement extends React.Component {
             <div className={styles.dimensionValue}>
               {data.map((datum, i) => {
                 return (
-                  <div className={styles.dimensionValueList}>
+                  <div className={styles.dimensionValueList} key={i}>
                     {datum.usSize}
                   </div>
                 );
@@ -53,7 +53,7 @@ export default class SizeGuideElement extends React.Component {
             <div className={styles.dimensionValue}>
               {data.map((datum, i) => {
                 return (
-                  <div className={styles.dimensionValueList}>
+                  <div className={styles.dimensionValueList} key={i}>
                     {datum.euroSize}
                   </div>
                 );
@@ -67,7 +67,7 @@ export default class SizeGuideElement extends React.Component {
             <div className={styles.dimensionValue}>
               {data.map((datum, i) => {
                 return (
-                  <div className={styles.dimensionValueList}>
+                  <div className={styles.dimensionValueList} key={i}>
                     {datum.footlength}
                   </div>
                 );
@@ -81,5 +81,6 @@ export default class SizeGuideElement extends React.Component {
 }
 SizeGuideElement.propTypes = {
   key: propTypes.string,
-  value: propTypes.number
+  value: propTypes.number,
+  data: propTypes.array,
 };

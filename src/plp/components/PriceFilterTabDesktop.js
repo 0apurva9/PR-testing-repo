@@ -20,9 +20,11 @@ export default class PriceFilterTabDesktop extends React.Component {
       maxRange: ""
     };
   }
+
   onChangeOfRange = val => {
     this.setState(val);
   };
+
   applyPriceManually = () => {
     if (
       this.state.minRange &&
@@ -90,6 +92,7 @@ export default class PriceFilterTabDesktop extends React.Component {
       });
     }
   };
+
   removePriceFilters = () => {
     let currentAppliedFilters = "";
     currentAppliedFilters = decodeURIComponent(
@@ -123,11 +126,13 @@ export default class PriceFilterTabDesktop extends React.Component {
       });
     }
   };
+
   onFilterClick = (data, filterType, filterValue) => {
     if (this.props.onFilterClick) {
       this.props.onFilterClick(data, filterType, filterValue);
     }
   };
+
   geturl = () => {
     let url =
       this.props.priceList &&
@@ -137,6 +142,7 @@ export default class PriceFilterTabDesktop extends React.Component {
     url = url[0];
     return url;
   };
+
   pricefilter = () => {
     let url = this.geturl();
     url = url + `${PRICE_TAG}${this.state.minRange}-${this.state.maxRange}`;

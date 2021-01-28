@@ -11,6 +11,7 @@ export default class ChangePasswordForDesktop extends React.Component {
       confirmPassword: ""
     };
   }
+
   onChange = val => {
     this.setState(val);
   };
@@ -20,6 +21,7 @@ export default class ChangePasswordForDesktop extends React.Component {
       this.props.closeModal();
     }
   }
+
   updateProfile() {
     if (this.props.updateProfile) {
       this.props.updateProfile(this.state);

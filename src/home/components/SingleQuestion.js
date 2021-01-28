@@ -18,6 +18,7 @@ export default class SingleQuestion extends React.Component {
       );
     }
   }
+
   render() {
     let singleQuestionData = this.props.feedComponentData.data.items;
     if (this.props.loading) {
@@ -62,6 +63,9 @@ export default class SingleQuestion extends React.Component {
 SingleQuestion.propTypes = {
   header: PropTypes.string,
   onApply: PropTypes.func,
+  feedComponentData: PropTypes.object,
+  positionInFeed: PropTypes.number,
+  loading: PropTypes.number,
   data: PropTypes.arrayOf(
     PropTypes.shape({
       text: PropTypes.string,

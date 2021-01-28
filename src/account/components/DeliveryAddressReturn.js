@@ -14,11 +14,13 @@ export default class DeliveryAddressReturn extends React.Component {
       this.props.selectItem();
     }
   }
+
   editAddress(address) {
     if (this.props.onEditAddress) {
       this.props.onEditAddress(address);
     }
   }
+
   render() {
     return (
       <div
@@ -45,8 +47,8 @@ export default class DeliveryAddressReturn extends React.Component {
               Edit
             </div>
           ) : (
-            ""
-          )}
+              ""
+            )}
         </div>
         <div
           className={
@@ -97,7 +99,13 @@ DeliveryAddressReturn.propTypes = {
   addressDescription: PropTypes.string,
   selected: PropTypes.bool,
   selectItem: PropTypes.func,
-  isReturn: PropTypes.bool
+  isReturn: PropTypes.bool,
+  onSelectAddress: PropTypes.func,
+  onEditAddress: PropTypes.func,
+  address: PropTypes.object,
+  addressType: PropTypes.string,
+  contact: PropTypes.number,
+  phone: PropTypes.number
 };
 DeliveryAddressReturn.defaultProps = {
   isReturn: false

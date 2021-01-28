@@ -102,14 +102,15 @@ export default class JewelleryCertification extends React.Component {
     }
     return image;
   };
+
   render() {
     return (
       <div className={styles.base}>
         <div className={styles.header}>Certified by -</div>
         <div className={styles.logo}>
-          {this.props.certifications.map(val => {
+          {this.props.certifications.map((val, i) => {
             return (
-              <div className={styles.logoHolder}>
+              <div className={styles.logoHolder} key = {i}>
                 <Logo image={this.getCertificationImage(val)} />{" "}
               </div>
             );

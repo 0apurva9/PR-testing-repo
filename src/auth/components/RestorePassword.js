@@ -27,11 +27,13 @@ export default class RestorePassword extends React.Component {
       this.props.handleRestoreClick(this.state.userId);
     }
   }
+
   enterPassword(val) {
     if (val === "Enter") {
       this.handleRestoreClick();
     }
   }
+
   render() {
     return (
       <AuthPopUp>
@@ -128,5 +130,6 @@ export default class RestorePassword extends React.Component {
 
 RestorePassword.propTypes = {
   handleCancel: PropTypes.func,
-  handleRestoreClick: PropTypes.func
+  handleRestoreClick: PropTypes.func,
+  loading: PropTypes.bool
 };

@@ -12,6 +12,7 @@ export default class CarouselWithControls extends React.Component {
     super(props);
     this.state = { position: 0 };
   }
+
   forward = () => {
     let mainProductList =
       this.props.parentData &&
@@ -56,6 +57,7 @@ export default class CarouselWithControls extends React.Component {
       this.setState({ position: this.state.position + 1 });
     }
   };
+
   back = () => {
     let mainProduct =
       this.props.parentData &&
@@ -96,6 +98,7 @@ export default class CarouselWithControls extends React.Component {
       this.setState({ position: this.state.position - 1 });
     }
   };
+
   render() {
     const childrenCount = React.Children.count(this.props.children);
     const visibleChildren = Math.floor(100 / this.props.elementWidthDesktop);

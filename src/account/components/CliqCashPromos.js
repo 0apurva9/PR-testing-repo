@@ -4,7 +4,6 @@ import {
   CLIQ_CASH,
   RUPEE_SYMBOL,
   LOGGED_IN_USER_DETAILS,
-  CUSTOMER_ACCESS_TOKEN,
   LOGIN_PATH
 } from "../../lib/constants.js";
 import { Redirect } from "react-router-dom";
@@ -32,6 +31,7 @@ export default class CliqCashPromos extends Component {
       this.props.getPromotionalCashStatement();
     }
   }
+
   filteredOnlyPromos(promo) {
     if (
       promo.transactionType == "Received" ||
@@ -54,7 +54,6 @@ export default class CliqCashPromos extends Component {
     let userData;
     let kycUnavailable = true;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (!this.props.showKycVerification) {
       kycUnavailable = false;
     }
@@ -84,9 +83,9 @@ export default class CliqCashPromos extends Component {
 
     let promotionalAmount =
       this.props.promotionalCashStatementDetails &&
-      this.props.promotionalCashStatementDetails.promotionalAmount
+        this.props.promotionalCashStatementDetails.promotionalAmount
         ? this.props.promotionalCashStatementDetails.promotionalAmount
-            .doubleValue
+          .doubleValue
         : 0;
     if (!kycUnavailable && !this.props.promotionalCashStatementDetails) {
       return Loader();
@@ -116,8 +115,8 @@ export default class CliqCashPromos extends Component {
                 </div>
                 <div className={styles.boxContainer}>
                   {realItems &&
-                    realItems.map(item => {
-                      return <Promos item={item} />;
+                    realItems.map((item, index) => {
+                      return <Promos item={item} key={`key${index}`} />;
                     })}
                 </div>
               </div>
@@ -168,8 +167,8 @@ export default class CliqCashPromos extends Component {
                 </div>
                 <div className={styles.boxContainer}>
                   {realItems &&
-                    realItems.map(item => {
-                      return <Promos item={item} />;
+                    realItems.map((item, index) => {
+                      return <Promos item={item} key={`key${index}`} />;
                     })}
                 </div>
               </div>
@@ -204,5 +203,13 @@ export default class CliqCashPromos extends Component {
 CliqCashPromos.propsTypes = {
   transactions: PropTypes.object,
   promotionalCashStatementDetails: PropTypes.object.isRequired,
-  promotionalAmount: PropTypes.object
+  promotionalAmount: PropTypes.object,
+  setHeaderText: PropTypes.func,
+  getPromotionalCashStatement: PropTypes.func,
+  setUrlToRedirectToAfterAuth: PropTypes.func,
+  showKycVerification: PropTypes.bool,
+  loading: PropTypes.bool,
+  hideSecondaryLoader: PropTypes.func,
+  showSecondaryLoader: PropTypes.func,
+  userAddress: PropTypes.object
 };

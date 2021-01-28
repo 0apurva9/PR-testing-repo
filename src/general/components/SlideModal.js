@@ -7,6 +7,7 @@ export default class SlideModal extends React.Component {
       this.props.closeModal();
     }
   }
+
   render() {
     return (
       <div
@@ -41,7 +42,9 @@ SlideModal.propTypes = {
   closeModal: PropTypes.func,
   width: PropTypes.string,
   isCancelWhite: PropTypes.bool,
-  isCancelBlack: PropTypes.bool
+  isCancelBlack: PropTypes.bool,
+  height: PropTypes.number,
+  children: PropTypes.node
 };
 SlideModal.defaultProps = {
   isCancelWhite: false

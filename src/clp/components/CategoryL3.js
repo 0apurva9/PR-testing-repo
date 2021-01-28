@@ -7,6 +7,7 @@ export default class CategoryL3 extends React.Component {
       this.props.onClick(val);
     }
   }
+
   render() {
     return (
       <div

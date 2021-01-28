@@ -54,12 +54,15 @@ class ProductSellerPage extends Component {
       selectedSellerUssID: null
     };
   }
+
   priceValue;
+
   navigateToLogin() {
     const url = this.props.location.pathname;
     this.props.setUrlToRedirectToAfterAuth(url);
     this.props.history.push(LOGIN_PATH);
   }
+
   gotoPreviousPage = () => {
     const url = this.props.location.pathname.replace(
       PRODUCT_SELLER_ROUTER_SUFFIX,
@@ -94,6 +97,7 @@ class ProductSellerPage extends Component {
       return this.props.addProductToCart(productDetails);
     }
   };
+
   addToCartAccordingToTheUssid(USSID) {
     let productDetails = {};
     productDetails.code = this.props.productDetails.productListingId;
@@ -122,6 +126,7 @@ class ProductSellerPage extends Component {
       );
     }
   }
+
   goToCart = () => {
     const defaultPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
     this.props.history.push({
@@ -183,9 +188,11 @@ class ProductSellerPage extends Component {
       }
     }
   }
+
   onSortByPrice(val) {
     this.setState({ sortOption: val.value });
   }
+
   selectSeller(val) {
     if (val && val[0]) {
       this.setState({ winningUssID: val[0].USSID });
@@ -198,28 +205,34 @@ class ProductSellerPage extends Component {
       ? renderMetaTags(productDetails)
       : renderMetaTagsWithoutSeoObject(productDetails);
   };
+
   onClickImage(productCode) {
     if (productCode) {
       this.props.history.push(`/p-${productCode.toLowerCase()}`);
     }
   }
+
   showLoader = () => {
     this.props.showSecondaryLoader();
   };
+
   hideLoader = () => {
     this.props.hideSecondaryLoader();
   };
+
   updateOtherSellerUssID = selectedSellerUssID => {
     if (this.state.selectedSellerUssID !== selectedSellerUssID) {
       this.setState({ selectedSellerUssID });
     }
   };
+
   showQuiqPage(ussId) {
     if (this.props.showPdpPiqPage) {
       this.setState({ winningUssID: ussId });
       this.props.showPdpPiqPage();
     }
   }
+
   async openExchangeModal(data) {
     let listingId = this.props.productDetails.productListingId;
     let ussId = data && data.USSID;
@@ -263,6 +276,7 @@ class ProductSellerPage extends Component {
       );
     }
   }
+
   render() {
     if (this.props.loading) {
       this.showLoader();
@@ -277,17 +291,16 @@ class ProductSellerPage extends Component {
     ) {
       let cliqAndPiqDetails = {};
       let availableDeliveryMode = [];
-      let serviceablePincode;
       cliqAndPiqDetails.stores = this.props.stores;
       cliqAndPiqDetails.pinCodeUpdateDisabled = true;
       cliqAndPiqDetails.productDetails = this.props.productDetails;
 
       this.props.serviceablePincodeList &&
-        this.props.serviceablePincodeList.map((product, j) => {
+        this.props.serviceablePincodeList.map((product) => {
           if (product.ussid === this.state.selectedSellerUssID) {
             return (
               product.validDeliveryModes &&
-              product.validDeliveryModes.map((deliveryMode, k) => {
+              product.validDeliveryModes.map((deliveryMode) => {
                 return deliveryMode.type === "CNC"
                   ? availableDeliveryMode.push(deliveryMode)
                   : null;
@@ -314,22 +327,16 @@ class ProductSellerPage extends Component {
     const sellers = this.props.productDetails
       ? this.props.productDetails.otherSellers
       : [];
-    let availableSeller = {};
     const availableSellers = sellers.filter(val => {
       return parseInt(val.availableStock, 10) > 0;
-    });
-    const unAvailableSellers = sellers.filter(val => {
-      return parseInt(val.availableStock, 10) <= 0;
     });
     let price;
     if (availableSellers && availableSellers[0]) {
       price = availableSellers[0].specialPriceSeller.doubleValue;
     }
     let sortedAvailableSellers = availableSellers;
-    let sortedUnAvailableSellers = unAvailableSellers;
     if (this.state.sortOption === PRICE_HIGH_TO_LOW) {
       sortedAvailableSellers = availableSellers.reverse();
-      sortedUnAvailableSellers = unAvailableSellers.reverse();
     }
 
     let pincodeResponseList = this.props.serviceablePincodeList || [];

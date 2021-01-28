@@ -5,7 +5,7 @@ import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import CoreButton from "../../xelpmoc-core/Button";
 import tataLogo from "./img/tata_Logo.svg";
 import { default as styles } from "./AuthFrame.css";
-
+import { RouterPropTypes } from "../../general/router-prop-types";
 import SocialButtonsContainer from "../containers/SocialButtonsContainer.js";
 import {
   TERMS_AND_CONDITION_URL,
@@ -19,15 +19,18 @@ export default class AuthFrame extends React.Component {
       this.props.goBack();
     }
   }
+
   footerClick() {
     if (this.props.footerClick) {
       this.props.footerClick();
     }
   }
+
   redirectPage = url => {
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
   };
+
   render() {
     const style = UserAgent.checkUserAgentIsMobile()
       ? styles.base
@@ -112,7 +115,13 @@ AuthFrame.propTypes = {
   footerClick: PropTypes.func,
   showSocialButtons: PropTypes.bool,
   type: PropTypes.String,
-  showLogo: PropTypes.bool
+  showLogo: PropTypes.bool,
+  goBack: PropTypes.func,
+  showCrossIcon: PropTypes.bool,
+  children: PropTypes.node,
+  buttonLabel: PropTypes.string,
+  isSignUp: PropTypes.bool,
+  ...RouterPropTypes
 };
 
 AuthFrame.defaultProps = {

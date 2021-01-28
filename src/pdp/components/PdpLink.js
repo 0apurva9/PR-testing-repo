@@ -14,6 +14,7 @@ export default class PdpLink extends React.Component {
       }
     }
   }
+
   render() {
     return (
       <div className={styles.base} onClick={() => this.onClick()}>
@@ -34,7 +35,8 @@ export default class PdpLink extends React.Component {
 }
 PdpLink.propTypes = {
   onClick: PropTypes.func,
-  noLink: PropTypes.bool
+  noLink: PropTypes.bool,
+  children: PropTypes.node
 };
 PdpLink.defaultProps = {
   noLink: false

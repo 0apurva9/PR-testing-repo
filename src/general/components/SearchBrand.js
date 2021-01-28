@@ -11,11 +11,13 @@ export default class SearchBrand extends React.Component {
       this.props.onClick();
     }
   };
+
   getValue(val) {
     if (this.props.getValue) {
       this.props.getValue(val);
     }
   }
+
   render() {
     return (
       <div className={styles.base}>
@@ -44,5 +46,6 @@ export default class SearchBrand extends React.Component {
 SearchBrand.propTypes = {
   onClick: PropTypes.func,
   getValue: PropTypes.func,
-  placeHolder: PropTypes.string
+  placeHolder: PropTypes.string,
+  value: PropTypes.number,
 };

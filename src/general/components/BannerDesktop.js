@@ -12,6 +12,7 @@ export default class BannerDesktop extends React.Component {
       position: 0
     };
   }
+
   changePosition(i) {
     if (i !== undefined) {
       this.setState({ juke: this.props.children.length }, () => {
@@ -19,17 +20,20 @@ export default class BannerDesktop extends React.Component {
       });
     }
   }
+
   autoRun = () => {
     setTimeout(() => {
       this.goForward();
       this.autoRun();
     }, this.props.interval * 1000);
   };
+
   componentDidMount() {
     if (this.props.interval) {
       this.autoRun();
     }
   }
+
   goForward = () => {
     const childCount = React.Children.count(this.props.children);
     if ((Math.abs(this.state.position) + 1) % childCount === 0) {
@@ -45,6 +49,7 @@ export default class BannerDesktop extends React.Component {
       this.setState({ position: this.state.position + 1 });
     }
   };
+
   goBack = () => {
     const childCount = React.Children.count(this.props.children);
     if (Math.abs(this.state.position) === Math.abs(this.state.juke)) {
@@ -60,6 +65,7 @@ export default class BannerDesktop extends React.Component {
       this.setState({ position: this.state.position - 1 });
     }
   };
+
   render() {
     const translationAmount = -(100 * this.state.position);
     const transform = `translateX(${translationAmount}%)`;
@@ -120,7 +126,8 @@ export default class BannerDesktop extends React.Component {
 }
 
 BannerDesktop.propTypes = {
-  interval: PropTypes.number
+  interval: PropTypes.number,
+  children: PropTypes.node
 };
 BannerDesktop.defaultProps = {
   interval: 9

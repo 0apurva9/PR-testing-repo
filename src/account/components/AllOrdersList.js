@@ -23,6 +23,7 @@ export default class AllOrdersList extends Component {
     window.scroll(0, 0);
     this.analyticCall(this.props.ordersTransactionData);
   }
+
   componentWillReceiveProps(nextProps) {
     if (
       nextProps &&
@@ -31,6 +32,7 @@ export default class AllOrdersList extends Component {
       this.analyticCall(nextProps.ordersTransactionData);
     }
   }
+
   analyticCall = ordersTransactionData => {
     let orderData = [];
     ordersTransactionData &&
@@ -53,7 +55,6 @@ export default class AllOrdersList extends Component {
   };
 
   render() {
-    // this.analyticCall()
     return (
       <div className={styles.whiteCard}>
         <div className={styles.headerBox}>
@@ -71,9 +72,10 @@ export default class AllOrdersList extends Component {
         {this.props.ordersTransactionData &&
           this.props.ordersTransactionData.orderData.map(orderData => {
             if (orderData.products) {
-              return orderData.products.map(product => {
+              return orderData.products.map((product, index) => {
                 return (
                   <div
+                    key={`key${index}`}
                     className={styles.orderDataCard}
                     onClick={() =>
                       this.props.getOrderRelatedQuestions(orderData, product)
@@ -96,40 +98,40 @@ export default class AllOrdersList extends Component {
                         </div>
                         {product.pickUpDateCNC ? (
                           product.statusDisplay === ORDER_IN_PROCESS ||
-                          product.statusDisplay === READY_FOR_COLLECTION ? (
-                            <div className={styles.orderStatus}>
-                              {PICKUP_DATE}&nbsp;
+                            product.statusDisplay === READY_FOR_COLLECTION ? (
+                              <div className={styles.orderStatus}>
+                                {PICKUP_DATE}&nbsp;
                               <span className={styles.fontBold}>
-                                {getDayNumberSuffix(
-                                  product.pickUpDateCNC,
-                                  true
-                                )}
-                              </span>
-                            </div>
-                          ) : null
+                                  {getDayNumberSuffix(
+                                    product.pickUpDateCNC,
+                                    true
+                                  )}
+                                </span>
+                              </div>
+                            ) : null
                         ) : (product.statusDisplay === ORDER_CONFIRMED ||
-                            product.statusDisplay === ORDER_IN_PROCESS ||
-                            product.statusDisplay === SHIPPED ||
-                            product.statusDisplay === ITEM_PACKED ||
-                            product.statusDisplay === OUT_FOR_DELIVERY ||
-                            product.statusDisplay === READY_FOR_COLLECTION) &&
+                          product.statusDisplay === ORDER_IN_PROCESS ||
+                          product.statusDisplay === SHIPPED ||
+                          product.statusDisplay === ITEM_PACKED ||
+                          product.statusDisplay === OUT_FOR_DELIVERY ||
+                          product.statusDisplay === READY_FOR_COLLECTION) &&
                           (product.EDD || product.estimateddeliverydate) ? (
-                          <div className={styles.orderStatus}>
-                            {ESTIMATED_DATE}&nbsp;
+                              <div className={styles.orderStatus}>
+                                {ESTIMATED_DATE}&nbsp;
                             <span className={styles.fontBold}>
-                              {getDayNumberSuffix(
-                                product.EDD || product.estimateddeliverydate
-                              )}
-                            </span>
-                          </div>
-                        ) : product.deliveryDate ? (
-                          <div className={styles.orderStatus}>
-                            {DELIVERY_TEXT}&nbsp;
+                                  {getDayNumberSuffix(
+                                    product.EDD || product.estimateddeliverydate
+                                  )}
+                                </span>
+                              </div>
+                            ) : product.deliveryDate ? (
+                              <div className={styles.orderStatus}>
+                                {DELIVERY_TEXT}&nbsp;
                             <span className={styles.fontBold}>
-                              {getDayNumberSuffix(product.deliveryDate, true)}
-                            </span>
-                          </div>
-                        ) : null}
+                                  {getDayNumberSuffix(product.deliveryDate, true)}
+                                </span>
+                              </div>
+                            ) : null}
                       </div>
                     </div>
                   </div>
@@ -139,8 +141,8 @@ export default class AllOrdersList extends Component {
           })}
         {this.props.ordersTransactionData &&
           (this.props.ordersTransactionData.currentPage + 1) *
-            this.props.ordersTransactionData.pageSize <
-            this.props.ordersTransactionData.totalNoOfOrders && (
+          this.props.ordersTransactionData.pageSize <
+          this.props.ordersTransactionData.totalNoOfOrders && (
             <div className={styles.loadMore}>
               <div
                 className={styles.loadMoreText}
@@ -159,6 +161,9 @@ AllOrdersList.propTypes = {
   getMoreOrder: PropTypes.func,
   getOrderRelatedQuestions: PropTypes.func,
   ordersTransactionData: PropTypes.shape({
+    currentPage: PropTypes.number,
+    pageSize: PropTypes.number,
+    totalNoOfOrders: PropTypes.number,
     orderData: PropTypes.arrayOf(
       PropTypes.shape({
         products: PropTypes.arrayOf(

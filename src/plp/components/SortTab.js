@@ -7,6 +7,7 @@ export default class SortTab extends React.Component {
       this.props.onClick(this.props.value);
     }
   }
+
   render() {
     return (
       <div
@@ -21,5 +22,6 @@ export default class SortTab extends React.Component {
 SortTab.propTypes = {
   label: propTypes.string,
   onClick: propTypes.func,
-  value: propTypes.string
+  value: propTypes.string,
+  selected: propTypes.bool,
 };

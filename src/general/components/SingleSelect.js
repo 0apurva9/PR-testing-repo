@@ -9,6 +9,7 @@ export default class SingleSelect extends React.Component {
       this.props.onClick(this.props.value);
     }
   }
+
   render() {
     return (
       <div>

@@ -46,6 +46,7 @@ export default class ReturnFlow extends React.Component {
       isPaypal: this.isPaypal
     };
   }
+
   componentDidMount() {
     let orderCode = this.orderCode;
     let transactionId = this.transactionId;
@@ -61,6 +62,7 @@ export default class ReturnFlow extends React.Component {
       this.props.getUserAddress();
     }
   }
+
   onChangeBankingDetail(val) {
     let bankDetail = cloneDeep(this.state.bankDetail);
     Object.assign(bankDetail, val);
@@ -70,6 +72,7 @@ export default class ReturnFlow extends React.Component {
   onChangeReasonAndMode(val) {
     this.setState(val);
   }
+
   navigateToShowInitiateReturn() {
     if (!this.state.bankDetail.accountNumber) {
       this.props.displayToast(ACCOUNT_NUMBER);
@@ -119,15 +122,19 @@ export default class ReturnFlow extends React.Component {
       });
     }
   }
+
   onCancel() {
     this.props.history.goBack();
   }
+
   navigateToOrderDetail() {
     this.props.history.push(`${MY_ACCOUNT}${MY_ACCOUNT_ORDERS_PAGE}`);
   }
+
   renderLoader() {
     return <Loader />;
   }
+
   render() {
     // if user hit return page by url then i am navigating him on orderDetial page
     if (this.props.error === BACK_END_ISSUE_ERROR_MESSAGE) {

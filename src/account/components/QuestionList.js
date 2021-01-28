@@ -28,10 +28,6 @@ export default class QuestionList extends Component {
           </div>
         )}
 
-        {/* {this.props.isOrderRelatedQuestion &&this.state.showFeedBack ? null : (
-                <div className={styles.marginBottom}></div>
-              )} */}
-
         <ul className={styles.listGroup}>
           {this.props.questionsList &&
             this.props.questionsList.map((listOfIssue, index) => {
@@ -48,9 +44,6 @@ export default class QuestionList extends Component {
                   {this.props.FAQquestion
                     ? listOfIssue.question_component
                     : null}
-                  {/* {this.props.isOrderRelatedQuestion
-                            ? listOfIssue.issueType
-                            : listOfIssue.subIssueType} */}
                 </li>
               );
             })}

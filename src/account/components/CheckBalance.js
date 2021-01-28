@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { RouterPropTypes } from "../../general/router-prop-types";
 import styles from "./CliqCashDesktop.css";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import ProfileMenu from "./ProfileMenu";
@@ -67,7 +68,7 @@ export default class CheckBalance extends Component {
     }
   };
 
-  UNSAFE_componentWillReceiveProps(nextProps, nextState) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if (
       // this.state.redeemCliqVoucherCalled !== nextState.redeemCliqVoucherCalled &&
       nextProps.cliqCashVoucherDetailsStatus &&
@@ -153,6 +154,9 @@ CheckBalance.defaultProps = {
   isModal: true
 };
 CheckBalance.propTypes = {
+  cliqCashVoucherDetailsStatus:PropTypes.string,
+  cliqCashSuccessModule:PropTypes.func,
+  displayToast:PropTypes.func,
   checkBalanceDetails: PropTypes.shape({
     cardNumber: string,
     cardPin: string,
@@ -163,5 +167,6 @@ CheckBalance.propTypes = {
   }),
   showCliqCashModule: PropTypes.func.isRequired,
   userAddress: PropTypes.object,
-  redeemCliqVoucher: PropTypes.func.isRequired
+  redeemCliqVoucher: PropTypes.func.isRequired,
+  ...RouterPropTypes
 };

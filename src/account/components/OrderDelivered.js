@@ -121,8 +121,15 @@ OrderDelivered.propTypes = {
   soldBy: PropTypes.string,
   isShowDataHorizontal: PropTypes.bool,
   borderTop: PropTypes.bool,
-  borderBottom: PropTypes.string
+  borderBottom: PropTypes.string,
+  orderDeliveryHeaderText:PropTypes.string,
+  deliveredAddress1:PropTypes.string,
+  deliveredAddress2:PropTypes.string,
+  deliveredAddress3:PropTypes.string,
+  isCancel:PropTypes.bool,
+  children: PropTypes.node
 };
+
 OrderDelivered.defaultProps = {
   orderDeliveryHeaderText: "Delivery Address",
   isShowDataHorizontal: false,

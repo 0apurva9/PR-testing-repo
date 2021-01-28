@@ -1,7 +1,6 @@
 import React from "react";
 import { AC_PDP_EXCHANGE_DETAILS } from "../../lib/constants";
 import styles from "./ExchangeModal.css";
-import closeIcon from "../../general/components/img/closeIcon.svg";
 import Icon from "../../xelpmoc-core/Icon";
 import PropTypes from "prop-types";
 import exchangeCashback from "./img/exchangeCashback.svg";

@@ -1,5 +1,4 @@
 import React from "react";
-import { CopyToClipboard } from "react-copy-to-clipboard";
 import styles from "./OrderStatusHorizontal.css";
 import PropTypes from "prop-types";
 import {
@@ -42,6 +41,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
       copied: false
     };
   }
+
   handleMoreDetails(val) {
     // Changes done for CSFIC-153
     if (this.props.sshipAwbTrackingUrl) {
@@ -71,7 +71,6 @@ export default class OrderStatusVerticalV2 extends React.Component {
   copySshipAwbTrackingUrl = (sshipAwbTrackingUrl, trackingAWB) => {
     // event.preventDefault();
     // event.stopPropagation();
-    let copyText = this.refs.copyThisLink;
 
     document.addEventListener(
       "copy",
@@ -88,6 +87,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
       window.open(sshipAwbTrackingUrl, "_blank");
     }, 1000);
   };
+
   render() {
     if (!this.props.statusMessageList) {
       return null;
@@ -425,7 +425,6 @@ export default class OrderStatusVerticalV2 extends React.Component {
     //return requested
     let returnRequestedDate = "";
     let returnRequestedTime = "";
-    let returnRequestedShipmentStatus = "";
     let returnRequestedCustomerFacingName = "Return Requested";
     if (returnRequestedData && returnRequestedData.value.customerFacingName) {
       returnRequestedCustomerFacingName =
@@ -448,8 +447,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
       returnRequestedData.value.statusList &&
       returnRequestedData.value.statusList[0]
     ) {
-      returnRequestedShipmentStatus =
-        returnRequestedData.value.statusList[0].shipmentStatus;
+      // returnRequestedShipmentStatus =
+      //   returnRequestedData.value.statusList[0].shipmentStatus;
     }
     //not delivered
     let notDeliveredDate = "";
@@ -587,7 +586,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
     //return initiated
     let returnInitiatedDate = "";
     let returnInitiatedTime = "";
-    let returnInitiatedShipmentStatus = "";
+    // let returnInitiatedShipmentStatus = "";
     let returnInitiatedCustomerFacingName = "Return Initiated";
     if (returnInitiatedData && returnInitiatedData.value.customerFacingName) {
       returnInitiatedCustomerFacingName =
@@ -610,8 +609,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
       returnInitiatedData.value.statusList &&
       returnInitiatedData.value.statusList[0]
     ) {
-      returnInitiatedShipmentStatus =
-        returnInitiatedData.value.statusList[0].shipmentStatus;
+      // returnInitiatedShipmentStatus =
+      //   returnInitiatedData.value.statusList[0].shipmentStatus;
     }
 
     //return cancelled
@@ -646,7 +645,7 @@ export default class OrderStatusVerticalV2 extends React.Component {
     //pickup scheduled
     let pickupScheduledDate = "";
     let pickupScheduledTime = "";
-    let pickupScheduledShipmentStatus = "";
+    // let pickupScheduledShipmentStatus = "";
     let pickupScheduledCustomerFacingName = "Pick up Scheduled";
     if (pickupScheduledData && pickupScheduledData.value.customerFacingName) {
       pickupScheduledCustomerFacingName =
@@ -669,15 +668,15 @@ export default class OrderStatusVerticalV2 extends React.Component {
       pickupScheduledData.value.statusList &&
       pickupScheduledData.value.statusList[0]
     ) {
-      pickupScheduledShipmentStatus =
-        pickupScheduledData.value.statusList[0].shipmentStatus;
+      // pickupScheduledShipmentStatus =
+      //   pickupScheduledData.value.statusList[0].shipmentStatus;
     }
 
     //refund initiated
     let refundInitiatedDate = "";
     let refundInitiatedTime = "";
     let refundInitiatedCustomerFacingName = "Refund Initiated";
-    let refundInitiatedShipmentStatus = "";
+    // let refundInitiatedShipmentStatus = "";
     let statusList =
       refundInitiatedData &&
       refundInitiatedData.value &&
@@ -704,8 +703,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
       refundInitiatedData.value.statusList &&
       refundInitiatedData.value.statusList[0]
     ) {
-      refundInitiatedShipmentStatus =
-        refundInitiatedData.value.statusList[0].shipmentStatus;
+      // refundInitiatedShipmentStatus =
+      //   refundInitiatedData.value.statusList[0].shipmentStatus;
       let lastArrayResponseCode = statusList[statusList.length - 1];
       responseCode = lastArrayResponseCode.responseCode;
     }
@@ -2041,6 +2040,13 @@ OrderStatusVerticalV2.propTypes = {
   trackingAWB: PropTypes.string,
   consignmentStatus: PropTypes.string,
   sshipAwbTrackingUrl: PropTypes.string,
+  showShippingDetails:PropTypes.func,
+  displayToast:PropTypes.func,
+  isCNC:PropTypes.bool,
+  returnMode:PropTypes.string,
+  returnType:PropTypes.string,
+  mediationRequired:PropTypes.string,
+  paymentMethod:PropTypes.string,
   statusMessageList: PropTypes.arrayOf(
     PropTypes.shape({
       date: PropTypes.string,

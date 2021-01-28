@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./LevelBreakupCard.css";
-import UnderLinedButton from "../../general/components/UnderLinedButton.js";
 import PropTypes from "prop-types";
 export default class LevelBreakupCard extends React.Component {
   moveToWishlist() {
@@ -8,6 +7,7 @@ export default class LevelBreakupCard extends React.Component {
       this.props.moveToWishlist();
     }
   }
+
   render() {
     let emiText = "Standard EMI applicable";
     if (this.props.emiApplication) {
@@ -18,17 +18,6 @@ export default class LevelBreakupCard extends React.Component {
         <div className={styles.productHeader}>{this.props.productName}</div>
         <div className={styles.emiOptionHolder}>
           {emiText}
-          {/* {!this.props.emiApplication && (
-            <div className={styles.moveToWishListButton}>
-              <UnderLinedButton
-                size="14px"
-                fontFamily="regular"
-                color="#000000"
-                label="Move to Wishlist"
-                onClick={() => this.moveToWishlist()}
-              />
-            </div>
-          )} */}
         </div>
         <div className={styles.amountPlaneForMonth}>
           <div className={styles.quantity}>

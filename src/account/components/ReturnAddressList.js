@@ -14,6 +14,7 @@ import DesktopOnly from "../../general/components/DesktopOnly.js";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 import CancelAndContinueButton from "./CancelAndContinueButton";
 import SelectedReasonForReturn from "./SelectedReasonForReturn";
+import { RouterPropTypes } from "../../general/router-prop-types";
 import {
   RETURN_CLIQ_PIQ,
   RETURN_CLIQ_PIQ_DATE,
@@ -67,6 +68,7 @@ export default class ReturnAddressList extends React.Component {
       this.props.getPinCode(pinCode);
     }
   };
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.addUserAddressStatus === SUCCESS) {
       if (this.state.addNewAddress === true) {
@@ -140,9 +142,11 @@ export default class ReturnAddressList extends React.Component {
       }
     }
   };
+
   handleCancelAddress = () => {
     this.setState({ addNewAddress: false });
   };
+
   addNewAddress = () => {
     this.setState({ addNewAddress: true });
     if (checkUserAgentIsMobile()) {
@@ -153,6 +157,7 @@ export default class ReturnAddressList extends React.Component {
       );
     }
   };
+
   renderAddress = () => {
     // let defaultAddress =
     //   this.props.returnRequest &&
@@ -268,6 +273,7 @@ export default class ReturnAddressList extends React.Component {
       );
     }
   };
+
   renderDateTime = () => {
     if (this.props.returnRequest) {
       return (
@@ -359,6 +365,7 @@ export default class ReturnAddressList extends React.Component {
       this.props.returnProducts.orderProductWsDTO[0]
     );
   };
+
   renderReturnSummary = () => {
     return (
       <ReturnSummary
@@ -418,6 +425,7 @@ export default class ReturnAddressList extends React.Component {
     setDataLayerForMyAccountDirectCalls(ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL);
     this.props.history.goBack();
   };
+
   render() {
     if (this.props.loading || this.props.returnPinCodeStatus === REQUESTING) {
       this.props.showSecondaryLoader();
@@ -487,8 +495,65 @@ export default class ReturnAddressList extends React.Component {
   }
 }
 ReturnAddressList.propTypes = {
+  getPinCode: PropTypes.func,
+  displayToast: PropTypes.func,
+  clearPinCodeStatus: PropTypes.func,
+  onChangeBankDetails: PropTypes.func,
+  isPaypal: PropTypes.bool,
+  selectReturnMode: PropTypes.func,
+  getPincodeStatus: PropTypes.string,
+  getPinCodeDetails: PropTypes.object,
+  orderDetails: PropTypes.object,
+  getUserDetails: PropTypes.func,
+  resetAutoPopulateDataForPinCode: PropTypes.func,
+  resetAddAddressDetails: PropTypes.func,
+  addUserAddress: PropTypes.func,
+  addUserAddressStatus: PropTypes.string,
+  returnPinCode: PropTypes.func,
+  userDetails: PropTypes.shape({
+    emailID: PropTypes.string
+  }),
+  returnPinCodeStatus: PropTypes.string,
+  returnPinCodeError: PropTypes.string,
   address: PropTypes.string,
   subAddress: PropTypes.string,
   addressType: PropTypes.string,
-  isSelect: PropTypes.bool
+  location: RouterPropTypes.location,
+  history: RouterPropTypes.history,
+  cancelReturnMode: PropTypes.func,
+  selectedReasonAndCommentObj: PropTypes.shape({
+    subReasonCode: PropTypes.string
+  }),
+  data: PropTypes.object,
+  loading: PropTypes.bool,
+  showSecondaryLoader: PropTypes.func,
+  hideSecondaryLoader: PropTypes.func,
+  newReturnInitial: PropTypes.func,
+  returnRequest: PropTypes.shape({
+    codSelfShipData: PropTypes.shape({
+      paymentMode: PropTypes.string,
+      title: PropTypes.string,
+    }),
+    returnDates: PropTypes.array,
+    returnTimeSlots: PropTypes.array,
+    deliveryAddressesList: PropTypes.array,
+
+  }),
+  isCOD: PropTypes.bool,
+  bankDetail: PropTypes.shape({
+    accountNumber: PropTypes.string,
+    reEnterAccountNumber: PropTypes.string,
+    userName: PropTypes.string,
+    bankName: PropTypes.string,
+    code: PropTypes.string,
+  }),
+  returnProducts: PropTypes.shape({
+    orderProductWsDTO: PropTypes.arrayOf(
+      PropTypes.shape({
+        transactionId: PropTypes.string,
+        USSID: PropTypes.string,
+        sellerorderno: PropTypes.string
+      })
+    )
+  })
 };

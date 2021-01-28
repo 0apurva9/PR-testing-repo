@@ -8,6 +8,7 @@ export default class LogInButton extends React.Component {
       this.props.onClick();
     }
   };
+
   render() {
     return (
       <div>

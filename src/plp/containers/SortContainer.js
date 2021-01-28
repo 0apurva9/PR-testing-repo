@@ -9,7 +9,7 @@ const mapDispatchToProps = dispatch => {
     onCloseSort: () => {
       dispatch(hideModal());
     },
-    onClick: sortBy => {
+    onClick: () => {
       dispatch(hideModal());
     },
     setIfSortHasBeenClicked: () => {

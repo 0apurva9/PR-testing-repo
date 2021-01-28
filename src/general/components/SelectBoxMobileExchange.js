@@ -48,6 +48,7 @@ export default class SelectBoxMobileExchange extends React.Component {
       );
     }
   }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.value && nextProps.value !== this.state.value) {
       this.setState({ value: nextProps.value });
@@ -64,6 +65,7 @@ export default class SelectBoxMobileExchange extends React.Component {
       this.setState({ label: nextProps.label });
     }
   }
+
   render() {
     let arrow = GreyArrow;
     let themeClass = styles.base;
@@ -139,7 +141,14 @@ SelectBoxMobileExchange.propTypes = {
   options: PropTypes.arrayOf(
     PropTypes.shape({ value: PropTypes.string, label: PropTypes.string })
   ),
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  value: PropTypes.string,
+  label: PropTypes.string,
+  placeholder: PropTypes.string,
+  onChange: PropTypes.func,
+  isEnable: PropTypes.bool,
+  customSelect: PropTypes.string,
+  name: PropTypes.string
 };
 SelectBoxMobileExchange.defaultProps = {
   height: 35,

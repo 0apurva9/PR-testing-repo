@@ -5,9 +5,11 @@ export default class ExchangeTnCModal extends React.Component {
   closeTnCModal() {
     this.props.closeTnCModal();
   }
+
   goToWebForm() {
     this.props.history.push(`/my-account/cliq-care`);
   }
+
   render() {
     return (
       <div className={styles.termsConditionsContainer}>
@@ -48,7 +50,7 @@ export default class ExchangeTnCModal extends React.Component {
             <li>
               If the old phone is not working or the delivery executive is not
               able to do an iCloud unlock check or screen lock check / IMEI
-              check due to phone being 'factory reset or if there is any
+              check due to phone being &apos;factory reset or if there is any
               mismatch in the information provided by customer regarding the
               phone, then the Exchange offer will be cancelled{" "}
             </li>
@@ -94,7 +96,7 @@ export default class ExchangeTnCModal extends React.Component {
               for the same is processed before exchange process completion. The
               customer has received full refund since the exchange is in
               process. In this case if the customer proceeds with exchange, the
-              Exchange Cashback credited would be without the "Additional Value"
+              Exchange Cashback credited would be without the &quot;Additional Value&quot;
             </li>
           </ul>
           <div className={styles.contentHeadingTnC}>3) Payments</div>

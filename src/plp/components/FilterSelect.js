@@ -79,6 +79,7 @@ export default class FilterSelect extends React.Component {
       this.props.history.location.pathname
     }/b-${this.props.value.toLowerCase()}`;
   };
+
   render() {
     if (this.props.isBrand && this.props.categoryId) {
       return (
@@ -107,5 +108,13 @@ FilterSelect.propTypes = {
   icon: PropTypes.element,
   label: PropTypes.string,
   count: PropTypes.number,
-  hexColor: PropTypes.string
+  hexColor: PropTypes.string,
+  onClick: PropTypes.func,
+  history: PropTypes.object,
+  url: PropTypes.string,
+  categoryId: PropTypes.number,
+  value: PropTypes.string,
+  typeOfFilter: PropTypes.string,
+  isBrand: PropTypes.bool,
+  webURL: PropTypes.string
 };

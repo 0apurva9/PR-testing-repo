@@ -18,17 +18,12 @@ export default class ThemOfferComponentDesktop extends React.Component {
       window.open(val, "_blank");
     } else {
       this.props.history.push(val);
-      // this.props.history.push({
-      //   pathname: val,
-      //   state: {
-      //     componentName: "Theme offers component"
-      //   }
-      // });
     }
     if (this.props.setClickedElementId) {
       this.props.setClickedElementId();
     }
   };
+
   render() {
     const carouselOptions = this.props.carouselOptions;
     return (
@@ -87,5 +82,10 @@ ThemOfferComponentDesktop.propTypes = {
       discountPrice: PropTypes.string,
       webURL: PropTypes.string
     })
-  )
+  ),
+  history: PropTypes.object,
+  location: PropTypes.object,
+  positionInFeed: PropTypes.number,
+  carouselOptions: PropTypes.object,
+  postData: PropTypes.object
 };

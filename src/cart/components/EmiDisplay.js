@@ -8,62 +8,63 @@ import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import Button from "../../general/components/Button.js";
 export default class EmiDisplay extends React.Component {
-  handleClick() {
-    if (this.props.changePlan) {
-      this.props.changePlan();
+    handleClick() {
+        if (this.props.changePlan) {
+            this.props.changePlan();
+        }
     }
-  }
-  render() {
-    let emiRate =
-      this.props.emiRate === "No Cost"
-        ? this.props.emiRate
-        : `${this.props.emiRate}% p.a`;
-    return (
-      <div className={styles.base}>
-        <div className={styles.header}>
-          {this.props.bankName}
-          <MobileOnly>
-            <div className={styles.button}>
-              <UnderLinedButton
-                label="Change plan"
-                onClick={() => {
-                  this.handleClick();
-                }}
-              />
+
+    render() {
+        let emiRate = this.props.emiRate === "No Cost" ? this.props.emiRate : `${this.props.emiRate}% p.a`;
+        return (
+            <div className={styles.base}>
+                <div className={styles.header}>
+                    {this.props.bankName}
+                    <MobileOnly>
+                        <div className={styles.button}>
+                            <UnderLinedButton
+                                label="Change plan"
+                                onClick={() => {
+                                    this.handleClick();
+                                }}
+                            />
+                        </div>
+                    </MobileOnly>
+                </div>
+                <div className={styles.emiText}>
+                    {this.props.term} EMI @ {emiRate}
+                    <span className={styles.price}> {this.props.price}</span>/Month
+                </div>
+                {!this.props.isRetryPaymentFromURL && (
+                    <DesktopOnly>
+                        <div className={styles.buttonHolder}>
+                            <Button
+                                borderRadius={18}
+                                borderColor="#ff1744"
+                                backgroundColor="#f9f9f9"
+                                height={36}
+                                label={"Change plan"}
+                                width={147}
+                                textStyle={{ color: "#ff1744", fontSize: 14 }}
+                                onClick={() => this.handleClick()}
+                            />
+                        </div>
+                    </DesktopOnly>
+                )}
+                <MobileOnly>
+                    <div className={styles.checkBoxHolder}>
+                        <Image image={image} />
+                    </div>
+                </MobileOnly>
             </div>
-          </MobileOnly>
-        </div>
-        <div className={styles.emiText}>
-          {this.props.term} EMI @ {emiRate}
-          <span className={styles.price}> {this.props.price}</span>/Month
-        </div>
-        {!this.props.isRetryPaymentFromURL && (
-          <DesktopOnly>
-            <div className={styles.buttonHolder}>
-              <Button
-                borderRadius={18}
-                borderColor="#ff1744"
-                backgroundColor="#f9f9f9"
-                height={36}
-                label={"Change plan"}
-                width={147}
-                textStyle={{ color: "#ff1744", fontSize: 14 }}
-                onClick={() => this.handleClick()}
-              />
-            </div>
-          </DesktopOnly>
-        )}
-        <MobileOnly>
-          <div className={styles.checkBoxHolder}>
-            <Image image={image} />
-          </div>
-        </MobileOnly>
-      </div>
-    );
-  }
+        );
+    }
 }
 EmiDisplay.propTypes = {
-  term: PropTypes.string,
-  emiRate: PropTypes.string,
-  price: PropTypes.string
+    term: PropTypes.string,
+    emiRate: PropTypes.string,
+    price: PropTypes.string,
+    changePlan: PropTypes.func,
+    bankName: PropTypes.string,
+    isRetryPaymentFromURL: PropTypes.bool,
 };

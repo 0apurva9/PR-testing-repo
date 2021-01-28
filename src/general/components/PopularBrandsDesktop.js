@@ -15,12 +15,14 @@ export default class PopularBrandsDesktop extends React.Component {
       isSelect: 0
     };
   }
+
   slideBack() {
     if (this.state.position > 0) {
       const position = this.state.position - 1;
       this.setState({ position });
     }
   }
+
   onClick = (webURL, i) => {
     widgetsTracking({
       widgetName: this.props.feedComponentData.title
@@ -38,12 +40,14 @@ export default class PopularBrandsDesktop extends React.Component {
       }
     }
   };
+
   switchTab(val) {
     this.setState({
       isSelect: val,
       position: 0
     });
   }
+
   slideForward() {
     const { feedComponentData } = this.props;
     if (
@@ -54,6 +58,7 @@ export default class PopularBrandsDesktop extends React.Component {
       this.setState({ position });
     }
   }
+
   render() {
     let currentActivePopularBrands = [];
     const { feedComponentData } = this.props;
@@ -171,5 +176,9 @@ PopularBrandsDesktop.propTypes = {
         })
       )
     })
-  )
+  ),
+  feedComponentData: PropTypes.object,
+  postData: PropTypes.object,
+  history: PropTypes.object,
+  setClickedElementId: PropTypes.func
 };

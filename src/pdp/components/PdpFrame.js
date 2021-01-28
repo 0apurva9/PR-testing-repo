@@ -37,6 +37,7 @@ export default class PdpFrame extends React.Component {
       </MetaTags>
     );
   };
+
   render() {
     return (
       <div
@@ -70,7 +71,19 @@ export default class PdpFrame extends React.Component {
 }
 PdpFrame.propTypes = {
   onAddToBag: PropTypes.func,
-  isWriteReview: PropTypes.bool
+  isWriteReview: PropTypes.bool,
+  addProductToBag: PropTypes.func,
+  gotoPreviousPage: PropTypes.func,
+  goToCart: PropTypes.func,
+  goToWishList: PropTypes.func,
+  displayToast: PropTypes.func,
+  productListingId: PropTypes.string,
+  ussId: PropTypes.string,
+  USSID: PropTypes.string,
+  outOfStock: PropTypes.bool,
+  winningUssID: PropTypes.string,
+  goToCartPageFlag: PropTypes.func,
+  children: PropTypes.node
 };
 PdpFrame.defaultProps = {
   isWriteReview: false

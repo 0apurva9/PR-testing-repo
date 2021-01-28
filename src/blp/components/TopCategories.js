@@ -15,6 +15,7 @@ export default class TopCategories extends React.Component {
       this.props.setClickedElementId();
     }
   };
+
   render() {
     if (this.props.feedComponentData.items.length < 3) {
       return null;

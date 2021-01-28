@@ -32,91 +32,86 @@ import {
   SET_DATA_LAYER_FOR_BUY_NOW_EVENT
 } from "../../lib/adobeUtils";
 import styles from "./ProductDescriptionPage.css";
-import queryString, { parse } from "query-string";
+import queryString from "query-string";
 import PdpFlags from "../components/PdpFlags.js";
+
+const DivComponent = () => <div />;
+
 const ProductDetailsMainCard = LoadableVisibility({
   loader: () => import("./ProductDetailsMainCard"),
-  loading: () => <div />,
+  loading: DivComponent,
   delay: 400
 });
 
 const ProductDetails = LoadableVisibility({
   loader: () => import("./ProductDetails"),
-  loading: () => <div />,
-  delay: 400
-});
-
-const Overlay = LoadableVisibility({
-  loader: () => import("./Overlay"),
-  loading: () => <div />,
+  loading: DivComponent,
   delay: 400
 });
 
 const PdpPincode = LoadableVisibility({
   loader: () => import("./PdpPincode"),
-  loading: () => <div />,
+  loading: DivComponent,
   delay: 1000
 });
 
 const ProductFeature = LoadableVisibility({
   loader: () => import("./ProductFeature"),
-  loading: () => <div />,
+  loading: DivComponent,
   delay: 400
 });
 
 const AllDescription = LoadableVisibility({
   loader: () => import("./AllDescription"),
-  loading: () => <div />,
+  loading: DivComponent,
   delay: 400
 });
 
 const RatingAndTextLink = LoadableVisibility({
   loader: () => import("./RatingAndTextLink"),
-  loading: () => <div />,
+  loading: DivComponent,
   delay: 400
 });
 
 const PdpPaymentInfo = LoadableVisibility({
   loader: () => import("./PdpPaymentInfo"),
-  loading: () => <div />,
+  loading: DivComponent,
   delay: 400
 });
 
 const OtherSellersLink = LoadableVisibility({
   loader: () => import("./OtherSellersLink"),
-  loading: () => <div />,
+  loading: DivComponent,
   delay: 400
 });
 
 const OfferCard = LoadableVisibility({
   loader: () => import("./OfferCard"),
-  loading: () => <div />,
+  loading: DivComponent,
   delay: 400
 });
 
 const SizeSelector = LoadableVisibility({
   loader: () => import("./SizeSelector"),
-  loading: () => <div />,
+  loading: DivComponent,
   delay: 400
 });
 
 const ColourSelector = LoadableVisibility({
   loader: () => import("./ColourSelector"),
-  loading: () => <div />,
+  loading: DivComponent,
   delay: 400
 });
 
 const PdpDeliveryModes = LoadableVisibility({
   loader: () => import("./PdpDeliveryModes"),
-  loading: () => <div />,
+  loading: DivComponent,
   delay: 1000
 });
 
 const PDPRecommendedSectionsContainer = LoadableVisibility({
   loader: () => import("../containers/PDPRecommendedSectionsContainer"),
-  loading: () => {
-    return <div />;
-  },
+  loading: DivComponent,
   delay: 400
 });
 const NO_SIZE = "NO SIZE";
@@ -129,14 +124,17 @@ export default class PdpApparel extends React.Component {
       this.props.visitBrandStore();
     }
   }
+
   navigateToLogin() {
     const url = this.props.location.pathname;
     this.props.setUrlToRedirectToAfterAuth(url);
     this.props.history.push(LOGIN_PATH);
   }
+
   gotoPreviousPage = () => {
     this.props.history.goBack();
   };
+
   goToSellerPage(count) {
     if (count !== 0) {
       let expressionRuleFirst = "/p-(.*)/(.*)";
@@ -150,6 +148,7 @@ export default class PdpApparel extends React.Component {
       this.props.history.push(`/p-${productId}${PRODUCT_SELLER_ROUTER_SUFFIX}`);
     }
   }
+
   goToCart = () => {
     const defaultPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
     this.props.history.push({
@@ -229,6 +228,7 @@ export default class PdpApparel extends React.Component {
       this.props.showPincodeModal(this.props.match.params[1]);
     }
   }
+
   showEmiModal = () => {
     const cartValue = this.props.productDetails.winningSellerPrice.value;
     const productCode = this.props.productDetails.productListingId;
@@ -238,6 +238,7 @@ export default class PdpApparel extends React.Component {
     this.props.getPdpEmi(globalAccessToken, cartValue, productCode, ussId);
     this.props.showEmiModal();
   };
+
   showSizeSelector = (buyNowFlag, addToWishlist) => {
     if (
       this.props.showSizeSelector &&
@@ -256,11 +257,13 @@ export default class PdpApparel extends React.Component {
       });
     }
   };
+
   handleShowSizeguide() {
     if (this.props.getProductSizeGuide) {
       this.props.getProductSizeGuide();
     }
   }
+
   checkIfSizeSelected = () => {
     if (this.props.location.state && this.props.location.state.isSizeSelected) {
       return true;
@@ -268,6 +271,7 @@ export default class PdpApparel extends React.Component {
       return false;
     }
   };
+
   checkIfSizeDoesNotExist = () => {
     return this.props.productDetails.variantOptions
       ? this.props.productDetails.variantOptions.filter(val => {
@@ -277,6 +281,7 @@ export default class PdpApparel extends React.Component {
         : false
       : true;
   };
+
   checkIfNoSize = () => {
     if (
       this.props.productDetails.variantOptions &&
@@ -291,6 +296,7 @@ export default class PdpApparel extends React.Component {
       return false;
     }
   };
+
   checkIfFreeSize = () => {
     if (
       this.props.productDetails.variantOptions &&
@@ -302,6 +308,7 @@ export default class PdpApparel extends React.Component {
       return false;
     }
   };
+
   handleShowPiqPage = () => {
     const eligibleForCNC =
       this.props.productDetails &&
@@ -313,6 +320,7 @@ export default class PdpApparel extends React.Component {
       this.props.getAllStoresForCliqAndPiq();
     }
   };
+
   componentDidMount() {
     const parsedQueryString = queryString.parse(this.props.location.search);
 
@@ -340,6 +348,7 @@ export default class PdpApparel extends React.Component {
 
     /* End- Gemini Script */
   }
+
   render() {
     const productData = this.props.productDetails;
     const mobileGalleryImages = productData.galleryImagesList
@@ -513,7 +522,7 @@ export default class PdpApparel extends React.Component {
                 data={productData.variantOptions}
                 productId={productData.productListingId}
                 history={this.props.history}
-                updateColour={val => {}}
+                updateColour={() => {}}
                 getProductSpecification={this.props.getProductSpecification}
               />
             </React.Fragment>
@@ -568,10 +577,8 @@ export default class PdpApparel extends React.Component {
           ) */
           ) : (
             <PdpDeliveryModes
-              onPiq={this.handleShowPiqPage}
               eligibleDeliveryModes={productData.eligibleDeliveryModes}
               deliveryModesATP={productData.deliveryModesATP}
-              onPiq={this.handleShowPiqPage}
               pincodeDetails={productData.pincodeResponseList}
               isCod={productData.isCOD}
               availableStores={availableStores && availableStores.length}
@@ -608,9 +615,9 @@ export default class PdpApparel extends React.Component {
             {productData.knowMore && (
               <Accordion text="Know More" headerFontSize={16}>
                 {productData.knowMore &&
-                  productData.knowMore.map(val => {
+                  productData.knowMore.map((val, i) => {
                     return (
-                      <div className={styles.list}>{val.knowMoreItem}</div>
+                      <div className={styles.list} key = {i}>{val.knowMoreItem}</div>
                     );
                   })}
               </Accordion>

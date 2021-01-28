@@ -46,7 +46,9 @@ CheckBox.propTypes = {
   isCircle: PropTypes.bool,
   onClick: PropTypes.func,
   isFromProductBundling: PropTypes.bool,
-  checked: PropTypes.bool
+  checked: PropTypes.bool,
+  selected: PropTypes.bool,
+  size: PropTypes.string
 };
 CheckBox.defaultProps = {
   size: "20px",

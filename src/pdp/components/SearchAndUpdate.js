@@ -14,6 +14,7 @@ export default class SearchAndUpdate extends React.Component {
       errorMessage: null
     };
   }
+
   getValue(pinCode) {
     const pin = pinCode.replace(/\D/g, "");
     if (pinCode.length <= 6) {
@@ -23,11 +24,13 @@ export default class SearchAndUpdate extends React.Component {
       this.props.onChange(pin);
     }
   }
+
   getLocation() {
     if (this.props.getLocation) {
       this.props.getLocation();
     }
   }
+
   handleOnFocusInput(event) {
     if (this.props.onFocusInput) {
       this.props.onFocusInput(event);
@@ -46,6 +49,7 @@ export default class SearchAndUpdate extends React.Component {
       this.onUpdate();
     }
   }
+
   onUpdate() {
     if (this.state.pinCode && this.state.pinCode.match(/^\d{6}$/)) {
       if (this.props.checkPinCodeAvailability) {
@@ -56,6 +60,7 @@ export default class SearchAndUpdate extends React.Component {
       this.setState({ errorMessage: "Please enter a  valid pincode" });
     }
   }
+
   render() {
     return (
       <div className={styles.base}>
@@ -168,7 +173,16 @@ SearchAndUpdate.propTypes = {
   hasAutoFocus: PropTypes.bool,
   uiType: PropTypes.oneOf(["default", "hollow"]),
   placeholder: PropTypes.string,
-  ovalButton: PropTypes.bool
+  ovalButton: PropTypes.bool,
+  onChange: PropTypes.func,
+  onFocusInput: PropTypes.func,
+  onBlur: PropTypes.func,
+  borderBottom: PropTypes.string,
+  borderColor: PropTypes.string,
+  value: PropTypes.string,
+  checkPinCodeAvailability: PropTypes.func,
+  labelText: PropTypes.string,
+  id: PropTypes.string
 };
 
 SearchAndUpdate.defaultProps = {

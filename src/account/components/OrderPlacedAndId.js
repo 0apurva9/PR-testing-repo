@@ -5,7 +5,6 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import { MY_ACCOUNT, ORDER, ORDER_CODE } from "../../lib/constants";
 import { MY_ACCOUNT_ORDERS_PAGE, MY_ACCOUNT_PAGE } from "../../lib/constants";
-// import { push } from 'react-router-redux';
 import {
   setDataLayer,
   ADOBE_ORDER_DETAILS_LINK_CLICKED
@@ -17,11 +16,13 @@ export default class OrderPlacedAndId extends React.Component {
       `${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${orderId}`
     );
   }
+
   backToOrderHistory() {
     this.props.backToOrderHistory.push(
       `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`
     );
   }
+
   render() {
     return (
       <div className={styles.base}>
@@ -92,7 +93,15 @@ export default class OrderPlacedAndId extends React.Component {
 OrderPlacedAndId.propTypes = {
   label: PropTypes.string,
   placedTime: PropTypes.string,
-  orderId: PropTypes.string
+  orderId: PropTypes.string,
+  isEgvOrder:PropTypes.bool,
+  backHistory:PropTypes.bool,
+  pushDetails:PropTypes.shape({
+    push:PropTypes.func
+  }),
+  backToOrderHistory:PropTypes.shape({
+    push:PropTypes.func
+  })
 };
 OrderPlacedAndId.defaultProps = {
   label: "Order placed on"

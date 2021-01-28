@@ -9,6 +9,7 @@ export default class ContentWidgetWrapper extends React.Component {
   renderLoader() {
     return <Loader />;
   }
+
   render() {
     if (
       this.props.loading &&

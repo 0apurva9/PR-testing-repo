@@ -119,6 +119,8 @@ export default class ItemLevelPopup extends React.Component {
 ItemLevelPopup.propTypes = {
   cardName: PropTypes.string,
   timeLimit: PropTypes.string,
+  emiItemDetails: PropTypes.object,
+  closeModal: PropTypes.func,
   cardData: PropTypes.arrayOf(
     PropTypes.shape({
       productName: PropTypes.string,

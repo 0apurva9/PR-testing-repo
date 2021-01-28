@@ -27,7 +27,9 @@ export default class ReturnToStore extends React.Component {
       mobile: this.props.userDetails && this.props.userDetails.mobileNumber,
       name: this.props.userDetails && this.props.userDetails.firstName
     };
+    this.scrollToView = React.createRef();
   }
+
   selectStoreForDesktop = val => {
     if (val.length === 0 && !this.state.showPickupPerson) {
       this.setState({ storeId: null });
@@ -66,7 +68,7 @@ export default class ReturnToStore extends React.Component {
 
   selectStoreButtonForDesktop = () => {
     if (this.props.from === "Checkout") {
-      let element = this.refs.scrollToView;
+      let element = this.scrollToView;
       element.scrollTop = 0;
       if (this.props.addStoreCNC && this.state.storeId) {
         this.setState({ showPickupPerson: true });
@@ -166,11 +168,13 @@ export default class ReturnToStore extends React.Component {
       this.props.getAllStoresForCliqAndPiq(pinCode);
     }
   };
+
   CloseCliqAndPiqModal = () => {
     if (this.props.CloseCliqAndPiqModal) {
       this.props.CloseCliqAndPiqModal();
     }
   };
+
   async componentDidUpdate(nextProps) {
     if (
       this.props.stores !== nextProps.stores &&
@@ -200,6 +204,7 @@ export default class ReturnToStore extends React.Component {
       }
     }
   }
+
   async componentDidMount() {
     await this.getAvailableStores();
     let selectedStore = JSON.parse(localStorage.getItem(SELECTED_STORE));
@@ -307,6 +312,7 @@ export default class ReturnToStore extends React.Component {
       });
     }
   }
+
   getValue(val) {
     this.setState(val);
   }
@@ -456,7 +462,7 @@ export default class ReturnToStore extends React.Component {
                 storeClick={val => this.selectStoreForDesktop(val)}
               />
             </div>
-            <div className={styles.storeListForDesktop} ref="scrollToView">
+            <div className={styles.storeListForDesktop} ref={this.scrollToView}>
               <div className={styles.searchPincode}>
                 <SearchLocationByPincode
                   header={`${

@@ -35,5 +35,6 @@ export default class ElectronicsDescription extends React.Component {
 ElectronicsDescription.propTypes = {
   imageUrl: PropTypes.string,
   descriptionHeader: PropTypes.string,
-  description: PropTypes.string
+  description: PropTypes.string,
+  value: PropTypes.object
 };

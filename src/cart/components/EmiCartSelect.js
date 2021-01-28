@@ -10,16 +10,19 @@ export default class EmiAccordian extends React.Component {
       this.props.selectItem();
     }
   }
+
   handlePlanSelect(val) {
     if (this.props.selectPlan) {
       this.props.selectPlan(val);
     }
   }
+
   handleConfirmPlan() {
     if (this.props.confirmPlan) {
       this.props.confirmPlan();
     }
   }
+
   render() {
     return (
       <div className={this.props.selected ? styles.baseSelected : styles.base}>

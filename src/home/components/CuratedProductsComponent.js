@@ -43,6 +43,7 @@ class CuratedProductsComponent extends React.Component {
       this.props.setClickedElementId();
     }
   };
+
   render() {
     const { feedComponentData, ...rest } = this.props;
     let items = [];

@@ -13,6 +13,7 @@ export default class Calender extends Component {
       selectedDay: currentDay
     };
   }
+
   handleDayClick = day => {
     this.setState({ selectedDay: day });
     if (this.props.onDateSelect) {

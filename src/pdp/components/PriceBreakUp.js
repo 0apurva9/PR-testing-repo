@@ -12,9 +12,10 @@ export default class PriceBreakUp extends React.Component {
         isOpen={this.props.isOpen}
       >
         <div className={styles.holder}>
-          {this.props.data.map(val => {
+          {this.props.data.map((val, index) => {
             return (
               <div
+                key={index}
                 className={
                   this.props.sideBySide
                     ? styles.sideBySideContent

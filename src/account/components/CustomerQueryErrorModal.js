@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./CustomerQueryErrorModal.css";
+import { RouterPropTypes } from "../../general/router-prop-types";
 import BottomSlideModal from "../../general/components/BottomSlideModal";
 import PropTypes from "prop-types";
 import Button from "../../general/components/Button.js";
@@ -17,6 +18,7 @@ class CustomerQueryErrorModal extends React.Component {
   closeModal() {
     this.props.closeModal();
   }
+
   onContinueShoppingClick = () => {
     this.props.history.push(HOME_ROUTER);
     window.location.reload();
@@ -57,5 +59,9 @@ class CustomerQueryErrorModal extends React.Component {
 export default withRouter(CustomerQueryErrorModal);
 
 CustomerQueryErrorModal.propTypes = {
-  closeModal: PropTypes.func
+  closeModal: PropTypes.func,
+  heading:PropTypes.string,
+  subHeading:PropTypes.string,
+  showBtn:PropTypes.bool,
+  ...RouterPropTypes
 };

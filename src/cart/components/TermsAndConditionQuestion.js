@@ -9,6 +9,7 @@ export default class TermsAndConditionQuestion extends React.Component {
       isOpen: this.props.isOpen ? this.props.isOpen : false
     };
   }
+
   openMenu() {
     if (!this.props.controlled) {
       this.setState(prevState => ({

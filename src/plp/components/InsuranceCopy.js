@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./InsuranceCopy.css";
-import Icon from "../../xelpmoc-core/Icon";
 import propTypes from "prop-types";
 
 export default class InsuranceCopy extends React.Component {
@@ -9,6 +8,7 @@ export default class InsuranceCopy extends React.Component {
       this.props.onClick();
     }
   }
+
   render() {
     let data = this.props.data;
     return (
@@ -40,5 +40,6 @@ InsuranceCopy.propTypes = {
   text: propTypes.string,
   label: propTypes.string,
   knowMore: propTypes.string,
-  onClick: propTypes.func
+  onClick: propTypes.func,
+  data: propTypes.array,
 };

@@ -9,6 +9,7 @@ export default class ShowDeliveryConfirmPopup extends React.Component {
       sessionStorage.removeItem("updateReturnForHOTC");
     }
   }
+
   render() {
     return (
       <BottomSlideModal>

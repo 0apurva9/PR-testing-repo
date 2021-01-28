@@ -62,7 +62,7 @@ export default class BankDetails extends React.Component {
               placeholder="Refund Mode"
               arrowColour="grey"
               height={33}
-              options={REFUND_OPTONS.map((val, i) => {
+              options={REFUND_OPTONS.map((val) => {
                 return {
                   value: val.value,
                   label: val.label

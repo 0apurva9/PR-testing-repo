@@ -1,4 +1,5 @@
 import React from "react";
+import { RouterPropTypes } from "../../general/router-prop-types";
 import styles from "./EditAddressPopUp.css";
 import PropTypes from "prop-types";
 import Input2 from "../../general/components/Input2.js";
@@ -96,27 +97,32 @@ export default class EditAddressPopUp extends React.Component {
       this.props.getPinCode(val);
     }
   };
+
   handlePhoneInput(val) {
     if (val.length <= 10) {
       this.setState({ phone: val });
     }
   }
+
   onChange(val) {
     this.setState(val);
     if (this.props.getAddressDetails) {
       this.props.getAddressDetails(this.state);
     }
   }
+
   onChangeDefaultFlag() {
     this.setState(prevState => ({
       defaultFlag: !prevState.defaultFlag
     }));
   }
+
   componentWillUnmount() {
     if (this.props.resetAutoPopulateDataForPinCode) {
       this.props.resetAutoPopulateDataForPinCode();
     }
   }
+
   componentDidMount() {
     if (
       this.state.postalCode &&
@@ -126,6 +132,7 @@ export default class EditAddressPopUp extends React.Component {
       this.props.getPinCode(this.state.postalCode);
     }
   }
+
   componentWillReceiveProps(nextProps) {
     let updatedState =
       nextProps &&
@@ -188,6 +195,7 @@ export default class EditAddressPopUp extends React.Component {
       }
     }
   }
+
   onSelectLandmark = landmark => {
     if (landmark.value === OTHER_LANDMARK) {
       this.setState({
@@ -202,6 +210,7 @@ export default class EditAddressPopUp extends React.Component {
       });
     }
   };
+
   editAddress = async () => {
     if (!this.state.postalCode) {
       this.props.displayToast(PINCODE_TEXT);
@@ -280,9 +289,11 @@ export default class EditAddressPopUp extends React.Component {
       }
     }
   };
+
   onCancel = () => {
     this.props.history.push(`${MY_ACCOUNT}${MY_ACCOUNT_ADDRESS_PAGE}`);
   };
+
   clearAllValue = () => {
     this.setState({
       postalCode: "",
@@ -387,7 +398,7 @@ export default class EditAddressPopUp extends React.Component {
             </div>
             <div className={styles.addressValidMsg}>Character Limit : 120</div>
             <div className={styles.addressValidMsg}>
-              Special characters allowed are - # & ( ) ' ' . , \ / + _
+              Special characters allowed are - # & ( ) &apos; &apos; . , \ / + _
             </div>
             <div className={styles.content}>
               {this.state.postalCode.length === 6 &&
@@ -399,7 +410,7 @@ export default class EditAddressPopUp extends React.Component {
                     value={this.state.landmark}
                     options={
                       this.state.landmarkList.length > 0 &&
-                      this.state.landmarkList.map((val, i) => {
+                      this.state.landmarkList.map((val) => {
                         return {
                           value: val && val.landmark,
                           label: val && val.landmark
@@ -416,7 +427,7 @@ export default class EditAddressPopUp extends React.Component {
                   placeholder={"Landmark"}
                   options={
                     this.state.landmarkList.length > 0 &&
-                    this.state.landmarkList.map((val, i) => {
+                    this.state.landmarkList.map((val) => {
                       return {
                         value: val && val.landmark,
                         label: val && val.landmark
@@ -582,7 +593,7 @@ export default class EditAddressPopUp extends React.Component {
                 Character Limit : 120
               </div>
               <div className={styles.addressValidMsg}>
-                Special characters allowed are - # & ( ) ' ' . , \ / + _
+                Special characters allowed are - # & ( ) &apos; &apos; . , \ / + _
               </div>
               <div className={styles.content}>
                 {this.state.postalCode &&
@@ -595,7 +606,7 @@ export default class EditAddressPopUp extends React.Component {
                       value={this.state.landmark}
                       options={
                         this.state.landmarkList.length > 0 &&
-                        this.state.landmarkList.map((val, i) => {
+                        this.state.landmarkList.map((val) => {
                           return {
                             value: val && val.landmark,
                             label: val && val.landmark
@@ -615,7 +626,7 @@ export default class EditAddressPopUp extends React.Component {
                       placeholder={"Landmark"}
                       options={
                         this.state.landmarkList.length > 0 &&
-                        this.state.landmarkList.map((val, i) => {
+                        this.state.landmarkList.map((val) => {
                           return {
                             value: val && val.landmark,
                             label: val && val.landmark
@@ -744,8 +755,34 @@ EditAddressPopUp.propTypes = {
   clearAllValue: PropTypes.func,
   buttonText: PropTypes.string,
   options: PropTypes.string,
-  titleValue: PropTypes.string
-};
+  titleValue: PropTypes.string,
+  town:PropTypes.string,
+  line2:PropTypes.string,
+  state:PropTypes.string,
+  postalCode:PropTypes.string,
+  firstName:PropTypes.string,
+  lastName:PropTypes.string,
+  line1:PropTypes.string,
+  getPinCode:PropTypes.func,
+  getAddressDetails:PropTypes.func,
+  showSecondaryLoader:PropTypes.bool,
+  hideSecondaryLoader:PropTypes.bool,
+  phone:PropTypes.number,
+  getPincodeStatus:PropTypes.string,
+  resetAutoPopulateDataForPinCode:PropTypes.func,
+  displayToast:PropTypes.finc,
+  editAddress:PropTypes.func,
+  loading:PropTypes.bool,
+  userAddress:PropTypes.object,
+  getPinCodeDetails:PropTypes.shape({
+    landMarks:PropTypes.string,
+    cityName:PropTypes.string,
+    state:PropTypes.shape({
+      name:PropTypes.string
+    }),
+  }),
+...RouterPropTypes
+},
 EditAddressPopUp.defaultProps = {
   heading: "Edit address",
   defaultAddress: false

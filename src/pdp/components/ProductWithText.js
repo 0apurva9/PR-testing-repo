@@ -10,6 +10,7 @@ export default class ProductWithText extends React.Component {
       this.props.onClick(val);
     }
   }
+
   render() {
     return (
       <div className={styles.base}>
@@ -31,6 +32,7 @@ export default class ProductWithText extends React.Component {
   }
 }
 ProductWithText.propTypes = {
+  onClick: PropTypes.func,
   data: PropTypes.arrayOf(
     PropTypes.shape({
       productImage: PropTypes.string,

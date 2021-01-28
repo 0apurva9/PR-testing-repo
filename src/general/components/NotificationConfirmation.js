@@ -9,11 +9,13 @@ export default class NotificationConfirmation extends React.Component {
       this.props.closeModal();
     }
   }
+
   handleWhatsappSubscribe() {
     if (this.props.handleWhatsappSubscribe) {
       this.props.handleWhatsappSubscribe();
     }
   }
+
   render() {
     return (
       <div className={styles.base}>

@@ -19,6 +19,7 @@ export default class StoryWidget extends React.Component {
       this.runTimer();
     }
   }
+
   runTimer = () => {
     let totalTimer = this.state.totalTimer + 1;
 
@@ -42,6 +43,7 @@ export default class StoryWidget extends React.Component {
       }
     }
   };
+
   back = () => {
     if (this.state.position > 0) {
       const position = this.state.position - 1;
@@ -54,10 +56,12 @@ export default class StoryWidget extends React.Component {
     evt.stopPropagation();
     this.setState({ touchStart: evt.touches[0].clientX });
   }
+
   handleSwipeMove(evt) {
     evt.stopPropagation();
     this.setState({ touchEnd: evt.touches[0].clientX });
   }
+
   handleSwipeEnd() {
     if (this.state.touchEnd) {
       if (this.state.touchStart - this.state.touchEnd < -30) {
@@ -67,6 +71,7 @@ export default class StoryWidget extends React.Component {
       }
     }
   }
+
   renderLoader() {
     if (this.props.feedComponentData.items.length > 0) {
       return null;

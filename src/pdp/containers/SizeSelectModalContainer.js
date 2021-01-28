@@ -14,7 +14,7 @@ import { displayToast } from "../../general/toast.actions.js";
 import { tempCartIdForLoggedInUser } from "../../cart/actions/cart.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
 import { addProductToWishList } from "../../wishlist/actions/wishlist.actions";
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     getProductDescription: productCode => {
       return dispatch(getProductDescription(productCode));

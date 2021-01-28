@@ -21,6 +21,7 @@ export default class EmiSectionDesktop extends React.Component {
       this.props.selectBank([this.props.emiData[0].code]);
     }
   }
+
   tabChange(val) {
     this.setState({ isSelect: val, isOpen: 0 });
     if (this.props.selectBank) {
@@ -41,6 +42,7 @@ export default class EmiSectionDesktop extends React.Component {
       });
     }
   }
+
   handleConfirmPlan(value) {
     if (window && window.digitalData) {
       Object.assign(window.digitalData, {
@@ -56,6 +58,7 @@ export default class EmiSectionDesktop extends React.Component {
       this.props.confirmPlan();
     }
   }
+
   handleSelectPlanForDesktop = (val, i) => {
     this.setState({ isOpen: i });
     if (this.props.selectPlan) {
@@ -104,7 +107,7 @@ export default class EmiSectionDesktop extends React.Component {
               bankDetails.map((val, i) => {
                 const interestRate = Math.round(val.interestRate);
                 return (
-                  <div className={styles.dropdownDataHolder}>
+                  <div className={styles.dropdownDataHolder} key = {i}>
                     <Accordion
                       text1={`${val.term} EMI @ ${interestRate} %`}
                       text2={`Rs ${val.monthlyInstallment} / Month`}
@@ -174,7 +177,7 @@ export default class EmiSectionDesktop extends React.Component {
                                 width={175}
                                 height={40}
                                 label="Select this plan"
-                                onClick={bankData =>
+                                onClick={() =>
                                   this.handleConfirmPlan(val)
                                 }
                               />
@@ -207,7 +210,13 @@ EmiSectionDesktop.propTypes = {
         )
       })
     )
-  })
+  }),
+  selectBank: PropTypes.func,
+  emiData: PropTypes.array,
+  confirmPlan: PropTypes.func,
+  selectPlan: PropTypes.func,
+  showHeader: PropTypes.bool,
+  showButton: PropTypes.bool
 };
 EmiSectionDesktop.defaultProps = {
   showHeader: true,

@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React from "react";
 import Loadable from "react-loadable";
 import PropTypes from "prop-types";
@@ -9,14 +10,10 @@ import {
   SIZE_COMPONENT,
   OFFERS_COMPONENT,
   SHIPPING_DETAIL_COMPONENT,
-  COLOR_COMPONENT,
-  GUARANTEE_COMPONENT,
-  FREEBIE_COMPONENT,
   DETAILS_COMPONENT,
   BUYNOW_ADDTOBAG_COMPONENT,
   CERTIFIED_COMPONENT
 } from "../../ComponentConstants";
-import styles from "./ProductDetailsSection.css";
 import { renderComponent } from "../../../../../pdp/reducers/utils";
 import SecondaryLoader from "../../../../../general/components/SecondaryLoader";
 
@@ -91,6 +88,19 @@ const CertifiedComponent = Loadable({
   }
 });
 
+import(
+  /* webpackChunkName: "ColorComponent" */ "./color-component.component.jsx"
+);
+const ColorComponent = Loadable({
+  loader: () =>
+    import(
+      /* webpackChunkName: "ColorComponent" */ "./color-component.component.jsx"
+    ),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const typeComponentMapping = {
   [PRODUCT_AND_BRAND_COMPONENT]: props => (
     <ProductAndBrandComponent {...props} />
@@ -102,7 +112,9 @@ const typeComponentMapping = {
   [OFFERS_COMPONENT]: props => <OffersComponent {...props} />,
   [BUYNOW_ADDTOBAG_COMPONENT]: props => <BuyNowAddToBagComponent {...props} />,
   [SHIPPING_DETAIL_COMPONENT]: props => <ShippingDetailsComponent {...props} />,
-  [CERTIFIED_COMPONENT]: props => <CertifiedComponent {...props} />
+  [CERTIFIED_COMPONENT]: props => <CertifiedComponent {...props} />,
+  // eslint-disable-next-line no-undef
+  [COLOR_COMPONENT]: props => <ColorComponent {...props} />
 };
 
 export default class ProductsDetailsSection extends React.Component {
@@ -136,5 +148,7 @@ ProductsDetailsSection.propTypes = {
         tagPosition: PropTypes.string
       })
     })
-  )
+  ),
+  handleDetailsScroll: PropTypes.func,
+  productCompDetails: PropTypes.array
 };

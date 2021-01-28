@@ -7,6 +7,7 @@ export default class FeedBackRate extends React.Component {
       this.props.selectItem();
     }
   }
+
   render() {
     let checkbox = styles.checkBox;
     if (this.props.selected) {

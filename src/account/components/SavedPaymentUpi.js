@@ -33,5 +33,6 @@ export default class SavedPaymentUpi extends React.Component {
   }
 }
 SavedPaymentUpi.propTypes = {
-  upiId: PropTypes.string
+  upiId: PropTypes.string,
+  removeSavedUpiDetails: PropTypes.func.isRequired
 };

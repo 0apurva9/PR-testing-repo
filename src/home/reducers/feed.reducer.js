@@ -136,22 +136,7 @@ const feed = (
       });
     case homeActions.HOME_FEED_BACK_UP_SUCCESS:
       if (state.useBackUpHomeFeed) {
-        homeFeedClonedData = cloneDeep(action.data);
-        //   for (var i in homeFeedClonedData) {
-        //     if (homeFeedClonedData[i].componentName.indexOf("-P") !== -1) {
-        //       if(homeFeedClonedData[i].componentName !== TWO_BY_TWO_PERSONALISED_COMPONENT || homeFeedClonedData[i].componentName !== HERO_BANNER_PERSONALISED_COMPONENT) {
-        //         homeFeedClonedData[i].componentName.HARD_CODED_KEY_FOR_COMPONENT.type = homeFeedClonedData[i].componentName;
-        //       }
-        //       else if(homeFeedClonedData[i].componentName === TWO_BY_TWO_PERSONALISED_COMPONENT) {
-        //         homeFeedClonedData[i].componentName.SUB_HEADER_TWO_BY_TWO.type = homeFeedClonedData[i].componentName;
-        //       }
-        //       else if(homeFeedClonedData[i].componentName === HERO_BANNER_PERSONALISED_COMPONENT){
-        //         homeFeedClonedData[i].componentName.SUB_HEADER_HERO_BANNER.type = homeFeedClonedData[i].componentName
-        //       }
-        //        //break; //Stop this loop, we found it!
-        //     }
-        //   }
-        // console.log("check data ============>", homeFeedClonedData)
+        homeFeedClonedData = cloneDeep(action.data.items);
         homeFeedData = homeFeedClonedData.map(subData => {
           // we do this because TCS insists on having the data that backs a component have an object that wraps the data we care about.
           let componentName = subData.componentName;
@@ -192,6 +177,7 @@ const feed = (
         return Object.assign({}, state, {
           homeFeed: homeFeedData,
           status: action.status,
+          seo: action.data.seo,
           loading: false
         });
       }
@@ -625,12 +611,6 @@ const feed = (
         loadMsdSkeleton: false,
         productListABC: action.productData
       });
-    case homeActions.MSD_HOME_ABC_COMPONENT_REQUEST:
-      return Object.assign({}, state, {
-        loadMsdSkeleton: true,
-        loading: false
-      });
-
     default:
       return state;
   }

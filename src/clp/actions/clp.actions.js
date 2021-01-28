@@ -3,7 +3,6 @@ import {
   setDataLayer,
   ADOBE_DEFAULT_CLP_PAGE_LOAD
 } from "../../lib/adobeUtils";
-import { mockGetFooter } from "../../lib/apiRequest";
 import * as ErrorHandling from "../../general/ErrorHandling.js";
 export const GET_CATEGORIES_REQUEST = "GET_CATEGORIES_REQUEST";
 export const GET_CATEGORIES_SUCCESS = "GET_CATEGORIES_SUCCESS";
@@ -35,7 +34,7 @@ export function getCategoriesFailure(error) {
   };
 }
 
-export function getCategories(userId, accessToken, cartId) {
+export function getCategories() {
   return async (dispatch, getState, { api }) => {
     dispatch(getCategoriesRequest());
 
@@ -84,7 +83,6 @@ export function getHeader() {
   //     const result = await fetch(
   //       "https://www.tatacliq.com/marketplacewebservices/v2/mpl/cms/desktopservice/header"
   //     );
-  let requestSource;
 
   return async (dispatch, getState, { api }) => {
     dispatch(getHeaderRequest());

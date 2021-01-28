@@ -8,6 +8,7 @@ export default class SelectReturnDate extends React.Component {
       this.props.selectItem();
     }
   }
+
   render() {
     return (
       <div className={styles.base} onClick={() => this.handleClick()}>

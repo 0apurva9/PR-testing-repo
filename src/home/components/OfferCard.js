@@ -5,20 +5,23 @@ import Button from "../../general/components/Button";
 import Image from "../../xelpmoc-core/Image";
 
 export default class OfferCard extends React.Component {
-  handleClick = e => {
+  handleClick = () => {
     if (this.props.onClick) {
       this.props.onClick(this.props.datum.click_tracking_url);
     }
   };
+
   handleClickOnLink = event => {
     event.preventDefault();
   };
+
   render() {
     const { datum, key } = this.props;
     return (
       <a
         href={this.props.datum.click_tracking_url}
         target="_blank"
+        rel="noreferrer"
         onClick={event => this.handleClickOnLink(event)}
       >
         <div className={styles.base} key={key} onClick={this.handleClick}>

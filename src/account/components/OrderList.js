@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { RouterPropTypes } from "../../general/router-prop-types";
 import Button from "../../general/components/Button.js";
 import onOrder from "../components/img/onOrder.svg";
 import Carousel from "../../general/components/Carousel";
@@ -21,12 +22,15 @@ class OrderList extends Component {
   constructor(props) {
     super(props);
   }
+
   componentDidMount() {
     window.scroll(0, 0);
   }
+
   renderToContinueShopping() {
     this.props.history.push(HOME_ROUTER);
   }
+
   orderListRender = () => {
     let { ordersTransactionData } = this.props;
     let orderList = [];
@@ -178,5 +182,6 @@ OrderList.propTypes = {
         )
       })
     )
-  })
+  }),
+  ...RouterPropTypes
 };

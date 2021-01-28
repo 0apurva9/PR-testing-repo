@@ -90,5 +90,7 @@ OrderViewPaymentDetails.propTypes = {
   Discount: PropTypes.string,
   Total: PropTypes.string,
   ConvenienceCharges: PropTypes.string,
-  SubTotal: PropTypes.string
+  SubTotal: PropTypes.string,
+  coupon:PropTypes.number,
+  cliqCashAmountDeducted:PropTypes.number
 };

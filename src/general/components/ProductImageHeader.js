@@ -9,6 +9,7 @@ export default class ProductImageHeader extends React.Component {
       this.props.onClick();
     }
   };
+
   render() {
     let className = styles.base;
     if (this.props.description) {
@@ -60,5 +61,7 @@ ProductImageHeader.propTypes = {
   description: PropTypes.string,
   image: PropTypes.string,
   logo: PropTypes.element,
-  bottomContent: PropTypes.element
+  bottomContent: PropTypes.element,
+  onClick: PropTypes.func,
+  height: PropTypes.number,
 };

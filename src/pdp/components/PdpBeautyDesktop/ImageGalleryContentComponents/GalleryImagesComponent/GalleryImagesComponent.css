@@ -106,6 +106,10 @@
   border: 0;
  }
 
+ .image-gallery-list-block iframe {
+   min-height: 445px;
+ }
+
  @media screen and (max-width: 767px){
   #samples img {
     display: inline-block;

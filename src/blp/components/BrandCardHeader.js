@@ -4,6 +4,7 @@ import styles from "./BrandCardHeader.css";
 import Logo from "../../general/components/Logo";
 import PropTypes from "prop-types";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
+import { RouterPropTypes } from "../../general/router-prop-types";
 
 export default class BrandCardHeader extends React.Component {
   constructor(props) {
@@ -12,6 +13,7 @@ export default class BrandCardHeader extends React.Component {
       buttonLabel: props.feedComponentData.buttonLabel
     };
   }
+
   handleClick() {
     if (this.state.buttonLabel === "Unfollow") {
       this.setState({ buttonLabel: "Follow" }, () =>
@@ -41,6 +43,7 @@ export default class BrandCardHeader extends React.Component {
       }
     }
   };
+
   render() {
     let { feedComponentData } = this.props;
     if (!feedComponentData || feedComponentData.items.length === 0) {
@@ -92,13 +95,19 @@ export default class BrandCardHeader extends React.Component {
     );
   }
 }
+
 BrandCardHeader.propTypes = {
   backgroundImageURL: PropTypes.string,
   description: PropTypes.string,
   logoImage: PropTypes.string,
   buttonLabel: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  onClickFollow: PropTypes.func,
+  onClickUnfollow: PropTypes.func,
+  setClickedElementId: PropTypes.func,
+  ...RouterPropTypes
 };
+
 BrandCardHeader.defaultProps = {
   image: "",
   text: "",

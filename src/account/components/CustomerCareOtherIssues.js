@@ -12,6 +12,7 @@ export default class CustomerCareOtherIssues extends React.Component {
   onChangeReasonForNonOrderRelated(val, l1OptionsArray) {
     this.props.onChangeReasonForNonOrderRelated(val, l1OptionsArray);
   }
+
   render() {
     let {
       l1OptionsArray,
@@ -43,7 +44,7 @@ export default class CustomerCareOtherIssues extends React.Component {
                   height={33}
                   options={
                     l1OptionsArray &&
-                    l1OptionsArray.map((val, i) => {
+                    l1OptionsArray.map((val) => {
                       return {
                         value: val.parentIssueType,
                         label: val.parentIssueType

@@ -26,6 +26,7 @@ export default class MenuDetails extends React.Component {
       isOpen: this.props.isOpen
     };
   }
+
   checkupi = async () => {
     if (this.state.isOpen) {
       this.openMenu();
@@ -54,7 +55,7 @@ export default class MenuDetails extends React.Component {
         }
       }
 
-      const binResponse = await this.props.binValidationForUPI(UPI);
+      await this.props.binValidationForUPI(UPI);
       if (
         response.status &&
         response.status === "success" &&
@@ -65,6 +66,7 @@ export default class MenuDetails extends React.Component {
       }
     }
   };
+
   checkEMI = async () => {
     if (
       this.props.retryFlagDCEmi === "true" ||
@@ -100,6 +102,7 @@ export default class MenuDetails extends React.Component {
       this.openMenu();
     }
   };
+
   openMenu() {
     // let cartGuidUPI = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
     let isOpen = !this.state.isOpen;
@@ -133,11 +136,13 @@ export default class MenuDetails extends React.Component {
       }
     }
   }
+
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.isOpen !== this.state.isOpen) {
       this.setState({ isOpen: nextProps.isOpen });
     }
   }
+
   render() {
     let iconActive = styles.icon;
     if (this.state.isOpen) {
@@ -200,7 +205,19 @@ MenuDetails.propTypes = {
   retryFlagEmiCoupon: PropTypes.string,
   retryFlagDCEmi: PropTypes.string,
   isFromRetryUrl: PropTypes.bool,
-  removeNoCostEmi: PropTypes.func
+  removeNoCostEmi: PropTypes.func,
+  isOpen: PropTypes.bool,
+  isFromGiftCard: PropTypes.bool,
+  checkUPIEligibility: PropTypes.func,
+  retryCartGuid: PropTypes.string,
+  textValue: PropTypes.string,
+  bankList: PropTypes.array,
+  getEmiBankDetails: PropTypes.func,
+  emiList: PropTypes.array,
+  secondIcon: PropTypes.string,
+  children: PropTypes.node,
+  getNetBankDetails: PropTypes.func,
+  binValidationForUPI: PropTypes.func
 };
 
 MenuDetails.defaultProps = {

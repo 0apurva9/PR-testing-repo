@@ -56,6 +56,7 @@ export default class HeroBanner extends React.Component {
       return <HomeSkeleton />;
     }
   };
+
   render() {
     return (
       <div
@@ -72,7 +73,10 @@ export default class HeroBanner extends React.Component {
 }
 HeroBanner.propTypes = {
   loading: PropTypes.bool,
+  positionInFeed: PropTypes.number,
   feedComponentData: PropTypes.shape({
+    items: PropTypes.array,
+    dimension: PropTypes.string,
     data: PropTypes.shape({
       items: PropTypes.arrayOf(
         PropTypes.shape({

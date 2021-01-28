@@ -9,11 +9,12 @@ export default class ShopByBrandLists extends React.Component {
       this.props.onClick(val);
     }
   }
+
   render() {
     return (
       <div
         className={styles.base}
-        onClick={val => this.handleClick({ value: this.props.brandList })}
+        onClick={() => this.handleClick({ value: this.props.brandList })}
       >
         <div className={styles.arrowHolder}>
           <Icon image={arrowIcon} size={16} />

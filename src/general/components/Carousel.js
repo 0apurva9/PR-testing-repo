@@ -15,11 +15,13 @@ export default class Carousel extends React.Component {
       position: 0
     };
   }
+
   componentWillReceiveProps(props) {
     if (props.children && props.children.length !== this.props.children) {
       this.setState({ juke: props.children.length });
     }
   }
+
   slideBack() {
     const childCount = React.Children.count(this.props.children);
     if (Math.abs(this.state.position) === Math.abs(this.state.juke)) {
@@ -37,11 +39,13 @@ export default class Carousel extends React.Component {
       this.setState({ position });
     }
   }
+
   checkUserAgentIsMobile() {
     return /iPhone|iPad|iPod|Android|BlackBerry|Opera Mini|IEMobile/i.test(
       navigator.userAgent
     );
   }
+
   slideForward() {
     const visibleChildren = Math.floor(100 / this.props.elementWidthDesktop);
     const childCount = React.Children.count(this.props.children);
@@ -63,6 +67,7 @@ export default class Carousel extends React.Component {
       this.setState({ position });
     }
   }
+
   render() {
     const childrenCount = React.Children.count(this.props.children);
     const visibleChildren = Math.floor(100 / this.props.elementWidthDesktop);
@@ -294,7 +299,17 @@ Carousel.propTypes = {
   withFooter: PropTypes.bool,
   headerComponent: PropTypes.element,
   padding: PropTypes.string,
-  showBottomNav: PropTypes.bool
+  showBottomNav: PropTypes.bool,
+  children: PropTypes.arrayOf(PropTypes.node),
+  buttonColor: PropTypes.string,
+  isPaddingTop: PropTypes.bool,
+  color: PropTypes.string,
+  subheader: PropTypes.string,
+  banner: PropTypes.string,
+  bannerWidth: PropTypes.string,
+  sliderWidthFull: PropTypes.string,
+  offsetDesktop: PropTypes.string,
+  offsetMobile: PropTypes.string
 };
 
 Carousel.defaultProps = {

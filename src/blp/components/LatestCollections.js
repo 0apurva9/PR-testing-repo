@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styles from "./LatestCollections.css";
 import Icon from "../../xelpmoc-core/Icon";
 import iconImageURL from "../../general/components/img/whiteArrow.svg";
@@ -26,6 +25,7 @@ export default class LatestCollections extends React.Component {
       }
     }
   }
+
   render() {
     let feedComponentData = this.props.feedComponentData;
 

@@ -1,20 +1,15 @@
 {
   "git.ignoreLimitWarning": true,
-  "eslint.enable": true,
   "javascript.format.enable": false,
   "javascript.validate.enable": false,
-  "eslint.autoFixOnSave": true,
   "workbench.colorTheme": "Default Dark+",
-  "workbench.iconTheme": "material-icon-theme",
   "editor.formatOnSave": true,
-  "editor.lineHeight": 20,
-  "editor.tabSize": 2,
-  "editor.rulers": [
-    80,
-    100
-  ],
+  "editor.tabSize": 4,
   "files.trimTrailingWhitespace": true,
-  "window.zoomLevel": -1,
-  "files.eol": "\n",
-  "prettier.eslintIntegration": true
+  "window.zoomLevel": 0,
+  "files.eol": "auto",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

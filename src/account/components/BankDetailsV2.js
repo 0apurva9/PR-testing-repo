@@ -1,4 +1,5 @@
 import React from "react";
+import { RouterPropTypes } from "../../general/router-prop-types";
 import styles from "./BankDetailsV2.css";
 import PropTypes from "prop-types";
 import Input3 from "../../general/components/Input3.js";
@@ -17,6 +18,7 @@ export default class BankDetailsV2 extends React.Component {
     };
     this.radioChange = this.radioChange.bind(this);
   }
+
   componentDidMount() {
     //update bankdetails state - used for validation
     if (
@@ -39,15 +41,18 @@ export default class BankDetailsV2 extends React.Component {
       });
     }
   }
+
   radioChange(e) {
     this.setState({ selectedOption: e.currentTarget.value });
     this.props.onChange({ title: e.currentTarget.value });
   }
+
   onChange(val) {
     if (this.props.onChange) {
       this.props.onChange(val);
     }
   }
+
   //clear form data
   clearFormData(orderId) {
     if (this.props.clearForm) {
@@ -187,10 +192,21 @@ BankDetailsV2.propTypes = {
   mode: PropTypes.string,
   bankName: PropTypes.string,
   code: PropTypes.string,
+  updateStateForBankDetails: PropTypes.func,
+  clearForm: PropTypes.func,
+  bankDetails: PropTypes.shape({
+    ifscCode: PropTypes.string,
+    accountNumber: PropTypes.number,
+    reEnterAccountNumber: PropTypes.string,
+    title: PropTypes.string,
+    accountHolderName: PropTypes.string,
+    bankName: PropTypes.string
+  }),
   refundModes: PropTypes.arrayOf(
     PropTypes.shape({ value: PropTypes.string, label: PropTypes.string })
   ),
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  ...RouterPropTypes
 };
 BankDetailsV2.defaultProps = {
   accountNumber: "Account number",

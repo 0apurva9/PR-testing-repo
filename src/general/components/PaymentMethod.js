@@ -21,5 +21,6 @@ export default class PaymentMethod extends React.Component {
   }
 }
 PaymentMethod.propTypes = {
-  title: PropTypes.string
+  title: PropTypes.string,
+  data: PropTypes.array
 };

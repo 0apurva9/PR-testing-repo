@@ -18,6 +18,8 @@ import {
 } from "../../lib/constants.js";
 import { MOBILE_PATTERN } from "../../auth/components/Login";
 import stylesAddress from "./ReturnAddressBook.css";
+import { RouterPropTypes } from "../../general/router-prop-types";
+
 const SAVE_TEXT = "Save & Continue";
 const PINCODE_TEXT = "Please enter pincode";
 const NAME_TEXT = "Please enter first name";
@@ -61,6 +63,7 @@ export default class EditAddressPopUp extends React.Component {
       pinCodeFailure: false
     };
   }
+
   getPinCodeDetails = val => {
     let landmarkList = [];
     if (val.length <= 6) {
@@ -70,32 +73,38 @@ export default class EditAddressPopUp extends React.Component {
       this.props.getPinCode(val);
     }
   };
+
   handlePhoneInput(val) {
     if (val.length <= 10) {
       this.setState({ phone: val });
     }
   }
+
   onChange(val) {
     this.setState(val);
     if (this.props.getAddressDetails) {
       this.props.getAddressDetails(this.state);
     }
   }
+
   onChangeDefaultFlag() {
     this.setState(prevState => ({
       defaultFlag: !prevState.defaultFlag
     }));
   }
+
   componentWillUnmount() {
     if (this.props.resetAutoPopulateDataForPinCode) {
       this.props.resetAutoPopulateDataForPinCode();
     }
   }
+
   componentDidMount() {
     if (this.state.postalCode.length === 6 && this.props.getPinCode) {
       this.props.getPinCode(this.state.postalCode);
     }
   }
+
   componentWillReceiveProps(nextProps) {
     let landmarkList = [];
     if (nextProps.getPincodeStatus === ERROR) {
@@ -143,6 +152,7 @@ export default class EditAddressPopUp extends React.Component {
       }
     }
   }
+
   onSelectLandmark = landmark => {
     if (landmark.value === OTHER_LANDMARK) {
       this.setState({
@@ -157,9 +167,11 @@ export default class EditAddressPopUp extends React.Component {
       });
     }
   };
+
   goBack = () => {
     this.props.history.goBack();
   };
+
   editAddress = async () => {
     if (!this.state.postalCode) {
       this.props.displayToast(PINCODE_TEXT);
@@ -256,6 +268,7 @@ export default class EditAddressPopUp extends React.Component {
       }
     }
   };
+
   clearAllValue = () => {
     this.setState({
       postalCode: "",
@@ -273,6 +286,7 @@ export default class EditAddressPopUp extends React.Component {
       emailId: ""
     });
   };
+
   render() {
     if (this.props.loading) {
       if (this.props.showSecondaryLoader) {
@@ -354,7 +368,7 @@ export default class EditAddressPopUp extends React.Component {
           </div>
           <div className={styles.addressValidMsg}>Character Limit : 120</div>
           <div className={styles.addressValidMsg}>
-            Special characters allowed are - # & ( ) ' ' . , \ / + _
+            Special characters allowed are - # & ( ) &apos; &apos; . , \ / + _
           </div>
           <div className={styles.content}>
             {this.state.postalCode.length === 6 &&
@@ -366,7 +380,7 @@ export default class EditAddressPopUp extends React.Component {
                   value={this.state.landmark}
                   options={
                     this.state.landmarkList.length > 0 &&
-                    this.state.landmarkList.map((val, i) => {
+                    this.state.landmarkList.map(val => {
                       return {
                         value: val && val.landmark,
                         label: val && val.landmark
@@ -383,7 +397,7 @@ export default class EditAddressPopUp extends React.Component {
                 placeholder={"Landmark"}
                 options={
                   this.state.landmarkList.length > 0 &&
-                  this.state.landmarkList.map((val, i) => {
+                  this.state.landmarkList.map(val => {
                     return {
                       value: val && val.landmark,
                       label: val && val.landmark
@@ -498,7 +512,33 @@ EditAddressPopUp.propTypes = {
   clearAllValue: PropTypes.func,
   buttonText: PropTypes.string,
   options: PropTypes.string,
-  titleValue: PropTypes.string
+  titleValue: PropTypes.string,
+  location: RouterPropTypes.location,
+  history: RouterPropTypes.history,
+  displayToast: PropTypes.func,
+  loading: PropTypes.bool,
+  showSecondaryLoader: PropTypes.func,
+  hideSecondaryLoader: PropTypes.func,
+  getPinCode: PropTypes.func,
+  getAddressDetails: PropTypes.func,
+  resetAutoPopulateDataForPinCode: PropTypes.func,
+  getPincodeStatus: PropTypes.string,
+  getPinCodeDetails: PropTypes.shape({
+    landMarks: PropTypes.string,
+    state: PropTypes.shape({
+      name: PropTypes.string
+    }),
+    cityName: PropTypes.string,
+  }),
+  postalCode: PropTypes.string,
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  line1: PropTypes.string,
+  line2: PropTypes.string,
+  town: PropTypes.string,
+  state: PropTypes.string,
+  phone: PropTypes.string,
+  editAddress: PropTypes.func
 };
 EditAddressPopUp.defaultProps = {
   heading: "Edit Pickup Address",

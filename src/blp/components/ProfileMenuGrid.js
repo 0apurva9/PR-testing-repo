@@ -30,9 +30,11 @@ export default class ProfileMenuGrid extends React.Component {
       this.props.history.push(`${MY_ACCOUNT_PAGE}${value}`);
     }
   }
+
   redirectToOrderRelatedPage() {
     this.props.history.push(`${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`);
   }
+
   render() {
     const data = [
       {

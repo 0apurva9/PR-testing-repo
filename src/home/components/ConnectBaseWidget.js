@@ -11,9 +11,11 @@ export default class ConnectBaseWidget extends React.Component {
       this.props.onClick();
     }
   };
+
   handleClickOnLink = event => {
     event.preventDefault();
   };
+
   render() {
     let data = this.props;
 
@@ -58,6 +60,7 @@ export default class ConnectBaseWidget extends React.Component {
               <a
                 href={data.webURL}
                 target="_blank"
+                rel="noreferrer"
                 onClick={event => this.handleClickOnLink(event)}
               >
                 <div className={styles.dataHolder}>
@@ -115,7 +118,16 @@ ConnectBaseWidget.propTypes = {
         description: PropTypes.string
       })
     )
-  })
+  }),
+  onClick: PropTypes.func,
+  backgroundImageURL: PropTypes.string,
+  imageURL: PropTypes.string,
+  description: PropTypes.string,
+  items: PropTypes.array,
+  iconImageURL: PropTypes.string,
+  heading: PropTypes.string,
+  btnText: PropTypes.string,
+  webURL: PropTypes.string
 };
 ConnectBaseWidget.defaultProps = {
   heading: "Sample desc for connect banner comp"

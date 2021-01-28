@@ -19,6 +19,7 @@ export default class FeedBackForm extends React.Component {
     };
     this.questionRatingArray = [];
   }
+
   componentDidMount() {
     let getUserDetails = queryString.parse(this.props.location.search);
     if (this.props.getFeedBackForm) {
@@ -54,17 +55,21 @@ export default class FeedBackForm extends React.Component {
       });
     }
   };
+
   onChange = val => {
     this.setState({ textDetails: val, isReset: false });
   };
+
   onReset = () => {
     this.questionRatingArray = [];
     this.setState({ textDetails: "", isReset: true, selected: false });
   };
+
   onContinueShopping() {
     setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING);
     this.props.history.push(HOME_ROUTER);
   }
+
   onSumbmit() {
     let getUserDetails = queryString.parse(this.props.location.search);
     this.props.postFeedBackForm(
@@ -76,6 +81,7 @@ export default class FeedBackForm extends React.Component {
     );
     window.scrollTo(0, 0);
   }
+
   render() {
     let getData = this.props && this.props.feedBackDetails;
     let getMessage =

@@ -1,5 +1,6 @@
 import React from "react";
 import format from "date-fns/format";
+import { RouterPropTypes } from "../../general/router-prop-types";
 import styles from "./ExchangeDetailsOrderDetails.css";
 import exchangeIconLight from "../../cart/components/img/exchangeIconLight.svg";
 import ExchangeDetailsTrack from "./ExchangeDetailsTrack";
@@ -13,11 +14,13 @@ export default class ExchangeDetailsOrderDetails extends React.Component {
     };
     this.toggle = this.toggle.bind(this);
   }
+
   toggle() {
     this.setState(state => ({
       isToggleOn: !state.isToggleOn
     }));
   }
+
   goToEchangeCashbackSelection(orderId, currentCashbackMode) {
     let exchangeCashbackSelectionURL = `/my-account/getAccountInfoForExchange?parentOrderId=${orderId}`;
     this.props.history.push({
@@ -25,6 +28,7 @@ export default class ExchangeDetailsOrderDetails extends React.Component {
       state: { currentCashbackMode: currentCashbackMode, orderId: orderId }
     });
   }
+
   render() {
     const cashbackCredited =
       this.props.products.exchangeDetails &&
@@ -38,7 +42,6 @@ export default class ExchangeDetailsOrderDetails extends React.Component {
       this.props.products.exchangeDetails.exchangeTrackDiagram.find(val => {
         return val.displayMessage === "PICKUP_CANCEL";
       });
-    let hideExchangeDetails = false;
     let hideDetailsWhenCashbackCredited = false;
     let hideTrackDiagram = false;
     if (
@@ -46,14 +49,14 @@ export default class ExchangeDetailsOrderDetails extends React.Component {
       exchangeCanceled.status &&
       exchangeCanceled.status === "Complete"
     ) {
-      hideExchangeDetails = true;
+      // hideExchangeDetails = true;
     }
     if (
       cashbackCredited &&
       cashbackCredited.status &&
       cashbackCredited.status === "Complete"
     ) {
-      hideExchangeDetails = true;
+      // hideExchangeDetails = true;
       hideDetailsWhenCashbackCredited = true;
     }
     if (
@@ -94,84 +97,84 @@ export default class ExchangeDetailsOrderDetails extends React.Component {
                   <tbody>
                     {this.props.products.exchangeDetails.exchangePriceDetail
                       .exchangeAmountCashify && (
-                      <tr>
-                        <td>Base Value</td>
-                        <td>
-                          {
-                            this.props.products.exchangeDetails
-                              .exchangePriceDetail.exchangeAmountCashify
-                              .formattedValueNoDecimal
-                          }
-                        </td>
-                      </tr>
-                    )}
-                    {this.props.products.exchangeDetails.exchangePriceDetail
-                      .TULBump && (
-                      <tr>
-                        <td>CLiQ Exclusive Cashback</td>
-                        <td>
-                          {
-                            this.props.products.exchangeDetails
-                              .exchangePriceDetail.TULBump
-                              .formattedValueNoDecimal
-                          }
-                        </td>
-                      </tr>
-                    )}
-                    {this.props.products.exchangeDetails.exchangePriceDetail
-                      .pickupCharge && (
-                      <tr>
-                        <td>Pick Up Charge </td>
-                        {this.props.products.exchangeDetails.exchangePriceDetail
-                          .pickupCharge.doubleValue === 0 && (
-                          <td className={styles.pickupCharge}>FREE</td>
-                        )}
-                        {this.props.products.exchangeDetails.exchangePriceDetail
-                          .pickupCharge.doubleValue !== 0 && (
+                        <tr>
+                          <td>Base Value</td>
                           <td>
                             {
                               this.props.products.exchangeDetails
-                                .exchangePriceDetail.pickupCharge
+                                .exchangePriceDetail.exchangeAmountCashify
                                 .formattedValueNoDecimal
                             }
                           </td>
-                        )}
-                      </tr>
-                    )}
+                        </tr>
+                      )}
+                    {this.props.products.exchangeDetails.exchangePriceDetail
+                      .TULBump && (
+                        <tr>
+                          <td>CLiQ Exclusive Cashback</td>
+                          <td>
+                            {
+                              this.props.products.exchangeDetails
+                                .exchangePriceDetail.TULBump
+                                .formattedValueNoDecimal
+                            }
+                          </td>
+                        </tr>
+                      )}
+                    {this.props.products.exchangeDetails.exchangePriceDetail
+                      .pickupCharge && (
+                        <tr>
+                          <td>Pick Up Charge </td>
+                          {this.props.products.exchangeDetails.exchangePriceDetail
+                            .pickupCharge.doubleValue === 0 && (
+                              <td className={styles.pickupCharge}>FREE</td>
+                            )}
+                          {this.props.products.exchangeDetails.exchangePriceDetail
+                            .pickupCharge.doubleValue !== 0 && (
+                              <td>
+                                {
+                                  this.props.products.exchangeDetails
+                                    .exchangePriceDetail.pickupCharge
+                                    .formattedValueNoDecimal
+                                }
+                              </td>
+                            )}
+                        </tr>
+                      )}
                     {this.props.products.exchangeDetails.exchangePriceDetail
                       .totalExchangeCashback && (
-                      <tr>
-                        <td className={styles.borderWithPaddingTop}>
-                          Total Exchange Cashback{" "}
-                        </td>
-                        <td className={styles.borderWithPaddingTop}>
-                          {
-                            this.props.products.exchangeDetails
-                              .exchangePriceDetail.totalExchangeCashback
-                              .formattedValueNoDecimal
-                          }
-                        </td>
-                      </tr>
-                    )}
+                        <tr>
+                          <td className={styles.borderWithPaddingTop}>
+                            Total Exchange Cashback{" "}
+                          </td>
+                          <td className={styles.borderWithPaddingTop}>
+                            {
+                              this.props.products.exchangeDetails
+                                .exchangePriceDetail.totalExchangeCashback
+                                .formattedValueNoDecimal
+                            }
+                          </td>
+                        </tr>
+                      )}
                   </tbody>
                 </table>
                 {this.props.products.exchangeDetails.exchangePriceDetail
                   .effectiveAmount && (
-                  <div className={styles.effectivePriceContainer}>
-                    <div className={styles.effectivePriceText}>
-                      <span className={styles.fontLight}>
-                        Effective Price for
+                    <div className={styles.effectivePriceContainer}>
+                      <div className={styles.effectivePriceText}>
+                        <span className={styles.fontLight}>
+                          Effective Price for
                       </span>{" "}
-                      <span>{this.props.products.productName}</span>
+                        <span>{this.props.products.productName}</span>
+                      </div>
+                      <div className={styles.effectivePrice}>
+                        {
+                          this.props.products.exchangeDetails.exchangePriceDetail
+                            .effectiveAmount.formattedValueNoDecimal
+                        }
+                      </div>
                     </div>
-                    <div className={styles.effectivePrice}>
-                      {
-                        this.props.products.exchangeDetails.exchangePriceDetail
-                          .effectiveAmount.formattedValueNoDecimal
-                      }
-                    </div>
-                  </div>
-                )}
+                  )}
               </React.Fragment>
             )}
           </React.Fragment>
@@ -240,21 +243,21 @@ export default class ExchangeDetailsOrderDetails extends React.Component {
                       </span>
                       {this.props.products.exchangeDetails
                         .exchangePaymentDetails[0].exchangePaymentMode ===
-                      "CLIQ_CASH" ? (
-                        <span className={styles.exchangeCashbackAccountText}>
-                          CLiQ Cash wallet
+                        "CLIQ_CASH" ? (
+                          <span className={styles.exchangeCashbackAccountText}>
+                            CLiQ Cash wallet
                         </span>
-                      ) : (
-                        <span className={styles.exchangeCashbackAccountText}>
-                          A/c{" "}
-                          {this.props.products.exchangeDetails
-                            .exchangePaymentDetails[0].accountNumber &&
-                            this.props.products.exchangeDetails.exchangePaymentDetails[0].accountNumber.replace(
-                              /.(?=.{4,}$)/g,
-                              "x"
-                            )}
-                        </span>
-                      )}
+                        ) : (
+                          <span className={styles.exchangeCashbackAccountText}>
+                            A/c{" "}
+                            {this.props.products.exchangeDetails
+                              .exchangePaymentDetails[0].accountNumber &&
+                              this.props.products.exchangeDetails.exchangePaymentDetails[0].accountNumber.replace(
+                                /.(?=.{4,}$)/g,
+                                "x"
+                              )}
+                          </span>
+                        )}
                     </div>
                     <div
                       className={styles.exchangeCashbackChangeMode}
@@ -296,19 +299,19 @@ export default class ExchangeDetailsOrderDetails extends React.Component {
                     <span className={styles.fontBold}>Cashback Credited: </span>
                     {this.props.products.exchangeDetails
                       .exchangePaymentDetails[0].exchangePaymentMode ===
-                    "CLIQ_CASH" ? (
-                      "Cliq Cash Wallet"
-                    ) : (
-                      <span>
-                        Ac no.{" "}
-                        {this.props.products.exchangeDetails
-                          .exchangePaymentDetails[0].accountNumber &&
-                          this.props.products.exchangeDetails.exchangePaymentDetails[0].accountNumber.replace(
-                            /.(?=.{4,}$)/g,
-                            "x"
-                          )}
-                      </span>
-                    )}
+                      "CLIQ_CASH" ? (
+                        "Cliq Cash Wallet"
+                      ) : (
+                        <span>
+                          Ac no.{" "}
+                          {this.props.products.exchangeDetails
+                            .exchangePaymentDetails[0].accountNumber &&
+                            this.props.products.exchangeDetails.exchangePaymentDetails[0].accountNumber.replace(
+                              /.(?=.{4,}$)/g,
+                              "x"
+                            )}
+                        </span>
+                      )}
                   </div>
                 )}
               <div className={styles.bb} />
@@ -333,56 +336,39 @@ export default class ExchangeDetailsOrderDetails extends React.Component {
 
 ExchangeDetailsOrderDetails.propTypes = {
   orderId: PropTypes.string,
-  history: PropTypes.object,
-  products: PropTypes.objectOf(
-    PropTypes.shape({
-      exchangeDetails: PropTypes.objectOf(
-        PropTypes.shape({
-          exchangeTrackDiagram: PropTypes.object,
-          exchangeModelName: PropTypes.string,
-          exchangePriceDetail: PropTypes.objectOf(
-            PropTypes.shape({
-              exchangeAmountCashify: PropTypes.objectOf(
-                PropTypes.shape({
-                  formattedValueNoDecimal: PropTypes.string
-                })
-              ),
-              TULBump: PropTypes.objectOf(
-                PropTypes.shape({
-                  formattedValueNoDecimal: PropTypes.string
-                })
-              ),
-              pickupCharge: PropTypes.objectOf(
-                PropTypes.shape({
-                  formattedValueNoDecimal: PropTypes.string
-                })
-              ),
-              totalExchangeCashback: PropTypes.objectOf(
-                PropTypes.shape({
-                  formattedValueNoDecimal: PropTypes.string
-                })
-              ),
-              effectiveAmount: PropTypes.objectOf(
-                PropTypes.shape({
-                  formattedValueNoDecimal: PropTypes.string
-                })
-              )
-            })
-          ),
-          exchangePickupPromiseDate: PropTypes.string, // check
-          exchangePickedUpDate: PropTypes.string, // check
-          exchangePaymentDetails: PropTypes.objectOf(
-            // check
-            PropTypes.shape({
-              exchangePaymentMode: PropTypes.string,
-              accountNumber: PropTypes.string
-            })
-          ),
-          exchangeCancelMessage: PropTypes.string
+  orderDetails: PropTypes.shape({
+    orderId: PropTypes.number
+  }),
+  products: PropTypes.shape({
+    productName: PropTypes.string,
+    consignmentStatus: PropTypes.string,
+    exchangeDetails: PropTypes.shape({
+      exchangePickupPromiseDate: PropTypes.string,
+      exchangePickedUpDate: PropTypes.string,
+      exchangeCancelMessage: PropTypes.string,
+      exchangeTrackDiagram: PropTypes.array,
+      exchangeModelName: PropTypes.string,
+      exchangePaymentDetails: PropTypes.array,
+      exchangePriceDetail: PropTypes.shape({
+        effectiveAmount: PropTypes.shape({
+          formattedValueNoDecimal: PropTypes.string
+        }),
+        totalExchangeCashback: PropTypes.shape({
+          formattedValueNoDecimal: PropTypes.string
+        }),
+        pickupCharge: PropTypes.shape({
+          doubleValue: PropTypes.string,
+          formattedValueNoDecimal: PropTypes.string,
+        }),
+        TULBump: PropTypes.shape({
+          formattedValueNoDecimal: PropTypes.string
+        }),
+        exchangeAmountCashify: PropTypes.shape({
+          formattedValueNoDecimal: PropTypes.string
         })
-      ),
-      productName: PropTypes.string,
-      consignmentStatus: PropTypes.string // check
+      })
+
     })
-  )
+  }),
+  ...RouterPropTypes
 };

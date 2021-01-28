@@ -21,6 +21,7 @@ export default class CheckoutUpi extends React.Component {
       this.props.upiPaymentCombinedLogoMidddleLayer();
     }
   }
+
   render() {
     let isNew = false;
     let isEnabled = false;
@@ -140,7 +141,3 @@ export default class CheckoutUpi extends React.Component {
     }
   }
 }
-
-// CheckoutUpi.propTypes = {
-//   onChangeCvv: PropTypes.func
-// };

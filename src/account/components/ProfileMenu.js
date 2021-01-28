@@ -33,8 +33,6 @@ import alertsCouponsRed from "./img/alertRed.svg";
 import cliqCash from "./img/cliqCash.svg";
 import cliqCashRed from "./img/cliqCashRed.svg";
 import giftCards from "./img/giftCards.svg";
-import notification from "./img/notification.svg";
-import notificationRed from "./img/notificationRed.svg";
 import settings from "./img/settings.svg";
 import settingsRed from "./img/settingsRed.svg";
 import Icon from "../../xelpmoc-core/Icon";
@@ -45,6 +43,7 @@ export default class PofileMenuGridForDesktop extends React.Component {
       this.props.history.push(`${MY_ACCOUNT_PAGE}${value}`);
     }
   }
+
   render() {
     const pathName = this.props && this.props.match && this.props.match.path;
     let selected = null;
@@ -180,7 +179,7 @@ export default class PofileMenuGridForDesktop extends React.Component {
             return (
               <div
                 className={styles.holder}
-                onClick={value => this.onSave(datum.url)}
+                onClick={() => this.onSave(datum.url)}
                 key={i}
               >
                 <div className={styles.gridLogo}>
@@ -204,6 +203,14 @@ export default class PofileMenuGridForDesktop extends React.Component {
   }
 }
 PofileMenuGridForDesktop.propTypes = {
+  history:PropTypes.shape({
+    push:PropTypes.func
+  }),
+
+  match:PropTypes.shape({
+    path:PropTypes.string
+  }),
+
   onClick: PropTypes.func,
   title: PropTypes.string,
   btnText: PropTypes.string,

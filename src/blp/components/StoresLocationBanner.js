@@ -32,12 +32,14 @@ StoresLocationBanner.propTypes = {
   label: PropTypes.string,
   image: PropTypes.string,
   heading: PropTypes.string,
-  StoresLocationBanner: PropTypes.arrayOf(
+  storeHeader: PropTypes.string,
+  brandLocation: PropTypes.arrayOf(
     PropTypes.shape({
       headingText: PropTypes.string,
       label: PropTypes.string,
       image: PropTypes.string,
-      heading: PropTypes.string
+      heading: PropTypes.string,
+      descriptionText: PropTypes.string
     })
-  )
+  ),
 };

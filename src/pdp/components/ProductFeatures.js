@@ -18,7 +18,7 @@ export default class ProductFeatures extends React.Component {
               isOpen={checkUserAgentIsMobile() ? false : i < 3}
             >
               <div className={styles.holder}>
-                {datum.specifications.map(val => {
+                {datum.specifications.map((val, index) => {
                   return (
                     <div
                       className={
@@ -26,6 +26,7 @@ export default class ProductFeatures extends React.Component {
                           ? styles.sideBySideContent
                           : styles.content
                       }
+                      key={index}
                     >
                       <div className={styles.header}>{val.key}</div>
                       <div className={styles.description}>{val.value}</div>

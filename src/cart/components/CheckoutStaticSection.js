@@ -11,14 +11,17 @@ export default class CheckoutStaticSection extends React.Component {
       isToggelAdditionDiscount: false
     };
   }
+
   additionDiscountToggleView = () => {
     this.setState({
       isToggelAdditionDiscount: !this.state.isToggelAdditionDiscount
     });
   };
+
   addDecimalNumberInPrice = price => {
     return price === parseInt(price, 10) ? `${price}.00` : price;
   };
+
   render() {
     let classOffers = styles.informationAnswerHolder;
     if (this.props.offers) {

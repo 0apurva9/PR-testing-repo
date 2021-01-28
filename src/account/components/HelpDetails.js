@@ -37,10 +37,13 @@ export default class HelpDetails extends React.Component {
     setDataLayer(ADOBE_HELP);
     window.scroll(0, 0);
   }
+
   componentDidUpdate() {
     this.props.setHeaderText(HELP);
   }
+
   onClickCustomerCare() {}
+
   onClick = (url, type) => {
     if (type === FAQ) {
       setDataLayerForFaqAndTc(SET_DATA_LAYER_FAQ);
@@ -52,14 +55,17 @@ export default class HelpDetails extends React.Component {
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
   };
+
   goToOrdersPage = () => {
     const url = `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`;
     this.props.history.push(url);
   };
+
   redirectToOrderRelatedPage() {
     setDataLayerForFaqAndTc(SET_DATA_LAYER_CC);
     this.props.history.push(`${MY_ACCOUNT_PAGE}${COSTUMER_CLIQ_CARE_ROUTE}`);
   }
+
   render() {
     return (
       <div className={styles.base}>

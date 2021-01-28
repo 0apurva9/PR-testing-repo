@@ -64,6 +64,7 @@ export default class ReturnReasonAndModes extends React.Component {
       selectedAddressId: ""
     };
   }
+
   renderLoader() {
     return <Loader />;
   }
@@ -73,6 +74,7 @@ export default class ReturnReasonAndModes extends React.Component {
     setDataLayerForMyAccountDirectCalls(ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL);
     this.props.history.goBack();
   }
+
   onChange(val) {
     if (this.props.onChange) {
       this.props.onChange(val);
@@ -84,6 +86,7 @@ export default class ReturnReasonAndModes extends React.Component {
       this.props.onChangeBankDetails(val);
     }
   }
+
   renderToModes(data) {
     // if (!data.reason) {
     //   this.props.displayToast("Please select reason ");
@@ -107,6 +110,7 @@ export default class ReturnReasonAndModes extends React.Component {
       });
     }
   }
+
   onSelectMode(mode) {
     if (mode === QUICK_DROP) {
       this.props.history.push({
@@ -131,6 +135,7 @@ export default class ReturnReasonAndModes extends React.Component {
       });
     }
   }
+
   onSelectAddress(addressId) {
     this.setState({ selectedAddressId: addressId });
     this.props.addAddressToCart(addressId[0]);
@@ -263,6 +268,7 @@ export default class ReturnReasonAndModes extends React.Component {
       this.props.getPinCode(pinCode);
     }
   };
+
   render() {
     const { pathname } = this.props.location;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);

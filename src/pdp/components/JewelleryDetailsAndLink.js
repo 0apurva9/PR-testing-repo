@@ -14,19 +14,23 @@ export default class JewelleryDetailsAndLink extends React.Component {
       this.props.readMore();
     }
   }
+
   handlePriceBreakup() {
     if (this.props.showPriceBreakUp) {
       this.props.showPriceBreakUp();
     }
   }
+
   handleRatingLink() {
     if (this.props.goToReviewPage) {
       this.props.goToReviewPage();
     }
   }
+
   handleLinkClick = e => {
     e.preventDefault();
   };
+
   handleBrandClick() {
     if (this.props.brandUrl) {
       const urlSuffix = this.props.brandUrl.replace(TATA_CLIQ_ROOT, "$1");
@@ -45,6 +49,7 @@ export default class JewelleryDetailsAndLink extends React.Component {
       </MetaTags>
     );
   };
+
   render() {
     const { averageRating, ratingCount, numberOfReviews } = this.props;
 
@@ -172,7 +177,7 @@ export default class JewelleryDetailsAndLink extends React.Component {
                 </div>
                 <meta itemProp="ratingCount" content={ratingCount} />
                 <meta itemProp="reviewCount" content={numberOfReviews} />
-                <meta itemprop="itemReviewed" content={averageRating} />
+                <meta itemProp="itemReviewed" content={averageRating} />
               </div>
             </div>
           )}
@@ -206,7 +211,16 @@ JewelleryDetailsAndLink.propTypes = {
   viewPlans: PropTypes.func,
   informationText: PropTypes.string,
   numberOfReviews: PropTypes.number,
-  ratingCount: PropTypes.number
+  ratingCount: PropTypes.number,
+  showPriceBreakUp: PropTypes.func,
+  goToReviewPage: PropTypes.func,
+  averageRating: PropTypes.number,
+  price: PropTypes.string,
+  hasPriceBreakUp: PropTypes.bool,
+  label: PropTypes.string,
+  history: PropTypes.object,
+  brandUrl: PropTypes.string,
+  doublePrice: PropTypes.string
 };
 JewelleryDetailsAndLink.defaultProps = {
   label: "Price Breakup"

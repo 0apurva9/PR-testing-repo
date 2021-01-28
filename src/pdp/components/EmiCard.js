@@ -36,6 +36,7 @@ export default class EmiCard extends React.Component {
       }
     );
   }
+
   render() {
     if (this.props.options) {
       return (
@@ -90,5 +91,6 @@ EmiCard.propTypes = {
       term: PropTypes.string,
       interestPayable: PropTypes.string
     })
-  )
+  ),
+  onChange: PropTypes.func
 };

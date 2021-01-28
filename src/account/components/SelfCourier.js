@@ -12,6 +12,8 @@ import {
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
+import { RouterPropTypes } from "../../general/router-prop-types";
+
 const NEFT = "NEFT";
 const SELF_SHIPMENT = "selfShipment";
 export default class SelfCourier extends React.Component {
@@ -26,6 +28,7 @@ export default class SelfCourier extends React.Component {
       }
     }
   }
+
   onContinue() {
     let reasonAndCommentDetails = this.props.selectedReasonAndCommentObj
       ? this.props.selectedReasonAndCommentObj
@@ -77,6 +80,7 @@ export default class SelfCourier extends React.Component {
       />
     );
   }
+
   render() {
     if (this.props.loading) {
       this.props.showSecondaryLoader();
@@ -139,5 +143,37 @@ export default class SelfCourier extends React.Component {
 SelfCourier.propTypes = {
   onCancel: PropTypes.func,
   onContinue: PropTypes.func,
-  downloadForm: PropTypes.func
+  downloadForm: PropTypes.func,
+  history: RouterPropTypes.history,
+  cancelReturnMode: PropTypes.func,
+  selectedReasonAndCommentObj: PropTypes.object,
+  data: PropTypes.object,
+  loading: PropTypes.bool,
+  showSecondaryLoader: PropTypes.func,
+  hideSecondaryLoader: PropTypes.func,
+  newReturnInitial: PropTypes.func,
+  returnRequest: PropTypes.shape({
+    codSelfShipData: PropTypes.shape({
+      paymentMode: PropTypes.string,
+      bankAccount: PropTypes.string,
+      bankName: PropTypes.string,
+      bankKey: PropTypes.string,
+      title: PropTypes.string,
+      name: PropTypes.string
+    }),
+    selfCourierDocumentLink: PropTypes.string
+  }),
+  isCOD: PropTypes.bool,
+  bankDetail: PropTypes.shape({
+    accountNumber: PropTypes.string
+  }),
+  returnProductDetails: PropTypes.shape({
+    orderProductWsDTO: PropTypes.arrayOf(
+      PropTypes.shape({
+        transactionId: PropTypes.string,
+        USSID: PropTypes.string,
+        sellerorderno: PropTypes.string
+      })
+    )
+  })
 };

@@ -14,16 +14,19 @@ export default class BrandHeader extends React.Component {
       searchBar: false
     };
   }
+
   onClickBack() {
     if (this.props.onClickBack) {
       this.props.onClickBack();
     }
   }
+
   onSearch(val) {
     if (this.props.onSearch) {
       this.props.onSearch(val);
     }
   }
+
   onClickIcon() {
     if (this.state.searchBar) {
       this.setState({ searchBar: false }, () => {
@@ -39,6 +42,7 @@ export default class BrandHeader extends React.Component {
       });
     }
   }
+
   render() {
     let search = searchIcon;
     if (this.state.searchBar) {
@@ -86,7 +90,8 @@ export default class BrandHeader extends React.Component {
 BrandHeader.propTypes = {
   text: PropTypes.string,
   onClickBack: PropTypes.func,
-  onSearch: PropTypes.func
+  onSearch: PropTypes.func,
+  onSearchClick: PropTypes.func
 };
 BrandHeader.defaultProps = {
   text: "Mobile"

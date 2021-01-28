@@ -15,6 +15,7 @@ export default class ContentWidgetDesktop extends React.Component {
       position: 0
     };
   }
+
   handleReadMore(webURL) {
     if (webURL) {
       // Check if URL starts https://www.tatacliq.com or https://tatacliq.com
@@ -33,9 +34,11 @@ export default class ContentWidgetDesktop extends React.Component {
       this.props.setClickedElementId();
     }
   }
+
   handleClickOnLink = event => {
     event.preventDefault();
   };
+
   goForward = () => {
     if (
       this.props.allData &&
@@ -45,24 +48,28 @@ export default class ContentWidgetDesktop extends React.Component {
       this.setState({ position });
     }
   };
+
   goBack = () => {
     if (this.state.position > 0) {
       const position = this.state.position - 1;
       this.setState({ position });
     }
   };
+
   swithPosition(i, evt) {
     evt.stopPropagation();
     if (i !== undefined) {
       this.setState({ position: i });
     }
   }
+
   render() {
     return (
       <div className={styles.base}>
         <a
           href={this.props.allData[this.state.position].webURL}
           target="_blank"
+          rel="noreferrer"
           onClick={event => this.handleClickOnLink(event)}
         >
           <div
@@ -82,6 +89,7 @@ export default class ContentWidgetDesktop extends React.Component {
                 this.props.allData.map((val, i) => {
                   return (
                     <div
+                    key={i}
                       className={
                         this.state.position === i
                           ? styles.navActive

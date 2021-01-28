@@ -8,6 +8,7 @@ export default class TopSellingBrandSlider extends React.Component {
   handleClickOnLink = event => {
     event.preventDefault();
   };
+
   render() {
     let { feedComponentData } = this.props;
     return (
@@ -20,6 +21,8 @@ export default class TopSellingBrandSlider extends React.Component {
                   <a
                     href={datum.webURL}
                     target="_blank"
+                    rel="noreferrer"
+                    key={i}
                     onClick={event => this.handleClickOnLink(event)}
                   >
                     <TopSellingBrandComponent
@@ -45,5 +48,8 @@ TopSellingBrandSlider.propTypes = {
       logoImageURL: PropTypes.string,
       webURL: PropTypes.string
     })
-  )
+  ),
+  feedComponentData: PropTypes.object,
+  history: PropTypes.object,
+  setClickedElementId: PropTypes.func
 };

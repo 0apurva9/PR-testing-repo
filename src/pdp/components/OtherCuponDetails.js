@@ -76,5 +76,10 @@ OtherCuponDetails.propTypes = {
       selectItem: PropTypes.func,
       selected: PropTypes.bool
     })
-  )
+    ),
+    dateTime: PropTypes.string,
+    promotionTitle: PropTypes.string,
+    promotionDetail: PropTypes.object,
+    tnc: PropTypes.string,
+    amount: PropTypes.string
 };

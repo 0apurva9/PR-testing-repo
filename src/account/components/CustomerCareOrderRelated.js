@@ -44,21 +44,20 @@ export default class CustomerCareOrderRelated extends React.Component {
           : "",
       mobile:
         getUserDetails &&
-        getUserDetails.loginType === "mobile" &&
-        getUserDetails.userName
+          getUserDetails.loginType === "mobile" &&
+          getUserDetails.userName
           ? getUserDetails.userName
           : "",
       email:
         getUserDetails &&
-        getUserDetails.loginType === "email" &&
-        getUserDetails.userName
+          getUserDetails.loginType === "email" &&
+          getUserDetails.userName
           ? getUserDetails.userName
           : "",
       issueData: "",
       nonOrderRelatedSubIssue: "",
       // attachmentName: "Upload attachment",
       uItemplateFeieldArray: [],
-      file: [],
       subIssue: "",
       uploadedAttachment: ""
     };
@@ -417,7 +416,7 @@ export default class CustomerCareOrderRelated extends React.Component {
       if (!validateStatus) {
         break;
       } else {
-        for (let [key, value] of Object.entries(additionalInfo)) {
+        for (let [key] of Object.entries(additionalInfo)) {
           if (key == this.state.uploadFileTitle) {
             if (
               this.state.uploadedAttachment &&
@@ -493,16 +492,17 @@ export default class CustomerCareOrderRelated extends React.Component {
       }
     }
   }
+
   onChangeReasonForOrderRelated(val) {
     let { l1OptionsArray, isSelected } = this.props;
     let issue = "";
     if (isSelected == 1) {
-      issue = this.props.subIssueList.filter(function(issue) {
+      issue = this.props.subIssueList.filter(function (issue) {
         return issue.subIssueType === val.label;
       });
       this.setState({ subIssue: issue[0].subIssueType });
     } else {
-      issue = l1OptionsArray.filter(function(issue) {
+      issue = l1OptionsArray.filter(function (issue) {
         return issue.issueType === val.label;
       });
     }
@@ -511,6 +511,7 @@ export default class CustomerCareOrderRelated extends React.Component {
       this.props.onChangeReasonForOrderRelated(issue, false);
     }
   }
+
   onChangeReasonForNonOrderRelated(val, l1OptionsArray) {
     this.setState({ subIssue: "" });
     this.props.onChangeReasonForNonOrderRelated(val, l1OptionsArray);
@@ -577,7 +578,7 @@ export default class CustomerCareOrderRelated extends React.Component {
         div.firstChild.setAttribute("href", newURL);
         newSolution = `${newSolution.slice(0, startIndex)}${
           div.firstChild.outerHTML
-        }${newSolution.slice(endIndex + 4)}`;
+          }${newSolution.slice(endIndex + 4)}`;
       }
     }
     return (
@@ -596,55 +597,55 @@ export default class CustomerCareOrderRelated extends React.Component {
                 <div className={styles.iconHolder} />
               </div>
               {!productImageURL &&
-              !orderDate &&
-              !productName &&
-              !productPrice &&
-              !productStatus ? (
-                <div
-                  className={styles.dummySelectBoxWithIcon}
-                  onClick={() => this.goToOrderPage()}
-                />
-              ) : (
-                <div
-                  className={styles.productsDisplayHolder}
-                  onClick={() =>
-                    onChange({
-                      showOrder: true,
-                      productImageURL: "",
-                      orderDate: "",
-                      productName: "",
-                      productPrice: "",
-                      productStatus: ""
-                    })
-                  }
-                >
-                  <div className={styles.imageHolder}>
-                    <ProductImage image={productImageURL} />
+                !orderDate &&
+                !productName &&
+                !productPrice &&
+                !productStatus ? (
+                  <div
+                    className={styles.dummySelectBoxWithIcon}
+                    onClick={() => this.goToOrderPage()}
+                  />
+                ) : (
+                  <div
+                    className={styles.productsDisplayHolder}
+                    onClick={() =>
+                      onChange({
+                        showOrder: true,
+                        productImageURL: "",
+                        orderDate: "",
+                        productName: "",
+                        productPrice: "",
+                        productStatus: ""
+                      })
+                    }
+                  >
+                    <div className={styles.imageHolder}>
+                      <ProductImage image={productImageURL} />
+                    </div>
+                    <div className={styles.dataHolder}>
+                      {productName && (
+                        <div className={styles.dataDescription}>
+                          {productName}
+                        </div>
+                      )}
+                      {orderDate && (
+                        <div className={styles.dataDescription}>
+                          {`Order on: ${format(orderDate, "DD MMM,YYYY")}`}
+                        </div>
+                      )}
+                      {productPrice && (
+                        <div className={styles.dataDescription}>
+                          {productPrice}
+                        </div>
+                      )}
+                      {productStatus && (
+                        <div className={styles.dataDescription}>
+                          {productStatus}
+                        </div>
+                      )}
+                    </div>
                   </div>
-                  <div className={styles.dataHolder}>
-                    {productName && (
-                      <div className={styles.dataDescription}>
-                        {productName}
-                      </div>
-                    )}
-                    {orderDate && (
-                      <div className={styles.dataDescription}>
-                        {`Order on: ${format(orderDate, "DD MMM,YYYY")}`}
-                      </div>
-                    )}
-                    {productPrice && (
-                      <div className={styles.dataDescription}>
-                        {productPrice}
-                      </div>
-                    )}
-                    {productStatus && (
-                      <div className={styles.dataDescription}>
-                        {productStatus}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
+                )}
             </div>
           )}
 
@@ -659,7 +660,6 @@ export default class CustomerCareOrderRelated extends React.Component {
                       fontSize={"14px"}
                     />
                   </div>
-                  {/* <div className={styles.noQuestion}>No questions</div> */}
                   <div
                     className={[styles.selectIssue, styles.paddingBottom].join(
                       " "
@@ -677,7 +677,7 @@ export default class CustomerCareOrderRelated extends React.Component {
                       extraVisibleBoxCss={true}
                       options={
                         l1OptionsArray &&
-                        l1OptionsArray.map((val, i) => {
+                        l1OptionsArray.map((val) => {
                           return {
                             value: val.uItemplateCode,
                             label: val.issueType
@@ -701,8 +701,8 @@ export default class CustomerCareOrderRelated extends React.Component {
                     />
                   )}
                   {selectedObj &&
-                  selectedObj[0].webform === "Yes" &&
-                  webFormStatus
+                    selectedObj[0].webform === "Yes" &&
+                    webFormStatus
                     ? this.formField()
                     : null}
                 </div>
@@ -731,7 +731,7 @@ export default class CustomerCareOrderRelated extends React.Component {
                       extraVisibleBoxCss={true}
                       options={
                         l1OptionsArray &&
-                        l1OptionsArray.map((val, i) => {
+                        l1OptionsArray.map((val) => {
                           return {
                             value: val.parentIssueType,
                             label: val.parentIssueType
@@ -767,7 +767,7 @@ export default class CustomerCareOrderRelated extends React.Component {
                         extraVisibleBoxCss={true}
                         options={
                           subIssueList &&
-                          subIssueList.map((val, i) => {
+                          subIssueList.map((val) => {
                             return {
                               value: val.UItemplateCode,
                               label: val.subIssueType
@@ -793,8 +793,8 @@ export default class CustomerCareOrderRelated extends React.Component {
                     />
                   )}
                   {selectedObj &&
-                  selectedObj[0].webform === "Yes" &&
-                  webFormStatus
+                    selectedObj[0].webform === "Yes" &&
+                    webFormStatus
                     ? this.formField()
                     : null}
                 </div>
@@ -802,114 +802,114 @@ export default class CustomerCareOrderRelated extends React.Component {
             )}
 
             {selectedObj &&
-            this.state.attachment &&
-            selectedObj[0].webform === "Yes" &&
-            webFormStatus ? (
-              <div className={styles.formBox}>
-                <div className={styles.formWidth}>
-                  <div className={styles.secondOrder}>
-                    <CheckOutHeader
-                      indexNumber={this.props.isSelected === 0 ? "3" : "2"}
-                      confirmTitle={`Add Attachment ${
-                        this.state.attachment.isMandatory ? "*" : "(optional)"
-                      }`}
-                      fontSize={"14px"}
-                    />
-                    <div className={styles.validImage}>
-                      {`Maximum size ${this.state.attachment.maxFileSize} MB`}
+              this.state.attachment &&
+              selectedObj[0].webform === "Yes" &&
+              webFormStatus ? (
+                <div className={styles.formBox}>
+                  <div className={styles.formWidth}>
+                    <div className={styles.secondOrder}>
+                      <CheckOutHeader
+                        indexNumber={this.props.isSelected === 0 ? "3" : "2"}
+                        confirmTitle={`Add Attachment ${
+                          this.state.attachment.isMandatory ? "*" : "(optional)"
+                          }`}
+                        fontSize={"14px"}
+                      />
+                      <div className={styles.validImage}>
+                        {`Maximum size ${this.state.attachment.maxFileSize} MB`}
+                      </div>
                     </div>
-                  </div>
 
-                  <div className={styles.imageInput}>
-                    <div className={styles.secondOrder}>
-                      {this.state.attachment.heading && (
-                        <div className={styles.fieldLabel}>
-                          {this.state.attachment.heading}
-                        </div>
-                      )}
-                    </div>
-                    <ImageUpload
-                      // value={attachmentName}
-                      value={"Upload attachment"}
-                      onChange={file =>
-                        this.onUploadFile(file, this.state.attachment)
-                      }
-                      isMultipleUpload={true}
-                    />
-                    <div className={styles.secondOrder}>
-                      {this.state.attachment.itemsTitle && (
-                        <div className={styles.imgSubTitle}>
-                          {this.state.attachment.itemsTitle}
-                        </div>
-                      )}
+                    <div className={styles.imageInput}>
+                      <div className={styles.secondOrder}>
+                        {this.state.attachment.heading && (
+                          <div className={styles.fieldLabel}>
+                            {this.state.attachment.heading}
+                          </div>
+                        )}
+                      </div>
+                      <ImageUpload
+                        // value={attachmentName}
+                        value={"Upload attachment"}
+                        onChange={file =>
+                          this.onUploadFile(file, this.state.attachment)
+                        }
+                        isMultipleUpload={true}
+                      />
+                      <div className={styles.secondOrder}>
+                        {this.state.attachment.itemsTitle && (
+                          <div className={styles.imgSubTitle}>
+                            {this.state.attachment.itemsTitle}
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div className={styles.filesBox}>
-                  {this.state.file &&
-                    this.state.file.map((files, index) => {
-                      let fileType = "",
-                        width = "",
-                        height = "";
-                      if (
-                        files.name.includes(".jpg") ||
-                        files.name.includes(".jpeg")
-                      ) {
-                        fileType = imageIcon;
-                        width = 23;
-                        height = 17;
-                      } else if (files.name.includes(".pdf")) {
-                        fileType = pdfIcon;
-                        width = 22;
-                        height = 23;
-                      } else {
-                        fileType = txtIcon;
-                        width = 19;
-                        height = 24;
-                      }
-                      return (
-                        <div className={styles.imageBox}>
-                          <div
-                            className={styles.deleteBOx}
-                            onClick={() => this.deleteFile(index)}
-                          >
-                            <Icon image={deleteIcon} width={18} height={18} />
-                          </div>
-                          <div className={styles.typeOfFileBox}>
-                            <div className={styles.typeOfFile}>
-                              <Icon
-                                image={fileType}
-                                width={width}
-                                height={height}
-                              />
+                  <div className={styles.filesBox}>
+                    {this.state.file &&
+                      this.state.file.map((files, index) => {
+                        let fileType = "",
+                          width = "",
+                          height = "";
+                        if (
+                          files.name.includes(".jpg") ||
+                          files.name.includes(".jpeg")
+                        ) {
+                          fileType = imageIcon;
+                          width = 23;
+                          height = 17;
+                        } else if (files.name.includes(".pdf")) {
+                          fileType = pdfIcon;
+                          width = 22;
+                          height = 23;
+                        } else {
+                          fileType = txtIcon;
+                          width = 19;
+                          height = 24;
+                        }
+                        return (
+                          <div className={styles.imageBox} key={`index${index}`}>
+                            <div
+                              className={styles.deleteBOx}
+                              onClick={() => this.deleteFile(index)}
+                            >
+                              <Icon image={deleteIcon} width={18} height={18} />
                             </div>
-                            <div className={styles.fileNames}>{files.name}</div>
+                            <div className={styles.typeOfFileBox}>
+                              <div className={styles.typeOfFile}>
+                                <Icon
+                                  image={fileType}
+                                  width={width}
+                                  height={height}
+                                />
+                              </div>
+                              <div className={styles.fileNames}>{files.name}</div>
+                            </div>
                           </div>
-                        </div>
-                      );
-                    })}
-                </div>
-              </div>
-            ) : null}
-            {this.props.selectedObj &&
-            this.props.selectedObj[0].webform === "Yes" &&
-            webFormStatus ? (
-              <div className={styles.formBox}>
-                <div className={styles.formWidth}>
-                  <div className={styles.secondOrder}>
-                    <CheckOutHeader
-                      indexNumber={
-                        isSelected === 0 && this.state.attachment
-                          ? "4"
-                          : isSelected === 1 && !this.state.attachment
-                          ? "2"
-                          : "3"
-                      }
-                      confirmTitle="Communication Details"
-                      fontSize={"14px"}
-                    />
+                        );
+                      })}
                   </div>
-                  {/* <div className={styles.conmmunicationalDetails}>
+                </div>
+              ) : null}
+            {this.props.selectedObj &&
+              this.props.selectedObj[0].webform === "Yes" &&
+              webFormStatus ? (
+                <div className={styles.formBox}>
+                  <div className={styles.formWidth}>
+                    <div className={styles.secondOrder}>
+                      <CheckOutHeader
+                        indexNumber={
+                          isSelected === 0 && this.state.attachment
+                            ? "4"
+                            : isSelected === 1 && !this.state.attachment
+                              ? "2"
+                              : "3"
+                        }
+                        confirmTitle="Communication Details"
+                        fontSize={"14px"}
+                      />
+                    </div>
+                    {/* <div className={styles.conmmunicationalDetails}>
                     <FloatingLabelInput
                       label="Name *"
                       value={this.state.name}
@@ -918,29 +918,29 @@ export default class CustomerCareOrderRelated extends React.Component {
                     />
                   </div> */}
 
-                  <div className={styles.conmmunicationalDetails}>
-                    <FloatingLabelInput
-                      label="Email"
-                      fontSize={"12px"}
-                      disabled={this.state.email ? true : false}
-                      value={this.state.email}
-                      onChange={email => this.setState({ email: email })}
-                    />
-                  </div>
-                  <div className={styles.conmmunicationalDetails}>
-                    <FloatingLabelInput
-                      label="Phone number *"
-                      maxLength={"10"}
-                      value={this.state.mobile}
-                      fontSize={"12px"}
-                      onChange={mobile => this.setState({ mobile: mobile })}
-                      // disabled={this.state.mobile ? true : false}
-                      onlyNumber={true}
-                    />
+                    <div className={styles.conmmunicationalDetails}>
+                      <FloatingLabelInput
+                        label="Email"
+                        fontSize={"12px"}
+                        disabled={this.state.email ? true : false}
+                        value={this.state.email}
+                        onChange={email => this.setState({ email: email })}
+                      />
+                    </div>
+                    <div className={styles.conmmunicationalDetails}>
+                      <FloatingLabelInput
+                        label="Phone number *"
+                        maxLength={"10"}
+                        value={this.state.mobile}
+                        fontSize={"12px"}
+                        onChange={mobile => this.setState({ mobile: mobile })}
+                        // disabled={this.state.mobile ? true : false}
+                        onlyNumber={true}
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
-            ) : null}
+              ) : null}
           </div>
 
           {this.props.selectedObj &&

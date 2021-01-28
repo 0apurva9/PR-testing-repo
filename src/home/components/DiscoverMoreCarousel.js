@@ -1,7 +1,7 @@
 import React from "react";
 import Carousel from "../../general/components/Carousel";
 import CircleProductImage from "../../general/components/CircleProductImage";
-import PropTypes, { instanceOf } from "prop-types";
+import PropTypes from "prop-types";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import { withRouter } from "react-router";
 import CommonCenter from "../../general/components/CommonCenter";
@@ -28,6 +28,7 @@ class DiscoverMoreCarousel extends React.Component {
       this.props.setClickedElementId();
     }
   };
+
   render() {
     const discoverMoreCarouselData = this.props.feedComponentData;
     return (
@@ -59,7 +60,10 @@ class DiscoverMoreCarousel extends React.Component {
 export default withRouter(DiscoverMoreCarousel);
 DiscoverMoreCarousel.propTypes = {
   header: PropTypes.string,
-  discoverMoreCarouselData: PropTypes.object
+  discoverMoreCarouselData: PropTypes.object,
+  feedComponentData: PropTypes.object,
+  history: PropTypes.object,
+  setClickedElementId: PropTypes.func
 };
 DiscoverMoreCarousel.defaultProps = {
   header: "Discover more from Tata Cliq"

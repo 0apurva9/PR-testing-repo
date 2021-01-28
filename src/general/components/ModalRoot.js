@@ -437,9 +437,10 @@ export default class ModalRoot extends React.Component {
   componentDidMount() {
     modalRoot.appendChild(this.el);
   }
+
   UNSAFE_componentWillMount() {
     if (this.props.history) {
-      this.unlisten = this.props.history.listen((location, action) => {
+      this.unlisten = this.props.history.listen(() => {
         this.handleClose();
       });
     }
@@ -458,6 +459,7 @@ export default class ModalRoot extends React.Component {
       this.props.hideModal();
     }
   }
+
   handleOfferModalClose(data) {
     if (data.showVoucherModal && this.props.hideModal) {
       this.props.hideModal();
@@ -467,6 +469,7 @@ export default class ModalRoot extends React.Component {
       this.props.hideModal();
     }
   }
+
   onUpdate(val) {
     if (this.props.submitSelfCourierReturnInfo) {
       const returnDetails = {};
@@ -479,16 +482,20 @@ export default class ModalRoot extends React.Component {
       this.props.submitSelfCourierReturnInfo(returnDetails);
     }
   }
+
   onConfirmReturn(val) {
     this.props.updateReturnForHOTC(val);
   }
+
   submitOtp(otpDetails) {
     this.props.otpVerification(otpDetails, this.props.ownProps);
   }
+
   resendOTP(userObj) {
     this.props.hideModal();
     this.props.resendOTP(userObj);
   }
+
   resetPassword(userDetails) {
     this.props.resetPassword(userDetails);
   }
@@ -504,13 +511,16 @@ export default class ModalRoot extends React.Component {
       }
     }
   }
+
   submitOtpForgotPassword(otpDetails) {
     this.props.forgotPasswordOtpVerification(otpDetails, this.props.ownProps);
   }
+
   applyBankOffer = couponCode => {
     this.props.hideModal();
     return this.props.applyBankOffer(couponCode);
   };
+
   releaseBankOffer = (previousCouponCode, newCouponCode) => {
     this.props.hideModal();
     return this.props.releaseBankOffer(previousCouponCode, newCouponCode);
@@ -521,6 +531,7 @@ export default class ModalRoot extends React.Component {
       this.props.loginUser(userDetails);
     }
   };
+
   releasePreviousAndApplyNewBankOffer = (
     previousCouponCode,
     newSelectedCouponCode
@@ -530,6 +541,7 @@ export default class ModalRoot extends React.Component {
       newSelectedCouponCode
     );
   };
+
   applyUserCoupon = couponCode => {
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     this.props.hideModal();
@@ -539,6 +551,7 @@ export default class ModalRoot extends React.Component {
       return this.props.applyUserCouponForAnonymous(couponCode);
     }
   };
+
   releaseUserCoupon = (oldCouponCode, newCouponCode) => {
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     this.props.hideModal();
@@ -564,6 +577,7 @@ export default class ModalRoot extends React.Component {
       return this.props.getOtpToActivateWallet(kycDetails, true);
     }
   };
+
   verifyOtpForCliqCash = otpDetails => {
     let customerDetailsWithOtp = {};
     customerDetailsWithOtp.firstName = this.state.firstName;
@@ -589,6 +603,7 @@ export default class ModalRoot extends React.Component {
   generateOtpForEgv = () => {
     this.props.generateOtpForEgv();
   };
+
   verifyOtp(val) {
     let customerDetailsWithOtp = {};
     customerDetailsWithOtp.firstName = this.state.firstName;
@@ -597,10 +612,12 @@ export default class ModalRoot extends React.Component {
     customerDetailsWithOtp.otp = val;
     this.props.verifyWallet(customerDetailsWithOtp);
   }
+
   wrongNumber() {
     this.props.hideModal();
     this.props.showModal(GenerateOtp);
   }
+
   generateOtp(val) {
     let customerDetails = {};
     customerDetails.firstName = val.firstName;
@@ -609,6 +626,7 @@ export default class ModalRoot extends React.Component {
     this.setState(customerDetails);
     return this.props.getOtpToActivateWallet(customerDetails);
   }
+
   resendOtp() {
     let customerDetails = {};
     customerDetails.firstName = this.state.firstName;
@@ -616,6 +634,7 @@ export default class ModalRoot extends React.Component {
     customerDetails.lastName = this.state.lastName;
     this.props.getOtpToActivateWallet(customerDetails);
   }
+
   resendOtpForUpdateProfile = () => {
     this.handleClose();
     this.props.updateProfile(this.props.ownProps);
@@ -626,6 +645,7 @@ export default class ModalRoot extends React.Component {
       this.props.redeemCliqVoucher(val, true);
     }
   };
+
   onClickWrongNumber() {
     this.props.showModal(RestorePasswords);
   }
@@ -639,6 +659,7 @@ export default class ModalRoot extends React.Component {
       this.props.showModal(DesktopLogin);
     }
   };
+
   updateProfile(passwordDetails) {
     const oldPassword = passwordDetails.oldPassword;
     const newPassword = passwordDetails.newPassword;
@@ -669,12 +690,15 @@ export default class ModalRoot extends React.Component {
       this.props.changePassword(passwordDetails);
     }
   }
+
   cancelOrderProduct = (cancelProductDetails, productDetails) => {
     this.props.cancelProduct(cancelProductDetails, productDetails);
   };
+
   updateReturnCancellation = data => {
     this.props.updateReturnCancellation(data);
   };
+
   goToCartPage(productCode) {
     const defaultPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
     this.props.history.push({
@@ -689,6 +713,7 @@ export default class ModalRoot extends React.Component {
   goToHomePage() {
     this.handleClose();
   }
+
   continueWithoutBankCoupon = async () => {
     const bankCouponCode = localStorage.getItem(BANK_COUPON_COOKIE);
     const userCouponCode = localStorage.getItem(COUPON_COOKIE);
@@ -739,7 +764,7 @@ export default class ModalRoot extends React.Component {
         userCouponCode && this.props.releaseUserCoupon(userCouponCode),
         noCostEmiCoupon &&
           this.props.removeNoCostEmi(noCostEmiCoupon, carGuId, cartId)
-      ]).then(res => {
+      ]).then(() => {
         localStorage.removeItem(BANK_COUPON_COOKIE);
         localStorage.removeItem(COUPON_COOKIE);
         this.props.ownProps.redoCreateJusPayApi();
@@ -822,7 +847,7 @@ export default class ModalRoot extends React.Component {
           userObj={this.props.ownProps}
           closeModal={() => this.handleClose()}
           submitOtp={otpDetails => this.submitOtpForUpdateProfile(otpDetails)}
-          resendOtp={userName =>
+          resendOtp={() =>
             this.resendOtpForUpdateProfile(this.props.ownProps)
           }
           onClickWrongNumber={() => this.handleClose()}

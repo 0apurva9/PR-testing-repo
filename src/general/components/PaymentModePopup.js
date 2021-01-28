@@ -11,11 +11,13 @@ export default class PaymentModePopup extends React.Component {
       this.props.changePaymentMethod();
     }
   }
+
   continueWithoutCoupon() {
     if (this.props.continueWithoutCoupon) {
       this.props.continueWithoutCoupon();
     }
   }
+
   render() {
     return (
       <div className={styles.base}>
@@ -58,5 +60,8 @@ PaymentModePopup.propTypes = {
   changePaymentMethod: PropTypes.func,
   continueWithoutCoupon: PropTypes.func,
   walletDetail: PropTypes.string,
-  walletDescription: PropTypes.string
+  walletDescription: PropTypes.string,
+  label: PropTypes.string,
+  btnLabel: PropTypes.string,
+  couponLabel: PropTypes.string,
 };

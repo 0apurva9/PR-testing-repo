@@ -15,6 +15,7 @@ export default class PdfFooter extends React.Component {
       checkForUrlGoToCartFlag: true
     };
   }
+
   componentWillReceiveProps(nextProps) {
     if (
       this.state.checkForUrlGoToCartFlag &&
@@ -23,6 +24,7 @@ export default class PdfFooter extends React.Component {
       this.setState({ goToCartPageFlag: nextProps.goToCartPageFlag });
     }
   }
+
   async onAddToBag(buyNowFlag) {
     if (!this.state.goToCartPage) {
       if (this.props.onAddToBag) {
@@ -44,11 +46,13 @@ export default class PdfFooter extends React.Component {
       this.goToCartPage();
     }
   }
+
   goToCartPage() {
     if (this.props.goToCartPage) {
       this.props.goToCartPage();
     }
   }
+
   onClickOfBuyNow = () => {
     setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_BUY_NOW_EVENT);
     if (this.state.goToCartPageFlag) {

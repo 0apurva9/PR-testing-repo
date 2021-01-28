@@ -15,6 +15,7 @@ export default class PlpBannerComponentMonetization extends React.Component {
       plpBanner: null
     };
   }
+
   async componentDidMount() {
     const url = this.props.location.pathname;
     let pageType = "CATEGORY";
@@ -39,6 +40,7 @@ export default class PlpBannerComponentMonetization extends React.Component {
       }
     }
   }
+
   handleClick(event, urlLink) {
     event.preventDefault();
     if (urlLink) {
@@ -54,6 +56,7 @@ export default class PlpBannerComponentMonetization extends React.Component {
       }
     }
   }
+
   render() {
     const { firstBanner } = this.props;
     const { plpBanner } = this.state;
@@ -71,6 +74,7 @@ export default class PlpBannerComponentMonetization extends React.Component {
           }
           return (
             <div
+            key={i}
               className={baseClass}
               onClick={event =>
                 this.handleClick(event, datum.click_tracking_url)
@@ -87,5 +91,8 @@ export default class PlpBannerComponentMonetization extends React.Component {
 }
 
 PlpBannerComponentMonetization.propTypes = {
-  firstBanner: PropTypes.bool
+  firstBanner: PropTypes.bool,
+  location: PropTypes.object,
+  pathname: PropTypes.string,
+  history: PropTypes.object,
 };

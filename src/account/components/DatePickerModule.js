@@ -20,6 +20,7 @@ export default class DatePickerModule extends Component {
       toDate: today
     };
   }
+
   handleSubmit = () => {
     if (this.state.fromDate && this.state.toDate) {
       let selectDates = {
@@ -35,6 +36,7 @@ export default class DatePickerModule extends Component {
       this.props.displayToast("please select date");
     }
   };
+
   handleDateSelect(date) {
     let selectedDate = date.getDate();
     let selectedMonth = date.getMonth();
@@ -117,6 +119,7 @@ export default class DatePickerModule extends Component {
       }
     }
   }
+
   onFromSelect = () => {
     this.setState({
       isFromSelected: true,
@@ -124,12 +127,14 @@ export default class DatePickerModule extends Component {
     });
     this.scrollToView();
   };
+
   onToSelect = () => {
     this.setState({
       isFromSelected: false,
       isToSelected: true
     });
   };
+
   scrollToView = () => {
     let selectedDay = this.state.isFromSelected
       ? this.state.toDate
@@ -148,9 +153,11 @@ export default class DatePickerModule extends Component {
       element.scrollIntoView();
     }
   };
+
   componentDidMount() {
     this.scrollToView();
   }
+
   render() {
     return (
       <BottomSlideModal hideCancelIcon="true">
@@ -224,7 +231,6 @@ export default class DatePickerModule extends Component {
                 this.state.isToSelected ? this.state.fromDate : null
               }
               selectedDay={[this.state.fromDate, this.state.toDate]}
-              ref="height"
             />
           </div>
           <div

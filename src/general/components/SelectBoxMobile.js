@@ -46,6 +46,7 @@ export default class SelectBoxMobile extends React.Component {
       }
     });
   }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.state.value) {
       this.setState({ value: nextProps.value });
@@ -54,6 +55,7 @@ export default class SelectBoxMobile extends React.Component {
       this.setState({ label: nextProps.label });
     }
   }
+
   render() {
     let arrow = GreyArrow;
     if (this.props.arrowColour === BLACK) {
@@ -114,7 +116,11 @@ SelectBoxMobile.propTypes = {
     PropTypes.shape({ value: PropTypes.string, label: PropTypes.string })
   ),
   arrowColour: PropTypes.oneOf([BLACK, GREY, WHITE]),
-  theme: PropTypes.oneOf([HOLLOW_BOX, BLACK_BOX, GREY_BOX])
+  theme: PropTypes.oneOf([HOLLOW_BOX, BLACK_BOX, GREY_BOX]),
+  value: PropTypes.string,
+  label: PropTypes.string,
+  onChange: PropTypes.func,
+  name: PropTypes.string
 };
 SelectBoxMobile.defaultProps = {
   height: 35,

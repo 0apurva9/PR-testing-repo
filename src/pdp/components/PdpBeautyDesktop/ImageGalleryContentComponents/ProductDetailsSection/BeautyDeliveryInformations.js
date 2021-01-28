@@ -5,32 +5,23 @@ import UnderLinedButton from "../../../../../general/components/UnderLinedButton
 import CheckBox from "../../../../../general/components/CheckBox";
 import PropTypes from "prop-types";
 import Icon from "../../../../../xelpmoc-core/Icon";
-import ExpressImage from "../../../../../general/components/img/expressDelivery.svg";
-import HomeImage from "../../../../../general/components/img/homeDelivery.svg";
 import arrowIcon from "../../../../../general/components/img/arrowBackblack.svg";
 import greyArrow from "../../../../../general/components/img/greyArrow.svg";
-import CollectImage from "../../../../../general/components/img/collect.svg";
 import quiqpiqImage from "../../../../../general/components/img/quiqlogo.png";
 import codImage from "../../../../../general/components/img/beauty-COD.svg";
-import clockImage from "../../../../../general/components/img/clock.png";
 import quiqIcon from "../../../../../general/components/img/beautyPick.svg";
 import deliveryIcon from "../../../../../general/components/img/expressDeliveryBeauty.svg";
 import {
-  EXPRESS,
   SHORT_EXPRESS,
   COLLECT,
   SHORT_COLLECT,
   QUIQPIQ,
   SHORT_SAME_DAY_TEXT,
   SHORT_SAME_DAY_DELIVERY,
-  EXPRESS_SHIPPING,
   SAME_DAY_DELIVERY,
-  SAME_DAY_DELIVERY_SHIPPING,
   HOME_DELIVERY,
   SHORT_HOME_DELIVERY,
-  SELECTED_STORE
 } from "../../../../../lib/constants";
-import * as UserAgent from "../../../../../lib/UserAgent.js";
 import CountDownTimer from "../../../../components/CountDownTimer.js";
 const EXPRESS_TEXT = "Delivery by";
 const HOME_TEXT = "Delivery by";
@@ -46,6 +37,7 @@ export default class BeautyDeliveryInformations extends React.Component {
       this.props.onClick();
     }
   }
+
   async handleSelect(cliqPiq) {
     if (cliqPiq) {
       this.onPiq();
@@ -55,16 +47,19 @@ export default class BeautyDeliveryInformations extends React.Component {
       }
     }
   }
+
   arrowClick() {
     if (this.props.arrowClick) {
       this.props.arrowClick();
     }
   }
+
   onPiq() {
     if (this.props.onPiq) {
       this.props.onPiq(this.props.fromSellerCard ? this.props.ussid : null);
     }
   }
+
   componentDidUpdate(prevProps) {
     if (
       this.props.type === COLLECT &&
@@ -76,10 +71,9 @@ export default class BeautyDeliveryInformations extends React.Component {
     }
   }
 
-  getDateMonthFormate(date, month, dateObj) {
+  getDateMonthFormate(date, month) {
     let todayDate = new Date().getDate();
     let currentMonth = new Date().getMonth() + 1;
-    let fromDate = date - 4;
     let nextDayDate = todayDate + 1;
     let newExpressOrSddText;
     let fromDateText = "";
@@ -164,7 +158,6 @@ export default class BeautyDeliveryInformations extends React.Component {
     let typeDate = "";
     let typeText = "";
     let formattedPlacedTime = "";
-    let selectedStore = JSON.parse(localStorage.getItem(SELECTED_STORE));
     if (this.props.placedTime && this.props.placedTime !== undefined) {
       //converting "MM-DD-YYYY HH:MM:SS"(API value) to "MM/DD/YYYY" for cross browser support
       // JS date object does'nt support "MM-DD-YYYY HH:MM:SS" format in safari, mozilla and IE
@@ -177,7 +170,6 @@ export default class BeautyDeliveryInformations extends React.Component {
     }
     let arrowStyle = styles.arrowLink1;
     let iconSize = null;
-    let baseClass = styles.base;
     let cncDeliveryAddressClass = styles.cncDeliveryAddress;
     if (this.props.type === SHORT_EXPRESS) {
       iconImage = deliveryIcon;
@@ -409,7 +401,30 @@ BeautyDeliveryInformations.propTypes = {
   isArrowIcon: PropTypes.bool,
   isCartForMargin: PropTypes.bool,
   inCartPage: PropTypes.bool,
-  inCartPageIcon: PropTypes.bool
+  inCartPageIcon: PropTypes.bool,
+  onSelect: PropTypes.func,
+  code: PropTypes.string,
+  fromSellerCard: PropTypes.bool,
+  ussid: PropTypes.string,
+  cliqPiqSelected: PropTypes.bool,
+  deliveryMessage: PropTypes.string,
+  placedTime: PropTypes.string,
+  deliveryInformationByCart: PropTypes.bool,
+  inCheckOutPage: PropTypes.bool,
+  isQuiqPiq: PropTypes.bool,
+  isCod: PropTypes.string,
+  pdpApparel: PropTypes.bool,
+  deliveryCharge: PropTypes.string,
+  storeDetails: PropTypes.object,
+  iconShow: PropTypes.bool,
+  cutOffTime: PropTypes.string,
+  placedTimeForCod: PropTypes.string,
+  deliverText: PropTypes.string,
+  textHeading: PropTypes.string,
+  isClickable: PropTypes.bool,
+  inPdpPage: PropTypes.bool,
+  numberOfStore: PropTypes.string,
+  selected: PropTypes.bool
 };
 
 BeautyDeliveryInformations.defaultProps = {

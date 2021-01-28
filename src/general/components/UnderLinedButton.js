@@ -7,6 +7,7 @@ export default class UnderLinedButton extends React.Component {
       this.props.onClick();
     }
   }
+
   render() {
     return (
       <div
@@ -40,5 +41,9 @@ UnderLinedButton.propTypes = {
   label: PropTypes.string,
   fontFamily: PropTypes.string,
   disabled: PropTypes.bool,
-  size: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  inConfirmAddressPage: PropTypes.bool,
+  inCheckOutPage: PropTypes.bool,
+  inCartPage: PropTypes.bool,
+  inPdpPage: PropTypes.bool,
 };

@@ -20,10 +20,7 @@ export default class Grid extends React.Component {
       window.scroll(0, 0);
     }
   }
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.banners) {
-  //   }
-  // }
+
   renderPlpBanner(index) {
     let plpBannerDetails =
       this.props.plpBannerData &&
@@ -46,6 +43,7 @@ export default class Grid extends React.Component {
       )
     );
   }
+
   renderEachPlpItem() {
     let str = [];
     let displayClass =
@@ -61,19 +59,11 @@ export default class Grid extends React.Component {
           let child1 = this.props.children[i + 1];
           let child2 = this.props.children[i + 2];
           let child3 = this.props.children[i + 3];
-          // let child4 = this.props.children[i + 4];
-          // let child5 = this.props.children[i + 5];
           let bannerImage = "";
           let bannerUrl = "";
           if (this.props.banners && this.props.banners.heroBanners) {
             banner = this.props.banners.heroBanners.find(b => {
-              // if (this.props.view === LIST) {
-              //   return b.plpBannerPosition === (i / 2) + 1;
-              // } else if (this.props.view === GRID) {
-
               return b.plpBannerPosition === i / 4;
-              // }
-              // return false;
             });
 
             let newbanner = this.props.banners.heroBanners.find(indexObj => {
@@ -115,11 +105,8 @@ export default class Grid extends React.Component {
                         key={i + 161}
                         style={{
                           width: "100%",
-                          margin:
-                            banner && banner.plpBannerImage ? "10px 0" : "",
+                          margin: banner && banner.plpBannerImage ? "10px 0" : "",
                           maxHeight: "180px"
-
-                          // marginLeft: this.props.view === LIST ? "0" : "-100%"
                         }}
                       />
                     </a>
@@ -216,46 +203,6 @@ export default class Grid extends React.Component {
                       </div>
                     </React.Fragment>
                   ) : null}
-                  {/* {child4 ? (
-                    <div
-                      className={
-                        this.props.electronicView
-                          ? styles.electronicViewElement
-                          : styles.element
-                      }
-                      style={{
-                        width: this.props.electronicView
-                          ? { width: "100%" }
-                          : child4.props && child4.props.gridWidthDesktop
-                            ? `${child1.props.gridWidthDesktop}%`
-                            : `${this.props.elementWidthDesktop}%`,
-
-                        padding: `${this.props.offset / 2}px`
-                      }}
-                    >
-                      {child4}
-                    </div>
-                  ) : null}
-                  {child5 ? (
-                    <div
-                      className={
-                        this.props.electronicView
-                          ? styles.electronicViewElement
-                          : styles.element
-                      }
-                      style={{
-                        width: this.props.electronicView
-                          ? { width: "100%" }
-                          : child5.props && child5.props.gridWidthDesktop
-                            ? `${child1.props.gridWidthDesktop}%`
-                            : `${this.props.elementWidthDesktop}%`,
-
-                        padding: `${this.props.offset / 2}px`
-                      }}
-                    >
-                      {child5}
-                    </div>
-                  ) : null} */}
                 </div>
               </MediaQuery>
             </React.Fragment>
@@ -266,19 +213,11 @@ export default class Grid extends React.Component {
           let child = this.props.children[i];
           let child1 = this.props.children[i + 1];
           let child2 = this.props.children[i + 2];
-          let child3 = this.props.children[i + 3];
-          // let child4 = this.props.children[i + 4];
-          // let child5 = this.props.children[i + 5];
           let bannerImage = "";
           let bannerUrl = "";
           if (this.props.banners && this.props.banners.heroBanners) {
             banner = this.props.banners.heroBanners.find(b => {
-              // if (this.props.view === LIST) {
-              //   return b.plpBannerPosition === (i / 2) + 1;
-              // } else if (this.props.view === GRID) {
               return b.plpBannerPosition === i / 3;
-              // }
-              // return false;
             });
 
             let newbanner = this.props.banners.heroBanners.find(indexObj => {
@@ -315,7 +254,6 @@ export default class Grid extends React.Component {
                   {banner && banner.plpBannerImage ? (
                     <a
                       href={bannerUrl}
-                      // onClick={this.recordScreenScroll()}
                     >
                       <img
                         alt="bannerimg"
@@ -323,11 +261,8 @@ export default class Grid extends React.Component {
                         key={i + 161}
                         style={{
                           width: "100%",
-                          margin:
-                            banner && banner.plpBannerImage ? "10px 0" : "",
+                          margin: banner && banner.plpBannerImage ? "10px 0" : "",
                           maxHeight: "180px"
-
-                          // marginLeft: this.props.view === LIST ? "0" : "-100%"
                         }}
                       />
                     </a>
@@ -398,66 +333,6 @@ export default class Grid extends React.Component {
                       </div>
                     </React.Fragment>
                   ) : null}
-                  {/* comment............ */}
-                  {/* {child3 ? (
-                    <div
-                      className={
-                        this.props.electronicView
-                          ? styles.electronicViewElement
-                          : styles.element
-                      }
-                      style={{
-                        width:
-                          child1.props && child1.props.gridWidthDesktop
-                            ? `${child1.props.gridWidthDesktop}%`
-                            : `${this.props.elementWidthDesktop}%`,
-
-                        padding: `${this.props.offset / 2}px`
-                      }}
-                    >
-                      {child3}
-                    </div>
-                  ) : null} */}
-                  {/* {child4 ? (
-                    <div
-                      className={
-                        this.props.electronicView
-                          ? styles.electronicViewElement
-                          : styles.element
-                      }
-                      style={{
-                        width:
-                          child1.props && child1.props.gridWidthDesktop
-                            ? `${child1.props.gridWidthDesktop}%`
-                            : `${this.props.elementWidthDesktop}%`,
-
-                        padding: `${this.props.offset / 2}px`
-                      }}
-                    >
-                      {child4}
-                    </div>
-                  ) : null} */}
-                  {/* {child5 ? (
-                    <div
-                      className={
-                        this.props.electronicView
-                          ? styles.electronicViewElement
-                          : styles.element
-                      }
-                      style={{
-                        width:
-                          child1.props && child1.props.gridWidthDesktop
-                            ? `${child1.props.gridWidthDesktop}%`
-                            : `${this.props.elementWidthDesktop}%`,
-
-                        padding: `${this.props.offset / 2}px`
-                      }}
-                    >
-                      {child5}
-                    </div>
-                  ) : null} */}
-
-                  {/* comment............ */}
                 </div>
               </MediaQuery>
             </React.Fragment>
@@ -467,6 +342,7 @@ export default class Grid extends React.Component {
     }
     return str;
   }
+
   render() {
     return (
       <div className={styles.base}>
@@ -485,7 +361,11 @@ export default class Grid extends React.Component {
 Grid.propTypes = {
   elementWidthDesktop: PropTypes.number,
   elementWidthMobile: PropTypes.number,
-  offset: PropTypes.number
+  offset: PropTypes.number,
+  banners: PropTypes.object,
+  plpBannerData: PropTypes.arrayOf(PropTypes.object),
+  electronicView: PropTypes.bool,
+  children: PropTypes.arrayOf(PropTypes.node),
 };
 
 Grid.defaultProps = {

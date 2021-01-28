@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./SimpleBannerComponentMonetization.css";
-import PropTypes from "prop-types";
 import Image from "../../xelpmoc-core/Image";
 import { HOME_ROUTER, WEB_URL_REG_EX } from "../../lib/constants";
 import { TATA_CLIQ_ROOT, getOnlineSalesAds } from "../../lib/apiRequest.js";
@@ -16,6 +15,7 @@ export default class SimpleBannerComponentMonetization extends React.Component {
       simpleBanner: null
     };
   }
+
   async componentDidMount() {
     const url = this.props.location.pathname;
     let pageType = "CATEGORY";
@@ -40,6 +40,7 @@ export default class SimpleBannerComponentMonetization extends React.Component {
       }
     }
   }
+
   handleClick(urlLink) {
     if (urlLink) {
       const isMatch = WEB_URL_REG_EX.test(urlLink);
@@ -52,6 +53,7 @@ export default class SimpleBannerComponentMonetization extends React.Component {
       }
     }
   }
+
   render() {
     const { simpleBanner } = this.state;
     if (simpleBanner && simpleBanner.ads) {
@@ -65,6 +67,7 @@ export default class SimpleBannerComponentMonetization extends React.Component {
           : styles.marginTopWithBase;
         return (
           <div
+            key={i}
             className={
               this.props.positionInFeed === 0 ? baseClass : basClassMargin
             }

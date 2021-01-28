@@ -44,7 +44,7 @@ export default class AllDescription extends React.Component {
       ? this.props.templateName[this.props.templateName.length - 1]
       : 0;
 
-    dataList.forEach((val, i) => {
+    dataList.forEach((val) => {
       if (val.key.slice(0, -1) in data) {
         data[val.key.slice(0, -1)].push(val);
       } else {
@@ -239,5 +239,7 @@ AllDescription.propTypes = {
       descriptionHeader: PropTypes.string,
       description: PropTypes.string
     })
-  )
+  ),
+  productContent: PropTypes.array,
+  templateName: PropTypes.string
 };

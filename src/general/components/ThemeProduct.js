@@ -19,6 +19,7 @@ export default class ThemeProduct extends React.Component {
       this.props.onClick(urlSuffix);
     }
   };
+
   render() {
     let className = styles.base;
     let priceClass = styles.priceHolder;
@@ -62,7 +63,13 @@ export default class ThemeProduct extends React.Component {
 ThemeProduct.propTypes = {
   label: PropTypes.string,
   price: PropTypes.string,
-  image: PropTypes.string
+  image: PropTypes.string,
+  webURL: PropTypes.string,
+  productId: PropTypes.string,
+  productListingId: PropTypes.string,
+  onClick: PropTypes.func,
+  isWhite: PropTypes.bool,
+  discountPrice: PropTypes.string
 };
 
 /*

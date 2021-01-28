@@ -13,6 +13,7 @@ export default class ToastRoot extends React.Component {
   componentDidMount() {
     toastRoot.appendChild(this.el);
   }
+
   render() {
     if (this.props.toastDisplayed) {
       if (this.props.message === "RATING_SUBMIT_SUCCESS_TOAST") {

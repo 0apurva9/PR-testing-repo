@@ -1,0 +1,201 @@
+/*** Shade Component Start ****/
+.shade-component {
+  display: block;
+  width: 100%;
+  margin: 20px 0 0 0;
+  border-top: 1px solid rgb(230, 230, 230);
+}
+
+.shade-block {
+  padding: 20px 0 0;
+  position: relative;
+}
+
+.shade-top-block {
+  padding: 0 0 12px;
+  display: inline-block;
+  width: 100%;
+}
+
+.shade-heading {
+  font-family: "Rubik", sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 16px;
+  margin: 0;
+  color: rgb(33, 33, 33);
+  min-height: 16px;
+}
+
+.shade-shade-block {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-right: -15px;
+}
+
+.shade-block-view-more {
+  font-family: "Rubik", sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  margin: 0;
+  color: rgb(218, 28, 92);
+  position: absolute;
+  top: 20px;
+  right: 0;
+  text-decoration: none;
+  display: block;
+}
+
+.shade-collapse-block {
+  position: relative;
+  max-height: 130px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 5px 0 8px;
+  left: -3px;
+}
+
+.shade-collapsed-block {
+  position: relative;
+  max-height: inherit;
+  overflow-y: inherit;
+  overflow-x: inherit;
+  margin: 5px 0 8px;
+  left: -3px;
+}
+
+.shade-subheading {
+  font-family: "Rubik", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 16px;
+  margin: 0 0 0 3px;
+  color: rgb(33, 33, 33);
+  display: inline-block;
+}
+
+.shade-list-block {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0 -15px 0 0;
+}
+
+.shade-list {
+  padding: 0;
+  margin: 5px 12px 12px 0;
+  width: 58px;
+  position: relative;
+  cursor: pointer;
+}
+
+.shade-list-img {
+  display: block;
+  width: 52px;
+  height: 52px;
+  border-radius: 9px;
+  margin: 1px;
+}
+
+.shade-list-img-block {
+  padding: 0;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  display: inline-block;
+  margin: 0;
+  float: left;
+}
+
+.shade-stock-dis-img {
+  opacity: 0.4;
+  position: relative;
+}
+
+.shade-stock-dis-img:after {
+  content: "";
+  width: 1px;
+  height: 67px;
+  display: block;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+  background-color: #ffffff;
+  position: absolute;
+  left: 27px;
+  top: -7px;
+}
+
+.shade-stock-selected-img:after {
+  content: "";
+  width: 30px;
+  height: 30px;
+  display: block;
+  position: absolute;
+  left: 15px;
+  top: 14px;
+  background: rgb(33, 33, 33, 0.3)
+    url("../../../img/selectedColorShade.svg") center
+    center/18px auto no-repeat;
+  border-radius: 50%;
+}
+
+.shade-list-img-block:hover {
+  padding: 0;
+  border-radius: 10px;
+  border: 2px solid rgb(33, 33, 33, 0.6);
+}
+
+.shade-stock-selected-img, .shade-stock-selected-img:hover {
+  border: 2px solid rgb(33, 33, 33);
+  border-radius: 10px;
+}
+
+.shade-stock-left {
+  font-family: "Rubik", sans-serif;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 10px;
+  margin: 0;
+  color: rgb(216, 62, 9);
+  text-align: center;
+}
+
+.shade-stock-left {
+  font-family: "Rubik", sans-serif;
+  font-weight: 500;
+  font-size: 10px;
+  line-height: 10px;
+  margin: 0;
+  color: rgb(216, 62, 9);
+  text-align: center;
+}
+
+.shade-tool-tip {
+  border-radius: 4px;
+  padding: 5px;
+  font-family: "Rubik", sans-serif;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  margin: 0;
+  color: rgb(33, 33, 33);
+  display: block;
+  position: absolute;
+  left: 50%;
+  bottom: -25%;
+  border: 1px solid rgb(151, 151, 151);
+  background-color: #ffffff;
+  min-width: 145px;
+  width: 100%;
+  text-align: center;
+  z-index: 9;
+}
+
+.shade-list:nth-child(7n+7) .shade-tool-tip, .shade-list:nth-child(7n+6) .shade-tool-tip{
+  left: inherit;
+  right: 50%;
+}
+
+/*** Shade Component End ****/

@@ -63,8 +63,7 @@ import {
   ADOBE_MDE_CLICK_ON_RETURN_WITH_EXCHANGE
 } from "../../lib/adobeUtils";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
-import * as UserAgent from "../../lib/UserAgent.js";
-let isShowDeliveryAddress = false;
+
 const dateFormat = "DD MMM YYYY";
 const PRODUCT_RETURN = "Return";
 const RETURN = "RETURN";
@@ -81,29 +80,35 @@ export default class OrderDetails extends React.Component {
       itemDetails: false
     };
   }
+
   onClickImage(productCode) {
     if (productCode) {
       this.props.history.push(`/p-${productCode.toLowerCase()}`);
     }
   }
+
   requestInvoice(lineID, orderNumber) {
     setDataLayer(ADOBE_REQUEST_INVOICE_LINK_CLICKED);
     if (this.props.sendInvoice) {
       this.props.sendInvoice(lineID, orderNumber);
     }
   }
+
   handleshowShippingDetails(val) {
     if (this.props.showShippingDetails && val) {
       this.props.showShippingDetails(val);
     }
   }
+
   redirectToHelp = url => {
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
   };
+
   backToOrderHistory() {
     this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_ORDERS_PAGE}`);
   }
+
   replaceItem(sellerorderno, paymentMethod, transactionId, exchangeDetails) {
     sessionStorage.setItem("returnTransactionId", transactionId);
     if (sellerorderno) {
@@ -131,12 +136,14 @@ export default class OrderDetails extends React.Component {
       });
     }
   }
+
   confirmReturn(sellerorderno, transactionId) {
     let data = {};
     data.orderId = sellerorderno;
     data.transactionId = transactionId;
     this.props.showReturnModal(data);
   }
+
   cancelItem(
     transactionId,
     ussid,
@@ -164,6 +171,7 @@ export default class OrderDetails extends React.Component {
     setDataLayer(ADOBE_MY_ACCOUNT_WRITE_REVIEW);
     this.props.history.push(`/p-${productCode.toLowerCase()}${WRITE_REVIEW}`);
   }
+
   getNonWorkingDays(mplWorkingDays) {
     const arr1 = [1, 2, 3, 4, 5, 6, 0];
     let dayText = "";
@@ -202,6 +210,7 @@ export default class OrderDetails extends React.Component {
       return dayTextArrToString;
     }
   }
+
   getWorkingDays = mplWorkingDays => {
     const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     let noMatch = false;
@@ -231,6 +240,7 @@ export default class OrderDetails extends React.Component {
     }
     return workingDays.toString().replace(/,-,/g, "-");
   };
+
   getStoreDateNTime(mplWorkingDays, mplOpeningTime, mplClosingTime) {
     let getDaysText = this.getWorkingDays(mplWorkingDays);
     let mplOpeningTimeText = "";
@@ -256,10 +266,12 @@ export default class OrderDetails extends React.Component {
       getDaysText + ", " + mplOpeningTimeText + " - " + mplClosingTimeText;
     return { __html: displayDateNTime };
   }
+
   redirectToHelpPage() {
     setDataLayer(ADOBE_HELP_SUPPORT_LINK_CLICKED);
     this.props.history.push(`${HELP_URL}`);
   }
+
   redirectToCustomHelpPage() {
     let orderCode = queryString.parse(this.props.location.search).orderCode;
     const transactionId = queryString.parse(this.props.location.search)
@@ -304,6 +316,7 @@ export default class OrderDetails extends React.Component {
     //   }
     // });
   }
+
   componentWillMount() {
     const transactionId = queryString.parse(this.props.location.search)
       .transactionId;
@@ -311,10 +324,10 @@ export default class OrderDetails extends React.Component {
       this.setState({ itemDetails: true });
     }
   }
+
   componentDidMount() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    let pageName = "orderDetails";
     if (
       userDetails &&
       customerCookie &&
@@ -361,6 +374,7 @@ export default class OrderDetails extends React.Component {
     localStorage.removeItem("primaryCode");
     localStorage.removeItem("comment");
   }
+
   updateRefundDetailsPopUp(orderId, transactionId) {
     const orderDetails = {};
     orderDetails.orderId = orderId;
@@ -370,7 +384,7 @@ export default class OrderDetails extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     if (
@@ -403,23 +417,6 @@ export default class OrderDetails extends React.Component {
     return <Redirect to={LOGIN_PATH} />;
   }
 
-  componentWillReceiveProps(nextProps) {
-    // if (nextProps.sendInvoiceSatus === SUCCESS) {
-    //   this.props.displayToast("Invoice has been sent");
-    // }
-    isShowDeliveryAddress =
-      nextProps.orderDetails &&
-      nextProps.orderDetails.products.find(products => {
-        if (
-          products.selectedDeliveryMode &&
-          products.selectedDeliveryMode.code !== CLICK_COLLECT
-        ) {
-          return true;
-        } else {
-          return false;
-        }
-      });
-  }
   getPickUpDate(orderdate, returnPolicy) {
     let pickupDate = "";
     let new_date = new Date(orderdate);
@@ -428,6 +425,7 @@ export default class OrderDetails extends React.Component {
       .format(dateFormat);
     return pickupDate;
   }
+
   getDayNumberSuffix(deliveryDate) {
     if (!deliveryDate) {
       return false;
@@ -474,6 +472,7 @@ export default class OrderDetails extends React.Component {
         return strTime + date + "th " + monthNames[month] + " " + year;
     }
   }
+
   onClickCncToHd(orderId, transactionId) {
     let isCncToHdOrderDetails = "";
     const orderDetails = this.props.orderDetails;
@@ -490,12 +489,14 @@ export default class OrderDetails extends React.Component {
       }
     });
   }
+
   cancelReturnRequest(transactionId, orderCode) {
     setDataLayerForMyAccountDirectCalls(ADOBE_MY_ACCOUNT_RETURN_CANCEL);
     this.props.history.push({
       pathname: `${CANCEL_RETURN_REQUEST}/${orderCode}/${transactionId}`
     });
   }
+
   onClickRetryPayment = async retryUrl => {
     let retryPaymentSplitUrl = retryUrl.split("?")[1].split("&");
     let guId = retryPaymentSplitUrl[0].split("value=")[1];
@@ -905,7 +906,7 @@ export default class OrderDetails extends React.Component {
                             >
                               <div
                                 className={styles.reviewText}
-                                onClick={val =>
+                                onClick={() =>
                                   this.writeReview(products.productcode)
                                 }
                               >
@@ -1438,29 +1439,85 @@ export default class OrderDetails extends React.Component {
   }
 }
 OrderDetails.propTypes = {
-  orderDetails: PropTypes.arrayOf(
-    PropTypes.shape({
-      orderDate: PropTypes.string,
-      orderId: PropTypes.string,
-      totalOrderAmount: PropTypes.string,
-      subTotal: PropTypes.string,
-      totalDiscounts: PropTypes.string,
-      convenienceCharge: PropTypes.string,
-      paymentMethod: PropTypes.string,
-      paymentRetryLink: PropTypes.string,
-      billingAddress: PropTypes.arrayOf(
-        PropTypes.shape({
-          addressLine1: PropTypes.string,
-          town: PropTypes.string,
-          state: PropTypes.string,
-          postalcode: PropTypes.string
-        })
-      )
-    })
-  ),
+  orderDetails: PropTypes.shape({
+    orderDate: PropTypes.string,
+    orderId: PropTypes.string,
+    paymentRetryLink: PropTypes.string,
+    calloutMessage: PropTypes.string,
+    paymentMethod: PropTypes.string,
+    statusDisplay: PropTypes.string,
+    pickupPersonName: PropTypes.string,
+    pickupPersonMobile: PropTypes.string,
+    orderAmount: PropTypes.shape({
+      bagTotal: PropTypes.shape({
+        value: PropTypes.number
+      }),
+      totalDiscountAmount: PropTypes.shape({
+        value: PropTypes.number
+      }),
+      couponDiscountAmount: PropTypes.shape({
+        value: PropTypes.number
+      }),
+      paybleAmount: PropTypes.shape({
+        value: PropTypes.number
+      })
+    }),
+    cliqCashAmountDeducted: PropTypes.number,
+    convenienceCharge: PropTypes.string,
+    deliveryCharge: PropTypes.string,
+    deliveryAddress: PropTypes.shape({
+      phone: PropTypes.string
+    }),
+    isCDA: PropTypes.bool,
+    products: PropTypes.arrayOf(
+      PropTypes.shape({
+        storeDetails: PropTypes.shape({
+          storeContactNumber: PropTypes.string
+        }),
+        selectedDeliveryMode: PropTypes.shape({
+          code: PropTypes.string
+        }),
+        orderDate: PropTypes.string,
+        orderId: PropTypes.string,
+        totalOrderAmount: PropTypes.string,
+        subTotal: PropTypes.string,
+        totalDiscounts: PropTypes.string,
+        convenienceCharge: PropTypes.string,
+        paymentMethod: PropTypes.string,
+        paymentRetryLink: PropTypes.string,
+        billingAddress: PropTypes.arrayOf(
+          PropTypes.shape({
+            addressLine1: PropTypes.string,
+            town: PropTypes.string,
+            state: PropTypes.string,
+            postalcode: PropTypes.string
+          })
+        )
+      })
+    )
+  }),
+  userAddress: PropTypes.object,
   requestInvoice: PropTypes.func,
   underlineButtonLabel: PropTypes.string,
-  underlineButtonColour: PropTypes.string
+  underlineButtonColour: PropTypes.string,
+  history: PropTypes.object,
+  location: PropTypes.object,
+  match: PropTypes.object,
+  sendInvoice: PropTypes.func,
+  showShippingDetails: PropTypes.func,
+  showReturnModal: PropTypes.func,
+  setHeaderText: PropTypes.func,
+  fetchOrderItemDetails: PropTypes.func,
+  fetchOrderDetails: PropTypes.func,
+  showDeliveryConfirmModal: PropTypes.func,
+  showModal: PropTypes.func,
+  setUrlToRedirectToAfterAuth: PropTypes.func,
+  retryPayment: PropTypes.func,
+  loadingForFetchOrderDetails: PropTypes.bool,
+  showSecondaryLoader: PropTypes.func,
+  hideSecondaryLoader: PropTypes.func,
+  displayToast: PropTypes.func
+
 };
 OrderDetails.defaultProps = {
   underlineButtonLabel: "Request Invoice",

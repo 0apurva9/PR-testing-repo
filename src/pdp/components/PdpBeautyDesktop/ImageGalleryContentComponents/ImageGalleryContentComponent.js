@@ -4,16 +4,6 @@ import PropTypes from "prop-types";
 
 import {
   IMAGE_GALLERY_COMPONENT,
-  PRODUCT_AND_BRAND_COMPONENT,
-  RATING_REVIEW_COMPONENT,
-  PRICE_COMPONENT,
-  SIZE_COMPONENT,
-  OFFERS_COMPONENT,
-  SHIPPING_DETAIL_COMPONENT,
-  COLOR_COMPONENT,
-  GUARANTEE_COMPONENT,
-  FREEBIE_COMPONENT,
-  DETAILS_COMPONENT,
   SECTION_OF_PRODUCT_DETAILS
 } from "../ComponentConstants";
 import styles from "./ImageGalleryContentComponent.css";
@@ -129,5 +119,6 @@ ImageGalleryContentComponent.propTypes = {
         tagPosition: PropTypes.string
       })
     })
-  )
+  ),
+  handleDetailsScroll: PropTypes.func
 };

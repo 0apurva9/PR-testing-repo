@@ -67,7 +67,7 @@ export default class CleverTapEmailUnsubscribe extends Component {
   }
 
   onUnsubscribe() {
-    if (window.hasOwnProperty("unsubscribe")) window.unsubscribe();
+    if (Object.prototype.hasOwnProperty.call(window, "unsubscribe")) window.unsubscribe();
   }
 
   render() {

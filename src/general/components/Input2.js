@@ -10,23 +10,27 @@ export default class Input2 extends React.Component {
       oldPosition: 0
     };
   }
+
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.state.value) {
       this.setState({ value: nextProps.value });
     }
   }
+
   handleFocus(event) {
     if (this.props.onFocus) {
       this.props.onFocus(event);
     }
     this.setState({ focused: true });
   }
+
   handleBlur(event) {
     if (this.props.onBlur) {
       this.props.onBlur(event);
     }
     this.setState({ focused: false });
   }
+
   handleChange(event) {
     const NUMBER_REGEX = /^[0-9]+$/;
     const CARD_REGEX = /^[0-9\s]+$/;
@@ -89,11 +93,13 @@ export default class Input2 extends React.Component {
       });
     }
   }
+
   handleKeyPress(event) {
     if (this.props.onKeyPress) {
       this.props.onKeyPress(event);
     }
   }
+
   handleKeyUp = event => {
     if (this.props.onKeyUp) {
       this.props.onKeyUp(event);
@@ -189,7 +195,25 @@ Input2.propTypes = {
   textStyle: PropTypes.shape({
     fontSize: PropTypes.number
   }),
-  dataTest: PropTypes.string
+  dataTest: PropTypes.string,
+  isCard: PropTypes.bool,
+  onlyNumber: PropTypes.bool,
+  onlyAlphabet: PropTypes.bool,
+  onKeyPress: PropTypes.func,
+  onKeyUp: PropTypes.func,
+  leftChildSize: PropTypes.number,
+  rightChildSize: PropTypes.number,
+  borderBottom: PropTypes.string,
+  borderColor: PropTypes.string,
+  value: PropTypes.string,
+  maxLength: PropTypes.number,
+  disabled: PropTypes.bool,
+  autoFocus: PropTypes.bool,
+  border: PropTypes.string,
+  noPadding: PropTypes.bool,
+  required: PropTypes.bool,
+  placeholderMoving: PropTypes.bool,
+  placeholderText: PropTypes.string
 };
 
 Input2.defaultProps = {

@@ -1,12 +1,11 @@
 import React from "react";
 import styles from "./OrderPaymentMethod.css";
+import { RouterPropTypes } from "../../general/router-prop-types";
 import PropTypes from "prop-types";
 import {
   MY_ACCOUNT_PAGE,
   COSTUMER_CLIQ_CARE_ROUTE,
   RETURN_TO_ADDRESS,
-  RETURNS_PREFIX,
-  RETURN_LANDING,
   ORDER_CODE,
   ORDER,
   MY_ACCOUNT
@@ -15,20 +14,14 @@ import {
   setDataLayer,
   ADOBE_HELP_SUPPORT_LINK_CLICKED
 } from "../../lib/adobeUtils";
-import UnderLinedButton from "../../general/components/UnderLinedButton";
-import each from "lodash.foreach";
-import { HELP_URL } from "../../lib/constants";
 
 export default class OrderPaymentMethod extends React.Component {
-  // request() {
-  //   if (this.props.request) {
-  //     this.props.request();
-  //   }
-  // }
+
   constructor(props) {
     super(props);
     this.state = { deliveryAddress: "" };
   }
+
   redirectToHelpPage() {
     const orderCode = this.props.orderDetails.orderId;
     const transactionId = this.props.orderDetails.products[0].transactionId;
@@ -82,8 +75,8 @@ export default class OrderPaymentMethod extends React.Component {
     //   `${MY_ACCOUNT_PAGE}${COSTUMER_ORDER_RELATED_QUERY_ROUTE}`
     // );
   }
+
   onChangeAddress = () => {
-    //this.props.history.push(`${MY_ACCOUNT_PAGE}/${this.props.orderId}${RETURN_TO_ADDRESS}`);
     this.props.history.push({
       pathname: `${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${this.props.orderId}${RETURN_TO_ADDRESS}`,
       state: {
@@ -92,13 +85,8 @@ export default class OrderPaymentMethod extends React.Component {
         authorizedRequest: true
       }
     });
-
-    //let orderCode = this.props.location.pathname.split("/")[2];
-    // let searchparam = window.location.search;
-    // let orderCode = searchparam.split('=')[1];
-
-    // this.props.history.push(`${RETURNS_PREFIX}/${orderCode}${RETURN_LANDING}${RETURN_TO_ADDRESS}`);
   };
+
   async componentDidMount() {
     let deliveryAddress = this.props && this.props.deliveryAddress;
     await this.setState({
@@ -111,6 +99,7 @@ export default class OrderPaymentMethod extends React.Component {
         deliveryAddress
     });
   }
+
   redirectToHelp() {
     if (this.props.redirectToHelp) {
       this.props.redirectToHelp();
@@ -161,8 +150,8 @@ export default class OrderPaymentMethod extends React.Component {
                   Change
                 </div>
               ) : (
-                ""
-              )}
+                  ""
+                )}
             </React.Fragment>
 
             {addressLine1 && (
@@ -220,10 +209,22 @@ export default class OrderPaymentMethod extends React.Component {
 }
 
 OrderPaymentMethod.propTypes = {
-  // underlineButtonLabel: PropTypes.string,
-  // underlineButtonColour: PropTypes.string,
   phoneNumber: PropTypes.string,
   clickcollect: PropTypes.bool,
+  orderId: PropTypes.string,
+  paymentMethod: PropTypes.string,
+  redirectToHelp: PropTypes.func,
+  isInvoiceAvailable: PropTypes.bool,
+
+  isCDA: PropTypes.bool,
+  orderDetails: PropTypes.shape({
+    orderId: PropTypes.string,
+    products: PropTypes.arrayOf(
+      PropTypes.shape({
+        transactionId: PropTypes.string,
+      })
+    )
+  }),
   deliveryAddress: PropTypes.shape({
     addressLine1: PropTypes.string,
     addressType: PropTypes.string,
@@ -237,11 +238,9 @@ OrderPaymentMethod.propTypes = {
     shippingFlag: PropTypes.bool,
     state: PropTypes.string,
     town: PropTypes.string
-  })
-  //request: PropTypes.func
+  }),
+  ...RouterPropTypes
 };
 OrderPaymentMethod.defaultProps = {
-  // underlineButtonLabel: "Request Invoice",
-  // underlineButtonColour: "#181818",
   isInvoiceAvailable: false
 };

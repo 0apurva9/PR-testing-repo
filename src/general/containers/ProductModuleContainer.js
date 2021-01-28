@@ -1,9 +1,9 @@
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { showModal, SORT, SIMILAR_PRODUCTS_MODAL } from "../modal.actions.js";
+import { showModal, SIMILAR_PRODUCTS_MODAL } from "../modal.actions.js";
 import ProductModule from "../components/ProductModule";
 import { viewSimilarProducts } from "../../plp/actions/plp.actions.js";
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = dispatch => {
   return {
     setviewSimilarProductsOfId: id => {
       dispatch(viewSimilarProducts(id));

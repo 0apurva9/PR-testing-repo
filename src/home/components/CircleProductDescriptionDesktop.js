@@ -18,6 +18,7 @@ export default class CircleProductDescriptionDesktop extends React.Component {
       this.props.onRedirect(urlSuffix, this.props.brandsName, evt);
     }
   }
+
   render() {
     let priceClass = styles.discountPrice;
     if (

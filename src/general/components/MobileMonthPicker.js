@@ -7,6 +7,7 @@ export default class MobileMonthPicker extends React.Component {
       this.props.onChange(val);
     }
   }
+
   render() {
     const monthOption = [
       { value: "01" },

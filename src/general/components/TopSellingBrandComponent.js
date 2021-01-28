@@ -16,6 +16,7 @@ export default class TopSellingBrandComponent extends React.Component {
       this.props.setClickedElementId();
     }
   };
+
   render() {
     return (
       <div
@@ -46,5 +47,9 @@ export default class TopSellingBrandComponent extends React.Component {
 TopSellingBrandComponent.propTypes = {
   imageURL: PropTypes.string,
   logoImageURL: PropTypes.string,
-  webURL: PropTypes.string
+  webURL: PropTypes.string,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+  setClickedElementId: PropTypes.func,
 };

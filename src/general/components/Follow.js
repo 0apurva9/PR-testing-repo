@@ -53,7 +53,10 @@ export default class Follow extends Component {
 Follow.propTypes = {
   onFollowClick: PropTypes.func,
   onUnFollowClick: PropTypes.func,
-  follow: PropTypes.bool
+  follow: PropTypes.bool,
+  onClick: PropTypes.func,
+  text: PropTypes.string,
+  width: PropTypes.number,
 };
 
 Follow.defaultProps = {

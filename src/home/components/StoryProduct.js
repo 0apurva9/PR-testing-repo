@@ -11,6 +11,7 @@ export default class StoryProduct extends React.Component {
     setDataLayerForStoryModal(ADOBE_DIRECT_CALL_FOR_FRESH_FROM_BRANDS_PDP_VIEW);
     this.props.history.push(`/p-${this.props.productListingId.toLowerCase()}`);
   }
+
   render() {
     return (
       <div className={styles.content}>

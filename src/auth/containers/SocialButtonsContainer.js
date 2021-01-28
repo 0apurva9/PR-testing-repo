@@ -41,7 +41,6 @@ import {
 } from "../../lib/constants";
 import {
   createWishlist,
-  getWishListItems,
   getWishlist
 } from "../../wishlist/actions/wishlist.actions.js";
 import { clearUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";

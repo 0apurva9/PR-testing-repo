@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import styles from "./BrandsItem.css";
 export default class BrandsItem extends React.Component {
   onSelect() {
@@ -7,6 +6,7 @@ export default class BrandsItem extends React.Component {
       this.props.selectItem();
     }
   }
+
   render() {
     let className = styles.base;
     if (this.props.selected) {

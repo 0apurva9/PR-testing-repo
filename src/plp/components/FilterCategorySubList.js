@@ -12,6 +12,7 @@ export default class FilterCategorySubList extends React.Component {
       );
     }
   }
+
   render() {
     return (
       <div className={styles.base} onClick={() => this.handleClick()}>
@@ -42,5 +43,8 @@ export default class FilterCategorySubList extends React.Component {
 FilterCategorySubList.propTypes = {
   selectItem: PropTypes.func,
   subListItem: PropTypes.string,
-  subListCount: PropTypes.number
+  subListCount: PropTypes.number,
+  onClick: PropTypes.func,
+  value: PropTypes.string,
+  selected: PropTypes.array
 };

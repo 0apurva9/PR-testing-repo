@@ -28,6 +28,7 @@ export default class MobileDatePicker extends React.Component {
       this.setState({ value: nextProps.value });
     }
   }
+
   handleChange(event) {
     this.setState({ value: event.target.value }, () => {
       if (this.props.onChange) {
@@ -35,6 +36,7 @@ export default class MobileDatePicker extends React.Component {
       }
     });
   }
+
   render() {
     return (
       <div className={styles.base}>
@@ -60,5 +62,6 @@ export default class MobileDatePicker extends React.Component {
   }
 }
 MobileDatePicker.propTypes = {
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  value: PropTypes.string
 };

@@ -11,6 +11,7 @@ export default class ProductVideoForAPlusTemplate3 extends React.Component {
       played: false
     };
   }
+
   onEnded = () => {
     this.setState({ played: false });
   };
@@ -18,6 +19,7 @@ export default class ProductVideoForAPlusTemplate3 extends React.Component {
   onPlay = () => {
     this.setState({ played: true });
   };
+
   render() {
     let overlayClass = styles.overlay;
     if (this.state.played) {

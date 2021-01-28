@@ -145,6 +145,15 @@ export default class ThemeProductWidget extends React.Component {
 }
 ThemeProductWidget.propTypes = {
   feedComponentData: PropTypes.shape({
+    description: PropTypes.string,
+    postParams: PropTypes.object,
+    webURL: PropTypes.string,
+    items: PropTypes.array,
+    imageURL: PropTypes.string,
+    brandLogo: PropTypes.string,
+    title: PropTypes.string,
+    btnText: PropTypes.string,
+    widgetPlatform: PropTypes.string,
     data: PropTypes.shape({
       backgroundImageURL: PropTypes.string,
       brandLogo: PropTypes.string,
@@ -158,5 +167,9 @@ ThemeProductWidget.propTypes = {
         })
       )
     })
-  })
+  }),
+  history: PropTypes.object,
+  setClickedElementId: PropTypes.func,
+  getItems: PropTypes.func,
+  positionInFeed: PropTypes.bool,
 };

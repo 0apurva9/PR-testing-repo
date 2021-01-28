@@ -7,6 +7,7 @@ export default class SearchResultItem extends React.Component {
       this.props.onClick(val);
     }
   }
+
   render() {
     let suggestedText = this.props.suggestedText;
     return this.props.storeBrandMer ? (
@@ -52,7 +53,7 @@ export default class SearchResultItem extends React.Component {
     );
   }
 }
-SearchResultItem = {
+SearchResultItem.PropTypes = {
   text: PropTypes.string,
   onClick: PropTypes.func,
   value: PropTypes.string

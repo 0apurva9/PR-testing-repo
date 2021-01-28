@@ -48,7 +48,7 @@ export default class ReturnsToBank extends React.Component {
   }
 }
 ReturnsToBank.propTypes = {
-  cardNumber: PropTypes.string,
+  cartNumber: PropTypes.string,
   cardLogo: PropTypes.string,
   footerText: PropTypes.string
 };

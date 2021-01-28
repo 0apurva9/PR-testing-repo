@@ -1,41 +1,41 @@
 export interface IPReturnCommentsObj {
-	returnReasonCode: string;
-	subReasonCode: string;
-	comment: string;
-	reason: string;
-	reverseSeal: string;
-	subReason: string;
-	// sellerorderno: any;
+    returnReasonCode: string;
+    subReasonCode: string;
+    comment: string;
+    reason: string;
+    reverseSeal: string;
+    subReason: string;
+    // sellerorderno: any;
 }
 
 export interface IState extends IPReturnCommentsObj {
-	displaySecondary?: boolean;
-	secondaryReasons?: Array<string>;
-	isEnable: boolean;
-	subReason: string;
+    displaySecondary?: boolean;
+    secondaryReasons?: Array<string>;
+    isEnable: boolean;
+    subReason: string;
 }
 export interface IReturnReasonMapItem {
-	parentReasonCode: string;
-	parentReturnReason: string;
+    parentReasonCode: string;
+    parentReturnReason: string;
 }
 
 export interface IReturnSubReasons {
-	subReasonCode: string;
-	subReturnReason: string;
+    subReasonCode: string;
+    subReturnReason: string;
 }
 
 export interface IReturnSubReasonWithLabel {
-	value: string;
-	label: string;
+    value: string;
+    label: string;
 }
 export interface IProps {
-	onContinue: (reasonAndCommentObj: IPReturnCommentsObj) => void;
-	onCancel: () => void;
-	returnProductDetails: any;
-	orderDate: string;
-	orderId: string;
-	productBrand: string;
-	onHollow: boolean;
-	returnFlow: boolean;
-	//subReason: string;
+    onContinue: (reasonAndCommentObj: IPReturnCommentsObj) => void;
+    onCancel: () => void;
+    returnProductDetails: any;
+    orderDate: string;
+    orderId: string;
+    productBrand: string;
+    onHollow: boolean;
+    returnFlow: boolean;
+    //subReason: string;
 }

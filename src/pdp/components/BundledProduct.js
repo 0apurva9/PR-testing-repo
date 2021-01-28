@@ -1,9 +1,7 @@
 import React from "react";
 import styles from "./BundledProduct.css";
 import Image from "../../xelpmoc-core/Image";
-import Video from "../../general/components/Video";
 import { RUPEE_SYMBOL, PRODUCT_CART_ROUTER } from "../../lib/constants";
-import AddIcon from "./img/Add.svg";
 import Loader from "../../general/components/SecondaryLoader";
 import {
   setDataLayer,
@@ -44,8 +42,7 @@ export default class BundledProduct extends React.Component {
         analyticsData.price = this.props.productDetails.winningSellerPrice.value;
         setDataLayer(ADOBE_BUNDLED_ADD_BOTH_PRODUCT_TO_CART, analyticsData);
         let baseProduct = await this.props.addProductToCart(
-          baseProductDetails,
-          val => {}
+          baseProductDetails
         );
 
         if (baseProduct && baseProduct.status === "success") {
@@ -58,8 +55,7 @@ export default class BundledProduct extends React.Component {
             analyticsBundleData
           );
           let bundleProduct = await self.props.addProductToCart(
-            bundleProductDetails,
-            val => {}
+            bundleProductDetails
           );
           if (bundleProduct && bundleProduct.status === "success") {
             self.props.history.push(PRODUCT_CART_ROUTER);
@@ -68,14 +64,17 @@ export default class BundledProduct extends React.Component {
       }
     }
   };
+
   bundledPromotionText = () => {
     let text = this.props.bundledPromotionText;
     var replaced = text.split("$").join(" ");
     return replaced;
   };
+
   renderLoader() {
     return <Loader />;
   }
+
   render() {
     if (this.props.bundleProductData === null) {
       return this.renderLoader();
@@ -84,15 +83,6 @@ export default class BundledProduct extends React.Component {
     const bundleProduct = this.props && this.props.bundleProductData;
     let price = "";
     let discountPrice = "";
-    let seoDoublePrice = 0;
-    if (
-      baseProduct.winningSellerPrice &&
-      baseProduct.winningSellerPrice.doubleValue
-    ) {
-      seoDoublePrice = baseProduct.winningSellerPrice.doubleValue;
-    } else if (baseProduct.mrpPrice && baseProduct.mrpPrice.doubleValue) {
-      seoDoublePrice = baseProduct.mrpPrice.doubleValue;
-    }
     if (baseProduct.mrpPrice && baseProduct.mrpPrice.formattedValueNoDecimal) {
       price = baseProduct.mrpPrice.formattedValueNoDecimal;
     }

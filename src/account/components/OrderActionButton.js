@@ -43,6 +43,7 @@ class OrderActionButton extends Component {
     setDataLayer(ADOBE_MY_ACCOUNT_WRITE_REVIEW);
     this.props.history.push(`/p-${productCode.toLowerCase()}${WRITE_REVIEW}`);
   }
+
   requestInvoice(lineID, orderNumber) {
     setDataLayer(ADOBE_REQUEST_INVOICE_LINK_CLICKED);
     if (this.props.sendInvoice) {
@@ -237,7 +238,7 @@ class OrderActionButton extends Component {
             "ORDER_UNCOLLECTED" && (
             <div
               className={styles.orderActionButton}
-              onClick={val =>
+              onClick={() =>
                 this.writeReview(selectedOrder.products[0].productcode)
               }
             >

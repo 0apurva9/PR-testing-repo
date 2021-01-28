@@ -1,97 +1,106 @@
 import React from "react";
 import PropTypes from "prop-types";
-import classNames from "classnames";
 import styles from "./Input.css";
 
 class Input extends React.Component {
-  constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props);
 
-    this.state = {
-      value: props.value ? props.value : "",
-      disabled: this.props.disabled,
-      focused: false
-    };
-    this.styles = this.props.styles ? this.props.styles : styles;
-  }
-  handleChange(event) {
-    if (this.props.onChange) {
-      this.props.onChange(event.target.value);
-    }
-    this.setState({ value: event.target.value });
-  }
-  handleFocus(event) {
-    if (this.props.onFocus) {
-      this.props.onFocus(event);
-    }
-    this.setState({ focused: true });
-  }
-  handleBlur(event) {
-    if (this.props.onBlur) {
-      this.props.onBlur(event);
-    }
-    this.setState({ focused: false });
-  }
-  handleKeyUp(event) {
-    if (this.props.onKeyUp) {
-      this.props.onKeyUp(event);
-    }
-  }
-  render() {
-    var { leftChild, rightChild, placeholder, type, ...other } = this.props;
-    let inputClass =
-      this.props.inputClass === "inputBoxShowIcon"
-        ? styles.inputBoxShowIcon
-        : styles.inputBoxHideIcon;
-    let className = this.styles.base;
-    if (this.state.focused) {
-      className = this.styles.focused;
+        this.state = {
+            value: props.value ? props.value : "",
+            disabled: this.props.disabled,
+            focused: false,
+        };
+        this.styles = this.props.styles ? this.props.styles : styles;
     }
 
-    if (this.state.disabled) {
-      className = this.styles.disabled;
+    handleChange(event) {
+        if (this.props.onChange) {
+            this.props.onChange(event.target.value);
+        }
+        this.setState({ value: event.target.value });
     }
 
-    if (this.props.hollow) {
-      className = this.styles.hollow;
+    handleFocus(event) {
+        if (this.props.onFocus) {
+            this.props.onFocus(event);
+        }
+        this.setState({ focused: true });
     }
-    return (
-      <div className={className}>
-        {leftChild && <div className={styles.leftChild}>{leftChild}</div>}
-        <input
-          type={type}
-          value={this.props.value ? this.props.value : this.state.value}
-          className={inputClass}
-          onChange={event => this.handleChange(event)}
-          onFocus={event => this.handleFocus(event)}
-          onKeyUp={event => this.handleKeyUp(event)}
-          onBlur={event => this.handleBlur(event)}
-          placeholder={placeholder}
-          style={{
-            fontSize: `${this.props.fontSize}px`
-          }}
-          maxLength={this.props.maxLength}
-        />
-        {rightChild && (
-          <div className={this.styles.rightChild}>{rightChild}</div>
-        )}
-      </div>
-    );
-  }
+
+    handleBlur(event) {
+        if (this.props.onBlur) {
+            this.props.onBlur(event);
+        }
+        this.setState({ focused: false });
+    }
+
+    handleKeyUp(event) {
+        if (this.props.onKeyUp) {
+            this.props.onKeyUp(event);
+        }
+    }
+
+    render() {
+        var { leftChild, rightChild, placeholder, type } = this.props;
+        let inputClass =
+            this.props.inputClass === "inputBoxShowIcon" ? styles.inputBoxShowIcon : styles.inputBoxHideIcon;
+        let className = this.styles.base;
+        if (this.state.focused) {
+            className = this.styles.focused;
+        }
+
+        if (this.state.disabled) {
+            className = this.styles.disabled;
+        }
+
+        if (this.props.hollow) {
+            className = this.styles.hollow;
+        }
+        return (
+            <div className={className}>
+                {leftChild && <div className={styles.leftChild}>{leftChild}</div>}
+                <input
+                    type={type}
+                    value={this.props.value ? this.props.value : this.state.value}
+                    className={inputClass}
+                    onChange={event => this.handleChange(event)}
+                    onFocus={event => this.handleFocus(event)}
+                    onKeyUp={event => this.handleKeyUp(event)}
+                    onBlur={event => this.handleBlur(event)}
+                    placeholder={placeholder}
+                    style={{
+                        fontSize: `${this.props.fontSize}px`,
+                    }}
+                    maxLength={this.props.maxLength}
+                />
+                {rightChild && <div className={this.styles.rightChild}>{rightChild}</div>}
+            </div>
+        );
+    }
 }
 
 Input.propTypes = {
-  onFocus: PropTypes.func,
-  onBlur: PropTypes.func,
-  onChange: PropTypes.func,
-  disabled: PropTypes.bool,
-  maxLength: PropTypes.number,
-  value: PropTypes.string
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
+    onChange: PropTypes.func,
+    disabled: PropTypes.bool,
+    maxLength: PropTypes.number,
+    value: PropTypes.string,
+    styles: PropTypes.object,
+    onKeyUp: PropTypes.func,
+    fontSize: PropTypes.number,
+    hollow: PropTypes.bool,
+    leftChild: PropTypes.element,
+    rightChild: PropTypes.element,
+    placeholder: PropTypes.string,
+    type: PropTypes.string,
+    inputClass: PropTypes.string,
 };
 
 Input.defaultProps = {
-  disabled: false,
-  fontSize: 12
+    disabled: false,
+    fontSize: 12,
 };
 
 export default Input;

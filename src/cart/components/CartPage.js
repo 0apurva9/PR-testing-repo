@@ -46,7 +46,6 @@ import {
   YOUR_BAG,
   MY_ACCOUNT_PAGE,
   SAVE_LIST_PAGE,
-  CART_BAG_DETAILS
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -60,8 +59,6 @@ import {
 import * as UserAgent from "../../lib/UserAgent.js";
 import SaveAndSecure from "../../general/components/SaveAndSecure";
 import styles from "./CartPage.css";
-import CliqandPiqModal from "../../pdp//components/CliqandPiqModal.js";
-import ModalPanel from "../../general/components/ModalPanel.js";
 import { setTracker, VIEW_CART } from "../../lib/onlinesalesUtils";
 const DISCLAIMER =
   "Safe and secure payments. Easy returns. 100% Authentic products.";
@@ -84,6 +81,7 @@ class CartPage extends React.Component {
       appliancesExchangePincodeData: null
     };
   }
+
   showHideDetails = () => {
     window.scroll({
       top:
@@ -93,10 +91,12 @@ class CartPage extends React.Component {
       behavior: "smooth"
     });
   };
+
   navigateToHome() {
     setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING);
     this.props.history.push(HOME_ROUTER);
   }
+
   displayCoupons = () => {
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     const globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
@@ -124,6 +124,7 @@ class CartPage extends React.Component {
       );
     }
   };
+
   componentDidMount() {
     //localStorage.removeItem(SELECTED_STORE);
     if (localStorage.getItem("cartPromotionText")) {
@@ -151,7 +152,7 @@ class CartPage extends React.Component {
       if (JSON.parse(cartDetailsLoggedInUser).isBuyNowCart) {
         localStorage.removeItem(BUY_NOW_PRODUCT_DETAIL);
       }
-      let cliqPiqCartCode, cliqPiqCartId;
+      let cliqPiqCartCode;
       if (
         this.props.location &&
         this.props.location.state &&
@@ -163,12 +164,6 @@ class CartPage extends React.Component {
           this.props.location.state.isCliqAndPiqCartCode
             ? this.props.location.state.isCliqAndPiqCartCode
             : JSON.parse(localStorage.getItem(CLIQ_AND_PIQ_CART_CODE));
-        cliqPiqCartId =
-          this.props.location &&
-          this.props.location.state &&
-          this.props.location.state.isCliqAndPiqCartGuid
-            ? this.props.location.state.isCliqAndPiqCartGuid
-            : JSON.parse(localStorage.getItem(CLIQ_AND_PIQ_CART_ID));
         this.setState({ isComingFromCliqAndPiq: true });
       }
       this.props.getCartDetails(
@@ -285,7 +280,7 @@ class CartPage extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     this.props.setHeaderText(YOUR_BAG);
     if (prevProps.cart) {
       if (
@@ -351,6 +346,7 @@ class CartPage extends React.Component {
       }
     }
   }
+
   renderLoader = () => {
     return (
       <div className={styles.cartLoader}>
@@ -410,15 +406,17 @@ class CartPage extends React.Component {
     }
   };
 
-  releaseCoupon = couponCode => {
+  releaseCoupon = () => {
     if (this.props.releaseCoupon) {
       this.props.releaseCoupon();
     }
   };
+
   redirectToSaveList = () => {
     setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CART_SAVED_LIST);
     this.props.history.push(`${MY_ACCOUNT_PAGE}${SAVE_LIST_PAGE}`);
   };
+
   getPaymentModes = () => {
     if (
       (this.props.location &&
@@ -466,11 +464,13 @@ class CartPage extends React.Component {
       return null;
     }
   }
+
   onClickImage(productCode) {
     if (productCode) {
       this.props.history.push(`/p-${productCode.toLowerCase()}`);
     }
   }
+
   renderToCheckOutPage(productExchangeServiceable) {
     // if product has exchange available
     if (
@@ -604,6 +604,7 @@ class CartPage extends React.Component {
         this.checkPinCodeAvailability(pinCode, addressId)
     });
   };
+
   renderBankOffers = () => {
     if (
       this.props.cart.paymentModes &&
@@ -680,7 +681,7 @@ class CartPage extends React.Component {
                     }
                     onFocusInput={() => this.onFocusInput()}
                     onBlur={() => this.onBlur()}
-                    onKeyPress={e => this.onKeyPress()}
+                    onKeyPress={() => this.onKeyPress()}
                     ovalButton={true}
                     getPinCode={getPinCode}
                     city={city}
@@ -731,6 +732,7 @@ class CartPage extends React.Component {
   onFocusInput() {
     this.setState({ showCheckoutSection: false });
   }
+
   onBlur() {
     this.setState({ showCheckoutSection: true });
   }
@@ -738,6 +740,7 @@ class CartPage extends React.Component {
   onKeyPress() {
     this.setState({ showCheckoutSection: true });
   }
+
   getAllStores = async selectedProductsUssId => {
     const defalutPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
     let getAllStoresCNCResponse = await this.props.getAllStoresCNC(
@@ -747,6 +750,7 @@ class CartPage extends React.Component {
       this.renderCliqAndPiq(selectedProductsUssId);
     }
   };
+
   renderCliqAndPiq(selectedProductsUssId) {
     let currentSelectedProduct =
       this.props.cart &&
@@ -771,6 +775,7 @@ class CartPage extends React.Component {
     );
     this.props.showPdpCliqAndPiqPage(cliqAndPiqDetails);
   }
+
   render() {
     const getPinCode =
       this.props &&
@@ -886,7 +891,7 @@ class CartPage extends React.Component {
                       }
                       onFocusInput={() => this.onFocusInput()}
                       onBlur={() => this.onBlur()}
-                      onKeyPress={e => this.onKeyPress()}
+                      onKeyPress={() => this.onKeyPress()}
                       ovalButton={true}
                       getPinCode={getPinCode}
                       city={city}
@@ -906,7 +911,7 @@ class CartPage extends React.Component {
                 }
                 onFocusInput={() => this.onFocusInput()}
                 onBlur={() => this.onBlur()}
-                onKeyPress={e => this.onKeyPress()}
+                onKeyPress={() => this.onKeyPress()}
               />
             </div>
           </MobileOnly>
@@ -1396,7 +1401,44 @@ CartPage.propTypes = {
   removeItemFromCartLoggedIn: PropTypes.func,
   getCartDetails: PropTypes.func,
   updateQuantityInCartLoggedIn: PropTypes.func,
-  updateQuantityInCartLoggedOut: PropTypes.func
+  updateQuantityInCartLoggedOut: PropTypes.func,
+  history: PropTypes.object,
+  location: PropTypes.object,
+  displayCouponsForLoggedInUser: PropTypes.func,
+  displayCouponsForAnonymous: PropTypes.func,
+  displayToast: PropTypes.func,
+  getWishlist: PropTypes.func,
+  getUserAddress: PropTypes.func,
+  cliqPiqCartId: PropTypes.string,
+  getCartCodeAndGuidForLoggedInUser: PropTypes.func,
+  cart: PropTypes.object,
+  showCouponModal: PropTypes.func,
+  appliancesExchangePincodeDetails: PropTypes.object,
+  prevState:PropTypes.object,
+  setHeaderText: PropTypes.func,
+  appliancesExchangeCheckPincode: PropTypes.func,
+  releaseCoupon: PropTypes.func,
+  getPaymentModes:PropTypes.func,
+  setUrlToRedirectToAfterAuth: PropTypes.func,
+  showAuthPopUp: PropTypes.func,
+  addressModal: PropTypes.func,
+  getAllStoresCNC: PropTypes.func,
+  showPdpCliqAndPiqPage: PropTypes.func,
+  showSecondaryLoader: PropTypes.func,
+  hideSecondaryLoader: PropTypes.func,
+  showExchangeTnCModal: PropTypes.func,
+  showRemoveExchangeModal: PropTypes.func,
+  verifyIMEINumber: PropTypes.func,
+  getBundledProductSuggestion: PropTypes.func,
+  bundledProductSuggestionDetails: PropTypes.func,
+  addBundledProductsToCart: PropTypes.func,
+  addBundledProductsToCartDetails: PropTypes.func,
+  bundledProductSuggestionStatus: PropTypes.string,
+  openAppliancesExchangeModal: PropTypes.func,
+  wishListCount: PropTypes.number,
+  mergeTempCartWithOldCart: PropTypes.func,
+  getMinicartProducts: PropTypes.func,
+  clearCartDetails: PropTypes.func
 };
 
 CartPage.defaultProps = {

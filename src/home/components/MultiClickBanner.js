@@ -28,6 +28,7 @@ export default class MultiClickBanner extends React.Component {
       }
     }
   }
+
   render() {
     const { feedComponentData } = this.props;
     return (
@@ -53,7 +54,7 @@ export default class MultiClickBanner extends React.Component {
             <div className={styles.content}>
               {feedComponentData &&
                 feedComponentData.items &&
-                feedComponentData.items.map(val => {
+                feedComponentData.items.map((val, index) => {
                   return (
                     <div
                       className={styles.details}
@@ -61,7 +62,7 @@ export default class MultiClickBanner extends React.Component {
                         top: `${val.YAxis}%`,
                         left: `${val.XAxis}%`
                       }}
-                    >
+                     key = {index}>
                       <MultiClickProduct
                         brandName={val.brandName}
                         description={val.description}
@@ -97,5 +98,9 @@ MultiClickBanner.propTypes = {
       description: PropTypes.string,
       price: PropTypes.string
     })
-  )
+  ),
+  postData: PropTypes.object,
+  history: PropTypes.object,
+  setClickedElementId: PropTypes.func,
+  feedComponentData: PropTypes.object
 };

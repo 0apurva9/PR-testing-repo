@@ -12,6 +12,7 @@ export default class BannerSeparator extends React.Component {
       }
     }
   }
+
   render() {
     return (
       <div

@@ -131,6 +131,7 @@ class ProductCouponDetails extends Component {
       this.props.navigateToLogin(this.props.history.location.pathname);
     }
   }
+
   render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let coupons = [];
@@ -347,6 +348,9 @@ class ProductCouponDetails extends Component {
 
 ProductCouponDetails.propTypes = {
   productOfferPromotion: PropTypes.array,
+  history: PropTypes.object,
+  closeModal: PropTypes.func,
+  onClickImage: PropTypes.func,
   activeNonEligibleCouponList: PropTypes.arrayOf(
     PropTypes.shape({
       couponCode: PropTypes.string,
@@ -391,7 +395,11 @@ ProductCouponDetails.propTypes = {
       maxDiscount: PropTypes.number,
       value: PropTypes.number
     })
-  )
+  ),
+  releaseUserCoupon: PropTypes.func,
+  applyUserCoupon: PropTypes.func,
+  navigateToLogin: PropTypes.func,
+  closedcouponsList: PropTypes.array
 };
 
 ProductCouponDetails.defaultProps = {

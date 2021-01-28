@@ -11,11 +11,13 @@ export default class ReturnsFrame extends React.Component {
       this.props.onContinue();
     }
   }
+
   handleCancel() {
     if (this.props.onCancel) {
       this.props.onCancel();
     }
   }
+
   render() {
     return (
       <div className={styles.base}>
@@ -76,7 +78,11 @@ export default class ReturnsFrame extends React.Component {
 ReturnsFrame.propTypes = {
   headerText: PropTypes.string,
   onContinue: PropTypes.func,
-  onCancel: PropTypes.func
+  onCancel: PropTypes.func,
+  children:PropTypes.node,
+  buttonText:PropTypes.string,
+  isFooterNeeded:PropTypes.bool,
+
 };
 ReturnsFrame.defaultProps = {
   buttonText: "CONTINUE"

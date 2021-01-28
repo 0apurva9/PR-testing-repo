@@ -31,6 +31,7 @@ export default class ProductModule extends React.Component {
       this.props.onDownload();
     }
   };
+
   getProductURL() {
     let urlSuffix;
     if (this.props.webURL) {
@@ -42,6 +43,7 @@ export default class ProductModule extends React.Component {
     }
     return urlSuffix;
   }
+
   handleClickOnLink = (event, exchangeOfferAvailable) => {
     if (exchangeOfferAvailable) {
       setDataLayer(
@@ -57,7 +59,8 @@ export default class ProductModule extends React.Component {
 
     event.preventDefault();
   };
-  onClick = val => {
+
+  onClick = () => {
     if (this.props.widgetName && this.props.productId) {
       widgetsTracking({
         widgetName: this.props.widgetName,
@@ -74,6 +77,7 @@ export default class ProductModule extends React.Component {
       );
     }
   };
+
   handleConnect = () => {
     if (this.props.onConnect) {
       this.props.onConnect();
@@ -85,14 +89,15 @@ export default class ProductModule extends React.Component {
     this.props.setviewSimilarProductsOfId(this.props.productId);
     this.props.showSimilarProducts();
   }
-  showSimilarIcons = eview => {
+
+  showSimilarIcons = () => {
     let similarButton =
       this.props.view === "grid" ? styles.display4by4 : styles.display3by3;
     if (this.props.productCategory === ELECTRONICS) {
       return null;
     } else {
       return (
-        <div className={similarButton} onClick={e => this.onClickSimilar()}>
+        <div className={similarButton} onClick={() => this.onClickSimilar()}>
           <Icon image={similarIcon} size={17} backgroundSize="auto 16px" />
         </div>
       );
@@ -305,7 +310,7 @@ export default class ProductModule extends React.Component {
                     <div className={styles.productFeatureHolder}>
                       {this.props.plpAttrMap.map((val, i) => {
                         return (
-                          <div className={styles.productFeature}>
+                          <div className={styles.productFeature} key = {i}>
                             {val.value}
                           </div>
                         );
@@ -349,7 +354,37 @@ ProductModule.propTypes = {
   offerText: PropTypes.string,
   bestDeliveryInfo: PropTypes.string,
   onOffer: PropTypes.bool,
-  isPlp: PropTypes.bool
+  isPlp: PropTypes.bool,
+  webURL: PropTypes.string,
+  productId: PropTypes.string,
+  productListingId: PropTypes.string,
+  widgetName: PropTypes.string,
+  sourceOfWidget: PropTypes.string,
+  key: PropTypes.number,
+  productListings: PropTypes.array,
+  setviewSimilarProductsOfId: PropTypes.func,
+  showSimilarProducts: PropTypes.func,
+  view: PropTypes.string,
+  productCategory: PropTypes.string,
+  variantCount: PropTypes.number,
+  shouldShowSimilarIcon: PropTypes.bool,
+  autoWidget: PropTypes.bool,
+  winningUssID: PropTypes.string,
+  ussid: PropTypes.string,
+  alt: PropTypes.string,
+  discountPercent: PropTypes.string,
+  isOfferExisting: PropTypes.bool,
+  onlineExclusive: PropTypes.string,
+  seasonTag: PropTypes.string,
+  outOfStock: PropTypes.bool,
+  newProduct: PropTypes.bool,
+  exchangeOfferAvailable: PropTypes.bool,
+  showExchangeTag: PropTypes.bool,
+  maxExchangeBumpUp: PropTypes.object,
+  ratingCount: PropTypes.number,
+  maxExchangePrice: PropTypes.object,
+  plpAttrMap: PropTypes.array,
+  price: PropTypes.string
 };
 ProductModule.defaultProps = {
   view: "grid",

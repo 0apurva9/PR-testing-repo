@@ -41,6 +41,7 @@ export default class SplitBannerComponentMonetization extends React.Component {
       }
     }
   }
+
   handleClick(webURL) {
     if (webURL) {
       // Check if URL starts https://www.tatacliq.com or https://tatacliq.com
@@ -55,6 +56,7 @@ export default class SplitBannerComponentMonetization extends React.Component {
       }
     }
   }
+
   renderCard = feedComponentDatum => {
     const { elements } = feedComponentDatum;
     return (

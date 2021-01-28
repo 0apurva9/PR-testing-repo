@@ -11,6 +11,7 @@ export default class Minibag extends React.Component {
       this.props.gotoCart();
     }
   }
+
   render() {
     let bagCount =
       this.props.cart.products.length &&
