@@ -81,8 +81,7 @@ import {
   getBankDetailsforDCEmi,
   getEMIEligibilityDetails,
   getDCEmiEligibility,
-  submitAppliancesExchangeData,
-  mdeFraudCheck
+  submitAppliancesExchangeData
 } from "../actions/cart.actions";
 import {
   showSecondaryLoader,
@@ -890,9 +889,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(
         submitAppliancesExchangeData(orderId, status, removeLocalStorage)
       );
-    },
-    mdeFraudCheck: () => {
-      dispatch(mdeFraudCheck());
     }
   };
 };
