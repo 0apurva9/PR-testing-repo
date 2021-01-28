@@ -2483,7 +2483,7 @@ const cart = (
     case cartActions.MDE_FRAUD_CHECK_SUCCESS:
       return Object.assign({}, state, {
         mdeFraudCheckStatus: action.status,
-        mdeFraudCheckDetails: action.data,
+        mdeFraudCheckDetails: action.data ? action.data : null,
         mdeFraudCheckLoading: false,
         mdeFraudCheckError: null
       });
