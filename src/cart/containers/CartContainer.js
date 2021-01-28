@@ -41,7 +41,8 @@ import {
   EXCHANGE_TnC_MODAL,
   EXCHANGE_REMOVE_MODAL,
   CLIQ_PIQ_MODAL,
-  APPLIANCES_EXCHANGE_MODAL
+  APPLIANCES_EXCHANGE_MODAL,
+  MDE_FRAUD_DETAILS_MODAL
 } from "../../general/modal.actions";
 import { SUCCESS, NO } from "../../lib/constants";
 import {
@@ -284,6 +285,9 @@ const mapDispatchToProps = dispatch => {
     },
     removeNoCostEmi: (couponCode, carGuId, cartId) => {
       return dispatch(removeNoCostEmi(couponCode, carGuId, cartId));
+    },
+    openMdeFraudDetailsModal: data => {
+      dispatch(showModal(MDE_FRAUD_DETAILS_MODAL, data));
     }
   };
 };

@@ -76,6 +76,7 @@ export const TIME_SLOT_POP_UP = "TimeSlotPopUp";
 export const CUSTOMER_CALL_QUERY_SUCCESS = "CustomerCallQuerySuccess";
 export const ATTACHMENT_UPLOAD_RESPONSE_POPUP = "AttachmentUploadPopUp";
 export const APPLIANCES_EXCHANGE_MODAL = "AppliancesExchangeModal";
+export const MDE_FRAUD_DETAILS_MODAL = "MdeFraudDetailsModal";
 export function showModal(type, ownProps) {
   const scrollPosition =
     window.pageYOffset || document.documentElement.scrollTop;

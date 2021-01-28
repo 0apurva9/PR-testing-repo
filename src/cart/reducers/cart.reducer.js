@@ -315,7 +315,12 @@ const cart = (
     submitAppliancesExchangeDataStatus: null,
     submitAppliancesExchangeDataLoading: false,
     submitAppliancesExchangeDataDetails: null,
-    submitAppliancesExchangeDataError: null
+    submitAppliancesExchangeDataError: null,
+
+    mdeFraudCheckStatus: null,
+    mdeFraudCheckLoading: false,
+    mdeFraudCheckDetails: null,
+    mdeFraudCheckError: null
   },
   action
 ) => {
@@ -2467,6 +2472,28 @@ const cart = (
         submitAppliancesExchangeDataStatus: action.status,
         submitAppliancesExchangeDataError: action.error,
         submitAppliancesExchangeDataLoading: false
+      });
+
+    case cartActions.MDE_FRAUD_CHECK_REQUEST:
+      return Object.assign({}, state, {
+        mdeFraudCheckStatus: action.status,
+        mdeFraudCheckLoading: true
+      });
+
+    case cartActions.MDE_FRAUD_CHECK_SUCCESS:
+      return Object.assign({}, state, {
+        mdeFraudCheckStatus: action.status,
+        mdeFraudCheckDetails: action.data,
+        mdeFraudCheckLoading: false,
+        mdeFraudCheckError: null
+      });
+
+    case cartActions.MDE_FRAUD_CHECK_FAILURE:
+      return Object.assign({}, state, {
+        mdeFraudCheckStatus: action.status,
+        mdeFraudCheckError: action.error,
+        mdeFraudCheckDetails: null,
+        mdeFraudCheckLoading: false
       });
 
     default:
