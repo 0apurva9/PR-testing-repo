@@ -1196,10 +1196,24 @@ class CheckOutPage extends React.Component {
       if (this.state.isFirstAddress) {
         defaultAddress = nextProps.cart.userAddress.addresses[0];
         this.setState({ isFirstAddress: false, confirmAddress: true });
+        let isExchangeProductInCart = false;
+        let cartProductsData =
+          nextProps.cart &&
+          nextProps.cart.cartDetailsCNC &&
+          nextProps.cart.cartDetailsCNC.products;
+        let productsExchangeData =
+          cartProductsData &&
+          cartProductsData.filter(product => {
+            return product.exchangeDetails;
+          });
+        if (productsExchangeData && productsExchangeData.length > 0) {
+          isExchangeProductInCart = true;
+        }
         this.props.addAddressToCart(
           defaultAddress.id,
           defaultAddress.postalCode,
-          this.state.isComingFromCliqAndPiq
+          this.state.isComingFromCliqAndPiq,
+          isExchangeProductInCart
         );
         if (this.state.isComingFromCliqAndPiq) {
           this.setState({ confirmAddress: true });
