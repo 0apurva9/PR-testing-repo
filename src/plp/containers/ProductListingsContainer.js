@@ -10,6 +10,7 @@ import {
   getPlpBanners,
   getDefaultPlpView
 } from "../actions/plp.actions.js";
+import queryString from "query-string";
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   let componentName =
@@ -19,6 +20,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     ownProps.location.state.componentName
       ? ownProps.location.state.componentName
       : "";
+  const parsedQueryString = queryString.parse(ownProps.location.search);
   return {
     showSort: () => {
       dispatch(showModal(SORT));
@@ -26,7 +28,18 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getProductListings: (search: null, suffix, page, isFilter) => {
       dispatch(setSearchString(search));
       dispatch(setPage(page));
-      dispatch(getProductListings(suffix, false, isFilter, componentName));
+      let suffixWithQc = suffix;
+      if (parsedQueryString.qc && parsedQueryString.qc !== "false") {
+        suffixWithQc = `${suffixWithQc}&qc=true`;
+      } else {
+        suffixWithQc = `${suffixWithQc}&qc=false`;
+      }
+      if (parsedQueryString.test) {
+        suffixWithQc = `${suffixWithQc}&test=${parsedQueryString.test}`;
+      }
+      dispatch(
+        getProductListings(suffixWithQc, false, isFilter, componentName)
+      );
     },
     getPlpBanners: categoryId => dispatch(getPlpBanners(categoryId)),
     paginate: (page, suffix) => {
