@@ -910,8 +910,7 @@ const mapStateToProps = state => {
     emiEligibiltyDetails: state.cart.emiEligibiltyDetails,
     dCEmiEligibiltyDetails: state.cart.dCEmiEligibiltyDetails,
     appliancesExchangePincodeDetails:
-      state.productDescription.appliancesExchangeCheckPincodeDetails,
-    mdeFraudCheckError: state.cart.mdeFraudCheckError
+      state.productDescription.appliancesExchangeCheckPincodeDetails
   };
 };
 

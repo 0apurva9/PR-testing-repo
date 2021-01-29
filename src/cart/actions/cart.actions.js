@@ -49,7 +49,8 @@ import {
   STATUS_PROCESSING,
   AC_PDP_EXCHANGE_DETAILS,
   AC_CART_EXCHANGE_DETAILS,
-  IS_FORWARD_JOURNEY
+  IS_FORWARD_JOURNEY,
+  MDE_FRAUD_CHECK_ERROR
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -8704,8 +8705,10 @@ export function mdeFraudCheck() {
         resultJson.status.toLowerCase() === FAILURE_LOWERCASE &&
         resultJson.errorMessage
       ) {
+        sessionStorage.setItem(MDE_FRAUD_CHECK_ERROR, resultJson.errorMessage);
         dispatch(mdeFraudCheckFailure(resultJson.errorMessage));
       } else {
+        sessionStorage.removeItem(MDE_FRAUD_CHECK_ERROR);
         dispatch(mdeFraudCheckSuccess(resultJson));
       }
     } catch (e) {
