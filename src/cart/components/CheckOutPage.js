@@ -3004,13 +3004,6 @@ if you have order id in local storage then you have to show order confirmation p
         !this.state.isComingFromRetryUrl &&
         !this.state.isGiftCard
       ) {
-        if (this.props.mdeFraudCheckError) {
-          sessionStorage.setItem(
-            MDE_FRAUD_CHECK_ERROR,
-            this.props.mdeFraudCheckError
-          );
-          this.props.history.push(PRODUCT_CART_ROUTER);
-        }
         if (
           this.props.selectDeliveryMode &&
           !this.checkAvailabilityOfService()
@@ -4232,6 +4225,13 @@ if you have order id in local storage then you have to show order confirmation p
   }
 
   render() {
+    let mdeFraudCheckErrorMessage = sessionStorage.getItem(
+      MDE_FRAUD_CHECK_ERROR
+    );
+    if (mdeFraudCheckErrorMessage) {
+      this.props.history.push(PRODUCT_CART_ROUTER);
+    }
+
     let labelForButton,
       checkoutButtonStatus = false;
     if (
