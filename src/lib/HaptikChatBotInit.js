@@ -21,7 +21,8 @@ export function HaptikChatBotInitSetup() {
   const haptikInitSetup = JSON.stringify({
     "business-id": env.REACT_APP_HAPTIK_BUSINESS_ID,
     "client-id": env.REACT_APP_HAPTIK_CLIENT_ID,
-    "base-url": env.REACT_APP_HAPTIK_BASE_URL
+    "base-url": env.REACT_APP_HAPTIK_BASE_URL,
+    "custom-button": true
   });
 
   loadScripts(`window.haptikInitSettings = ${haptikInitSetup}`);
@@ -34,11 +35,4 @@ export function RemoveHaptikBotScript() {
   haptikInitScript.remove();
   haptikSrcScript.remove();
   haptikDivEle.remove();
-}
-
-export function toggleHaptikBot(hideBot) {
-  const haptikDivEle = document.getElementById("haptik-xdk-wrapper");
-  if (haptikDivEle) {
-    haptikDivEle.style.display = hideBot ? "none" : "block";
-  }
 }

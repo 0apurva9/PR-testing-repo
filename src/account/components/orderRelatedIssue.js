@@ -7,6 +7,7 @@ import * as Cookie from "../../lib/Cookie";
 import CustomerIssue from "./CustomerIssue.js";
 import MoreHelps from "./MoreHelps";
 import noLogin from "../components/img/noLogin.svg";
+import maiIHelpIcon from "../components/img/help.svg";
 import {
   SUCCESS,
   LOGGED_IN_USER_DETAILS,
@@ -175,17 +176,16 @@ export default class OrderRelatedIssue extends React.Component {
     !window.haptikInitSettings && HaptikChatBotInitSetup();
   }
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.orderList) {
-      toggleHaptikBot(false);
-    } else {
-      toggleHaptikBot(true);
-    }
     if (this.state.callMeBackJourney && !this.state.isCallMeBackForm) {
       window.scrollTo(0, 0);
     }
   }
+
+  onHaptikBotBannerClick = () => {
+    window.HaptikSDK && window.HaptikSDK.show && window.HaptikSDK.show();
+  };
+
   componentWillUnmount() {
-    toggleHaptikBot(true);
     this.props.clearOrderTransactionDetails();
   }
 
@@ -964,8 +964,7 @@ export default class OrderRelatedIssue extends React.Component {
       isRecentOrderHistory: true,
       isOrderDatails: false,
       FAQquestion: false,
-      showQuestionList: false,
-      orderList: false
+      showQuestionList: false
     });
   }
 
@@ -988,8 +987,7 @@ export default class OrderRelatedIssue extends React.Component {
       isRecentOrderHistory: true,
       isOrderDatails: false,
       FAQquestion: false,
-      showQuestionList: false,
-      orderList: false
+      showQuestionList: false
     });
   };
 
@@ -1068,6 +1066,14 @@ export default class OrderRelatedIssue extends React.Component {
       return (
         <div className={styles.base}>
           <DesktopOnly>
+            {this.state.orderList && !this.state.isRecentOrderHistory ? (
+              <div
+                className={styles.cahtIcon}
+                onClick={this.onHaptikBotBannerClick}
+              >
+                <Icon image={maiIHelpIcon} width={89} height={75} />
+              </div>
+            ) : null}
             {this.state.isCallMeBackForm ? (
               <div className={styles.callMeBackFormBox}>
                 <div className={styles.formBox}>
