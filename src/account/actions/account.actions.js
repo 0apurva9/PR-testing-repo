@@ -2991,7 +2991,7 @@ export function updateProfile(accountDetails, otp) {
       requestUrl = requestUrl + `&gender=${accountDetails.gender}`;
     }
     try {
-      updateProfileUrl = `${USER_PATH}/${JSON.parse(userDetails).userName}/updateprofile?${requestUrl}`;
+      updateProfileUrl = `${USER_PATH}/${JSON.parse(userDetails).userName}/updateprofile_V1?${requestUrl}`;
       if (otp) {
         updateProfileUrl = `${updateProfileUrl}&otp=${otp}`;
       }
