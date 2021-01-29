@@ -1739,6 +1739,12 @@ export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
     pdpResponse &&
     pdpResponse.APlusContent &&
     pdpResponse.APlusContent.temlateName;
+  const date = new Date(),
+    dateFormat =
+      date &&
+      [date.getDate(), date.getMonth() + 1, date.getFullYear()].join("/") +
+        " " +
+        [date.getHours(), date.getMinutes()].join(":");
   let data = {
     cpj: {
       product: {
@@ -1763,7 +1769,9 @@ export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
         primaryCategory: "product"
       }
     },
-    video: APlusTamplete ? APlusTamplete : ""
+    video: APlusTamplete ? APlusTamplete : "",
+    CTSource: "Desktop",
+    Date: dateFormat
   };
   if (window.digitalData && window.digitalData.account) {
     Object.assign(data, {
@@ -2074,6 +2082,12 @@ function getDigitalDataForCart(type, cartResponse) {
       }
     });
   }
+  const date = new Date(),
+    dateFormat =
+      date &&
+      [date.getDate(), date.getMonth() + 1, date.getFullYear()].join("/") +
+        " " +
+        [date.getHours(), date.getMinutes()].join(":");
   let data = {
     page: {
       category: {
@@ -2083,7 +2097,9 @@ function getDigitalDataForCart(type, cartResponse) {
         pageName: "Cart Page",
         pageType: "Cart Page"
       }
-    }
+    },
+    CTSource: "Desktop",
+    Date: dateFormat
   };
   if (window.digitalData && window.digitalData.account) {
     Object.assign(data, {
