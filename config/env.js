@@ -330,6 +330,21 @@ if (process.env.REACT_APP_STAGE === "production") {
     "https://e2e.tataque.com/otatacliq/applianceExchangeDetails";
 }
 
+// My-account: haptik chatbot integration details
+if (process.env.REACT_APP_STAGE === "production") {
+  process.env.REACT_APP_HAPTIK_BUSINESS_ID = "";
+  process.env.REACT_APP_HAPTIK_CLIENT_ID = "";
+  process.env.REACT_APP_HAPTIK_BASE_URL = "";
+  process.env.REACT_APP_HAPTIK_SRC_URL = "";
+} else {
+  process.env.REACT_APP_HAPTIK_BUSINESS_ID = "2748";
+  process.env.REACT_APP_HAPTIK_CLIENT_ID =
+    "16b849b6a45127d730fb7c02f6939cd73796d554";
+  process.env.REACT_APP_HAPTIK_BASE_URL = "https://staging.hellohaptik.com/";
+  process.env.REACT_APP_HAPTIK_SRC_URL =
+    "https://toolassets.haptikapi.com/platform/javascript-xdk/production/loader.js";
+}
+
 function getClientEnvironment(publicUrl) {
   const raw = Object.keys(process.env)
     .filter(key => REACT_APP.test(key))

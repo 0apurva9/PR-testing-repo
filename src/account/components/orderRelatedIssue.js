@@ -7,6 +7,7 @@ import * as Cookie from "../../lib/Cookie";
 import CustomerIssue from "./CustomerIssue.js";
 import MoreHelps from "./MoreHelps";
 import noLogin from "../components/img/noLogin.svg";
+import maiIHelpIcon from "../components/img/help.svg";
 import {
   SUCCESS,
   LOGGED_IN_USER_DETAILS,
@@ -32,6 +33,10 @@ import {
   ADOBE_LOGIN_START,
   ADOBE_SELF_SERVE_FAQ_PAGE_LOAD
 } from "../../lib/adobeUtils";
+import {
+  HaptikChatBotInitSetup,
+  toggleHaptikBot
+} from "../../lib/HaptikChatBotInit";
 import { MOBILE_PATTERN } from "../../auth/components/Login";
 import SSRquest from "../../general/components/SSRequest";
 import OrderHistoryList from "./OrderHistoryList";
@@ -163,12 +168,23 @@ export default class OrderRelatedIssue extends React.Component {
           : ""
       });
     }
+
+    /**
+     * HaptikChatBotInitSetup();
+     * // Will add haptik chatbot script
+     */
+    !window.haptikInitSettings && HaptikChatBotInitSetup();
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.state.callMeBackJourney && !this.state.isCallMeBackForm) {
       window.scrollTo(0, 0);
     }
   }
+
+  onHaptikBotBannerClick = () => {
+    window.HaptikSDK && window.HaptikSDK.show && window.HaptikSDK.show();
+  };
+
   componentWillUnmount() {
     this.props.clearOrderTransactionDetails();
   }
@@ -1050,6 +1066,14 @@ export default class OrderRelatedIssue extends React.Component {
       return (
         <div className={styles.base}>
           <DesktopOnly>
+            {this.state.orderList && !this.state.isRecentOrderHistory ? (
+              <div
+                className={styles.cahtIcon}
+                onClick={this.onHaptikBotBannerClick}
+              >
+                <Icon image={maiIHelpIcon} width={89} height={75} />
+              </div>
+            ) : null}
             {this.state.isCallMeBackForm ? (
               <div className={styles.callMeBackFormBox}>
                 <div className={styles.formBox}>
