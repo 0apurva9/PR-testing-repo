@@ -333,7 +333,10 @@ class CartPage extends React.Component {
       }
     }
     if (this.props.cart.cartDetails !== prevProps.cart.cartDetails) {
-      let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+      this.validateLocalStorageProducts();
+      const cartExchangeDetails = localStorage.getItem(
+        AC_CART_EXCHANGE_DETAILS
+      );
       let parsedExchangeDetails =
         cartExchangeDetails && JSON.parse(cartExchangeDetails);
       if (parsedExchangeDetails && parsedExchangeDetails.length > 0) {
@@ -345,6 +348,8 @@ class CartPage extends React.Component {
         let productIds = [];
         exchangeProductUssids.map(exchangeProductUssid => {
           this.props.cart.cartDetails &&
+            this.props.cart.cartDetails.products &&
+            Array.isArray(this.props.cart.cartDetails.products) &&
             this.props.cart.cartDetails.products.map(product => {
               if (product.USSID === exchangeProductUssid) {
                 productIds.push(product.productcode);
@@ -777,6 +782,39 @@ class CartPage extends React.Component {
     );
     this.props.showPdpCliqAndPiqPage(cliqAndPiqDetails);
   }
+
+  validateLocalStorageProducts() {
+    let cartProducts =
+      this.props.cart &&
+      this.props.cart.cartDetails &&
+      this.props.cart.cartDetails.products;
+    let cartProductsUssids =
+      cartProducts &&
+      cartProducts.map(product => {
+        return product.USSID;
+      });
+    const cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+    let parsedExchangeDetails =
+      cartExchangeDetails && JSON.parse(cartExchangeDetails);
+    if (parsedExchangeDetails && parsedExchangeDetails.length > 0) {
+      let productToBeRemovedIndex = [];
+      parsedExchangeDetails.map((product, index) => {
+        if (cartProductsUssids && !cartProductsUssids.includes(product.ussid)) {
+          productToBeRemovedIndex.push(index);
+        }
+      });
+      if (productToBeRemovedIndex) {
+        for (var i = productToBeRemovedIndex.length - 1; i >= 0; i--) {
+          parsedExchangeDetails.splice(productToBeRemovedIndex[i], 1);
+        }
+      }
+      localStorage.setItem(
+        AC_CART_EXCHANGE_DETAILS,
+        JSON.stringify(parsedExchangeDetails)
+      );
+    }
+  }
+
   render() {
     const getPinCode =
       this.props &&
