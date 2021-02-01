@@ -6,6 +6,7 @@ import {
   HOME_DELIVERY
 } from "../../lib/constants";
 const REGULAR_EXPRESSION_FOR_ALPHABET = /^[A-Z]$/i;
+
 export function transferPincodeToPdpPincode(validDeliveryModes) {
   let eligibleDeliveryModes = [];
   validDeliveryModes.forEach(delivery => {
@@ -22,6 +23,7 @@ export function transferPincodeToPdpPincode(validDeliveryModes) {
   });
   return eligibleDeliveryModes;
 }
+
 export function reverse(data) {
   var reverseObject = [],
     counter = 0;
@@ -31,6 +33,7 @@ export function reverse(data) {
   }
   return reverseObject;
 }
+
 export function groupByBrandAccordingToFirstLetter(arr, prop) {
   return arr.reduce(function(groups, item) {
     let val = item[prop][0].toUpperCase();
@@ -88,4 +91,49 @@ export function sortArrayOfObjectByIntegerKeyValue(array, keyName) {
 
     return 0;
   });
+}
+
+/**
+ * This functions takes an array and a matching key with a flag and returns an object to the caller to set in state.
+ *
+ * @param {array} variantTheme - Array of objects
+ * @param {string} productListingId - String for comparision with productCode inside the key in the objects inside the arrays
+ * @param {boolean} fromColorComponent - Flag to determine from where the function is called
+ * @typedef {Object} StateObject1
+ * @property {boolean} isSelected - Selected Size
+ * @property {number} selectedIndex - Selected Size Index
+ * @typedef {Object} StateObject2
+ * @property {number} selectedSizeIndex - Selected Size Index
+ * @return {StateObject1 | StateObject2}
+ * @example
+ * findSelectedSize(variantTheme, variantOptions, productListingId, true);
+ */
+
+export function findSelectedSize(
+  variantTheme = [],
+  productListingId,
+  fromColorComponent = false
+) {
+  let sizeOptions = [];
+  let selectedSize = [];
+  let sizeToSetInState = {};
+  if (variantTheme && variantTheme.length > 0) {
+    sizeOptions = variantTheme && variantTheme.map(el => el.sizelink);
+    selectedSize =
+      sizeOptions &&
+      sizeOptions.filter((el, i) => {
+        if (
+          (el && el.productCode) === productListingId &&
+          (el && el.isAvailable) === true &&
+          (el && el.selected) === true
+        ) {
+          if (fromColorComponent) {
+            sizeToSetInState = { selectedSizeIndex: i };
+          } else {
+            sizeToSetInState = { isSelected: true, selectedIndex: i };
+          }
+        }
+      });
+  }
+  return sizeToSetInState;
 }

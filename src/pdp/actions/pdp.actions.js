@@ -371,22 +371,24 @@ export function getMasterTemplate(categoryId) {
     dispatch(getMasterTemplateRequest());
     try {
       const result = await api.customGetMiddlewareUrl(
-        `/otatacliq/getApplicationProperties.json?propertyNames=${categoryId}_desktop`
+        `/otatacliq/desktop/template/${categoryId}`
       );
-      const resultJson = await result.json();
-      const value =
-        resultJson &&
-        resultJson.applicationProperties[0] &&
-        JSON.parse(resultJson.applicationProperties[0].value);
-      const finalJson = { name: categoryId, value };
+      let resultJson = await result.json();
+      let finalJson = {};
+      if (
+        resultJson.status === SUCCESS ||
+        resultJson.status === SUCCESS_UPPERCASE ||
+        resultJson.status === SUCCESS_CAMEL_CASE
+      ) {
+        const value = resultJson && resultJson.response && resultJson.response;
+        finalJson = { name: categoryId, value };
+        return dispatch(getMasterTemplateSuccess(finalJson));
+      }
 
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-
       if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
-
-      return dispatch(getMasterTemplateSuccess(finalJson));
     } catch (error) {
       dispatch(getMasterTemplateFailure(error.message));
     }
@@ -530,6 +532,7 @@ export function getMoreFromBrand(productId) {
     msdFormData.append("num_results", JSON.stringify(NUMBER_RESULTS));
     msdFormData.append("mad_uuid", mcvId);
     msdFormData.append("details", true);
+    msdFormData.append("fields", JSON.stringify(["mop"]));
     msdFormData.append(
       "widget_list",
       JSON.stringify(WIDGET_LIST_FOR_ABOUT_BRAND)
@@ -558,9 +561,12 @@ export function getMoreFromBrand(productId) {
       if (
         moreBrandJson &&
         moreBrandJson.data &&
-        moreBrandJson.data.length > 0
+        moreBrandJson.data.length > 0 &&
+        moreBrandJson.data[0] &&
+        moreBrandJson.data[0].itemIds &&
+        moreBrandJson.data[0].itemIds.length > 0
       ) {
-        finalProductDetails = moreBrandJson.data[0];
+        finalProductDetails = moreBrandJson.data[0].itemIds;
       }
 
       return dispatch(getMoreFromBrandSuccess(finalProductDetails));
@@ -607,6 +613,7 @@ export function getSimilarProduct(productId) {
     msdFormData.append("num_results", JSON.stringify(NUMBER_RESULTS));
     msdFormData.append("mad_uuid", mcvId);
     msdFormData.append("details", true);
+    msdFormData.append("fields", JSON.stringify(["mop"]));
     msdFormData.append(
       "widget_list",
       JSON.stringify(WIDGET_LIST_FOR_SIMILAR_PRODUCT)
