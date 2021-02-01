@@ -42,9 +42,15 @@ export default class StoryComponent extends React.Component {
     const setInformationHeading =
       productDetails.setInformation && productDetails.setInformation.key;
     let shortStoryLargeContentSorted = [];
+    let shortStorySmallContentSorted = [];
     shortStoryLargeContentSorted =
-      shortStoryLargeContent.length > 0 &&
-      sortArrayOfObjectByIntegerKeyValue(shortStoryLargeContent, "order");
+      shortStoryLargeContent.length > 0
+        ? sortArrayOfObjectByIntegerKeyValue(shortStoryLargeContent, "order")
+        : [];
+    shortStorySmallContentSorted =
+      shortStorySmallContent.length > 0
+        ? sortArrayOfObjectByIntegerKeyValue(shortStorySmallContent, "order")
+        : [];
     const styleNotes = productDetails && productDetails.styleNote;
     const whatElseYouNeedToKnowContent =
       productDetails && productDetails.whatElseYouNeedtoKnow
@@ -110,12 +116,12 @@ export default class StoryComponent extends React.Component {
                 </div>
               )}
               <Collapse isOpened={this.state.isOpen}>
-                {((shortStorySmallContent &&
-                  shortStorySmallContent.length > 0) ||
+                {((shortStorySmallContentSorted &&
+                  shortStorySmallContentSorted.length > 0) ||
                   (shortStoryLargeContentSorted &&
                     shortStoryLargeContentSorted.length > 0)) && (
                   <ShortAndLargeStoryComponent
-                    shortStorySmallContent={shortStorySmallContent}
+                    shortStorySmallContent={shortStorySmallContentSorted}
                     shortStoryLargeContentSorted={shortStoryLargeContentSorted}
                   />
                 )}

@@ -40,16 +40,6 @@ export default class ProductBundling extends React.Component {
     this.toggleShowingProducts = this.toggleShowingProducts.bind(this);
   }
 
-  async componentDidMount() {
-    // call bagCount API to show check icon against bundled product which are in cart
-    if (
-      this.props.bundledProductSuggestionDetails &&
-      this.props.bundledProductSuggestionDetails.slots
-    ) {
-      await this.props.getCartCountForLoggedInUser();
-    }
-  }
-
   componentWillReceiveProps(nextProps) {
     if (
       nextProps.logoutUserStatus !== this.props.logoutUserStatus &&
@@ -112,6 +102,14 @@ export default class ProductBundling extends React.Component {
           this.props.addBundledProductsToCartDetails.error
         );
       }
+    }
+
+    if (
+      this.props.bundledProductSuggestionDetails !==
+        prevProps.bundledProductSuggestionDetails &&
+      !prevState.cartProducts
+    ) {
+      this.props.getCartCountForLoggedInUser();
     }
   }
 
@@ -232,20 +230,11 @@ export default class ProductBundling extends React.Component {
   }
 
   render() {
-    // get bundled products and its ussids
-    let productWithBundledProducts =
+    let bundledProductsUssIds =
       !this.state.userLoggedOut &&
       this.state.cartProducts &&
-      this.state.cartProducts.find(product => {
-        return product.USSID === this.props.productData.winningUssID;
-      });
-    let bundledProducts =
-      productWithBundledProducts &&
-      productWithBundledProducts.bundledAssociatedItems;
-    let bundledProductsUssIds =
-      bundledProducts &&
-      bundledProducts.map(bundledProduct => {
-        return bundledProduct.ussID;
+      this.state.cartProducts.map(product => {
+        return product.USSID;
       });
 
     let bundledPriceAPIStatus =
@@ -262,7 +251,9 @@ export default class ProductBundling extends React.Component {
         {this.props.bundledProductSuggestionDetails ? (
           <div className={styles.bundlingMainContainer}>
             <div className={styles.bundlingHeadingContainer}>
-              Customer buy these together
+              {this.state.enableComboDiscountSection
+                ? "Combo Offers"
+                : "Customer buy these together"}
             </div>
             <div className={styles.details}>
               {(this.props.getTotalBundledPriceLoading ||

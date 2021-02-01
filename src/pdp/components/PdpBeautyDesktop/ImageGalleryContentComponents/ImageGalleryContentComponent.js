@@ -62,6 +62,12 @@ export default class ImageGalleryContentComponent extends React.Component {
     }
   };
 
+  handleScrollToTop = (delayValue, scrollBehavior) => {
+    if (this.props.scrollToTop) {
+      this.props.scrollToTop(delayValue, scrollBehavior);
+    }
+  };
+
   setZindex() {
     this.setState({ setZindex: true });
   }
@@ -110,6 +116,9 @@ export default class ImageGalleryContentComponent extends React.Component {
             {...this.props}
             handleDetailsScroll={this.handleDetailsScroll}
             productCompDetails={productCompDetails}
+            handleScrollToTop={(delayValue, scrollBehavior) =>
+              this.handleScrollToTop(delayValue, scrollBehavior)
+            }
           />
         </div>
       </div>

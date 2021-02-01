@@ -52,7 +52,9 @@ export default class Plp extends React.Component {
       fixedScroll: false,
       view: GRID,
       gridBreakup: false,
-      isCurrentUrl: 0
+      isCurrentUrl: 0,
+      showToggleButton: false,
+      toggleView: false
     };
   }
   toggleFilter = () => {
@@ -168,6 +170,68 @@ export default class Plp extends React.Component {
       this.props.paginate(this.props.pageNumber + 1, SUFFIX);
     }
   }
+
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    //Logic to show/hide toggle button
+    if (
+      nextProps.productListings &&
+      nextProps.productListings.view &&
+      nextProps.productListings.view.imageToggle
+    ) {
+      if (!this.state.showToggleButton) {
+        this.setState({ showToggleButton: true });
+      }
+    } else {
+      this.setState({ showToggleButton: false });
+    }
+
+    let categoryCodes = [];
+    let foundCategory = [];
+    let defaultViewCategories =
+      nextProps.defaultViewData[0] && nextProps.defaultViewData[0].value;
+    if (
+      nextProps.productListings &&
+      nextProps.productListings.facetdatacategory &&
+      nextProps.productListings.facetdatacategory.filters &&
+      nextProps.productListings.facetdatacategory.filters[0] &&
+      nextProps.productListings.facetdatacategory.filters[0].categoryCode
+    ) {
+      const filterCategory =
+        nextProps.productListings.facetdatacategory.filters[0].categoryCode;
+      if (defaultViewCategories) {
+        categoryCodes = Object.keys(
+          JSON.parse(nextProps.defaultViewData[0].value)
+        );
+        if (categoryCodes && categoryCodes.length > 0) {
+          foundCategory = categoryCodes.filter(
+            el => el.toUpperCase() == filterCategory.toUpperCase()
+          );
+          if (foundCategory && foundCategory.length > 0) {
+            let view = JSON.parse(defaultViewCategories)[foundCategory[0]]
+              ? JSON.parse(defaultViewCategories)[foundCategory[0]]
+              : "GRID";
+            if (view.toUpperCase() === "LIST") {
+              this.setState({
+                gridBreakup: true,
+                view: LIST
+              });
+            } else {
+              this.setState({
+                gridBreakup: false,
+                view: GRID
+              });
+            }
+          } else {
+            this.setState({
+              gridBreakup: false,
+              view: GRID
+            });
+          }
+        }
+      }
+    }
+  }
+
   componentDidMount() {
     this.throttledScroll = !UserAgent.checkUserAgentIsMobile()
       ? () => this.handleScroll()
@@ -402,10 +466,12 @@ export default class Plp extends React.Component {
       this.props.userSelectedOutOfStock(true);
     }
     this.props.history.push(url, {
-      isFilter: false
+      isFilter: false,
+      onClickCancel: true
     });
   }
-  componentDidUpdate(prevProps) {
+
+  componentDidUpdate(prevProps, prevState) {
     this.setHeaderText();
     if (!UserAgent.checkUserAgentIsMobile()) {
       const filterDOM = document.getElementById("filter_desktop");
@@ -420,7 +486,17 @@ export default class Plp extends React.Component {
         this.setState({ totalHeight: maxHeight });
       }
     }
+
+    if (
+      prevProps.location.pathname !== this.props.location.pathname ||
+      prevProps.location.search !== this.props.location.search
+    ) {
+      if (this.state.toggleView && this.state.showToggleButton) {
+        this.setState({ toggleView: false });
+      }
+    }
   }
+
   backPage = () => {
     if (this.props.isFilterOpen) {
       this.props.hideFilter();
@@ -551,6 +627,10 @@ export default class Plp extends React.Component {
     }
   };
 
+  toggleSwatchProductView() {
+    this.setState({ toggleView: !this.state.toggleView });
+  }
+
   render() {
     let selectedFilterCount = 0;
     let selectedFilter = [];
@@ -673,7 +753,12 @@ export default class Plp extends React.Component {
               query="(min-device-width:1025px)"
               values={{ deviceWidth: 1026 }}
             >
-              <div className={styles.headerSortWithFilter}>
+              <div
+                className={[
+                  styles.headerSortWithFilter,
+                  this.state.showToggleButton ? styles.showToggleButton : null
+                ].join(" ")}
+              >
                 <div
                   className={
                     electronicView
@@ -727,6 +812,30 @@ export default class Plp extends React.Component {
                       </div>
                     </DesktopOnly>
                   </div>
+                )}
+                {!electronicView && this.state.showToggleButton && (
+                  <React.Fragment>
+                    <div className={styles["switch-view"]}>
+                      <p className={styles["switch-title"]}>Swatch Mode </p>
+                      <div
+                        className={[
+                          styles["switch-item"],
+                          this.state.toggleView ? null : styles["switch-off"]
+                        ].join(" ")}
+                      >
+                        <input
+                          className={styles["switch-light"]}
+                          id="cb1"
+                          type="checkbox"
+                          onClick={() => this.toggleSwatchProductView()}
+                        />
+                        <label
+                          className={styles["switch-btn"]}
+                          for="cb1"
+                        ></label>
+                      </div>
+                    </div>
+                  </React.Fragment>
                 )}
               </div>
             </MediaQuery>
@@ -822,6 +931,7 @@ export default class Plp extends React.Component {
                       gridBreakup={this.state.gridBreakup}
                       productListings={this.props.productListings}
                       secondaryFeedData={this.props.secondaryFeedData}
+                      toggleView={this.state.toggleView}
                     />
                   </div>
                   <DesktopOnly>

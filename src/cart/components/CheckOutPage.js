@@ -132,7 +132,8 @@ import {
   STATUS_FAILED,
   AC_CART_EXCHANGE_DETAILS,
   EXCHANGE_NOT_SERVICEABLE,
-  EXCHANGE_DISABLED
+  EXCHANGE_DISABLED,
+  MDE_FRAUD_CHECK_ERROR
 } from "../../lib/constants";
 import {
   EMAIL_REGULAR_EXPRESSION,
@@ -1195,10 +1196,24 @@ class CheckOutPage extends React.Component {
       if (this.state.isFirstAddress) {
         defaultAddress = nextProps.cart.userAddress.addresses[0];
         this.setState({ isFirstAddress: false, confirmAddress: true });
+        let isExchangeProductInCart = false;
+        let cartProductsData =
+          nextProps.cart &&
+          nextProps.cart.cartDetailsCNC &&
+          nextProps.cart.cartDetailsCNC.products;
+        let productsExchangeData =
+          cartProductsData &&
+          cartProductsData.filter(product => {
+            return product.exchangeDetails;
+          });
+        if (productsExchangeData && productsExchangeData.length > 0) {
+          isExchangeProductInCart = true;
+        }
         this.props.addAddressToCart(
           defaultAddress.id,
           defaultAddress.postalCode,
-          this.state.isComingFromCliqAndPiq
+          this.state.isComingFromCliqAndPiq,
+          isExchangeProductInCart
         );
         if (this.state.isComingFromCliqAndPiq) {
           this.setState({ confirmAddress: true });
@@ -1381,7 +1396,8 @@ class CheckOutPage extends React.Component {
                 selectedSlaveIdObj = cloneDeep(this.state.selectedSlaveIdObj);
                 selectedSlaveIdObj[
                   this.state.selectedProductsUssIdForCliqAndPiq
-                ] = product.selectedStoreCNC;
+                ] =
+                  product.selectedStoreCNC;
                 this.setState(
                   {
                     ussIdAndDeliveryModesObj: updatedDeliveryModeUssid,
@@ -2957,6 +2973,21 @@ if you have order id in local storage then you have to show order confirmation p
       ADDRESS_FOR_PLACE_ORDER,
       JSON.stringify(this.state.selectedAddress)
     );
+
+    let isExchangeProductInCart = false;
+    let cartProductsData =
+      this.props.cart &&
+      this.props.cart.cartDetailsCNC &&
+      this.props.cart.cartDetailsCNC.products;
+    let productsExchangeData =
+      cartProductsData &&
+      cartProductsData.filter(product => {
+        return product.exchangeDetails;
+      });
+    if (productsExchangeData && productsExchangeData.length > 0) {
+      isExchangeProductInCart = true;
+    }
+
     if (!this.state.isPaymentFailed) {
       if (this.state.isFirstAddress) {
         this.addAddress(this.state.addressDetails);
@@ -2971,7 +3002,8 @@ if you have order id in local storage then you have to show order confirmation p
         this.props.addAddressToCart(
           this.state.addressId,
           this.state.selectedAddress.postalCode,
-          this.state.isComingFromCliqAndPiq
+          this.state.isComingFromCliqAndPiq,
+          isExchangeProductInCart
         );
         this.setState({ confirmAddress: true });
         if (this.state.isComingFromCliqAndPiq) {
@@ -3615,7 +3647,9 @@ if you have order id in local storage then you have to show order confirmation p
         ) {
           this.setState({
             emiBinValidationStatus: true,
-            emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${this.state.cardDetails.emi_bank} card.`
+            emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${
+              this.state.cardDetails.emi_bank
+            } card.`
           });
         } else if (
           binValidationOfEmiEligibleResponse.binValidationOfEmiEligible &&
@@ -3626,7 +3660,9 @@ if you have order id in local storage then you have to show order confirmation p
         ) {
           this.setState({
             emiBinValidationStatus: true,
-            emiBinValidationErrorMessage: `This card can’t be used to avail this EMI option. Please use a ${this.state.cardDetails.selectedBankName} card only.`
+            emiBinValidationErrorMessage: `This card can’t be used to avail this EMI option. Please use a ${
+              this.state.cardDetails.selectedBankName
+            } card only.`
           });
         } else if (
           this.props.cart &&
@@ -3694,7 +3730,9 @@ if you have order id in local storage then you have to show order confirmation p
       ) {
         this.setState({
           emiBinValidationStatus: true,
-          emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${this.state.cardDetails.emi_bank} card.`
+          emiBinValidationErrorMessage: `Currently, there are no EMI options available for your ${
+            this.state.cardDetails.emi_bank
+          } card.`
         });
       } else {
         this.setState({
@@ -4185,6 +4223,13 @@ if you have order id in local storage then you have to show order confirmation p
   }
 
   render() {
+    let mdeFraudCheckErrorMessage = sessionStorage.getItem(
+      MDE_FRAUD_CHECK_ERROR
+    );
+    if (mdeFraudCheckErrorMessage) {
+      this.props.history.push(PRODUCT_CART_ROUTER);
+    }
+
     let labelForButton,
       checkoutButtonStatus = false;
     if (

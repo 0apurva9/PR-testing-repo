@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import delay from "lodash.delay";
 
 import {
   IMAGE_GALLERY_COMPONENT,
@@ -13,9 +14,21 @@ import { sortArrayOfObjectByIntegerKeyValue } from "../../../pdp/reducers/utils"
 import { setTracker, VIEW_PRODUCT } from "../../../lib/onlinesalesUtils";
 import { setDataLayer, ADOBE_VIRTUAL_PAGELOAD } from "../../../lib/adobeUtils";
 import { renderMetaTags } from "../../../lib/seoUtils";
-// import smoothscroll from "smoothscroll-polyfill";
-// smoothscroll.polyfill();
 
+const loadSmoothScroll = (callback = null) => {
+  const existingScript = document.getElementById("smoothscroll");
+  if (!existingScript) {
+    const script = document.createElement("script");
+    script.src =
+      "https://unpkg.com/smoothscroll-polyfill@0.4.4/dist/smoothscroll.min.js";
+    script.id = "smoothscroll";
+    document.body.appendChild(script);
+    script.onload = () => {
+      if (callback) callback();
+    };
+  }
+  if (existingScript && callback) callback();
+};
 export default class PdpBeautyDesktop extends React.Component {
   constructor(props) {
     super(props);
@@ -52,7 +65,22 @@ export default class PdpBeautyDesktop extends React.Component {
     }
   };
 
+  scrollToTop = (delayValue, scrollBehavior) => {
+    let behavior = {};
+    if (scrollBehavior === "smooth") {
+      behavior = { behavior: "smooth" };
+    }
+    delay(() => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        ...behavior
+      });
+    }, delayValue);
+  };
+
   componentDidMount = () => {
+    loadSmoothScroll();
     setDataLayer(ADOBE_VIRTUAL_PAGELOAD);
     const categoryHierarchy = this.props.productDetails.categoryHierarchy
       ? this.props.productDetails.categoryHierarchy
@@ -81,7 +109,8 @@ export default class PdpBeautyDesktop extends React.Component {
     }
 
     if (categoryHierarchy.length > 0) {
-      masterCategoryId = categoryHierarchy[2].category_id;
+      masterCategoryId =
+        categoryHierarchy[categoryHierarchy.length - 1].category_id;
     }
     if (masterCategoryId) {
       this.props.getMasterTemplate(masterCategoryId);
@@ -161,6 +190,9 @@ export default class PdpBeautyDesktop extends React.Component {
               {...this.props}
               compDetails={sectionOfImageAndContentComponent}
               handleDetailsScroll={this.handleDetailsScroll}
+              scrollToTop={(delayValue, scrollBehavior) =>
+                this.scrollToTop(delayValue, scrollBehavior)
+              }
             />
           </div>
           <div className={styles.container}>

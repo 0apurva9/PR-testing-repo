@@ -147,9 +147,7 @@ const OfferDetailsModal = Loadable({
 
 const BeautyOfferDetailsModal = Loadable({
   loader: () =>
-    import(
-      "../../pdp/components/PdpBeautyDesktop/ImageGalleryContentComponents/ProductDetailsSection/BeautyOfferDetailsModal"
-    ),
+    import("../../pdp/components/PdpBeautyDesktop/ImageGalleryContentComponents/ProductDetailsSection/BeautyOfferDetailsModal"),
   loading() {
     return <Loader />;
   }
@@ -157,9 +155,7 @@ const BeautyOfferDetailsModal = Loadable({
 
 const BeautyPdpImageZoomIn = Loadable({
   loader: () =>
-    import(
-      "../../pdp/components/PdpBeautyDesktop/ImageGalleryContentComponents/ProductDetailsSection/BeautyPdpImageZoomIn"
-    ),
+    import("../../pdp/components/PdpBeautyDesktop/ImageGalleryContentComponents/ProductDetailsSection/BeautyPdpImageZoomIn"),
   loading() {
     return <Loader />;
   }
@@ -432,6 +428,13 @@ const ValidateCliqCashPopUpContainer = Loadable({
 const AttachmentUploadPopUp = Loadable({
   loader: () =>
     import("../../account/components/attchment-upload-response-popup.jsx"),
+  loading() {
+    return <Loader />;
+  }
+});
+
+const MdeFraudDetailsModal = Loadable({
+  loader: () => import("../../cart/components/MdeFraudDetailsModal"),
   loading() {
     return <Loader />;
   }
@@ -1370,6 +1373,7 @@ export default class ModalRoot extends React.Component {
           }
         />
       ),
+
       ValidateCliqCashPopUp: (
         <ValidateCliqCashPopUpContainer
           {...this.props.ownProps}
@@ -1377,6 +1381,12 @@ export default class ModalRoot extends React.Component {
           changePaymentMethod={() => this.handleClose()}
         />
       ),
+      MdeFraudDetailsModal: (
+        <MdeFraudDetailsModal
+          {...this.props.ownProps}
+          closeMdeFraudDetailsModal={() => this.handleClose()}
+        />
+      )
     };
 
     let SelectedModal = MODAL_COMPONENTS[this.props.modalType];

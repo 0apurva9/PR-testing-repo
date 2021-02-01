@@ -144,6 +144,7 @@ export default class SingleBundledProduct extends React.Component {
               <ComboOfferStrip
                 bundlingDiscount={this.props.productData.bundlingDiscount}
                 productName={this.props.mainProductName}
+                isFromPdpPage={true}
               />
             )}
 

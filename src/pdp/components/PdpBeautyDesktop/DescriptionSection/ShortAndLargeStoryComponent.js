@@ -29,9 +29,16 @@ export default class ShortAndLargeStoryComponent extends Component {
                           })`
                         }}
                       ></div>
-                      <div className={styles["perfume-guide-heading"]}>
-                        {el.key}
-                      </div>
+                      {el.description ? (
+                        <div className={styles["perfume-guide-description"]}>
+                          {el.description}
+                        </div>
+                      ) : null}
+                      {el.key ? (
+                        <div className={styles["perfume-guide-heading"]}>
+                          {el.key}
+                        </div>
+                      ) : null}
                     </div>
                   ))}
                 </div>
@@ -39,7 +46,15 @@ export default class ShortAndLargeStoryComponent extends Component {
             {this.props &&
               this.props.shortStoryLargeContentSorted &&
               this.props.shortStoryLargeContentSorted.length > 0 && (
-                <div className={styles["perfume-note-section"]}>
+                <div
+                  className={[
+                    styles["perfume-note-section"],
+                    this.props.shortStorySmallContent &&
+                    this.props.shortStorySmallContent.length === 0
+                      ? ""
+                      : styles["separator"]
+                  ].join(" ")}
+                >
                   {this.props.shortStoryLargeContentSorted.map((el, i) => (
                     <div key={i} className={styles["perfume-note-block"]}>
                       <div

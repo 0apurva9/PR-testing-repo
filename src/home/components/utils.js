@@ -45,6 +45,9 @@ export function transformData(datum) {
     discountPrice =
       datum.winningSellerPrice && datum.winningSellerPrice.doubleValue;
   }
+  if (datum && datum.mop) {
+    discountPrice = datum.mop;
+  }
   return {
     image: image,
     video: datum.video,

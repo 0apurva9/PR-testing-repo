@@ -196,9 +196,19 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         });
       }
     },
-    addAddressToCart: async (addressId, pinCode, isComingFromCliqAndPiq) => {
+    addAddressToCart: async (
+      addressId,
+      pinCode,
+      isComingFromCliqAndPiq,
+      isExchangeProductInCart
+    ) => {
       let addAddressToCartResponse = await dispatch(
-        addAddressToCart(addressId, pinCode, isComingFromCliqAndPiq)
+        addAddressToCart(
+          addressId,
+          pinCode,
+          isComingFromCliqAndPiq,
+          isExchangeProductInCart
+        )
       );
       // if (addAddressToCartResponse.status === SUCCESS) {
       //   dispatch(

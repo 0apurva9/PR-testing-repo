@@ -49,7 +49,8 @@ import {
   STATUS_PROCESSING,
   AC_PDP_EXCHANGE_DETAILS,
   AC_CART_EXCHANGE_DETAILS,
-  IS_FORWARD_JOURNEY
+  IS_FORWARD_JOURNEY,
+  MDE_FRAUD_CHECK_ERROR
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import each from "lodash.foreach";
@@ -109,7 +110,11 @@ import {
   ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE
 } from "../../lib/adobeUtils";
 import { getCustomerAccessToken } from "../../common/services/common.services";
-import { getCartDetailsForLoggedInUser } from "../../lib/getCookieDetails.js";
+import {
+  getLoggedInUserDetails,
+  getCustomerAccessToken as getCustomerAccessTokenService,
+  getCartDetailsForLoggedInUser
+} from "../../lib/getCookieDetails.js";
 import { appliancesExchangeCheckPincode } from "../../pdp/actions/pdp.actions";
 
 const EGV_GIFT_CART_ID = "giftCartId";
@@ -591,6 +596,10 @@ export const SUBMIT_APPLIANCES_EXCHANGE_DATA_SUCCESS =
   "SUBMIT_APPLIANCES_EXCHANGE_DATA_SUCCESS";
 export const SUBMIT_APPLIANCES_EXCHANGE_DATA_FAILURE =
   "SUBMIT_APPLIANCES_EXCHANGE_DATA_FAILURE";
+
+export const MDE_FRAUD_CHECK_REQUEST = "MDE_FRAUD_CHECK_REQUEST";
+export const MDE_FRAUD_CHECK_SUCCESS = "MDE_FRAUD_CHECK_SUCCESS";
+export const MDE_FRAUD_CHECK_FAILURE = "MDE_FRAUD_CHECK_FAILURE";
 
 const ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL = "Something went wrong";
 const env = process.env;
@@ -1239,7 +1248,12 @@ export function addAddressToCartFailure(error) {
   };
 }
 
-export function addAddressToCart(addressId, pinCode, isComingFromCliqAndPiq) {
+export function addAddressToCart(
+  addressId,
+  pinCode,
+  isComingFromCliqAndPiq,
+  isExchangeProductInCart
+) {
   let newPinCode;
   if (isComingFromCliqAndPiq) {
     newPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
@@ -1274,6 +1288,11 @@ export function addAddressToCart(addressId, pinCode, isComingFromCliqAndPiq) {
         localStorage.removeItem(SELECTED_STORE);
       }
       dispatch(checkApplianceExchangeData());
+      if (isExchangeProductInCart) {
+        dispatch(mdeFraudCheck());
+      } else {
+        dispatch(mdeFraudCheckSuccess());
+      }
       dispatch(
         getCartDetailsCNC(userId, access_token, cartId, newPinCode, false)
       );
@@ -2409,7 +2428,9 @@ export function collectPaymentOrderForGiftCardUPI(
   bankName
 ) {
   return async (dispatch, getState, { api }) => {
-    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
+    const returnUrl = `${
+      window.location.origin
+    }/checkout/payment-method/cardPayment`;
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
@@ -2547,7 +2568,9 @@ export function collectPaymentOrderForUPI(
     }
     const bankName = localStorage.getItem(SELECTED_BANK_NAME);
     let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
-    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
+    const returnUrl = `${
+      window.location.origin
+    }/checkout/payment-method/cardPayment`;
 
     let orderDetails = "";
     let inventoryItems = cartItem;
@@ -2847,7 +2870,9 @@ export function createJusPayOrderForUPI(
   let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
   let upi_vpa = JSON.parse(localStorage.getItem(UPI_VPA));
   let cartItem = cartItemObj;
-  const jusPayUrl = `${window.location.origin}/checkout/multi/payment-method/cardPayment`;
+  const jusPayUrl = `${
+    window.location.origin
+  }/checkout/multi/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
@@ -3776,7 +3801,9 @@ export function createJusPayOrder(
   let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
   let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
   let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
-  const jusPayUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
+  const jusPayUrl = `${
+    window.location.origin
+  }/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
@@ -3906,7 +3933,9 @@ export function createJusPayOrderForGiftCard(
   let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
   let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
   let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
-  const jusPayUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
+  const jusPayUrl = `${
+    window.location.origin
+  }/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
@@ -3962,7 +3991,9 @@ export function createJusPayOrderForNetBanking(
   let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
   let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
   let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
-  const jusPayUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
+  const jusPayUrl = `${
+    window.location.origin
+  }/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
@@ -4072,7 +4103,9 @@ export function createJusPayOrderForGiftCardNetBanking(
   bankCode,
   bankName
 ) {
-  const jusPayUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
+  const jusPayUrl = `${
+    window.location.origin
+  }/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
@@ -4123,7 +4156,9 @@ export function createJusPayOrderForSavedCards(
   let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
   let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
   let cartItem = cartItemObj;
-  const jusPayUrl = `${window.location.origin}/checkout/multi/payment-method/cardPayment`;
+  const jusPayUrl = `${
+    window.location.origin
+  }/checkout/multi/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
@@ -4233,7 +4268,9 @@ export function createJusPayOrderForGiftCardFromSavedCards(cardDetails, guId) {
   let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
   let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
   let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
-  const jusPayUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
+  const jusPayUrl = `${
+    window.location.origin
+  }/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
@@ -4297,7 +4334,9 @@ export function createJusPayOrderForCliqCash(
     localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(cartItem));
   }
 
-  const jusPayUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
+  const jusPayUrl = `${
+    window.location.origin
+  }/checkout/payment-method/cardPayment`;
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
@@ -7416,7 +7455,9 @@ export function stripe_juspay_Tokenize(
   retryCartGuid
 ) {
   return async (dispatch, getState, { api }) => {
-    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
+    const returnUrl = `${
+      window.location.origin
+    }/checkout/payment-method/cardPayment`;
     let orderDetails = "";
     let inventoryItems = cartItems;
     if (isFromRetryUrl && !isPaymentFailed) {
@@ -7516,7 +7557,9 @@ export function stripe_juspay_TokenizeGiftCard(
   isFromRetryUrl
 ) {
   return async (dispatch, getState, { api }) => {
-    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
+    const returnUrl = `${
+      window.location.origin
+    }/checkout/payment-method/cardPayment`;
     if (cardDetails) {
       let juspayToken = await dispatch(
         jusPayTokenizeForGiftCard(cardDetails, paymentMode, egvCartGuid)
@@ -7602,7 +7645,9 @@ export function collectPaymentOrderForSavedCards(
         .toLowerCase()} Card`;
     }
     const bankName = localStorage.getItem(SELECTED_BANK_NAME);
-    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
+    const returnUrl = `${
+      window.location.origin
+    }/checkout/payment-method/cardPayment`;
     let orderDetails = "";
     let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
     let inventoryItems = cartItem;
@@ -7769,7 +7814,9 @@ export function collectPaymentOrderForGiftCardFromSavedCards(
         .toLowerCase()} Card`;
     }
     const bankName = localStorage.getItem(SELECTED_BANK_NAME);
-    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
+    const returnUrl = `${
+      window.location.origin
+    }/checkout/payment-method/cardPayment`;
     let orderDetails = "";
     orderDetails = {
       wrapperItems: [
@@ -7888,7 +7935,9 @@ export function collectPaymentOrderForNetBanking(
     let address = JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER));
     let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
 
-    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
+    const returnUrl = `${
+      window.location.origin
+    }/checkout/payment-method/cardPayment`;
     let orderDetails,
       cartDetails = "";
     let inventoryItems = cartItem;
@@ -8067,7 +8116,9 @@ export function collectPaymentOrderForGiftCardNetBanking(
   bankName
 ) {
   return async (dispatch, getState, { api }) => {
-    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
+    const returnUrl = `${
+      window.location.origin
+    }/checkout/payment-method/cardPayment`;
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     const currentSelectedPaymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
@@ -8216,7 +8267,9 @@ export function collectPaymentOrderForCliqCash(
     const paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
     const bankName = localStorage.getItem(SELECTED_BANK_NAME);
     let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
-    const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
+    const returnUrl = `${
+      window.location.origin
+    }/checkout/payment-method/cardPayment`;
     let orderDetails = "";
     let inventoryItems = cartItem;
     if (isPaymentFailed) {
@@ -8397,7 +8450,9 @@ export function removeExchange(data) {
     dispatch(removeExchangeRequest());
     try {
       const result = await api.getMiddlewareUrl(
-        `v2/mpl/products/cancelExchange?access_token=${accessToken}&guid=${guId}&entryNumber=${data.entryNumber}&quoteId=${data.quoteId}&imeiNumber=${data.IMEINumber}`
+        `v2/mpl/products/cancelExchange?access_token=${accessToken}&guid=${guId}&entryNumber=${
+          data.entryNumber
+        }&quoteId=${data.quoteId}&imeiNumber=${data.IMEINumber}`
       );
       const resultJson = await result.json();
       if (
@@ -8710,6 +8765,63 @@ export function checkApplianceExchangeData() {
       let productIdList = productIds.join(",");
       const pincode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
       dispatch(appliancesExchangeCheckPincode(productIdList, pincode));
+    }
+  };
+}
+
+export function mdeFraudCheckRequest() {
+  return {
+    type: MDE_FRAUD_CHECK_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function mdeFraudCheckSuccess(data) {
+  return {
+    type: MDE_FRAUD_CHECK_SUCCESS,
+    status: SUCCESS,
+    data
+  };
+}
+
+export function mdeFraudCheckFailure(error) {
+  return {
+    type: MDE_FRAUD_CHECK_FAILURE,
+    status: ERROR,
+    error
+  };
+}
+
+export function mdeFraudCheck() {
+  const loggedInUserDetails = getLoggedInUserDetails();
+  const accessToken = getCustomerAccessTokenService();
+  const cartDetails = getCartDetailsForLoggedInUser();
+
+  return async (dispatch, getState, { api }) => {
+    dispatch(mdeFraudCheckRequest());
+    try {
+      const result = await api.get(
+        `${CART_PATH}/${
+          loggedInUserDetails.userName
+        }/mdeFraudCheck?access_token=${accessToken}&cartGuid=${
+          cartDetails.guid
+        }`
+      );
+      const resultJson = await result.json();
+      if (
+        resultJson &&
+        resultJson.status &&
+        resultJson.status.toLowerCase() === FAILURE_LOWERCASE &&
+        resultJson.errorMessage
+      ) {
+        sessionStorage.setItem(MDE_FRAUD_CHECK_ERROR, resultJson.errorMessage);
+        dispatch(mdeFraudCheckFailure(resultJson.errorMessage));
+      } else {
+        sessionStorage.removeItem(MDE_FRAUD_CHECK_ERROR);
+        dispatch(mdeFraudCheckSuccess(resultJson));
+      }
+    } catch (e) {
+      dispatch(mdeFraudCheckFailure(e.message));
     }
   };
 }
