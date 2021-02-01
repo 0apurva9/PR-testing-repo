@@ -70,7 +70,7 @@ import * as UserAgent from "../../lib/UserAgent.js";
 import AccountUsefulLink from "./AccountUsefulLink.js";
 import TabHolder from "./TabHolder";
 import TabData from "./TabData";
-import { TATA_CLIQ_ROOT } from "../../lb/apiRequest";
+import { TATA_CLIQ_ROOT } from "../../lib/apiRequest";
 const RETURN = "RETURN";
 const PRODUCT_RETURN = "Return";
 const dateFormat = "DD MMM YYYY";

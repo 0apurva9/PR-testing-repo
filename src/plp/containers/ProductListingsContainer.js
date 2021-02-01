@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         showSort: () => {
             dispatch(showModal(SORT));
         },
-        getProductListings: (search: null, suffix, page, isFilter) => {
+        getProductListings: (search, suffix, page, isFilter) => {
             dispatch(setSearchString(search));
             dispatch(setPage(page));
             let suffixWithQc = suffix;
