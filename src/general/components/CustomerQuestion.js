@@ -8,6 +8,7 @@ export default class CustomerQuestion extends React.Component {
       this.props.selectItem(val);
     }
   }
+
   render() {
     let checkClass = styles.check;
     if (this.props.selected) {

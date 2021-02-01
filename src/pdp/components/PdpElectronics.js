@@ -40,83 +40,90 @@ const PRODUCT_QUANTITY = "1";
 
 const ProductDetails = LoadableVisibility({
   loader: () => import("./ProductDetails"),
+  // eslint-disable-next-line react/display-name
   loading: () => <div />,
   delay: 400
 });
 
 const ColourSelector = LoadableVisibility({
   loader: () => import("./ColourSelector"),
+  // eslint-disable-next-line react/display-name
   loading: () => <div />,
   delay: 400
 });
 
 const JewelleryDetailsAndLink = LoadableVisibility({
   loader: () => import("./JewelleryDetailsAndLink"),
+  // eslint-disable-next-line react/display-name
   loading: () => <div />
-});
-
-const Overlay = LoadableVisibility({
-  loader: () => import("./Overlay"),
-  loading: () => <div />,
-  delay: 400
 });
 
 const PdpPincode = LoadableVisibility({
   loader: () => import("./PdpPincode"),
+  // eslint-disable-next-line react/display-name
   loading: () => <div />,
   delay: 1000
 });
 
 const ProductFeature = LoadableVisibility({
   loader: () => import("./ProductFeature"),
+  // eslint-disable-next-line react/display-name
   loading: () => <div />,
   delay: 400
 });
 
 const AllDescription = LoadableVisibility({
   loader: () => import("./AllDescription"),
+  // eslint-disable-next-line react/display-name
   loading: () => <div />,
   delay: 400
 });
 
 const RatingAndTextLink = LoadableVisibility({
   loader: () => import("./RatingAndTextLink"),
+  // eslint-disable-next-line react/display-name
   loading: () => <div />,
   delay: 400
 });
 
 const PdpPaymentInfo = LoadableVisibility({
   loader: () => import("./PdpPaymentInfo"),
+  // eslint-disable-next-line react/display-name
   loading: () => <div />,
   delay: 400
 });
 
 const OtherSellersLink = LoadableVisibility({
   loader: () => import("./OtherSellersLink"),
+  // eslint-disable-next-line react/display-name
   loading: () => <div />,
   delay: 400
 });
 
 const OfferCard = LoadableVisibility({
   loader: () => import("./OfferCard"),
+  // eslint-disable-next-line react/display-name
   loading: () => <div />,
   delay: 400
 });
 
 const SizeSelector = LoadableVisibility({
   loader: () => import("./SizeSelector"),
+  // eslint-disable-next-line react/display-name
   loading: () => <div />,
   delay: 400
 });
 
 const PdpDeliveryModes = LoadableVisibility({
   loader: () => import("./PdpDeliveryModes"),
+  // eslint-disable-next-line react/display-name
   loading: () => <div />,
   delay: 400
 });
 
 const PDPRecommendedSectionsContainer = LoadableVisibility({
   loader: () => import("../containers/PDPRecommendedSectionsContainer"),
+  // eslint-disable-next-line react/display-name
   loading: () => {
     return <div />;
   },
@@ -130,6 +137,7 @@ export default class PdpElectronics extends React.Component {
       this.props.visitBrandStore();
     }
   }
+
   navigateToLogin() {
     const url = this.props.location.pathname;
     this.props.setUrlToRedirectToAfterAuth(url);
@@ -163,6 +171,7 @@ export default class PdpElectronics extends React.Component {
       }
     });
   };
+
   addToCart = async buyNowFlag => {
     if (buyNowFlag) {
       setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_BUY_NOW_EVENT);
@@ -207,6 +216,7 @@ export default class PdpElectronics extends React.Component {
     const url = `${this.props.location.pathname}/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
     this.props.history.push(url);
   };
+
   showPincodeModal() {
     if (this.props.match.path === PRODUCT_DESCRIPTION_PRODUCT_CODE) {
       this.props.showPincodeModal(this.props.match.params[0]);
@@ -226,6 +236,7 @@ export default class PdpElectronics extends React.Component {
     this.props.getPdpEmi(globalAccessToken, cartValue, productCode, ussId);
     this.props.showEmiModal();
   };
+
   handleShowPiqPage = () => {
     const eligibleForCNC =
       this.props.productDetails &&
@@ -237,6 +248,7 @@ export default class PdpElectronics extends React.Component {
       this.props.getAllStoresForCliqAndPiq();
     }
   };
+
   componentDidMount() {
     const parsedQueryString = queryString.parse(this.props.location.search);
     //show the EmiModal if showAmpEmi is true
@@ -259,6 +271,7 @@ export default class PdpElectronics extends React.Component {
 
     /* End- Gemini Script */
   }
+
   render() {
     const productData = this.props.productDetails;
     const mobileGalleryImages = productData.galleryImagesList
@@ -443,7 +456,7 @@ export default class PdpElectronics extends React.Component {
                   data={productData.variantOptions}
                   productId={productData.productListingId}
                   history={this.props.history}
-                  updateColour={val => {}}
+                  updateColour={() => {}}
                   getProductSpecification={this.props.getProductSpecification}
                 />
               </React.Fragment>
@@ -533,8 +546,8 @@ export default class PdpElectronics extends React.Component {
                     {productData.productDescription}
                     <div style={{ marginTop: 10 }}>
                       {productData.details &&
-                        productData.details.map(val => {
-                          return <div className={styles.list}>{val.value}</div>;
+                        productData.details.map((val, i) => {
+                          return <div className={styles.list} key={i}>{val.value}</div>;
                         })}
                     </div>
                   </div>
@@ -543,9 +556,10 @@ export default class PdpElectronics extends React.Component {
               {productData.knowMore && (
                 <Accordion text="Know More" headerFontSize={16}>
                   {productData.knowMore &&
-                    productData.knowMore.map(val => {
+                    productData.knowMore.map((val, index) => {
                       return (
                         <div
+                          key={index}
                           className={styles.list}
                           dangerouslySetInnerHTML={{ __html: val.knowMoreItem }}
                         />
@@ -585,9 +599,10 @@ export default class PdpElectronics extends React.Component {
                 >
                   {productData.classifications.map(val => {
                     if (val.specifications) {
-                      return val.specifications.map(value => {
+                      return val.specifications.map((value, i) => {
                         return (
                           <div
+                            key={i}
                             style={{
                               paddingBottom: 10
                             }}
@@ -608,9 +623,9 @@ export default class PdpElectronics extends React.Component {
               {productData.knowMore && (
                 <Accordion text="Know More" headerFontSize={16}>
                   {productData.knowMore &&
-                    productData.knowMore.map(val => {
+                    productData.knowMore.map((val, index) => {
                       return (
-                        <div className={styles.list}>{val.knowMoreItem}</div>
+                        <div className={styles.list} key={index}>{val.knowMoreItem}</div>
                       );
                     })}
                 </Accordion>

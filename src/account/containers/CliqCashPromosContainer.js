@@ -14,7 +14,7 @@ import {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getPromotionalCashStatement: data => {
+    getPromotionalCashStatement: () => {
       dispatch(getPromotionalCashStatement());
     },
     setHeaderText: text => {

@@ -61,6 +61,7 @@ export default class SelectBoxDesktop extends React.Component {
       );
     }
   }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.value && nextProps.value !== this.state.value) {
       this.setState({ value: nextProps.value });
@@ -77,6 +78,7 @@ export default class SelectBoxDesktop extends React.Component {
       this.setState({ label: nextProps.label });
     }
   }
+
   render() {
     let arrow = GreyArrow;
     if (this.props.arrowColour === BLACK) {
@@ -215,7 +217,27 @@ SelectBoxDesktop.propTypes = {
   ),
   arrowColour: PropTypes.oneOf([BLACK, GREY, WHITE]),
   theme: PropTypes.oneOf([HOLLOW_BOX, BLACK_BOX, GREY_BOX]),
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  location: PropTypes.object,
+  value: PropTypes.string,
+  label: PropTypes.string,
+  placeholder: PropTypes.string,
+  onChange: PropTypes.func,
+  isEnable: PropTypes.bool,
+  customSelect: PropTypes.string,
+  name: PropTypes.string,
+  hideArrow: PropTypes.bool,
+  labelWithLeftChild: PropTypes.bool,
+  leftChildSize: PropTypes.number,
+  rightChildSize: PropTypes.number,
+  size: PropTypes.number,
+  rightArrow: PropTypes.number,
+  leftChild: PropTypes.bool,
+  paddingLeft: PropTypes.number,
+  paddingLeftColour: PropTypes.string,
+  paddingLeftFontFamily: PropTypes.string,
+  paddingLeftFontSize: PropTypes.number,
+  image: PropTypes.string,
 };
 SelectBoxDesktop.defaultProps = {
   height: 35,

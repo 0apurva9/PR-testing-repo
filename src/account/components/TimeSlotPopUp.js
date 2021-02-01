@@ -292,6 +292,13 @@ TimeSlotPopUp.propTypes = {
   closeModal: PropTypes.func,
   setTimeSlot: PropTypes.func,
   callMeBackCallClick: PropTypes.func,
+  selectedSlot:PropTypes.shape({
+    slotTime:PropTypes.shape({
+      shiftDay:PropTypes.string,
+      label:PropTypes.string,
+
+    })
+  }),
   genesysCallConfigData: PropTypes.shape({
     WaitTime: PropTypes.number,
     TotalRequestsToday: PropTypes.number,

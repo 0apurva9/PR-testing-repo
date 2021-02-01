@@ -19,7 +19,7 @@ export default class APlusTemplate extends React.Component {
         .map(val => {
           return val;
         })
-        .forEach((val, i) => {
+        .forEach((val) => {
           if (val.key.slice(0, -1) in data) {
             data[val.key.slice(0, -1)].push(val);
           } else {

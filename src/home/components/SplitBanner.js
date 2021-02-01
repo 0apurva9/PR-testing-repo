@@ -49,7 +49,8 @@ SplitBanner.propTypes = {
   logo: PropTypes.string,
   image: PropTypes.string,
   header: PropTypes.string,
-  color: PropTypes.string
+  color: PropTypes.string,
+  subTitle: PropTypes.string
 };
 SplitBanner.defaultProps = {
   color: "#fff",

@@ -11,7 +11,6 @@ import QuestionList from "./QuestionList";
 import {
   setDataLayerForCLiQCarePage,
   ADOBE_SELF_SERVE_NON_ORDER_QUESTION_CLICK,
-  ADOBE_SELF_SERVE_FAQ_PAGE_LOAD
 } from "../../lib/adobeUtils";
 const ORDER_IN_PROCESS = "Order in Process";
 const READY_FOR_COLLECTION = "Ready for Collection";
@@ -22,7 +21,6 @@ const ITEM_PACKED = "Item Packed";
 const OUT_FOR_DELIVERY = "Out For Delivery";
 const ESTIMATED_DATE = "Estimated Delivery Date:";
 const DELIVERY_TEXT = "Delivered on:";
-const CLIQ_CARE = "CLiQ Care";
 
 class OrderListDetails extends Component {
   state = {
@@ -38,43 +36,6 @@ class OrderListDetails extends Component {
     window.scroll(0, 0);
   }
 
-  // selectQuestion(question, index) {
-  //   this.setState({
-  //     question: question,
-  //     showQuestionList: true,
-  //     showFeedBack: true
-  //   });
-  //   for (let i = 0; i < this.props.orderRelatedQuestionsData.length; i++) {
-  //     if (i == index)
-  //       this.setState({
-  //         nextQuestions: this.props.orderRelatedQuestionsData[i + 1],
-  //         currentQuestionIndex: i + 1
-  //       });
-  //   }
-  // }
-
-  // showAllQuestion() {
-  //   this.setState({
-  //     question: null,
-  //     showQuestionList: true,
-  //     showFeedBack: false,
-  //     isAnswerHelpFull: false
-  //   });
-  // }
-  // nextQuestion() {
-  //   for (let i = 0; i < this.props.orderRelatedQuestionsData.length; i++) {
-  //     if (i == this.state.currentQuestionIndex)
-  //       this.setState({
-  //         question: this.props.orderRelatedQuestionsData[
-  //           this.state.currentQuestionIndex
-  //         ],
-  //         nextQuestions: this.props.orderRelatedQuestionsData[
-  //           this.state.currentQuestionIndex + 1
-  //         ],
-  //         currentQuestionIndex: this.state.currentQuestionIndex + 1
-  //       });
-  //   }
-  // }
   componentWillReceiveProps(nextProps) {
     if (nextProps.questionsList !== this.props.questionsList) {
       window.scroll(0, 0);
@@ -98,6 +59,7 @@ class OrderListDetails extends Component {
       />
     );
   }
+
   showFaqSolutions(listOfIssue) {
     setDataLayerForCLiQCarePage(
       ADOBE_SELF_SERVE_NON_ORDER_QUESTION_CLICK,
@@ -141,13 +103,13 @@ class OrderListDetails extends Component {
                   Back to CLiQ Care Homepage
                 </div>
               ) : (
-                <div
-                  className={styles.customBtn}
-                  onClick={() => this.props.navigatePreviousPage()}
-                >
-                  Go Back to Previous Page
+                  <div
+                    className={styles.customBtn}
+                    onClick={() => this.props.navigatePreviousPage()}
+                  >
+                    Go Back to Previous Page
                 </div>
-              )}
+                )}
             </div>
           </div>
           {this.props.question &&
@@ -186,46 +148,46 @@ class OrderListDetails extends Component {
                   )}
                   {slectOrderData.pickUpDateCNC ? (
                     slectOrderData.statusDisplay === ORDER_IN_PROCESS ||
-                    slectOrderData.statusDisplay === READY_FOR_COLLECTION ? (
-                      <div className={styles.orderStatus}>
-                        {PICKUP_DATE}&nbsp;
+                      slectOrderData.statusDisplay === READY_FOR_COLLECTION ? (
+                        <div className={styles.orderStatus}>
+                          {PICKUP_DATE}&nbsp;
                         <span className={styles.fontBold}>
-                          {getDayNumberSuffix(
-                            slectOrderData.pickUpDateCNC,
-                            true
-                          )}
-                        </span>
-                      </div>
-                    ) : null
+                            {getDayNumberSuffix(
+                              slectOrderData.pickUpDateCNC,
+                              true
+                            )}
+                          </span>
+                        </div>
+                      ) : null
                   ) : (slectOrderData.statusDisplay === ORDER_CONFIRMED ||
-                      slectOrderData.statusDisplay === ORDER_IN_PROCESS ||
-                      slectOrderData.statusDisplay === SHIPPED ||
-                      slectOrderData.statusDisplay === ITEM_PACKED ||
-                      slectOrderData.statusDisplay === OUT_FOR_DELIVERY ||
-                      slectOrderData.statusDisplay === READY_FOR_COLLECTION) &&
+                    slectOrderData.statusDisplay === ORDER_IN_PROCESS ||
+                    slectOrderData.statusDisplay === SHIPPED ||
+                    slectOrderData.statusDisplay === ITEM_PACKED ||
+                    slectOrderData.statusDisplay === OUT_FOR_DELIVERY ||
+                    slectOrderData.statusDisplay === READY_FOR_COLLECTION) &&
                     (slectOrderData.EDD ||
                       slectOrderData.estimateddeliverydate) ? (
-                    <div className={styles.orderStatus}>
-                      {ESTIMATED_DATE}&nbsp;
+                        <div className={styles.orderStatus}>
+                          {ESTIMATED_DATE}&nbsp;
                       <span className={styles.fontBold}>
-                        {getDayNumberSuffix(
-                          slectOrderData.EDD ||
-                            slectOrderData.estimateddeliverydate
-                        )}
-                      </span>
-                    </div>
-                  ) : selectedOrder &&
-                    selectedOrder.products[0].deliveryDate ? (
-                    <div className={styles.orderStatus}>
-                      {DELIVERY_TEXT}&nbsp;
+                            {getDayNumberSuffix(
+                              slectOrderData.EDD ||
+                              slectOrderData.estimateddeliverydate
+                            )}
+                          </span>
+                        </div>
+                      ) : selectedOrder &&
+                        selectedOrder.products[0].deliveryDate ? (
+                          <div className={styles.orderStatus}>
+                            {DELIVERY_TEXT}&nbsp;
                       <span className={styles.fontBold}>
-                        {getDayNumberSuffix(
-                          selectedOrder.products[0].deliveryDate,
-                          true
-                        )}
-                      </span>
-                    </div>
-                  ) : null}
+                              {getDayNumberSuffix(
+                                selectedOrder.products[0].deliveryDate,
+                                true
+                              )}
+                            </span>
+                          </div>
+                        ) : null}
                 </div>
               </div>
               <div className={styles.moreAction}>
@@ -255,14 +217,16 @@ class OrderListDetails extends Component {
                   "&"
                 )})`}</span>
               </div>
-              {this.props.questionsList.map(listOfIssue => {
+              {this.props.questionsList.map((listOfIssue, index) => {
                 return (
-                  <div>
+                  <div
+                    key={`key${index}`}
+                  >
                     <div
                       className={[
                         styles.faqHeading,
                         this.state.showFaqSolution ==
-                        listOfIssue.question_component
+                          listOfIssue.question_component
                           ? styles.fontBold
                           : null
                       ].join(" ")}
@@ -293,11 +257,11 @@ class OrderListDetails extends Component {
                   }
                 />
               ) : (
-                <div className={styles.noQuestions}>
-                  Sorry, we don't have any relevant issues related to this order
-                  right now.
+                  <div className={styles.noQuestions}>
+                    Sorry, we don &apos;t have any relevant issues related to this order
+                    right now.
                 </div>
-              )}
+                )}
             </div>
           )}
         </div>
@@ -335,6 +299,57 @@ class OrderListDetails extends Component {
 }
 export default withRouter(OrderListDetails);
 OrderListDetails.propTypes = {
+  question: PropTypes.shape({
+    UItemplateCode: PropTypes.string,
+    chat: PropTypes.string,
+    click2Call: PropTypes.string,
+    issueType: PropTypes.string,
+    l0: PropTypes.string,
+    l1: PropTypes.string,
+    l2: PropTypes.string,
+    l3: PropTypes.string,
+    solution: PropTypes.string,
+    tat: PropTypes.string,
+    ticketType: PropTypes.string,
+    webform: PropTypes.string,
+    subIssueType: PropTypes.string
+  }),
+  questionsList: PropTypes.arrayOf(
+    PropTypes.shape({
+      UItemplateCode: PropTypes.string,
+      chat: PropTypes.string,
+      click2Call: PropTypes.string,
+      issueType: PropTypes.string,
+      l0: PropTypes.string,
+      l1: PropTypes.string,
+      l2: PropTypes.string,
+      l3: PropTypes.string,
+      l4: PropTypes.string,
+      solution: PropTypes.string,
+      tat: PropTypes.string,
+      ticketType: PropTypes.string,
+      webform: PropTypes.string,
+    })
+  ),
+  slectOrderData: PropTypes.shape({
+    EDD: PropTypes.string,
+    USSID: PropTypes.string,
+    imageURL: PropTypes.string,
+    isCncToHd: PropTypes.string,
+    isGiveAway: PropTypes.string,
+    isReviewed: PropTypes.string,
+    price: PropTypes.string,
+    productBrand: PropTypes.string,
+    productName: PropTypes.string,
+    productcode: PropTypes.string,
+    sellerorderno: PropTypes.string,
+    statusDisplay: PropTypes.string,
+    transactionId: PropTypes.string,
+    estimateddeliverydate: PropTypes.string,
+    pickUpDateCNC: PropTypes.string,
+    displayStatusName: PropTypes.string
+
+  }),
   isAnswerHelpFull: PropTypes.bool,
   FAQquestion: PropTypes.bool,
   isQuesryForm: PropTypes.bool,
@@ -350,5 +365,15 @@ OrderListDetails.propTypes = {
   updateThanks: PropTypes.func,
   uploadUserFile: PropTypes.func,
   selectedOrder: PropTypes.object,
-  slectOrderData: PropTypes.object
+  formSubmit: PropTypes.func,
+  parentIssueType: PropTypes.string,
+  questionType: PropTypes.string,
+  moreHelps: PropTypes.func,
+  sendInvoice: PropTypes.func,
+  submitCustomerForms: PropTypes.func,
+  displayToast: PropTypes.func,
+  customerQueriesField: PropTypes.object,
+  userDetails: PropTypes.object,
+  uploadedAttachments: PropTypes.object,
+  selectQuestion: PropTypes.func,
 };

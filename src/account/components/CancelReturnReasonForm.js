@@ -1,4 +1,5 @@
 import React from "react";
+import { RouterPropTypes } from "../../general/router-prop-types";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2";
 import * as Cookie from "../../lib/Cookie";
 import TextArea from "../../general/components/TextArea";
@@ -22,25 +23,30 @@ export default class CancelReturnReasonForm extends React.Component {
       placeholder: "Add comments (optional)"
     };
   }
+
   onClickImage(productCode) {
     if (this.props.onClickImage) {
       this.props.onClickImage(productCode);
     }
   }
+
   handleContinue() {
     if (this.props.onContinue) {
       this.props.onContinue(this.state);
     }
   }
+
   handleCancel() {
     this.props.history.goBack();
   }
+
   onChangePrimary(val) {
     const code = val.value;
     const label = val.label;
 
     this.setState({ cancelReasonCode: code, reason: label });
   }
+
   handleChange(val) {
     this.setState({ comment: val });
   }
@@ -56,7 +62,7 @@ export default class CancelReturnReasonForm extends React.Component {
               placeholder={"Select a reason"}
               options={
                 data.returnReasonMap &&
-                data.returnReasonMap.map((val, i) => {
+                data.returnReasonMap.map((val) => {
                   return {
                     value: val.parentReasonCode,
                     label: val.parentReturnReason
@@ -85,9 +91,11 @@ export default class CancelReturnReasonForm extends React.Component {
       </div>
     );
   }
+
   renderLoader() {
     return <Loader />;
   }
+
   render() {
     const data = this.props.returnReasons;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -106,8 +114,6 @@ export default class CancelReturnReasonForm extends React.Component {
       <ReturnAndOrderCancelWrapper
         userAddress={this.props.userAddress}
         returnProductDetails={data}
-        // orderPlace={this.props.history.location.state.orderDate}
-        // orderId={this.props.history.location.state.orderId}
         userDetails={userDetails}
         history={this.props.history}
         orderDetails={""}
@@ -115,85 +121,19 @@ export default class CancelReturnReasonForm extends React.Component {
       >
         {this.renderCancel()}
       </ReturnAndOrderCancelWrapper>
-      // <div className={styles.base}>
-      // 	<div className={styles.returnReasonDetail}>
-      // 		<div className={styles.header}>Please select return reason</div>
-      // 		<div className={styles.orderCardWrapper}>
-      // 			<OrderCard
-      // 				imageUrl={
-      // 					data &&
-      // 					data.orderProductWsDTO &&
-      // 					data.orderProductWsDTO[0] &&
-      // 					data.orderProductWsDTO[0].imageURL
-      // 				}
-      // 				imageHolderWidth="47px"
-      // 				productName={`${data.orderProductWsDTO[0].productName}`}
-      // 				onClick={() =>
-      // 					this.onClickImage(
-      // 						data.orderProductWsDTO &&
-      // 							data.orderProductWsDTO[0] &&
-      // 							data.orderProductWsDTO[0].productcode
-      // 					)
-      // 				}
-      // 				price={false}
-      // 				quantity={false}
-      // 				isSelect={false}
-      // 			>
-      // 				{data.orderProductWsDTO[0].productSize && (
-      // 					<span className={styles.productSizeColor}>
-      // 						{data.orderProductWsDTO[0].productSize} |&nbsp;
-      // 					</span>
-      // 				)}
-      // 				{data.orderProductWsDTO[0].productColour && (
-      // 					<span className={styles.productSizeColor}>
-      // 						{data.orderProductWsDTO[0].productColour}
-      // 					</span>
-      // 				)}
-      // 			</OrderCard>
-      // 		</div>
-
-      // 		<div className={styles.content}>
-      // 			<div className={styles.selectReasonWithText}>
-      // 				<div className={styles.header}>Please select cancel reason</div>
-      // 				<div className={styles.select}>
-      // 					<SelectBoxMobile2
-      // 						placeholder={'Select a reason'}
-      // 						options={
-      // 							data &&
-      // 							data.returnReasonMap &&
-      // 							data.returnReasonMap.map((val, i) => {
-      // 								return {
-      // 									value: val.parentReasonCode,
-      // 									label: val.parentReturnReason,
-      // 								};
-      // 							})
-      // 						}
-      // 						onChange={val => this.onChangePrimary(val)}
-      // 					/>
-      // 				</div>
-      // 				<div className={styles.textArea}>
-      // 					<TextArea
-      // 						value={this.state.comment}
-      // 						onChange={val => this.handleChange(val)}
-      // 						placeholder={COMMENTS_PLACEHOLDER}
-      // 					/>
-      // 				</div>
-      // 				<div className={styles.buttonHolder}>
-      // 					<CancelAndContinueButton
-      // 						handleCancel={() => this.handleCancel()}
-      // 						handleContinue={() => this.handleContinue()}
-      // 						disabled={this.state.reason ? false : true}
-      // 					/>
-      // 				</div>
-      // 			</div>
-      // 		</div>
-      // 	</div>
-      // </div>
     );
   }
 }
 CancelReturnReasonForm.propTypes = {
   onContinue: PropTypes.func,
   onCancel: PropTypes.func,
-  cancelProductDetails: PropTypes.object
+  cancelProductDetails: PropTypes.object,
+  onClickImage: PropTypes.array,
+  error: PropTypes.string,
+  loadingForCancelProductDetails: PropTypes.bool,
+  userAddress: PropTypes.object,
+  returnReasons: PropTypes.shape({
+    returnReasonMap: PropTypes.array
+  }),
+  ...RouterPropTypes
 };

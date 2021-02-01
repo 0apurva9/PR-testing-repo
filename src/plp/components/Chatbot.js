@@ -28,6 +28,7 @@ export default class Chatbot extends React.Component {
       this
     );
   }
+
   componentDidMount() {
     if (this.props.addToCartFromChatbot) {
       window.addEventListener("haptik_event", this.addToCartFromHaptikChatbot);
@@ -502,7 +503,7 @@ export default class Chatbot extends React.Component {
         let categoryHierarchyCheck = data.productDetails.categoryHierarchy;
         let categoryIds =
           categoryHierarchyCheck &&
-          categoryHierarchyCheck.map((category, index) => {
+          categoryHierarchyCheck.map((category) => {
             return category["category_id"];
           });
 
@@ -560,14 +561,10 @@ export default class Chatbot extends React.Component {
 }
 
 Chatbot.propTypes = {
-  productListings: PropTypes.objectOf(
+  history: PropTypes.object,
+  productListings:
     PropTypes.shape({
-      currentQuery: PropTypes.objectOf(
-        PropTypes.shape({
-          url: PropTypes.string,
-          searchQuery: PropTypes.string
-        })
-      ),
+      currentQuery: PropTypes.object,
       facetdatacategory: PropTypes.objectOf(
         PropTypes.shape({
           filters: PropTypes.arrayOf(
@@ -608,7 +605,7 @@ Chatbot.propTypes = {
         })
       )
     })
-  ),
+  ,
   clpUrl: PropTypes.string,
   productDetails: PropTypes.objectOf(
     PropTypes.shape({
@@ -632,5 +629,16 @@ Chatbot.propTypes = {
         })
       )
     })
-  )
+  ),
+  addToCartFromChatbot: PropTypes.bool,
+  isServiceableToPincode: PropTypes.bool,
+  checkPincodeFromHaptikChatbot: PropTypes.bool,
+  checkPincodeDetailsLoading: PropTypes.bool,
+  addProductToCart: PropTypes.func,
+  displayToast: PropTypes.func,
+  cartCountDetails: PropTypes.object,
+  addToCartResponseDetails: PropTypes.object,
+  addToCartResponseLoading: PropTypes.bool,
+  getProductPinCode: PropTypes.func,
+  cartCountDetailsLoading: PropTypes.bool
 };

@@ -13,5 +13,6 @@ export default class BrandsCategory extends React.Component {
 }
 BrandsCategory.propTypes = {
   index: PropTypes.string,
-  catagory: PropTypes.string
+  catagory: PropTypes.string,
+  children: PropTypes.node
 };

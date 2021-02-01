@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import Image from "../../xelpmoc-core/Image";
 import Grid from "../../general/components/Grid";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
+import { RouterPropTypes } from "../../general/router-prop-types";
 
 export default class CuratedFeature extends React.Component {
   handleClick(webURL) {
@@ -13,6 +14,7 @@ export default class CuratedFeature extends React.Component {
       this.props.setClickedElementId();
     }
   }
+
   render() {
     let feedComponentData = this.props.feedComponentData;
     return (
@@ -54,14 +56,18 @@ export default class CuratedFeature extends React.Component {
     );
   }
 }
+
 CuratedFeature.propTypes = {
   header: PropTypes.string,
   onClick: PropTypes.func,
+  positionInFeed: PropTypes.number,
+  setClickedElementId: PropTypes.func,
   curatedFeature: PropTypes.arrayOf(
     PropTypes.shape({
       header: PropTypes.string,
       text: PropTypes.string,
       imageUrl: PropTypes.string
     })
-  )
+  ),
+  ...RouterPropTypes
 };

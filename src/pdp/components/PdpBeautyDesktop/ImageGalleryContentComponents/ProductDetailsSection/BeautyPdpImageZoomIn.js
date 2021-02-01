@@ -25,7 +25,6 @@ export default class BeautyPdpImageZoomIn extends Component {
   }
 
   autoMouseScroll(event) {
-    let totalWindowHeight = window.innerHeight;
     const ele = document.getElementById("autoScroll");
     ele.style.backgroundPositionX = "-50px";
     ele.style.backgroundPositionY = -event.clientY - 50 + "px";
@@ -75,5 +74,6 @@ export default class BeautyPdpImageZoomIn extends Component {
 
 BeautyPdpImageZoomIn.propTypes = {
   zoomImgList: PropTypes.arrayOf(PropTypes.string),
-  position: PropTypes.number
+  position: PropTypes.number,
+  closeModal: PropTypes.func
 };

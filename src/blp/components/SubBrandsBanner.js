@@ -5,6 +5,7 @@ import Carousel from "../../general/components/Carousel";
 import CommonCenter from "../../general/components/CommonCenter";
 import PropTypes from "prop-types";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
+import { RouterPropTypes } from "../../general/router-prop-types";
 export default class SubBrandsBanner extends React.Component {
   handleClick(webURL) {
     let urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
@@ -13,9 +14,11 @@ export default class SubBrandsBanner extends React.Component {
       this.props.setClickedElementId();
     }
   }
+
   handleClickOnLink = event => {
     event.preventDefault();
   };
+
   render() {
     return (
       <CommonCenter>
@@ -36,7 +39,9 @@ export default class SubBrandsBanner extends React.Component {
                 return (
                   <a
                     href={datum.webURL}
+                    key={i}
                     target="_blank"
+                    rel="noreferrer"
                     onClick={event => this.handleClickOnLink(event)}
                   >
                     <ProductImageAndLogo
@@ -55,6 +60,8 @@ export default class SubBrandsBanner extends React.Component {
   }
 }
 SubBrandsBanner.propTypes = {
+  positionInFeed: PropTypes.number,
+  setClickedElementId: PropTypes.func,
   feedComponentData: PropTypes.arrayOf(
     PropTypes.shape({
       title: PropTypes.string,
@@ -66,5 +73,6 @@ SubBrandsBanner.propTypes = {
         })
       )
     })
-  )
+  ),
+  ...RouterPropTypes,
 };

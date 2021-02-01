@@ -7,13 +7,14 @@ import { Link } from "react-router-dom";
 
 const COUPON_TYPE = "COUPON";
 export default class CuponDetails extends React.Component {
-  handleClick(val) {
+  handleClick() {
     if (this.props.couponType === COUPON_TYPE) {
       if (this.props.selectItem) {
         this.props.selectItem();
       }
     }
   }
+
   render() {
     let date;
     let couponExpiryDate =
@@ -103,5 +104,13 @@ CuponDetails.propTypes = {
       selectItem: PropTypes.func,
       selected: PropTypes.bool
     })
-  )
+  ),
+  couponType: PropTypes.string,
+  selectItem: PropTypes.func,
+  dateTime: PropTypes.string,
+  promotionTitle: PropTypes.string,
+  selected: PropTypes.bool,
+  promotionDetail: PropTypes.string,
+  tnc: PropTypes.string,
+  amount: PropTypes.string
 };

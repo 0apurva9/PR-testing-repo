@@ -1,6 +1,5 @@
 import React from "react";
 import sortBy from "lodash.sortby";
-import EmiSectionDesktop from "./EmiSectionDesktop";
 import EmiCardForPdp from "./EmiCardForPdp";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import SlideModal from "../../general/components/SlideModal";
@@ -26,6 +25,7 @@ export default class EmiModal extends React.Component {
       noCostEmiArray: null
     };
   }
+
   handleOpen(index, emiArray) {
     if (emiArray.bankList[index] && emiArray.bankList[index].emiBank) {
       const bankName = emiArray.bankList[index].emiBank;
@@ -40,18 +40,22 @@ export default class EmiModal extends React.Component {
       this.setState({ openIndex: index, showEmi: false, showBank: false });
     }
   }
+
   toggleTermsView() {
     this.setState({ showEmi: !this.state.showEmi, openIndex: null });
   }
+
   toggleBankView(i) {
     this.setState({ showBank: i ? i : null, openIndex: null });
   }
+
   tabSelect(val) {
     if (this.state.isSelected !== val) {
       this.setState({ openIndex: null, showEmi: false, showBank: false });
     }
     this.setState({ isSelected: val });
   }
+
   componentWillReceiveProps(nextProps) {
     let standardEmiDetails =
       nextProps.emiData &&
@@ -80,9 +84,11 @@ export default class EmiModal extends React.Component {
       this.setState({ isSelected: 1, standardEmiArray: standardEmiDetails });
     }
   }
+
   renderLoader() {
     return <Loader />;
   }
+
   render() {
     if (this.props.loading) {
       return this.renderLoader();
@@ -172,9 +178,9 @@ export default class EmiModal extends React.Component {
                         className = styles.onActiveHolder;
                       }
                       return (
-                        <React.Fragment>
+                        <React.Fragment key={i}>
                           <div className={className}>
-                            <div className={styles.bankInfo} key={i}>
+                            <div className={styles.bankInfo}>
                               {this.state.showBank === bank.title ? (
                                 <div>{bank.title}</div>
                               ) : (
@@ -320,7 +326,7 @@ export default class EmiModal extends React.Component {
                           className = styles.onActiveHolder;
                         }
                         return (
-                          <React.Fragment>
+                          <React.Fragment key = {i}>
                             <div className={className}>
                               <div className={styles.bankInfo} key={i}>
                                 {this.state.showBank === bank.title ? (
@@ -428,6 +434,7 @@ export default class EmiModal extends React.Component {
 }
 EmiModal.propTypes = {
   emiData: PropTypes.shape({
+    emiList: PropTypes.array,
     bankList: PropTypes.arrayOf(
       PropTypes.shape({
         emiBank: PropTypes.string,
@@ -441,5 +448,7 @@ EmiModal.propTypes = {
         )
       })
     )
-  })
+  }),
+  loading: PropTypes.bool,
+  closeModal: PropTypes.bool
 };

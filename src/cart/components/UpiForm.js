@@ -6,8 +6,6 @@ import styles from "./UpiForm.css";
 import upi_opt from "./img/upi_opt.svg";
 import { format } from "date-fns";
 import loader from "../../account/components/img/loader.svg";
-import { CART_DETAILS_FOR_LOGGED_IN_USER } from "../../lib/constants.js";
-import * as Cookie from "../../lib/Cookie";
 import {
   setDataLayer,
   SET_DATA_LAYER_VERIFY_BUTTON_UPI,
@@ -17,7 +15,6 @@ import {
   WHATSAPP_NOTIFICATION_UNCHECKED,
   getWhatsAppNotification
 } from "../../lib/adobeUtils";
-// import { LocalStorage } from "node-localstorage";
 const UPI_REGEX = /^[A-Za-z0-9_\-\.]+@[A-Za-z0-9]\w+$/;
 const dateFormat = "DD MMM";
 export const UPI_VPA = "upi_vpa";
@@ -32,7 +29,6 @@ export default class UpiForm extends React.Component {
       showUpiMsg: {
         upiId: "",
         isVerified: false,
-        // showLoader: false,
         text: ""
       },
       isChanged: false,
@@ -129,7 +125,8 @@ export default class UpiForm extends React.Component {
       isNewUpi: this.props.savedUPIidResponse.length ? false : true
     });
   }
-  componentDidUpdate(prevProps, prevState) {
+
+  componentDidUpdate(prevProps) {
     if (prevProps.savedUPIidResponse !== this.props.savedUPIidResponse) {
       this.setState({
         savedUPIidResponse: this.props.savedUPIidResponse,
@@ -162,6 +159,7 @@ export default class UpiForm extends React.Component {
       setDataLayer(SET_DATA_LAYER_UID_ADD);
     }
   };
+
   onCheckout = payNowBtnFlag => {
     if (payNowBtnFlag) {
       this.props.displayToast("Please verify your UPI Address to proceed");
@@ -270,7 +268,6 @@ export default class UpiForm extends React.Component {
                                               alt="Loader"
                                               width="15px"
                                               height="15px"
-                                              alt=""
                                             />
                                           )}
                                           {this.props.addUserUPIStatus !==
@@ -537,5 +534,23 @@ export default class UpiForm extends React.Component {
 }
 UpiForm.propTypes = {
   placeholder: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  displayToast: PropTypes.func,
+  whatsappSelected: PropTypes.bool,
+  addUserUPIStatus: PropTypes.string,
+  onCheckout: PropTypes.func,
+  loading: PropTypes.bool,
+  addUPIDetails: PropTypes.func,
+  showTermsNConditions: PropTypes.func,
+  addUPIDetailsNullState: PropTypes.func,
+  UPIofferCalloutList: PropTypes.array,
+  howUpiWorksPageId: PropTypes.string,
+  combinedLogoUrl: PropTypes.string,
+  addUserUPIDetails: PropTypes.shape({
+    upiStatus: PropTypes.string,
+    error: PropTypes.string
+  }),
+  savedUPIidResponse: PropTypes.shape({
+    length: PropTypes.string
+  }),
 };

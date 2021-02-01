@@ -3,11 +3,7 @@ import styles from "./TextwithButton.css";
 
 import PropTypes from "prop-types";
 import AnchorButton from "../../general/components/AnchorButton";
-import {
-  MY_ACCOUNT_PAGE,
-  MY_ACCOUNT_ORDERS_PAGE
-} from "../../lib/constants.js";
-
+import { RouterPropTypes } from "../../general/router-prop-types";
 export default class TextWithButton extends React.Component {
   constructor(props) {
     super(props);
@@ -16,6 +12,7 @@ export default class TextWithButton extends React.Component {
       borderBottom: "1px solid #d2d2d2"
     };
   }
+
   onClick() {
     let url = window.location.href;
     var customerId = url
@@ -52,7 +49,7 @@ export default class TextWithButton extends React.Component {
     }
   }
 
-  onBlur(x) {
+  onBlur() {
     this.setState({
       borderColor: "#d2d2d2",
       borderBottom: "1px solid #d2d2d2"
@@ -61,6 +58,7 @@ export default class TextWithButton extends React.Component {
       this.props.onBlur();
     }
   }
+
   render() {
     return (
       <div className={styles.noOffset}>
@@ -81,5 +79,8 @@ export default class TextWithButton extends React.Component {
 TextWithButton.propTypes = {
   onClick: PropTypes.func,
   buttonLabel: PropTypes.string,
-  heading: PropTypes.string
+  heading: PropTypes.string,
+  onFocusInput: PropTypes.func,
+  onBlur: PropTypes.func,
+  history: RouterPropTypes.history
 };

@@ -13,7 +13,6 @@ import {
   CLIQ_CASH_APPLIED_LOCAL_STORAGE,
   EMI_TENURE,
   BANK_COUPON_COOKIE,
-  SELECTED_STORE,
   DEFAULT_PIN_CODE_LOCAL_STORAGE
 } from "../../lib/constants";
 export const EGV_GIFT_CART_ID = "giftCartId";
@@ -283,7 +282,6 @@ const cart = (
     instacredMiddleLayerISEnableStatus: null,
     instacredMiddleLayerISEnable: null,
     instacredMiddleLayerISEnableLoading: false,
-    instacredMiddleLayerISEnableError: null,
 
     upiMiddleLayerHowItWorksStatus: null,
     upiMiddleLayerHowItWorks: null,
@@ -302,7 +300,7 @@ const cart = (
     getCustomComponent: null,
     getCustomComponentError: null,
     getCustomComponentLoading: false,
-    instacredMiddleLayerISEnableError: null,
+
 
     emiEligibiltyDetails: null,
     emiEligibiltyStatus: null,

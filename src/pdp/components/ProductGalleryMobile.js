@@ -8,16 +8,19 @@ class ProductGalleryMobile extends React.Component {
       this.props.onTouchStart(evt);
     }
   }
+
   handleSwipeMove(evt) {
     if (this.props.onTouchStart) {
       this.props.onTouchMove(evt);
     }
   }
+
   handleSwipeEnd(evt) {
     if (this.props.onTouchEnd) {
       this.props.onTouchEnd(evt);
     }
   }
+
   render() {
     const translateAmount = this.props.position * -100;
     return (

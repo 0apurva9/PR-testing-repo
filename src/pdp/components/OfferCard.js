@@ -3,41 +3,19 @@ import styles from "./OfferCard.css";
 import PropTypes from "prop-types";
 import {
   setDataLayerForPdpDirectCalls,
-  setDataLayerForCartDirectCalls,
   setDataLayer,
   ADOBE_DIRECT_CALL_FOR_PDP_OFFER,
   ADOBE_PRODUCT_BUNDLED_OFFER,
-  ADOBE_OFFERS_PDP,
-  ADOBE_OFFER_CARD_PDP,
-  ADOBE_DIRECT_CALL_FOR_PINCODE_SUCCESS,
-  ADOBE_DIRECT_CALL_FOR_PINCODE_FAILURE,
-  ADOBE_OFFER_CARD_TNC
 } from "../../lib/adobeUtils.js";
 import TimerCounter from "../../general/components/TimerCounter";
 import { PRIMARY_OFFER } from "../../lib/constants";
 import sortBy from "lodash.sortby";
-import * as Cookie from "../../lib/Cookie";
 import {
   DEFAULT_PIN_CODE_LOCAL_STORAGE,
-  SUCCESS,
-  ERROR
 } from "../../lib/constants";
-import BundledProduct from "./BundledProduct";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
-// const bundledObject = {
-//   channel: "ALL",
-//   couponType: "PRODUCT_PROMOTION",
-//   endDateAndTime: "2019-09-10 23:59:00",
-//   name: "Special Discounted Price for Bundling*",
-//   offerType: "Promotion",
-//   priority: 1000,
-//   promotionDisplayText:
-//     "<a href=https://www.tatacliq.com/newpage?bundledProduct=true&bundledPromotionText=Hello$User&bundledProductCode=MP000000004656813&ussid=1242198904123052293&cartPromotionText=?Cart$Discounted?>Price inclusive of offer</a>",
-//   startDateAndTime: "2019-08-13 13:00:00",
-//   title: "Special Discounted Price*",
-//   voucherIdentifier: "13AUG19GOOGLE1"
-// };
+
 export const BundledProductCode = "BundledProductCode";
 
 export default class OfferCard extends React.Component {
@@ -45,11 +23,13 @@ export default class OfferCard extends React.Component {
     offerToBeShown: [],
     bundledData: {}
   };
-  handleClick(val) {
+
+  handleClick() {
     if (this.props.onClick) {
       this.props.onClick();
     }
   }
+
   handleShowDetails = async (selectedOffer, offers) => {
     setDataLayerForPdpDirectCalls(ADOBE_DIRECT_CALL_FOR_PDP_OFFER);
     let Title = selectedOffer.promotionDisplayText;
@@ -86,6 +66,7 @@ export default class OfferCard extends React.Component {
       }
     }
   };
+
   getBundleProductServibilty = async params => {
     return await this.props.getBundleProductPinCode(
       this.props.pincode && this.props.pincode.pinCode,
@@ -93,6 +74,7 @@ export default class OfferCard extends React.Component {
       params.ussid
     );
   };
+
   getParams = async Title => {
     let bundleProduct;
     var snippet = document.createElement("div");
@@ -151,6 +133,7 @@ export default class OfferCard extends React.Component {
     }
     //setDataLayer(ADOBE_OFFER_CARD_TNC, this.props.productListings);
   };
+
   showVoucherOffersModal = offers => {
     this.props.showVoucherOffersModal({
       ...this.props,
@@ -180,6 +163,7 @@ export default class OfferCard extends React.Component {
     }
     this.setState({ offerToBeShown: offerToBeShown });
   }
+
   checkTimer(timerStartTime, endDateTime, couponType) {
     if (couponType === PRIMARY_OFFER) {
       return null;
@@ -199,9 +183,11 @@ export default class OfferCard extends React.Component {
       }
     }
   }
+
   createMarkup = input => {
     return { __html: input };
   };
+
   componentWillReceiveProps(nextProps) {
     if (
       this.props.offers &&
@@ -211,6 +197,7 @@ export default class OfferCard extends React.Component {
       this.createOffersForPdp(nextProps.offers);
     }
   }
+
   componentDidMount() {
     if (this.props.offers && this.props.offers.length) {
       this.createOffersForPdp(this.props.offers);
@@ -351,11 +338,25 @@ OfferCard.propTypes = {
     startDate: PropTypes.string
   }),
   secondaryPromotions: PropTypes.shape({
-    messageId: PropTypes.string,
+    messageID: PropTypes.string,
     messageDetails: PropTypes.string,
     endDate: PropTypes.string,
-    startDate: PropTypes.string
+    startDate: PropTypes.string,
+    isNoCostEmi: PropTypes.bool,
   }),
   showDetails: PropTypes.func,
-  theme: PropTypes.number
+  theme: PropTypes.number,
+  onClick: PropTypes.func,
+  productDetails: PropTypes.object,
+  showBundledProduct: PropTypes.func,
+  getBundleProductPinCode: PropTypes.func,
+  showVoucherOffersModal: PropTypes.func,
+  getBundleproduct: PropTypes.func,
+  productListings: PropTypes.array,
+  getProductPinCode: PropTypes.func,
+  bundlePincodeServicbilty: PropTypes.bool,
+  displayToast: PropTypes.func,
+  defaultPinCode: PropTypes.string,
+  offers: PropTypes.array,
+  pincode: PropTypes.object
 };

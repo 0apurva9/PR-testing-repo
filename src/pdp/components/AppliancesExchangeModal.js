@@ -1,5 +1,4 @@
 import React from "react";
-import styles from "./ExchangeModal.css";
 import HowAppliancesExchangeWorks from "./HowAppliancesExchangeWorks";
 import AppliancesExchangeSelection from "./AppliancesExchangeSelection";
 import PropTypes from "prop-types";
@@ -45,5 +44,7 @@ AppliancesExchangeModal.propTypes = {
   closeAppliancesExchangeModal: PropTypes.func,
   showAppliancesExchangeWorks: PropTypes.bool,
   appliancesExchangeDetails: PropTypes.object,
-  ussid: PropTypes.string
+  ussid: PropTypes.string,
+  updateAppliancesExchangeDetails: PropTypes.func,
+  history: PropTypes.object
 };

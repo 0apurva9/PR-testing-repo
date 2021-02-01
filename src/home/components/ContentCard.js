@@ -9,6 +9,7 @@ export default class ContentCard extends React.Component {
       this.props.onClick();
     }
   }
+
   render() {
     return (
       <div

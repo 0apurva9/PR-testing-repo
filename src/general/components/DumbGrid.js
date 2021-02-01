@@ -63,7 +63,8 @@ export default class Grid extends React.Component {
 Grid.propTypes = {
   elementWidthDesktop: PropTypes.number,
   elementWidthMobile: PropTypes.number,
-  offset: PropTypes.number
+  offset: PropTypes.number,
+  children: PropTypes.node,
 };
 
 Grid.defaultProps = {

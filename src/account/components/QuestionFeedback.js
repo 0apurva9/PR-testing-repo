@@ -15,6 +15,7 @@ export default class QuestionFeedback extends Component {
   constructor(props) {
     super(props);
   }
+
   render() {
     const { question } = this.props;
     let newSolution = this.props.FAQquestion
@@ -161,6 +162,28 @@ QuestionFeedback.propTypes = {
   orderRelatedQuestion: PropTypes.bool,
   otherQuestion: PropTypes.bool,
   parentIssueType: PropTypes.string,
+  selectedOrder:PropTypes.shape({
+    cancellable:PropTypes.bool,
+    orderId:PropTypes.number,
+    isCDA:PropTypes.bool,
+    isEgvOrder:PropTypes.bool,
+    isPickupUpdatable:PropTypes.bool,
+    isWalletPay:PropTypes.bool,
+    isbundlingItemsAvailable:PropTypes.bool,
+    orderDate:PropTypes.string,
+    paymentMethod:PropTypes.string,
+    recipientname:PropTypes.string,
+    status:PropTypes.string,
+    statusDisplay:PropTypes.string,
+    type:PropTypes.string,
+    resendAvailable:PropTypes.bool,
+    resendAttemptedCount:PropTypes.number,
+    products:PropTypes.arrayOf(
+      PropTypes.shape({
+        transactionId:PropTypes.string
+      })
+    )
+  }),
   question: PropTypes.shape({
     UItemplateCode: PropTypes.string,
     call: PropTypes.string,
@@ -171,10 +194,12 @@ QuestionFeedback.propTypes = {
     l2: PropTypes.string,
     l3: PropTypes.string,
     l4: PropTypes.string,
+    answer:PropTypes.string,
     solution: PropTypes.string,
     subIssueType: PropTypes.string,
     tat: PropTypes.string,
     ticketType: PropTypes.string,
-    webform: PropTypes.string
+    webform: PropTypes.string,
+    issueType:PropTypes.string,
   })
 };

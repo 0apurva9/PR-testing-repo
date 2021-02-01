@@ -6,6 +6,7 @@ export default class BottomModal extends React.Component {
       this.props.closeModal();
     }
   }
+
   render() {
     return (
       <div className={styles.base}>

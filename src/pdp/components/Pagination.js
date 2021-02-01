@@ -9,6 +9,7 @@ export default class Pagination extends Component {
       totalpagenumbers: Math.ceil(this.props.totalPost / this.props.postPerPage)
     };
   }
+
   handleClick(number) {
     let total = Math.ceil(this.props.totalPost / this.props.postPerPage);
     let pageNumbers = [];
@@ -99,6 +100,7 @@ export default class Pagination extends Component {
     }
     return pageNumbers;
   }
+
   componentDidMount() {
     let pageNumbers = [];
     let totalpagenumbers = Math.ceil(
@@ -113,6 +115,7 @@ export default class Pagination extends Component {
       pageNumbers: pageNumbers
     });
   }
+
   render() {
     return (
       <div className={styles.pagination}>

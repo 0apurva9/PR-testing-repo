@@ -1,4 +1,5 @@
 import React from "react";
+import { RouterPropTypes } from "../../general/router-prop-types";
 import SaveListCard from "../../blp/components/SaveListCard";
 import styles from "./SaveListDetails.css";
 import PropTypes from "prop-types";
@@ -32,9 +33,11 @@ export default class SaveListDetails extends React.Component {
       isSelected: 0
     };
   }
+
   tabSelect(val) {
     this.setState({ isSelected: val });
   }
+
   componentDidMount() {
     document.title = "My Wishlist ";
     this.props.setHeaderText(SAVED_LIST);
@@ -44,9 +47,11 @@ export default class SaveListDetails extends React.Component {
       this.props.getWishList();
     }
   }
+
   componentDidUpdate() {
     this.props.setHeaderText(SAVED_LIST);
   }
+
   addToBagItem(ussid, productcode) {
     const productDetails = {};
     productDetails.ussId = ussid;
@@ -54,6 +59,7 @@ export default class SaveListDetails extends React.Component {
     productDetails.quantity = PRODUCT_QUANTITY;
     this.props.addProductToCart(productDetails);
   }
+
   async addToBagItemWithExchange(ussid, productcode, exchangeDetails) {
     // check if quote is expired , call verifyIMEI API then add to bag
     if (exchangeDetails.quoteExpired) {
@@ -109,6 +115,7 @@ export default class SaveListDetails extends React.Component {
       this.props.removeProductFromWishList(productDetails);
     }
   }
+
   removeItemWithExchange(ussid, exchangeDetails) {
     const productDetails = {};
     productDetails.ussId = ussid;
@@ -120,15 +127,18 @@ export default class SaveListDetails extends React.Component {
       this.props.removeProductFromWishList(productDetails);
     }
   }
+
   renderToContinueShopping() {
     setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING);
     this.props.history.push(HOME_ROUTER);
   }
+
   onClickImage(productCode) {
     if (productCode) {
       this.props.history.push(`/p-${productCode.toLowerCase()}`);
     }
   }
+
   render() {
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -201,7 +211,7 @@ export default class SaveListDetails extends React.Component {
                                     product.USSID,
                                     product.exchangeDetails
                                   )
-                              : productUssid => this.removeItem(product.USSID)
+                              : () => this.removeItem(product.USSID)
                           }
                           size={product.size}
                           isSizeOrLength={product.isSizeOrLength}
@@ -263,6 +273,7 @@ export default class SaveListDetails extends React.Component {
   }
 }
 SaveListDetails.propTypes = {
+  userDetails:PropTypes.object,
   wishList: PropTypes.arrayOf(
     PropTypes.shape({
       products: PropTypes.arrayOf(
@@ -278,7 +289,20 @@ SaveListDetails.propTypes = {
     })
   ),
   addProductToWishList: PropTypes.func,
-  removeProductFromWishList: PropTypes.func
+  removeProductFromWishList: PropTypes.func,
+  setHeaderText: PropTypes.func,
+  getWishList: PropTypes.func,
+  addProductToCart: PropTypes.func,
+  verifyIMEINumber: PropTypes.func,
+  wishlistName: PropTypes.string,
+  displayToast: PropTypes.func,
+  loading: PropTypes.bool,
+  count: PropTypes.number,
+  btnText: PropTypes.string,
+  backgroundColor: PropTypes.string,
+  color: PropTypes.string,
+  userAddress: PropTypes.object,
+  history: RouterPropTypes.history,
 };
 SaveListDetails.defaultProps = {
   color: "#fff",

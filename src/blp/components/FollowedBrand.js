@@ -9,6 +9,7 @@ export default class FollowedBrand extends React.Component {
       this.props.onClick();
     }
   };
+
   render() {
     return (
       <div className={styles.base}>

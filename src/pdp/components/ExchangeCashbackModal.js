@@ -5,9 +5,11 @@ export default class ExchangeCashbackModal extends React.Component {
   closeCashbackModal() {
     this.props.closeCashbackModal();
   }
+
   openTnCModal() {
     this.props.openTnCModal();
   }
+
   render() {
     return (
       <div className={styles.howExchangeWorksContainer}>
@@ -33,7 +35,7 @@ export default class ExchangeCashbackModal extends React.Component {
             <li>
               In case of the new phone being returned, the amount refunded would
               be after deducting the{" "}
-              <span className={styles.fontRegular}>"CLiQ Exclusive"</span>{" "}
+              <span className={styles.fontRegular}>&quot;CLiQ Exclusive&quot;</span>{" "}
               Cashback.
             </li>
             <li>

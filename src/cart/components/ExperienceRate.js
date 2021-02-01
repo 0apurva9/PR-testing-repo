@@ -8,6 +8,7 @@ export default class ExperienceRate extends React.Component {
       this.props.selectItem();
     }
   }
+
   render() {
     let activeIcon = styles.hiddenIcon;
     let hiddenIconM = styles.active;
@@ -35,6 +36,7 @@ ExperienceRate.propTypes = {
   selected: PropTypes.bool,
   onClick: PropTypes.func,
   selectedItem: PropTypes.func,
+  selectItem: PropTypes.func,
   defaultImage: PropTypes.string,
-  activeImage: PropTypes.string
+  activeImage: PropTypes.string,
 };

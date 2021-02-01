@@ -15,22 +15,26 @@ export default class CancelReasonForm extends React.Component {
       reason: "Select a reason"
     };
   }
+
   onClickImage(productCode) {
     if (this.props.onClickImage) {
       this.props.onClickImage(productCode);
     }
   }
+
   handleContinue() {
     if (this.props.onContinue) {
       this.props.onContinue(this.state);
     }
   }
+
   onChangePrimary(val) {
     const code = val.value;
     const label = val.label;
 
     this.setState({ cancelReasonCode: code, reason: label });
   }
+
   handleChange(val) {
     this.setState({ comment: val });
   }
@@ -40,6 +44,7 @@ export default class CancelReasonForm extends React.Component {
       this.props.onCancel();
     }
   }
+
   render() {
     const data = this.props.cancelProductDetails;
     return (
@@ -58,12 +63,12 @@ export default class CancelReasonForm extends React.Component {
             }
             productName={`${data.orderProductWsDTO[0].productBrand} ${
               data.orderProductWsDTO[0].productName
-            }`}
+              }`}
             onClick={() =>
               this.onClickImage(
                 data.orderProductWsDTO &&
-                  data.orderProductWsDTO[0] &&
-                  data.orderProductWsDTO[0].productcode
+                data.orderProductWsDTO[0] &&
+                data.orderProductWsDTO[0].productcode
               )
             }
             price={data.orderProductWsDTO[0].price}
@@ -79,7 +84,7 @@ export default class CancelReasonForm extends React.Component {
           <div className={styles.select}>
             <SelectBoxMobile2
               placeholder={"Select a reason"}
-              options={data.returnReasonDetailsWsDTO.map((val, i) => {
+              options={data.returnReasonDetailsWsDTO.map((val) => {
                 return {
                   value: val.code,
                   label: val.reasonDescription
@@ -103,5 +108,7 @@ export default class CancelReasonForm extends React.Component {
 CancelReasonForm.propTypes = {
   onContinue: PropTypes.func,
   onCancel: PropTypes.func,
-  cancelProductDetails: PropTypes.object
+  cancelProductDetails: PropTypes.object,
+  onClickImage: PropTypes.func,
+
 };

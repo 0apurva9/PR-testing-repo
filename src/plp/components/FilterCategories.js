@@ -11,11 +11,13 @@ export default class FilterCategories extends React.Component {
       data: this.props.data
     };
   }
+
   handleClick(val) {
     if (this.props.onClick) {
       this.props.onClick(val);
     }
   }
+
   render() {
     let data = this.state.data;
 
@@ -40,7 +42,7 @@ export default class FilterCategories extends React.Component {
               key={i}
               name={datum.name}
               selectedFilterCount={filterCount[i]}
-              onClick={val => this.handleClick(i)}
+              onClick={() => this.handleClick(i)}
               selected={this.props.pageNumber === i}
               type={datum.isGlobalFilter ? GLOBAL : ADVANCE}
             />
@@ -60,5 +62,6 @@ FilterCategories.propTypes = {
     })
   ),
   pageNumber: PropTypes.number,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  selected: PropTypes.array
 };

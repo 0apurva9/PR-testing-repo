@@ -57,7 +57,7 @@ export default class RecommendedBundledProduct extends React.Component {
       this.state.bundledProductDetails.slots &&
       this.state.bundledProductDetails.slots.map((product, index) => {
         return (
-          <React.Fragment>
+          <React.Fragment key={index}>
             {product.isdigitalProduct && (
               <DigitalBundledProductSuggestion
                 key={index}
@@ -94,5 +94,6 @@ RecommendedBundledProduct.propTypes = {
   addBundledProductsToCartDetails: PropTypes.object,
   addBundledProductsToCart: PropTypes.func,
   getCartDetails: PropTypes.func,
-  displayToast: PropTypes.func
+  displayToast: PropTypes.func,
+  bundledProductSuggestionStatus: PropTypes.string,
 };

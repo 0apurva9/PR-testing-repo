@@ -15,6 +15,7 @@ class FeedComponentABPC extends React.Component {
       eachPrductData: ""
     };
   }
+
   onClick = (url, item, index) => {
     let icidTracking = `"home":"msdAutomatedBannerProductCarouselComponent":"blank":${index +
       1}:"blank ":"blank":"blank":${item.productListingId}`;
@@ -29,23 +30,10 @@ class FeedComponentABPC extends React.Component {
   };
 
   componentDidMount() {
-    let productDataArr = "";
     let currentComponent = this;
     if (this.props.data) {
       currentComponent.setState({ eachPrductData: this.props.data });
     }
-    // this.props.data &&
-    //   this.props.data.then(function(res) {
-    //     if (
-    //       res &&
-    //       res.results &&
-    //       (typeof res.results !== undefined || res.results !== null) &&
-    //       res.status === "Success"
-    //     ) {
-    //       productDataArr = Array.from(res.results);
-    //       currentComponent.setState({ eachPrductData: productDataArr });
-    //     }
-    //   });
   }
 
   render() {
@@ -101,27 +89,7 @@ class FeedComponentABPC extends React.Component {
                   let imageLink =
                     datum &&
                     datum.link &&
-                    datum.link.replace(/^.*\/\/[^\/]+/, "");
-                  //       let productImage =
-                  //       datum &&
-                  //       datum.galleryImagesList &&                             commented for productDetails api
-                  //   Array.isArray(datum.galleryImagesList) &&
-                  //   datum.galleryImagesList[0] &&
-                  //   datum.galleryImagesList[0].galleryImages &&
-                  //   Array.isArray(
-                  //     datum.galleryImagesList[0].galleryImages
-                  //   ) &&
-                  //   datum.galleryImagesList[0].galleryImages[0] &&
-                  //   datum.galleryImagesList[0].galleryImages[0].value;
-                  // let mrpInteger =
-                  // datum &&
-                  // datum.mrpPrice &&
-                  // datum.mrpPrice.doubleValue;
-                  // let seoDoublePrice =
-                  // datum.winningSellerPrice &&
-                  // datum.winningSellerPrice.doubleValue
-                  //     ? datum.winningSellerPrice.doubleValue
-                  //     : mrpInteger;
+                    datum.link.replace(/^.*\/\/[^\\/]+/, "");
                   return (
                     <ProductModule
                       key={i}
@@ -147,7 +115,7 @@ class FeedComponentABPC extends React.Component {
                       productId={datum.product_id}
                       showWishListButton={false}
                       ussId={datum.winningUssID}
-                      onClick={url => this.onClick(imageLink, datum, i)}
+                      onClick={() => this.onClick(imageLink, datum, i)}
                       {...rest}
                       {...datum}
                       widgetName={
@@ -190,5 +158,13 @@ FeedComponentABPC.propTypes = {
     header: PropTypes.string,
     isWhite: PropTypes.bool,
     seeAll: PropTypes.func
-  })
+  }),
+  history: PropTypes.object,
+  setClickedElementId: PropTypes.func,
+  clickOnSearchPage: PropTypes.func,
+  backgroundImage: PropTypes.string,
+  positionInFeed: PropTypes.number,
+  recentlyViewed: PropTypes.bool,
+  widgetName: PropTypes.string,
+  sourceOfWidget: PropTypes.string
 };

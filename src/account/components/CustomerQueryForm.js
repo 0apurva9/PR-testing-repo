@@ -274,9 +274,10 @@ export default class CustomerQueryForm extends Component {
               </div>
               <div className={styles.selectTicketBox}>
                 {listOfField &&
-                  listOfField.optionArray.map(ele => {
+                  listOfField.optionArray.map((ele, index) => {
                     return (
                       <div
+                      key={`key${index}`}
                         className={[
                           styles.radioTicketType,
                           ele.value == this.state[listOfField.componentId]
@@ -395,9 +396,7 @@ export default class CustomerQueryForm extends Component {
   nextField(currentStep) {
     const { customerQueriesField, question, selectedOrder } = this.props;
     const {
-      isAttachment,
       attachementData,
-      btnLabel,
       mobile,
       email,
       uploadFileTitle,
@@ -538,7 +537,7 @@ export default class CustomerQueryForm extends Component {
         };
 
         for (let obj of customerQueriesField) {
-          for (let [key, value] of Object.entries(additionalInfo)) {
+          for (let [key] of Object.entries(additionalInfo)) {
             if (key == "webformChannel") {
               additionalInfo.webformChannel = "desktop";
             }
@@ -665,6 +664,7 @@ export default class CustomerQueryForm extends Component {
       return true;
     }
   }
+
   async onUploadFile(file, { maxFileLimit, maxFileSize, title }) {
     const newFile = Array.from(file);
     let validFile = true;
@@ -686,8 +686,6 @@ export default class CustomerQueryForm extends Component {
         let combinedSize = 0,
           totalFile = [...newFile, ...this.state.file];
         for (let f of totalFile) combinedSize += f.size / 1048576; //converting file size into MB
-        let issueType =
-          this.props.isSelected == 1 ? "NonOrderRelated" : "orderRelated";
         if (combinedSize <= maxFileSize && totalFile.length <= maxFileLimit) {
           const uploadFileResponse = await this.props.uploadUserFile(
             this.props.questionType,
@@ -794,7 +792,9 @@ export default class CustomerQueryForm extends Component {
       });
     }
   }
+
   updateNumber() {}
+
   render() {
     const {
       basicForm,
@@ -802,8 +802,6 @@ export default class CustomerQueryForm extends Component {
       communication,
       currentStep,
       btnLabel,
-      ticketType,
-      files
     } = this.state;
     let strArr = null;
     return (
@@ -999,6 +997,39 @@ export default class CustomerQueryForm extends Component {
 }
 
 CustomerQueryForm.propTypes = {
+  customerQueriesField:PropTypes.arrayOf(
+    PropTypes.shape({
+      btnText:PropTypes.string,
+      componentId:PropTypes.string,
+      componentName:PropTypes.string,
+      heading:PropTypes.string,
+      hexCode:PropTypes.string,
+      imageURL:PropTypes.string,
+      minLimitError:PropTypes.string,
+      title:PropTypes.string,
+      type:PropTypes.string,
+      webURL:PropTypes.string,
+      maxLimit:PropTypes.number,
+      isMandatory:PropTypes.number,
+      minLimit:PropTypes.number,
+    })
+  ),
+  question: PropTypes.shape({
+    UItemplateCode: PropTypes.string,
+    chat: PropTypes.string,
+    click2Call: PropTypes.string,
+    issueType: PropTypes.string,
+    l0: PropTypes.string,
+    l1: PropTypes.string,
+    l2: PropTypes.string,
+    l3: PropTypes.string,
+    l4:PropTypes.string,
+    solution: PropTypes.string,
+    tat: PropTypes.string,
+    ticketType: PropTypes.string,
+    webform: PropTypes.string,
+    subIssueType: PropTypes.string
+  }),
   questionType: PropTypes.string,
   parentIssueType: PropTypes.string,
   otherQuestion: PropTypes.bool,
@@ -1008,5 +1039,6 @@ CustomerQueryForm.propTypes = {
   uploadUserFile: PropTypes.func,
   submitCustomerForms: PropTypes.func,
   userDetails: PropTypes.object,
-  selectedOrder: PropTypes.object
+  selectedOrder: PropTypes.object,
+  formSubmit:PropTypes.func
 };

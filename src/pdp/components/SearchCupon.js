@@ -13,6 +13,7 @@ export default class SearchCupon extends React.Component {
       couponCode: this.props.couponCode ? this.props.couponCode : ""
     };
   }
+
   getValue(val) {
     if (val.length <= 30) {
       this.setState({ couponCode: val });
@@ -27,6 +28,7 @@ export default class SearchCupon extends React.Component {
       this.props.applyUserCoupon(this.props.couponCode);
     }
   }
+
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.couponCode !== this.state.couponCode) {
       this.setState({ couponCode: nextProps.couponCode });
@@ -79,7 +81,10 @@ SearchCupon.propTypes = {
   label: PropTypes.string,
   placeholder: PropTypes.string,
   getValue: PropTypes.func,
-  onApply: PropTypes.func
+  onApply: PropTypes.func,
+  couponCode: PropTypes.string,
+  applyUserCoupon: PropTypes.func,
+  disableManualType: PropTypes.bool,
 };
 SearchCupon.defaultProps = {
   label: "Apply",

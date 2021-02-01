@@ -8,6 +8,7 @@ export default class MobileFooterItem extends React.Component {
       this.props.onSelect();
     }
   }
+
   render() {
     return (
       <div className={styles.base} onClick={() => this.handleSelect()}>
@@ -48,5 +49,7 @@ MobileFooterItem.propTypes = {
   basicIcon: PropTypes.string,
   text: PropTypes.string,
   onSelect: PropTypes.func,
-  selected: PropTypes.string
+  selected: PropTypes.string,
+  value: PropTypes.string,
+  bagCount: PropTypes.number,
 };

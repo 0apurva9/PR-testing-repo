@@ -18,6 +18,7 @@ export default class OffersComponentMonetization extends React.Component {
       offersComponent: null
     };
   }
+
   async componentDidMount() {
     const url = this.props.location.pathname;
     let pageType = "CATEGORY";
@@ -42,6 +43,7 @@ export default class OffersComponentMonetization extends React.Component {
       }
     }
   }
+
   handleClick = webUrl => {
     if (webUrl) {
       // Check if URL starts https://www.tatacliq.com or https://tatacliq.com
@@ -57,6 +59,7 @@ export default class OffersComponentMonetization extends React.Component {
       }
     }
   };
+
   render() {
     let { offersComponent } = this.state;
     const data =
@@ -92,5 +95,8 @@ export default class OffersComponentMonetization extends React.Component {
 }
 OffersComponentMonetization.propTypes = {
   onClick: PropTypes.func,
-  textLine: PropTypes.string
+  textLine: PropTypes.string,
+  location: PropTypes.object,
+  history: PropTypes.object,
+  positionInFeed: PropTypes.number
 };

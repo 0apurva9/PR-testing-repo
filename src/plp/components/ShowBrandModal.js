@@ -13,14 +13,17 @@ export default class ShowBrandModal extends React.Component {
       selectedBrandType: null
     };
   }
+
   closeModal() {
     if (this.props.closeModal) {
       this.props.closeModal();
     }
   }
+
   onBrandSearch = val => {
     this.setState({ brandSearchString: val });
   };
+
   selectedBrandType = val => {
     if (this.state.selectedBrandType !== val) {
       this.setState({ selectedBrandType: val });
@@ -28,14 +31,17 @@ export default class ShowBrandModal extends React.Component {
       this.setState({ selectedBrandType: null });
     }
   };
+
   ViewAll() {
     this.setState({ selectedBrandType: null });
   }
+
   onFilterClick = (val, filterType, filterValue) => {
     if (this.props.onSelect) {
       this.props.onSelect(val, filterType, filterValue);
     }
   };
+
   render() {
     let parentBrandsLabel = "";
     let brandsList = this.props.brandData;
@@ -86,10 +92,11 @@ export default class ShowBrandModal extends React.Component {
             <div className={styles.bandFirstIndex}>
               {selectedFixBrandLabel &&
                 selectedFixBrandLabel.length !== 0 &&
-                selectedFixBrandLabel.map((brandInitials, i) => {
+                selectedFixBrandLabel.map((brandInitials, index) => {
                   return (
                     <div
                       className={styles.text}
+                      key={index}
                       onClick={() => this.selectedBrandType(brandInitials)}
                     >
                       {brandInitials}
@@ -105,14 +112,14 @@ export default class ShowBrandModal extends React.Component {
             {parentBrandsLabel &&
               parentBrandsLabel.map((val, i) => {
                 return (
-                  <React.Fragment>
+                  <React.Fragment key={i}>
                     <div className={styles.textHeader}>{val}</div>
-                    {brandsList[val].map((brandsList, j) => {
+                    {brandsList[val].map((brandsList, index) => {
                       return (
-                        <div className={styles.brandNameHolder}>
+                        <div className={styles.brandNameHolder} key={index}>
                           <div
                             className={styles.checkBoxHolder}
-                            onClick={data =>
+                            onClick={() =>
                               this.onFilterClick(
                                 brandsList.url,
                                 this.props.typeOfFilter,

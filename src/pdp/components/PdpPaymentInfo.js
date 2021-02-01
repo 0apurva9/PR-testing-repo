@@ -12,6 +12,7 @@ export default class PdpPaymentInfo extends React.Component {
       this.props.showEmiModal();
     }
   };
+
   render() {
     return (
       <div className={styles.base}>

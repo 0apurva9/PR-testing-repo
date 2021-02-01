@@ -36,7 +36,6 @@ import {
   SET_DATA_LAYER_TC,
   SET_DATA_LAYER_ABOUTUS,
   SET_DATA_LAYER_HELP,
-  SET_DATA_LAYER_CC,
   ABOUT_US,
   FAQ,
   TC
@@ -48,6 +47,7 @@ export default class MyAccount extends React.Component {
       isSelected: 0
     };
   }
+
   tabSelect(val) {
     this.setState({ isSelected: val });
   }
@@ -57,6 +57,7 @@ export default class MyAccount extends React.Component {
       `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_UPDATE_PROFILE_PAGE}`
     );
   }
+
   redirectPage = (url, type) => {
     if (type === FAQ) {
       setDataLayerForFaqAndTc(SET_DATA_LAYER_FAQ);
@@ -68,11 +69,13 @@ export default class MyAccount extends React.Component {
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
   };
+
   redirectToHelp = url => {
     setDataLayerForFaqAndTc(SET_DATA_LAYER_HELP);
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
   };
+
   componentDidUpdate() {
     this.props.setHeaderText(MY_CLIQ);
   }
@@ -91,6 +94,7 @@ export default class MyAccount extends React.Component {
     this.props.setUrlToRedirectToAfterAuth(url);
     return <Redirect to={LOGIN_PATH} />;
   }
+
   render() {
     let userDetails;
     const userDetailsCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -190,7 +194,7 @@ export default class MyAccount extends React.Component {
           {this.state.isSelected === 3 && (
             <div className={styles.useFulLinkHolder}>
               <div className={styles.linkTabHolder}>
-                <a target="_blank" href="https://www.tatacliq.com/que">
+                <a target="_blank" rel="noreferrer" href="https://www.tatacliq.com/que">
                   <AccountUsefulLink>
                     <div className={styles.usefulLinkText}>Que Magazine</div>
                   </AccountUsefulLink>

@@ -76,6 +76,9 @@ export default class FilterCategory extends Component {
 FilterCategory.propTypes = {
   category: PropTypes.string,
   categoryCount: PropTypes.number,
+  categoryTypeList: PropTypes.array,
+  onClick: PropTypes.func,
+  onL3Click: PropTypes.func,
   typeList: PropTypes.arrayOf(
     PropTypes.shape({
       subListItem: PropTypes.string,

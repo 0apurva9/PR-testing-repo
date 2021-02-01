@@ -257,6 +257,7 @@ class ProductListingsPage extends Component {
     }
     return encodeURIComponent(searchText);
   }
+
   getCategoryId(searchText = "") {
     searchText = decodeURIComponent(searchText);
     let searchParts = searchText.split(":");
@@ -266,6 +267,7 @@ class ProductListingsPage extends Component {
     }
     return "";
   }
+
   componentDidMount() {
     const defaultViewCookie = Cookie.getCookie(DEFAULT_PLP_VIEW);
 
@@ -366,7 +368,6 @@ class ProductListingsPage extends Component {
       return;
     }
     if (this.props.location.state && !this.props.location.state.isFilter) {
-      let component = "DirectSearch";
       const searchText = this.getSearchTextFromUrl();
       const pageMatch = PAGE_REGEX.exec(this.props.location.pathname);
       if (pageMatch) {
@@ -383,25 +384,17 @@ class ProductListingsPage extends Component {
         page = pageMatch[1] ? pageMatch[1] : 1;
         page = page - 1;
       }
-      this.props.getProductListings(searchText, SUFFIX, page);
+
+      let suffix = SUFFIX;
+      const parsedQueryString = queryString.parse(this.props.location.search);
+      if (parsedQueryString.text) {
+        suffix = `${suffix}&qc=true&test=v2`;
+      }
+
+      this.props.getProductListings(searchText, suffix, page);
       return;
     }
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.urlString !== this.props.urlString && nextProps.urlString) {
-  //     if (
-  //       nextProps.urlString.includes("https") ||
-  //       nextProps.urlString.includes("http")
-  //     ) {
-  //       window.location.href = nextProps.urlString;
-  //     } else {
-  //       this.props.history.push(nextProps.urlString, {
-  //         isFilter: false
-  //       });
-  //     }
-  //   }
-  // }
 
   componentDidUpdate(prevProps) {
     const defaultViewCookie = Cookie.getCookie(DEFAULT_PLP_VIEW);
@@ -433,8 +426,8 @@ class ProductListingsPage extends Component {
       return;
     }
     if (this.props.urlString) {
-      let windowLocation = window.location.href.replace(/^.*\/\/[^\/]+/, "");
-      let newUrlString = this.props.urlString.replace(/^.*\/\/[^\/]+/, "");
+      let windowLocation = window.location.href.replace(/^.*\/\/[^\\/]+/, "");
+      let newUrlString = this.props.urlString.replace(/^.*\/\/[^\\/]+/, "");
       if (
         this.props.urlString &&
         windowLocation !== newUrlString &&
@@ -445,7 +438,7 @@ class ProductListingsPage extends Component {
           this.props.urlString.includes("http")
         ) {
           let urlString = this.props.urlString;
-          urlString = urlString.replace(/^.*\/\/[^\/]+/, "");
+          urlString = urlString.replace(/^.*\/\/[^\\/]+/, "");
           this.props.history.replace(urlString);
         }
       }
@@ -454,7 +447,6 @@ class ProductListingsPage extends Component {
     if (this.props.location.search !== prevProps.location.search) {
       let page = 0;
       if (this.props.match.path === SKU_PAGE) {
-        const skuId = this.props.match.params.slug;
         const searchText = this.getSearchTextFromUrl();
         this.props.getProductListings(searchText, SKU_SUFFIX, 0);
         return;

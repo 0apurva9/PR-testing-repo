@@ -1,5 +1,6 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
+import { RouterPropTypes } from "../../general/router-prop-types";
 import OrderCard from "./OrderCard";
 import PropTypes from "prop-types";
 import styles from "./ReturnModes.css";
@@ -50,6 +51,7 @@ export default class ReturnModes extends React.Component {
     this.radioChange = this.radioChange.bind(this);
     this.radioChangeStores = this.radioChangeStores.bind(this);
   }
+
   async componentDidMount() {
     //use delivery address id - required for getPickupAddrReturnPincodeServcblty api call
     let pickUpAddressId =
@@ -108,11 +110,9 @@ export default class ReturnModes extends React.Component {
       }
       this.setState({ pickupAddress: pickupAddress });
     }
-    // let deliveryAddress = data.returnModesDetails.deliveryAddress;
-    // let selectedAddress = "";
     let selectedOne =
       this.props.returnRequest &&
-      this.props.returnRequest.deliveryAddressesList.find((value, index) => {
+      this.props.returnRequest.deliveryAddressesList.find((value) => {
         for (let key in value) {
           if (value[key] === this.props.selectedAddressId[0]) {
             return value;
@@ -123,6 +123,7 @@ export default class ReturnModes extends React.Component {
       this.setState({ selectedAddress: selectedOne });
     }
   }
+
   handleSelect(val) {
     if (checkUserAgentIsMobile()) {
       if (this.props.selectMode) {
@@ -132,16 +133,19 @@ export default class ReturnModes extends React.Component {
 
     this.setState({ selectedMode: val });
   }
+
   handleCancel() {
     if (this.props.onCancel) {
       this.props.onCancel();
     }
   }
+
   onChangeBankDetails = val => {
     if (this.props.onChangeBankDetails) {
       this.props.onChangeBankDetails(val);
     }
   };
+
   navigateToReturnLanding() {
     return (
       <Redirect
@@ -149,6 +153,7 @@ export default class ReturnModes extends React.Component {
       />
     );
   }
+
   handleCancelForReturn = () => {
     this.setState({ isModeSelected: false });
   };
@@ -173,6 +178,7 @@ export default class ReturnModes extends React.Component {
   cancelReturnMode = () => {
     this.setState({ isModeSelected: false, selectedMode: null });
   };
+
   radioChange(e) {
     const target = e.currentTarget;
     this.setState({ selectedOption: target.value });
@@ -180,11 +186,13 @@ export default class ReturnModes extends React.Component {
       ADOBE_MYACCOUNT_DELIVERYMODE_CHANGE_SUCCESS
     );
   }
+
   radioChangeStores(e) {
     const target = e.currentTarget;
     this.setState({ selectedOptionStores: target.value });
     this.setState({ selectedReturnStore: target.dataset.address });
   }
+
   async submit() {
     let orderId = this.props.data.sellerorderno;
     let transactionId = this.props.data.transactionId;
@@ -230,16 +238,19 @@ export default class ReturnModes extends React.Component {
       }
     }
   }
+
   onChangeAddress = () => {
     setDataLayer(ADOBE_CHANGE_PICKUPADDRESS_LINK_CLICKED);
     this.props.history.push(
       `${RETURNS_PREFIX}/${this.orderCode}${RETURN_LANDING}${RETURN_TO_ADDRESS}`
     );
   };
+
   downloadFile(filePath) {
     const urlSuffix = filePath.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
   }
+
   showButton(modesAvail, storesAvail) {
     if (
       modesAvail === "Pick Up" ||
@@ -257,18 +268,17 @@ export default class ReturnModes extends React.Component {
       );
     }
   }
+
   renderLoader() {
     return <Loader />;
   }
+
   render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    // const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    // const userData = JSON.parse(userDetails);
     const userAccountDetails = JSON.parse(userDetails);
     const orderDetails = this.props.orderDetails;
     let returnFlow = this.props.returnFlow;
     const returnProductDetails = this.props.returnProductDetails;
-    // Preventing user to open this page direct by hitting URL
     if (
       !this.props.location.state ||
       !this.props.location.state.authorizedRequest
@@ -279,7 +289,6 @@ export default class ReturnModes extends React.Component {
       return this.renderLoader();
     }
 
-    //const { productInfo } = this.props;
     const data = this.state.returnModesDetails;
     const returnStoreDetailsList =
       data &&
@@ -292,7 +301,6 @@ export default class ReturnModes extends React.Component {
     } else {
       deliveryAddress = data.deliveryAddress;
     }
-    // this.props.location.state.address || data.deliveryAddress;
 
     return (
       <React.Fragment>
@@ -385,30 +393,6 @@ export default class ReturnModes extends React.Component {
                 </React.Fragment>
 
                 <div className={styles.base}>
-                  {/* <MobileOnly>
-          <div className={styles.header}>
-            Select mode of return
-            <div className={styles.cancel}>
-              <UnderLinedButton
-                label="Cancel"
-                color="#ff1744"
-                onClick={() => this.handleCancel()}
-              />
-            </div>
-          </div>
-          {this.props.onContinue && (
-            <div className={styles.buttonHolder}>
-              <div className={styles.button}>
-                <Button
-                  width={175}
-                  type="primary"
-                  label={this.props.buttonText}
-                  onClick={() => this.handleContinue()}
-                />
-              </div>
-            </div>
-          )}
-        </MobileOnly> */}
                   <div className={styles.content}>
                     {deliveryAddress && (
                       <div className={styles.card}>
@@ -506,90 +490,10 @@ export default class ReturnModes extends React.Component {
                               </span>
                             </div>
                           )}
-                        {/* {!this.state.isModeSelected && (
-								<div className={styles.returnModesWithBorder}>
-									{data.returnModes.quickDrop &&
-										!this.state.isModeSelected && (
-											<SelectReturnDate
-												label="Return to store"
-												selected={this.state.selectedMode === QUICK_DROP}
-												selectItem={() => {
-													this.handleSelect(QUICK_DROP);
-												}}
-											/>
-										)}
-									{data.returnModes.schedulePickup &&
-										!this.state.isModeSelected && (
-											<SelectReturnDate
-												label="Tata CliQ Pick Up"
-												selectItem={() => {
-													this.handleSelect(SCHEDULED_PICKUP);
-												}}
-												selected={this.state.selectedMode === SCHEDULED_PICKUP}
-											/>
-										)}
-									{data.returnModes.selfCourier &&
-										!this.state.isModeSelected && (
-											<SelectReturnDate
-												selectItem={() => {
-													this.handleSelect(SELF_COURIER);
-												}}
-												label="Self Courier"
-												selected={this.state.selectedMode === SELF_COURIER}
-											/>
-										)}
-								</div>
-							)} */}
-
-                        {/* <DesktopOnly>
-								{this.state.selectedMode === QUICK_DROP && (
-									<ReturnToStoreContainer
-										{...this.state}
-										{...this.props}
-										selectReturnMode={() => this.selectReturnMode()}
-										cancelReturnMode={() => this.cancelReturnMode()}
-										onChangeBankDetails={val => this.onChangeBankDetails(val)}
-									/>
-								)}
-								{this.state.selectedMode === SCHEDULED_PICKUP && (
-									<ReturnCliqAndPiqContainer
-										{...this.state}
-										{...this.props}
-										selectReturnMode={() => this.selectReturnMode()}
-										cancelReturnMode={() => this.cancelReturnMode()}
-										onChangeBankDetails={val => this.onChangeBankDetails(val)}
-									/>
-								)}
-								{this.state.selectedMode === SELF_COURIER && (
-									<SelfCourierContainer {...this.state} {...this.props} />
-								)}
-							</DesktopOnly> */}
                       </div>
                     )}
                     {!this.isReturnModesEnabled() && <Loader />}
                   </div>
-                  {/* {this.isReturnModesEnabled() &&
-                    this.state.selectedOption === "Self Courier" &&
-                    returnLogisticsResponseDTO.length > 0 && (
-                      <div className={styles.content}>
-                        <div className={styles.card}>
-                          <div className={styles.subText}>
-                            {returnLogisticsResponseDTO[0].responseMessage}
-                          </div>
-                          <div className={styles.button}>
-                            <Button
-                              width={175}
-                              type="primary"
-                              label="Download Form"
-                              onClick={() =>
-                                this.downloadFile(data.selfCourierDocumentLink)
-                              }
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    )} */}
-
                   {this.isReturnModesEnabled() &&
                     this.state.selectedOption === "Return To Store" &&
                     returnStoreDetailsList &&
@@ -686,5 +590,59 @@ export default class ReturnModes extends React.Component {
 }
 ReturnModes.propTypes = {
   selectedMode: PropTypes.oneOf([QUICK_DROP, SCHEDULED_PICKUP, SELF_COURIER]),
-  selectMode: PropTypes.func
+  selectMode: PropTypes.func,
+  getReturnModes:PropTypes.func,
+  selectedAddressId:PropTypes.array,
+  onCancel:PropTypes.func,
+  onChangeBankDetails:PropTypes.func,
+  updateReturnConfirmation:PropTypes.func,
+  returnFlow:PropTypes.bool,
+  displayToast:PropTypes.func,
+  loadingForUpdateReturnConfirmation:PropTypes.bool,
+  userAddress:PropTypes.object,
+  returnRequest:PropTypes.shape({
+    deliveryAddressesList:PropTypes.array
+  }),
+  getRefundOptionsDetails:PropTypes.shape({
+    deliveryAddress:PropTypes.shape({
+      id:PropTypes.number
+    })
+  }),
+  getRefundModesDetails:PropTypes.shape({
+    returnId:PropTypes.number,
+  }),
+  data:PropTypes.shape({
+    sellerorderno:PropTypes.string,
+    transactionId:PropTypes.string,
+  }),
+
+  orderDetails:PropTypes.shape({
+    orderDate:PropTypes.string,
+    productBrand:PropTypes.string,
+    orderProductWsDTO:PropTypes.arrayOf(
+      PropTypes.shape({
+        productcode:PropTypes.string
+      })
+    ),
+    products:PropTypes.arrayOf(
+      PropTypes.shape({
+        productSize:PropTypes.number,
+        productColourName:PropTypes.string,
+      })
+    )
+  }),
+  returnProductDetails:PropTypes.shape({
+    orderProductWsDTO: PropTypes.arrayOf([
+      PropTypes.shape({
+        imageURL: PropTypes.string,
+        productName: PropTypes.string,
+        productBrand: PropTypes.string,
+        price: PropTypes.string,
+        quantity: PropTypes.string
+      })
+    ])
+  }),
+  orderPlace:PropTypes.object,
+  orderId:PropTypes.number,
+  ...RouterPropTypes
 };

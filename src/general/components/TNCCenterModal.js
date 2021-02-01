@@ -6,6 +6,7 @@ export default class TNCCenterModal extends React.Component {
       this.props.closeModal();
     }
   }
+
   render() {
     return (
       <div className={styles.base}>

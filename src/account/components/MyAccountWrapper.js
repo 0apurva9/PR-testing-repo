@@ -44,7 +44,6 @@ import CheckBalanceContainer from "../containers/CheckBalanceContainer";
 import AddAddressContainer from "../containers/AddAddressContainer.js";
 import SaveListContainer from "../containers/SaveListContainer";
 import CliqCashContainer from "../containers/CliqCashContainer.js";
-import GiftCardContainer from "../containers/GiftCardContainer";
 import SavedCardContainer from "../containers/SavedCardContainer.js";
 import AddressBookContainer from "../containers/AddressBookContainer.js";
 import OrderDetailsContainer from "../containers/OrderDetailsContainer.js";
@@ -67,6 +66,7 @@ export default class MyAccountWrapper extends React.Component {
   componentDidMount() {
     this.props.getUserAddress();
   }
+
   navigateToLogin() {
     const url = this.props.location.pathname;
     if (url.match(/cliq-cash/g)) {
@@ -83,6 +83,7 @@ export default class MyAccountWrapper extends React.Component {
     this.props.history.push(LOGIN_PATH);
     return null;
   }
+
   render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);

@@ -102,9 +102,11 @@ export default class SortDesktop extends React.Component {
       this.props.setIfSortHasBeenClicked();
     }
   }
+
   handleCloseClick = () => {
     this.props.onCloseSort();
   };
+
   render() {
     return (
       <div className={styles.base}>
@@ -120,7 +122,7 @@ export default class SortDesktop extends React.Component {
           height={40}
           options={
             this.props.sort &&
-            this.props.sort.map((val, i) => {
+            this.props.sort.map((val) => {
               return {
                 value: val.code,
                 label: val.name

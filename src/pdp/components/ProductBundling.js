@@ -79,7 +79,7 @@ export default class ProductBundling extends React.Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (
       this.props.addBundledProductsToCartDetails !==
       prevProps.addBundledProductsToCartDetails
@@ -421,11 +421,24 @@ ProductBundling.propTypes = {
   displayToast: PropTypes.func,
   getTotalBundledPrice: PropTypes.func,
   getTotalBundledPriceLoading: PropTypes.bool,
-  productData: PropTypes.objectOf(
+  productData:
     PropTypes.shape({
+      categoryHierarchy: PropTypes.array,
       winningUssID: PropTypes.string,
-      productListingId: PropTypes.string
-    })
-  ),
-  bundledProductSuggestionDetails: PropTypes.array
+      productListingId: PropTypes.string,
+      winningSellerPrice:
+        PropTypes.shape({
+          value: PropTypes.number
+        })
+    }),
+  bundledProductSuggestionDetails: PropTypes.array,
+  history: PropTypes.object,
+  logoutUserStatus: PropTypes.string,
+  cartCountDetails: PropTypes.object,
+  totalBundledPriceDetails: PropTypes.object,
+  addBundledProductsToCartDetails: PropTypes.object,
+  getCartCountForLoggedInUser: PropTypes.func,
+  categoryHierarchy: PropTypes.array,
+  addBundledProductsToCart: PropTypes.func,
+  addBundledProductsToCartLoading: PropTypes.bool
 };

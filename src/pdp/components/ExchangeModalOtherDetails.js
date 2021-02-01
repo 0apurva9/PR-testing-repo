@@ -6,18 +6,23 @@ export default class ExchangeModalOtherDetails extends React.Component {
   verifyIMEI(e, deviceNo) {
     this.props.verifyIMEI(e, deviceNo);
   }
+
   checkIMEI(deviceNo) {
     this.props.checkIMEI(deviceNo);
   }
+
   agreedTnC(e, deviceNo) {
     this.props.agreedTnC(e, deviceNo);
   }
+
   openTnCModal() {
     this.props.openTnCModal();
   }
+
   async saveExchangeDetails(IMEINumber) {
     await this.props.saveExchangeDetails(IMEINumber);
   }
+
   render() {
     return (
       <React.Fragment>
@@ -25,7 +30,7 @@ export default class ExchangeModalOtherDetails extends React.Component {
           <input
             type="number"
             className={styles.imeiInput}
-            onChange={(e, deviceNo) => this.verifyIMEI(e, this.props.deviceNo)}
+            onChange={(e) => this.verifyIMEI(e, this.props.deviceNo)}
             value={this.props.currentIMEI}
             required
           />
@@ -38,7 +43,7 @@ export default class ExchangeModalOtherDetails extends React.Component {
                 ? styles.enableVerifyButton
                 : styles.disableVerifyButton
             }
-            onClick={deviceNo => this.checkIMEI(this.props.deviceNo)}
+            onClick={() => this.checkIMEI(this.props.deviceNo)}
           >
             {this.props.IMEIVerified ? (
               <span className={styles.verifySuccessButton}>
@@ -84,7 +89,7 @@ export default class ExchangeModalOtherDetails extends React.Component {
           <input
             type="checkbox"
             className={styles.tncCheckbox}
-            onChange={(e, deviceNo) => this.agreedTnC(e, this.props.deviceNo)}
+            onChange={(e) => this.agreedTnC(e, this.props.deviceNo)}
             checked={this.props.agreedTnCState}
           />
           <div className={styles.tnc}>

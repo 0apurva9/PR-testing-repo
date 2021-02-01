@@ -26,7 +26,8 @@ export default class SavedCardItemFooter extends React.Component {
 }
 SavedCardItemFooter.propTypes = {
   underlineButtonLabel: PropTypes.string,
-  buttonLabel: PropTypes.string
+  buttonLabel: PropTypes.string,
+  removeSavedCardDetails: PropTypes.func.isRequired
 };
 SavedCardItemFooter.defaultProps = {
   underlineButtonLabel: "Remove"

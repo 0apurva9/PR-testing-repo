@@ -15,13 +15,15 @@ export default class TextArea extends React.Component {
       this.setState({ value: nextProps.value });
     }
   }
+
   handleFocus(event) {
     if (this.props.onFocus) {
       this.props.onFocus(event);
     }
     this.setState({ focused: true });
   }
-  handleBlur(event) {
+
+  handleBlur() {
     if (this.props.onBlur) {
       this.props.onBlur();
     }
@@ -33,6 +35,7 @@ export default class TextArea extends React.Component {
     }
     this.setState({ value: event.target.value });
   }
+
   render() {
     return (
       <div className={styles.container}>
@@ -57,7 +60,9 @@ TextArea.propTypes = {
   height: PropTypes.number,
   value: PropTypes.string,
   placeholder: PropTypes.string,
-  maxLength: PropTypes.number
+  maxLength: PropTypes.number,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
 };
 TextArea.defaultProps = {
   height: 100,

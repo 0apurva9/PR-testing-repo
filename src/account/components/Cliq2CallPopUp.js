@@ -16,14 +16,17 @@ export default class Cliq2CallPopUp extends Component {
   componentDidMount() {
     this.props.getGenesysCallConfigData();
   }
+
   callMeBackClick = () => {
     this.props.closeModal();
     this.props.callMeBackClick();
   };
+
   scheduleACallClick = () => {
     this.props.closeModal();
     this.props.scheduleACallClick();
   };
+
   render() {
     const {
       scheduleCallFlag = false,
@@ -243,6 +246,10 @@ Cliq2CallPopUp.propTypes = {
   businessEndTime: PropTypes.string,
   allowedRequestLimit: PropTypes.number,
   slotDuration: PropTypes.number,
+  genesysDataLoader:PropTypes,
+  showSecondaryLoader:PropTypes.func,
+  closeModal:PropTypes.func,
+  showModal:PropTypes.func,
   availableSlots: PropTypes.arrayOf(
     PropTypes.shape({
       dayCount: PropTypes.number,

@@ -34,6 +34,7 @@ export default class DiscoverMoreL3DesktopMsd extends React.Component {
                       webURL={datum.L1_metadata && datum.L1_metadata.webURL}
                       btnText={datum.btnText}
                       items={datum.L3_list}
+                      key={i}
                       history={this.props.history}
                       setClickedElementId={this.props.setClickedElementId}
                     />
@@ -57,5 +58,9 @@ DiscoverMoreL3DesktopMsd.propTypes = {
       btnText: PropTypes.string,
       items: PropTypes.string
     })
-  )
+  ),
+  history: PropTypes.object,
+  feedComponentData: PropTypes.object,
+  setClickedElementId: PropTypes.func,
+  homeMsdData: PropTypes.array
 };

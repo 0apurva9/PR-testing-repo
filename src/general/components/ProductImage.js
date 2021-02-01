@@ -46,7 +46,10 @@ export default class ProductImage extends React.Component {
 }
 ProductImage.propTypes = {
   image: PropTypes.string,
-  flatImage: false
+  flatImage: false,
+  onClickImage: PropTypes.func,
+  electronicView: PropTypes.bool,
+  alt: PropTypes.string,
 };
 ProductImage.defaultProps = {
   isClickable: true

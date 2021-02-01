@@ -35,8 +35,9 @@ import {
   ADOBE_SHOW_REFUND_BUTTON_CLICKED,
   ADOBE_MODE_OF_REFUND_SUBMITTED
 } from "../../lib/adobeUtils";
-const dateFormat = "DD MMM YYYY";
+import { RouterPropTypes } from "../../general/router-prop-types";
 
+const dateFormat = "DD MMM YYYY";
 export default class ReplaceRefundSelection extends React.Component {
   constructor(props) {
     super(props);
@@ -156,6 +157,7 @@ export default class ReplaceRefundSelection extends React.Component {
       />
     );
   }
+
   showRefund() {
     if (!this.state.showRefundOptions) {
       //get details
@@ -284,11 +286,13 @@ export default class ReplaceRefundSelection extends React.Component {
       }
     }
   }
+
   changeReturnReason() {
     if (this.props.changeReturnReason) {
       this.props.changeReturnReason();
     }
   }
+
   handleFileUpload(e) {
     let uploadedFilesArr = Array.from(e.target.files);
     if (uploadedFilesArr.length > 8) {
@@ -297,7 +301,7 @@ export default class ReplaceRefundSelection extends React.Component {
     let imgArray = [];
     let validImageFiles = [];
     let allImagesSize = [];
-    uploadedFilesArr.map((value, index) => {
+    uploadedFilesArr.map(value => {
       allImagesSize.push(value.size);
       if (!value.type.includes("image")) {
         return this.props.displayToast("Upload file in image file format only");
@@ -329,6 +333,7 @@ export default class ReplaceRefundSelection extends React.Component {
     this.setState({ uploadedImageFiles: imgArray });
     this.setState({ validImgFiles: validImageFiles });
   }
+
   removeFile(filename, indexOfRemovedFile) {
     let fileNames = this.state.uploadedImageFiles;
     let index = fileNames.indexOf(filename);
@@ -342,7 +347,8 @@ export default class ReplaceRefundSelection extends React.Component {
       this.setState({ validImgFiles: updatedValidImgFiles });
     }
   }
-  onContinueImageUpload(uploadImage) {
+
+  onContinueImageUpload() {
     window.scrollTo(0, 0);
     if (this.state.validImgFiles.length > 0) {
       this.setState({ showAttachment: false });
@@ -812,7 +818,6 @@ export default class ReplaceRefundSelection extends React.Component {
                             <input
                               type="file"
                               name="myfile"
-                              ref="file"
                               onChange={event => this.handleFileUpload(event)}
                               multiple="multiple"
                             />
@@ -879,7 +884,7 @@ export default class ReplaceRefundSelection extends React.Component {
                           type="primary"
                           label="CONTINUE"
                           onClick={() =>
-                            this.onContinueImageUpload(uploadImage)
+                            this.onContinueImageUpload()
                           }
                         />
                       </div>
@@ -920,5 +925,87 @@ export default class ReplaceRefundSelection extends React.Component {
 }
 ReplaceRefundSelection.propTypes = {
   selectedMode: PropTypes.oneOf([QUICK_DROP, SCHEDULED_PICKUP, SELF_COURIER]),
-  selectMode: PropTypes.func
+  selectMode: PropTypes.func,
+  location: RouterPropTypes.location,
+  history: RouterPropTypes.history,
+  displayToast: PropTypes.func,
+  data: PropTypes.shape({
+    returnReasonCode: PropTypes.string,
+    subReasonCode: PropTypes,
+    subReason: PropTypes.string,
+    comment: PropTypes.string,
+    reason: PropTypes.string,
+    reverseSeal: PropTypes,
+    transactionId: PropTypes.string,
+    sellerorderno: PropTypes.string,
+    validImgFiles: PropTypes.string,
+    showImageUpload: PropTypes.bool
+  }),
+  userAddress: PropTypes.object,
+  getRefundOptionsData: PropTypes.func,
+  bankDetail: PropTypes.object,
+  getCliqCashDetailsRefund: PropTypes.func,
+  getCustomerBankDetails: PropTypes.func,
+  getRefundOptionsDetails: PropTypes.shape({
+    returnId: PropTypes.string,
+    bundledAssociatedItems: PropTypes,
+    typeOfReturn: PropTypes.arrayOf(
+      PropTypes.shape({
+        typeOfReturn: PropTypes.string,
+        typeOfReturnCode: PropTypes.string,
+        callout: PropTypes.string
+      })
+    ),
+    products: PropTypes.arrayOf(
+      PropTypes.shape({
+        exchangeDetails: PropTypes
+      })
+    ),
+  }),
+  getRefundModes: PropTypes.func,
+  orderDetails: PropTypes.shape({
+    orderId: PropTypes.string,
+    orderDate: PropTypes.string,
+    productBrand: PropTypes.string,
+    orderProductWsDTO: PropTypes.arrayOf(
+      PropTypes.shape({
+        productcode: PropTypes.string
+      })
+    ),
+    products: PropTypes.arrayOf(
+      PropTypes.shape({
+        productSize: PropTypes.string,
+        productColourName: PropTypes.string
+      })
+    )
+  }),
+  getRefundModesDetails: PropTypes.shape({
+    typeofRefund: PropTypes.string,
+    refundMode: PropTypes.array,
+    disclaimer: PropTypes.string,
+    deliveryAddress: PropTypes.shape({
+      line1: PropTypes.string,
+      landmark: PropTypes.string,
+      town: PropTypes.string,
+      state: PropTypes.string,
+      postalCode: PropTypes.string,
+    }),
+  }),
+  updateRefundMode: PropTypes.func,
+  updateReturnConfirmation: PropTypes.string,
+  changeReturnReason: PropTypes.func,
+  returnProductDetails: PropTypes.shape({
+    attachmentImageCallout: PropTypes.string,
+    orderProductWsDTO: PropTypes.arrayOf({
+      imageURL: PropTypes.string,
+      productBrand: PropTypes.string,
+      productName: PropTypes.string,
+      price: PropTypes.string,
+    })
+  }),
+  orderId: PropTypes.string,
+  orderPlace: PropTypes.string,
+  onChange: PropTypes.func,
+  uploadProductImages: PropTypes.func,
+  returnFlow: PropTypes.bool
 };

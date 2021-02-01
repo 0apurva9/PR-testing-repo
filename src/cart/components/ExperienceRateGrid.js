@@ -26,6 +26,7 @@ export default class ExperienceRateGrid extends React.Component {
       this.props.onSelect(val);
     }
   }
+
   render() {
     return (
       <ExperienceRateGridWithSelect

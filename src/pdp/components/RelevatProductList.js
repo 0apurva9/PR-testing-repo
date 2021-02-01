@@ -48,28 +48,16 @@ export default class RevelantProductList extends React.Component {
     });
     this.props.onClick();
   }
+
   renderLoader() {
     return <Loader />;
   }
+
   render() {
     let bundleprdouct = this.props.bundleprdouct;
     let price = "";
     let discountPrice = "";
-    let seoDoublePrice = 0;
-    if (
-      bundleprdouct &&
-      bundleprdouct.winningSellerPrice &&
-      bundleprdouct.winningSellerPrice.doubleValue
-    ) {
-      seoDoublePrice =
-        bundleprdouct && bundleprdouct.winningSellerPrice.doubleValue;
-    } else if (
-      bundleprdouct &&
-      bundleprdouct.mrpPrice &&
-      bundleprdouct.mrpPrice.doubleValue
-    ) {
-      seoDoublePrice = bundleprdouct.mrpPrice.doubleValue;
-    }
+
     if (
       bundleprdouct &&
       bundleprdouct.mrpPrice &&

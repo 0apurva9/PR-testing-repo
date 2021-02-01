@@ -16,6 +16,7 @@ export default class VisibilityChild extends React.Component {
       this.setState({ visible: event.isIntersecting });
     }
   };
+
   render() {
     const options = {
       onChange: this.handleIntersection,

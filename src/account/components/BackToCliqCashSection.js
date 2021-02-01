@@ -9,7 +9,7 @@ export default class BackToCliqCashSection extends Component {
       <div>
         <div className={styles.cliqCashDetailWithHolderCheckBal}>
           <div className={styles.heading}>
-            <span className={styles.checkBalLeftText}>And it's here</span>
+            <span className={styles.checkBalLeftText}>And it&#39;s here</span>
             <span className={styles.checkBalRightText}>
               <Link
                 to={`/my-account/cliq-cash`}

@@ -114,5 +114,6 @@ SavedPaymentCard.propTypes = {
   cardName: PropTypes.string,
   cardNumber: PropTypes.string,
   cardHolderName: PropTypes.string,
-  validityDate: PropTypes.string
+  validityDate: PropTypes.string,
+  removeSavedCardDetails: PropTypes.func.isRequired
 };

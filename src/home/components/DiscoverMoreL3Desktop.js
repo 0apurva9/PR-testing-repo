@@ -34,6 +34,7 @@ export default class DiscoverMoreL3Desktop extends React.Component {
                       btnText={datum.btnText}
                       items={datum.L3_list}
                       history={this.props.history}
+                      key={i}
                       setClickedElementId={this.props.setClickedElementId}
                     />
                   );
@@ -56,5 +57,8 @@ DiscoverMoreL3Desktop.propTypes = {
       btnText: PropTypes.string,
       items: PropTypes.string
     })
-  )
+  ),
+  history: PropTypes.object,
+  feedComponentData: PropTypes.object,
+  setClickedElementId: PropTypes.func
 };

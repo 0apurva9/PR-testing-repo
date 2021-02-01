@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./BannerLink.css";
-import Image from "../../xelpmoc-core/Image";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import PropTypes from "prop-types";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
@@ -10,6 +9,7 @@ export default class BannerLink extends React.Component {
       this.props.showSeeAll();
     }
   }
+
   linkDetails = url => {
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
@@ -43,6 +43,7 @@ export default class BannerLink extends React.Component {
                 return (
                   <div
                     className={styles.link}
+                    key={i}
                     onClick={() => this.linkDetails(val.webURL)}
                   >
                     <h3> {val.title}</h3>
@@ -73,5 +74,7 @@ BannerLink.propTypes = {
       title: PropTypes.string,
       webURL: PropTypes.string
     })
-  )
+  ),
+  history: PropTypes.object,
+  setClickedElementId: PropTypes.func
 };

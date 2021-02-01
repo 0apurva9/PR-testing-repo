@@ -136,7 +136,7 @@ export default class ProductDetailsCardForSaveList extends React.Component {
               }
             />
             <meta
-              itemprop="itemReviewed"
+              itemProp="itemReviewed"
               content={this.props.averageRating ? this.props.averageRating : 0}
             />
             {this.props.averageRating && (
@@ -165,5 +165,12 @@ ProductDetailsCardForSaveList.propTypes = {
   discountPrice: PropTypes.string,
   averageRating: PropTypes.number,
   totalNoOfReviews: PropTypes.number,
-  outOfStock: PropTypes.bool
+  outOfStock: PropTypes.bool,
+  onClickImage: PropTypes.func,
+  size: PropTypes.number,
+  isSizeOrLength: PropTypes.string,
+  exchangeDetails: PropTypes.object,
+  numberOfReviews: PropTypes.number,
+  seoDoublePrice: PropTypes.number
+
 };

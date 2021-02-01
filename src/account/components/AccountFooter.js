@@ -9,11 +9,13 @@ export default class AccountFooter extends React.Component {
       this.props.cancel();
     }
   }
+
   update() {
     if (this.props.update) {
       this.props.update();
     }
   }
+
   render() {
     return (
       <div className={styles.base}>

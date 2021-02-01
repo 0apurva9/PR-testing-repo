@@ -1,6 +1,8 @@
 import React from "react";
+import { RouterPropTypes } from "../../general/router-prop-types";
 import styles from "./CustomerQueryPopUp.css";
 import PropTypes from "prop-types";
+
 import Button from "../../general/components/Button.js";
 import Icon from "../../xelpmoc-core/Icon";
 import format from "date-fns/format";
@@ -19,14 +21,17 @@ export default class CustomerQueryPopUp extends React.Component {
     this.clickedOnSubmitButton = true;
     this.props.history.push(HOME_ROUTER);
   }
+
   componentWillUnmount() {
     if (!this.clickedOnSubmitButton) {
       this.props.history.push(HOME_ROUTER);
     }
   }
+
   closeModal() {
     this.props.closeModal();
   }
+
   render() {
     let { sla, ticketId } = this.props;
     let isTicketDuplicate = false;
@@ -108,5 +113,7 @@ export default class CustomerQueryPopUp extends React.Component {
 }
 CustomerQueryPopUp.propTypes = {
   ticketId: PropTypes.string,
-  sla: PropTypes.string
+  sla: PropTypes.string,
+  closeModal:PropTypes.func,
+  ...RouterPropTypes
 };

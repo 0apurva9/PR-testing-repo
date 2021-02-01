@@ -4,7 +4,6 @@ import Carousel from "./Carousel.js";
 import ProductModule from "./ProductModule.js";
 import { transformData } from "../../home/components/utils.js";
 import styles from "./SimilarProductsModal.css";
-import { RUPEE_SYMBOL } from "../../lib/constants.js";
 import SecondaryLoader from "./SecondaryLoader";
 import { ICIDTracking } from "../../lib/adobeUtils.js";
 const PRODUCT_CODE_REGEX = /p-mp(.*)/i;
@@ -12,12 +11,14 @@ export default class SimilarProductsModal extends React.Component {
   state = {
     showLoader: true
   };
+
   goToProductDescription = (url, item, index) => {
     let icidTracking = `"home":"Similar Products":"blank":${index +
       1}:"blank ":"blank":"blank":${item.product_id}`;
     ICIDTracking(icidTracking);
     this.props.history.push(url);
   };
+
   renderData(key) {
     let path =
       this.props && this.props.location && this.props.location.pathname;
@@ -85,6 +86,7 @@ export default class SimilarProductsModal extends React.Component {
       );
     }
   }
+
   renderCarousel(items) {
     return (
       <div className={styles.brandProductCarousel}>
@@ -118,7 +120,7 @@ export default class SimilarProductsModal extends React.Component {
               mrpInteger && seoDoublePrice
                 ? Math.floor(((mrpInteger - seoDoublePrice) / mrpInteger) * 100)
                 : "";
-            let imageURL = val.link && val.link.replace(/^.*\/\/[^\/]+/, "");
+            let imageURL = val.link && val.link.replace(/^.*\/\/[^\\/]+/, "");
             return (
               <ProductModule
                 key={i}
@@ -128,7 +130,7 @@ export default class SimilarProductsModal extends React.Component {
                 productId={val.productListingId}
                 isShowAddToWishlistIcon={false}
                 discountPercent={discount}
-                onClick={url => this.goToProductDescription(imageURL, val, i)}
+                onClick={() => this.goToProductDescription(imageURL, val, i)}
               />
             );
           })}
@@ -148,6 +150,7 @@ export default class SimilarProductsModal extends React.Component {
       </div>
     );
   }
+
   loadMsd(retry) {
     let path =
       this.props && this.props.location && this.props.location.pathname;
@@ -155,21 +158,23 @@ export default class SimilarProductsModal extends React.Component {
       this.setState({ showLoader: true });
       this.props
         .getMsdRequest(this.props.viewSimilarProductOfId, "SimilarProduct")
-        .then(done => {
+        .then(() => {
           this.setState({ showLoader: false });
         });
     }
     if (!PRODUCT_CODE_REGEX.test(path)) {
       this.props
         .getMsdRequest(this.props.viewSimilarProductOfId, "SimilarProduct")
-        .then(done => {
+        .then(() => {
           this.setState({ showLoader: false });
         });
     }
   }
+
   componentDidMount() {
     this.loadMsd();
   }
+
   componentWillUnmount() {
     let path =
       this.props && this.props.location && this.props.location.pathname;
@@ -177,6 +182,7 @@ export default class SimilarProductsModal extends React.Component {
       this.props.clearAllMsdItems();
     }
   }
+
   render() {
     return (
       <BottomModal>

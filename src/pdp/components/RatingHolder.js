@@ -17,6 +17,7 @@ export default class RatingHolder extends React.Component {
           {this.props.ratingData.map((data, i) => {
             return (
               <HorizontalRating
+                key={i}
                 score={data.score}
                 ratingsNumber={data.ratingsNumber}
                 width={data.score / calculateWidth * 100}
@@ -36,5 +37,6 @@ RatingHolder.propTypes = {
       score: PropTypes.score,
       ratingsNumber: PropTypes.string
     })
-  )
+  ),
+  ratingData: PropTypes.array,
 };

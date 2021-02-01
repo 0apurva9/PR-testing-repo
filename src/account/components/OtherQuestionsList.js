@@ -4,6 +4,7 @@ export default class OtherQuestionsList extends Component {
   constructor(props) {
     super(props);
   }
+
   componentDidMount() {
     window.scroll(0, 0);
   }

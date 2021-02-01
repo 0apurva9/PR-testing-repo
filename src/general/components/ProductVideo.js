@@ -18,6 +18,7 @@ export default class ProductVideo extends React.Component {
       played: false
     };
   }
+
   onEnded = () => {
     this.setState({ played: false });
   };
@@ -29,6 +30,7 @@ export default class ProductVideo extends React.Component {
     });
     this.setState({ played: true });
   };
+
   render() {
     let overlayClass = styles.overlay;
     if (this.state.played) {
@@ -74,5 +76,6 @@ ProductVideo.propTypes = {
   url: PropTypes.string,
   logo: PropTypes.string,
   image: PropTypes.string,
-  description: PropTypes.string
+  description: PropTypes.string,
+  postData: PropTypes.object
 };

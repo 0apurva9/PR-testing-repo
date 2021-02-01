@@ -1,143 +1,143 @@
 .base {
-  width: 100%;
-  height: auto;
-  margin-bottom: 10px;
-  display: inline-block;
-  padding: 10px;
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+    display: inline-block;
+    padding: 10px;
 }
 .productImageHolder {
-  width: 30%;
-  height: auto;
-  display: inline-block;
-  vertical-align: top;
-  position: relative;
+    width: 30%;
+    height: auto;
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
 }
 .productDescriptionHolder {
-  width: 70%;
-  height: auto;
-  padding-left: 20px;
-  display: inline-block;
-  vertical-align: top;
+    width: 70%;
+    height: auto;
+    padding-left: 20px;
+    display: inline-block;
+    vertical-align: top;
 }
 
 .brandName {
-  width: 100%;
-  height: auto;
-  color: #181818;
-  font-family: semibold;
-  margin-bottom: 5px;
-  font-size: 16px;
-  line-height: 22px;
-  display: inline-block;
-  word-wrap: break-word;
+    width: 100%;
+    height: auto;
+    color: #181818;
+    font-family: semibold;
+    margin-bottom: 5px;
+    font-size: 16px;
+    line-height: 22px;
+    display: inline-block;
+    word-wrap: break-word;
 }
 
 .productName {
-  composes: brandName;
-  font-family: regular;
+    composes: brandName;
+    font-family: regular;
 }
 .producMaterial {
-  width: 100%;
-  height: auto;
-  color: #181818;
-  font-family: regular;
-  margin-bottom: 5px;
-  font-size: 16px;
-  line-height: 22px;
-  display: inline-block;
+    width: 100%;
+    height: auto;
+    color: #181818;
+    font-family: regular;
+    margin-bottom: 5px;
+    font-size: 16px;
+    line-height: 22px;
+    display: inline-block;
 }
 .productPrice {
-  width: 100%;
-  height: auto;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  display: inline-block;
+    width: 100%;
+    height: auto;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    display: inline-block;
 }
 .productPrice .onPrice {
-  width: auto;
-  height: auto;
-  color: #181818;
-  font-size: 16px;
-  font-family: semibold;
-  padding: 0px 10px 0px 0px;
+    width: auto;
+    height: auto;
+    color: #181818;
+    font-size: 16px;
+    font-family: semibold;
+    padding: 0px 10px 0px 0px;
 }
 .productPrice .deletePrice {
-  width: auto;
-  height: auto;
-  color: #8d8d8d;
-  font-size: 16px;
-  font-family: regular;
+    width: auto;
+    height: auto;
+    color: #8d8d8d;
+    font-size: 16px;
+    font-family: regular;
 }
 .displayRating {
-  width: 100%;
-  height: auto;
-  display: inline-block;
-  margin-bottom: 5px;
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    margin-bottom: 5px;
 }
 .noOfReviews {
-  width: auto;
-  height: auto;
-  display: inline-block;
-  padding-left: 10px;
-  color: #181818;
-  font-size: 16px;
-  font-family: regular;
+    width: auto;
+    height: auto;
+    display: inline-block;
+    padding-left: 10px;
+    color: #181818;
+    font-size: 16px;
+    font-family: regular;
 }
 .displayRatingText {
-  width: 100%;
-  height: auto;
-  color: #8d8d8d;
-  font-size: 14px;
-  font-family: regular;
+    width: 100%;
+    height: auto;
+    color: #8d8d8d;
+    font-size: 14px;
+    font-family: regular;
 }
 .displayRatingText span {
-  padding-left: 6px;
+    padding-left: 6px;
 }
 .flag {
-  width: 80px;
-  height: 20px;
-  color: #fff;
-  font-size: 10px;
-  background: url(/static/media/flag.887290d5.svg) no-repeat;
-  font-family: bolder;
-  background-size: contain;
-  position: absolute;
-  top: 20px;
-  left: -2px;
-  z-index: 5;
-  padding-left: 5px;
-  line-height: 20px;
+    width: 80px;
+    height: 20px;
+    color: #fff;
+    font-size: 10px;
+    background: url(./img/flag.svg) no-repeat;
+    font-family: bolder;
+    background-size: contain;
+    position: absolute;
+    top: 20px;
+    left: -2px;
+    z-index: 5;
+    padding-left: 5px;
+    line-height: 20px;
 }
 .showAverageRatingWithDays {
-  width: auto;
-  height: auto;
-  margin-left: 5px;
-  font-size: 14px;
-  font-family: light;
+    width: auto;
+    height: auto;
+    margin-left: 5px;
+    font-size: 14px;
+    font-family: light;
 }
 .productTitle {
-  width: 100%;
-  height: auto;
-  margin-bottom: 5px;
-  font-size: 14px;
-  font-family: light;
-  color: #181818;
-  text-align: left;
-  word-wrap: break-word;
+    width: 100%;
+    height: auto;
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-family: light;
+    color: #181818;
+    text-align: left;
+    word-wrap: break-word;
 }
 .sizeHolder {
-  width: 100%;
-  height: auto;
-  margin-bottom: 5px;
-  font-size: 16px;
-  font-family: light;
-  margin-top: 5px;
+    width: 100%;
+    height: auto;
+    margin-bottom: 5px;
+    font-size: 16px;
+    font-family: light;
+    margin-top: 5px;
 }
 
 .size {
-  width: auto;
-  height: auto;
-  font-family: semibold;
+    width: auto;
+    height: auto;
+    font-family: semibold;
 }
 
 /* .discount{
@@ -147,55 +147,55 @@
 } */
 
 @media screen and (min-width: 1025px) {
-  .base {
-    max-width: 1200px;
-    margin: auto;
-    display: inherit;
-    height: auto;
-    padding: 40px 0px 40px;
-  }
-  .productImagWithDataHolder {
-    max-width: 75%;
-    margin: auto;
-    height: auto;
-  }
-  .productImageHolder {
-    width: 25%;
-  }
-  .productDescriptionHolder {
-    padding-left: 135px;
-    width: 75%;
-  }
-  .brandName {
-    margin-bottom: 20px;
-    font-size: 30px;
-    line-height: 20px;
-  }
-  .productName {
-    font-family: light;
-    line-height: 40px;
-  }
-  .productPrice {
-    margin-top: 0px;
-    margin-bottom: 25px;
-  }
-  .productPrice .onPrice,
-  .productPrice .deletePrice {
-    font-size: 30px;
-    font-family: light;
-  }
-  .displayRatingWithRatingText {
-    width: 100%;
-    height: auto;
-    display: inline-block;
-  }
-  .displayRating {
-    width: auto;
-    display: inline-block;
-  }
-  .displayRatingText {
-    padding-left: 15px;
-    width: auto;
-    display: inline-block;
-  }
+    .base {
+        max-width: 1200px;
+        margin: auto;
+        display: inherit;
+        height: auto;
+        padding: 40px 0px 40px;
+    }
+    .productImagWithDataHolder {
+        max-width: 75%;
+        margin: auto;
+        height: auto;
+    }
+    .productImageHolder {
+        width: 25%;
+    }
+    .productDescriptionHolder {
+        padding-left: 135px;
+        width: 75%;
+    }
+    .brandName {
+        margin-bottom: 20px;
+        font-size: 30px;
+        line-height: 20px;
+    }
+    .productName {
+        font-family: light;
+        line-height: 40px;
+    }
+    .productPrice {
+        margin-top: 0px;
+        margin-bottom: 25px;
+    }
+    .productPrice .onPrice,
+    .productPrice .deletePrice {
+        font-size: 30px;
+        font-family: light;
+    }
+    .displayRatingWithRatingText {
+        width: 100%;
+        height: auto;
+        display: inline-block;
+    }
+    .displayRating {
+        width: auto;
+        display: inline-block;
+    }
+    .displayRatingText {
+        padding-left: 15px;
+        width: auto;
+        display: inline-block;
+    }
 }

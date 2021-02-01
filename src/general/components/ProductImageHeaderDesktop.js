@@ -7,6 +7,7 @@ export default class ProductImageHeaderDesktop extends React.Component {
       this.props.onClick();
     }
   }
+
   render() {
     const { backgroundColor, backgroundImage } = this.props;
     return (
@@ -27,5 +28,6 @@ export default class ProductImageHeaderDesktop extends React.Component {
 }
 ProductImageHeaderDesktop.propTypes = {
   backgroundColor: PropTypes.string,
-  backgroundImage: PropTypes.string
+  backgroundImage: PropTypes.string,
+  onClick: PropTypes.func,
 };

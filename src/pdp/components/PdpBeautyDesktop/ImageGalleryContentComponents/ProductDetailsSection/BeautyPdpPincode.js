@@ -16,11 +16,13 @@ export default class BeautyPdpPincode extends React.Component {
     this.showDropdownMenu = this.showDropdownMenu.bind(this);
     this.hideDropdownMenu = this.hideDropdownMenu.bind(this);
   }
+
   onClick() {
     if (this.props.onClick) {
       this.props.onClick();
     }
   }
+
   enterPassword(val) {
     if (val === "Enter") {
       this.onCheckPinCode(this.state.pincode);
@@ -36,12 +38,15 @@ export default class BeautyPdpPincode extends React.Component {
       this.hideDropdownMenu();
     }
   }
+
   onFocus() {
     this.setState({ showCity: false });
   }
+
   onBlur() {
     this.setState({ showCity: true });
   }
+
   showDropdownMenu() {
     this.setState({ showDropDown: true }, () => {
       document.addEventListener("click", this.hideDropdownMenu);
@@ -53,6 +58,7 @@ export default class BeautyPdpPincode extends React.Component {
       document.removeEventListener("click", this.hideDropdownMenu);
     });
   }
+
   onCheckPinCode(val) {
     if (val.length < 6) {
       this.props.displayToast("Please enter valid pincode");
@@ -62,22 +68,26 @@ export default class BeautyPdpPincode extends React.Component {
       }
     }
   }
+
   dropDownClick = val => {
     this.setState({ pincode: val });
     if (this.props.onCheckPinCode) {
       this.props.onCheckPinCode(val);
     }
   };
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.pincode && nextProps.pincode !== this.state.pincode) {
       this.setState({ pincode: nextProps.pincode });
     }
   }
+
   redirectToLoginPage() {
     if (this.props.redirectToLoginPage) {
       this.props.redirectToLoginPage();
     }
   }
+
   render() {
     const listOfAllPinCode = this.props.listOfAllPinCode;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);

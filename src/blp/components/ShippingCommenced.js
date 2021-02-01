@@ -29,5 +29,6 @@ export default class ShippingCommenced extends React.Component {
 ShippingCommenced.propTypes = {
   label: PropTypes.string,
   image: PropTypes.string,
-  heading: PropTypes.string
+  heading: PropTypes.string,
+  orderNotificationPassDate: PropTypes.string
 };

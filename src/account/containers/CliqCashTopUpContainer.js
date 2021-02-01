@@ -13,8 +13,7 @@ import {
 import {
   showModal,
   GENERATE_OTP_FOR_CLIQ_CASH,
-  CLIQ_CASH_MODULE,
-  CASHBACK_DETAILS_POPUP
+  CLIQ_CASH_MODULE
 } from "../../general/modal.actions";
 
 const mapDispatchToProps = dispatch => {

@@ -12,11 +12,13 @@ export default class AddressItemFooter extends React.Component {
       this.props.editAddress();
     }
   }
+
   removeAddress() {
     if (this.props.removeAddress) {
       this.props.removeAddress();
     }
   }
+
   render() {
     return (
       <div className={styles.base}>
@@ -75,7 +77,9 @@ AddressItemFooter.propTypes = {
   buttonLabel: PropTypes.string,
   replaceItem: PropTypes.func,
   writeReview: PropTypes.func,
-  isEditable: PropTypes.bool
+  isEditable: PropTypes.bool,
+  editAddress:PropTypes.func,
+  removeAddress:PropTypes.func
 };
 AddressItemFooter.defaultProps = {
   underlineButtonLabel: "Delete",

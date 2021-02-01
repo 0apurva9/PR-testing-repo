@@ -15,6 +15,7 @@ export default class RatingAndTextLink extends React.Component {
       this.props.onClick();
     }
   }
+
   render() {
     return (
       <PdpLink onClick={() => this.onClick()}>

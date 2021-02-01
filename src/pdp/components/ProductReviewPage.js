@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, Component } from "react";
+import React, { Component } from "react";
 import ReviewList from "./ReviewList";
 import styles from "./ProductReviewPage.css";
 import ProductDetailsCard from "./ProductDetailsCard";
@@ -40,7 +40,6 @@ import {
 } from "../../lib/adobeUtils";
 import commentArray from "../../mock/lang_profanity.json";
 import { checkUserLoggedIn } from "../../lib/userUtils";
-import { userAddressFailure } from "../../cart/actions/cart.actions";
 const WRITE_REVIEW_TEXT = "Write Review";
 const PRODUCT_QUANTITY = "1";
 export default class ProductReviewPage extends Component {
@@ -145,11 +144,13 @@ export default class ProductReviewPage extends Component {
       }
     }, 2000);
   };
+
   navigateToLogin() {
     const url = this.props.location.pathname;
     this.props.setUrlToRedirectToAfterAuth(url);
     this.props.history.push(LOGIN_PATH);
   }
+
   componentDidMount() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -179,6 +180,7 @@ export default class ProductReviewPage extends Component {
       }
     }
   }
+
   componentWillUnmount() {
     updatePdpDetailsBackFromReviewPage();
     window.removeEventListener("scroll", this.throttledScroll);
@@ -206,6 +208,7 @@ export default class ProductReviewPage extends Component {
       this.setState(prevState => ({ visible: !prevState.visible }));
     }
   };
+
   onSubmit = productReview => {
     if (!productReview.rating) {
       this.props.displayToast("Please give rating");
@@ -228,7 +231,7 @@ export default class ProductReviewPage extends Component {
     if (productReview.comment) {
       let notCommentPossible = commentArray.words.find(words => {
         let regMatch = false;
-        const splCharCheck = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+        const splCharCheck = /[!@#$%^&*()_+\-=\\[\]{};':"\\|,.<>\\/?]/;
 
         if (splCharCheck.test(words)) {
           regMatch = productReview.comment
@@ -264,14 +267,17 @@ export default class ProductReviewPage extends Component {
       }
     }
   };
+
   onCancel() {
     this.setState({ visible: false });
   }
+
   goToCart = () => {
     this.props.history.push({
       pathname: PRODUCT_CART_ROUTER
     });
   };
+
   renderReviewSection = () => {
     if (this.state.visible) {
       return (
@@ -607,7 +613,27 @@ export default class ProductReviewPage extends Component {
 }
 
 ProductReviewPage.propTypes = {
-  label: PropTypes.string,
-  ratingData: PropTypes.array,
-  reviewList: PropTypes.array
+    label: PropTypes.string,
+    ratingData: PropTypes.array,
+    reviewList: PropTypes.array,
+    history: PropTypes.object,
+    location: PropTypes.object,
+    match: PropTypes.object,
+    reviews: PropTypes.object,
+    setUrlToRedirectToAfterAuth: PropTypes.func,
+    hideSecondaryLoader: PropTypes.func,
+    getProductReviews: PropTypes.func,
+    getProductDescription: PropTypes.func,
+    showAuthPopUp: PropTypes.bool,
+    displayToast: PropTypes.func,
+    addProductReview: PropTypes.func,
+    productDetails: PropTypes.object,
+    addReviewStatus: PropTypes.string,
+    showReviewGuidelineModal: PropTypes.func,
+    addProductToCart: PropTypes.func,
+    loadingForAddProduct: PropTypes.bool,
+    loading: PropTypes.bool,
+    showSecondaryLoader: PropTypes.func,
+    buyNow: PropTypes.func
+
 };

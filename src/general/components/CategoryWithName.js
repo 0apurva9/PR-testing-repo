@@ -9,6 +9,7 @@ export default class CategoryWithName extends React.Component {
       this.props.onClick(this.props.value);
     }
   };
+
   render() {
     return (
       <div className={styles.circleWithText} onClick={this.onClick}>

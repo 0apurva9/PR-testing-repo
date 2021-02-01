@@ -7,6 +7,7 @@ export default class TabData extends React.Component {
       this.props.selectItem();
     }
   }
+
   render() {
     let className = styles.base;
     if (this.props.selected) {
@@ -43,7 +44,10 @@ export default class TabData extends React.Component {
 TabData.propTypes = {
   width: PropTypes.string,
   label: PropTypes.string,
-  selectItem: PropTypes.func
+  selectItem: PropTypes.func,
+  selected:PropTypes.bool,
+  subHeding:PropTypes.string
+
 };
 TabData.defaultProps = {
   width: "auto"

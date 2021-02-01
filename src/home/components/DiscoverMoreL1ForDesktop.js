@@ -67,6 +67,7 @@ export default class DiscoverMoreL1ForDesktop extends React.Component {
                     return (
                       <div
                         className={styles.listLink}
+                        key= {i}
                         onClick={() => this.onClick(val.webURL)}
                       >
                         {val.title}
@@ -94,5 +95,7 @@ DiscoverMoreL1ForDesktop.propTypes = {
         })
       )
     })
-  )
+  ),
+  history: PropTypes.object,
+  setClickedElementId: PropTypes.func
 };

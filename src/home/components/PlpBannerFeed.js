@@ -1,8 +1,5 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import Loadable from "react-loadable";
-import WidgetContainer from "../containers/WidgetContainer";
-import { SECONDARY_FEED_TYPE } from "../../lib/constants";
 
 const PlpBannerComponent = Loadable({
   loader: () => import("../../staticpage/components/PlpBannerComponent.js"),
@@ -33,18 +30,12 @@ const PlpBannerComponentMonetization = Loadable({
 //     <PlpBannerComponentMonetization {...this.props} />
 //   )
 // };
-
-const typeKeyMapping = {
-  plpBannerComponent: "plpBannerComponent",
-  plpShortBannerComponent: "plpShortBannerComponent"
-};
-
 class PlpBannerFeed extends Component {
   constructor(props) {
     super(props);
   }
 
-  renderFeedComponent(feedData, index) {
+  renderFeedComponent(feedData) {
     const typeComponentMapping = {
       plpBannerComponent: (
         <PlpBannerComponent feedComponentData={feedData} {...this.props} />
@@ -76,7 +67,7 @@ class PlpBannerFeed extends Component {
   renderFeedComponents() {
     return (
       this.props.plpFeedData &&
-      this.props.plpFeedData.map((feedData, i) => {
+      this.props.plpFeedData.map((feedData) => {
         return this.renderFeedComponent(feedData, this.props.index);
       })
     );

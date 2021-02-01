@@ -70,6 +70,7 @@ export default class FilterMobile extends React.Component {
     this.props.setFilterSelectedData(false, val);
     this.setState({ brandSearchString: "" });
   }
+
   selectCategories() {
     this.props.resetFilterSelectedData();
     this.setState({ brandSearchString: "" });
@@ -78,9 +79,11 @@ export default class FilterMobile extends React.Component {
   onApply = () => {
     this.props.onApply();
   };
+
   onBrandSearch = val => {
     this.setState({ brandSearchString: val });
   };
+
   onCategorySelect = (val, isFilter) => {
     const parsedQueryString = queryString.parse(this.props.location.search);
     // special case the search category case
@@ -118,6 +121,7 @@ export default class FilterMobile extends React.Component {
     const url = val.replace("{pageNo}", 1);
     this.props.history.push(url, { isFilter: true });
   };
+
   render() {
     const { facetData, facetdatacategory } = this.props;
     let filteredFacetData = null;
@@ -166,6 +170,7 @@ export default class FilterMobile extends React.Component {
                 facetData.map((val, i) => {
                   return (
                     <FilterTab
+                      key={i}
                       name={val.name}
                       selectedFilterCount={val.selectedFilterCount}
                       selected={
@@ -188,6 +193,7 @@ export default class FilterMobile extends React.Component {
                 facetdatacategory.filters.map((val, i) => {
                   return (
                     <FilterCategoryL1
+                      key={i}
                       name={val.categoryName}
                       count={val.quantity}
                       value={val.categoryCode}
@@ -216,6 +222,7 @@ export default class FilterMobile extends React.Component {
                     filteredFacetData.map((val, i) => {
                       return (
                         <FilterSelect
+                          key={i}
                           onClick={this.onFilterClick}
                           selected={val.selected}
                           hexColor={val.hexColor}

@@ -16,14 +16,17 @@ export default class SaveListCard extends React.Component {
       this.props.removeItem();
     }
   }
+
   openPopup() {
     this.setState({ openPopup: true });
   }
+
   onClickImage() {
     if (this.props.onClickImage) {
       this.props.onClickImage();
     }
   }
+
   render() {
     return (
       <div className={styles.base}>
@@ -85,6 +88,19 @@ export default class SaveListCard extends React.Component {
     );
   }
 }
+
+const PriceFormatType = PropTypes.shape({
+  commaFormattedValue: PropTypes.string,
+  commaFormattedValueNoDecimal: PropTypes.string,
+  currencyIso: PropTypes.string,
+  currencySymbol: PropTypes.string,
+  doubleValue: PropTypes.number,
+  formattedValue: PropTypes.string,
+  formattedValueNoDecimal: PropTypes.string,
+  priceType: PropTypes.string,
+  value: PropTypes.number,
+});
+
 SaveListCard.propTypes = {
   text: PropTypes.string,
   offers: PropTypes.number,
@@ -99,8 +115,34 @@ SaveListCard.propTypes = {
   underlineButtonColour: PropTypes.string,
   underlineButtonLabel: PropTypes.string,
   buttonLabel: PropTypes.string,
-  outOfStock: PropTypes.bool
+  outOfStock: PropTypes.bool,
+  onClickImage: PropTypes.func,
+  brandName: PropTypes.string,
+  size: PropTypes.string,
+  isSizeOrLength: PropTypes.string,
+  isEditable: PropTypes.bool,
+  exchangeDetails: PropTypes.shape({
+    IMEINumber: PropTypes.string,
+    detailCheckNotAllowed: PropTypes.bool,
+    effectiveModelName: PropTypes.string,
+    exchangeBrandId: PropTypes.string,
+    exchangeBrandName: PropTypes.string,
+    exchangeModelName: PropTypes.string,
+    exchangeProductId: PropTypes.string,
+    isIMEIVerified: PropTypes.bool,
+    isPickupAvailableForExchange: PropTypes.bool,
+    quoteExpired: PropTypes.bool,
+    quoteExpiryDate: PropTypes.instanceOf(Date),
+    quoteId: PropTypes.string,
+    exchangePriceDetail: PropTypes.shape({
+      TULBump: PriceFormatType,
+      exchangeAmountCashify: PriceFormatType,
+      pickupCharge: PriceFormatType,
+      totalExchangeCashback: PriceFormatType,
+    })
+  })
 };
+
 SaveListCard.defaultProps = {
   underlineButtonLabel: "Add to bag",
   buttonLabel: "Remove",

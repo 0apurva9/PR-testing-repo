@@ -6,7 +6,7 @@ import Expiring from "./img/expiring.svg";
 import Paid from "./img/utilized.svg";
 import format from "date-fns/format";
 import PropTypes from "prop-types";
-import { RECEIVED, PAID, EXPIRED } from "../../lib/constants";
+import { RECEIVED } from "../../lib/constants";
 const dateFormat = "DD MMM YYYY";
 
 export default class Promos extends Component {
@@ -28,6 +28,7 @@ export default class Promos extends Component {
       return null;
     }
   };
+
   promoText = item => {
     let today = new Date().getTime();
     let expiringDate = new Date(item.expiryDate).getTime();
@@ -61,7 +62,6 @@ export default class Promos extends Component {
     let promotype = this.props.item.transactionType;
 
     let amount = this.props.item.amount.formattedValue;
-    let transactionStatus = this.props.item.transactionStatus;
 
     let redeemStartDate = Date.parse(this.props.item.redeemStartDate);
     let formattedRedeemStartDate = format(

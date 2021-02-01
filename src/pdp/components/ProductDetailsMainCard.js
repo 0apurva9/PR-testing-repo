@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./ProductDetailsMainCard.css";
-import StarRating from "../../general/components/StarRating.js";
 import Icon from "../../xelpmoc-core/Icon";
 import FilledStarWhite from "../../general/components/img/star-fill-white.svg";
 import DesktopOnly from "../../general/components/DesktopOnly";
@@ -9,7 +8,6 @@ import TimerCounter from "../../general/components/TimerCounterProductDetails";
 import {
   RUPEE_SYMBOL,
   WRITE_REVIEW,
-  PRODUCT_REVIEWS_PATH_SUFFIX
 } from "../../lib/constants.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import PropTypes from "prop-types";
@@ -32,6 +30,7 @@ export default class ProductDetailsMainCard extends React.Component {
       endDateTime: null
     };
   }
+
   handleClick() {
     if (this.props.onClick) {
       this.props.onClick();
@@ -44,16 +43,19 @@ export default class ProductDetailsMainCard extends React.Component {
       this.props.history.push(urlSuffix);
     }
   }
+
   handlePriceBreakup() {
     if (this.props.showPriceBreakUp) {
       this.props.showPriceBreakUp();
     }
   }
+
   handleRatingLink() {
     setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_REVIEW_AND_RATING_EVENT);
     const url = `${this.props.location.pathname}${WRITE_REVIEW}`;
     this.props.history.push(url);
   }
+
   seeRatingReview() {
     setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_REVIEW_AND_RATING_EVENT);
     // const url = `${
@@ -64,6 +66,7 @@ export default class ProductDetailsMainCard extends React.Component {
       this.props.ScrollReviewList();
     }
   }
+
   renderSchemaTags = () => {
     return (
       <MetaTags>
@@ -75,6 +78,7 @@ export default class ProductDetailsMainCard extends React.Component {
       </MetaTags>
     );
   };
+
   componentWillReceiveProps(nextProps) {
     if (
       nextProps.impulseOfferCalloutList &&
@@ -264,7 +268,7 @@ export default class ProductDetailsMainCard extends React.Component {
               </div>
               <meta itemProp="ratingCount" content={ratingCount} />
               <meta itemProp="reviewCount" content={numberOfReviews} />
-              <meta itemprop="itemReviewed" content={averageRating} />
+              <meta itemProp="itemReviewed" content={averageRating} />
             </div>
           </div>
         )}
@@ -292,7 +296,17 @@ ProductDetailsMainCard.propTypes = {
   ratingCount: PropTypes.number,
   onClick: PropTypes.func,
   discount: PropTypes.string,
-  isPdp: PropTypes.bool
+  isPdp: PropTypes.bool,
+  brandUrl: PropTypes.string,
+  history: PropTypes.object,
+  location: PropTypes.object,
+  showPriceBreakUp: PropTypes.func,
+  ScrollReviewList: PropTypes.func,
+  impulseOfferCalloutList: PropTypes.array,
+  offers: PropTypes.array,
+  brandName: PropTypes.string,
+  hasPriceBreakUp: PropTypes.bool,
+  doublePrice: PropTypes.number
 };
 ProductDetailsMainCard.defaultProps = {
   isPdp: false

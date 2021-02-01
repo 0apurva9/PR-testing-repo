@@ -55,6 +55,7 @@ export default class DiscoverMore extends React.Component {
 
 DiscoverMore.propTypes = {
   feedComponentData: PropTypes.shape({
+    category: PropTypes.string,
     title: PropTypes.string,
     data: PropTypes.shape({
       data: PropTypes.arrayOf(
@@ -64,5 +65,7 @@ DiscoverMore.propTypes = {
         })
       )
     })
-  })
+  }),
+  setClickedElementId: PropTypes.func,
+  history: PropTypes.object
 };

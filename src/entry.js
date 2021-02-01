@@ -1,1 +1,1 @@
-const __webpack_public_path__ = "...";
+export const __webpack_public_path__ = "...";

@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import couponIcon from "../../general/components/img/coupon-1.svg";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import MobileOnly from "../../general/components/MobileOnly";
+
 export default class MyCoupons extends React.Component {
   constructor(props) {
     super(props);
@@ -12,9 +13,11 @@ export default class MyCoupons extends React.Component {
       copied: false
     };
   }
+
   copyCouponCode() {
     this.props.displayToast("Coupon code copied");
   }
+
   render() {
     return (
       <div className={styles.base}>
@@ -68,8 +71,18 @@ export default class MyCoupons extends React.Component {
     );
   }
 }
+
 MyCoupons.propTypes = {
   bannerImage: PropTypes.string,
   bannerHeaderText: PropTypes.string,
-  bannerText: PropTypes.string
+  bannerText: PropTypes.string,
+  displayToast: PropTypes.func,
+  heading: PropTypes.string,
+  couponNumber: PropTypes.string,
+  maxRedemption: PropTypes.string,
+  maxRedemptionValue: PropTypes.string,
+  creationDate: PropTypes.string,
+  creationDateValue: PropTypes.string,
+  expiryDate: PropTypes.string,
+  expiryDateValue: PropTypes.string
 };

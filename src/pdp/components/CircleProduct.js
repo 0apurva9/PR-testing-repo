@@ -8,6 +8,7 @@ export default class CircleProduct extends React.Component {
       this.props.onClick(val);
     }
   }
+
   render() {
     return (
       <div className={styles.base}>

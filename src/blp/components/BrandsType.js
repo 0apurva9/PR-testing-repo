@@ -15,6 +15,8 @@ export default class BrandsType extends React.Component {
     );
   }
 }
+
 BrandsType.propTypes = {
-  title: PropTypes.string
+  title: PropTypes.string,
+  children: PropTypes.node
 };

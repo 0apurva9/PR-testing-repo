@@ -9,11 +9,13 @@ export default class ProfileAddressBook extends React.Component {
       this.props.editAddress();
     }
   }
+
   deleteAddress() {
     if (this.props.deleteAddress) {
       this.props.deleteAddress();
     }
   }
+
   render() {
     return (
       <div className={styles.base}>

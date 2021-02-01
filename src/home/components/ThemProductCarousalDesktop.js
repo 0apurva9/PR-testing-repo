@@ -12,27 +12,32 @@ export default class ThemProductCarousalDesktop extends React.Component {
       position: 0
     };
   }
+
   swithPosition(i, evt) {
     evt.stopPropagation();
     if (i !== undefined) {
       this.setState({ position: i });
     }
   }
+
   autoRun = () => {
     setTimeout(() => {
       this.goForward();
       this.autoRun();
     }, this.props.interval * 1000);
   };
+
   componentDidMount() {
     if (this.props.interval) {
       this.autoRun();
     }
   }
+
   goForward = () => {
     let childCount = this.props.items && this.props.items.length;
     this.setState({ position: (this.state.position + 1) % childCount });
   };
+
   handleClick() {
     widgetsTracking({
       widgetName: this.props.feedComponentData.type,
@@ -42,6 +47,7 @@ export default class ThemProductCarousalDesktop extends React.Component {
       this.props.onClick();
     }
   }
+
   onRedirect(url, brandsName, evt) {
     evt.stopPropagation();
     widgetsTracking({
@@ -55,6 +61,7 @@ export default class ThemProductCarousalDesktop extends React.Component {
       this.props.onRedirect(url);
     }
   }
+
   render() {
     return (
       <div
@@ -120,6 +127,7 @@ export default class ThemProductCarousalDesktop extends React.Component {
                 this.props.items.map((val, i) => {
                   return (
                     <div
+                      key={i}
                       className={
                         this.state.position === i
                           ? styles.navActive

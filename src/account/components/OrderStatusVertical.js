@@ -18,15 +18,16 @@ export default class OrderStatusVertical extends React.Component {
       copied: false
     };
   }
+
   handleMoreDetails(val) {
     if (this.props.showShippingDetails && val) {
       this.props.showShippingDetails(val);
     }
   }
+
   copySshipAwbTrackingUrl = (event, sshipAwbTrackingUrl, trackingAWB) => {
     event.preventDefault();
     event.stopPropagation();
-    let copyText = this.refs.copyThisLink;
 
     document.addEventListener(
       "copy",
@@ -41,6 +42,7 @@ export default class OrderStatusVertical extends React.Component {
     this.props.displayToast("Copied!");
     window.open(sshipAwbTrackingUrl, "_blank");
   };
+
   render() {
     const completedSteps = this.props.statusMessageList.map(val => {
       return val.key;
@@ -291,7 +293,6 @@ export default class OrderStatusVertical extends React.Component {
                       {this.props.sshipAwbTrackingUrl ? (
                         <div
                           className={styles.courierInfoHolder}
-                          ref="copyThisLink"
                           onClick={event =>
                             this.copySshipAwbTrackingUrl(
                               event,
@@ -423,6 +424,13 @@ export default class OrderStatusVertical extends React.Component {
   }
 }
 OrderStatusVertical.propTypes = {
+  showShippingDetails: PropTypes.func,
+  displayToast: PropTypes.func,
+  orderCode: PropTypes.string,
+  isCNC: PropTypes.bool,
+  logisticName: PropTypes.string,
+  trackingAWB: PropTypes.string,
+  sshipAwbTrackingUrl: PropTypes.string,
   moreDetails: PropTypes.func,
   statusMessageList: PropTypes.arrayOf(
     PropTypes.shape({

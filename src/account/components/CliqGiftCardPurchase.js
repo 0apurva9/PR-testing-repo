@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { RouterPropTypes } from "../../general/router-prop-types";
 import styles from "./CliqCashDesktop.css";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import ProfileMenu from "./ProfileMenu";
@@ -40,29 +41,30 @@ export default class CliqGiftCardPurchase extends Component {
     this.state = {
       selectedAmount:
         this.props.location &&
-        this.props.location.state &&
-        this.props.location.state.selectedAmount
+          this.props.location.state &&
+          this.props.location.state.selectedAmount
           ? this.props.location.state.selectedAmount
           : "",
       isValidAmount: true,
       maxPrice:
         this.props.giftCardsDetails &&
-        this.props.giftCardsDetails.amountOptions &&
-        this.props.giftCardsDetails.amountOptions.maxPrice &&
-        this.props.giftCardsDetails.amountOptions.maxPrice &&
-        this.props.giftCardsDetails.amountOptions.maxPrice.value
+          this.props.giftCardsDetails.amountOptions &&
+          this.props.giftCardsDetails.amountOptions.maxPrice &&
+          this.props.giftCardsDetails.amountOptions.maxPrice &&
+          this.props.giftCardsDetails.amountOptions.maxPrice.value
           ? this.props.giftCardsDetails.amountOptions.maxPrice.value
           : MAXIMUM_PRICE,
       minPrice:
         this.props.giftCardsDetails &&
-        this.props.giftCardsDetails.amountOptions &&
-        this.props.giftCardsDetails.amountOptions.minPrice &&
-        this.props.giftCardsDetails.amountOptions.minPrice &&
-        this.props.giftCardsDetails.amountOptions.minPrice.value
+          this.props.giftCardsDetails.amountOptions &&
+          this.props.giftCardsDetails.amountOptions.minPrice &&
+          this.props.giftCardsDetails.amountOptions.minPrice &&
+          this.props.giftCardsDetails.amountOptions.minPrice.value
           ? this.props.giftCardsDetails.amountOptions.minPrice.value
           : MINIMUM_PRICE
     };
   }
+
   componentDidMount() {
     this.props.setHeaderText(GIFT_CARD);
     if (this.props.getGiftCardDetails) {
@@ -78,6 +80,7 @@ export default class CliqGiftCardPurchase extends Component {
       this.props.getCliqCashbackDetails(cashbackmode);
     }
   }
+
   selectAmount(amount) {
     if (amount < this.state.minPrice || amount > this.state.maxPrice) {
       this.setState({ selectedAmount: amount, isValidAmount: false });
@@ -85,11 +88,13 @@ export default class CliqGiftCardPurchase extends Component {
       this.setState({ selectedAmount: amount, isValidAmount: true });
     }
   }
+
   navigateToLogin() {
     const url = this.props.location.pathname;
     this.props.setUrlToRedirectToAfterAuth(url);
     return <Redirect to={LOGIN_PATH} />;
   }
+
   showCliqCashModulePopUp = () => {
     setDataLayerForGiftCard(SET_DATA_LAYER_ADD_GIFT_CARD);
     if (this.props.showCliqCashModule) {
@@ -100,11 +105,13 @@ export default class CliqGiftCardPurchase extends Component {
       this.props.showCliqCashModule(obj);
     }
   };
+
   kycVerification = () => {
     if (this.props.showKycVerification) {
       this.props.showKycVerification(this.props);
     }
   };
+
   navigateCheckBalance() {
     if (this.props.showCliqCashModule) {
       const obj = {};
@@ -142,16 +149,16 @@ export default class CliqGiftCardPurchase extends Component {
     }
     let offerDetails =
       this.props &&
-      this.props.location &&
-      this.props.location.state &&
-      this.props.location.state.offerDetails
+        this.props.location &&
+        this.props.location.state &&
+        this.props.location.state.offerDetails
         ? this.props.location.state.offerDetails
         : undefined;
 
     (offerDetails &&
       offerDetails.cashbackMode &&
       offerDetails.cashbackMode === "TOPUP") ||
-    (offerDetails && offerDetails.cashbackMode && offerDetails.cashbackMode) ===
+      (offerDetails && offerDetails.cashbackMode && offerDetails.cashbackMode) ===
       "EGV"
       ? localStorage.setItem("cashback", "enabled")
       : localStorage.setItem("cashback", "disabled");
@@ -223,8 +230,8 @@ export default class CliqGiftCardPurchase extends Component {
                     {RUPEE_SYMBOL}
                   </div>
                 ) : (
-                  ""
-                )}
+                    ""
+                  )}
                 <Input2
                   hollow={true}
                   placeholder={`Or enter an amount between ${RUPEE_SYMBOL}${this.state.minPrice}-${RUPEE_SYMBOL}${this.state.maxPrice}`}
@@ -325,14 +332,12 @@ CliqGiftCardPurchase.propTypes = {
     ),
     status: string
   }),
-  history: PropTypes.object,
   setUrlToRedirectToAfterAuth: PropTypes.func.isRequired,
-  location: PropTypes.object,
   setHeaderText: PropTypes.func.isRequired,
   getGiftCardDetails: PropTypes.func.isRequired,
   giftCardsDetails: PropTypes.shape({
     amountOptions: PropTypes.shape({
-      option: array,
+      options: array,
       maxPrice: PropTypes.shape({
         value: number
       }),
@@ -342,5 +347,13 @@ CliqGiftCardPurchase.propTypes = {
     })
   }),
   showCliqCashModule: PropTypes.func,
-  showKycVerification: PropTypes.func
+  showKycVerification: PropTypes.func,
+  getCliqCashbackDetails: PropTypes.func,
+  cliqCashbackDetails: PropTypes.shape({
+    cashbackOffers: PropTypes.array
+  }),
+  createGiftCardDetails: PropTypes.func,
+  displayToast: PropTypes.func,
+  giftCardDetailsStatus: PropTypes.string,
+  ...RouterPropTypes
 };

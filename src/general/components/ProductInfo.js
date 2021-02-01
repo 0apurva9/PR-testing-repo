@@ -60,5 +60,13 @@ ProductInfo.propTypes = {
   offerText: PropTypes.string,
   averageRating: PropTypes.number,
   ratingCount: PropTypes.string,
-  isPlp: PropTypes.bool
+  isPlp: PropTypes.bool,
+  electronicView: PropTypes.bool,
+  maxExchangePrice: PropTypes.shape({
+    currencyIso: PropTypes.string,
+    currencySymbol: PropTypes.string,
+    doubleValue: PropTypes.number,
+    formattedValue: PropTypes.string,
+    formattedValueNoDecimal: PropTypes.string
+  })
 };

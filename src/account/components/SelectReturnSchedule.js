@@ -11,7 +11,7 @@ export default class SelectReturnSchedule extends React.Component {
         <div className={styles.scheduleHolder}>
           <GridSelect limit={1} offset={0} elementWidthMobile={100}>
             {this.props.dateAndTime.map((val, i) => {
-              return <SelectReturnDate label={val.date} value={i} />;
+              return <SelectReturnDate label={val.date} value={i} key={`key${i}`} />;
             })}
           </GridSelect>
         </div>

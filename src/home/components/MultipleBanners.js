@@ -24,6 +24,7 @@ export default class MultipleBanner extends React.Component {
       this.props.setClickedElementId();
     }
   }
+
   render() {
     const data = this.props.feedComponentData;
     return (

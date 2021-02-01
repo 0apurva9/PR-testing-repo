@@ -8,6 +8,7 @@ export default class CategoryL1 extends React.Component {
       this.props.onViewAll();
     }
   }
+
   openItem() {
     if (this.props.children) {
       this.props.openItem();
@@ -17,11 +18,13 @@ export default class CategoryL1 extends React.Component {
       }
     }
   }
+
   closeItem() {
     if (this.props.closeItem) {
       this.props.closeItem();
     }
   }
+
   render() {
     return (
       <div className={styles.base}>
@@ -65,5 +68,11 @@ export default class CategoryL1 extends React.Component {
 }
 CategoryL1.propTypes = {
   label: PropTypes.string,
-  isOpen: PropTypes.bool
+  isOpen: PropTypes.bool,
+  onViewAll: PropTypes.func,
+  onClick: PropTypes.func,
+  closeItem: PropTypes.func,
+  children: PropTypes.node,
+  openItem: PropTypes.func,
+  url: PropTypes.string,
 };

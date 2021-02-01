@@ -11,7 +11,7 @@ export default class SizeGuideElementBelt extends React.Component {
           <div className={styles.dimensionValue}>
             {data.map((datum, i) => {
               return (
-                <div className={styles.dimensionValueList}>
+                <div className={styles.dimensionValueList} key={i}>
                   {datum.dimensionSize}
                 </div>
               );
@@ -23,7 +23,7 @@ export default class SizeGuideElementBelt extends React.Component {
           <div className={styles.dimensionValue}>
             {data.map((datum, i) => {
               return (
-                <div className={styles.dimensionValueList}>
+                <div className={styles.dimensionValueList} key={i}>
                   {datum.cmsBeltSize}
                 </div>
               );
@@ -35,7 +35,7 @@ export default class SizeGuideElementBelt extends React.Component {
           <div className={styles.dimensionValue}>
             {data.map((datum, i) => {
               return (
-                <div className={styles.dimensionValueList}>
+                <div className={styles.dimensionValueList} key={i}>
                   {datum.inchesBeltSize}
                 </div>
               );
@@ -47,7 +47,7 @@ export default class SizeGuideElementBelt extends React.Component {
           <div className={styles.dimensionValue}>
             {data.map((datum, i) => {
               return (
-                <div className={styles.dimensionValueList}>
+                <div className={styles.dimensionValueList} key={i}>
                   {datum.inchesWaistSize}
                 </div>
               );
@@ -59,7 +59,7 @@ export default class SizeGuideElementBelt extends React.Component {
           <div className={styles.dimensionValue}>
             {data.map((datum, i) => {
               return (
-                <div className={styles.dimensionValueList}>
+                <div className={styles.dimensionValueList} key={i}>
                   {datum.inchesBeltLength}
                 </div>
               );
@@ -72,5 +72,6 @@ export default class SizeGuideElementBelt extends React.Component {
 }
 SizeGuideElementBelt.propTypes = {
   key: propTypes.string,
-  value: propTypes.number
+  value: propTypes.number,
+  data: propTypes.array,
 };

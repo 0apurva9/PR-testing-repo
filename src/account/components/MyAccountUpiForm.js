@@ -9,8 +9,6 @@ import loader from "./img/loader.gif";
 import { setDataLayer, SET_DATA_LAYER_UID_SAVE } from "../../lib/adobeUtils";
 const INVALID = `Invalid`;
 const UPI_REGEX = /^[A-Za-z0-9.]+@[A-Za-z0-9]\w+$/;
-const INVALID_UPI_ERROR =
-  "Your UPI no longer seems to exist. Try another option.";
 
 export default class MyAccountUpiForm extends React.Component {
   constructor(props) {
@@ -224,5 +222,8 @@ export default class MyAccountUpiForm extends React.Component {
 }
 MyAccountUpiForm.propTypes = {
   placeholder: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  addUPIDetails: PropTypes.func,
+  toggleForAddNewUpi: PropTypes.func,
+  loading: PropTypes.bool
 };

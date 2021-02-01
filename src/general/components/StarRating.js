@@ -124,7 +124,9 @@ export default class StarRating extends React.Component {
 StarRating.propTypes = {
   averageRating: PropTypes.number,
   isPlp: PropTypes.bool,
-  isFromProductBundling: PropTypes.bool
+  isFromProductBundling: PropTypes.bool,
+  size: PropTypes.number,
+  children: PropTypes.node,
 };
 StarRating.defaultProps = {
   size: 15

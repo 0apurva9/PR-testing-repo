@@ -7,11 +7,13 @@ export default class AddEmailAddress extends React.Component {
       this.props.onChange(val);
     }
   }
+
   handleOnFocusInput() {
     if (this.props.onFocusInput) {
       this.props.onFocusInput();
     }
   }
+
   render() {
     return (
       <div className={styles.base}>

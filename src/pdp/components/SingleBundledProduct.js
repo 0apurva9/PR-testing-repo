@@ -297,26 +297,22 @@ export default class SingleBundledProduct extends React.Component {
 SingleBundledProduct.propTypes = {
   handleClick: PropTypes.func,
   bundledPriceAPIStatus: PropTypes.string,
+  history: PropTypes.object,
   isMainProduct: PropTypes.bool,
   productIndex: PropTypes.number,
-  productData: PropTypes.objectOf(
-    PropTypes.shape({
+  productData: PropTypes.shape({
       winningUssID: PropTypes.string,
+      isdigitalProduct: PropTypes.bool,
+      buyingTips: PropTypes.bool,
+      recommendationType: PropTypes.string,
+      rootCategory: PropTypes.string,
       productListingId: PropTypes.string,
       discount: PropTypes.number,
       productName: PropTypes.string,
       ratingCount: PropTypes.number,
       productDescription: PropTypes.string,
-      winningSellerPrice: PropTypes.objectOf(
-        PropTypes.shape({
-          formattedValueNoDecimal: PropTypes.string
-        })
-      ),
-      mrpPrice: PropTypes.objectOf(
-        PropTypes.shape({
-          formattedValueNoDecimal: PropTypes.string
-        })
-      ),
+      winningSellerPrice: PropTypes.object,
+      mrpPrice: PropTypes.object,
       imageURL: PropTypes.string,
       averageRating: PropTypes.number,
       galleryImagesList: PropTypes.arrayOf(
@@ -329,6 +325,8 @@ SingleBundledProduct.propTypes = {
         })
       )
     })
-  ),
-  isBundledProductSelected: PropTypes.array
+  ,
+  isBundledProductSelected: PropTypes.array,
+  hideExtraProducts: PropTypes.bool,
+  isBundledProductInCart: PropTypes.bool
 };

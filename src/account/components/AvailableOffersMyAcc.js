@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { RouterPropTypes } from "../../general/router-prop-types";
 import styles from "./AvailableOffersMyAcc.css";
 import { Link } from "react-router-dom";
 import {
@@ -98,11 +99,11 @@ export default class AvailableOffersMyAcc extends Component {
                   <div
                     className={
                       this.props.cliqCashbackDetails.cashbackOffers.length !==
-                      index + 1
+                        index + 1
                         ? [
-                            styles.offerAvailContainer,
-                            styles.borderBottom
-                          ].join(" ")
+                          styles.offerAvailContainer,
+                          styles.borderBottom
+                        ].join(" ")
                         : styles.offerAvailContainer
                     }
                     key={index}
@@ -141,6 +142,7 @@ export default class AvailableOffersMyAcc extends Component {
   }
 }
 AvailableOffersMyAcc.propTypes = {
+  showCashBackDetailsPopup: PropTypes.func,
   cliqCashbackDetails: PropTypes.shape({
     cashbackOffers: arrayOf(
       PropTypes.shape({
@@ -167,5 +169,6 @@ AvailableOffersMyAcc.propTypes = {
         offerEndDate: string
       })
     )
-  })
+  }),
+  ...RouterPropTypes
 };

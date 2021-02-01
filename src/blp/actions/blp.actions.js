@@ -32,7 +32,7 @@ export function getAllBrandsFailure(error) {
   };
 }
 
-export function getAllBrands(userId, accessToken, cartId) {
+export function getAllBrands() {
   return async (dispatch, getState, { api }) => {
     dispatch(getAllBrandsRequest());
 

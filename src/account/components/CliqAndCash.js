@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { RouterPropTypes } from "../../general/router-prop-types";
 import Logo from "../../general/components/Logo";
 import ControlInput from "../../general/components/ControlInput";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
@@ -42,20 +43,24 @@ export default class CliqAndCash extends React.Component {
       this.setState({ cardNumber: "", pinNumber: "", cliqCashUpdate: "" });
     }
   }
+
   componentDidUpdate() {
     this.props.setHeaderText(CLIQ_CASH);
   }
+
   componentDidMount() {
     this.props.setHeaderText(CLIQ_CASH);
     if (this.props.getCliqCashDetails) {
       this.props.getCliqCashDetails();
     }
   }
+
   gitCard() {
     if (this.props.gitCard) {
       this.props.gitCard();
     }
   }
+
   redeemCliqVoucher() {
     if (this.state.cardNumber && this.state.pinNumber) {
       this.setState({ cliqCashUpdate: true });
@@ -64,21 +69,25 @@ export default class CliqAndCash extends React.Component {
       }
     }
   }
+
   onChangeCardNumber(cardNumber) {
     if (cardNumber === "" || /^[0-9]+$/.test(cardNumber))
       if (cardNumber.length <= 16) {
         this.setState({ cardNumber: cardNumber });
       }
   }
+
   onChangePinNumber(pinNumber) {
     if (pinNumber === "" || /^[0-9]+$/.test(pinNumber))
       if (pinNumber.length <= 6) {
         this.setState({ pinNumber: pinNumber });
       }
   }
+
   buyNewGiftCard = () => {
     this.props.history.push(`${MY_ACCOUNT_PAGE}${MY_ACCOUNT_GIFT_CARD_PAGE}`);
   };
+
   render() {
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -109,7 +118,7 @@ export default class CliqAndCash extends React.Component {
                     <div className={styles.balance}>{`₹ ${
                       this.props.cliqCashUserDetails.totalCliqCashBalance
                         .formattedValue
-                    }`}</div>
+                      }`}</div>
                   )}
                   {this.props.cliqCashUserDetails.balanceClearedAsOf && (
                     <div className={styles.expiredBalanceText}>
@@ -232,7 +241,20 @@ CliqAndCash.propTypes = {
   pinNumber: PropTypes.number,
   isGiftCard: PropTypes.bool,
   gitCard: PropTypes.func,
-  addBalance: PropTypes.func
+  addBalance: PropTypes.func,
+  cliqCashVoucherDetailsStatus: PropTypes.string,
+  setHeaderText: PropTypes.func,
+  getCliqCashDetails: PropTypes.func,
+  redeemCliqVoucher: PropTypes.func,
+  showSecondaryLoader: PropTypes.bool,
+  hideSecondaryLoader: PropTypes.bool,
+  userAddress: PropTypes.object,
+  cliqCashUserDetails: PropTypes.shape({
+    totalCliqCashBalance: PropTypes.number,
+    balanceClearedAsOf: PropTypes.string,
+
+  }),
+  ...RouterPropTypes
 };
 CliqAndCash.defaultProps = {
   isGiftCard: true

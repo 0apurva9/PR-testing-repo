@@ -48,28 +48,15 @@ export default class RevelantProductList extends React.Component {
     });
     this.props.onClick();
   }
+
   renderLoader() {
     return <Loader />;
   }
+
   render() {
     let bundleprdouct = this.props.bundleprdouct;
     let price = "";
     let discountPrice = "";
-    let seoDoublePrice = 0;
-    if (
-      bundleprdouct &&
-      bundleprdouct.winningSellerPrice &&
-      bundleprdouct.winningSellerPrice.doubleValue
-    ) {
-      seoDoublePrice =
-        bundleprdouct && bundleprdouct.winningSellerPrice.doubleValue;
-    } else if (
-      bundleprdouct &&
-      bundleprdouct.mrpPrice &&
-      bundleprdouct.mrpPrice.doubleValue
-    ) {
-      seoDoublePrice = bundleprdouct.mrpPrice.doubleValue;
-    }
     if (
       bundleprdouct &&
       bundleprdouct.mrpPrice &&
@@ -101,11 +88,7 @@ export default class RevelantProductList extends React.Component {
               return image[0] && image[0].value;
             })[0]
         : [];
-    let widthChange =
-      // this.props.array.length > 1
-      //   ?
-      styles.oneProduct;
-    // : styles.oneProduct;
+
     return (
       <div>
         <div className={styles.iconAddBundledProduct} />

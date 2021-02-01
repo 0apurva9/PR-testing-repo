@@ -10,9 +10,9 @@ export default class ProductDetails extends React.Component {
         text="Product Details"
         headerFontSize={this.props.headerFontSize}
       >
-        {data.map(val => {
+        {data.map((val, i) => {
           return (
-            <div className={styles.content}>
+            <div className={styles.content} key={i}>
               <div className={styles.header}>{val.key}</div>
               <div className={styles.description}>{val.value}</div>
             </div>
@@ -24,7 +24,8 @@ export default class ProductDetails extends React.Component {
 }
 ProductDetails.propTypes = {
   title: PropTypes.string,
-  details: PropTypes.string
+  details: PropTypes.string,
+  data: PropTypes.array,
 };
 ProductDetails.propTypes = {
   headerFontSize: 16

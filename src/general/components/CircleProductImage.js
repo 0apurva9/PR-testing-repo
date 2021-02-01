@@ -8,6 +8,7 @@ export default class CircleProductImage extends React.Component {
       this.props.onClick(this.props.value, this.props.label);
     }
   }
+
   render() {
     return (
       <div className={styles.base} onClick={() => this.handleClick()}>
@@ -25,5 +26,7 @@ export default class CircleProductImage extends React.Component {
 }
 CircleProductImage.propTypes = {
   onClick: PropTypes.func,
-  value: PropTypes.string
+  value: PropTypes.string,
+  image: PropTypes.string,
+  label: PropTypes.string,
 };

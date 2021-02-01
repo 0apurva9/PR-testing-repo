@@ -12,6 +12,7 @@ export default class CuratedFeatureForPersonalisedComponent extends React.Compon
       targetData: ""
     };
   }
+
   componentDidMount = async () => {
     let check =
       this.props.feedComponentData &&
@@ -40,6 +41,7 @@ export default class CuratedFeatureForPersonalisedComponent extends React.Compon
       }
     }
   };
+
   handleClick(webURL) {
     let urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
@@ -47,6 +49,7 @@ export default class CuratedFeatureForPersonalisedComponent extends React.Compon
       this.props.setClickedElementId();
     }
   }
+
   render() {
     let feedComponentData = this.state.targetData
       ? this.state.targetData
@@ -99,6 +102,11 @@ export default class CuratedFeatureForPersonalisedComponent extends React.Compon
 CuratedFeatureForPersonalisedComponent.propTypes = {
   header: PropTypes.string,
   onClick: PropTypes.func,
+  feedComponentData: PropTypes.object,
+  getTargetMboxData: PropTypes.func,
+  history: PropTypes.object,
+  positionInFeed: PropTypes.number,
+  setClickedElementId: PropTypes.func,
   CuratedFeatureForPersonalisedComponent: PropTypes.arrayOf(
     PropTypes.shape({
       header: PropTypes.string,

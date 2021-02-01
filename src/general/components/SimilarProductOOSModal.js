@@ -4,15 +4,16 @@ import Carousel from "./Carousel.js";
 import ProductModule from "./ProductModule.js";
 import { transformData } from "../../home/components/utils.js";
 import styles from "./SimilarProductsModal.css";
-import { RUPEE_SYMBOL } from "../../lib/constants.js";
 import SecondaryLoader from "./SecondaryLoader";
 export default class SimilarProductsOOSModal extends React.Component {
   state = {
     showLoader: true
   };
+
   goToProductDescription = url => {
     this.props.history.push(url);
   };
+
   renderData(key) {
     if (
       (this.showLoader === false || this.showLoader === undefined) &&
@@ -51,6 +52,7 @@ export default class SimilarProductsOOSModal extends React.Component {
       );
     }
   }
+
   renderCarousel(items) {
     return (
       <div className={styles.brandProductCarousel}>
@@ -73,7 +75,7 @@ export default class SimilarProductsOOSModal extends React.Component {
             let imageURL =
               transformedDatum &&
               transformedDatum.link &&
-              transformedDatum.link.replace(/^.*\/\/[^\/]+/, "");
+              transformedDatum.link.replace(/^.*\/\/[^\\/]+/, "");
             // const productImage = transformedDatum.image;
             // const discountedPrice = transformedDatum.discountPrice;
             // const mrpInteger =
@@ -97,7 +99,7 @@ export default class SimilarProductsOOSModal extends React.Component {
                 productId={val.productListingId}
                 isShowAddToWishlistIcon={false}
                 discountPercent={discount}
-                onClick={url => this.goToProductDescription(imageURL)}
+                onClick={() => this.goToProductDescription(imageURL)}
               />
             );
           })}
@@ -117,6 +119,7 @@ export default class SimilarProductsOOSModal extends React.Component {
       </div>
     );
   }
+
   loadMsd(retry) {
     if (retry) {
       this.setState({ showLoader: true });
@@ -135,13 +138,15 @@ export default class SimilarProductsOOSModal extends React.Component {
           }
         ]
       )
-      .then(done => {
+      .then(() => {
         this.showLoader = false;
       });
   }
+
   componentDidMount() {
     this.loadMsd();
   }
+
   render() {
     return (
       <BottomModal>

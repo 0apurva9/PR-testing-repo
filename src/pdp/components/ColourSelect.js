@@ -17,6 +17,7 @@ export default class ColourAdd extends React.Component {
       );
     }
   };
+
   render() {
     let classActive = styles.textHolder;
     if (this.props.selected) {
@@ -39,5 +40,11 @@ export default class ColourAdd extends React.Component {
 ColourAdd.propTypes = {
   onClick: PropTypes.func,
   colour: PropTypes.string,
-  selected: PropTypes.bool
+  selected: PropTypes.bool,
+  selectItem: PropTypes.func,
+  onSelect: PropTypes.func,
+  value: PropTypes.string,
+  typeOfFilter: PropTypes.string,
+  webUrl: PropTypes.string,
+  colourValue: PropTypes.string
 };

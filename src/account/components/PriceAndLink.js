@@ -12,6 +12,7 @@ export default class PriceAndLink extends React.Component {
       this.props.onViewDetails();
     }
   }
+
   render() {
     return (
       <div
@@ -105,7 +106,13 @@ export default class PriceAndLink extends React.Component {
 PriceAndLink.propTypes = {
   price: PropTypes.string,
   onViewDetails: PropTypes.func,
-  borderColor: PropTypes.string
+  borderColor: PropTypes.string,
+  isEgvOrder:PropTypes.bool,
+  placeHolderText:PropTypes.string,
+  status:PropTypes.string,
+  retryPaymentUrl:PropTypes.string,
+  onClickRetryPayment:PropTypes.func,
+  products:PropTypes.string,
 };
 PriceAndLink.defaultProps = {
   borderColor: "#ececec"

@@ -28,7 +28,6 @@ export default class ProductDescription extends Component {
   };
 
   render() {
-    let { averageRating, totalNoOfReviews } = this.props;
     let electronicView = this.props.electronicView;
     let headerClass = styles.header;
     let priceClass = styles.priceHolder;
@@ -276,7 +275,23 @@ ProductDescription.propTypes = {
   discountPrice: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   icon: PropTypes.string,
   onDownload: PropTypes.func,
-  isWhite: PropTypes.bool
+  isWhite: PropTypes.bool,
+  isPlp: PropTypes.bool,
+  totalNoOfReviews: PropTypes.number,
+  autoWidget: PropTypes.string,
+  electronicView: PropTypes.bool,
+  showWishListButton: PropTypes.bool,
+  winningUssID: PropTypes.string,
+  isShowAddToWishlistIcon: PropTypes.bool,
+  productId: PropTypes.string,
+  productListings: PropTypes.array,
+  ussid: PropTypes.string,
+  averageRating: PropTypes.number,
+  isRange: PropTypes.bool,
+  maxPrice: PropTypes.string,
+  minPrice: PropTypes.string,
+  mrpPrice: PropTypes.string,
+  plpAttrMap: PropTypes.array
 };
 
 ProductDescription.defaultProps = {

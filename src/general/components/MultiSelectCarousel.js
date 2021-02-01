@@ -9,6 +9,7 @@ export default class MultiSelectCarousel extends React.Component {
       selected: this.props.selected ? this.props.selected : []
     };
   }
+
   selectItem(val) {
     let selected = this.state.selected;
     if (selected.includes(val)) {
@@ -25,14 +26,16 @@ export default class MultiSelectCarousel extends React.Component {
       }
     });
   }
+
   handleApply() {
     if (this.props.onApply) {
       this.props.onApply(this.state.selected);
     }
   }
+
   render() {
     const children = this.props.children;
-    const childrenWithProps = React.Children.map(children, (child, i) => {
+    const childrenWithProps = React.Children.map(children, (child) => {
       return React.cloneElement(child, {
         selected: this.state.selected.includes(child.props.value),
         selectItem: () => {
@@ -72,5 +75,7 @@ MultiSelectCarousel.propTypes = {
   subheader: PropTypes.string,
   selected: PropTypes.arrayOf(PropTypes.string),
   onSelect: PropTypes.func,
-  onApply: PropTypes.func
+  onApply: PropTypes.func,
+  limit: PropTypes.number,
+  children: PropTypes.node,
 };

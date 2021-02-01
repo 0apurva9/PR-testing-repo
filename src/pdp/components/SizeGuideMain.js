@@ -1,8 +1,6 @@
 import React from "react";
-import SizeGuideElement from "./SizeGuideElement";
 import styles from "./SizeGuideMain.css";
 import Image from "../../xelpmoc-core/Image";
-import Accordion from "../../general/components/Accordion.js";
 import Loader from "../../general/components/Loader";
 import SizeGuideElementFootwear from "./SizeGuideElementFootwear";
 import SizeGuideElementBelt from "./SizeGuideElementBelt";
@@ -16,6 +14,7 @@ export default class SizeGuideMain extends React.Component {
       isOpen: 0
     };
   }
+
   componentDidMount() {
     if (
       this.props.category === "Footwear" ||
@@ -26,9 +25,11 @@ export default class SizeGuideMain extends React.Component {
       this.props.getProductSizeChart(this.props.productCode);
     }
   }
+
   toggleView(val) {
     this.setState({ isOpen: val });
   }
+
   render() {
     if (this.props.loading) {
       return <Loader />;

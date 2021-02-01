@@ -15,11 +15,13 @@ export default class ReturnDateTime extends React.Component {
       selectedTime: this.props.selectedTime ? this.props.selectedTime : null
     };
   }
+
   handleCancel() {
     if (this.props.onCancel) {
       this.props.onCancel();
     }
   }
+
   handleDateSelect(val) {
     this.setState({ selectedDate: val }, () => {
       if (this.props.onDateSelect) {
@@ -27,6 +29,7 @@ export default class ReturnDateTime extends React.Component {
       }
     });
   }
+
   handleTimeSelect(val) {
     this.setState({ selectedTime: val }, () => {
       if (this.props.onTimeSelect) {
@@ -62,5 +65,12 @@ ReturnDateTime.propTypes = {
   onDateSelect: PropTypes.func,
   onTimeSelect: PropTypes.func,
   selectedDate: PropTypes.string,
-  selectedTime: PropTypes.string
+  selectedTime: PropTypes.string,
+  selectedAddress:PropTypes.shape({
+    addressType:PropTypes.string,
+    line1:PropTypes.string,
+    state:PropTypes.string,
+    city:PropTypes.string,
+    postalCode:PropTypes.string,
+  })
 };

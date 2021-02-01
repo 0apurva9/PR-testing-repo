@@ -28,6 +28,7 @@ export default class RefundTransactionSummary extends React.Component {
       summary: ""
     };
   }
+
   async componentDidMount() {
     //to get refund details initially
     if (this.props.orderDetails && this.props.orderDetails.products[0]) {
@@ -55,6 +56,7 @@ export default class RefundTransactionSummary extends React.Component {
     localStorage.removeItem("comment");
     localStorage.removeItem("cliqCashCheckSuccess");
   }
+
   gotoOrderDetailsPage() {
     setDataLayer(ADOBE_REFUNDSUMMARY_ORDERDETAILS_BUTTON_CLICKED);
     //get order id
@@ -67,10 +69,12 @@ export default class RefundTransactionSummary extends React.Component {
     // 	pathname: `/my-account/order/?orderCode=${orderRefId}&transactionId=${transactionId}`,
     // });
   }
+
   goToHomepage() {
     setDataLayer(ADOBE_REFUNDSUMMARY_CONTINUESHOPPING_BUTTON_CLICKED);
     this.props.history.push(HOME_ROUTER);
   }
+
   navigateToReturnLanding() {
     return (
       <Redirect
@@ -78,6 +82,7 @@ export default class RefundTransactionSummary extends React.Component {
       />
     );
   }
+
   render() {
     // Preventing user to open this page direct by hitting URL
     if (

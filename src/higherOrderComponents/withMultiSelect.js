@@ -1,5 +1,6 @@
 import React from "react";
-export default function withMultiSelect(Component, ownProps) {
+export default function withMultiSelect(Component) {
+  // eslint-disable-next-line react/display-name
   return class extends React.Component {
     constructor(props) {
       super(props);
@@ -7,7 +8,8 @@ export default function withMultiSelect(Component, ownProps) {
         selected: this.props.selected ? this.props.selected : []
       };
     }
-    selectItem(val, i) {
+
+    selectItem(val) {
       let selected = this.state.selected;
 
       if (selected.includes(val)) {
@@ -25,11 +27,13 @@ export default function withMultiSelect(Component, ownProps) {
         }
       });
     }
+
     handleApply() {
       if (this.props.onApply) {
         this.props.onApply(this.state.selected);
       }
     }
+
     componentWillReceiveProps(props) {
       if (props.selected !== this.props.selected) {
         this.setState({
@@ -37,13 +41,14 @@ export default function withMultiSelect(Component, ownProps) {
         });
       }
     }
+
     render() {
       const children = this.props.children;
-      const childrenWithProps = React.Children.map(children, (child, i) => {
+      const childrenWithProps = React.Children.map(children, (child) => {
         return React.cloneElement(child, {
           selected: this.state.selected.includes(child.props.value),
           selectItem: () => {
-            this.selectItem(child.props.value, i);
+            this.selectItem(child.props.value);
           }
         });
       });

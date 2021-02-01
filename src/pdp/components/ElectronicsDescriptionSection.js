@@ -23,6 +23,7 @@ export default class ElectronicsDescriptionSection extends React.Component {
       }
     }
   };
+
   renderSectionText = () => {
     if (this.props.sectionData) {
       if (
@@ -46,6 +47,7 @@ export default class ElectronicsDescriptionSection extends React.Component {
       return null;
     }
   };
+
   render() {
     return (
       <div className={styles.base}>

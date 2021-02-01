@@ -6,6 +6,7 @@ import MediaQuery from "react-responsive";
 import PropTypes from "prop-types";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import { WEB_URL_REG_EX } from "../../lib/constants";
+import { RouterPropTypes } from "../../general/router-prop-types";
 
 export default class Banner extends React.Component {
   onClick(event) {
@@ -28,13 +29,14 @@ export default class Banner extends React.Component {
       this.props.setClickedElementId();
     }
   }
+
   render() {
     const urlSuffix =
       this.props.url && this.props.url.replace(TATA_CLIQ_ROOT, "$1");
     return (
       <React.Fragment>
         <MediaQuery query="(min-device-width: 1025px)">
-          <a href={urlSuffix} target="_blank">
+          <a href={urlSuffix} target="_blank" rel="noreferrer">
             <div className={styles.base} onClick={event => this.onClick(event)}>
               <div className={styles.flexImageHolder}>
                 <ImageFlexible image={this.props.image} />
@@ -115,7 +117,14 @@ Banner.propTypes = {
   image: PropTypes.string,
   title: PropTypes.string,
   logo: PropTypes.string,
-  buttonLabel: PropTypes.string
+  buttonLabel: PropTypes.string,
+  url: PropTypes.string,
+  setClickedElementId: PropTypes.func,
+  subTitle: PropTypes.string,
+  showButton: PropTypes.bool,
+  isFollow: PropTypes.bool,
+  newProducts: PropTypes.bool,
+  ...RouterPropTypes
 };
 Banner.defaultProps = {
   image: "",

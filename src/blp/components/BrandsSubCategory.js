@@ -7,6 +7,7 @@ export default class BrandsSubCategory extends React.Component {
       this.props.onClick();
     }
   }
+
   render() {
     let className = styles.base;
     if (this.props.select) {
@@ -19,7 +20,9 @@ export default class BrandsSubCategory extends React.Component {
     );
   }
 }
+
 BrandsSubCategory.propTypes = {
   label: PropTypes.string,
-  select: PropTypes.bool
+  select: PropTypes.bool,
+  onClick: PropTypes.func
 };

@@ -14,17 +14,20 @@ export default class SizeSelectorOOSModal extends React.Component {
       ownProps: null
     };
   }
+
   pushToArray(arr, i, bool) {
     for (let j = 0; j < arr.sizes.length; j++) {
       arr.sizes[j].colorlink.selected = !bool;
     }
     arr.sizes[i].colorlink.selected = bool;
   }
+
   updateSize(datum, i, bool) {
     this.setState({ datum: datum });
     let sizeArray = this.state.ownProps;
     this.pushToArray(sizeArray, i, bool);
   }
+
   componentDidMount() {
     let sizeArray = this.props.ownProps;
     this.setState({ ownProps: sizeArray });
@@ -35,7 +38,7 @@ export default class SizeSelectorOOSModal extends React.Component {
       <div className={styles.base}>
         <div className={styles.header}>Out of Stock</div>
         <div className={styles.subHeader}>
-          Select a size to view it's smilar products
+          Select a size to view it&#39; s smilar products
         </div>
         <div className={styles.allButton}>
           {this.props.ownProps.sizes.map((datum, i) => {

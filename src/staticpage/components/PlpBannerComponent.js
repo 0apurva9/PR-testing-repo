@@ -21,11 +21,12 @@ export default class PlpBannerComponent extends React.Component {
       }
     }
   }
+
   render() {
     const { feedComponentData, firstBanner } = this.props;
 
     if (feedComponentData && feedComponentData.items) {
-      return feedComponentData.items.map(data => {
+      return feedComponentData.items.map((data, i) => {
         let baseClass = data.webURL ? styles.baseWithCursor : styles.base;
         if (!firstBanner) {
           baseClass = data.webURL
@@ -34,6 +35,7 @@ export default class PlpBannerComponent extends React.Component {
         }
         return (
           <div
+          key={i}
             className={baseClass}
             onClick={event => this.handleClick(event, data.webURL)}
           >
@@ -49,14 +51,14 @@ export default class PlpBannerComponent extends React.Component {
 
 PlpBannerComponent.propTypes = {
   feedComponentData: PropTypes.shape({
-    data: PropTypes.shape({
-      items: PropTypes.arrayOf(
-        PropTypes.shape({
-          imageURL: PropTypes.string,
-          webURL: PropTypes.string
-        })
-      )
-    })
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        imageURL: PropTypes.string,
+        webURL: PropTypes.string
+      })
+    )
   }),
-  firstBanner: PropTypes.bool
+  firstBanner: PropTypes.bool,
+  history: PropTypes.object,
+
 };

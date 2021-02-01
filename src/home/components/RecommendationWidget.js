@@ -63,5 +63,11 @@ export default class RecommendationWidget extends React.Component {
 }
 RecommendationWidget.propTypes = {
   seeAll: PropTypes.func,
-  feedComponentData: PropTypes.object
+  feedComponentData: PropTypes.object,
+  history: PropTypes.object,
+  setClickedElementId: PropTypes.func,
+  getItems: PropTypes.func,
+  positionInFeed: PropTypes.number,
+  componentName: PropTypes.string,
+  postData: PropTypes.object
 };

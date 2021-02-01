@@ -25,16 +25,19 @@ class ChangePassword extends Component {
       this.props.updatePassword(this.state);
     }
   };
+
   onEnter(val) {
     if (val === "Enter") {
       this.updatePassword();
     }
   }
+
   componentWillUnmount() {
     if (this.props.clearChangePasswordDetails) {
       this.props.clearChangePasswordDetails();
     }
   }
+
   render() {
     return (
       <AuthFrame
@@ -119,7 +122,10 @@ ChangePassword.propTypes = {
   nameValue: PropTypes.string,
   emailValue: PropTypes.string,
   passwordValue: PropTypes.string,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  updatePassword:PropTypes.func,
+  clearChangePasswordDetails:PropTypes.func,
+
 };
 
 ChangePassword.defaultProps = {

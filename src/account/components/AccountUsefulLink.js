@@ -10,11 +10,13 @@ export default class AccountUsefulLink extends React.Component {
   componentDidMount() {
     setDataLayer(ADOBE_MY_ACCOUNT_USEFUL_LINKS);
   }
+
   onClick() {
     if (this.props.onClick) {
       this.props.onClick();
     }
   }
+
   render() {
     return (
       <div className={styles.base} onClick={() => this.onClick()}>

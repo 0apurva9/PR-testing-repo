@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import styles from "./CliqCashKnowMore.css";
-
 import { CDN_URL_ROOT } from "../../../src/lib/constants";
 import Image from "../../xelpmoc-core/Image";
 import CliqCashKnowMoreSlider from "./CliqCashKnowMoreSlider";
@@ -13,9 +12,9 @@ class CliqCashKnowMore extends Component {
           <div className={styles.sliderWrapper}>
             <CliqCashKnowMoreSlider stepsInfo={stepsInfo} {...this.props}>
               {stepsInfo &&
-                stepsInfo.map(value => {
+                stepsInfo.map((value, index) => {
                   return (
-                    <div className={styles.topContainer}>
+                    <div className={styles.topContainer} key={`key${index}`}>
                       <div className={styles.innerImage}>
                         <Image image={value.img} />
                       </div>

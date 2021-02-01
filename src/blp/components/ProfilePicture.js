@@ -12,6 +12,7 @@ export default class ProfilePicture extends React.Component {
       this.props.onEdit();
     }
   }
+
   render() {
     return (
       <div className={styles.base}>

@@ -8,6 +8,7 @@ export default class NewBrand extends React.Component {
   handleBrandClick = () => {
     this.props.onClick(this.props.webUrl);
   };
+
   render() {
     let productCount = `${this.props.label && this.props.label.split(" ")[0]}`;
     let totalNumberOfProduct = parseInt(productCount);
@@ -47,7 +48,11 @@ NewBrand.propTypes = {
   onUnFollowClick: PropTypes.func,
   follow: PropTypes.bool,
   logo: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  webUrl: PropTypes.string,
+  isFollowing: PropTypes.bool,
+  positionInFeed: PropTypes.number,
+  brandId: PropTypes.string,
 };
 NewBrand.defaultProps = {
   follow: false

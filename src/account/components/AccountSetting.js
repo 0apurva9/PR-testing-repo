@@ -9,6 +9,7 @@ export default class AccountSetting extends React.Component {
       this.props.onClick();
     }
   };
+
   render() {
     let heading, name;
     if (this.props.heading) {
@@ -91,7 +92,12 @@ AccountSetting.propTypes = {
   followedBrandsCount: PropTypes.string,
   followedBrands: PropTypes.string,
   onClick: PropTypes.func,
-  isDetails: PropTypes.bool
+  isDetails: PropTypes.bool,
+  heading: PropTypes.string,
+  image: PropTypes.string,
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  label: PropTypes.string
 };
 AccountSetting.defaultProps = {
   isDetails: false

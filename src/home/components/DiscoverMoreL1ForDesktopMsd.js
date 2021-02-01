@@ -18,12 +18,6 @@ export default class DiscoverMoreL1ForDesktopMsd extends React.Component {
 
   render() {
     const { feedComponentData } = cloneDeep(this.props);
-    // if (
-    //   !feedComponentData || this.props.homeMsdData
-    //   || !this.props.homeMsdData[0]
-    // ) {
-    //   return null;
-    // }
     return (
       this.props.homeMsdData &&
       this.props.homeMsdData[0] && (
@@ -65,6 +59,7 @@ export default class DiscoverMoreL1ForDesktopMsd extends React.Component {
                   {this.props.homeMsdData[0].map((val, i) => {
                     return (
                       <div
+                        key={i}
                         className={styles.listLink}
                         onClick={() => this.onClick(val.webURL)}
                       >
@@ -93,5 +88,8 @@ DiscoverMoreL1ForDesktopMsd.propTypes = {
         })
       )
     })
-  )
+  ),
+  setClickedElementId: PropTypes.func,
+  history: PropTypes.object,
+  homeMsdData: PropTypes.array
 };

@@ -24,11 +24,13 @@ export default class HollowHeader extends React.Component {
       this.props.goToWishList();
     }
   };
+
   redirectToHome() {
     if (this.props.redirectToHome) {
       this.props.redirectToHome();
     }
   }
+
   render() {
     return (
       <div className={styles.base}>
@@ -69,7 +71,11 @@ HollowHeader.propTypes = {
   goBack: PropTypes.func,
   orderProduct: PropTypes.func,
   downloadProduct: PropTypes.func,
-  isShowCompanyLogo: PropTypes.bool
+  isShowCompanyLogo: PropTypes.bool,
+  redirectToHome: PropTypes.func,
+  goToWishList: PropTypes.func,
+  bagCount: PropTypes.number,
+  goToCart: PropTypes.func,
 };
 HollowHeader.defaultProps = {
   isShowCompanyLogo: false

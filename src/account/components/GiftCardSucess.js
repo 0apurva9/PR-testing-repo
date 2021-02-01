@@ -13,6 +13,7 @@ export default class GiftCardSucess extends Component {
     setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING);
     this.props.history.push(`${HOME_ROUTER}`);
   };
+
   renderToCliqCash = () => {
     const obj = {};
     obj.addCard = true;
@@ -25,6 +26,7 @@ export default class GiftCardSucess extends Component {
       this.props.closeModal();
     }
   }
+
   render() {
     return (
       <div className={styles.baseWrapper}>

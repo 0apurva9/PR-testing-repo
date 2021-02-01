@@ -25,7 +25,7 @@ const ReviewTips = () => {
       </div>
       <div className={styles.reviewBody}>
         <div className={styles.reviewContentWrapper}>
-          <div className={styles.contentHeader}>Do's</div>
+          <div className={styles.contentHeader}>Do&#39; s</div>
           <ul className={styles.contentContainer}>
             <li className={styles.reviewTipsText}>
               Describe your experience using the product.
@@ -34,7 +34,7 @@ const ReviewTips = () => {
               Share details about what you like or dislike.
             </li>
           </ul>
-          <div className={styles.contentHeader}>Dont's</div>
+          <div className={styles.contentHeader}>Dont&#39; s</div>
           <ul className={styles.contentContainer}>
             <li className={styles.reviewTipsText}>
               Share personal information such as email address, phone number or
@@ -73,6 +73,7 @@ export default class RatingAndReview extends React.Component {
   mouseOut() {
     this.setState({ showReviewGuidelines: false });
   }
+
   mouseOver() {
     this.setState({ showReviewGuidelines: true });
   }
@@ -286,5 +287,13 @@ export default class RatingAndReview extends React.Component {
 }
 
 RatingAndReview.propTypes = {
-  closeModal: PropTypes.func
+  closeModal: PropTypes.func,
+  displayToast: PropTypes.func,
+  userRating: PropTypes.number,
+  rating:PropTypes.number,
+  productDetails: PropTypes.object,
+  submitProductRatingByUser: PropTypes.func,
+  addProductReview: PropTypes.func,
+  title: PropTypes.string,
+  comment: PropTypes.string
 };

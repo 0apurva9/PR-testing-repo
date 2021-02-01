@@ -38,6 +38,7 @@ export default class DiscoverMoreMsd extends React.Component {
 DiscoverMoreMsd.propTypes = {
   feedComponentData: PropTypes.shape({
     title: PropTypes.string,
+    category: PropTypes.string,
     data: PropTypes.shape({
       data: PropTypes.arrayOf(
         PropTypes.shape({
@@ -46,5 +47,8 @@ DiscoverMoreMsd.propTypes = {
         })
       )
     })
-  })
+  }),
+  history: PropTypes.object,
+  setClickedElementId: PropTypes.func,
+  homeMsdData: PropTypes.array
 };

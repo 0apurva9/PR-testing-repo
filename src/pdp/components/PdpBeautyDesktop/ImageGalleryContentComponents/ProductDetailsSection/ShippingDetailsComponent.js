@@ -17,10 +17,11 @@ import {
 
 const NO_SIZE = "NO SIZE";
 const FREE_SIZE = "Free Size";
+const DivComponent = () => <div />;
 
 const BeautyPdpPincode = LoadableVisibility({
   loader: () => import("./BeautyPdpPincode"),
-  loading: () => <div />,
+  loading: DivComponent,
   delay: 1000
 });
 

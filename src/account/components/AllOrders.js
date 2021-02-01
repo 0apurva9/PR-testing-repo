@@ -12,16 +12,19 @@ export default class AllOrders extends React.Component {
       this.props.onViewDetails();
     }
   }
+
   replaceItem() {
     if (this.props.replaceItem) {
       this.props.replaceItem();
     }
   }
+
   writeReview() {
     if (this.props.writeReview) {
       this.props.writeReview();
     }
   }
+
   render() {
     return (
       <div className={styles.base}>

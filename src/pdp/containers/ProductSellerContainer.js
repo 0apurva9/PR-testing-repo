@@ -21,7 +21,7 @@ import {
   showSecondaryLoader,
   hideSecondaryLoader
 } from "../../general/secondaryLoader.actions";
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     addProductToCart: async productDetails => {
       return dispatch(addProductToCart(productDetails));

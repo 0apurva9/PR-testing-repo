@@ -1,7 +1,6 @@
 import React from "react";
 import BannerImage from "../../general/components/BannerImage";
 import Banner from "../../general/components/Banner";
-import PropTypes from "prop-types";
 import HomeSkeleton from "../../general/components/HomeSkeleton.js";
 import styles from "./HeroBannerComponentMonetization.css";
 import { getOnlineSalesAds } from "../../lib/apiRequest";
@@ -18,6 +17,7 @@ export default class HeroBannerComponentMonetization extends React.Component {
       heroBanner: null
     };
   }
+
   async componentDidMount() {
     const url = this.props.location.pathname;
     let pageType = "CATEGORY";
@@ -44,6 +44,7 @@ export default class HeroBannerComponentMonetization extends React.Component {
       this.setState({ heroBanner });
     }
   }
+
   renderBanner = () => {
     const { heroBanner } = this.state;
     if (heroBanner.ads && heroBanner.ads.length > 1) {
@@ -92,6 +93,7 @@ export default class HeroBannerComponentMonetization extends React.Component {
       );
     }
   };
+
   render() {
     if (this.state.bannerLoading) {
       return <HomeSkeleton />;

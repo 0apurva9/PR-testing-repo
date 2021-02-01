@@ -10,6 +10,7 @@ export default class AccordionWithTooltip extends React.Component {
       isOpen: true
     };
   }
+
   openMenu() {
     if (!this.props.controlled) {
       this.setState(prevState => ({
@@ -23,6 +24,7 @@ export default class AccordionWithTooltip extends React.Component {
     //   setDataLayer(ADOBE_PDP_KNOW_MORE_CLICK);
     // }
   }
+
   handleClick(evt) {
     if (this.props.handleClick) {
       evt.stopPropagation();
@@ -32,11 +34,13 @@ export default class AccordionWithTooltip extends React.Component {
       setDataLayer(ADOBE_PDP_KNOW_MORE_CLICK);
     }
   }
+
   componentWillReceiveProps(props) {
     if (this.state.isOpen !== props.isOpen) {
       this.setState({ isOpen: props.isOpen });
     }
   }
+
   render() {
     let iconActive = styles.iconup;
     let activeheader = styles.textBox;
@@ -121,7 +125,28 @@ AccordionWithTooltip.propTypes = {
   isOpen: PropTypes.bool,
   headerElement: PropTypes.bool,
   fontWeight: PropTypes.string,
-  marginLeft: PropTypes.string
+  marginLeft: PropTypes.string,
+  handleClick: PropTypes.func,
+  text1Color: PropTypes.string,
+  text1Size: PropTypes.string,
+  text1FontFamily: PropTypes.string,
+  widthForText1: PropTypes.string,
+  text2Color: PropTypes.string,
+  text2Size: PropTypes.string,
+  text2FontFamily: PropTypes.string,
+  widthForText2: PropTypes.string,
+  marginLeft2: PropTypes.string,
+  fontWeight2: PropTypes.string,
+  tooltip: PropTypes.bool,
+  tooltipText: PropTypes.string,
+  text2: PropTypes.string,
+  textAlign: PropTypes.string,
+  backgroundColor: PropTypes.string,
+  padding: PropTypes.string,
+  tooltipSrc: PropTypes.string,
+  faqQuestion: PropTypes.string,
+  arrowHide: PropTypes.bool,
+  children: PropTypes.node
 };
 
 AccordionWithTooltip.defaultProps = {

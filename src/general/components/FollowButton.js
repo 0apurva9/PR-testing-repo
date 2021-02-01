@@ -7,7 +7,7 @@ import CircleIconBlack from "./img/circle_plus_black.svg";
 
 export default class FollowButton extends Component {
   render() {
-    const { type, label, icon, ...other } = this.props;
+    const { ...other } = this.props;
     return (
       <div>
         <MediaQuery query="(min-device-width: 1025px)">

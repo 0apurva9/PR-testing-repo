@@ -20,11 +20,13 @@ export default class TransactionDetailDesktop extends React.Component {
       this.props.history.push(url);
     }
   };
+
   navigateToAllTransactions() {
     this.props.history.push({
       pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${TRANSACTION_HISTORY}`
     });
   }
+
   render() {
     let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -117,9 +119,9 @@ export default class TransactionDetailDesktop extends React.Component {
                     </div>
                     {transactionDetails &&
                       transactionDetails.orderInfo &&
-                      transactionDetails.orderInfo.map(data => {
+                      transactionDetails.orderInfo.map((data, index) => {
                         return (
-                          <div className={styles.transactionName}>
+                          <div className={styles.transactionName} key={`key${index}`} >
                             {data && data.productName} |{" "}
                             <span className={styles.quantity}>
                               Qty {data && data.quantity}

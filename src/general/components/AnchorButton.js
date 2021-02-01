@@ -7,6 +7,7 @@ export default class AnchorButton extends React.Component {
       this.props.onClick();
     }
   }
+
   render() {
     return (
       <div

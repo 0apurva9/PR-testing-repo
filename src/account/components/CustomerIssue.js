@@ -11,6 +11,7 @@ export default class CustomerIssue extends React.Component {
   componentDidMount() {
     window.scroll(0, 0);
   }
+
   render() {
     return (
       <div>

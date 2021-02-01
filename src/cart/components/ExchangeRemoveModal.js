@@ -5,6 +5,7 @@ export default class ExchangeRemoveModal extends React.Component {
   closeModal() {
     this.props.closeModal();
   }
+
   async removeExchangeProduct() {
     let data = await this.props.removeExchange({
       cartGuid: this.props.cartGuid,
@@ -16,6 +17,7 @@ export default class ExchangeRemoveModal extends React.Component {
       this.closeModal();
     }
   }
+
   render() {
     return (
       <div className={styles.base}>

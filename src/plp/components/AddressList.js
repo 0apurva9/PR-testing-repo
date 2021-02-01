@@ -17,7 +17,7 @@ export default class AddressList extends React.Component {
                   val.postalCode ? val.postalCode : ""
                 }`}
                 value={val.postalCode}
-                selectItem={(pincode, addressId) =>
+                selectItem={() =>
                   this.props.selectAddress(val.postalCode, val.id)
                 }
               />

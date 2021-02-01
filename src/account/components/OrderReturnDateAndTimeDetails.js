@@ -8,6 +8,7 @@ export default class OrderReturnDateAndTimeDetails extends React.Component {
       this.props.onCancel();
     }
   }
+
   render() {
     return (
       <div className={styles.base}>

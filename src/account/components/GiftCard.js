@@ -1,4 +1,5 @@
 import React from "react";
+import { RouterPropTypes } from "../../general/router-prop-types";
 import styles from "./GiftCard.css";
 import Image from "../../xelpmoc-core/Image.js";
 import PropTypes from "prop-types";
@@ -24,15 +25,18 @@ export default class GiftCard extends React.Component {
       amountText: this.props.amountText ? this.props.amountText : ""
     };
   }
+
   componentDidMount() {
     this.props.setHeaderText(GIFT_CARD);
     if (this.props.getGiftCardDetails) {
       this.props.getGiftCardDetails();
     }
   }
+
   componentDidUpdate() {
     this.props.setHeaderText(GIFT_CARD);
   }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.giftCardDetailsStatus === SUCCESS) {
       this.props.history.push({
@@ -45,29 +49,35 @@ export default class GiftCard extends React.Component {
       });
     }
   }
+
   componentWillMount() {
     if (this.props.clearGiftCardStatus) {
       this.props.clearGiftCardStatus();
     }
   }
+
   onChangeSenderName(name) {
     if (name === "" || /^[a-zA-Z]+$/.test(name)) {
       this.setState({ senderName: name });
     }
   }
+
   onChangeAmount(amount) {
     if (amount === "" || /^[0-9]+$/.test(amount)) {
       this.setState({ amountText: amount });
     }
   }
+
   selectAmount(val, amount) {
     this.setState({ amountText: amount });
   }
+
   checkUserAgentIsMobile() {
     return /iPhone|iPad|iPod|Android|BlackBerry|Opera Mini|IEMobile/i.test(
       navigator.userAgent
     );
   }
+
   onSubmitDetails() {
     let minValue =
       (this.props.giftCardsDetails &&
@@ -81,7 +91,7 @@ export default class GiftCard extends React.Component {
       MAXIMUM_PRICE;
     // let maxValue = this.props.giftCardDetails.topUpOptions.maxValue.value;
     if (this.props.createGiftCardDetails) {
-      const EMAIL_REGULAR_EXPRESSION = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+      const EMAIL_REGULAR_EXPRESSION = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+.)+[^<>()[\].,;:\s@"]{2,})$/i;
       if (this.props.createGiftCardDetails) {
         const giftCardDetails = {};
         giftCardDetails.from = this.state.senderName;
@@ -359,7 +369,7 @@ export default class GiftCard extends React.Component {
                 <span className={styles.highlitedText}>Note:</span> This email
                 Gift Card cannot be cancelled, refunded or returned. To re-send
                 email Gift Card to a recipient’s email ID, go to ‘Your Orders’,
-                select your Gift Card order and enter the recipient's email ID.
+                select your Gift Card order and enter the recipient&apos;s email ID.
                 It is applicable only for email Gift Cards that have not been
                 claimed / redeemed by the recipient.
               </div>
@@ -409,5 +419,16 @@ GiftCard.propTypes = {
   getGiftCardDetails: PropTypes.func,
   createGiftCardDetails: PropTypes.func,
   value: PropTypes.number,
-  giftCardsDetails: PropTypes.object
+  giftCardsDetails: PropTypes.object,
+  setHeaderText: PropTypes.func,
+  giftCardDetailsStatus: PropTypes.string,
+  giftCardDetails: PropTypes.shape({
+    egvCartGuid: PropTypes.string
+  }),
+  displayToast: PropTypes.func,
+  loadingForGiftCardDetails: PropTypes.bool,
+  showSecondaryLoader: PropTypes.func,
+  hideSecondaryLoader: PropTypes.func,
+  ...RouterPropTypes
+
 };

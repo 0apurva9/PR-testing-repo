@@ -42,6 +42,7 @@ export default class ReturnReasonForm extends React.Component {
       showImageUpload: false
     };
   }
+
   handleContinue() {
     if (this.props.onContinue) {
       let reasonAndCommentObj = Object.assign(
@@ -70,6 +71,7 @@ export default class ReturnReasonForm extends React.Component {
     //   localStorage.setItem("comment", this.state.comment);
     // }
   }
+
   onChangePrimary(val) {
     const code = val.value;
     const label = val.label;
@@ -104,33 +106,31 @@ export default class ReturnReasonForm extends React.Component {
       this.setState({ showImageUpload: false });
     }
     localStorage.setItem("showImageUpload", val.isImageApplicable);
-    // localStorage.setItem("primaryLabel", label);
-    // localStorage.setItem("primaryCode", code);
-    // localStorage.removeItem("secondaryLabel");
-    // localStorage.removeItem("secondaryCode");
+
   }
+
   handleChange(val) {
     this.setState({ comment: val });
-    //  localStorage.setItem("comment", val);
   }
+
   selectReverseSeal(val) {
     this.setState({ reverseSeal: val });
   }
+
   onChangeSecondary(val) {
     const code = val.value;
     const label = val.label;
     this.setState({ subReasonCode: code, subReason: label, isEnable: true });
-    // localStorage.setItem("secondaryLabel", label);
-    // localStorage.setItem("secondaryCode", code);
+
     localStorage.setItem("showImageUpload", val.isImageApplicable);
-    //getting value from html converts its to string so checking in below way,
-    //not using === as it is not working
+
     if (val.isImageApplicable === "true") {
       this.setState({ showImageUpload: true });
     } else {
       this.setState({ showImageUpload: false });
     }
   }
+
   handleCancel() {
     if (this.props.onCancel) {
       this.props.onCancel();
@@ -166,24 +166,7 @@ export default class ReturnReasonForm extends React.Component {
     let returnFlow = this.props.returnFlow;
     const returnProductDetails = this.props.returnProductDetails;
     const data = this.props.returnProductDetails;
-    //let imageCallOut = data && data.attachmentImageCallout;
-    //let imageCallOutArr = imageCallOut && imageCallOut.split("|");
 
-    // let primaryLabel = localStorage.getItem("primaryLabel");
-    // let secondaryLabel = localStorage.getItem("secondaryLabel");
-    // let c = null;
-    // let d = null;
-
-    // if (primaryLabel != null) {
-    //   c = primaryLabel;
-    // } else {
-    //   c = this.props.returnFlow ? "Select issue" : "Select a reason";
-    // }
-    // if (secondaryLabel != null) {
-    //   d = secondaryLabel;
-    // } else {
-    //   d = "Select a reason";
-    // }
     return (
       <React.Fragment>
         <div className={stylesCommon.base}>
@@ -209,10 +192,10 @@ export default class ReturnReasonForm extends React.Component {
                           returnProductDetails.orderProductWsDTO[0] &&
                           returnProductDetails.orderProductWsDTO[0]
                             .productBrand} ${returnProductDetails &&
-                          returnProductDetails.orderProductWsDTO &&
-                          returnProductDetails.orderProductWsDTO[0] &&
-                          returnProductDetails.orderProductWsDTO[0]
-                            .productName}`}
+                            returnProductDetails.orderProductWsDTO &&
+                            returnProductDetails.orderProductWsDTO[0] &&
+                            returnProductDetails.orderProductWsDTO[0]
+                              .productName}`}
                         price={
                           returnProductDetails &&
                           returnProductDetails.orderProductWsDTO &&
@@ -224,7 +207,7 @@ export default class ReturnReasonForm extends React.Component {
                         orderPlace={
                           orderDetails && orderDetails.orderDate
                             ? orderDetails &&
-                              format(orderDetails.orderDate, dateFormat)
+                            format(orderDetails.orderDate, dateFormat)
                             : this.props.orderPlace
                         }
                         orderId={this.props.orderId}
@@ -240,10 +223,10 @@ export default class ReturnReasonForm extends React.Component {
                           orderDetails && orderDetails.productBrand
                             ? orderDetails.productBrand
                             : returnProductDetails &&
-                              returnProductDetails.orderProductWsDTO &&
-                              returnProductDetails.orderProductWsDTO[0] &&
-                              returnProductDetails.orderProductWsDTO[0]
-                                .productBrand
+                            returnProductDetails.orderProductWsDTO &&
+                            returnProductDetails.orderProductWsDTO[0] &&
+                            returnProductDetails.orderProductWsDTO[0]
+                              .productBrand
                         }
                         onHollow={true}
                         returnFlow={returnFlow}
@@ -251,9 +234,9 @@ export default class ReturnReasonForm extends React.Component {
                         onClick={() =>
                           this.onClickImage(
                             orderDetails &&
-                              orderDetails.orderProductWsDTO &&
-                              orderDetails.orderProductWsDTO[0] &&
-                              orderDetails.orderProductWsDTO[0].productcode
+                            orderDetails.orderProductWsDTO &&
+                            orderDetails.orderProductWsDTO[0] &&
+                            orderDetails.orderProductWsDTO[0].productcode
                           )
                         }
                         exchangeDetails={
@@ -297,10 +280,10 @@ export default class ReturnReasonForm extends React.Component {
                           Select reason for your return
                         </div>
                       ) : (
-                        <div className={styles.header}>
-                          Please select return reason
+                          <div className={styles.header}>
+                            Please select return reason
                         </div>
-                      )}
+                        )}
                       <div className={styles.select}>
                         <SelectBoxMobile2
                           placeholder={
@@ -311,7 +294,7 @@ export default class ReturnReasonForm extends React.Component {
                           options={
                             data &&
                             data.returnReasonMap &&
-                            data.returnReasonMap.map((val, i) => {
+                            data.returnReasonMap.map((val) => {
                               return {
                                 value: val.parentReasonCode,
                                 label: val.parentReturnReason,
@@ -362,13 +345,13 @@ export default class ReturnReasonForm extends React.Component {
                   {this.props.returnFlow ? (
                     ""
                   ) : (
-                    <DummyTab title={MODE_OF_RETURN} number={2} />
-                  )}
+                      <DummyTab title={MODE_OF_RETURN} number={2} />
+                    )}
                   {this.props.returnFlow ? (
                     ""
                   ) : (
-                    <DummyTab title={REFUND_DETAILS} number={3} />
-                  )}
+                      <DummyTab title={REFUND_DETAILS} number={3} />
+                    )}
                 </div>
               </div>
             </div>

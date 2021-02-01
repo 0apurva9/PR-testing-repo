@@ -19,6 +19,7 @@ class FeedComponent extends React.Component {
       this.props.setClickedElementId();
     }
   };
+
   render() {
     const {
       data,
@@ -124,7 +125,14 @@ FeedComponent.propTypes = {
     header: PropTypes.string,
     isWhite: PropTypes.bool,
     seeAll: PropTypes.func
-  })
+  }),
+  history: PropTypes.object,
+  setClickedElementId: PropTypes.func,
+  backgroundImage: PropTypes.string,
+  widgetName: PropTypes.string,
+  sourceOfWidget: PropTypes.string,
+  elementWidthDesktop: PropTypes.string,
+  positionInFeed: PropTypes.number
 };
 
 FeedComponent.defaultProps = {

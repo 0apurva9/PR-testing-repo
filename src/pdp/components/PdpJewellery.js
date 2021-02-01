@@ -33,84 +33,79 @@ import {
 import { checkUserLoggedIn } from "../../lib/userUtils";
 import PdpFlags from "../components/PdpFlags.js";
 import { renderMetaTags } from "../../lib/seoUtils";
+
+const DivComponent = () => <div />;
+
 const PriceBreakUp = LoadableVisibility({
   loader: () => import("./PriceBreakUp"),
-  loading: () => <div />
+  loading: DivComponent
 });
 const JewelleryDetailsAndLink = LoadableVisibility({
   loader: () => import("./JewelleryDetailsAndLink"),
-  loading: () => <div />
+  loading: DivComponent
 });
 
 const JewelleryClassification = LoadableVisibility({
   loader: () => import("./JewelleryClassification"),
-  loading: () => <div />
+  loading: DivComponent
 });
 
 const JewelleryCertification = LoadableVisibility({
   loader: () => import("./JewelleryCertification"),
-  loading: () => <div />
-});
-
-const Overlay = LoadableVisibility({
-  loader: () => import("./Overlay"),
-  loading: () => <div />,
-  delay: 400
+  loading: DivComponent
 });
 
 const PdpPincode = LoadableVisibility({
   loader: () => import("./PdpPincode"),
-  loading: () => <div />,
+  loading: DivComponent,
   delay: 1000
 });
 
 const AllDescription = LoadableVisibility({
   loader: () => import("./AllDescription"),
-  loading: () => <div />,
+  loading: DivComponent,
   delay: 400
 });
 
 const RatingAndTextLink = LoadableVisibility({
   loader: () => import("./RatingAndTextLink"),
-  loading: () => <div />,
+  loading: DivComponent,
   delay: 400
 });
 
 const PdpPaymentInfo = LoadableVisibility({
   loader: () => import("./PdpPaymentInfo"),
-  loading: () => <div />,
+  loading: DivComponent,
   delay: 400
 });
 
 const OtherSellersLink = LoadableVisibility({
   loader: () => import("./OtherSellersLink"),
-  loading: () => <div />,
+  loading: DivComponent,
   delay: 400
 });
 
 const OfferCard = LoadableVisibility({
   loader: () => import("./OfferCard"),
-  loading: () => <div />,
+  loading: DivComponent,
   delay: 400
 });
 
 const SizeSelector = LoadableVisibility({
   loader: () => import("./SizeSelector"),
-  loading: () => <div />,
+  loading: DivComponent,
   delay: 400
 });
 
 const PdpDeliveryModes = LoadableVisibility({
   loader: () => import("./PdpDeliveryModes"),
-  loading: () => <div />,
+  loading: DivComponent,
   delay: 400
 });
 
 const PDPRecommendedSectionsContainer = LoadableVisibility({
   loader: () => import("../containers/PDPRecommendedSectionsContainer"),
-  loading: () => {
-    return <div />;
-  },
+  loading: () => DivComponent,
   delay: 400
 });
 
@@ -125,16 +120,19 @@ export default class PdpJewellery extends React.Component {
       showProductDetails: false
     };
   }
+
   visitBrand() {
     if (this.props.visitBrandStore) {
       this.props.visitBrandStore();
     }
   }
+
   navigateToLogin() {
     const url = this.props.location.pathname;
     this.props.setUrlToRedirectToAfterAuth(url);
     this.props.history.push(LOGIN_PATH);
   }
+
   gotoPreviousPage = () => {
     this.props.history.goBack();
   };
@@ -162,6 +160,7 @@ export default class PdpJewellery extends React.Component {
       }
     });
   };
+
   addToCart = async buyNowFlag => {
     if (buyNowFlag) {
       setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_BUY_NOW_EVENT);
@@ -215,6 +214,7 @@ export default class PdpJewellery extends React.Component {
     const url = `${this.props.location.pathname}/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
     this.props.history.push(url);
   };
+
   showPincodeModal() {
     if (this.props.match.path === PRODUCT_DESCRIPTION_PRODUCT_CODE) {
       this.props.showPincodeModal(this.props.match.params[0]);
@@ -228,6 +228,7 @@ export default class PdpJewellery extends React.Component {
   showProductDetails = () => {
     this.setState({ showProductDetails: true });
   };
+
   showEmiModal = () => {
     const cartValue = this.props.productDetails.winningSellerPrice.value;
     const productCode = this.props.productDetails.productListingId;
@@ -237,6 +238,7 @@ export default class PdpJewellery extends React.Component {
     this.props.getPdpEmi(globalAccessToken, cartValue, productCode, ussId);
     this.props.showEmiModal();
   };
+
   showSizeSelector = (buyNowFlag, addToWishlist) => {
     if (this.props.showSizeSelector && this.props.productDetails) {
       this.props.showSizeSelector({
@@ -252,6 +254,7 @@ export default class PdpJewellery extends React.Component {
       });
     }
   };
+
   showPriceBreakup = () => {
     if (this.props.showPriceBreakup) {
       this.props.showPriceBreakup(
@@ -259,6 +262,7 @@ export default class PdpJewellery extends React.Component {
       );
     }
   };
+
   checkIfSizeSelected = () => {
     if (this.props.location.state && this.props.location.state.isSizeSelected) {
       return true;
@@ -266,6 +270,7 @@ export default class PdpJewellery extends React.Component {
       return false;
     }
   };
+
   checkIfNoSize = () => {
     if (
       this.props.productDetails.variantOptions &&
@@ -280,6 +285,7 @@ export default class PdpJewellery extends React.Component {
       return false;
     }
   };
+
   checkIfFreeSize = () => {
     if (
       this.props.productDetails.variantOptions &&
@@ -291,6 +297,7 @@ export default class PdpJewellery extends React.Component {
       return false;
     }
   };
+
   checkIfSizeDoesNotExist = () => {
     return this.props.productDetails.variantOptions
       ? this.props.productDetails.variantOptions.filter(val => {
@@ -300,6 +307,7 @@ export default class PdpJewellery extends React.Component {
         : false
       : true;
   };
+
   handleShowPiqPage = () => {
     const eligibleForCNC =
       this.props.productDetails &&
@@ -311,6 +319,7 @@ export default class PdpJewellery extends React.Component {
       this.props.getAllStoresForCliqAndPiq();
     }
   };
+
   componentDidMount() {
     const parsedQueryString = queryString.parse(this.props.location.search);
     //show the EmiModal if showAmpEmi is true
@@ -333,6 +342,7 @@ export default class PdpJewellery extends React.Component {
 
     /* End - Gemini Script */
   }
+
   render() {
     const productData = this.props.productDetails;
     const mobileGalleryImages = productData.galleryImagesList
@@ -588,10 +598,11 @@ export default class PdpJewellery extends React.Component {
               )}
             {productData.returnAndRefund && (
               <Accordion text="Returns & Policies" headerFontSize={16}>
-                {productData.returnAndRefund.map(val => {
+                {productData.returnAndRefund.map((val, i) => {
                   return (
                     <div
                       className={styles.list}
+                      key = {i}
                       dangerouslySetInnerHTML={{
                         __html: val.refundReturnItem
                       }}
@@ -603,9 +614,9 @@ export default class PdpJewellery extends React.Component {
             {productData.knowMore && (
               <Accordion text="Know More" headerFontSize={16}>
                 {productData.knowMore &&
-                  productData.knowMore.map(val => {
+                  productData.knowMore.map((val, i) => {
                     return (
-                      <div className={styles.list}>{val.knowMoreItem}</div>
+                      <div className={styles.list} key = {i}>{val.knowMoreItem}</div>
                     );
                   })}
               </Accordion>

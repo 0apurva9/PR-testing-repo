@@ -23,6 +23,7 @@ export default class CancelOrder extends React.Component {
       this.props.getDetailsOfCancelledProduct(cancelProductDetails);
     }
   }
+
   finalSubmit(reason) {
     if (reason.cancelReasonCode) {
       this.cancelOrder(reason);
@@ -30,6 +31,7 @@ export default class CancelOrder extends React.Component {
       this.props.displayToast(SELECT_REASON_MESSAGE);
     }
   }
+
   cancelOrder = reason => {
     const cancelProductDetails = {};
     cancelProductDetails.transactionId = this.props.history.location.state.transactionId;
@@ -51,6 +53,7 @@ export default class CancelOrder extends React.Component {
       this.props.showCancelOrderModal(orderDetails);
     }
   };
+
   onCancel() {
     this.props.history.goBack();
   }
@@ -60,12 +63,15 @@ export default class CancelOrder extends React.Component {
       this.props.history.push(`/p-${productCode.toLowerCase()}`);
     }
   }
+
   navigateToLogin() {
     return <Redirect to={LOGIN_PATH} />;
   }
+
   renderLoader() {
     return <Loader />;
   }
+
   render() {
     let cancelProductDetails = this.props.cancelProductDetails;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -98,5 +104,23 @@ export default class CancelOrder extends React.Component {
 CancelOrder.propTypes = {
   cancelProduct: PropTypes.func,
   cancelOrder: PropTypes.func,
-  cancelProductDetails: PropTypes.object
+  cancelProductDetails: PropTypes.object,
+  history:PropTypes.shape({
+    push:PropTypes.func,
+    goBack:PropTypes.func,
+    location:PropTypes.shape({
+      state:PropTypes.shape({
+        transactionId:PropTypes.string,
+        ussid:PropTypes.string
+      })
+    })
+  }),
+  match:PropTypes.shape({
+    params:PropTypes.object
+  }),
+  getDetailsOfCancelledProduct:PropTypes.func,
+  displayToast:PropTypes.func,
+  showCancelOrderModal:PropTypes.func,
+  error:PropTypes.string,
+  loadingForCancelProductDetails:PropTypes.bool
 };

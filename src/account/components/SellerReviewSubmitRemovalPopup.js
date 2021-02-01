@@ -11,6 +11,7 @@ export default class SellerReviewSubmitRemovalPopup extends React.Component {
       localStorage.removeItem("sellerName");
     }
   }
+
   render() {
     let rating = localStorage.getItem("rating");
     let sellerName = localStorage.getItem("sellerName");

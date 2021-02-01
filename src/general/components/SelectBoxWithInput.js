@@ -5,16 +5,18 @@ import Input2 from "./Input2.js";
 import SelectBoxMobile from "./SelectBoxMobile.js";
 
 export default class SelectBoxWithInput extends React.Component {
-  getTitleValue(val) {
+  getTitleValue() {
     if (this.props.onChange) {
       this.props.onChange();
     }
   }
-  getFullNameValue(val) {
+
+  getFullNameValue() {
     if (this.props.getFullNameValue) {
       this.props.getFullNameValue();
     }
   }
+
   render() {
     return (
       <div className={styles.base}>
@@ -48,5 +50,12 @@ SelectBoxWithInput.propTypes = {
   theme: PropTypes.string,
   onClick: PropTypes.func,
   height: PropTypes.string,
-  placeholder: PropTypes.string
+  placeholder: PropTypes.string,
+  getFullNameValue: PropTypes.func,
+  onChange: PropTypes.func,
+  fullNameValue: PropTypes.string,
+  titleValue: PropTypes.string,
+  option: PropTypes.arrayOf(
+    PropTypes.shape({ value: PropTypes.string, label: PropTypes.string })
+  ),
 };

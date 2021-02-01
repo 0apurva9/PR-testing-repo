@@ -8,6 +8,7 @@ export default class SizeTableForEyeWear extends Component {
       details: null
     };
   }
+
   getHeader = data => {
     let header = [];
     data &&
@@ -37,12 +38,15 @@ export default class SizeTableForEyeWear extends Component {
     }
     this.setState({ header });
   };
+
   componentDidMount() {
     this.getHeader(this.props.data);
   }
+
   componentWillReceiveProps(nextProps) {
     this.getHeader(nextProps.data);
   }
+
   getdata(data) {
     let value = [];
     value.length = this.state.header && this.state.header.length;
@@ -60,6 +64,7 @@ export default class SizeTableForEyeWear extends Component {
 
     return value.slice(1);
   }
+
   render() {
     var details = "";
     return (
@@ -73,9 +78,9 @@ export default class SizeTableForEyeWear extends Component {
                   : styles.shortHeader
               }
             >
-              {this.state.header.map(val => {
+              {this.state.header.map((val, i) => {
                 return (
-                  <div className={styles.headerLabelHolder}>
+                  <div className={styles.headerLabelHolder} key={i}>
                     {val.toUpperCase()}
                     {/* {val.charAt(0).toUpperCase() + val.slice(1).toLowerCase()} */}
                   </div>
@@ -85,10 +90,11 @@ export default class SizeTableForEyeWear extends Component {
             <div className={styles.tableHolder}>
               {this.props.data &&
                 this.props.data.sizeGuideList &&
-                this.props.data.sizeGuideList.map(val => {
+                this.props.data.sizeGuideList.map((val, index) => {
                   details = this.getdata(val.dimensionList);
                   return (
                     <div
+                      key={index}
                       className={
                         this.state.header.length > 3
                           ? styles.tableRow
@@ -101,7 +107,7 @@ export default class SizeTableForEyeWear extends Component {
 
                       {details &&
                         details.map((data, i) => {
-                          return <div className={styles.tableData}>{data}</div>;
+                          return <div className={styles.tableData} key={i}>{data}</div>;
                         })}
                     </div>
                   );
