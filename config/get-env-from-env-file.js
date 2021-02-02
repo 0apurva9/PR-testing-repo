@@ -16,6 +16,5 @@ module.exports = function(envPath) {
             env[keyValueSplitted[0].trim()] = keyValueSplitted.slice(1).join("=");
         }
     });
-    console.log("env obj", env);
     return env;
 };
