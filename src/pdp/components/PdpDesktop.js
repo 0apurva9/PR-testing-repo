@@ -94,10 +94,9 @@ const NO_SIZE = "NO SIZE";
 const FREE_SIZE = "Free Size";
 const PRODUCT_QUANTITY = "1";
 const IMAGE = "Image";
-const env = process.env;
 let samsungChatUrl = "";
 if (isBrowser) {
-    samsungChatUrl = env.REACT_APP_SAMSUNG_CHAT_URL + window.location.href + env.REACT_APP_SAMSUNG_CHAT_URL_REFERRER;
+    samsungChatUrl = process.env.SAMSUNG_CHAT_URL + window.location.href + process.env.SAMSUNG_CHAT_URL_REFERRER;
 }
 
 export default class PdpApparel extends React.Component {

@@ -474,7 +474,6 @@ export const SUBMIT_APPLIANCES_EXCHANGE_DATA_SUCCESS = "SUBMIT_APPLIANCES_EXCHAN
 export const SUBMIT_APPLIANCES_EXCHANGE_DATA_FAILURE = "SUBMIT_APPLIANCES_EXCHANGE_DATA_FAILURE";
 
 const ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL = "Something went wrong";
-const env = process.env;
 
 export function displayCouponRequest() {
     return {
@@ -7599,7 +7598,7 @@ export function submitAppliancesExchangeData(orderId, status, removeLocalStorage
     return async (dispatch, getState, { api }) => {
         dispatch(submitAppliancesExchangeDataRequest());
         try {
-            const result = await api.postWithoutApiUrlRoot(env.REACT_APP_SUBMIT_APPLIANCES_EXCHANGE_DATA, data);
+            const result = await api.postWithoutApiUrlRoot(process.env.SUBMIT_APPLIANCES_EXCHANGE_DATA, data);
             if (result.status === 200) {
                 const resultJson = await result.json();
                 dispatch(submitAppliancesExchangeDataSuccess(resultJson));
