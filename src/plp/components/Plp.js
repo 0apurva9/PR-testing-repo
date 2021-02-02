@@ -24,7 +24,7 @@ import {
     AMP_BRAND_REG_EX,
     AMP_SEARCH_REG_EX,
 } from "../../lib/constants";
-import { filterScroll, filterFixed } from "./FilterDesktop.css";
+import filterStyle from "./FilterDesktop.css";
 import gridImage from "./img/grid.svg";
 import listImage from "./img/list.svg";
 import { isBrowser } from "browser-or-node";
@@ -105,19 +105,19 @@ export default class Plp extends React.Component {
                 const totalGridHeight = girdWrapper ? girdWrapper.clientHeight : 0;
                 if (totalGridHeight <= scrollHeight + subTractOffset) {
                     this.setState({ fixedScroll: false });
-                    filterWrapperDOM.className = filterScroll;
+                    filterWrapperDOM.className = filterStyle.filterScroll;
                     filterWrapperDOM.style.marginTop = `${totalGridHeight - filterSectionHeight}px`;
                 } else if (filterSectionHeight - subTractOffset <= pageHeight) {
                     filterWrapperDOM.style.marginTop = `auto`;
                     if (!this.state.fixedScroll) {
                         this.setState({ fixedScroll: true });
-                        filterWrapperDOM.className = filterFixed;
+                        filterWrapperDOM.className = filterStyle.filterFixed;
                     }
                 } else {
                     filterWrapperDOM.style.marginTop = `auto`;
                     if (this.state.fixedScroll) {
                         this.setState({ fixedScroll: false });
-                        filterWrapperDOM.className = filterScroll;
+                        filterWrapperDOM.className = filterStyle.filterScroll;
                     }
                 }
             }
