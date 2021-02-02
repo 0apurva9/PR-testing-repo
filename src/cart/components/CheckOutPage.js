@@ -1773,6 +1773,18 @@ class CheckOutPage extends React.Component {
         this.props.getPrepaidOrderPaymentConfirmation(stripeDetails);
       }
     }
+    if (localStorage.getItem("cliqCashAppliedWithOffer")) {
+      this.setState({
+        isCliqCashApplied: false,
+        captchaReseponseForCOD: null,
+        PAYMENT_MODE_TYPE: null,
+        binValidationCOD: false,
+        currentPaymentMode: null,
+        paymentModeSelected: null,
+        savedCardDetails: null
+      });
+      localStorage.removeItem("cliqCashAppliedWithOffer");
+    }
   }
 
   componentWillUnmount() {
@@ -3613,22 +3625,8 @@ if you have order id in local storage then you have to show order confirmation p
     this.props.removeCliqCash();
   };
 
-  binValidation = async (paymentMode, binNo, isDebitCard = false) => {
+  binValidation = async (paymentMode, binNo) => {
     if (paymentMode === EMI) {
-      if (isDebitCard) {
-        localStorage.setItem(PAYMENT_MODE_TYPE, paymentMode);
-        localStorage.setItem(IS_DC_EMI_SELECTED, true);
-        this.setState({ paymentModeSelected: paymentMode });
-        this.props.binValidation(
-          paymentMode,
-          binNo,
-          this.state.isComingFromRetryUrl,
-          this.state.retryCartGuid
-        );
-        return;
-      } else {
-        localStorage.setItem(IS_DC_EMI_SELECTED, false);
-      }
       let binValidationOfEmiEligibleResponse = await this.props.binValidationOfEmiEligible(
         binNo
       );
@@ -4748,8 +4746,8 @@ if you have order id in local storage then you have to show order confirmation p
                         )
                       }
                       onChangeCardDetail={val => this.onChangeCardDetail(val)}
-                      binValidation={(paymentMode, binNo, isDebitCard) =>
-                        this.binValidation(paymentMode, binNo, isDebitCard)
+                      binValidation={(paymentMode, binNo) =>
+                        this.binValidation(paymentMode, binNo)
                       }
                       binValidationForCOD={paymentMode =>
                         this.binValidationForCOD(paymentMode)

@@ -19,7 +19,17 @@ export default class BankCoupons extends React.Component {
           <div className={styles.headerText}>
             <span>{this.props.offerTitle}</span>
             <div className={styles.checkBoxHolder}>
-              <CheckBox selected={this.props.selected} />
+              <div
+                className={
+                  this.props.selected
+                    ? styles.removeApplyCoupon
+                    : styles.applyCoupon
+                }
+              >
+                {this.props.selected ? "Remove" : "Apply"}
+              </div>
+              {/* uncomment below code if we have make button to CheckBox */}
+              {/* <CheckBox selected={this.props.selected} /> */}
             </div>
           </div>
           <div className={styles.promotionDetailsText}>
@@ -33,8 +43,7 @@ export default class BankCoupons extends React.Component {
               <div className={styles.amountExpireHolder}>
                 <div className={styles.dataHeader}>Max Discount</div>
                 <div className={styles.dataInformation}>
-                  ₹
-                  {this.props.offerMaxDiscount}
+                  ₹{this.props.offerMaxDiscount}
                 </div>
               </div>
             )}
@@ -42,8 +51,7 @@ export default class BankCoupons extends React.Component {
               <div className={styles.amountExpireHolder}>
                 <div className={styles.dataHeader}>Min.bag amount</div>
                 <div className={styles.dataInformation}>
-                  ₹
-                  {this.props.offerMinCartValue}
+                  ₹{this.props.offerMinCartValue}
                 </div>
               </div>
             )}

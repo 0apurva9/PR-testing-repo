@@ -66,25 +66,7 @@ export default class BankOffer extends React.Component {
           <div className={styles.dataHolderForOffer}>
             {this.props.showTermAndCondition && (
               <div className={styles.headersForBankOffer}>
-                <div className={styles.labelText}>Bank Offers</div>
-                <div className={styles.buttonHolder}>
-                  <div className={styles.termsAndConditionButton}>
-                    <UnderLinedButton
-                      label="T&C"
-                      onClick={() => {
-                        this.openBankOfferTncModal();
-                      }}
-                    />
-                  </div>
-                  <div className={styles.button}>
-                    <UnderLinedButton
-                      label="View all offers"
-                      onClick={() => {
-                        this.handleClick();
-                      }}
-                    />
-                  </div>
-                </div>
+                <div className={styles.labelText}>BANK OFFER</div>
               </div>
             )}
 
@@ -95,7 +77,7 @@ export default class BankOffer extends React.Component {
                   borderBottom: this.props.border
                     ? "1px solid #dddddd"
                     : "none",
-                  paddingBottom: this.props.padding ? "18px" : "0px",
+                  paddingBottom: this.props.padding ? "30px" : "0px",
                   marginBottom: this.props.margin ? "20px" : "0px"
                 }}
               >
@@ -103,7 +85,17 @@ export default class BankOffer extends React.Component {
                   className={styles.checkBoxHolder}
                   onClick={val => this.applyCoupons(val)}
                 >
-                  <CheckBox selected={this.props.selected} />
+                  {/* if have to change button to radiobutton uncomment below code */}
+                  {/* <CheckBox selected={this.props.selected} /> */}
+                  <div
+                    className={
+                      this.props.selected
+                        ? styles.removeApplyCoupon
+                        : styles.applyCoupon
+                    }
+                  >
+                    {this.props.selected ? "Remove" : "Apply"}
+                  </div>
                 </div>
                 <div className={styles.dataShow}>
                   <span className={styles.bankName}>{this.props.bankName}</span>
@@ -113,6 +105,26 @@ export default class BankOffer extends React.Component {
                 </div>
               </div>
             </div>
+            {!this.props.border && !this.props.padding && (
+              <div className={styles.offerandTnc}>
+                <span
+                  className={styles.viewBankOffer}
+                  onClick={() => {
+                    this.handleClick();
+                  }}
+                >
+                  + View all offers
+                </span>
+                <span
+                  className={styles.viewtnc}
+                  onClick={() => {
+                    this.openBankOfferTncModal();
+                  }}
+                >
+                  View T&C
+                </span>
+              </div>
+            )}
           </div>
         </DesktopOnly>
       </div>

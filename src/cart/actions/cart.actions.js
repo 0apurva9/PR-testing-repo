@@ -60,7 +60,9 @@ import {
   EMI_ITEM_LEVEL_BREAKAGE,
   EMI_BANK_TERMS_AND_CONDITIONS,
   INVALID_BANK_COUPON_POPUP,
-  VALIDATE_OFFERS_POPUP
+  VALIDATE_OFFERS_POPUP,
+  NON_EMI_ELIGIBLE_TO_WISHLIST,
+  VALIDATE_CLIQ_CASH_POPUP
 } from "../../general/modal.actions";
 import { displayToast } from "../../general/toast.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
@@ -514,6 +516,8 @@ const ERROR_CODE_FOR_BANK_OFFER_INVALID_3 = "B9599";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_4 = "B9509";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_5 = "B9303";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_6 = "B9510";
+const ERROR_CODE_FOR_BANK_OFFER_INVALID_7 = "E0056";
+const ERROR_CODE_FOR_BANK_OFFER_INVALID_8 = "E0025";
 const INVALID_COUPON_ERROR_MESSAGE = "invalid coupon";
 const JUS_PAY_STATUS_REG_EX = /(status=[A-Za-z0-9_]*)/;
 
@@ -698,7 +702,7 @@ export function getCartDetails(
     dispatch(cartDetailsRequest());
     try {
       const result = await api.get(
-        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetails?access_token=${accessToken}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&channel=${CHANNEL}&isMDE=true&isDuplicateImei=true`
+        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetails_V2?access_token=${accessToken}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&channel=${CHANNEL}&isMDE=true&isDuplicateImei=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -768,7 +772,7 @@ export function getCartDetailsCNC(
     dispatch(cartDetailsCNCRequest());
     try {
       const result = await api.get(
-        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetailsCNC?access_token=${accessToken}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&channel=${CHANNEL}&isMDE=true`
+        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetailsCNC_V2?access_token=${accessToken}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&channel=${CHANNEL}&isMDE=true`
       );
       let resultJson = await result.json();
       // show toast message in case product serviceable but exchange not serviceable
@@ -1561,11 +1565,14 @@ export function getOrderSummary(pincode) {
       const result = await api.get(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/carts/${cartId}/displayOrderSummary?access_token=${
+        }/carts/${cartId}/displayOrderSummary_V2?access_token=${
           JSON.parse(customerCookie).access_token
         }&pincode=${pincode}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
       );
       const resultJson = await result.json();
+      if (Cookie.getCookie("egvCartGuid")) {
+        Cookie.deleteCookie("egvCartGuid");
+      }
 
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
@@ -2375,7 +2382,7 @@ export function binValidationForUPI(
       const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/payments/binValidation?access_token=${
+        }/payments/binValidation_V2?access_token=${
           JSON.parse(customerCookie).access_token
         }&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=&channel=${CHANNEL}`
       );
@@ -2489,7 +2496,19 @@ export function collectPaymentOrderForGiftCardUPI(
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
+      if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_7) {
+        dispatch(collectPaymentOrderFailure(resultJson && resultJson.error));
+        return dispatch(
+          showModal(VALIDATE_CLIQ_CASH_POPUP, {
+            result: resultJson
+          })
+        );
+      } else if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_8) {
+        dispatch(displayToast(resultJson && resultJson.errorMessage));
+        dispatch(
+          collectPaymentOrderFailure(resultJson && resultJson.errorMessage)
+        );
+      } else if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
       localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
@@ -2585,11 +2604,6 @@ export function collectPaymentOrderForUPI(
       orderDetails = {
         wrapperItems: [
           {
-            wrapperInventoryItems: [
-              {
-                ...inventoryItems
-              }
-            ],
             wrapperAddressItems: [
               {
                 addressItems: [
@@ -2652,7 +2666,19 @@ export function collectPaymentOrderForUPI(
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
       localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
-      if (resultJsonStatus.status) {
+      if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_7) {
+        dispatch(collectPaymentOrderFailure(resultJson && resultJson.error));
+        return dispatch(
+          showModal(VALIDATE_CLIQ_CASH_POPUP, {
+            result: resultJson
+          })
+        );
+      } else if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_8) {
+        dispatch(displayToast(resultJson && resultJson.errorMessage));
+        dispatch(
+          collectPaymentOrderFailure(resultJson && resultJson.errorMessage)
+        );
+      } else if (resultJsonStatus.status) {
         if (
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_1 ||
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_2
@@ -3281,7 +3307,7 @@ export function binValidation(
 ) {
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-
+  let egvCartGuid = Cookie.getCookie("egvCartGuid");
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
   const parsedQueryString = queryString.parse(window.location.search);
   let cartId;
@@ -3291,10 +3317,14 @@ export function binValidation(
   if (isFromRetryUrl) {
     cartId = retryCartGuid;
   } else {
-    cartId =
-      cartDetails && JSON.parse(cartDetails).guid
-        ? JSON.parse(cartDetails).guid
-        : Cookie.getCookie(OLD_CART_GU_ID);
+    if (egvCartGuid) {
+      cartId = egvCartGuid;
+    } else {
+      cartId =
+        cartDetails && JSON.parse(cartDetails).guid
+          ? JSON.parse(cartDetails).guid
+          : Cookie.getCookie(OLD_CART_GU_ID);
+    }
   }
 
   let giftCartObj = JSON.parse(localStorage.getItem(EGV_GIFT_CART_ID));
@@ -3308,7 +3338,7 @@ export function binValidation(
       const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/payments/binValidation?access_token=${
+        }/payments/binValidation_V2?access_token=${
           JSON.parse(customerCookie).access_token
         }&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=${binNo}&channel=${CHANNEL}`
       );
@@ -3357,6 +3387,7 @@ export function binValidationForNetBanking(
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+  let egvCartGuid = Cookie.getCookie("egvCartGuid");
   const parsedQueryString = queryString.parse(window.location.search);
   let cartId;
   if (parsedQueryString.value) {
@@ -3365,10 +3396,14 @@ export function binValidationForNetBanking(
   if (isFromRetryUrl) {
     cartId = retryCartGuid;
   } else {
-    cartId =
-      cartDetails && JSON.parse(cartDetails).guid
-        ? JSON.parse(cartDetails).guid
-        : Cookie.getCookie(OLD_CART_GU_ID);
+    if (egvCartGuid) {
+      cartId = egvCartGuid;
+    } else {
+      cartId =
+        cartDetails && JSON.parse(cartDetails).guid
+          ? JSON.parse(cartDetails).guid
+          : Cookie.getCookie(OLD_CART_GU_ID);
+    }
   }
 
   let giftCartObj = JSON.parse(localStorage.getItem(EGV_GIFT_CART_ID));
@@ -3381,7 +3416,7 @@ export function binValidationForNetBanking(
       const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/payments/binValidation?access_token=${
+        }/payments/binValidation_V2?access_token=${
           JSON.parse(customerCookie).access_token
         }&bankName=${bankName}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=&channel=${CHANNEL}&isUpdatedPwa=true`
       );
@@ -5104,6 +5139,8 @@ export function binValidationForCOD(
   }
   if (isFromRetryUrl) {
     cartId = retryCartGuid;
+  } else if (Cookie.getCookie("egvCartGuid")) {
+    cartId = Cookie.getCookie("egvCartGuid");
   } else {
     cartId = JSON.parse(cartDetails).guid;
   }
@@ -5113,7 +5150,7 @@ export function binValidationForCOD(
       const result = await api.post(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/payments/binValidation?access_token=${
+        }/payments/binValidation_V2?access_token=${
           JSON.parse(customerCookie).access_token
         }&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=&channel=${CHANNEL}`
       );
@@ -6704,6 +6741,7 @@ export function binValidationOfEmiEligible(binNo) {
   let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
   let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
   let access_token = JSON.parse(customerCookie).access_token;
+  let dcemi = localStorage.getItem(IS_DC_EMI_SELECTED);
   return async (dispatch, getState, { api }) => {
     dispatch(binValidationOfEmiEligibleRequest());
     try {
@@ -6721,7 +6759,7 @@ export function binValidationOfEmiEligible(binNo) {
       const result = await api.corePostByUrlEncoded(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/payments/emiEligibleBin?access_token=${access_token}&bin=${binNo}`
+        }/payments/emiEligibleBin?access_token=${access_token}&bin=${binNo}&isDCEmi=${dcemi}`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -7182,7 +7220,19 @@ export function collectPaymentOrderForGiftCard(
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
+      if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_7) {
+        dispatch(collectPaymentOrderFailure(resultJson && resultJson.error));
+        return dispatch(
+          showModal(VALIDATE_CLIQ_CASH_POPUP, {
+            result: resultJson
+          })
+        );
+      } else if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_8) {
+        dispatch(displayToast(resultJson && resultJson.errorMessage));
+        dispatch(
+          collectPaymentOrderFailure(resultJson && resultJson.errorMessage)
+        );
+      } else if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
       dispatch(collectPaymentOrderForGiftCardSuccess(resultJson, egvCartGuid));
@@ -7289,7 +7339,19 @@ export function collectPaymentOrder(
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
+      if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_7) {
+        dispatch(collectPaymentOrderFailure(resultJson && resultJson.error));
+        return dispatch(
+          showModal(VALIDATE_CLIQ_CASH_POPUP, {
+            result: resultJson
+          })
+        );
+      } else if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_8) {
+        dispatch(displayToast(resultJson && resultJson.errorMessage));
+        dispatch(
+          collectPaymentOrderFailure(resultJson && resultJson.errorMessage)
+        );
+      } else if (resultJsonStatus.status) {
         if (
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_1 ||
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_2
@@ -7424,11 +7486,6 @@ export function stripe_juspay_Tokenize(
         orderDetails = {
           wrapperItems: [
             {
-              wrapperInventoryItems: [
-                {
-                  ...inventoryItems
-                }
-              ],
               wrapperAddressItems: [
                 {
                   addressItems: [
@@ -7457,7 +7514,7 @@ export function stripe_juspay_Tokenize(
         pspName: "Juspay",
         token: "",
         cardToken: juspayToken && juspayToken.token,
-        cardFingerprint: "",
+        cardFingerprint: juspayToken && juspayToken.fingerprint,
         cardRefNo: "",
         returnUrl: returnUrl
       };
@@ -7625,11 +7682,6 @@ export function collectPaymentOrderForSavedCards(
       orderDetails = {
         wrapperItems: [
           {
-            wrapperInventoryItems: [
-              {
-                ...inventoryItems
-              }
-            ],
             wrapperAddressItems: [
               {
                 addressItems: [
@@ -7691,7 +7743,19 @@ export function collectPaymentOrderForSavedCards(
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
+      if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_7) {
+        dispatch(collectPaymentOrderFailure(resultJson && resultJson.error));
+        return dispatch(
+          showModal(VALIDATE_CLIQ_CASH_POPUP, {
+            result: resultJson
+          })
+        );
+      } else if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_8) {
+        dispatch(displayToast(resultJson && resultJson.errorMessage));
+        dispatch(
+          collectPaymentOrderFailure(resultJson && resultJson.errorMessage)
+        );
+      } else if (resultJsonStatus.status) {
         if (
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_1 ||
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_2
@@ -7804,7 +7868,19 @@ export function collectPaymentOrderForGiftCardFromSavedCards(
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
+      if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_7) {
+        dispatch(collectPaymentOrderFailure(resultJson && resultJson.error));
+        return dispatch(
+          showModal(VALIDATE_CLIQ_CASH_POPUP, {
+            result: resultJson
+          })
+        );
+      } else if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_8) {
+        dispatch(displayToast(resultJson && resultJson.errorMessage));
+        dispatch(
+          collectPaymentOrderFailure(resultJson && resultJson.errorMessage)
+        );
+      } else if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
       localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
@@ -7901,11 +7977,6 @@ export function collectPaymentOrderForNetBanking(
       orderDetails = {
         wrapperItems: [
           {
-            wrapperInventoryItems: [
-              {
-                ...inventoryItems
-              }
-            ],
             wrapperAddressItems: [
               {
                 addressItems: [
@@ -7967,7 +8038,19 @@ export function collectPaymentOrderForNetBanking(
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
+      if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_7) {
+        dispatch(collectPaymentOrderFailure(resultJson && resultJson.error));
+        return dispatch(
+          showModal(VALIDATE_CLIQ_CASH_POPUP, {
+            result: resultJson
+          })
+        );
+      } else if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_8) {
+        dispatch(displayToast(resultJson && resultJson.errorMessage));
+        dispatch(
+          collectPaymentOrderFailure(resultJson && resultJson.errorMessage)
+        );
+      } else if (resultJsonStatus.status) {
         if (
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_1 ||
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_2
@@ -8098,7 +8181,19 @@ export function collectPaymentOrderForGiftCardNetBanking(
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
+      if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_7) {
+        dispatch(collectPaymentOrderFailure(resultJson && resultJson.error));
+        return dispatch(
+          showModal(VALIDATE_CLIQ_CASH_POPUP, {
+            result: resultJson
+          })
+        );
+      } else if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_8) {
+        dispatch(displayToast(resultJson && resultJson.errorMessage));
+        dispatch(
+          collectPaymentOrderFailure(resultJson && resultJson.errorMessage)
+        );
+      } else if (resultJsonStatus.status) {
         throw new Error(resultJsonStatus.message);
       }
       localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
@@ -8191,11 +8286,6 @@ export function collectPaymentOrderForCliqCash(
       orderDetails = {
         wrapperItems: [
           {
-            wrapperInventoryItems: [
-              {
-                ...inventoryItems
-              }
-            ],
             wrapperAddressItems: [
               {
                 addressItems: [
@@ -8257,7 +8347,19 @@ export function collectPaymentOrderForCliqCash(
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
+      if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_7) {
+        dispatch(collectPaymentOrderFailure(resultJson && resultJson.error));
+        return dispatch(
+          showModal(VALIDATE_CLIQ_CASH_POPUP, {
+            result: resultJson
+          })
+        );
+      } else if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_8) {
+        dispatch(displayToast(resultJson && resultJson.errorMessage));
+        dispatch(
+          collectPaymentOrderFailure(resultJson && resultJson.errorMessage)
+        );
+      } else if (resultJsonStatus.status) {
         if (
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_1 ||
           resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_2
@@ -8491,6 +8593,13 @@ export function getEMIEligibilityDetails(cartGuId) {
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJson.nonEmiProdList) {
+        const prodList = {
+          data: resultJson.nonEmiProdList
+        };
+        dispatch(showModal(NON_EMI_ELIGIBLE_TO_WISHLIST, prodList));
+        return dispatch(getEMIEligibilityDetailsSuccess(resultJson));
+      }
       if (resultJsonStatus.status && !resultJson.error) {
         throw new Error(resultJsonStatus.message);
       }
