@@ -173,11 +173,25 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                     );
                 });
             }
-        },
+		},
+		addAddressToCart: (
+			addressId,
+			pinCode,
+			isComingFromCliqAndPiq,
+			isExchangeProductInCart
+		) => {
+			dispatch(
+			  addAddressToCart(
+				addressId,
+				pinCode,
+				isComingFromCliqAndPiq,
+				isExchangeProductInCart
+			  )
+			);
+		},
         getOrderSummary: pinCode => {
             dispatch(getOrderSummary(pinCode));
         },
-
         applyUserCouponForAnonymous: couponCode => {
             dispatch(applyUserCouponForAnonymous(couponCode));
         },

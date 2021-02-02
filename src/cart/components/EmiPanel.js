@@ -79,6 +79,10 @@ export default class EmiPanel extends React.Component {
             this.props.onSelectMonth(val);
         }
     }
+  binValidation = binNo => {
+    if (this.props.binValidation) {
+      this.props.binValidation(PAYMENT_MODE, binNo);
+    }
 
     getEmiBankDetails = () => {
         if (this.props.getEmiBankDetails) {
@@ -373,7 +377,7 @@ export default class EmiPanel extends React.Component {
                 {isRetryPaymentFromURL && (
                     <span className={styles.noCostRetryPayment}>
                         * Please note that the payment can be completed using the previously selected No Cost EMI option
-                        only – this is to ensure that the original discount(s) can be entirely redeemed.
+                        only â€“ this is to ensure that the original discount(s) can be entirely redeemed.
                     </span>
                 )}
                 <MenuDetails
@@ -382,6 +386,52 @@ export default class EmiPanel extends React.Component {
                     isOpen={isOpen}
                     onOpenMenu={currentPaymentMode => this.props.onChange({ currentPaymentMode })}
                     getEMIEligibilityDetails={cartGuId => this.props.getEMIEligibilityDetails(cartGuId)}
+                {isDCNoCostEMIEligible && this.state.isNoCostSelected && (
+                  <NoCostEmiBankDetails
+                    isNoCostEmiApplied={this.props.isNoCostEmiApplied}
+                    selectedEMIType={this.state.currentSelectedEMIType}
+                    onBankSelect={val => this.onBankSelect(val)}
+                    onSelectMonth={val => this.onSelectMonth(val)}
+                    onFocusInput={this.props.onFocusInput}
+                    bankList={
+                      this.props.cart &&
+                      this.props.cart.bankAndTenureDetails &&
+                      this.props.cart.bankAndTenureDetails.bankList
+                    }
+                    noCostEmiProductCount={
+                      this.props.cart &&
+                      this.props.cart.bankAndTenureDetails &&
+                      this.props.cart.bankAndTenureDetails.numEligibleProducts
+                    }
+                    totalProductCount={this.props.totalProductCount}
+                    getEmiTermsAndConditionsForBank={(code, bankName) =>
+                      this.getEmiTermsAndConditionsForBank(code, bankName)
+                    }
+                    applyNoCostEmi={(couponCode, bankName) =>
+                      this.applyNoCostEmi(couponCode, bankName)
+                    }
+                    removeNoCostEmi={couponCode =>
+                      this.removeNoCostEmi(couponCode)
+                    }
+                    noCostEmiDetails={this.props.cart.noCostEmiDetails}
+                    getItemBreakUpDetails={(
+                      couponCode,
+                      noCostEmiText,
+                      noCostProductCount,
+                      emiInfo
+                    ) =>
+                      this.getItemBreakUpDetails(
+                        couponCode,
+                        noCostEmiText,
+                        noCostProductCount,
+                        emiInfo
+                      )
+                    }
+                    isNoCostEmiProceeded={this.props.isNoCostEmiProceeded}
+                    binValidation={binNo => this.binValidation(binNo)}
+                    softReservationForPayment={cardDetails =>
+                      this.softReservationForPayment(cardDetails)
+                    }
                     displayToast={this.props.displayToast}
                     emiEligibiltyDetails={this.props.emiEligibiltyDetails}
                     retryFlagDCEmi={retryFlagDCEmi}

@@ -51,12 +51,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 };
 
 const mapStateToProps = (state, ownProps) => {
-    return {
-        searchText: ownProps.searchText ? ownProps.searchText : null,
-        clickedProductModuleRef: state.productListings.clickedProductModuleRef,
-        lastVisitedPlpUrl: state.productListings.lastVisitedPlpUrl,
-        urlString: state.productListings.urlString,
-    };
+  return {
+    searchText: ownProps.searchText ? ownProps.searchText : null,
+    clickedProductModuleRef: state.productListings.clickedProductModuleRef,
+    lastVisitedPlpUrl: state.productListings.lastVisitedPlpUrl,
+    urlString: state.productListings.urlString,
+    productListings: state.productListings.productListings
+  };
 };
 
 const ProductListingsContainer = withRouter(connect(mapStateToProps, mapDispatchToProps)(ProductListingsPage));

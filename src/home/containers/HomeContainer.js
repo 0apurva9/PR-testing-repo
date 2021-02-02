@@ -67,6 +67,7 @@ const mapStateToProps = state => {
     pageSize: state.feed.pageSize,
     wishlistProductId: state.wishlistItems.wishlistProductId,
     seo: state.feed.seo,
+    wishlistCount: state.wishlistItems.wishlistcount,
     isHomePage: true
   };
 };

@@ -60,6 +60,7 @@ export default class EmiAccordion extends React.Component {
         }
     }
 
+
     handleSelectBank(val) {
         const option = this.props.emiList.filter(data => {
             return data.code === val[0];
@@ -100,6 +101,12 @@ export default class EmiAccordion extends React.Component {
                 selectedBankName: option.emiBank,
             });
         }
+    }
+
+  binValidation = binNo => {
+    if (this.props.binValidation) {
+      this.props.binValidation(PAYMENT_MODE, binNo);
+
     }
 
     handleConfirmPlan() {
@@ -204,6 +211,7 @@ export default class EmiAccordion extends React.Component {
             </React.Fragment>
         );
     }
+
 }
 
 EmiAccordion.propTypes = {

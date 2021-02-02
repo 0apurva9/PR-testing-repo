@@ -36,14 +36,15 @@ export default class SelectBoxDesktop extends React.Component {
   }
 
   handleChange(event) {
-    if (event && event.target && event.target.value) {
-      if (this.props && this.props.location && this.props.location.pathname) {
-        let path = this.props.location.pathname;
-        if (!PRODUCT_REGEX_CART.test(path)) {
-          setDataLayer(ADOBE_SORT_SELECT, event.target.value);
-        }
-      }
-    }
+    // if (event && event.target && event.target.value) {
+    //   if (this.props && this.props.location && this.props.location.pathname) {
+    //     let path = this.props.location.pathname;
+    //     if (!PRODUCT_REGEX_CART.test(path)) {
+    //       setDataLayer(ADOBE_SORT_SELECT, event.target.value);
+    //     }
+    //   }
+    // }
+    //removed this block of code as it is common component
     if (!this.props.disabled) {
       const selectedValue = event.target.value;
       const index = event.nativeEvent.target.selectedIndex;

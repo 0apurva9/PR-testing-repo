@@ -24,17 +24,17 @@ import CartPage from "../components/CartPage";
 import { setHeaderText } from "../../general/header.actions";
 import { getWishListItems, getWishlist } from "../../wishlist/actions/wishlist.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
-
 import { showSecondaryLoader, hideSecondaryLoader } from "../../general/secondaryLoader.actions";
 import {
-    PRODUCT_COUPONS,
-    showModal,
-    ADDRESS,
-    DESKTOP_AUTH,
-    EXCHANGE_TnC_MODAL,
-    EXCHANGE_REMOVE_MODAL,
-    CLIQ_PIQ_MODAL,
-    APPLIANCES_EXCHANGE_MODAL,
+  PRODUCT_COUPONS,
+  showModal,
+  ADDRESS,
+  DESKTOP_AUTH,
+  EXCHANGE_TnC_MODAL,
+  EXCHANGE_REMOVE_MODAL,
+  CLIQ_PIQ_MODAL,
+  APPLIANCES_EXCHANGE_MODAL,
+  MDE_FRAUD_DETAILS_MODAL
 } from "../../general/modal.actions";
 import { SUCCESS, NO } from "../../lib/constants";
 import {
@@ -114,101 +114,147 @@ const mapDispatchToProps = dispatch => {
             dispatch(checkPinCodeServiceAvailability(userName, accessToken, pinCode, productCode));
         },
 
-        removeItemFromCartLoggedIn: (entryNumber, pinCode, mainProductUssid, isForDigitalBundledProduct) => {
-            dispatch(removeItemFromCartLoggedIn(entryNumber, pinCode, mainProductUssid, isForDigitalBundledProduct));
-        },
-        removeItemFromCartLoggedOut: (entryNumber, pinCode, mainProductUssid, isForDigitalBundledProduct) => {
-            dispatch(removeItemFromCartLoggedOut(entryNumber, pinCode, mainProductUssid, isForDigitalBundledProduct));
-        },
-        getWishListItems: isSetDataLayer => {
-            dispatch(getWishListItems(isSetDataLayer));
-        },
-        updateQuantityInCartLoggedIn: (selectedItem, quantity, pinCode) => {
-            dispatch(updateQuantityInCartLoggedIn(selectedItem, quantity, pinCode));
-        },
-        updateQuantityInCartLoggedOut: (selectedItem, quantity, pinCode) => {
-            dispatch(updateQuantityInCartLoggedOut(selectedItem, quantity, pinCode));
-        },
-        displayCouponsForLoggedInUser: (userId, accessToken, guId) => {
-            dispatch(displayCouponsForLoggedInUser(userId, accessToken, guId));
-        },
-        displayCouponsForAnonymous: (userId, accessToken, guId) => {
-            dispatch(displayCouponsForAnonymous(userId, accessToken, guId));
-        },
-        showSecondaryLoader: () => {
-            dispatch(showSecondaryLoader());
-        },
-        hideSecondaryLoader: () => {
-            dispatch(hideSecondaryLoader());
-        },
-        clearCartDetails: () => {
-            dispatch(clearCartDetails());
-        },
-        addressModal: pinCodeObj => {
-            dispatch(showModal(ADDRESS, pinCodeObj));
-        },
-        mergeTempCartWithOldCart: () => {
-            dispatch(mergeTempCartWithOldCart());
-        },
-        getMinicartProducts: () => {
-            dispatch(getMinicartProducts());
-        },
-        showExchangeTnCModal: () => {
-            dispatch(showModal(EXCHANGE_TnC_MODAL));
-        },
-        showRemoveExchangeModal: data => {
-            dispatch(showModal(EXCHANGE_REMOVE_MODAL, data));
-        },
-        getAllStoresCNC: pinCode => {
-            return dispatch(getAllStoresCNC(pinCode));
-        },
-        showPdpCliqAndPiqPage: storeDetails => {
-            dispatch(showModal(CLIQ_PIQ_MODAL, storeDetails));
-        },
-        verifyIMEINumber: async (
-            IMEINumber,
-            exchangeProductId,
-            exchangeAmountCashify,
-            tulBump,
-            pickUpCharge,
-            listingId,
-            ussId,
-            guid,
-            entry
-        ) => {
-            return await dispatch(
-                verifyIMEINumber(
-                    IMEINumber,
-                    exchangeProductId,
-                    exchangeAmountCashify,
-                    tulBump,
-                    pickUpCharge,
-                    listingId,
-                    ussId,
-                    guid,
-                    entry
-                )
-            );
-        },
-        getCartCodeAndGuidForLoggedInUser: async () => {
-            return await dispatch(getCartCodeAndGuidForLoggedInUser());
-        },
-        getBundledProductSuggestion: (productId, ussId, categoryCode, brandCode, source, pincode) => {
-            dispatch(getBundledProductSuggestion(productId, ussId, categoryCode, brandCode, source, pincode));
-        },
-        addBundledProductsToCart: data => {
-            dispatch(addBundledProductsToCart(data));
-        },
-        getWishlist: () => {
-            dispatch(getWishlist());
-        },
-        openAppliancesExchangeModal: data => {
-            dispatch(showModal(APPLIANCES_EXCHANGE_MODAL, data));
-        },
-        appliancesExchangeCheckPincode: (productCode, pincode) => {
-            dispatch(appliancesExchangeCheckPincode(productCode, pincode));
-        },
-    };
+		removeItemFromCartLoggedIn: (
+			entryNumber,
+			pinCode,
+			mainProductUssid,
+			isForDigitalBundledProduct
+		) => {
+			dispatch(
+			removeItemFromCartLoggedIn(
+				entryNumber,
+				pinCode,
+				mainProductUssid,
+				isForDigitalBundledProduct
+			)
+			);
+		},
+		removeItemFromCartLoggedOut: (
+			entryNumber,
+			pinCode,
+			mainProductUssid,
+			isForDigitalBundledProduct
+		) => {
+			dispatch(
+			removeItemFromCartLoggedOut(
+				entryNumber,
+				pinCode,
+				mainProductUssid,
+				isForDigitalBundledProduct
+			)
+			);
+		},
+		getWishListItems: isSetDataLayer => {
+			dispatch(getWishListItems(isSetDataLayer));
+		},
+		updateQuantityInCartLoggedIn: (selectedItem, quantity, pinCode) => {
+			dispatch(updateQuantityInCartLoggedIn(selectedItem, quantity, pinCode));
+		},
+		updateQuantityInCartLoggedOut: (selectedItem, quantity, pinCode) => {
+			dispatch(updateQuantityInCartLoggedOut(selectedItem, quantity, pinCode));
+		},
+		displayCouponsForLoggedInUser: (userId, accessToken, guId) => {
+			dispatch(displayCouponsForLoggedInUser(userId, accessToken, guId));
+		},
+		displayCouponsForAnonymous: (userId, accessToken, guId) => {
+			dispatch(displayCouponsForAnonymous(userId, accessToken, guId));
+		},
+		showSecondaryLoader: () => {
+			dispatch(showSecondaryLoader());
+		},
+		hideSecondaryLoader: () => {
+			dispatch(hideSecondaryLoader());
+		},
+		clearCartDetails: () => {
+			dispatch(clearCartDetails());
+		},
+		addressModal: pinCodeObj => {
+			dispatch(showModal(ADDRESS, pinCodeObj));
+		},
+		mergeTempCartWithOldCart: () => {
+			dispatch(mergeTempCartWithOldCart());
+		},
+		getMinicartProducts: () => {
+			dispatch(getMinicartProducts());
+		},
+		showExchangeTnCModal: () => {
+			dispatch(showModal(EXCHANGE_TnC_MODAL));
+		},
+		showRemoveExchangeModal: data => {
+			dispatch(showModal(EXCHANGE_REMOVE_MODAL, data));
+		},
+		getAllStoresCNC: pinCode => {
+			return dispatch(getAllStoresCNC(pinCode));
+		},
+		showPdpCliqAndPiqPage: storeDetails => {
+			dispatch(showModal(CLIQ_PIQ_MODAL, storeDetails));
+		},
+		verifyIMEINumber: async (
+			IMEINumber,
+			exchangeProductId,
+			exchangeAmountCashify,
+			tulBump,
+			pickUpCharge,
+			listingId,
+			ussId,
+			guid,
+			entry
+		) => {
+			return await dispatch(
+			verifyIMEINumber(
+				IMEINumber,
+				exchangeProductId,
+				exchangeAmountCashify,
+				tulBump,
+				pickUpCharge,
+				listingId,
+				ussId,
+				guid,
+				entry
+			)
+			);
+		},
+		getCartCodeAndGuidForLoggedInUser: async () => {
+			return await dispatch(getCartCodeAndGuidForLoggedInUser());
+		},
+		getBundledProductSuggestion: (
+			productId,
+			ussId,
+			categoryCode,
+			brandCode,
+			source,
+			pincode
+		) => {
+			dispatch(
+			getBundledProductSuggestion(
+				productId,
+				ussId,
+				categoryCode,
+				brandCode,
+				source,
+				pincode
+			)
+			);
+		},
+		addBundledProductsToCart: (data, source) => {
+			dispatch(addBundledProductsToCart(data, source));
+		},
+		getWishlist: () => {
+			dispatch(getWishlist());
+		},
+		openAppliancesExchangeModal: data => {
+			dispatch(showModal(APPLIANCES_EXCHANGE_MODAL, data));
+		},
+		appliancesExchangeCheckPincode: (productCode, pincode) => {
+			dispatch(appliancesExchangeCheckPincode(productCode, pincode));
+		},
+		removeNoCostEmi: (couponCode, carGuId, cartId) => {
+			return dispatch(removeNoCostEmi(couponCode, carGuId, cartId));
+		},
+		openMdeFraudDetailsModal: data => {
+			dispatch(showModal(MDE_FRAUD_DETAILS_MODAL, data));
+		}
+  };
 };
 
 const mapStateToProps = state => {

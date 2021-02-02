@@ -262,7 +262,8 @@ export function getProductDescriptionFailure(error) {
         error,
     };
 }
-export function getProductDescription(productCode, behaviorOfPage, isApiCall, componentName) {
+
+export function getProductDescription(productCode, behaviorOfPage, isApiCall: 0, componentName: true) {
     return async (dispatch, getState, { api }) => {
         dispatch(getProductDescriptionRequest());
         try {
@@ -284,10 +285,17 @@ export function getProductDescription(productCode, behaviorOfPage, isApiCall, co
                     urlLength.length === 2 &&
                     !(urlLength.includes("my-account") || urlLength.includes("checkout"))
                 ) {
-                    window.location.pathname = resultJson.seo.alternateURL;
+					window.location.pathname = resultJson.seo.alternateURL;
+					return;
                 }
                 if (componentName) {
-                    setDataLayer(ADOBE_PDP_TYPE, resultJson, null, null, behaviorOfPageTheCurrent);
+                    setDataLayer(
+						ADOBE_PDP_TYPE,
+						resultJson,
+						getState() && getState().icid && getState().icid.value,
+						getState() && getState().icid && getState().icid.icidType,
+						behaviorOfPageTheCurrent
+					);
                 }
                 return dispatch(getProductDescriptionSuccess(resultJson));
             } else {

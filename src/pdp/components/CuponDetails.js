@@ -44,7 +44,17 @@ export default class CuponDetails extends React.Component {
                   onClick={val => this.handleClick(val)}
                   data-test={`coupon-radio-btn-${this.props.promotionTitle}`}
                 >
-                  <CheckBox selected={this.props.selected} />
+                  <div
+                    className={
+                      this.props.selected
+                        ? styles.removeApplyCoupon
+                        : styles.applyCoupon
+                    }
+                  >
+                    {this.props.selected ? "Remove" : "Apply"}
+                  </div>
+                  {/* if have to change button to radiobutton uncomment below code */}
+                  {/* <CheckBox selected={this.props.selected} /> */}
                 </div>
               )}
             </div>
