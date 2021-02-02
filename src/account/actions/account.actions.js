@@ -5925,8 +5925,11 @@ export function getHaptikBotConfig(pageId) {
       let resultJsonParse = "";
       if (
         resultJson &&
-        resultJson.items &&
-        resultJson.items[0].cmsParagraphComponent
+        Array.isArray(resultJson.items) &&
+        resultJson.items[0].cmsParagraphComponent &&
+        typeof resultJson.items[0].cmsParagraphComponent === "object" &&
+        resultJson.items[0].cmsParagraphComponent !== null &&
+        resultJson.items[0].cmsParagraphComponent.content
       ) {
         resultJsonParse = JSON.parse(
           resultJson.items[0].cmsParagraphComponent.content
