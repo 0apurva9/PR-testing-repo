@@ -1201,6 +1201,10 @@ export function autoWishlistComponent(productId) {
           }
         });
       if (Array.isArray(productList) && productList.length > 0) {
+        const viewMore = {
+          productName: "View More"
+        };
+        productList.push(viewMore);
         dispatch(autoWishListSuccess(productList));
       }
     } catch (e) {
