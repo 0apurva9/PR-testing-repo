@@ -24,7 +24,7 @@ import {
     AMP_BRAND_REG_EX,
     AMP_SEARCH_REG_EX,
 } from "../../lib/constants";
-import filterStyles from "./FilterDesktop.css";
+import { filterScroll, filterFixed } from "./FilterDesktop.css";
 import gridImage from "./img/grid.svg";
 import listImage from "./img/list.svg";
 import { isBrowser } from "browser-or-node";
@@ -39,7 +39,7 @@ const OFFSET_BOTTOM = 800;
 const LIST = "list";
 const GRID = "grid";
 const PAGE_REGEX = /\/page-(\d+)/;
-
+const env = process.env;
 export default class Plp extends React.Component {
     constructor() {
         super();
@@ -105,19 +105,19 @@ export default class Plp extends React.Component {
                 const totalGridHeight = girdWrapper ? girdWrapper.clientHeight : 0;
                 if (totalGridHeight <= scrollHeight + subTractOffset) {
                     this.setState({ fixedScroll: false });
-                    filterWrapperDOM.className = filterStyles.filterScroll;
+                    filterWrapperDOM.className = filterScroll;
                     filterWrapperDOM.style.marginTop = `${totalGridHeight - filterSectionHeight}px`;
                 } else if (filterSectionHeight - subTractOffset <= pageHeight) {
                     filterWrapperDOM.style.marginTop = `auto`;
                     if (!this.state.fixedScroll) {
                         this.setState({ fixedScroll: true });
-                        filterWrapperDOM.className = filterStyles.filterFixed;
+                        filterWrapperDOM.className = filterFixed;
                     }
                 } else {
                     filterWrapperDOM.style.marginTop = `auto`;
                     if (this.state.fixedScroll) {
                         this.setState({ fixedScroll: false });
-                        filterWrapperDOM.className = filterStyles.filterScroll;
+                        filterWrapperDOM.className = filterScroll;
                     }
                 }
             }
@@ -166,26 +166,29 @@ export default class Plp extends React.Component {
         }
     }
 
-    UNSAFE_componentWillReceiveProps() {
-        const viewInfoData = this.props && this.props.productListings && this.props.productListings.view;
-        if (viewInfoData) {
-            if (viewInfoData.imageToggle) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        //Logic to show/hide toggle button
+        if (nextProps.productListings && nextProps.productListings.view && nextProps.productListings.view.imageToggle) {
+            if (!this.state.showToggleButton) {
                 this.setState({ showToggleButton: true });
             }
+        } else {
+            this.setState({ showToggleButton: false });
         }
+
         let categoryCodes = [];
         let foundCategory = [];
-        let defaultViewCategories = this.props.defaultViewData[0] && this.props.defaultViewData[0].value;
+        let defaultViewCategories = nextProps.defaultViewData[0] && nextProps.defaultViewData[0].value;
         if (
-            this.props.productListings &&
-            this.props.productListings.facetdatacategory &&
-            this.props.productListings.facetdatacategory.filters &&
-            this.props.productListings.facetdatacategory.filters[0] &&
-            this.props.productListings.facetdatacategory.filters[0].categoryCode
+            nextProps.productListings &&
+            nextProps.productListings.facetdatacategory &&
+            nextProps.productListings.facetdatacategory.filters &&
+            nextProps.productListings.facetdatacategory.filters[0] &&
+            nextProps.productListings.facetdatacategory.filters[0].categoryCode
         ) {
-            const filterCategory = this.props.productListings.facetdatacategory.filters[0].categoryCode;
+            const filterCategory = nextProps.productListings.facetdatacategory.filters[0].categoryCode;
             if (defaultViewCategories) {
-                categoryCodes = Object.keys(JSON.parse(this.props.defaultViewData[0].value));
+                categoryCodes = Object.keys(JSON.parse(nextProps.defaultViewData[0].value));
                 if (categoryCodes && categoryCodes.length > 0) {
                     foundCategory = categoryCodes.filter(el => el.toUpperCase() == filterCategory.toUpperCase());
                     if (foundCategory && foundCategory.length > 0) {
@@ -194,15 +197,20 @@ export default class Plp extends React.Component {
                             : "GRID";
                         if (view.toUpperCase() === "LIST") {
                             this.setState({
-                                gridBreakup: !this.state.gridBreakup,
+                                gridBreakup: true,
                                 view: LIST,
                             });
                         } else {
                             this.setState({
-                                gridBreakup: !this.state.gridBreakup,
+                                gridBreakup: false,
                                 view: GRID,
                             });
                         }
+                    } else {
+                        this.setState({
+                            gridBreakup: false,
+                            view: GRID,
+                        });
                     }
                 }
             }
@@ -273,7 +281,7 @@ export default class Plp extends React.Component {
         var p = document.createElement("SCRIPT");
         var date = new Date();
         var timestamp = date.getTime();
-        var source_url = process.env.HAPTIK_CHATBOT_URL + "/static/aspectwise/js/haptik.js?" + timestamp;
+        var source_url = env.REACT_APP_HAPTIK_CHATBOT_URL + "/static/aspectwise/js/haptik.js?" + timestamp;
         p.type = "text/javascript";
         p.setAttribute("charset", "utf-8");
         p.setAttribute("clientid", "tatacliq");
@@ -416,6 +424,7 @@ export default class Plp extends React.Component {
         }
         this.props.history.push(url, {
             isFilter: false,
+            onClickCancel: true,
         });
     }
 
@@ -432,15 +441,13 @@ export default class Plp extends React.Component {
                 this.setState({ totalHeight: maxHeight });
             }
         }
+
         if (
-            (prevProps.productListings && prevProps.productListings.view) !==
-            (this.props.productListings && this.props.productListings.view)
+            prevProps.location.pathname !== this.props.location.pathname ||
+            prevProps.location.search !== this.props.location.search
         ) {
-            const viewInfoData = this.props && this.props.productListings && this.props.productListings.view;
-            if (viewInfoData) {
-                if (viewInfoData.imageToggle) {
-                    this.setState({ showToggleButton: true });
-                }
+            if (this.state.toggleView && this.state.showToggleButton) {
+                this.setState({ toggleView: false });
             }
         }
     }
@@ -669,7 +676,12 @@ export default class Plp extends React.Component {
                             )}
                         </MediaQuery>
                         <MediaQuery query="(min-device-width:1025px)" values={{ deviceWidth: 1026 }}>
-                            <div className={styles.headerSortWithFilter}>
+                            <div
+                                className={[
+                                    styles.headerSortWithFilter,
+                                    this.state.showToggleButton ? styles.showToggleButton : null,
+                                ].join(" ")}
+                            >
                                 <div
                                     className={
                                         electronicView ? styles.selectedFilterElectronicView : styles.selectedFilter
@@ -715,7 +727,12 @@ export default class Plp extends React.Component {
                                     <React.Fragment>
                                         <div className={styles["switch-view"]}>
                                             <p className={styles["switch-title"]}>Swatch Mode </p>
-                                            <div className={styles["switch-item"]}>
+                                            <div
+                                                className={[
+                                                    styles["switch-item"],
+                                                    this.state.toggleView ? null : styles["switch-off"],
+                                                ].join(" ")}
+                                            >
                                                 <input
                                                     className={styles["switch-light"]}
                                                     id="cb1"

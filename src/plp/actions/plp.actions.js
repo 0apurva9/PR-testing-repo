@@ -622,54 +622,47 @@ export function checkPincodeFromPLP(pinCode, productCode, ussId, isComingFromHap
 }
 
 export function getDefaultPlpViewRequest() {
-  return {
-    type: GET_DEFAULT_PLP_VIEW_REQUEST,
-    status: REQUESTING
-  };
+    return {
+        type: GET_DEFAULT_PLP_VIEW_REQUEST,
+        status: REQUESTING,
+    };
 }
 export function getDefaultPlpViewSuccess(data) {
-  return {
-    type: GET_DEFAULT_PLP_VIEW_SUCCESS,
-    status: SUCCESS,
-    data
-  };
+    return {
+        type: GET_DEFAULT_PLP_VIEW_SUCCESS,
+        status: SUCCESS,
+        data,
+    };
 }
 
 export function getDefaultPlpViewFailure(error) {
-  return {
-    type: GET_DEFAULT_PLP_VIEW_FAILURE,
-    status: ERROR,
-    error
-  };
+    return {
+        type: GET_DEFAULT_PLP_VIEW_FAILURE,
+        status: ERROR,
+        error,
+    };
 }
 
 export function getDefaultPlpView() {
-  return async (dispatch, getState, { api }) => {
-    dispatch(getDefaultPlpViewRequest());
-    try {
-      const result = await api.customGetMiddlewareUrl(
-        `/otatacliq/getApplicationProperties.json?propertyNames=DEFAULT_PLP_VIEW`
-      );
-      const resultJson = await result.json();
-      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+    return async (dispatch, getState, { api }) => {
+        dispatch(getDefaultPlpViewRequest());
+        try {
+            const result = await api.customGetMiddlewareUrl(
+                `/otatacliq/getApplicationProperties.json?propertyNames=DEFAULT_PLP_VIEW`
+            );
+            const resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
-      if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
-      }
+            if (resultJsonStatus.status) {
+                throw new Error(resultJsonStatus.message);
+            }
 
-      if (
-        resultJson &&
-        resultJson.applicationProperties &&
-        resultJson.applicationProperties.length >= 1
-      ) {
-        Cookie.createCookie(
-          DEFAULT_PLP_VIEW,
-          JSON.stringify(resultJson.applicationProperties)
-        );
-      }
-      return dispatch(getDefaultPlpViewSuccess(resultJson));
-    } catch (e) {
-      dispatch(getDefaultPlpViewFailure(e.message));
-    }
-  };
+            if (resultJson && resultJson.applicationProperties && resultJson.applicationProperties.length >= 1) {
+                Cookie.createCookie(DEFAULT_PLP_VIEW, JSON.stringify(resultJson.applicationProperties));
+            }
+            return dispatch(getDefaultPlpViewSuccess(resultJson));
+        } catch (e) {
+            dispatch(getDefaultPlpViewFailure(e.message));
+        }
+    };
 }

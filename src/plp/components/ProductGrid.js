@@ -19,6 +19,9 @@ export default class ProductGrid extends React.Component {
         this.state = {
             view: GRID,
             gridBreakup: false,
+            showSwatchImage: false,
+            indexSwatch: -1,
+            switchView: false,
             // gridScroll: localStorage.getItem("gridScroll")
             //   ? localStorage.getItem("gridScroll")
             //   : 0
@@ -70,7 +73,17 @@ export default class ProductGrid extends React.Component {
                 seasonTag={data.seasonTag}
                 minPrice={data.price && data.price.minPrice && data.price.minPrice.formattedValueNoDecimal}
                 isPlp={true}
-                productImage={data.imageURL}
+                productImage={
+                    this.state.showSwatchImage && this.state.indexSwatch === index
+                        ? data.swatchURL
+                            ? data.swatchURL
+                            : data.imageURL
+                        : this.props.toggleView
+                        ? data.swatchURL
+                            ? data.swatchURL
+                            : data.imageURL
+                        : data.imageURL
+                }
                 title={data.brandname}
                 price={data.price.mrpPrice ? data.price.mrpPrice.formattedValueNoDecimal : null}
                 discountPrice={data.price.sellingPrice ? data.price.sellingPrice.formattedValueNoDecimal : null}
@@ -104,6 +117,14 @@ export default class ProductGrid extends React.Component {
         );
     };
 
+    onMouseEnter(i) {
+        this.setState({ showSwatchImage: true, indexSwatch: i });
+    }
+
+    onMouseLeave(i) {
+        this.setState({ showSwatchImage: false, indexSwatch: i });
+    }
+
     render() {
         let electronicView = this.props.electronicView;
 
@@ -136,14 +157,19 @@ export default class ProductGrid extends React.Component {
                                     let widthMobile = false;
 
                                     return (
-                                        <PlpComponent
+                                        <div
                                             key={i}
-                                            gridWidthMobile={widthMobile}
-                                            view={this.props.view}
-                                            type={datum && datum.type}
+                                            onMouseEnter={() => this.onMouseEnter(i)}
+                                            onMouseLeave={() => this.onMouseLeave(i)}
                                         >
-                                            {this.renderComponent(datum, i)}
-                                        </PlpComponent>
+                                            <PlpComponent
+                                                gridWidthMobile={widthMobile}
+                                                view={this.props.view}
+                                                type={datum && datum.type}
+                                            >
+                                                {this.renderComponent(datum, i)}
+                                            </PlpComponent>
+                                        </div>
                                     );
                                 })}
                         </DumbGrid>
@@ -154,6 +180,7 @@ export default class ProductGrid extends React.Component {
         );
     }
 }
+
 ProductGrid.propTypes = {
     isPosition: PropTypes.bool,
     history: PropTypes.object,

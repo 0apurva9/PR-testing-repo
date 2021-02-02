@@ -466,6 +466,7 @@ export function getMoreFromBrand(productId) {
         msdFormData.append("num_results", JSON.stringify(NUMBER_RESULTS));
         msdFormData.append("mad_uuid", mcvId);
         msdFormData.append("details", true);
+        msdFormData.append("fields", JSON.stringify(["mop"]));
         msdFormData.append("widget_list", JSON.stringify(WIDGET_LIST_FOR_ABOUT_BRAND));
         msdFormData.append("product_id", productId);
         if (userData && userData.customerId) {
@@ -483,8 +484,15 @@ export function getMoreFromBrand(productId) {
 
             let finalProductDetails = null;
 
-            if (moreBrandJson && moreBrandJson.data && moreBrandJson.data.length > 0) {
-                finalProductDetails = moreBrandJson.data[0];
+            if (
+                moreBrandJson &&
+                moreBrandJson.data &&
+                moreBrandJson.data.length > 0 &&
+                moreBrandJson.data[0] &&
+                moreBrandJson.data[0].itemIds &&
+                moreBrandJson.data[0].itemIds.length > 0
+            ) {
+                finalProductDetails = moreBrandJson.data[0].itemIds;
             }
 
             return dispatch(getMoreFromBrandSuccess(finalProductDetails));
@@ -531,6 +539,7 @@ export function getSimilarProduct(productId) {
         msdFormData.append("num_results", JSON.stringify(NUMBER_RESULTS));
         msdFormData.append("mad_uuid", mcvId);
         msdFormData.append("details", true);
+        msdFormData.append("fields", JSON.stringify(["mop"]));
         msdFormData.append("widget_list", JSON.stringify(WIDGET_LIST_FOR_SIMILAR_PRODUCT));
         msdFormData.append("product_id", productId);
         if (userData && userData.customerId) {

@@ -621,7 +621,7 @@ export function cartDetailsCNCFailure(error) {
     };
 }
 
-export function getCartDetailsCNC(userId, accessToken, cartId, pinCode, isSoftReservation, isSetDataLayer: false) {
+export function getCartDetailsCNC(userId, accessToken, cartId, pinCode, isSoftReservation, isSetDataLayer = false) {
     return async (dispatch, getState, { api }) => {
         dispatch(cartDetailsCNCRequest());
         try {
@@ -872,7 +872,7 @@ export function userAddressFailure(error) {
     };
 }
 
-export function getUserAddress(setDataLayerForMyAccount: false) {
+export function getUserAddress(setDataLayerForMyAccount = false) {
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     return async (dispatch, getState, { api }) => {
@@ -2752,7 +2752,7 @@ export function releaseBankOfferFailure(error) {
     };
 }
 
-export function releaseBankOffer(previousCouponCode, newCouponCode: null) {
+export function releaseBankOffer(previousCouponCode, newCouponCode = null) {
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
@@ -5595,7 +5595,7 @@ export function resetTempCartId() {
     };
 }
 
-export function tempCartIdForLoggedInUser(productDetails: {}) {
+export function tempCartIdForLoggedInUser(productDetails = {}) {
     localStorage.removeItem(BUY_NOW_PRODUCT_DETAIL);
 
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
