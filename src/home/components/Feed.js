@@ -416,8 +416,8 @@ export const typeComponentMapping = {
     }
     return (
       parsedContent &&
-      parsedContent.map(content => {
-        return <CMSTextComponent data={content} />;
+      parsedContent.map((content, index) => {
+        return <CMSTextComponent data={content} key={index} />;
       })
     );
   },
@@ -460,66 +460,48 @@ class Feed extends Component {
       wishListedItem: null
     };
   }
+
   componentDidMount() {
-    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    setDataLayer(ADOBE_VIRTUAL_PAGELOAD);
-    if (!userDetails) {
-      setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER);
-    }
-    this.props.seo
-      ? this.props.seo.title
-        ? (document.title = this.props.seo.title)
-        : (document.title = DEFAULT_TITLE)
-      : (document.title = DEFAULT_TITLE);
-    const titleObj =
-      this.props.homeFeedData &&
-      this.props.homeFeedData.find(data => {
-        return data.type === "Landing Page Title Component";
-      });
-    if (this.props.feedType === HOME_FEED_TYPE) {
-      if (titleObj) {
-        this.props.setHeaderText(titleObj.title);
-      } else {
-        this.props.setHeaderText(this.props.headerMessage);
-      }
-    } else {
-      if (!this.props.headerMessage) {
-        if (titleObj && this.props.setHeaderText) {
-          this.props.setHeaderText(titleObj.title);
-        }
-        setDataLayer(ADOBE_VIRTUAL_PAGELOAD);
-        this.props.seo
-            ? this.props.seo.title
-                ? (document.title = this.props.seo.title)
-                : (document.title = DEFAULT_TITLE)
-            : (document.title = DEFAULT_TITLE);
-        const titleObj =
-            this.props.homeFeedData &&
-            this.props.homeFeedData.find(data => {
-                return data.type === "Landing Page Title Component";
-            });
-        if (this.props.feedType === HOME_FEED_TYPE) {
-            if (titleObj) {
-                this.props.setHeaderText(titleObj.title);
-            } else {
-                this.props.setHeaderText(this.props.headerMessage);
-            }
-        } else {
-            if (!this.props.headerMessage) {
-                if (titleObj && this.props.setHeaderText) {
-                    this.props.setHeaderText(titleObj.title);
-                }
-            }
-        }
-        if (this.props.clearProductModuleRef) {
-            this.props.clearProductModuleRef();
-        }
-        // get chatbot json details on clp pages
-        if (this.props.feedType === SECONDARY_FEED_TYPE && this.props.getChatbotDetails) {
-            this.props.getChatbotDetails();
-        }
-        this.initiateHaptikScript();
-    }
+	const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+	setDataLayer(ADOBE_VIRTUAL_PAGELOAD);
+	if (!userDetails) {
+		setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER);
+	}
+	this.props.seo ?
+		this.props.seo.title ?
+		(document.title = this.props.seo.title) :
+		(document.title = DEFAULT_TITLE) :
+		(document.title = DEFAULT_TITLE);
+	const titleObj =
+		this.props.homeFeedData &&
+		this.props.homeFeedData.find(data => {
+			return data.type === "Landing Page Title Component";
+		});
+	if (this.props.feedType === HOME_FEED_TYPE) {
+		if (titleObj) {
+			this.props.setHeaderText(titleObj.title);
+		} else {
+			this.props.setHeaderText(this.props.headerMessage);
+		}
+	} else {
+		if (!this.props.headerMessage) {
+			if (titleObj && this.props.setHeaderText) {
+				this.props.setHeaderText(titleObj.title);
+			}
+		}
+	}
+	if (this.props.clearProductModuleRef) {
+		this.props.clearProductModuleRef();
+	}
+	// get chatbot json details on clp pages
+	if (
+		this.props.feedType === SECONDARY_FEED_TYPE &&
+		this.props.getChatbotDetails
+	) {
+		this.props.getChatbotDetails();
+	}
+	this.initiateHaptikScript();
+	}
 
     initiateHaptikScript() {
         var f = document.getElementsByTagName("SCRIPT")[0];
@@ -772,7 +754,8 @@ Feed.propTypes = {
     clickedElementId: PropTypes.bool,
     background: PropTypes.string,
     wishlistProductId: PropTypes.string,
-    setPageFeedSize: PropTypes.func,
+	setPageFeedSize: PropTypes.func,
+	wishlistCount: PropTypes.string,
 };
 
 Feed.defaultProps = {

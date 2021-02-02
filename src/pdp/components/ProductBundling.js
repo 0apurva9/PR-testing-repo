@@ -13,7 +13,6 @@ import {
   setDataLayer,
   ADOBE_PB_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_PDP
 } from "../../lib/adobeUtils";
-import PropTypes from "prop-types";
 import Icon from "../../xelpmoc-core/Icon";
 import comboDiscountIcon from "./img/comboDiscountIcon.svg";
 let allBundledProductData = [];
@@ -40,6 +39,12 @@ export default class ProductBundling extends React.Component {
     this.toggleShowingProducts = this.toggleShowingProducts.bind(this);
   }
 
+  convertToLowerCase(data){
+	if(data){
+		return data.toLowerCase();
+	}
+  }
+
   componentWillReceiveProps(nextProps) {
     if (
       nextProps.logoutUserStatus !== this.props.logoutUserStatus &&
@@ -61,7 +66,7 @@ export default class ProductBundling extends React.Component {
         totalBundledPriceDetails: nextProps.totalBundledPriceDetails
       });
       if (
-        nextProps.totalBundledPriceDetails.status.toLowerCase() ===
+        this.convertToLowerCase(nextProps.totalBundledPriceDetails.status) ===
         FAILURE_LOWERCASE
       ) {
         this.props.displayToast("Please try again");
@@ -75,14 +80,15 @@ export default class ProductBundling extends React.Component {
       prevProps.addBundledProductsToCartDetails
     ) {
       if (
-        this.props.addBundledProductsToCartDetails.status.toLowerCase() ===
+        this.convertToLowerCase(this.props.addBundledProductsToCartDetails.status) ===
         SUCCESS
       ) {
         // for analytics
         let categoryHierarchy = this.props.productData.categoryHierarchy;
+		const categoryHierarchyLength = categoryHierarchy.length;
         let categoryName =
           categoryHierarchy &&
-          categoryHierarchy[categoryHierarchy.length - 1].category_name;
+          categoryHierarchy[categoryHierarchyLength - 1].category_name;
         let data = this.state.addToCartAnalyticsData;
         data.productIds.unshift(this.props.productData.productListingId);
         data.productCategories.unshift(categoryName);
@@ -95,7 +101,7 @@ export default class ProductBundling extends React.Component {
         this.props.history.push(PRODUCT_CART_ROUTER);
       }
       if (
-        this.props.addBundledProductsToCartDetails.status.toLowerCase() ===
+        this.convertToLowerCase(this.props.addBundledProductsToCartDetails.status) ===
         FAILURE_LOWERCASE
       ) {
         this.props.displayToast(
@@ -279,7 +285,7 @@ export default class ProductBundling extends React.Component {
                       isBundledProductInCart = true;
                     }
                     let isBundlingDiscountAvailable =
-                      data.hasOwnProperty("bundlingDiscount") &&
+					("bundlingDiscount" in data) &&
                       parseFloat(data.bundlingDiscount) !== 0;
 
                     return (
@@ -407,16 +413,3 @@ export default class ProductBundling extends React.Component {
     );
   }
 }
-
-ProductBundling.propTypes = {
-  displayToast: PropTypes.func,
-  getTotalBundledPrice: PropTypes.func,
-  getTotalBundledPriceLoading: PropTypes.bool,
-  productData: PropTypes.objectOf(
-    PropTypes.shape({
-      winningUssID: PropTypes.string,
-      productListingId: PropTypes.string
-    })
-  ),
-  bundledProductSuggestionDetails: PropTypes.array
-};

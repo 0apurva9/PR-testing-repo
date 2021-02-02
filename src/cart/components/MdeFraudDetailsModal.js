@@ -16,7 +16,7 @@ export default class MdeFraudDetailsModal extends React.Component {
         <div className={styles.iconContainer}>
           <Icon image={exchangeCheck} size={154} />
         </div>
-        <div className={styles.heading}>Exchange can't be proceed</div>
+        <div className={styles.heading}>${`Exchange can't be proceed`}</div>
         <div className={styles.description}>{this.props.errorMessage}</div>
         <div className={styles.okButton} onClick={() => this.closeModal()}>
           Okay
@@ -31,5 +31,6 @@ export default class MdeFraudDetailsModal extends React.Component {
 }
 
 MdeFraudDetailsModal.propTypes = {
-  closeMdeFraudDetailsModal: PropTypes.func
+  closeMdeFraudDetailsModal: PropTypes.func,
+  errorMessage: PropTypes.string,
 };

@@ -1,6 +1,5 @@
 import cloneDeep from "lodash.clonedeep";
 import * as wishlistActions from "../actions/wishlist.actions";
-import { SUCCESS } from "../../lib/constants";
 import { CLEAR_ERROR } from "../../general/error.actions.js";
 const wishlistItems = (
   state = {
@@ -20,7 +19,7 @@ const wishlistItems = (
   },
   action
 ) => {
-  let currentWishlistItems, indexToBeRemove;
+  let currentWishlistItems;
   switch (action.type) {
     case CLEAR_ERROR:
       return Object.assign({}, state, {

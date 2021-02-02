@@ -8,11 +8,6 @@ import cardValidator from "simple-card-validator";
 import styles from "./CreditCardForm.css";
 import MobileOnly from "../../general/components/MobileOnly";
 import { BANK_GATWAY_DOWN } from "../../lib/constants";
-import {
-    WHATSAPP_NOTIFICATION_CHECKED,
-    WHATSAPP_NOTIFICATION_UNCHECKED,
-    getWhatsAppNotification,
-} from "../../lib/adobeUtils";
 const MINIMUM_YEARS_TO_SHOW = 0;
 const MAXIMUM_YEARS_TO_SHOW = 19;
 const REGX_FOR_WHITE_SPACE = /\W/gi;
@@ -65,33 +60,7 @@ export default class CreditCardForm extends React.Component {
             invalidCard: false,
             emiInvalidCardError: this.props.emiBinValidationErrorMessage ? this.props.emiBinValidationErrorMessage : "",
         };
-    }
-  onChangeCardNumber(val) {
-    this.setState({ cardNumber: val });
-    this.onChange({ cardNumber: val });
-    if (val.replace(/\s/g, "").length < 6) {
-      this.setState({ isCalledBinValidation: false });
-    }
-    if (
-      (val.replace(/\s/g, "").length >= 6 &&
-        val.replace(/\s/g, "").length -
-          this.state.cardNumber.replace(/\s/g, "").length >
-          1) ||
-      (val.replace(/\s/g, "").length >= 6 &&
-        val.replace(/\s/g, "").slice(0, 5) !==
-          this.state.cardNumber.replace(/\s/g, "").slice(0, 5) &&
-        this.state.cardNumber !== val)
-    ) {
-      this.setState({ isCalledBinValidation: true });
-      this.props.binValidation(val.replace(/\s/g, "").substring(0, 6));
-    }
-    if (val.replace(/\s/g, "").length >= 6) {
-      this.setState({ isCalledBinValidation: true });
-      if (!this.state.isCalledBinValidation) {
-        this.props.binValidation(val.replace(/\s/g, "").substring(0, 6));
-      }
-    }
-  }
+	}
 
     onChangeCardNumber(val) {
         this.setState({ cardNumber: val });
@@ -414,7 +383,11 @@ export default class CreditCardForm extends React.Component {
                     onClick={this.handleCheckout}
                   />
                 </div>
+				</DesktopOnly>
             </div>
+			</div>
+		</div>
+		</div>
         );
     }
 }

@@ -79,7 +79,8 @@ import {
     instaCredISEnableMidddleLayer,
     getBankDetailsforDCEmi,
     getEMIEligibilityDetails,
-    submitAppliancesExchangeData,
+	submitAppliancesExchangeData,
+	addAddressToCart,
 } from "../actions/cart.actions";
 import { showSecondaryLoader, hideSecondaryLoader } from "../../general/secondaryLoader.actions";
 import {

@@ -41,5 +41,6 @@ export default class ComboOfferStrip extends React.Component {
 ComboOfferStrip.propTypes = {
   bundlingDiscount: PropTypes.number,
   productName: PropTypes.string,
-  isUIChange: PropTypes.bool
+  isFromCartPage: PropTypes.bool,
+  isFromPdpPage: PropTypes.bool,
 };

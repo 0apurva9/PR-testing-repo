@@ -6,7 +6,6 @@ import Icon from "../../xelpmoc-core/Icon";
 import tipIcon from "./img/tip.svg";
 import styles from "./SingleBundledProduct.css";
 import { SUCCESS } from "../../lib/constants";
-import PropTypes from "prop-types";
 import checkboxEnabled from "../../general/components/img/checkboxEnabledProductBundling.svg";
 import ComboOfferStrip from "./ComboOfferStrip";
 
@@ -294,42 +293,3 @@ export default class SingleBundledProduct extends React.Component {
     );
   }
 }
-
-SingleBundledProduct.propTypes = {
-  handleClick: PropTypes.func,
-  bundledPriceAPIStatus: PropTypes.string,
-  isMainProduct: PropTypes.bool,
-  productIndex: PropTypes.number,
-  productData: PropTypes.objectOf(
-    PropTypes.shape({
-      winningUssID: PropTypes.string,
-      productListingId: PropTypes.string,
-      discount: PropTypes.number,
-      productName: PropTypes.string,
-      ratingCount: PropTypes.number,
-      productDescription: PropTypes.string,
-      winningSellerPrice: PropTypes.objectOf(
-        PropTypes.shape({
-          formattedValueNoDecimal: PropTypes.string
-        })
-      ),
-      mrpPrice: PropTypes.objectOf(
-        PropTypes.shape({
-          formattedValueNoDecimal: PropTypes.string
-        })
-      ),
-      imageURL: PropTypes.string,
-      averageRating: PropTypes.number,
-      galleryImagesList: PropTypes.arrayOf(
-        PropTypes.shape({
-          galleryImages: PropTypes.arrayOf(
-            PropTypes.shape({
-              value: PropTypes.string
-            })
-          )
-        })
-      )
-    })
-  ),
-  isBundledProductSelected: PropTypes.array
-};

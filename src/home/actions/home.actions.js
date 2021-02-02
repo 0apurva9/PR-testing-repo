@@ -1010,8 +1010,8 @@ export function autoWishlistComponent(productId) {
   return async (dispatch, getState, { api }) => {
     try {
       dispatch(autoWishListRequest());
-      let productCodes;
-      productCodes = productId;
+    //   let productCodes;
+    //   productCodes = productId;
 
       let requests =
         productId &&

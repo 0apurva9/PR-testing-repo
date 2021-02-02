@@ -16,7 +16,8 @@ import {
     mergeTempCartWithOldCart,
     getMinicartProducts,
     getAllStoresCNC,
-    getCartCodeAndGuidForLoggedInUser,
+	getCartCodeAndGuidForLoggedInUser,
+	removeNoCostEmi,
 } from "../actions/cart.actions.js";
 import { displayToast } from "../../general/toast.actions";
 import { withRouter } from "react-router-dom";

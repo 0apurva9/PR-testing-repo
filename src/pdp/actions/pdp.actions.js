@@ -263,7 +263,7 @@ export function getProductDescriptionFailure(error) {
     };
 }
 
-export function getProductDescription(productCode, behaviorOfPage, isApiCall: 0, componentName: true) {
+export function getProductDescription(productCode, behaviorOfPage, isApiCall= 0, componentName= true) {
     return async (dispatch, getState, { api }) => {
         dispatch(getProductDescriptionRequest());
         try {

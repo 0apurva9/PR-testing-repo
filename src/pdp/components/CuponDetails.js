@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./CuponDetails.css";
-import CheckBox from "../../general/components/CheckBox.js";
 import PropTypes from "prop-types";
 import { RUPEE_SYMBOL } from "../../lib/constants.js";
 import { Link } from "react-router-dom";

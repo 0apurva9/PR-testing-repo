@@ -6,17 +6,18 @@ import Image from "../../xelpmoc-core/Image";
 import BottomSlideModal from "../../general/components/BottomSlideModal";
 
 export default class NonEmiEligibleToWishlist extends React.Component {
-  addToWishlist(e) {
+  addToWishlist() {
     let ussid = "";
     this.props.data.map(ele => (ussid += ele.USSID + ","));
     let ussidList = ussid.replace(/,\s*$/, "");
     this.props.addAllToWishList(ussidList);
   }
+
   render() {
     return (
       <BottomSlideModal
         heading="Move to Wishlist"
-        closeModal={value => this.props.closeModal()}
+        closeModal={() => this.props.closeModal()}
       >
         <div className={styles.base}>
           <div
@@ -80,5 +81,8 @@ NonEmiEligibleToWishlist.propTypes = {
       address: PropTypes.string,
       value: PropTypes.string
     })
-  )
+  ),
+  changePaymentMethod: PropTypes.func,
+  closeModal: PropTypes.func,
+  addAllToWishList: PropTypes.func,
 };

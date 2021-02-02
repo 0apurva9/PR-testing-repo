@@ -103,12 +103,6 @@ export default class EmiAccordion extends React.Component {
         }
     }
 
-  binValidation = binNo => {
-    if (this.props.binValidation) {
-      this.props.binValidation(PAYMENT_MODE, binNo);
-
-    }
-
     handleConfirmPlan() {
         localStorage.setItem(EMI_TYPE, STANDARD_EMI);
         this.setState({ planSelected: true });

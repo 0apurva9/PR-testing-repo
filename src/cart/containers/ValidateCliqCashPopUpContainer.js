@@ -23,7 +23,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(hideModal());
     },
     removeCliqCash:()=>{
-      return dispatch(removeCliqCash())
+      return dispatch(removeCliqCash());
     },
     resetAllPaymentModes: () => {
       return dispatch(resetAllPaymentModes());

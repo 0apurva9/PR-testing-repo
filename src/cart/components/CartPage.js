@@ -1305,7 +1305,8 @@ CartPage.propTypes = {
     updateQuantityInCartLoggedIn: PropTypes.func,
     updateQuantityInCartLoggedOut: PropTypes.func,
     verifyIMEINumber: PropTypes.func,
-    wishListCount: PropTypes.number,
+	wishListCount: PropTypes.number,
+	openMdeFraudDetailsModal: PropTypes.func,
 };
 
 CartPage.defaultProps = {

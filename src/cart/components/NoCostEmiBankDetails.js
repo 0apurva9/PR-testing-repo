@@ -179,24 +179,7 @@ export default class NoCostEmiBankDetails extends React.Component {
                 emiInfo
             );
         }
-
-      });
     }
-
-  }
-  termsAndCondition() {
-    if (this.props.getEmiTermsAndConditionsForBank) {
-      this.props.getEmiTermsAndConditionsForBank(
-        this.state.selectedCode,
-        this.state.selectedBankName
-      );
-    }
-  }
-  binValidation = (paymentMode, binNo) => {
-    if (this.props.binValidation) {
-      this.props.binValidation(paymentMode, binNo);
-    }
-}
 
     handleSelect(index, code) {
         let selectedFromDropDown = false;
@@ -728,46 +711,6 @@ export default class NoCostEmiBankDetails extends React.Component {
                     </React.Fragment>
                 )}
             </div>
-
-          </div>
-        )}
-
-        {this.props.isNoCostEmiProceeded && (
-          <React.Fragment>
-            <EmiDisplay
-              bankName={this.state.selectedBankName}
-              term={this.state.selectedTenure}
-              emiRate="No Cost"
-              price={
-                noCostEmiDetails &&
-                noCostEmiDetails.noCostEMIPerMonthPayable &&
-                `${RUPEE_SYMBOL} ${Math.round(
-                  noCostEmiDetails.noCostEMIPerMonthPayable.value * 100
-                ) / 100}`
-              }
-              isRetryPaymentFromURL={this.props.isRetryPaymentFromURL}
-              changePlan={() => this.changeNoCostEmiPlan()}
-            />
-            <CreditCardForm
-              emiBinValidationErrorMessage={
-                this.props.emiBinValidationErrorMessage
-              }
-              buttonDisabled={this.props.creditCardValid()}
-              onFocusInput={this.props.onFocusInput}
-              onChangeCvv={i => this.onChangeCvv(i)}
-              binValidation={binNo => this.binValidation(binNo)}
-              onChangeCardDetail={cardDetails =>
-                this.onChangeCardDetail(cardDetails)
-              }
-              displayToast={this.props.displayToast}
-              cardDetails={this.props.cardDetails}
-              onCheckout={this.props.onCheckout}
-              isDebitCard={this.props.isDebitCard}
-              emiEligibiltyDetails={this.props.emiEligibiltyDetails}
-            />
-          </React.Fragment>
-        )}
-      </div>
-    );
-  }
+        );
+    }
 }
