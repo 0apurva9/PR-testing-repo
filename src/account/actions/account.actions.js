@@ -570,6 +570,10 @@ export const CHECK_BALANCE_REQUEST = "CHECK_BALANCE_REQUEST";
 export const CHECK_BALANCE_SUCCESS = "CHECK_BALANCE_SUCCESS";
 export const CHECK_BALANCE_FAILURE = "CHECK_BALANCE_FAILURE";
 
+export const GET_HAPTIK_CONFIG_DATA_REQUEST = "GET_HAPTIK_CONFIG_DATA_REQUEST";
+export const GET_HAPTIK_CONFIG_DATA_SUCCESS = "GET_HAPTIK_CONFIG_DATA_SUCCESS";
+export const GET_HAPTIK_CONFIG_DATA_FAILURE = "GET_HAPTIK_CONFIG_DATA_FAILURE";
+
 const GENESYS_KEY = "Zgjei@$Pu";
 
 export function getDetailsOfCancelledProductRequest() {
@@ -5883,5 +5887,54 @@ export function getRecentTicketHistoryDetails(
 export function resetTicketsDataToInitial() {
   return {
     type: RESET_TICKETS_HISTORY_DATA_TO_INITIAL
+  };
+}
+
+export function getHaptikBotConfigRequest() {
+  return {
+    type: GET_HAPTIK_CONFIG_DATA_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getHaptikBotConfigSuccess(haptikBotConfigData) {
+  return {
+    type: GET_HAPTIK_CONFIG_DATA_SUCCESS,
+    status: SUCCESS,
+    haptikBotConfigData
+  };
+}
+
+export function getHaptikBotConfigFailure() {
+  return {
+    type: GET_HAPTIK_CONFIG_DATA_FAILURE,
+    status: FAILURE
+  };
+}
+
+export function getHaptikBotConfig(pageId) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getHaptikBotConfigRequest());
+    try {
+      const result = await api.get(`${PATH}/cms/defaultpage?pageId=${pageId}`);
+      let resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      let resultJsonParse = "";
+      if (
+        resultJson &&
+        resultJson.items &&
+        resultJson.items[0].cmsParagraphComponent
+      ) {
+        resultJsonParse = JSON.parse(
+          resultJson.items[0].cmsParagraphComponent.content
+        );
+      }
+      dispatch(getHaptikBotConfigSuccess(resultJsonParse));
+    } catch (e) {
+      dispatch(getHaptikBotConfigFailure(e.message));
+    }
   };
 }

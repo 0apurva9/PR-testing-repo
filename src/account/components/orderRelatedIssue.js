@@ -50,6 +50,7 @@ const YES = "Yes";
 const NO = "No";
 const STATUS_DATE_FORMAT = "DD MMM, YYYY";
 const CLIQ_2_CALL_CONFIG = "cliq2call-config-file-v1";
+const SERVICE_BOT_CONFIG = "serviceBotConfig";
 export default class OrderRelatedIssue extends React.Component {
   constructor(props) {
     super(props);
@@ -119,7 +120,8 @@ export default class OrderRelatedIssue extends React.Component {
       isRecentOrderDetails: false,
       selectedTickerHistory: "",
       isShowRecentOrderCard: true,
-      recentTicketClicked: false
+      recentTicketClicked: false,
+      trackPageNavigation: "Care_Homepage"
     };
     this.resetState = this.state;
   }
@@ -146,6 +148,9 @@ export default class OrderRelatedIssue extends React.Component {
     }
     if (this.props.getAllOthersHelp) {
       this.props.getAllOthersHelp(FAQ_PAGE);
+    }
+    if (this.props.getHaptikBotConfig) {
+      this.props.getHaptikBotConfig(SERVICE_BOT_CONFIG);
     }
     if (this.props.currentState) {
       this.setState({ ...this.props.currentState });
@@ -388,7 +393,8 @@ export default class OrderRelatedIssue extends React.Component {
       parentIssueType: selectOtehrQuestion.parentIssueType,
       questionType: NON_ORDER_REALTED_QUESTION,
       callMeBackJourney: false,
-      isShowRecentOrderCard: false
+      isShowRecentOrderCard: false,
+      trackPageNavigation: ""
     });
   }
 
@@ -440,7 +446,8 @@ export default class OrderRelatedIssue extends React.Component {
           parentIssueType: null,
           questionType: ORDER_REALTED_QUESTION,
           slectOrderData: orderData.product,
-          isShowRecentOrderCard: false
+          isShowRecentOrderCard: false,
+          trackPageNavigation: ""
         });
       }
     }
@@ -491,7 +498,8 @@ export default class OrderRelatedIssue extends React.Component {
               showFeedBack: false,
               isQuesryForm: false,
               callMeBackJourney: false,
-              isShowRecentOrderCard: false
+              isShowRecentOrderCard: false,
+              trackPageNavigation: ""
             });
           }
         }
@@ -547,14 +555,19 @@ export default class OrderRelatedIssue extends React.Component {
   }
 
   showAllOrdersList() {
-    this.setState({ orderAllList: true, isShowRecentOrderCard: false });
+    this.setState({
+      orderAllList: true,
+      isShowRecentOrderCard: false,
+      trackPageNavigation: ""
+    });
   }
   hideAllOrder() {
     setDataLayerForCLiQCarePage(ADOBE_SELF_SERVE_PAGE_LOAD, null, [
       CLIQ_CARE,
       "Care_Homepage"
     ]);
-    this.setState({ orderAllList: false, isShowRecentOrderCard: true });
+
+    this.setState(this.resetState);
   }
 
   navigateLogin() {
@@ -676,10 +689,7 @@ export default class OrderRelatedIssue extends React.Component {
       });
     } else if (this.state.isRecentOrderDetails) {
       if (this.state.recentTicketClicked) {
-        this.setState({
-          isRecentOrderHistory: false,
-          recentTicketClicked: false
-        });
+        this.setState(this.resetState);
       }
       this.setState({ isRecentOrderDetails: false });
     } else if (this.state.isRecentOrderHistory) {
@@ -767,7 +777,6 @@ export default class OrderRelatedIssue extends React.Component {
   }
 
   callMeBackCallClick = () => {
-    // window.scrollTo(0, 0);
     this.setState({
       isCallMeBackForm: true,
       isIssueOptions: false,
@@ -776,7 +785,6 @@ export default class OrderRelatedIssue extends React.Component {
   };
 
   scheduleACallClick = () => {
-    // window.scrollTo(0, 0);
     this.setState({
       isCallMeBackForm: true,
       isScheduleACall: true,
@@ -964,7 +972,8 @@ export default class OrderRelatedIssue extends React.Component {
       isRecentOrderHistory: true,
       isOrderDatails: false,
       FAQquestion: false,
-      showQuestionList: false
+      showQuestionList: false,
+      trackPageNavigation: ""
     });
   }
 
@@ -987,7 +996,8 @@ export default class OrderRelatedIssue extends React.Component {
       isRecentOrderHistory: true,
       isOrderDatails: false,
       FAQquestion: false,
-      showQuestionList: false
+      showQuestionList: false,
+      trackPageNavigation: ""
     });
   };
 
@@ -1025,7 +1035,8 @@ export default class OrderRelatedIssue extends React.Component {
       genesysCustomerCallRequestData,
       ticketHistoryDetails,
       ticketDetailsDataLoading,
-      initialTicketDetailsData
+      initialTicketDetailsData,
+      haptikBotConfigData
     } = this.props;
     if (
       customerQueriesOtherIssueLoading ||
@@ -1054,6 +1065,12 @@ export default class OrderRelatedIssue extends React.Component {
       showRecentOrderCard = true;
     }
 
+    const trackPagesNavigation =
+      haptikBotConfigData &&
+      haptikBotConfigData.list.find(
+        data => data.pageType === this.state.trackPageNavigation
+      );
+
     if (this.state.showLoader) {
       return (
         <SSRquest
@@ -1066,7 +1083,10 @@ export default class OrderRelatedIssue extends React.Component {
       return (
         <div className={styles.base}>
           <DesktopOnly>
-            {this.state.orderList && !this.state.isRecentOrderHistory ? (
+            {haptikBotConfigData &&
+            haptikBotConfigData.chatEnabled &&
+            trackPagesNavigation &&
+            trackPagesNavigation.desktop ? (
               <div
                 className={styles.cahtIcon}
                 onClick={this.onHaptikBotBannerClick}

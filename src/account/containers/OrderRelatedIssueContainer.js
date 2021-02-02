@@ -20,7 +20,8 @@ import {
   fetchOrderItemDetails,
   getCliq2CallConfig,
   placeCustomerCallRequest,
-  getRecentTicketHistoryDetails
+  getRecentTicketHistoryDetails,
+  getHaptikBotConfig
 } from "../actions/account.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 import {
@@ -122,6 +123,9 @@ const mapDispatchToProps = dispatch => {
     },
     clearOrderTransactionDetails: () => {
       dispatch(clearOrderTransactionDetails());
+    },
+    getHaptikBotConfig: pageId => {
+      dispatch(getHaptikBotConfig(pageId));
     }
   };
 };
@@ -163,7 +167,9 @@ const mapStateToProps = state => {
       state.profile.genesysCustomerCallRequestData,
     ticketDetailsDataLoading: state.profile.ticketDetailsDataLoading,
     ticketHistoryDetails: state.profile.ticketHistoryDetails,
-    initialTicketDetailsData: state.profile.initialTicketDetailsData
+    initialTicketDetailsData: state.profile.initialTicketDetailsData,
+    haptikBotConfigDataLoading: state.profile.haptikBotConfigDataLoading,
+    haptikBotConfigData: state.profile.haptikBotConfigData
   };
 };
 
