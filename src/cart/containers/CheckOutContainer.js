@@ -79,7 +79,8 @@ import {
     instaCredISEnableMidddleLayer,
     getBankDetailsforDCEmi,
     getEMIEligibilityDetails,
-    submitAppliancesExchangeData,
+	submitAppliancesExchangeData,
+	addAddressToCart,
 } from "../actions/cart.actions";
 import { showSecondaryLoader, hideSecondaryLoader } from "../../general/secondaryLoader.actions";
 import {
@@ -173,11 +174,25 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                     );
                 });
             }
-        },
+		},
+		addAddressToCart: (
+			addressId,
+			pinCode,
+			isComingFromCliqAndPiq,
+			isExchangeProductInCart
+		) => {
+			dispatch(
+			  addAddressToCart(
+				addressId,
+				pinCode,
+				isComingFromCliqAndPiq,
+				isExchangeProductInCart
+			  )
+			);
+		},
         getOrderSummary: pinCode => {
             dispatch(getOrderSummary(pinCode));
         },
-
         applyUserCouponForAnonymous: couponCode => {
             dispatch(applyUserCouponForAnonymous(couponCode));
         },

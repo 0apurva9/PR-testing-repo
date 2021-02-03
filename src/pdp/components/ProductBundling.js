@@ -5,7 +5,6 @@ import SectionLoaderDesktop from "../../general/components/SectionLoaderDesktop"
 import styles from "./ProductBundling.css";
 import { SUCCESS, PRODUCT_CART_ROUTER, FAILURE_LOWERCASE, ADD_TO_BAG_TEXT } from "../../lib/constants";
 import { setDataLayer, ADOBE_PB_ADD_BUNDLED_PRODUCTS_TO_CART_FROM_PDP } from "../../lib/adobeUtils";
-import PropTypes from "prop-types";
 import Icon from "../../xelpmoc-core/Icon";
 import comboDiscountIcon from "./img/comboDiscountIcon.svg";
 let allBundledProductData = [];
@@ -32,10 +31,9 @@ export default class ProductBundling extends React.Component {
         this.toggleShowingProducts = this.toggleShowingProducts.bind(this);
     }
 
-    async componentDidMount() {
-        // call bagCount API to show check icon against bundled product which are in cart
-        if (this.props.bundledProductSuggestionDetails && this.props.bundledProductSuggestionDetails.slots) {
-            await this.props.getCartCountForLoggedInUser();
+    convertToLowerCase(data) {
+        if (data) {
+            return data.toLowerCase();
         }
     }
 
@@ -51,18 +49,19 @@ export default class ProductBundling extends React.Component {
             this.setState({
                 totalBundledPriceDetails: nextProps.totalBundledPriceDetails,
             });
-            if (nextProps.totalBundledPriceDetails.status.toLowerCase() === FAILURE_LOWERCASE) {
+            if (this.convertToLowerCase(nextProps.totalBundledPriceDetails.status) === FAILURE_LOWERCASE) {
                 this.props.displayToast("Please try again");
             }
         }
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps, prevState) {
         if (this.props.addBundledProductsToCartDetails !== prevProps.addBundledProductsToCartDetails) {
-            if (this.props.addBundledProductsToCartDetails.status.toLowerCase() === SUCCESS) {
+            if (this.convertToLowerCase(this.props.addBundledProductsToCartDetails.status) === SUCCESS) {
                 // for analytics
                 let categoryHierarchy = this.props.productData.categoryHierarchy;
-                let categoryName = categoryHierarchy && categoryHierarchy[categoryHierarchy.length - 1].category_name;
+                const categoryHierarchyLength = categoryHierarchy.length;
+                let categoryName = categoryHierarchy && categoryHierarchy[categoryHierarchyLength - 1].category_name;
                 let data = this.state.addToCartAnalyticsData;
                 data.productIds.unshift(this.props.productData.productListingId);
                 data.productCategories.unshift(categoryName);
@@ -72,9 +71,16 @@ export default class ProductBundling extends React.Component {
                 this.props.displayToast(ADD_TO_BAG_TEXT);
                 this.props.history.push(PRODUCT_CART_ROUTER);
             }
-            if (this.props.addBundledProductsToCartDetails.status.toLowerCase() === FAILURE_LOWERCASE) {
+            if (this.convertToLowerCase(this.props.addBundledProductsToCartDetails.status) === FAILURE_LOWERCASE) {
                 this.props.displayToast(this.props.addBundledProductsToCartDetails.error);
             }
+        }
+
+        if (
+            this.props.bundledProductSuggestionDetails !== prevProps.bundledProductSuggestionDetails &&
+            !prevState.cartProducts
+        ) {
+            this.props.getCartCountForLoggedInUser();
         }
     }
 
@@ -187,18 +193,11 @@ export default class ProductBundling extends React.Component {
     }
 
     render() {
-        // get bundled products and its ussids
-        let productWithBundledProducts =
+        let bundledProductsUssIds =
             !this.state.userLoggedOut &&
             this.state.cartProducts &&
-            this.state.cartProducts.find(product => {
-                return product.USSID === this.props.productData.winningUssID;
-            });
-        let bundledProducts = productWithBundledProducts && productWithBundledProducts.bundledAssociatedItems;
-        let bundledProductsUssIds =
-            bundledProducts &&
-            bundledProducts.map(bundledProduct => {
-                return bundledProduct.ussID;
+            this.state.cartProducts.map(product => {
+                return product.USSID;
             });
 
         let bundledPriceAPIStatus = this.state.totalBundledPriceDetails && this.state.totalBundledPriceDetails.status;
@@ -208,11 +207,23 @@ export default class ProductBundling extends React.Component {
             this.props.bundledProductSuggestionDetails.slots.length;
         let remainingProducts = productCount - 2;
 
+        let productWithComboDiscount =
+            this.props.bundledProductSuggestionDetails &&
+            this.props.bundledProductSuggestionDetails.slots &&
+            this.props.bundledProductSuggestionDetails.slots.filter(product => {
+                if (product.bundlingDiscount && parseFloat(product.bundlingDiscount) !== 0) {
+                    return product;
+                }
+            });
+        let showComboOfferText = productWithComboDiscount && productWithComboDiscount.length > 0;
+
         return (
             <React.Fragment>
                 {this.props.bundledProductSuggestionDetails ? (
                     <div className={styles.bundlingMainContainer}>
-                        <div className={styles.bundlingHeadingContainer}>Customer buy these together</div>
+                        <div className={styles.bundlingHeadingContainer}>
+                            {showComboOfferText ? "Combo Offers" : "Customer buy these together"}
+                        </div>
                         <div className={styles.details}>
                             {(this.props.getTotalBundledPriceLoading || this.props.addBundledProductsToCartLoading) && (
                                 <SectionLoaderDesktop />
@@ -234,9 +245,7 @@ export default class ProductBundling extends React.Component {
                                         isBundledProductInCart = true;
                                     }
                                     let isBundlingDiscountAvailable =
-                                        // eslint-disable-next-line no-prototype-builtins
-                                        data.hasOwnProperty("bundlingDiscount") &&
-                                        parseFloat(data.bundlingDiscount) !== 0;
+                                        "bundlingDiscount" in data && parseFloat(data.bundlingDiscount) !== 0;
 
                                     return (
                                         <SingleBundledProduct
@@ -357,28 +366,3 @@ export default class ProductBundling extends React.Component {
         );
     }
 }
-
-ProductBundling.propTypes = {
-    addBundledProductsToCart: PropTypes.func,
-    addBundledProductsToCartDetails: PropTypes.object,
-    addBundledProductsToCartLoading: PropTypes.bool,
-    bundledProductSuggestionDetails: PropTypes.array,
-    cartCountDetails: PropTypes.object,
-    categoryHierarchy: PropTypes.array,
-    displayToast: PropTypes.func,
-    getCartCountForLoggedInUser: PropTypes.func,
-    getTotalBundledPrice: PropTypes.func,
-    getTotalBundledPriceLoading: PropTypes.bool,
-    history: PropTypes.object,
-    logoutUserStatus: PropTypes.string,
-    productData: PropTypes.shape({
-        categoryHierarchy: PropTypes.array,
-        productListingId: PropTypes.string,
-        productName: PropTypes.any,
-        winningSellerPrice: PropTypes.shape({
-            value: PropTypes.number,
-        }),
-        winningUssID: PropTypes.string,
-    }),
-    totalBundledPriceDetails: PropTypes.object,
-};

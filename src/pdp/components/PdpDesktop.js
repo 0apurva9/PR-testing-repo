@@ -586,7 +586,9 @@ export default class PdpApparel extends React.Component {
 
     updateSize = () => {
         this.setState({ sizeError: false });
-    };
+	};
+
+
 
     //---------------Functions used only in HomeFurnishings Ends here---------------------
     showPincodeModal = () => {

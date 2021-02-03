@@ -29,21 +29,30 @@ const CATEGORY = "Categories";
 const BRANDS = "Brands";
 
 export default class DesktopHeader extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            hovered: null,
-            hoverInType: null,
-            bagHover: false,
-        };
-    }
+	constructor(props) {
+		super(props);
+		this.state = {
+			hovered: null,
+			hoverInType: null,
+			bagHover: false
+		};
+	}
 
-    redirectToHome() {
-        setDataLayerForHeaderAndFooterDirectCalls(ADOBE_DIRECT_CALL_FOR_HEADER_CLICK, "Tata CLiQ Logo");
-        if (this.props.redirectToHome) {
-            this.props.redirectToHome();
-        }
-    }
+	redirectToHome() {
+		if (
+			this.props.history.location.pathname.includes("/checkout") ||
+			this.props.history.location.pathname.includes("/cart")
+		) {
+			return;
+		}
+		setDataLayerForHeaderAndFooterDirectCalls(
+			ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
+			"Tata CLiQ Logo"
+		);
+		if (this.props.redirectToHome) {
+			this.props.redirectToHome();
+		}
+	}
 
     openSignUpPopUp(value) {
         if (this.props.openSignUp) {

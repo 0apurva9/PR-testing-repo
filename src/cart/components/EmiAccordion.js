@@ -60,6 +60,7 @@ export default class EmiAccordion extends React.Component {
         }
     }
 
+
     handleSelectBank(val) {
         const option = this.props.emiList.filter(data => {
             return data.code === val[0];
@@ -204,6 +205,7 @@ export default class EmiAccordion extends React.Component {
             </React.Fragment>
         );
     }
+
 }
 
 EmiAccordion.propTypes = {

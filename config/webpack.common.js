@@ -16,6 +16,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const NodemonPlugin = require("nodemon-webpack-plugin");
 const ESLintPlugin = require("eslint-webpack-plugin");
 
+console.log("eslintb path", path.resolve(process.cwd(), ".eslintrc.js"));
 module.exports = env => {
     const isLocalMachineBuild = env.local === "true";
 
@@ -78,7 +79,10 @@ module.exports = env => {
         new webpack.ProvidePlugin({
             process: "process/browser",
         }),
-        new ESLintPlugin(),
+        new ESLintPlugin({
+            eslintPath: path.resolve(process.cwd(), "node_modules", "eslint"),
+            useEslintrc: true,
+        }),
     ];
 
     const miniCssFileName = "css/style.[contenthash:12].css";

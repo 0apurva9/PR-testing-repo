@@ -13,7 +13,7 @@ export default class SimilarProductsModal extends React.Component {
   };
 
   goToProductDescription = (url, item, index) => {
-    let icidTracking = `"home":"Similar Products":"blank":${index +
+    let icidTracking = `"plp":"Similar Products":"blank":${index +
       1}:"blank ":"blank":"blank":${item.product_id}`;
     ICIDTracking(icidTracking);
     this.props.history.push(url);

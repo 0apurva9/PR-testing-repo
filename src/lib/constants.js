@@ -605,3 +605,4 @@ export const RESOLVED = "Resolved";
 export const IS_FORWARD_JOURNEY = "isForwardJourney";
 export const CANCEL_REASON_FOR_BUNDLED_PRODUCT =
   "Other products purchased in the combo might also get canceled";
+export const MDE_FRAUD_CHECK_ERROR = "mdeFraudCheckError";

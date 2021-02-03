@@ -37,16 +37,25 @@ import {
   DC_EMI_BANK_DETAILS_REQUEST,
   DC_EMI_BANK_DETAILS_SUCCESS,
   getBankDetailsforDCEmi,
-  DC_EMI_BANK_DETAILS_FAILURE
+  DC_EMI_BANK_DETAILS_FAILURE,
+  BIN_VALIDATION_OF_EMI_ELIGIBLE_REQUEST,
+  BIN_VALIDATION_OF_EMI_ELIGIBLE_SUCCESS,
+  binValidationOfEmiEligible,
+  BIN_VALIDATION_OF_EMI_ELIGIBLE_FAILURE
 } from "../cart/actions/cart.actions";
 import {
   getPaymentModesSuccessMockData,
   noCostEmiTenureListSuccessMockData,
   getBankDetailsforDCEmiSuccessMockData,
   bankConvFeeIsZero,
-  bankConvFeeNonZero
+  bankConvFeeNonZero,
+  creditCardFomrPropPass,
+  eligibleBin,
+  creditCardFomrPropFail,
+  inEligibleBin
 } from "../__unit-test-mock-data__/dcEmi.mock";
 import NoCostEmiBankDetails from "../cart/components/NoCostEmiBankDetails";
+import CreditCardForm from "../cart/components/CreditCardForm";
 
 Enzyme.configure({
   adapter: new EnzymeAdapter(),
@@ -55,6 +64,11 @@ Enzyme.configure({
 
 const setup = (props = {}, state = null) => {
   const wrapper = shallow(<NoCostEmiBankDetails {...props} />);
+  if (state) wrapper.setState(state);
+  return wrapper;
+};
+const setupCreditCardForm = (props = {}, state = null) => {
+  const wrapper = shallow(<CreditCardForm {...props} />);
   if (state) wrapper.setState(state);
   return wrapper;
 };
@@ -426,5 +440,97 @@ describe(`Testing 'Bank Convenience Fees' section in case of DCEMI `, () => {
     const wrapper = setup(bankConvFeeNonZero);
     const couponInputField = findByTestAttr(wrapper, "bank-conv-fee-test");
     expect(couponInputField.length).toBe(1);
+  });
+});
+
+/**
+ * Testing `emiEligibleBin` API
+ */
+
+describe("testing emiEligibleBin API", () => {
+  let mockResponseData, apiMock, middleWares, initialState, postMock, mockStore;
+  beforeEach(() => {
+    postMock = jest.fn();
+    Cookie.createCookie(
+      CUSTOMER_ACCESS_TOKEN,
+      JSON.stringify(user.userDetails)
+    );
+    Cookie.createCookie(
+      LOGGED_IN_USER_DETAILS,
+      JSON.stringify(user.userDetails)
+    );
+    Cookie.createCookie(GLOBAL_ACCESS_TOKEN, JSON.stringify(user.userDetails));
+  });
+  test("testing success response in case API succeed", () => {
+    mockResponseData = creditCardFomrPropPass;
+    const apiResponse = mockResponseData;
+    const result = {
+      status: SUCCESS,
+      json: () => apiResponse
+    };
+    postMock.mockReturnValueOnce(result);
+    apiMock = {
+      corePostByUrlEncoded: postMock
+    };
+    middleWares = [
+      thunk.withExtraArgument({
+        api: apiMock
+      })
+    ];
+    mockStore = configureMockStore(middleWares);
+    const store = mockStore(initialState);
+    const expectedActions = [
+      { type: BIN_VALIDATION_OF_EMI_ELIGIBLE_REQUEST, status: REQUESTING },
+      {
+        type: BIN_VALIDATION_OF_EMI_ELIGIBLE_SUCCESS,
+        binValidationOfEmiEligible: creditCardFomrPropPass,
+        status: SUCCESS
+      }
+    ];
+    return store.dispatch(binValidationOfEmiEligible(eligibleBin)).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+      expect(postMock.mock.calls.length).toBe(1);
+      const wrapper = setupCreditCardForm(creditCardFomrPropPass);
+      const errorField = findByTestAttr(wrapper, "creditCardForm-err-msg");
+      expect(errorField.length).toBe(0);
+    });
+  });
+  test("testing API in case of invalid card", () => {
+    mockResponseData = creditCardFomrPropFail;
+    const apiResponse = mockResponseData;
+    const result = {
+      status: SUCCESS,
+      json: () => apiResponse
+    };
+    postMock.mockReturnValueOnce(result);
+    apiMock = {
+      corePostByUrlEncoded: postMock
+    };
+    middleWares = [
+      thunk.withExtraArgument({
+        api: apiMock
+      })
+    ];
+    mockStore = configureMockStore(middleWares);
+    const store = mockStore(initialState);
+    const expectedActions = [
+      { type: BIN_VALIDATION_OF_EMI_ELIGIBLE_REQUEST, status: REQUESTING },
+      {
+        type: BIN_VALIDATION_OF_EMI_ELIGIBLE_SUCCESS,
+        binValidationOfEmiEligible: creditCardFomrPropFail,
+        status: SUCCESS
+      }
+    ];
+    return store
+      .dispatch(binValidationOfEmiEligible(inEligibleBin))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions);
+        expect(postMock.mock.calls.length).toBe(1);
+        const wrapper = setupCreditCardForm(creditCardFomrPropFail);
+        const errorField = findByTestAttr(wrapper, "creditCardForm-err-msg");
+        expect(errorField.text()).toBe(
+          creditCardFomrPropFail.emiBinValidationErrorMessage
+        );
+      });
   });
 });

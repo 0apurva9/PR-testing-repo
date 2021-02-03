@@ -1481,44 +1481,88 @@ export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
             },
         });
     }
-    const selectedColour =
-        pdpResponse &&
-        pdpResponse.variantOptions &&
-        pdpResponse.variantOptions.filter(val => {
-            return val.colorlink.selected;
-        })[0].colorlink.color;
-    let seasonData = {};
-    if (pdpResponse && pdpResponse.seasonDetails !== undefined) {
-        seasonData = pdpResponse.seasonDetails.find(item => {
-            return item.key === "Season";
-        });
-    }
-    let productTag =
-        pdpResponse && pdpResponse.allOOStock === true
-            ? "Out of Stock"
-            : pdpResponse && pdpResponse.isProductNew === "Y"
-            ? "New"
-            : seasonData && seasonData.key === "Season"
-            ? seasonData.value
-            : pdpResponse.isOnlineExclusive === "Y"
-            ? "New"
-            : pdpResponse.isExchangeAvailable === true && pdpResponse.showExchangeTag === true
-            ? "Exchange Offer"
-            : pdpResponse && pdpResponse.discount && pdpResponse.discount !== "0"
-            ? `${parseInt(pdpResponse.discount, 10)}% off`
-            : pdpResponse && pdpResponse.isOfferExisting && pdpResponse.isOfferExisting == "Y"
-            ? "On Offer"
-            : "";
+    const selectedData =
+    pdpResponse &&
+    pdpResponse.variantOptions &&
+    Array.isArray(pdpResponse.variantOptions) &&
+    pdpResponse.variantOptions.filter(val => {
+      return val.colorlink.selected;
+    });
+  const selectedColour =
+    selectedData &&
+    Array.isArray(selectedData) &&
+    selectedData[0].colorlink &&
+    selectedData[0].colorlink.color;
+  const selectedSize =
+    selectedData &&
+    Array.isArray(selectedData) &&
+    selectedData[0].sizelink &&
+    selectedData[0].sizelink.size;
+  let seasonData = {};
+  if (pdpResponse && pdpResponse.seasonDetails !== undefined) {
+    seasonData =
+      Array.isArray(pdpResponse.seasonDetails) &&
+      pdpResponse.seasonDetails.find(item => {
+        return item.key === "Season";
+      });
+  }
+
+  let productTag;
+  if (pdpResponse && pdpResponse.allOOStock === true) {
+    productTag = "Out of Stock";
+  } else if (pdpResponse && pdpResponse.isProductNew === "Y") {
+    productTag = "New";
+  } else if (seasonData && seasonData.key === "Season") {
+    productTag = seasonData.value;
+  } else if (
+    pdpResponse &&
+    pdpResponse.isOnlineExclusive &&
+    pdpResponse.isOnlineExclusive === "Y"
+  ) {
+    productTag = "New";
+  } else if (
+    pdpResponse &&
+    pdpResponse.isExchangeAvailable &&
+    pdpResponse.showExchangeTag &&
+    pdpResponse.isExchangeAvailable === true &&
+    pdpResponse.showExchangeTag === true
+  ) {
+    productTag = "Exchange Offer";
+  } else if (
+    pdpResponse &&
+    pdpResponse.discount &&
+    pdpResponse.discount !== "0"
+  ) {
+    productTag = `${parseInt(pdpResponse.discount, 10)}% off`;
+  } else if (
+    pdpResponse &&
+    pdpResponse.isOfferExisting &&
+    pdpResponse.isOfferExisting == "Y"
+  ) {
+    productTag = "On Offer";
+  } else {
+    productTag = "";
+  }
     let productCategoryId = pdpResponse && pdpResponse.categoryHierarchy;
     let APlusTamplete = pdpResponse && pdpResponse.APlusContent && pdpResponse.APlusContent.temlateName;
+    const date = new Date(),
+    dateFormat =
+      date &&
+      [date.getDate(), date.getMonth() + 1, date.getFullYear()].join("/") +
+        " " +
+        [date.getHours(), date.getMinutes()].join(":");
     let data = {
         cpj: {
             product: {
-                id: pdpResponse ? pdpResponse.productListingId : "",
-                category: pdpResponse ? pdpResponse.rootCategory : "",
-                category_id: productCategoryId && productCategoryId[productCategoryId.length - 1],
-                colour: selectedColour ? selectedColour : "",
-                tag: productTag ? productTag : "",
+              id: pdpResponse ? pdpResponse.productListingId : "",
+              category: pdpResponse ? pdpResponse.rootCategory : "",
+              category_id: productCategoryId
+                ? productCategoryId && productCategoryId[productCategoryId.length - 1]
+                : pdpResponse && pdpResponse.categoryL4Code,
+              colour: selectedColour || "",
+              tag: productTag || "",
+              productName: pdpResponse && pdpResponse.productName,
+              size: selectedSize || ""
             },
             brand: {
                 name: pdpResponse ? pdpResponse.brandName : "",
@@ -1532,6 +1576,8 @@ export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
             },
         },
         video: APlusTamplete ? APlusTamplete : "",
+        CTSource: "Desktop",
+        Date: dateFormat,
     };
     if (window.digitalData && window.digitalData.account) {
         Object.assign(data, {
@@ -1803,6 +1849,12 @@ function getDigitalDataForCart(type, cartResponse) {
             },
         });
     }
+    const date = new Date(),
+    dateFormat =
+      date &&
+      [date.getDate(), date.getMonth() + 1, date.getFullYear()].join("/") +
+        " " +
+        [date.getHours(), date.getMinutes()].join(":");
     let data = {
         page: {
             category: {
@@ -1813,6 +1865,8 @@ function getDigitalDataForCart(type, cartResponse) {
                 pageType: "Cart Page",
             },
         },
+        CTSource: "Desktop",
+        Date: dateFormat,
     };
     if (window.digitalData && window.digitalData.account) {
         Object.assign(data, {
@@ -1827,6 +1881,8 @@ function getDigitalDataForCart(type, cartResponse) {
             productPriceArray,
             productBrandArray,
             categoryArray,
+            productCategoryIdArray,
+            productNameArray
         } = getProductData;
         Object.assign(data, {
             cpj: {
@@ -1835,6 +1891,8 @@ function getDigitalDataForCart(type, cartResponse) {
                     quantity: productQuantityArray,
                     price: productPriceArray,
                     category: categoryArray,
+                    categoryId: productCategoryIdArray,
+                    productName: productNameArray
                 },
                 brand: {
                     name: productBrandArray,
@@ -2041,7 +2099,9 @@ function getProductsDigitalData(response, type) {
             productQuantityArray = [],
             productPriceArray = [],
             productBrandArray = [],
-            categoryArray = [];
+            categoryArray = [],
+            productCategoryIdArray = [],
+            productNameArray = [];
         response.products.forEach(function(product) {
             productIdsArray.push(product.productcode && product.productcode.toLowerCase());
             productQuantityArray.push(
@@ -2050,21 +2110,24 @@ function getProductsDigitalData(response, type) {
                     10
                 )
             );
-            productPriceArray.push(
-                parseInt(
-                    product.offerPrice
-                        ? product.offerPrice
-                        : product.pricevalue
-                        ? product.pricevalue
-                        : product.price
-                        ? product.price
-                        : product.mrp && product.mrp.value
-                        ? product.mrp.value
-                        : null,
-                    10
-                )
-            );
-            productBrandArray.push(product.productBrand && product.productBrand.replace(/ /g, "_").toLowerCase());
+            product &&
+        product.productCategoryId &&
+        productCategoryIdArray.push(product.productCategoryId);
+      product &&
+        product.productName &&
+        productNameArray.push(product.productName);
+      if (product && product.offerPrice) {
+        productPriceArray.push(parseInt(product.offerPrice, 10));
+      } else if (product && product.pricevalue) {
+        productPriceArray.push(parseInt(product.pricevalue, 10));
+      } else if (product && product.price) {
+        productPriceArray.push(parseInt(product.price, 10));
+      } else if (product && product.mrp && product.mrp.value) {
+        productPriceArray.push(parseInt(product.mrp.value, 10));
+      } else {
+        productPriceArray.push(null);
+      }
+      product.productBrand && productBrandArray.push(product.productBrand && product.productBrand.replace(/ /g, "_").toLowerCase());
             if (type && type.isReverse) {
                 let reverseArrayLength = product.categoryHierarchy && product.categoryHierarchy.length;
                 let currentReverseArray = reverseArrayLength - 1;
@@ -2073,8 +2136,9 @@ function getProductsDigitalData(response, type) {
                         product.productName === "Gift Card"
                             ? "Gift card"
                             : product.categoryHierarchy &&
+                                  Array.isArray(product.categoryHierarchy) &&
                                   product.categoryHierarchy[currentReverseArray] &&
-                                  product.categoryHierarchy[currentReverseArray].category_name &&
+                                 product.categoryHierarchy[currentReverseArray].category_name &&
                                   product.categoryHierarchy[currentReverseArray].category_name
                                       .replace(/ /g, "_")
                                       .toLowerCase()
@@ -2088,6 +2152,8 @@ function getProductsDigitalData(response, type) {
                         product.productName === "Gift Card"
                             ? "Gift card"
                             : product.categoryHierarchy &&
+                            Array.isArray(product.categoryHierarchy) &&
+
                                   product.categoryHierarchy[0] &&
                                   product.categoryHierarchy[0].category_name &&
                                   product.categoryHierarchy[0].category_name.replace(/ /g, "_").toLowerCase()
@@ -2103,6 +2169,8 @@ function getProductsDigitalData(response, type) {
             productPriceArray,
             productBrandArray,
             categoryArray,
+            productCategoryIdArray,
+            productNameArray
         };
     } else {
         return null;
@@ -2298,6 +2366,7 @@ export function setDataLayerForPdpDirectCalls(type, layerData, response) {
     if (type === SET_DATA_LAYER_FOR_BUY_NOW_EVENT) {
         if (window._satellite) {
             window._satellite.track(ADOBE_BUY_NOW);
+            window._satellite.track(ADOBE_ADD_TO_CART);
         }
     }
     if (type === SET_DATA_LAYER_FOR_SAVE_PRODUCT_EVENT_ON_PDP) {
@@ -2599,6 +2668,7 @@ export function getDigitalDataForPlp(type, response) {
         Object.assign(data.page, {
             pageInfo: {
                 pageName: "product grid",
+                pageType: "PLP",
             },
             category: { ...subCategories },
         });
