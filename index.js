@@ -7,7 +7,7 @@ const reload = require("reload");
 const startServer = () => app.listen(3000, () => console.log("Server running on port 3000"));
 
 if (isLocalMachineBuild || process.env.watch === "true") {
-    reload(app)
+    reload(app, { port: 9858 })
         .then(reloadReturned => {
             startServer();
             reloadReturned.reload();
