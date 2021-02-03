@@ -5,14 +5,12 @@ import styles from "./SelectBoxDesktop.css";
 import GreyArrow from "./img/down-arrow-grey.svg";
 import BlackArrow from "./img/down-arrow.svg";
 import WhiteArrow from "./img/down-arrow-white.svg";
-import { setDataLayer, ADOBE_SORT_SELECT } from "../../lib/adobeUtils";
 const BLACK = "black";
 const WHITE = "white";
 const GREY = "grey";
 const HOLLOW_BOX = "hollowBox";
 const BLACK_BOX = "blackBox";
 const GREY_BOX = "greyBox";
-const PRODUCT_REGEX_CART = /cart(.*)/i;
 export default class SelectBoxDesktop extends React.Component {
   constructor(props) {
     super(props);
@@ -36,14 +34,15 @@ export default class SelectBoxDesktop extends React.Component {
   }
 
   handleChange(event) {
-    if (event && event.target && event.target.value) {
-      if (this.props && this.props.location && this.props.location.pathname) {
-        let path = this.props.location.pathname;
-        if (!PRODUCT_REGEX_CART.test(path)) {
-          setDataLayer(ADOBE_SORT_SELECT, event.target.value);
-        }
-      }
-    }
+    // if (event && event.target && event.target.value) {
+    //   if (this.props && this.props.location && this.props.location.pathname) {
+    //     let path = this.props.location.pathname;
+    //     if (!PRODUCT_REGEX_CART.test(path)) {
+    //       setDataLayer(ADOBE_SORT_SELECT, event.target.value);
+    //     }
+    //   }
+    // }
+    //removed this block of code as it is common component
     if (!this.props.disabled) {
       const selectedValue = event.target.value;
       const index = event.nativeEvent.target.selectedIndex;

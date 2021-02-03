@@ -80,6 +80,12 @@ export default class EmiPanel extends React.Component {
         }
     }
 
+	binValidation = binNo => {
+		if (this.props.binValidation) {
+			this.props.binValidation(PAYMENT_MODE, binNo);
+		}
+	}
+
     getEmiBankDetails = () => {
         if (this.props.getEmiBankDetails) {
             this.props.getEmiBankDetails();
@@ -373,7 +379,7 @@ export default class EmiPanel extends React.Component {
                 {isRetryPaymentFromURL && (
                     <span className={styles.noCostRetryPayment}>
                         * Please note that the payment can be completed using the previously selected No Cost EMI option
-                        only – this is to ensure that the original discount(s) can be entirely redeemed.
+                        only â€“ this is to ensure that the original discount(s) can be entirely redeemed.
                     </span>
                 )}
                 <MenuDetails

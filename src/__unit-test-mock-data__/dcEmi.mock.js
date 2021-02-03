@@ -3057,3 +3057,57 @@ export const bankConvFeeNonZero = {
     isDCEMIEligible: true
   }
 };
+
+export const creditCardFomrPropFail = {
+  emiBinValidationErrorMessage:
+    "Currently, there are no EMI options available for your HDFCDC card.",
+  buttonDisabled: true,
+  cardDetails: {
+    is_emi: true,
+    emi_bank: "AXISDC",
+    emi_tenure: "3",
+    selectedMonth: 0,
+    selectedCouponCode: "AXISDCNCE3",
+    selectedBankName: "AXISDCBANK",
+    cardNumber: "4111 111"
+  },
+  isDebitCard: true,
+  emiEligibiltyDetails: {
+    type: "emiEligibilityDTO",
+    status: "SUCCESS",
+    DCEMIEligibleMessage:
+      "Please enter the card details registered with +91 8879880512",
+    dcwPageId: "how-dcemi-works",
+    isCCEMIEligible: true,
+    isCCNoCostEMIEligible: true,
+    isDCEMIEligible: true,
+    isDCNoCostEMIEligible: true
+  }
+};
+export const creditCardFomrPropPass = {
+  emiBinValidationErrorMessage: null,
+  buttonDisabled: true,
+  cardDetails: {
+    is_emi: true,
+    emi_bank: "AXISDC",
+    emi_tenure: "3",
+    selectedMonth: 0,
+    selectedCouponCode: "AXISDCNCE3",
+    selectedBankName: "AXISDCBANK",
+    cardNumber: "5123 4567"
+  },
+  isDebitCard: true,
+  emiEligibiltyDetails: {
+    type: "emiEligibilityDTO",
+    status: "SUCCESS",
+    DCEMIEligibleMessage:
+      "Please enter the card details registered with +91 8879880512",
+    dcwPageId: "how-dcemi-works",
+    isCCEMIEligible: true,
+    isCCNoCostEMIEligible: true,
+    isDCEMIEligible: true,
+    isDCNoCostEMIEligible: true
+  }
+};
+export const eligibleBin = "512345";
+export const inEligibleBin = "4111111";

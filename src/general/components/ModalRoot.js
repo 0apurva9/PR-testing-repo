@@ -116,6 +116,14 @@ const AddressModalContainer = Loadable({
   }
 });
 
+const NonEmiEligibleToWishlistContainer = Loadable({
+  loader: () =>
+    import("../../cart/containers/NonEmiEligibleToWishlistContainer"),
+  loading() {
+    return <Loader />;
+  }
+});
+
 const EmiModal = Loadable({
   loader: () => import("../../pdp/containers/EmiListContainer"),
   loading() {
@@ -139,9 +147,7 @@ const OfferDetailsModal = Loadable({
 
 const BeautyOfferDetailsModal = Loadable({
   loader: () =>
-    import(
-      "../../pdp/components/PdpBeautyDesktop/ImageGalleryContentComponents/ProductDetailsSection/BeautyOfferDetailsModal"
-    ),
+    import("../../pdp/components/PdpBeautyDesktop/ImageGalleryContentComponents/ProductDetailsSection/BeautyOfferDetailsModal"),
   loading() {
     return <Loader />;
   }
@@ -149,9 +155,7 @@ const BeautyOfferDetailsModal = Loadable({
 
 const BeautyPdpImageZoomIn = Loadable({
   loader: () =>
-    import(
-      "../../pdp/components/PdpBeautyDesktop/ImageGalleryContentComponents/ProductDetailsSection/BeautyPdpImageZoomIn"
-    ),
+    import("../../pdp/components/PdpBeautyDesktop/ImageGalleryContentComponents/ProductDetailsSection/BeautyPdpImageZoomIn"),
   loading() {
     return <Loader />;
   }
@@ -414,10 +418,23 @@ const AppliancesExchangeModal = Loadable({
     return <Loader />;
   }
 });
+const ValidateCliqCashPopUpContainer = Loadable({
+  loader: () => import("../../cart/containers/ValidateCliqCashPopUpContainer"),
+  loading() {
+    return <Loader />;
+  }
+});
 
 const AttachmentUploadPopUp = Loadable({
   loader: () =>
     import("../../account/components/attchment-upload-response-popup.jsx"),
+  loading() {
+    return <Loader />;
+  }
+});
+
+const MdeFraudDetailsModal = Loadable({
+  loader: () => import("../../cart/components/MdeFraudDetailsModal"),
   loading() {
     return <Loader />;
   }
@@ -885,6 +902,14 @@ export default class ModalRoot extends React.Component {
         <AddressModalContainer
           closeModal={() => this.handleClose()}
           {...this.props.ownProps}
+        />
+      ),
+      nonEmiEligibleToWishlist: (
+        <NonEmiEligibleToWishlistContainer
+          {...this.props.ownProps}
+          closeModal={() => this.handleClose()}
+          changePaymentMethod={() => this.handleClose()}
+          addProductToWishList={() => this.props.addProductToWishList()}
         />
       ),
       ConnectDetails: (
@@ -1371,6 +1396,20 @@ export default class ModalRoot extends React.Component {
           updateAppliancesExchangeDetails={exchangeData =>
             this.props.updateAppliancesExchangeDetails(exchangeData)
           }
+        />
+      ),
+
+      ValidateCliqCashPopUp: (
+        <ValidateCliqCashPopUpContainer
+          {...this.props.ownProps}
+          closeModal={() => this.handleClose()}
+          changePaymentMethod={() => this.handleClose()}
+        />
+      ),
+      MdeFraudDetailsModal: (
+        <MdeFraudDetailsModal
+          {...this.props.ownProps}
+          closeMdeFraudDetailsModal={() => this.handleClose()}
         />
       )
     };
