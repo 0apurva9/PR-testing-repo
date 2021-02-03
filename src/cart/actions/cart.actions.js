@@ -586,7 +586,7 @@ export function getCartDetails(
     dispatch(cartDetailsRequest());
     try {
       const result = await api.get(
-        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetails_V2?access_token=${accessToken}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&channel=${CHANNEL}&isMDE=true&isDuplicateImei=true`
+        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetails?access_token=${accessToken}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&channel=${CHANNEL}&isMDE=true&isDuplicateImei=true`
       );
       const resultJson = await result.json();
       const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -656,7 +656,7 @@ export function getCartDetailsCNC(
     dispatch(cartDetailsCNCRequest());
     try {
       const result = await api.get(
-        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetailsCNC_V2?access_token=${accessToken}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&channel=${CHANNEL}&isMDE=true`
+        `${USER_CART_PATH}/${userId}/carts/${cartId}/cartDetailsCNC?access_token=${accessToken}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&pincode=${pinCode}&channel=${CHANNEL}&isMDE=true`
       );
       let resultJson = await result.json();
       // show toast message in case product serviceable but exchange not serviceable
@@ -1418,7 +1418,7 @@ export function getOrderSummary(pincode) {
       const result = await api.get(
         `${USER_CART_PATH}/${
           JSON.parse(userDetails).userName
-        }/carts/${cartId}/displayOrderSummary_V2?access_token=${
+        }/carts/${cartId}/displayOrderSummary?access_token=${
           JSON.parse(customerCookie).access_token
         }&pincode=${pincode}&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
       );
@@ -2191,7 +2191,7 @@ export function binValidationForUPI(paymentMode, isFromRetryUrl, retryCartGuid) 
         dispatch(binValidationForUPIRequest());
         try {
             const result = await api.post(
-                `${USER_CART_PATH}/${JSON.parse(userDetails).userName}/payments/binValidation_V2?access_token=${
+                `${USER_CART_PATH}/${JSON.parse(userDetails).userName}/payments/binValidation?access_token=${
                     JSON.parse(customerCookie).access_token
                 }&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=&channel=${CHANNEL}`
             );
@@ -3092,7 +3092,7 @@ export function binValidation(
 		const result = await api.post(
 		  `${USER_CART_PATH}/${
 			JSON.parse(userDetails).userName
-		  }/payments/binValidation_V2?access_token=${
+		  }/payments/binValidation?access_token=${
 			JSON.parse(customerCookie).access_token
 		  }&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=${binNo}&channel=${CHANNEL}`
 		);
@@ -3171,7 +3171,7 @@ export function binValidation(
 		const result = await api.post(
 		  `${USER_CART_PATH}/${
 			JSON.parse(userDetails).userName
-		  }/payments/binValidation_V2?access_token=${
+		  }/payments/binValidation?access_token=${
 			JSON.parse(customerCookie).access_token
 		  }&bankName=${bankName}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=&channel=${CHANNEL}&isUpdatedPwa=true`
 		);
@@ -4782,7 +4782,7 @@ export function binValidationForCOD(
 		const result = await api.post(
 		  `${USER_CART_PATH}/${
 			JSON.parse(userDetails).userName
-		  }/payments/binValidation_V2?access_token=${
+		  }/payments/binValidation?access_token=${
 			JSON.parse(customerCookie).access_token
 		  }&isPwa=true&isUpdatedPwa=true&platformNumber=${PLAT_FORM_NUMBER}&paymentMode=${paymentMode}&cartGuid=${cartId}&binNo=&channel=${CHANNEL}`
 		);
