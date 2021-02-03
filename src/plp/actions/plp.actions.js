@@ -323,12 +323,14 @@ import {
 			  breadcrumbs[1].name &&
 			  breadcrumbs[1].name.replace(/ /g, "_").toLowerCase() !==
 				window.digitalData.page.category.subCategory2) ||
-			(breadcrumbs[0] &&
+      (breadcrumbs &&
+        breadcrumbs[0] &&
 			  window.digitalData &&
 			  window.digitalData.page &&
 			  window.digitalData.page.category &&
 			  !window.digitalData.page.category.subCategory1) ||
-			(breadcrumbs[0] &&
+      (breadcrumbs &&
+        breadcrumbs[0] &&
 			  window.digitalData &&
 			  window.digitalData.page &&
 			  !window.digitalData.page.category)
