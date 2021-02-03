@@ -250,14 +250,27 @@ export default class ProductBundling extends React.Component {
       this.props.bundledProductSuggestionDetails &&
       this.props.bundledProductSuggestionDetails.slots &&
       this.props.bundledProductSuggestionDetails.slots.length;
-    let remainingProducts = productCount - 2;
+	let remainingProducts = productCount - 2;
+
+	let productWithComboDiscount =
+		this.props.bundledProductSuggestionDetails &&
+		this.props.bundledProductSuggestionDetails.slots &&
+		this.props.bundledProductSuggestionDetails.slots.filter(product => {
+			if (
+				product.hasOwnProperty("bundlingDiscount") &&
+				parseFloat(product.bundlingDiscount) !== 0
+			) {
+				return product;
+			}
+		});
+	let showComboOfferText = productWithComboDiscount && productWithComboDiscount.length > 0;
 
     return (
       <React.Fragment>
         {this.props.bundledProductSuggestionDetails ? (
           <div className={styles.bundlingMainContainer}>
             <div className={styles.bundlingHeadingContainer}>
-              {this.state.enableComboDiscountSection
+              {showComboOfferText
                 ? "Combo Offers"
                 : "Customer buy these together"}
             </div>
