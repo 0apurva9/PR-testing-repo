@@ -8,7 +8,7 @@
     "verify": "node scripts/verify.js",
     "build:preprod1": "node config/build.js --env.environment=qa --env.deploy=preprod1",
     "pm2:PREPROD1:start": "pm2 start ecosystem.config.js --only tata-cliq-frontend-desktop-preprod1",
-    "build:preprod2": "node config/build.js --env.environment=qa --env.deploy=preprod2",
+    "build:PREPROD2": "node config/build.js --env.environment=qa --env.deploy=preprod2",
     "pm2:PREPROD2:start": "pm2 start ecosystem.config.js --only tata-cliq-frontend-desktop-preprod2",
     "build:QA1": "node config/build.js --env.environment=qa --env.deploy=qa1",
     "pm2:QA1:start": "pm2 start ecosystem.config.js --only tata-cliq-frontend-desktop-qa1",
