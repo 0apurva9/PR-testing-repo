@@ -35,6 +35,7 @@ const eslintConfig = {
         "no-case-declarations": 0,
         "no-useless-escape": 0,
         "react/display-name": "off",
+        "no-mixed-spaces-and-tabs": 0,
     },
     settings: {
         react: {
