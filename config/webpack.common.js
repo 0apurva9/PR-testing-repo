@@ -16,7 +16,6 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const NodemonPlugin = require("nodemon-webpack-plugin");
 const ESLintPlugin = require("eslint-webpack-plugin");
 
-console.log("eslintb path", path.resolve(process.cwd(), ".eslintrc.js"));
 module.exports = env => {
     const isLocalMachineBuild = env.local === "true";
 
