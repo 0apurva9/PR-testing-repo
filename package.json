@@ -4,7 +4,7 @@
   "private": true,
   "sideEffects": true,
   "scripts": {
-    "start": "node config/build.js --env.environment=qa --env.deploy=qa4 --local",
+    "start": "node config/build.js --env.environment=qa --env.deploy=qa1 --local",
     "verify": "node scripts/verify.js",
     "build:PREPROD1": "node config/build.js --env.environment=qa --env.deploy=preprod1",
     "pm2:PREPROD1:start": "pm2 delete tata-cliq-frontend-desktop-preprod1 && pm2 start ecosystem.config.js --only tata-cliq-frontend-desktop-preprod1",
@@ -128,7 +128,7 @@
     "eslint-webpack-plugin": "^2.4.3",
     "extract-css-chunks-webpack-plugin": "^2.0.19",
     "file-loader": "^6.2.0",
-    "html-webpack-plugin": "^4.5.1",
+    "html-webpack-plugin": "^5.0.0",
     "husky": "^4.3.6",
     "i": "^0.3.6",
     "lint-staged": "^6.0.0",
