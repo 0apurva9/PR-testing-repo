@@ -51,6 +51,7 @@ export const CHANGE_PASSWORD_POP_UP = "ChangePasswordForDesktop";
 export const CLIQ_PIQ_MODAL = "CliqAndPiqModal";
 export const CUSTOMER_QUERY_POPUP = "CustomerQueryPopUp";
 export const VALIDATE_OFFERS_POPUP = "ValidateOffersPopUp";
+export const VALIDATE_CLIQ_CASH_POPUP = "ValidateCliqCashPopUp";
 export const MANUFACTURER_MODAL = "ManufacturerModal";
 export const REVIEW_GUIDLINE_MODAL = "ReviewGuidelineWrapperModal";
 export const RATING_AND_REVIEW_MODAL = "RatingAndReviewWrapperModal";
@@ -76,6 +77,10 @@ export const TIME_SLOT_POP_UP = "TimeSlotPopUp";
 export const CUSTOMER_CALL_QUERY_SUCCESS = "CustomerCallQuerySuccess";
 export const ATTACHMENT_UPLOAD_RESPONSE_POPUP = "AttachmentUploadPopUp";
 export const APPLIANCES_EXCHANGE_MODAL = "AppliancesExchangeModal";
+export const NON_EMI_ELIGIBLE_TO_WISHLIST = "nonEmiEligibleToWishlist";
+
+export const MDE_FRAUD_DETAILS_MODAL = "MdeFraudDetailsModal";
+
 export function showModal(type, ownProps) {
   const scrollPosition =
     window.pageYOffset || document.documentElement.scrollTop;

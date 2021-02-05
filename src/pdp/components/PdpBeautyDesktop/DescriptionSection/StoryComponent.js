@@ -1,6 +1,6 @@
-import PropTypes from "prop-types";
 import React from "react";
 import { Collapse } from "react-collapse";
+import PropTypes from "prop-types";
 
 import styles from "./StoryComponent.css";
 import DetailsLongComponent from "./DetailsLongComponent";

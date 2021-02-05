@@ -5,7 +5,7 @@ import queryString from "query-string";
 import { applySortToUrl } from "./SortUtils.js";
 import SelectBoxDesktop from "../../general/components/SelectBoxDesktop";
 import dropDownSortIcon from "../../general/components/img/sortIcon.svg";
-//import { setDataLayer, ADOBE_SORT_SELECT } from "../../lib/adobeUtils";
+import { setDataLayer, ADOBE_SORT_SELECT } from "../../lib/adobeUtils";
 export const ARRAY_OF_SORTS = [
   "relevance",
   "isProductNew",
@@ -19,9 +19,9 @@ export const ARRAY_OF_SORTS = [
 
 export default class SortDesktop extends React.Component {
   onClick(val) {
-    // if (val && val.label) {
-    //   setDataLayer(ADOBE_SORT_SELECT, val.label);
-    // }
+    if (val && val.label) {
+      setDataLayer(ADOBE_SORT_SELECT, val.label);
+    }
     let searchText = "";
     let icid2 = null;
     let cid = null;

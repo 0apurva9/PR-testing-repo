@@ -5,7 +5,7 @@ module.exports = function(envPath) {
         throw new Error("Env file path undefined");
     }
     const envFileTxt = fs.readFileSync(envPath, { encoding: "utf8" });
-    const splittedEnv = envFileTxt.split(/\n/g).filter(e => e.trim() !== "");
+    const splittedEnv = envFileTxt.split(/\n|\r\n/g).filter(e => e.trim() !== "");
     const env = {};
     splittedEnv.forEach(keyValue => {
         if (keyValue) {

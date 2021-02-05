@@ -262,7 +262,8 @@ export function getProductDescriptionFailure(error) {
         error,
     };
 }
-export function getProductDescription(productCode, behaviorOfPage, isApiCall, componentName) {
+
+export function getProductDescription(productCode, behaviorOfPage, isApiCall= 0, componentName= true) {
     return async (dispatch, getState, { api }) => {
         dispatch(getProductDescriptionRequest());
         try {
@@ -284,10 +285,17 @@ export function getProductDescription(productCode, behaviorOfPage, isApiCall, co
                     urlLength.length === 2 &&
                     !(urlLength.includes("my-account") || urlLength.includes("checkout"))
                 ) {
-                    window.location.pathname = resultJson.seo.alternateURL;
+					window.location.pathname = resultJson.seo.alternateURL;
+					return;
                 }
                 if (componentName) {
-                    setDataLayer(ADOBE_PDP_TYPE, resultJson, null, null, behaviorOfPageTheCurrent);
+                    setDataLayer(
+						ADOBE_PDP_TYPE,
+						resultJson,
+						getState() && getState().icid && getState().icid.value,
+						getState() && getState().icid && getState().icid.icidType,
+						behaviorOfPageTheCurrent
+					);
                 }
                 return dispatch(getProductDescriptionSuccess(resultJson));
             } else {
@@ -466,6 +474,7 @@ export function getMoreFromBrand(productId) {
         msdFormData.append("num_results", JSON.stringify(NUMBER_RESULTS));
         msdFormData.append("mad_uuid", mcvId);
         msdFormData.append("details", true);
+        msdFormData.append("fields", JSON.stringify(["mop"]));
         msdFormData.append("widget_list", JSON.stringify(WIDGET_LIST_FOR_ABOUT_BRAND));
         msdFormData.append("product_id", productId);
         if (userData && userData.customerId) {
@@ -483,8 +492,15 @@ export function getMoreFromBrand(productId) {
 
             let finalProductDetails = null;
 
-            if (moreBrandJson && moreBrandJson.data && moreBrandJson.data.length > 0) {
-                finalProductDetails = moreBrandJson.data[0];
+            if (
+                moreBrandJson &&
+                moreBrandJson.data &&
+                moreBrandJson.data.length > 0 &&
+                moreBrandJson.data[0] &&
+                moreBrandJson.data[0].itemIds &&
+                moreBrandJson.data[0].itemIds.length > 0
+            ) {
+                finalProductDetails = moreBrandJson.data[0].itemIds;
             }
 
             return dispatch(getMoreFromBrandSuccess(finalProductDetails));
@@ -531,6 +547,7 @@ export function getSimilarProduct(productId) {
         msdFormData.append("num_results", JSON.stringify(NUMBER_RESULTS));
         msdFormData.append("mad_uuid", mcvId);
         msdFormData.append("details", true);
+        msdFormData.append("fields", JSON.stringify(["mop"]));
         msdFormData.append("widget_list", JSON.stringify(WIDGET_LIST_FOR_SIMILAR_PRODUCT));
         msdFormData.append("product_id", productId);
         if (userData && userData.customerId) {

@@ -20,7 +20,7 @@ export const getPdpSchemaMetaTags = () => {
     );
 };
 
-export const renderMetaTags = (productDetails, isReviewPage: false) => {
+export const renderMetaTags = (productDetails, isReviewPage = false) => {
     let title = "";
     let description = "",
         keywords = productDetails.seo.keywords;
@@ -153,7 +153,7 @@ export function removeCanonicalUrl() {
     }
 }
 
-export const renderOgTags = (productDetails, isReviewPage: false) => {
+export const renderOgTags = (productDetails, isReviewPage = false) => {
     let googleTitle = GOOGLE_TAG_TITLE_DEFAULT;
     let googleDescription = null;
     let googleImageUrl = GOOGLE_TAG_IMAGE_DEFAULT;

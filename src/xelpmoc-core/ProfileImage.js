@@ -66,7 +66,7 @@ ProfileImage.propTypes = {
         radius: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         width: PropTypes.number,
     }),
-    styles: PropTypes.object(),
+    styles: PropTypes.object,
 };
 ProfileImage.defaultProps = {
     initials: "NA",

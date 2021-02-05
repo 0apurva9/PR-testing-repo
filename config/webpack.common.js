@@ -7,8 +7,9 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const WorkboxPlugin = require("workbox-webpack-plugin");
 const { join } = require("path");
 
+// facing issue in deployment on QA1
 //used ImageminPlugin to improve lcp
-const ImageminPlugin = require("imagemin-webpack-plugin").default;
+// const ImageminPlugin = require("imagemin-webpack-plugin").default;
 const getEnvFromDeployEnv = require("./get-env-from-deploy-env");
 const getEnvFromEnvFile = require("./get-env-from-env-file");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
@@ -77,16 +78,20 @@ module.exports = env => {
         new webpack.ProvidePlugin({
             process: "process/browser",
         }),
-        new ESLintPlugin(),
+        new ESLintPlugin({
+            eslintPath: path.resolve(process.cwd(), "node_modules", "eslint"),
+            useEslintrc: true,
+        }),
     ];
 
     const miniCssFileName = "css/style.[contenthash:12].css";
     const miniCssChunkName = "css/[name].[contenthash:12].chunk.css";
 
     if (!isLocalMachineBuild) {
-        if (process.platform !== "win32") {
-            plugins.push(new ImageminPlugin());
-        }
+        // facing issue in deployment on QA1
+        // if (process.platform !== "win32") {
+        //     plugins.push(new ImageminPlugin());
+        // }
         plugins.push(
             new WorkboxPlugin.InjectManifest({
                 swSrc: join(process.cwd(), "src/service-worker.js"),

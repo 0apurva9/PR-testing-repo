@@ -3,13 +3,12 @@ import throttle from "lodash.throttle";
 import Loader from "../../general/components/Loader";
 import { Helmet } from "react-helmet";
 import MediaQuery from "react-responsive";
-import { setDataLayer, ADOBE_PLP_TYPE, ICID2, CID } from "../../lib/adobeUtils";
 import cancelIcon from "../../general/components/img/cancelGrey.svg";
 import Icon from "../../xelpmoc-core/Icon";
 import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import * as UserAgent from "../../lib/UserAgent.js";
-import queryString, { parse } from "query-string";
+import queryString from "query-string";
 import SearchresultNullpage from "./SearchresultNullpage";
 import { renderMetaTags, renderMetaTagsWithoutSeoObject } from "../../lib/seoUtils.js";
 import Button from "../../general/components/Button.js";
@@ -24,7 +23,7 @@ import {
     AMP_BRAND_REG_EX,
     AMP_SEARCH_REG_EX,
 } from "../../lib/constants";
-import filterStyles from "./FilterDesktop.css";
+import filterStyle from "./FilterDesktop.css";
 import gridImage from "./img/grid.svg";
 import listImage from "./img/list.svg";
 import { isBrowser } from "browser-or-node";
@@ -39,7 +38,6 @@ const OFFSET_BOTTOM = 800;
 const LIST = "list";
 const GRID = "grid";
 const PAGE_REGEX = /\/page-(\d+)/;
-
 export default class Plp extends React.Component {
     constructor() {
         super();
@@ -105,19 +103,19 @@ export default class Plp extends React.Component {
                 const totalGridHeight = girdWrapper ? girdWrapper.clientHeight : 0;
                 if (totalGridHeight <= scrollHeight + subTractOffset) {
                     this.setState({ fixedScroll: false });
-                    filterWrapperDOM.className = filterStyles.filterScroll;
+                    filterWrapperDOM.className = filterStyle.filterScroll;
                     filterWrapperDOM.style.marginTop = `${totalGridHeight - filterSectionHeight}px`;
                 } else if (filterSectionHeight - subTractOffset <= pageHeight) {
                     filterWrapperDOM.style.marginTop = `auto`;
                     if (!this.state.fixedScroll) {
                         this.setState({ fixedScroll: true });
-                        filterWrapperDOM.className = filterStyles.filterFixed;
+                        filterWrapperDOM.className = filterStyle.filterFixed;
                     }
                 } else {
                     filterWrapperDOM.style.marginTop = `auto`;
                     if (this.state.fixedScroll) {
                         this.setState({ fixedScroll: false });
-                        filterWrapperDOM.className = filterStyles.filterScroll;
+                        filterWrapperDOM.className = filterStyle.filterScroll;
                     }
                 }
             }
@@ -166,26 +164,29 @@ export default class Plp extends React.Component {
         }
     }
 
-    UNSAFE_componentWillReceiveProps() {
-        const viewInfoData = this.props && this.props.productListings && this.props.productListings.view;
-        if (viewInfoData) {
-            if (viewInfoData.imageToggle) {
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        //Logic to show/hide toggle button
+        if (nextProps.productListings && nextProps.productListings.view && nextProps.productListings.view.imageToggle) {
+            if (!this.state.showToggleButton) {
                 this.setState({ showToggleButton: true });
             }
+        } else {
+            this.setState({ showToggleButton: false });
         }
+
         let categoryCodes = [];
         let foundCategory = [];
-        let defaultViewCategories = this.props.defaultViewData[0] && this.props.defaultViewData[0].value;
+        let defaultViewCategories = nextProps.defaultViewData[0] && nextProps.defaultViewData[0].value;
         if (
-            this.props.productListings &&
-            this.props.productListings.facetdatacategory &&
-            this.props.productListings.facetdatacategory.filters &&
-            this.props.productListings.facetdatacategory.filters[0] &&
-            this.props.productListings.facetdatacategory.filters[0].categoryCode
+            nextProps.productListings &&
+            nextProps.productListings.facetdatacategory &&
+            nextProps.productListings.facetdatacategory.filters &&
+            nextProps.productListings.facetdatacategory.filters[0] &&
+            nextProps.productListings.facetdatacategory.filters[0].categoryCode
         ) {
-            const filterCategory = this.props.productListings.facetdatacategory.filters[0].categoryCode;
+            const filterCategory = nextProps.productListings.facetdatacategory.filters[0].categoryCode;
             if (defaultViewCategories) {
-                categoryCodes = Object.keys(JSON.parse(this.props.defaultViewData[0].value));
+                categoryCodes = Object.keys(JSON.parse(nextProps.defaultViewData[0].value));
                 if (categoryCodes && categoryCodes.length > 0) {
                     foundCategory = categoryCodes.filter(el => el.toUpperCase() == filterCategory.toUpperCase());
                     if (foundCategory && foundCategory.length > 0) {
@@ -194,15 +195,20 @@ export default class Plp extends React.Component {
                             : "GRID";
                         if (view.toUpperCase() === "LIST") {
                             this.setState({
-                                gridBreakup: !this.state.gridBreakup,
+                                gridBreakup: true,
                                 view: LIST,
                             });
                         } else {
                             this.setState({
-                                gridBreakup: !this.state.gridBreakup,
+                                gridBreakup: false,
                                 view: GRID,
                             });
                         }
+                    } else {
+                        this.setState({
+                            gridBreakup: false,
+                            view: GRID,
+                        });
                     }
                 }
             }
@@ -213,39 +219,39 @@ export default class Plp extends React.Component {
         this.throttledScroll = !UserAgent.checkUserAgentIsMobile() ? () => this.handleScroll() : this.handleScroll();
         window.addEventListener("scroll", this.throttledScroll);
         this.setHeaderText();
-        if (this.props.lastVisitedPlpUrl === window.location.href) {
-            this.setState({ isCurrentUrl: this.state.isCurrentUrl + 1 }, () => {
-                if (this.state.isCurrentUrl === 1) {
-                    if (
-                        !window.digitalData ||
-                        !window.digitalData.page ||
-                        !window.digitalData.page.pageInfo ||
-                        window.digitalData.page.pageInfo.pageName !== "product grid"
-                    ) {
-                        if (
-                            this.props.lastVisitedPlpUrl &&
-                            (this.props.lastVisitedPlpUrl.includes("icid2") ||
-                                this.props.lastVisitedPlpUrl.includes("cid"))
-                        ) {
-                            const search = parse(this.props.location && this.props.location.search);
-                            let icid, icidType;
-                            if (search.icid2) {
-                                icid = search.icid2;
-                                icidType = ICID2;
-                            } else if (search.cid) {
-                                icid = search.cid;
-                                icidType = CID;
-                            }
-                            setDataLayer(ADOBE_PLP_TYPE, this.props.productListings, icid, icidType);
-                        } else {
-                            setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
-                        }
-                    }
-                }
-            });
-        } else {
-            setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
-        }
+        // if (this.props.lastVisitedPlpUrl === window.location.href) {
+        //     this.setState({ isCurrentUrl: this.state.isCurrentUrl + 1 }, () => {
+        //         if (this.state.isCurrentUrl === 1) {
+        //             if (
+        //                 !window.digitalData ||
+        //                 !window.digitalData.page ||
+        //                 !window.digitalData.page.pageInfo ||
+        //                 window.digitalData.page.pageInfo.pageName !== "product grid"
+        //             ) {
+        //                 if (
+        //                     this.props.lastVisitedPlpUrl &&
+        //                     (this.props.lastVisitedPlpUrl.includes("icid2") ||
+        //                         this.props.lastVisitedPlpUrl.includes("cid"))
+        //                 ) {
+        //                     const search = parse(this.props.location && this.props.location.search);
+        //                     let icid, icidType;
+        //                     if (search.icid2) {
+        //                         icid = search.icid2;
+        //                         icidType = ICID2;
+        //                     } else if (search.cid) {
+        //                         icid = search.cid;
+        //                         icidType = CID;
+        //                     }
+        //                     setDataLayer(ADOBE_PLP_TYPE, this.props.productListings, icid, icidType);
+        //                 } else {
+        //                     setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
+        //                 }
+        //             }
+        //         }
+        //     });
+        // } else {
+        //     setDataLayer(ADOBE_PLP_TYPE, this.props.productListings);
+        // }
 
         //show refine if filtersOpenAmp is true
         const parsedQueryString = queryString.parse(this.props.location.search);
@@ -416,6 +422,7 @@ export default class Plp extends React.Component {
         }
         this.props.history.push(url, {
             isFilter: false,
+            onClickCancel: true,
         });
     }
 
@@ -432,15 +439,13 @@ export default class Plp extends React.Component {
                 this.setState({ totalHeight: maxHeight });
             }
         }
+
         if (
-            (prevProps.productListings && prevProps.productListings.view) !==
-            (this.props.productListings && this.props.productListings.view)
+            prevProps.location.pathname !== this.props.location.pathname ||
+            prevProps.location.search !== this.props.location.search
         ) {
-            const viewInfoData = this.props && this.props.productListings && this.props.productListings.view;
-            if (viewInfoData) {
-                if (viewInfoData.imageToggle) {
-                    this.setState({ showToggleButton: true });
-                }
+            if (this.state.toggleView && this.state.showToggleButton) {
+                this.setState({ toggleView: false });
             }
         }
     }
@@ -669,7 +674,12 @@ export default class Plp extends React.Component {
                             )}
                         </MediaQuery>
                         <MediaQuery query="(min-device-width:1025px)" values={{ deviceWidth: 1026 }}>
-                            <div className={styles.headerSortWithFilter}>
+                            <div
+                                className={[
+                                    styles.headerSortWithFilter,
+                                    this.state.showToggleButton ? styles.showToggleButton : null,
+                                ].join(" ")}
+                            >
                                 <div
                                     className={
                                         electronicView ? styles.selectedFilterElectronicView : styles.selectedFilter
@@ -715,7 +725,12 @@ export default class Plp extends React.Component {
                                     <React.Fragment>
                                         <div className={styles["switch-view"]}>
                                             <p className={styles["switch-title"]}>Swatch Mode </p>
-                                            <div className={styles["switch-item"]}>
+                                            <div
+                                                className={[
+                                                    styles["switch-item"],
+                                                    this.state.toggleView ? null : styles["switch-off"],
+                                                ].join(" ")}
+                                            >
                                                 <input
                                                     className={styles["switch-light"]}
                                                     id="cb1"

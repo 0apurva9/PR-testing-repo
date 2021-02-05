@@ -5,7 +5,6 @@ import * as ErrorHandling from "../general/ErrorHandling.js";
 import { CUSTOMER_ACCESS_TOKEN, GLOBAL_ACCESS_TOKEN } from "../lib/constants";
 import { USER_CART_PATH } from "../cart/actions/cart.actions";
 let API_URL_ROOT = `${process.env.local === "true" ? "" : process.env.apiBaseUrl}/marketplacewebservices`;
-let MIDDLEWARE_API_URL_ROOT = "/que-marketplacewebservices";
 // eslint-disable-next-line no-useless-escape
 export const TATA_CLIQ_ROOT = /https?:[\/]{2}\S*?(\/\S*)/;
 export const TOKEN_PATH = "oauth/token";
@@ -111,12 +110,7 @@ export async function get(url, channel) {
 }
 
 export async function coreGetMiddlewareUrl(url) {
-    function btoa(str) {
-        if (Buffer.byteLength(str) !== str.length) throw new Error("bad string!");
-        return Buffer(str, "binary").toString("base64");
-    }
-
-    return await fetch(`${MIDDLEWARE_API_URL_ROOT}/${url}`, {
+    return await fetch(`${API_URL_ROOT}/${url}`, {
         headers: {
             Authorization: "Basic " + btoa("gauravj@dewsolutions.in:gauravj@12#"),
             mode: "no-cors",

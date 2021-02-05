@@ -1,3 +1,4 @@
+/* eslint-disable react/no-string-refs */
 import React from "react";
 import PdpFrame from "./PdpFrame";
 import ProductGalleryDesktop from "./ProductGalleryDesktop";
@@ -93,10 +94,9 @@ const NO_SIZE = "NO SIZE";
 const FREE_SIZE = "Free Size";
 const PRODUCT_QUANTITY = "1";
 const IMAGE = "Image";
-const env = process.env;
 let samsungChatUrl = "";
 if (isBrowser) {
-    samsungChatUrl = env.REACT_APP_SAMSUNG_CHAT_URL + window.location.href + env.REACT_APP_SAMSUNG_CHAT_URL_REFERRER;
+    samsungChatUrl = process.env.SAMSUNG_CHAT_URL + window.location.href + process.env.SAMSUNG_CHAT_URL_REFERRER;
 }
 
 export default class PdpApparel extends React.Component {
@@ -129,8 +129,6 @@ export default class PdpApparel extends React.Component {
         this.reviewListRef = React.createRef();
         this.ScrollIntoView = this.ScrollIntoView.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.scrollToViewGallery = React.createRef();
-        this.scrollToViewAccrodian = React.createRef();
     }
 
     componentDidMount = async () => {
@@ -180,7 +178,6 @@ export default class PdpApparel extends React.Component {
             }
         }
         setTracker(VIEW_PRODUCT, this.props.productDetails);
-
         /***relavant Bundling Product */
         if (
             this.props &&
@@ -589,7 +586,9 @@ export default class PdpApparel extends React.Component {
 
     updateSize = () => {
         this.setState({ sizeError: false });
-    };
+	};
+
+
 
     //---------------Functions used only in HomeFurnishings Ends here---------------------
     showPincodeModal = () => {
@@ -773,8 +772,8 @@ export default class PdpApparel extends React.Component {
 
     onScroll = () => {
         setDataLayerForPdpDirectCalls(ADOBE_DIRECT_CALL_FOR_PDP_SPEC_VIEW_MORE);
-        let scroll2 = this.scrollToViewGallery;
-        let scroll1 = this.scrollToViewAccrodian;
+        let scroll2 = this.refs.scrollToViewGallery;
+        let scroll1 = this.refs.scrollToViewAccrodian;
         window.scroll({
             top: scroll2.offsetHeight + scroll1.offsetHeight + 170,
             behavior: "smooth",
@@ -1133,7 +1132,6 @@ export default class PdpApparel extends React.Component {
                     }
                 });
             }
-
             let disabledStatus =
                 productData.allOOStock ||
                 this.props.pincodeError ||
@@ -1182,7 +1180,7 @@ export default class PdpApparel extends React.Component {
                                 cartCountDetailsLoading={this.props.cartCountDetailsLoading}
                             />
                         )}
-                        <div className={styles.pageCenter} ref={this.scrollToViewGallery}>
+                        <div className={styles.pageCenter} ref="scrollToViewGallery">
                             <div className={styles.gallery}>
                                 <ProductGalleryDesktop
                                     data={productData.galleryImagesList}
@@ -1425,6 +1423,7 @@ export default class PdpApparel extends React.Component {
                                                                         productData.rootCategory === "FineJewellery" ||
                                                                         productData.rootCategory === "FashionJewellery"
                                                                     }
+                                                                    rootCategory={productData.rootCategory}
                                                                 />
                                                             </div>
                                                         </React.Fragment>
@@ -1821,7 +1820,7 @@ export default class PdpApparel extends React.Component {
                                     />
                                 )}
 
-                                <div className={styles.detailsHolder} ref={this.scrollToViewAccrodian}>
+                                <div className={styles.detailsHolder} ref="scrollToViewAccrodian">
                                     <div className={styles.detailsCard}>
                                         {productData.productDescription && (
                                             <Accordion text="Product Description" headerFontSize={18} isOpen={true}>
@@ -1936,9 +1935,12 @@ export default class PdpApparel extends React.Component {
                                                     <div className={styles.accordionContent}>
                                                         {productData.classifications.map(val => {
                                                             if (val.specifications) {
-                                                                return val.specifications.map((value, idx) => {
+                                                                return val.specifications.map((value, index) => {
                                                                     return (
-                                                                        <div className={styles.featureHolder} key={idx}>
+                                                                        <div
+                                                                            className={styles.featureHolder}
+                                                                            key={index}
+                                                                        >
                                                                             <div className={styles.sideHeader}>
                                                                                 {value.key}
                                                                             </div>
@@ -1965,9 +1967,9 @@ export default class PdpApparel extends React.Component {
                                                     isOpen={false}
                                                 >
                                                     <div className={styles.accordionContent}>
-                                                        {featuresData.map((val, idx) => {
+                                                        {featuresData.map((val, index) => {
                                                             return (
-                                                                <div className={styles.contentDetails} key={idx}>
+                                                                <div className={styles.contentDetails} key={index}>
                                                                     <div className={styles.headerDetails}>
                                                                         {val.key}
                                                                     </div>
@@ -1997,14 +1999,14 @@ export default class PdpApparel extends React.Component {
                                             )}
                                         {productData.returnAndRefund && (
                                             <Accordion text="Return & Refund" headerFontSize={18}>
-                                                {productData.returnAndRefund.map((val, idx) => {
+                                                {productData.returnAndRefund.map((val, index) => {
                                                     return (
                                                         <div
                                                             className={styles.list}
                                                             dangerouslySetInnerHTML={{
                                                                 __html: val.refundReturnItem,
                                                             }}
-                                                            key={idx}
+                                                            key={index}
                                                         />
                                                     );
                                                 })}
@@ -2016,9 +2018,9 @@ export default class PdpApparel extends React.Component {
                                                     <div className={styles.accordionContentBold}>
                                                         {productData.knowMoreV2[0].knowMoreItemV2}
                                                     </div>
-                                                    {tailedKnowMoreV2.map((val, idx) => {
+                                                    {tailedKnowMoreV2.map((val, index) => {
                                                         return (
-                                                            <div className={styles.accordionLight} key={idx}>
+                                                            <div className={styles.accordionLight} key={index}>
                                                                 {val.knowMoreItemV2}
                                                             </div>
                                                         );
@@ -2032,22 +2034,22 @@ export default class PdpApparel extends React.Component {
                                                 <div className={styles.containerWithBottomBorder}>
                                                     {productData.rootCategory === "Electronics" &&
                                                         productData.knowMore &&
-                                                        productData.knowMore.map((val, idx) => {
+                                                        productData.knowMore.map((val, index) => {
                                                             return (
                                                                 <div
                                                                     className={styles.list}
                                                                     dangerouslySetInnerHTML={{
                                                                         __html: val.knowMoreItem,
                                                                     }}
-                                                                    key={idx}
+                                                                    key={index}
                                                                 />
                                                             );
                                                         })}
                                                     {productData.rootCategory !== "Electronics" &&
                                                         productData.knowMore &&
-                                                        productData.knowMore.map((val, idx) => {
+                                                        productData.knowMore.map((val, index) => {
                                                             return (
-                                                                <div className={styles.list} key={idx}>
+                                                                <div className={styles.list} key={index}>
                                                                     {val.knowMoreItem}
                                                                 </div>
                                                             );
@@ -2061,9 +2063,9 @@ export default class PdpApparel extends React.Component {
                                                 <Accordion text="Warranty" headerFontSize={18}>
                                                     <div className={styles.containerWithBottomBorder}>
                                                         {productData.warranty &&
-                                                            productData.warranty.map((val, idx) => {
+                                                            productData.warranty.map((val, index) => {
                                                                 return (
-                                                                    <div className={styles.list} key={idx}>
+                                                                    <div className={styles.list} key={index}>
                                                                         {val}
                                                                     </div>
                                                                 );
@@ -2220,6 +2222,19 @@ export default class PdpApparel extends React.Component {
                             </div>
                         </div>
                     </div>
+
+                    {/* {productData.brandName === "Samsung" ? (
+            <a
+              href={samsungChatUrl}
+              target="_blank"
+              className={styles.samsungChatImgHolder}
+            >
+              <img
+                src="https://assets.tatacliq.com/medias/sys_master/images/11437918060574.png"
+                alt="Samsung Chat"
+              />
+            </a>
+          ) : null} */}
                 </PdpFrame>
             );
         } else {

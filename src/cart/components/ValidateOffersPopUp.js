@@ -15,7 +15,7 @@ import {
     OFFER_ERROR_PAYMENT_MODE_TYPE,
 } from "../../lib/constants";
 import { BANK_OFFERS } from "../../general/modal.actions.js";
-import { RouterPropTypes } from "../../general/router-prop-types.js";
+import { RouterPropTypes } from "../../general/router-prop-types";
 
 export default class ValidateOffersPopUp extends React.Component {
     getBanksList(bankDetail) {

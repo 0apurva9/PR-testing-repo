@@ -14,7 +14,8 @@ import FilledStarBlack from "../../../../general/components/img/star-fill-black.
 export default class RatingsAndReviewsLongComponent extends React.Component {
     goToReviewPage = () => {
         setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_VIEW_ALL_REVIEW_AND_RATING_EVENT);
-        const url = `${this.props.location.pathname}/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
+        let url = this.props.location.pathname;
+        url = `${url.replace(/\/$/, "")}/${PRODUCT_REVIEWS_PATH_SUFFIX}`;
         this.props.history.push(url);
     };
 

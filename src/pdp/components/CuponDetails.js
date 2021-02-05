@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./CuponDetails.css";
-import CheckBox from "../../general/components/CheckBox.js";
 import PropTypes from "prop-types";
 import { RUPEE_SYMBOL } from "../../lib/constants.js";
 import { Link } from "react-router-dom";
@@ -44,7 +43,17 @@ export default class CuponDetails extends React.Component {
                   onClick={val => this.handleClick(val)}
                   data-test={`coupon-radio-btn-${this.props.promotionTitle}`}
                 >
-                  <CheckBox selected={this.props.selected} />
+                  <div
+                    className={
+                      this.props.selected
+                        ? styles.removeApplyCoupon
+                        : styles.applyCoupon
+                    }
+                  >
+                    {this.props.selected ? "Remove" : "Apply"}
+                  </div>
+                  {/* if have to change button to radiobutton uncomment below code */}
+                  {/* <CheckBox selected={this.props.selected} /> */}
                 </div>
               )}
             </div>
