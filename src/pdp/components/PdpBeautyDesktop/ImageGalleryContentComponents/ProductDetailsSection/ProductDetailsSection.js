@@ -13,6 +13,7 @@ import {
     DETAILS_COMPONENT,
     BUYNOW_ADDTOBAG_COMPONENT,
     CERTIFIED_COMPONENT,
+    COLOR_COMPONENT,
 } from "../../ComponentConstants";
 import { renderComponent } from "../../../../../pdp/reducers/utils";
 import SecondaryLoader from "../../../../../general/components/SecondaryLoader";
@@ -106,7 +107,6 @@ const typeComponentMapping = {
     [BUYNOW_ADDTOBAG_COMPONENT]: props => <BuyNowAddToBagComponent {...props} />,
     [SHIPPING_DETAIL_COMPONENT]: props => <ShippingDetailsComponent {...props} />,
     [CERTIFIED_COMPONENT]: props => <CertifiedComponent {...props} />,
-    // eslint-disable-next-line no-undef
     [COLOR_COMPONENT]: props => <ColorComponent {...props} />,
 };
 
