@@ -24,24 +24,6 @@ export default class GalleryImagesComponent extends React.Component {
         this.props.showBeautyImageZoomIn(zoomComponent);
     }
 
-    zoomIn(event) {
-        this.props.setZindex();
-        this.setState({ opacity: false });
-        let pre = document.getElementById("preview");
-        pre.style.visibility = "visible";
-        pre.style.backgroundImage = "url(" + event.target.dataset.src + ")";
-        let posX = event.clientX;
-        let posY = event.clientY;
-        pre.style.backgroundPosition = -posX + "px " + -posY + "px";
-    }
-
-    zoomOut() {
-        this.setState({ opacity: true });
-        this.props.resetZindex();
-        let pre = document.getElementById("preview");
-        pre.style.visibility = "hidden";
-    }
-
     render() {
         const galleryImages = this.props && this.props.productDetails;
         const images = galleryImages.galleryImagesList
@@ -135,11 +117,6 @@ export default class GalleryImagesComponent extends React.Component {
                             }
                         })}
                 </ul>
-                <div
-                    id="preview"
-                    className={this.state.opacity ? [styles.preview, styles.opacity].join(" ") : styles.preview}
-                    onMouseMove={event => this.zoomIn(event)}
-                />
             </div>
         );
     }

@@ -36,13 +36,6 @@ const ProductBadgesComponent = Loadable({
 });
 
 export default class ImageGalleryContentComponent extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            setZindex: false,
-        };
-    }
-
     handleDetailsScroll = sectionToScroll => {
         if (this.props.handleDetailsScroll) {
             this.props.handleDetailsScroll(sectionToScroll);
@@ -53,14 +46,6 @@ export default class ImageGalleryContentComponent extends React.Component {
         if (this.props.scrollToTop) {
             this.props.scrollToTop(delayValue, scrollBehavior);
         }
-    };
-
-    setZindex() {
-        this.setState({ setZindex: true });
-    }
-
-    resetZindex = () => {
-        this.setState({ setZindex: false });
     };
 
     render() {
@@ -80,20 +65,9 @@ export default class ImageGalleryContentComponent extends React.Component {
             <div className={styles["gallery-content-container"]}>
                 <div className={styles["gallery-container"]}>
                     <ProductBadgesComponent {...this.props} />
-                    <GalleryImagesComponent
-                        {...this.props}
-                        galleryCompDetails={galleryCompDetails}
-                        setZindex={() => this.setZindex()}
-                        resetZindex={() => this.resetZindex()}
-                    />
+                    <GalleryImagesComponent {...this.props} galleryCompDetails={galleryCompDetails} />
                 </div>
-                <div
-                    className={
-                        this.state.setZindex
-                            ? [styles["product-details-container"], styles["set-zindex"]].join(" ")
-                            : styles["product-details-container"]
-                    }
-                >
+                <div className={styles["product-details-container"]}>
                     <ProductDetailsSection
                         {...this.props}
                         handleDetailsScroll={this.handleDetailsScroll}
