@@ -75,7 +75,7 @@ export default class PickUpLocation extends React.Component {
         }
     }
 
-    hoursTohoursToMeridiem = (hour, minute) => {
+    hoursToMeridiem = (hour, minute) => {
         const min = minute === 0 ? "00" : minute.toString();
         if (hour > 12) {
           return `${hour - 12}:${min} PM`;
