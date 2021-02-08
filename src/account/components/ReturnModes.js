@@ -69,6 +69,30 @@ export default class ReturnModes extends React.Component {
     );
     if (data.status === "success") {
       this.setState({ returnModesDetails: data.returnModesDetails });
+      if (
+        data &&
+        data.returnModesDetails &&
+        data.returnModesDetails.returnModes
+      ) {
+        for (var key in data.returnModesDetails.returnModes) {
+          if (key === "quickDrop" && data.returnModesDetails.returnModes[key]) {
+            this.setState({ selectedOption: "Return To Store" });
+            break;
+          } else if (
+            key === "schedulePickup" &&
+            data.returnModesDetails.returnModes[key]
+          ) {
+            this.setState({ selectedOption: "Pick Up" });
+            break;
+          } else if (
+            key === "selfCourier" &&
+            data.returnModesDetails.returnModes[key]
+          ) {
+            this.setState({ selectedOption: "Self Courier" });
+          }
+        }
+      }
+
       let pickupAddress = {};
       if (data && data.returnModesDetails) {
         getDeliveryModeForMyAccountReturn(
