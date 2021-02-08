@@ -5,6 +5,7 @@ import {
     INGREDIENTS_COMPONENT,
     HOW_TO_WEAR_COMPONENT,
     FROM_THE_BRAND_COMPONENT,
+    SECTION_OF_PRODUCT_DESCRIPTION,
     MORE_FROM_THIS_BRAND_COMPONENT,
     RETURNS_COMPONENT,
     ABOUT_THE_BRAND_COMPONENT,
@@ -112,6 +113,15 @@ const typeComponentMapping = {
 export default class DescriptionContainer extends Component {
     render() {
         const descripCompDetails = [];
+        this.props.compDetails &&
+            this.props.compDetails.map(componentDetails => {
+                return SECTION_OF_PRODUCT_DESCRIPTION.find(componentName => {
+                    if (componentDetails.componentId === componentName) {
+                        descripCompDetails.push(componentDetails);
+                    }
+                });
+            });
+
         return (
             <Fragment>
                 {descripCompDetails &&
