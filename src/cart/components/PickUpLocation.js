@@ -75,6 +75,23 @@ export default class PickUpLocation extends React.Component {
         }
     }
 
+    hoursTohoursToMeridiem = (hour, minute) => {
+        const min = minute === 0 ? "00" : minute.toString();
+        if (hour > 12) {
+          return `${hour - 12}:${min} PM`;
+        }
+        if (hour === 0) {
+          return `${12}:${min} AM`;
+        }
+        if (hour === 12) {
+          return `${12}:${min} PM`;
+        }
+        if (hour < 12) {
+          return `${hour}:${min} AM`;
+        }
+      };
+
+
     render() {
         let getClickAndPiqSelectedDate = "";
         let productDayFormatOfClqAndPiq = "";
