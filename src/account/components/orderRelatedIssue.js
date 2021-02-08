@@ -850,7 +850,7 @@ export default class OrderRelatedIssue extends React.Component {
         this.setState({ filterCard: true });
     };
 
-    handleSelectedFilterClick = filterData => {
+    handleSelectedFilterClick = (filterData) => {
         this.setState({ filterTypeData: filterData.label, filterCard: false });
         this.props.getRecentTicketHistoryDetails(false, filterData.value);
     };
@@ -946,7 +946,7 @@ export default class OrderRelatedIssue extends React.Component {
                                                 disabled={false}
                                                 maxLength={"10"}
                                                 value={this.state.mobile}
-                                                onChange={value => this.setState({ mobile: value })}
+                                                onChange={(value) => this.setState({ mobile: value })}
                                                 fontSize={"11px"}
                                                 onlyNumber={true}
                                                 focusBack={true}
@@ -968,7 +968,7 @@ export default class OrderRelatedIssue extends React.Component {
                                                         type="radio"
                                                         value="English"
                                                         checked={this.state.chooseLanguage == "English"}
-                                                        onChange={e =>
+                                                        onChange={(e) =>
                                                             this.setState({ chooseLanguage: e.target.value })
                                                         }
                                                     />
@@ -986,7 +986,7 @@ export default class OrderRelatedIssue extends React.Component {
                                                         type="radio"
                                                         value="Hindi"
                                                         checked={this.state.chooseLanguage == "Hindi"}
-                                                        onChange={e =>
+                                                        onChange={(e) =>
                                                             this.setState({ chooseLanguage: e.target.value })
                                                         }
                                                     />
@@ -1122,11 +1122,11 @@ export default class OrderRelatedIssue extends React.Component {
                                                 <OrderHistoryList
                                                     handleFilterClick={this.handleFilterClick}
                                                     filterCard={this.state.filterCard}
-                                                    handleSelectedFilterClick={selectedFilter =>
+                                                    handleSelectedFilterClick={(selectedFilter) =>
                                                         this.handleSelectedFilterClick(selectedFilter)
                                                     }
                                                     filterTypeData={this.state.filterTypeData}
-                                                    showRecentOrderDetails={selectedTickets =>
+                                                    showRecentOrderDetails={(selectedTickets) =>
                                                         this.showRecentOrderDetails(selectedTickets)
                                                     }
                                                     selectedTickerHistory={this.state.selectedTickerHistory}
@@ -1163,10 +1163,10 @@ export default class OrderRelatedIssue extends React.Component {
                                                         isAnswerHelpFull={this.state.isAnswerHelpFull}
                                                         uploadedAttachments={this.state.uploadedAttachments}
                                                         userDetails={this.props.userDetails}
-                                                        submitCustomerForms={formaData =>
+                                                        submitCustomerForms={(formaData) =>
                                                             this.submitCustomerForms(formaData)
                                                         }
-                                                        displayToast={message => this.props.displayToast(message)}
+                                                        displayToast={(message) => this.props.displayToast(message)}
                                                         customerQueriesField={customerQueriesField}
                                                         getCustomerQueriesFields={(webFormTemplate, isIssueOptions) =>
                                                             this.getCustomerQueriesFields(
@@ -1177,7 +1177,7 @@ export default class OrderRelatedIssue extends React.Component {
                                                         orderRelatedQuestion={this.state.orderRelatedQuestion}
                                                         otherQuestion={this.state.otherQuestion}
                                                         FAQquestion={this.state.FAQquestion}
-                                                        selectOtehrQuestion={selectedOtehrQuestion =>
+                                                        selectOtehrQuestion={(selectedOtehrQuestion) =>
                                                             this.selectOtehrQuestion(selectedOtehrQuestion)
                                                         }
                                                         parentIssueType={this.state.parentIssueType}

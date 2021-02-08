@@ -365,6 +365,14 @@ const CleverTapUnsubscribeEmail = Loadable({
     },
 });
 
+const MobileNumberContainer = Loadable({
+    loader: () =>
+        import(/* webpackChunkName: "mobile-number-login" */ "./mobile-number-login/mobile-number-login.container"),
+    loading() {
+        return <Loader />;
+    },
+});
+
 const AttachmentUploadContainer = Loadable({
     loader: () =>
         import(/* webpackChunkName: "attachment-container" */ "./account/containers/attachment-upload-container.js"),
@@ -510,12 +518,12 @@ class App extends Component {
                         <Route
                             exact
                             path={LOGIN_PATH}
-                            render={routeProps => <LoginContainer {...routeProps} {...this.props} />}
+                            render={(routeProps) => <LoginContainer {...routeProps} {...this.props} />}
                         />
                         <Route
                             exact
                             path={SIGN_UP_PATH}
-                            render={routeProps => <SignUpContainer {...routeProps} {...this.props} />}
+                            render={(routeProps) => <SignUpContainer {...routeProps} {...this.props} />}
                         />
                         <Route path={CANCEL_PREFIX} component={CancelOrderContainer} />
                         <Route path={CANCEL_RETURN_PREFIX} component={CancelReturnRequestContainer} />
@@ -569,7 +577,7 @@ class App extends Component {
                         <Route
                             exact
                             path={MAIN_ROUTER}
-                            render={routeProps => <Auth {...routeProps} {...this.props} />}
+                            render={(routeProps) => <Auth {...routeProps} {...this.props} />}
                         />
                         <Route exact path={BRAND_LANDING_PAGE} component={BrandLandingPageContainer} />
                         <Route exact path={PRODUCT_DELIVERY_ADDRESSES} component={CheckoutAddressContainer} />
@@ -658,6 +666,7 @@ class App extends Component {
                     <ModalContainer />
                     <ErrorContainer />
                     <ToastContainer />
+                    {this.props.isMobileNumberLoginModalActive && <MobileNumberContainer />}
                 </div>
             </React.Fragment>
         );

@@ -56,6 +56,7 @@ import {
     SIZE_SELECTOR_OOS_MODAL,
     EXCHANGE_MODAL,
     APPLIANCES_EXCHANGE_MODAL,
+    showMobileNumberLoginModal,
 } from "../../general/modal.actions.js";
 import ProductDescriptionPageWrapper from "../components/ProductDescriptionPageWrapper";
 import { withRouter } from "react-router-dom";
@@ -76,15 +77,15 @@ import {
 import { getUserDetails } from "../../account/actions/account.actions.js";
 import { getChatbotDetails } from "../../plp/actions/plp.actions";
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
     return {
-        getProductDescription: async productCode => {
+        getProductDescription: async (productCode) => {
             const productDetailsResponse = await dispatch(getProductDescription(productCode, null, null, true));
             if (productDetailsResponse && productDetailsResponse.status === SUCCESS) {
                 let categoryHierarchy = productDetailsResponse.productDescription.categoryHierarchy;
                 let isACCategory =
                     categoryHierarchy &&
-                    categoryHierarchy.find(category => {
+                    categoryHierarchy.find((category) => {
                         return category.category_id === "MSH1230";
                     });
                 let isExchangeAvailableForProduct = false;
@@ -106,55 +107,55 @@ const mapDispatchToProps = dispatch => {
                 }
             }
         },
-        addProductToCart: async productDetails => {
+        addProductToCart: async (productDetails) => {
             return dispatch(addProductToCart(productDetails));
         },
-        buyNow: async productDetails => {
+        buyNow: async (productDetails) => {
             return dispatch(tempCartIdForLoggedInUser(productDetails));
         },
-        showSizeSelector: data => {
+        showSizeSelector: (data) => {
             dispatch(showModal(SIZE_SELECTOR, data));
         },
-        showPriceBreakup: data => {
+        showPriceBreakup: (data) => {
             dispatch(showModal(PRICE_BREAKUP, data));
         },
-        showOfferDetails: data => {
+        showOfferDetails: (data) => {
             dispatch(showModal(OFFER_MODAL, data));
         },
-        showBeautyOfferDetails: data => {
+        showBeautyOfferDetails: (data) => {
             dispatch(showModal(BEAUTY_OFFER_MODAL, data));
         },
-        showBeautyImageZoomIn: data => {
+        showBeautyImageZoomIn: (data) => {
             dispatch(showModal(BEAUTY_IMAGE_ZOOM_IN, data));
         },
-        showBundledProduct: data => {
+        showBundledProduct: (data) => {
             dispatch(showModal(BUNDLEDPRODUCT_MODAL, data));
         },
-        showTermsNConditions: data => {
+        showTermsNConditions: (data) => {
             dispatch(showModal(TERMSNCONDITIONS_MODAL, data));
         },
-        showExchangeModal: data => {
+        showExchangeModal: (data) => {
             dispatch(showModal(EXCHANGE_MODAL, data));
         },
-        showManufactureDetailsModal: data => {
+        showManufactureDetailsModal: (data) => {
             dispatch(showModal(MANUFACTURER_MODAL, data));
         },
         showSimilarProducts: () => {
             dispatch(showModal(SIMILAR_PRODUCTS_MODAL));
         },
-        getProductSizeGuide: productCode => {
+        getProductSizeGuide: (productCode) => {
             dispatch(getProductSizeGuide(productCode));
         },
-        getMsdRequest: productCode => {
+        getMsdRequest: (productCode) => {
             dispatch(getMsdRequest(productCode));
         },
-        pdpAboutBrand: productCode => {
+        pdpAboutBrand: (productCode) => {
             dispatch(pdpAboutBrand(productCode));
         },
         showSizeGuide: () => {
             dispatch(showModal(SIZE_GUIDE));
         },
-        showSizeSelectorForEyeWear: data => {
+        showSizeSelectorForEyeWear: (data) => {
             dispatch(showModal(SIZE_SELECTOR_FOR_EYEWEAR, data));
         },
         getPdpEmi: (token, cartValue, productCode, ussId) => {
@@ -197,13 +198,13 @@ const mapDispatchToProps = dispatch => {
         showSecondaryLoader: () => {
             dispatch(showSecondaryLoader());
         },
-        setHeaderText: text => {
+        setHeaderText: (text) => {
             dispatch(setHeaderText(text));
         },
-        displayToast: val => {
+        displayToast: (val) => {
             dispatch(displayToast(val));
         },
-        getAllStoresForCliqAndPiq: pinCode => {
+        getAllStoresForCliqAndPiq: (pinCode) => {
             dispatch(getAllStoresForCliqAndPiq(pinCode));
         },
         showPdpPiqPage: () => {
@@ -212,10 +213,10 @@ const mapDispatchToProps = dispatch => {
         hidePdpPiqPage: () => {
             dispatch(hidePdpPiqPage());
         },
-        showPdpCliqAndPiqPage: storeDetails => {
+        showPdpCliqAndPiqPage: (storeDetails) => {
             dispatch(showModal(CLIQ_PIQ_MODAL, storeDetails));
         },
-        setUrlToRedirectToAfterAuth: url => {
+        setUrlToRedirectToAfterAuth: (url) => {
             dispatch(setUrlToRedirectToAfterAuth(url));
         },
         getPdpOffers: async () => {
@@ -227,16 +228,16 @@ const mapDispatchToProps = dispatch => {
         getUserAddress: async () => {
             await dispatch(getUserAddress());
         },
-        showSimilarSizeOOSModal: data => {
+        showSimilarSizeOOSModal: (data) => {
             dispatch(showModal(SIMILAR_PRODUCTS_OOS_MODAL, data));
         },
-        showOOSSizeSelectorModal: data => {
+        showOOSSizeSelectorModal: (data) => {
             dispatch(showModal(SIZE_SELECTOR_OOS_MODAL, data));
         },
         getMinicartProducts: async () => {
             return dispatch(getMinicartProducts());
         },
-        getBundleproduct: async data => {
+        getBundleproduct: async (data) => {
             return dispatch(getBundleproduct(data));
         },
         getBundleProductPinCode: async (pinCode, productCode, ussId) => {
@@ -257,14 +258,14 @@ const mapDispatchToProps = dispatch => {
         // addProductToCart: (productDetails, callback) => {
         // 	return dispatch(addProductToCart(productDetails), callback());
         // },
-        addProductToCart1: async productDetails => {
+        addProductToCart1: async (productDetails) => {
             return await dispatch(addProductToCart(productDetails));
         },
         getExchangeDetails: async (listingId, ussid, maxExchangeAmount, pickupCharge) => {
             return await dispatch(getExchangeDetails(listingId, ussid, maxExchangeAmount, pickupCharge));
         },
         /** */
-        addressModal: pinCodeObj => {
+        addressModal: (pinCodeObj) => {
             dispatch(showModal(ADDRESS, pinCodeObj));
         },
         getCartDetails: async (cartId, userId, accessToken, pinCode, setDataLayerForPincode) => {
@@ -273,7 +274,7 @@ const mapDispatchToProps = dispatch => {
                 cartDetailsObj &&
                 cartDetailsObj.cartDetails &&
                 cartDetailsObj.cartDetails.products &&
-                cartDetailsObj.cartDetails.products.filter(product => {
+                cartDetailsObj.cartDetails.products.filter((product) => {
                     return (
                         product.isGiveAway === NO &&
                         (product.pinCodeResponse === undefined ||
@@ -309,34 +310,34 @@ const mapDispatchToProps = dispatch => {
         getBundledProductSuggestion: (productId, ussId, categoryCode, brandCode, source, pincode) => {
             dispatch(getBundledProductSuggestion(productId, ussId, categoryCode, brandCode, source, pincode));
         },
-        getTotalBundledPrice: data => {
+        getTotalBundledPrice: (data) => {
             dispatch(getTotalBundledPrice(data));
         },
-        addBundledProductsToCart: data => {
+        addBundledProductsToCart: (data) => {
             dispatch(addBundledProductsToCart(data));
         },
         getCartCountForLoggedInUser: () => {
             dispatch(getCartCountForLoggedInUser());
         },
-        getMasterTemplate: async categoryId => {
+        getMasterTemplate: async (categoryId) => {
             return await dispatch(getMasterTemplate(categoryId));
         },
-        getHowToWear: async categoryId => {
+        getHowToWear: async (categoryId) => {
             return await dispatch(getHowToWear(categoryId));
         },
-        getMoreFromBrand: async productId => {
+        getMoreFromBrand: async (productId) => {
             return await dispatch(getMoreFromBrand(productId));
         },
-        getAboutTheBrand: async mshId => {
+        getAboutTheBrand: async (mshId) => {
             return await dispatch(getAboutTheBrand(mshId));
         },
-        getSimilarProduct: async productId => {
+        getSimilarProduct: async (productId) => {
             return await dispatch(getSimilarProduct(productId));
         },
-        openBeautyPopup: toggle => {
+        openBeautyPopup: (toggle) => {
             return dispatch(openBeautyPopup(toggle));
         },
-        showAppliancesExchangeModal: data => {
+        showAppliancesExchangeModal: (data) => {
             dispatch(showModal(APPLIANCES_EXCHANGE_MODAL, data));
         },
         getAppliancesExchangeDetails: () => {
@@ -345,10 +346,13 @@ const mapDispatchToProps = dispatch => {
         appliancesExchangeCheckPincode: (productCode, pincode) => {
             dispatch(appliancesExchangeCheckPincode(productCode, pincode));
         },
+        openMobileNumberLoginModal: () => {
+            dispatch(showMobileNumberLoginModal());
+        },
     };
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
     return {
         productDetails: state.productDescription.productDetails,
         loading: state.productDescription.loading,
@@ -404,6 +408,9 @@ const mapStateToProps = state => {
         appliancesExchangeDetails: state.productDescription.getAppliancesExchangeDetails,
         updatedAppliancesExchangeDetails: state.productDescription.updatedAppliancesExchangeDetails,
         appliancesExchangePincodeDetails: state.productDescription.appliancesExchangeCheckPincodeDetails,
+        isMNLLogin: state.mobileNumberLogin.isMNLLogin,
+        isMobileNumberLoginModalActive: state.modal.isMobileNumberLoginModalActive,
+        tempCartIdForLoggedInUserLoading: state.cart.tempCartIdForLoggedInUserLoading,
     };
 };
 
