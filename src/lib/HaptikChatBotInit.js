@@ -11,6 +11,7 @@ export function HaptikChatBotInitSetup() {
     haptikSrcScript.type = "text/javascript";
     haptikSrcScript.id = "sdk-setup";
     haptikSrcScript.setAttribute("charset", "UTF-8");
+    haptikSrcScript.async = true;
     haptikSrcScript.src = env.REACT_APP_HAPTIK_SRC_URL;
 
     const bodyEle = document.getElementsByTagName("body")[0];
