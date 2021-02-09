@@ -12,15 +12,28 @@
     "noUnusedLocals": true,
     "strict": true,
     "outDir": "dist",
-    "lib": ["es6", "es7", "dom"],
+    "lib": [
+      "es6",
+      "es7",
+      "dom"
+    ],
     "baseUrl": "src",
-    "rootDir": "/",
+    "rootDir": "./",
     "paths": {
-      "src/*": ["./src/*"]
+      "src/*": [
+        "./src/*"
+      ]
     },
-    "typeRoots": ["./node_modules/@types", "./@types/"],
+    "typeRoots": [
+      "./node_modules/@types",
+      "./@types/"
+    ],
     "allowSyntheticDefaultImports": true,
     "allowJs": true,
   },
-  "exclude": ["dist", "build", "node_modules"]
+  "exclude": [
+    "dist",
+    "build",
+    "node_modules"
+  ]
 }

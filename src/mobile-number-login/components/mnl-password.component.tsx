@@ -31,7 +31,7 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
     }
 
     private onClickUseOtp() {
-        if (this.props.mnlApiResponse.userData.customer.loginVia == "email") {
+        if (this.props.mnlApiResponse?.userData.customer.loginVia == "email") {
             const mnlApiResponseState = this.props.mnlApiResponse;
             const mnlApiData: MnlApiData = JSON.parse(JSON.stringify(this.props.mnlApiData));
             mnlApiData.maskedPhoneNumber = mnlApiResponseState.userData.customer.maskedPhoneNumber;
@@ -59,7 +59,7 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
                                     name="password"
                                     placeholder="Enter Password"
                                     value={this.state.password}
-                                    onChange={(event) => this.onChangeInput(event)}
+                                    onChange={event => this.onChangeInput(event)}
                                 />
                                 <label htmlFor="password">Enter Password</label>
                                 <button
@@ -70,21 +70,29 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
                             </div>
                             <div className={[styles.flexRow50, styles.justify_space].join(" ")}>
                                 <div className={styles.flexRow50Cols}>
-                                    {!!this.props.mnlApiResponse.userData.customer.maskedPhoneNumber.length && <button
-                                        type="button"
-                                        className={styles.btnLink}
-                                        style={{ float: "left" }}
-                                        onClick={() => this.onClickUseOtp()}>
-                                        Use OTP
-                                </button>}
+                                    {!!this.props.mnlApiResponse?.userData.customer.maskedPhoneNumber.length && (
+                                        <button
+                                            type="button"
+                                            className={styles.btnLink}
+                                            style={{ float: "left" }}
+                                            onClick={() => this.onClickUseOtp()}
+                                        >
+                                            Use OTP
+                                        </button>
+                                    )}
                                 </div>
-                                {this.props.mnlApiResponse.userData.customer.loginVia === "email" &&
+                                {this.props.mnlApiResponse?.userData.customer.loginVia === "email" && (
                                     <div className={[styles.flexRow50Cols, styles.text_right].join(" ")}>
-                                        <button type="button" className={styles.btnLink} style={{ float: "right" }}
-                                            onClick={() => this.onForgotPasswordClick()}>
+                                        <button
+                                            type="button"
+                                            className={styles.btnLink}
+                                            style={{ float: "right" }}
+                                            onClick={() => this.onForgotPasswordClick()}
+                                        >
                                             Forgot Password?
                                         </button>
-                                    </div>}
+                                    </div>
+                                )}
                             </div>
                         </div>
 
@@ -110,7 +118,7 @@ export interface MnlPasswordProps {
     useOtpViaMobile: () => void;
     changeLoginStep: (stepKey: string) => void;
     generateOtp: (apiData: MnlApiData) => void;
-    mnlApiResponse: MnlApiResponse;
+    mnlApiResponse: MnlApiResponse | null;
     isStepForgotPasswordOtp: () => void;
     setForgetPassword: (setForgetPassword: boolean) => void;
 }

@@ -1,9 +1,6 @@
-
 import React from "react";
 import styles from "../mobile-number-login.css";
-import {
-    EMAIL_REGULAR_EXPRESSION,
-} from "../../lib/constants";
+import { EMAIL_REGULAR_EXPRESSION } from "../../lib/constants";
 import { MnlApiData, MnlApiResponse } from "../mobile-number-login.types";
 
 export class MnlEmailChange extends React.Component<MnlEmailChangeProps, MnlEmailChangeState> {
@@ -47,7 +44,7 @@ export class MnlEmailChange extends React.Component<MnlEmailChangeProps, MnlEmai
                                 name="emailAddress"
                                 placeholder="Enter Email Address"
                                 value={this.state.emailAddress}
-                                onChange={(event) => this.onChangeInput(event)}
+                                onChange={event => this.onChangeInput(event)}
                             />
                             <label htmlFor="emailAddress">E-Mail Address</label>
                         </div>
@@ -71,9 +68,8 @@ export interface MnlEmailChangeState {
     isInputValid: boolean;
 }
 
-
 export interface MnlEmailChangeProps {
     mnlApidata: MnlApiData;
     addnewEmail: (mnlApiData: MnlApiData) => void;
-    mnlApiResponse: MnlApiResponse;
+    mnlApiResponse: MnlApiResponse | null;
 }

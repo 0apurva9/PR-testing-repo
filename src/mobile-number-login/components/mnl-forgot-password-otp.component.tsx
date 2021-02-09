@@ -10,6 +10,7 @@ export class MnlForgotPasswordOtp extends React.Component<MnlForgotPasswordOtpPr
         resendOtp: false,
         resendOtpIn: OTP_RESEND_TIME,
     };
+
     private _otfDivRef = React.createRef<HTMLDivElement>();
 
     public componentDidMount() {
@@ -26,7 +27,7 @@ export class MnlForgotPasswordOtp extends React.Component<MnlForgotPasswordOtpPr
             }
             maxTime--;
         }, 1000);
-    }
+    };
 
     private moveToNext(event: React.KeyboardEvent<HTMLInputElement>, id: string) {
         if (this._otfDivRef.current && !Object.is(parseInt(event.key), NaN)) {
@@ -87,40 +88,42 @@ export class MnlForgotPasswordOtp extends React.Component<MnlForgotPasswordOtpPr
             <div className={styles.whiteBox}>
                 <div className={styles.headSec}>
                     <h2>No Worries</h2>
-                    <p>
-                        Please enter the 6 digit OTP that we just sent on Email
-                    </p>
+                    <p>Please enter the 6 digit OTP that we just sent on Email</p>
                 </div>
                 <div className={styles.formSec}>
                     <div className={styles.feildSec}>
                         <div className={styles.otpRow} ref={this._otfDivRef}>
                             {this.state.otp.split("").map((val, idx) => {
                                 return (
-                                    <div className={styles.otpCol}>
+                                    <div className={styles.otpCol} key={idx}>
                                         <input
                                             type="number"
                                             className={styles.otpInput}
                                             id={`otp_${idx}`}
                                             size={1}
-                                            onKeyUp={(event) => this.moveToNext(event, `otp_${idx + 1}`)}
-                                            onKeyDown={(event) => this.onKeyDown(event, `otp_${idx - 1}`, idx)}
+                                            onKeyUp={event => this.moveToNext(event, `otp_${idx + 1}`)}
+                                            onKeyDown={event => this.onKeyDown(event, `otp_${idx - 1}`, idx)}
                                             maxLength={1}
                                             value={this.state.otp.split("")[idx]}
-                                            onChange={(event) => this.onChangeInput(event, idx)}
+                                            onChange={event => this.onChangeInput(event, idx)}
                                         />
                                     </div>
                                 );
                             })}
                         </div>
                         <div className={[styles.flexRow50, styles.justify_space].join(" ")}>
-                            <div className={[styles.text_right].join(" ")} style={{ flex: '1 0 50%' }}>
+                            <div className={[styles.text_right].join(" ")} style={{ flex: "1 0 50%" }}>
                                 {this.state.resendOtp ? (
-                                    <button type="button" className={styles.btnLink} onClick={() => this.onClickResendOtp()}>
+                                    <button
+                                        type="button"
+                                        className={styles.btnLink}
+                                        onClick={() => this.onClickResendOtp()}
+                                    >
                                         Resend OTP
                                     </button>
                                 ) : (
-                                        <p>Resend OTP in 0:{this.state.resendOtpIn}</p>
-                                    )}
+                                    <p>Resend OTP in 0:{this.state.resendOtpIn}</p>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -141,7 +144,7 @@ export class MnlForgotPasswordOtp extends React.Component<MnlForgotPasswordOtpPr
 export interface MnlForgotPasswordOtpProps {
     mnlApidata: MnlApiData;
     validateOtp: (mnlApiData: MnlApiData) => void;
-    mnlApiResponse: MnlApiResponse;
+    mnlApiResponse: MnlApiResponse | null;
     validateChallenge: (mnlApiData: MnlApiData) => void;
     resendOtp: (mnlApiData: MnlApiData) => void;
 }

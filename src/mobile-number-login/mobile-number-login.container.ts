@@ -23,9 +23,10 @@ import {
     setResendOtpTimmer,
     generateOtpChangeProfileNumber,
     webMnlEmailHidden,
-    setForgetPassword
+    setForgetPassword,
 } from "./store/mobile-number-login.actions";
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 const mapDispatchToProps = (disptach: Function) => {
     return {
         hideMobileNumberLoginModal: () => {
@@ -59,19 +60,19 @@ const mapDispatchToProps = (disptach: Function) => {
         forgotPassword: (apiData: MnlApiData) => {
             disptach(showSecondaryLoader());
             disptach(setMnlApiData(apiData));
-            disptach(updatePassword())
+            disptach(updatePassword());
         },
         validateProfileOtp: (apiData: MnlApiData) => {
             disptach(setMnlApiData(apiData));
-            disptach(verifyOtpUpdatePassword())
+            disptach(verifyOtpUpdatePassword());
         },
         changeProfilePassword: (apiData: MnlApiData) => {
             disptach(setMnlApiData(apiData));
-            disptach(updatePasswordProfile())
+            disptach(updatePasswordProfile());
         },
         updateProfileMobileNumber: (apiData: MnlApiData) => {
             disptach(setMnlApiData(apiData));
-            disptach(validateOtpChangeProfileNumber())
+            disptach(validateOtpChangeProfileNumber());
         },
         validateEmailOtp: (apiData: MnlApiData) => {
             disptach(showSecondaryLoader());
@@ -85,7 +86,7 @@ const mapDispatchToProps = (disptach: Function) => {
         },
         generateOtpChangeProfileNumber: (apiData: MnlApiData) => {
             disptach(setMnlApiData(apiData));
-            disptach(generateOtpChangeProfileNumber())
+            disptach(generateOtpChangeProfileNumber());
         },
         updateEmailOtp: () => {
             disptach(updateEmailOtp());
@@ -94,10 +95,10 @@ const mapDispatchToProps = (disptach: Function) => {
             disptach(setResendOtpTimmer(resendOtpTimmer));
         },
         webMnlEmailHidden: () => {
-            disptach(webMnlEmailHidden())
+            disptach(webMnlEmailHidden());
         },
         displayToast: (msg: string) => {
-            disptach(displayToast(msg))
+            disptach(displayToast(msg));
         },
         setForgetPassword: (isForgetPasswordValue: boolean) => {
             disptach(setForgetPassword(isForgetPasswordValue));
@@ -111,9 +112,10 @@ const mapStateToProps = (state: RootState) => {
         mnlApiData: state.mobileNumberLogin.mnlApiData,
         mnlApiResponse: state.mobileNumberLogin.mnlApiResponse,
         resendOtpTime: state.mobileNumberLogin.resendOtpTimmer,
-        userMobileNumber: state.profile.userDetails && state.profile.userDetails.mobileNumber || "",
+        userMobileNumber: (state.profile.userDetails && state.profile.userDetails.mobileNumber) || "",
         isWebMNLEmailHidden: state.mobileNumberLogin.isWebMNLEmailHidden,
         isForgetPasswordValue: state.mobileNumberLogin.isForgetPasswordValue,
     };
 };
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MobileNumberLogin));
+const MobileNumberLoginContainer = connect(mapStateToProps, mapDispatchToProps)(withRouter(MobileNumberLogin));
+export default MobileNumberLoginContainer;
