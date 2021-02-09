@@ -34,10 +34,9 @@ import {
 import { MOBILE_PATTERN } from "../../auth/components/Login";
 import SSRquest from "../../general/components/SSRequest";
 import OrderHistoryList from "./OrderHistoryList";
+import Icon from "../../xelpmoc-core/Icon";
 import moment from "moment";
 import ProductImage from "../../general/components/ProductImage";
-import Icon from "../../xelpmoc-core/Icon";
-const images = require.context("./img", true);
 const ORDER_REALTED_QUESTION = "orderRelated";
 const NON_ORDER_REALTED_QUESTION = "NonOrderRelated";
 const FAQ_PAGE = "ss-faq";
@@ -495,7 +494,7 @@ export default class OrderRelatedIssue extends React.Component {
         if (
             this.props.ordersTransactionData &&
             (this.props.ordersTransactionData.currentPage + 1) * this.props.ordersTransactionData.pageSize <
-            this.props.ordersTransactionData.totalNoOfOrders
+                this.props.ordersTransactionData.totalNoOfOrders
         ) {
             this.props.getOrdersTransactionData(true);
         }
@@ -772,68 +771,68 @@ export default class OrderRelatedIssue extends React.Component {
                             CLiQCare
                         </div>
                     ) : (
-                            <React.Fragment>
-                                <div className={styles.recentTxt}> Your ticket (s) </div>
-                                <div className={styles.viewAll} onClick={() => this.showRecentOrderHistory("closeTicket")}>
-                                    View All
+                        <React.Fragment>
+                            <div className={styles.recentTxt}> Your ticket (s) </div>
+                            <div className={styles.viewAll} onClick={() => this.showRecentOrderHistory("closeTicket")}>
+                                View All
                             </div>
-                            </React.Fragment>
-                        )}
+                        </React.Fragment>
+                    )}
                 </div>
                 {this.state.isRecentOrderHistory ? (
                     <div className={styles.tickets}> Your ticket(s)</div>
                 ) : (
-                        <div
-                            className={styles.recentTicketDetailsBox}
-                            onClick={() => this.showRecentOrderDetails(recentOrder, "recentTicketClicked")}
-                        >
-                            <div className={styles.recentTicketDetails}>
-                                <div
-                                    className={
-                                        recentOrder.issueBucket ? styles.nonOrderRelatedImg : styles.recentTicektImage
-                                    }
-                                >
-                                    {recentOrder.issueBucket ? (
-                                        <div
-                                            className={styles.nonOrderIcon}
-                                            style={{
-                                                background: `url(${images(`./${recentOrder.issueBucket
-                                                    .split(" ")[0]
-                                                    .toLowerCase()}_ticket.svg`).default})`,
-                                                backgroundSize: "contain",
-                                                backgroundRepeat: "no-repeat",
-                                                width: "35px",
-                                                height: recentOrder.issueBucket.includes("EGV") ? "26px" : "35px",
-                                            }}
-                                        />
-                                    ) : (
-                                            <ProductImage image={recentOrder.productImage} />
-                                        )}
-                                </div>
-                                <div className={styles.recentTicketTxt}> {recentOrder.issueType} </div>
+                    <div
+                        className={styles.recentTicketDetailsBox}
+                        onClick={() => this.showRecentOrderDetails(recentOrder, "recentTicketClicked")}
+                    >
+                        <div className={styles.recentTicketDetails}>
+                            <div
+                                className={
+                                    recentOrder.issueBucket ? styles.nonOrderRelatedImg : styles.recentTicektImage
+                                }
+                            >
+                                {recentOrder.issueBucket ? (
+                                    <div
+                                        className={styles.nonOrderIcon}
+                                        style={{
+                                            background: `url(${require(`./img/${recentOrder.issueBucket
+                                                .split(" ")[0]
+                                                .toLowerCase()}_ticket.svg`)})`,
+                                            backgroundSize: "contain",
+                                            backgroundRepeat: "no-repeat",
+                                            width: "35px",
+                                            height: recentOrder.issueBucket.includes("EGV") ? "26px" : "35px",
+                                        }}
+                                    />
+                                ) : (
+                                    <ProductImage image={recentOrder.productImage} />
+                                )}
                             </div>
-                            <div className={styles.recentTiketStatusBox}>
-                                <div className={styles.inProcess}></div>
-                                <div>
-                                    <div className={styles.recentStatus}>
-                                        Ticket Status: <span className={styles.fontBold}> {recentOrder.status} </span>
-                                    </div>
-                                    {recentOrder.resolutionDate && (
-                                        <div className={styles.recentStatus}>
-                                            {" "}
-                                            Estimated Resolution:{" "}
-                                            <span className={styles.fontBold}>
-                                                {" "}
-                                                {moment(recentOrder.resolutionDate.split(" ")[0], "DD-MM-YYYY").format(
-                                                    STATUS_DATE_FORMAT
-                                                )}
-                                            </span>
-                                        </div>
-                                    )}
+                            <div className={styles.recentTicketTxt}> {recentOrder.issueType} </div>
+                        </div>
+                        <div className={styles.recentTiketStatusBox}>
+                            <div className={styles.inProcess}></div>
+                            <div>
+                                <div className={styles.recentStatus}>
+                                    Ticket Status: <span className={styles.fontBold}> {recentOrder.status} </span>
                                 </div>
+                                {recentOrder.resolutionDate && (
+                                    <div className={styles.recentStatus}>
+                                        {" "}
+                                        Estimated Resolution:{" "}
+                                        <span className={styles.fontBold}>
+                                            {" "}
+                                            {moment(recentOrder.resolutionDate.split(" ")[0], "DD-MM-YYYY").format(
+                                                STATUS_DATE_FORMAT
+                                            )}
+                                        </span>
+                                    </div>
+                                )}
                             </div>
                         </div>
-                    )}
+                    </div>
+                )}
             </div>
         );
     }
@@ -1041,178 +1040,173 @@ export default class OrderRelatedIssue extends React.Component {
                                 </div>
                             </div>
                         ) : (
-                                <React.Fragment>
-                                    {this.state.isIssueOptions ? (
-                                        <MoreHelps
-                                            getCustomerQueriesFields={() => this.getCustomerQueriesFields()}
-                                            selectedOrder={this.state.question}
-                                            navigatePreviousPage={() => this.navigatePreviousPage()}
-                                            navigateHomePage={() => this.navigateHomePage()}
-                                            CLiQ2CallClick={() => this.CLiQ2CallClick()}
-                                        />
-                                    ) : (
-                                            <div className={styles.baseWrapper}>
-                                                <div className={styles.formAbdTabHolder}>
-                                                    <div className={styles.tabHolder}>
-                                                        {showRecentOrderCard &&
-                                                            this.state.isShowRecentOrderCard &&
-                                                            initialTicketDetailsData &&
-                                                            Array.isArray(initialTicketDetailsData.tickets) &&
-                                                            this.props.initialTicketDetailsData.tickets.length > 0 &&
-                                                            this.renderLatestTicketDetails(initialTicketDetailsData.tickets[0])}
+                            <React.Fragment>
+                                {this.state.isIssueOptions ? (
+                                    <MoreHelps
+                                        getCustomerQueriesFields={() => this.getCustomerQueriesFields()}
+                                        selectedOrder={this.state.question}
+                                        navigatePreviousPage={() => this.navigatePreviousPage()}
+                                        navigateHomePage={() => this.navigateHomePage()}
+                                        CLiQ2CallClick={() => this.CLiQ2CallClick()}
+                                    />
+                                ) : (
+                                    <div className={styles.baseWrapper}>
+                                        <div className={styles.formAbdTabHolder}>
+                                            <div className={styles.tabHolder}>
+                                                {showRecentOrderCard &&
+                                                    this.state.isShowRecentOrderCard &&
+                                                    initialTicketDetailsData &&
+                                                    Array.isArray(initialTicketDetailsData.tickets) &&
+                                                    this.props.initialTicketDetailsData.tickets.length > 0 &&
+                                                    this.renderLatestTicketDetails(initialTicketDetailsData.tickets[0])}
 
-                                                        <div className={styles.tabHolderBox}>
-                                                            <div className={styles.tabHeader}>All Help Topics</div>
+                                                <div className={styles.tabHolderBox}>
+                                                    <div className={styles.tabHeader}>All Help Topics</div>
 
-                                                            <div className={styles.faqList}>
-                                                                {FAQData &&
-                                                                    FAQData.map((faq, index) => {
-                                                                        return (
+                                                    <div className={styles.faqList}>
+                                                        {FAQData &&
+                                                            FAQData.map((faq, index) => {
+                                                                return (
+                                                                    <div
+                                                                        key={`key${index}`}
+                                                                        className={styles.faqListBox}
+                                                                        onClick={() => {
+                                                                            this.handleFAQClick(faq);
+                                                                        }}
+                                                                    >
+                                                                        <div className={styles.faqIcon}>
+                                                                            <Icon
+                                                                                image={
+                                                                                    this.state.parentIssueType ==
+                                                                                    faq.FAQHeader
+                                                                                        ? `${require("../components/img/" +
+                                                                                              faq.image.split(".")[0] +
+                                                                                              "active" +
+                                                                                              ".svg")}`
+                                                                                        : `${require("../components/img/" +
+                                                                                              faq.image.split(".")[0] +
+                                                                                              ".svg")}`
+                                                                                }
+                                                                                width={33}
+                                                                                height={33}
+                                                                            />
+                                                                        </div>
+                                                                        <div className={styles.faqHederBox}>
                                                                             <div
-                                                                                key={`key${index}`}
-                                                                                className={styles.faqListBox}
-                                                                                onClick={() => {
-                                                                                    this.handleFAQClick(faq);
-                                                                                }}
+                                                                                className={[
+                                                                                    styles.faqHeader,
+                                                                                    this.state.parentIssueType ==
+                                                                                    faq.FAQHeader
+                                                                                        ? styles.colorRed
+                                                                                        : null,
+                                                                                ].join(" ")}
                                                                             >
-                                                                                <div className={styles.faqIcon}>
-                                                                                    <Icon
-                                                                                        image={
-                                                                                            this.state.parentIssueType ==
-                                                                                                faq.FAQHeader
-                                                                                                ? images(
-                                                                                                    `./${faq.image.split(
-                                                                                                        "."
-                                                                                                    )[0] +
-                                                                                                    "active" +
-                                                                                                    ".svg"}`
-                                                                                                ).default
-                                                                                                : images(
-                                                                                                    `./${faq.image.split(
-                                                                                                        "."
-                                                                                                    )[0] + ".svg"}`
-                                                                                                ).default
-                                                                                        }
-                                                                                        width={33}
-                                                                                        height={33}
-                                                                                    />
-                                                                                </div>
-                                                                                <div className={styles.faqHederBox}>
-                                                                                    <div
-                                                                                        className={[
-                                                                                            styles.faqHeader,
-                                                                                            this.state.parentIssueType ==
-                                                                                                faq.FAQHeader
-                                                                                                ? styles.colorRed
-                                                                                                : null
-                                                                                        ].join(" ")}
-                                                                                    >
-                                                                                        {faq.FAQHeader.replace("&amp;", "&")}
-                                                                                    </div>
-                                                                                    <div className={styles.faqSubheading}>
-                                                                                        {faq.FAQSubHeader.includes("&amp;")
-                                                                                            ? faq.FAQSubHeader.replace(
-                                                                                                /&amp;/g,
-                                                                                                "&"
-                                                                                            )
-                                                                                            : faq.FAQSubHeader}
-                                                                                    </div>
-                                                                                </div>
+                                                                                {faq.FAQHeader.replace("&amp;", "&")}
                                                                             </div>
-                                                                        );
-                                                                    })}
-                                                            </div>
-                                                        </div>
+                                                                            <div className={styles.faqSubheading}>
+                                                                                {faq.FAQSubHeader.includes("&amp;")
+                                                                                    ? faq.FAQSubHeader.replace(
+                                                                                          /&amp;/g,
+                                                                                          "&"
+                                                                                      )
+                                                                                    : faq.FAQSubHeader}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                );
+                                                            })}
                                                     </div>
-                                                    {this.state.isRecentOrderHistory ? (
-                                                        <OrderHistoryList
-                                                            handleFilterClick={this.handleFilterClick}
-                                                            filterCard={this.state.filterCard}
-                                                            handleSelectedFilterClick={selectedFilter =>
-                                                                this.handleSelectedFilterClick(selectedFilter)
-                                                            }
-                                                            filterTypeData={this.state.filterTypeData}
-                                                            showRecentOrderDetails={selectedTickets =>
-                                                                this.showRecentOrderDetails(selectedTickets)
-                                                            }
-                                                            selectedTickerHistory={this.state.selectedTickerHistory}
-                                                            isRecentOrderDetails={this.state.isRecentOrderDetails}
-                                                            navigatePreviousPage={() => this.navigatePreviousPage()}
-                                                            ticketHistoryDetails={this.props.ticketHistoryDetails}
-                                                            userName={this.state.name}
-                                                            loadMoreData={() => this.loadMoreData()}
-                                                        />
-                                                    ) : (
-                                                            <div className={styles.formHolder}>
-                                                                <CustomerIssue
-                                                                    customerQueriesOtherIssueData={customerQueriesOtherIssueData}
-                                                                    selectedOrder={this.props.selectedOrderDetails || null}
-                                                                    orderList={this.state.orderList}
-                                                                    isOrderDatails={this.state.isOrderDatails}
-                                                                    moreHelps={() => this.moreHelps()}
-                                                                    ordersTransactionData={ordersTransactionData}
-                                                                    questionsList={this.state.questionList}
-                                                                    selectQuestion={(listOfIssue, index) =>
-                                                                        this.selectQuestion(listOfIssue, index)
-                                                                    }
-                                                                    showFeedBack={this.state.showFeedBack}
-                                                                    question={this.state.question}
-                                                                    getOrderRelatedQuestions={(orderData, product) =>
-                                                                        this.getOrderRelatedQuestions(orderData, product)
-                                                                    }
-                                                                    orderRelatedQuestionsStatus={orderRelatedQuestionsStatus}
-                                                                    isQuesryForm={this.state.isQuesryForm}
-                                                                    uploadUserFile={(issueType, title, file) =>
-                                                                        this.props.uploadUserFile(issueType, title, file)
-                                                                    }
-                                                                    feedBackHelpFull={() => this.feedBackHelpFull()}
-                                                                    isAnswerHelpFull={this.state.isAnswerHelpFull}
-                                                                    uploadedAttachments={this.state.uploadedAttachments}
-                                                                    userDetails={this.props.userDetails}
-                                                                    submitCustomerForms={formaData =>
-                                                                        this.submitCustomerForms(formaData)
-                                                                    }
-                                                                    displayToast={message => this.props.displayToast(message)}
-                                                                    customerQueriesField={customerQueriesField}
-                                                                    getCustomerQueriesFields={(webFormTemplate, isIssueOptions) =>
-                                                                        this.getCustomerQueriesFields(
-                                                                            webFormTemplate,
-                                                                            isIssueOptions
-                                                                        )
-                                                                    }
-                                                                    orderRelatedQuestion={this.state.orderRelatedQuestion}
-                                                                    otherQuestion={this.state.otherQuestion}
-                                                                    FAQquestion={this.state.FAQquestion}
-                                                                    selectOtehrQuestion={selectedOtehrQuestion =>
-                                                                        this.selectOtehrQuestion(selectedOtehrQuestion)
-                                                                    }
-                                                                    parentIssueType={this.state.parentIssueType}
-                                                                    orderAllList={this.state.orderAllList}
-                                                                    showAllOrdersList={() => this.showAllOrdersList()}
-                                                                    hideAllOrder={() => this.hideAllOrder()}
-                                                                    questionType={this.state.questionType}
-                                                                    isUserLogin={isUserLogin}
-                                                                    navigateLogin={() => this.navigateLogin()}
-                                                                    getMoreOrder={() => this.getMoreOrder()}
-                                                                    showQuestionList={this.state.showQuestionList}
-                                                                    sendInvoice={(ussid, sellerOrderNo) => {
-                                                                        this.sendInvoice(ussid, sellerOrderNo);
-                                                                    }}
-                                                                    navigatePreviousPage={() => this.navigatePreviousPage()}
-                                                                    navigateHomePage={() => this.navigateHomePage()}
-                                                                    updateThanks={() => this.updateThanks()}
-                                                                    navigateCliqCarePage={() => this.navigateCliqCarePage()}
-                                                                    slectOrderData={this.state.slectOrderData}
-                                                                    isCallMeBackForm={this.state.isCallMeBackForm}
-                                                                    isScheduleACall={this.state.isScheduleACall}
-                                                                />
-                                                            </div>
-                                                        )}
                                                 </div>
                                             </div>
-                                        )}
-                                </React.Fragment>
-                            )}
+                                            {this.state.isRecentOrderHistory ? (
+                                                <OrderHistoryList
+                                                    handleFilterClick={this.handleFilterClick}
+                                                    filterCard={this.state.filterCard}
+                                                    handleSelectedFilterClick={selectedFilter =>
+                                                        this.handleSelectedFilterClick(selectedFilter)
+                                                    }
+                                                    filterTypeData={this.state.filterTypeData}
+                                                    showRecentOrderDetails={selectedTickets =>
+                                                        this.showRecentOrderDetails(selectedTickets)
+                                                    }
+                                                    selectedTickerHistory={this.state.selectedTickerHistory}
+                                                    isRecentOrderDetails={this.state.isRecentOrderDetails}
+                                                    navigatePreviousPage={() => this.navigatePreviousPage()}
+                                                    ticketHistoryDetails={this.props.ticketHistoryDetails}
+                                                    userName={this.state.name}
+                                                    loadMoreData={() => this.loadMoreData()}
+                                                />
+                                            ) : (
+                                                <div className={styles.formHolder}>
+                                                    <CustomerIssue
+                                                        customerQueriesOtherIssueData={customerQueriesOtherIssueData}
+                                                        selectedOrder={this.props.selectedOrderDetails || null}
+                                                        orderList={this.state.orderList}
+                                                        isOrderDatails={this.state.isOrderDatails}
+                                                        moreHelps={() => this.moreHelps()}
+                                                        ordersTransactionData={ordersTransactionData}
+                                                        questionsList={this.state.questionList}
+                                                        selectQuestion={(listOfIssue, index) =>
+                                                            this.selectQuestion(listOfIssue, index)
+                                                        }
+                                                        showFeedBack={this.state.showFeedBack}
+                                                        question={this.state.question}
+                                                        getOrderRelatedQuestions={(orderData, product) =>
+                                                            this.getOrderRelatedQuestions(orderData, product)
+                                                        }
+                                                        orderRelatedQuestionsStatus={orderRelatedQuestionsStatus}
+                                                        isQuesryForm={this.state.isQuesryForm}
+                                                        uploadUserFile={(issueType, title, file) =>
+                                                            this.props.uploadUserFile(issueType, title, file)
+                                                        }
+                                                        feedBackHelpFull={() => this.feedBackHelpFull()}
+                                                        isAnswerHelpFull={this.state.isAnswerHelpFull}
+                                                        uploadedAttachments={this.state.uploadedAttachments}
+                                                        userDetails={this.props.userDetails}
+                                                        submitCustomerForms={formaData =>
+                                                            this.submitCustomerForms(formaData)
+                                                        }
+                                                        displayToast={message => this.props.displayToast(message)}
+                                                        customerQueriesField={customerQueriesField}
+                                                        getCustomerQueriesFields={(webFormTemplate, isIssueOptions) =>
+                                                            this.getCustomerQueriesFields(
+                                                                webFormTemplate,
+                                                                isIssueOptions
+                                                            )
+                                                        }
+                                                        orderRelatedQuestion={this.state.orderRelatedQuestion}
+                                                        otherQuestion={this.state.otherQuestion}
+                                                        FAQquestion={this.state.FAQquestion}
+                                                        selectOtehrQuestion={selectedOtehrQuestion =>
+                                                            this.selectOtehrQuestion(selectedOtehrQuestion)
+                                                        }
+                                                        parentIssueType={this.state.parentIssueType}
+                                                        orderAllList={this.state.orderAllList}
+                                                        showAllOrdersList={() => this.showAllOrdersList()}
+                                                        hideAllOrder={() => this.hideAllOrder()}
+                                                        questionType={this.state.questionType}
+                                                        isUserLogin={isUserLogin}
+                                                        navigateLogin={() => this.navigateLogin()}
+                                                        getMoreOrder={() => this.getMoreOrder()}
+                                                        showQuestionList={this.state.showQuestionList}
+                                                        sendInvoice={(ussid, sellerOrderNo) => {
+                                                            this.sendInvoice(ussid, sellerOrderNo);
+                                                        }}
+                                                        navigatePreviousPage={() => this.navigatePreviousPage()}
+                                                        navigateHomePage={() => this.navigateHomePage()}
+                                                        updateThanks={() => this.updateThanks()}
+                                                        navigateCliqCarePage={() => this.navigateCliqCarePage()}
+                                                        slectOrderData={this.state.slectOrderData}
+                                                        isCallMeBackForm={this.state.isCallMeBackForm}
+                                                        isScheduleACall={this.state.isScheduleACall}
+                                                    />
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                )}
+                            </React.Fragment>
+                        )}
                     </DesktopOnly>
                 </div>
             );

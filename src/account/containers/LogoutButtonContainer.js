@@ -5,7 +5,7 @@ import LogoutButton from "../components/LogoutButton";
 import { displayToast } from "../../general/toast.actions";
 import {
   generateCartIdForAnonymous,
-  getMinicartProducts
+  getMinicartProducts,
 } from "../../cart/actions/cart.actions";
 import { resetUserAddressAfterLogout } from "../../account/actions/account.actions.js";
 import { setFalseForAllAuthCallHasSucceedFlag } from "../../auth/actions/auth.actions";
@@ -32,11 +32,17 @@ const mapDispatchToProps = dispatch => {
     },
     resetUserAddressAfterLogout: () => {
       dispatch(resetUserAddressAfterLogout());
-    }
+    },
   };
 };
+const mapStateToProps = state => {
+  return {
+    isMNLLogin: state.mobileNumberLogin.isMNLLogin,
+  };
+};
+
 const LogoutButtonContainer = withRouter(
-  connect(null, mapDispatchToProps)(LogoutButton)
+  connect(mapStateToProps, mapDispatchToProps)(LogoutButton)
 );
 
 export default LogoutButtonContainer;

@@ -78,6 +78,7 @@ app.get("/marketplacewebservices/v2/mpl/getOrderInvoice/*", (req, res) => {
 });
 
 app.all("/marketplacewebservices/*", proxyMiddleware(process.env.apiBaseUrl));
+app.all("/mobileloginapi/*", proxyMiddleware(process.env.apiBaseUrl));
 
 app.get("/*", (req, res) => {
     res.sendFile(__dirname + "/build/public/index.html");
