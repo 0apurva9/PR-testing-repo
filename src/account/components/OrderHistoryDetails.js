@@ -10,6 +10,7 @@ import moment from "moment";
 import { RESOLVED } from "../../lib/constants";
 const CREATION_DATE_FORMAT = "DD MMM";
 const STATUS_DATE_FORMAT = "DD MMM, YYYY";
+const images = require.context("./img", true);
 export default class OrderHistoryDetails extends Component {
     componentDidMount() {
         window.scroll(0, 0);
@@ -44,9 +45,9 @@ export default class OrderHistoryDetails extends Component {
                             <div className={Styles.nonOrderIcon}>
                                 <div
                                     style={{
-                                        background: `url(${require(`./img/${selectedTickerHistory.issueBucket
+                                        background: `url(${images(`./${selectedTickerHistory.issueBucket
                                             .split(" ")[0]
-                                            .toLowerCase()}_ticket.svg`)})`,
+                                            .toLowerCase()}_ticket.svg`).default})`,
                                         backgroundSize: "contain",
                                         backgroundRepeat: "no-repeat",
                                         width: selectedTickerHistory.issueBucket.includes("EGV") ? "44px" : "42px",

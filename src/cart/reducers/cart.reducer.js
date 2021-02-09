@@ -322,7 +322,7 @@ const cart = (
   },
   action
 ) => {
-  let cloneCartDetailCNC, cartDetails;
+  let cloneCartDetailCNC, cartDetails, carDetailsCopy ={};
   switch (action.type) {
     case CLEAR_ERROR:
       return Object.assign({}, state, {
@@ -410,7 +410,7 @@ const cart = (
     case cartActions.APPLY_USER_COUPON_SUCCESS:
       Cookies.createCookie(COUPON_COOKIE, action.couponCode);
 
-      let carDetailsCopy = cloneDeep(state.cartDetails);
+       carDetailsCopy = cloneDeep(state.cartDetails);
       let cartAmount = action.couponResult.cartAmount;
       carDetailsCopy.cartAmount = cartAmount;
       carDetailsCopy.appliedCoupon = action.couponCode;
