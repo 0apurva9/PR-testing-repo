@@ -21,12 +21,11 @@ export class MnlAddMobileNumber extends React.Component<MnlAddMobileNumberProps,
         const mnlApiData: MnlApiData = JSON.parse(JSON.stringify(this.props.mnlApiData));
         mnlApiData.phoneNumber = this.state.mobileNumber;
         if (this.props.isChangeProfileMobile) {
-            this.props.generateOtpChangeProfileNumber(mnlApiData)
+            this.props.generateOtpChangeProfileNumber(mnlApiData);
         } else if (this.props.isForgotPasswordClicked) {
-            this.props.generateOtp(mnlApiData)
+            this.props.generateOtp(mnlApiData);
             this.props.toggleForgotPassswordClick();
-        }
-        else {
+        } else {
             this.props.addMobileNumber(mnlApiData);
         }
     }
@@ -48,7 +47,7 @@ export class MnlAddMobileNumber extends React.Component<MnlAddMobileNumberProps,
                                 name="mobileNumber"
                                 placeholder="Enter Mobile Number"
                                 value={this.state.mobileNumber}
-                                onChange={(event) => this.onChangeInput(event)}
+                                onChange={event => this.onChangeInput(event)}
                             />
                             <label htmlFor="mobileNumber">Mobile Number</label>
                         </div>
@@ -70,12 +69,11 @@ export class MnlAddMobileNumber extends React.Component<MnlAddMobileNumberProps,
 export interface MnlAddMobileNumberProps {
     addMobileNumber: (apiData: MnlApiData) => void;
     mnlApiData: MnlApiData;
-    isChangeProfileMobile: boolean
+    isChangeProfileMobile: boolean;
     generateOtpChangeProfileNumber: (apiData: MnlApiData) => void;
     isForgotPasswordClicked: boolean;
     generateOtp: (apiData: MnlApiData) => void;
-    toggleForgotPassswordClick: () => void
-
+    toggleForgotPassswordClick: () => void;
 }
 
 export interface MnlAddMobileNumberState {

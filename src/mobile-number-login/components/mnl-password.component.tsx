@@ -20,6 +20,7 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
     public onForgotPasswordClick() {
         const mnlApiData: MnlApiData = JSON.parse(JSON.stringify(this.props.mnlApiData));
         mnlApiData.maskedPhoneNumber = "";
+        mnlApiData.pass = "";
         this.props.setForgetPassword(true);
         this.props.generateOtp(mnlApiData);
     }
