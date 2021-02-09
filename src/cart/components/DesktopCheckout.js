@@ -241,16 +241,14 @@ export default class DesktopCheckout extends React.Component {
                             )}
                             {cartAmount.comboDiscountAmount &&
                                 cartAmount.comboDiscountAmount.value !== 0 && (
-                                    <div className={styles.informationDiscountHolder}>
-                                    <div className={styles.informationQuestionHolder}>
-                                        <span className={styles.labelComboDiscount}>
+                                    <div className={styles.row}>
+                                        <div className={styles.label}>
                                         Combo Discount
-                                        </span>
-                                    </div>
+                                        </div>
                                     <div className={styles.info}>
-                                        -{cartAmount.comboDiscountAmount.formattedValue}
+                                        - {cartAmount.comboDiscountAmount.formattedValue}
                                     </div>
-                                </div>
+                                    </div>
                             )}
                         {!(
                             !cartAmount.totalDiscountAmount &&
