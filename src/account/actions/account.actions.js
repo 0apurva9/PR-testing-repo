@@ -1230,7 +1230,9 @@ export function getGiftCardDetails() {
           ) {
               if (!resultJson.isWalletOtpVerified) {
                   dispatch(showModal(GENERATE_OTP_FOR_EGV));
-              } else if (resultJson.isWalletCreated  && !resultJson.isWalletOtpVerified) {
+              }
+              // wrongly implemented someone will fix it
+              /* else if (resultJson.isWalletCreated  && !resultJson.isWalletOtpVerified) {
                   dispatch(
                       showModal(GENERATE_OTP_FOR_EGV, {
                           firstName: resultJson.firstName,
@@ -1238,7 +1240,7 @@ export function getGiftCardDetails() {
                           mobileNumber: resultJson.mobileNumber,
                       })
                   );
-              }
+              } */
               setDataLayer(ADOBE_MY_ACCOUNT_GIFT_CARD);
               return dispatch(giftCardSuccess(resultJson));
           } else {
