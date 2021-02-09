@@ -34,7 +34,6 @@ import {
 import { MOBILE_PATTERN } from "../../auth/components/Login";
 import SSRquest from "../../general/components/SSRequest";
 import OrderHistoryList from "./OrderHistoryList";
-import Icon from "../../xelpmoc-core/Icon";
 import moment from "moment";
 import ProductImage from "../../general/components/ProductImage";
 const ORDER_REALTED_QUESTION = "orderRelated";
@@ -44,6 +43,13 @@ const YES = "Yes";
 const NO = "No";
 const STATUS_DATE_FORMAT = "DD MMM, YYYY";
 const CLIQ_2_CALL_CONFIG = "cliq2call-config-file-v1";
+import shoppingactive from "../components/img/shoppingactive.svg";
+import shopping from "../components/img/shopping.svg";
+
+const imageMapping = {
+    shoppingactive,
+    shopping,
+};
 export default class OrderRelatedIssue extends React.Component {
     constructor(props) {
         super(props);
@@ -1075,7 +1081,37 @@ export default class OrderRelatedIssue extends React.Component {
                                                                         }}
                                                                     >
                                                                         <div className={styles.faqIcon}>
-                                                                            <Icon
+                                                                            <div
+                                                                                className={styles.imageBase}
+                                                                                style={{
+                                                                                    width: 30,
+                                                                                    height: 30,
+                                                                                }}
+                                                                                onClick={() => {
+                                                                                    this.handleClick();
+                                                                                }}
+                                                                            >
+                                                                                <img
+                                                                                    className={styles.image}
+                                                                                    src={
+                                                                                        this.state.parentIssueType ==
+                                                                                        faq.FAQHeader
+                                                                                            ? imageMapping[
+                                                                                                  faq.image.split(
+                                                                                                      "."
+                                                                                                  )[0] + "active"
+                                                                                              ]
+                                                                                            : imageMapping[
+                                                                                                  faq.image.split(
+                                                                                                      "."
+                                                                                                  )[0]
+                                                                                              ]
+                                                                                    }
+                                                                                />
+                                                                                {this.props.children}
+                                                                            </div>
+
+                                                                            {/* <Icon
                                                                                 image={
                                                                                     this.state.parentIssueType ==
                                                                                     faq.FAQHeader
@@ -1089,7 +1125,7 @@ export default class OrderRelatedIssue extends React.Component {
                                                                                 }
                                                                                 width={33}
                                                                                 height={33}
-                                                                            />
+                                                                            /> */}
                                                                         </div>
                                                                         <div className={styles.faqHederBox}>
                                                                             <div
