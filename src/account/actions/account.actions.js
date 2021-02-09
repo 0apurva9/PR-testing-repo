@@ -1229,7 +1229,8 @@ export function getGiftCardDetails() {
             ) {
                 if (!resultJson.isWalletOtpVerified) {
                     dispatch(showModal(GENERATE_OTP_FOR_EGV));
-                } else if (resultJson.isWalletCreated) {
+                // eslint-disable-next-line no-dupe-else-if
+                } else if (resultJson.isWalletCreated && !resultJson.isWalletOtpVerified) {
                     dispatch(
                         showModal(GENERATE_OTP_FOR_EGV, {
                             firstName: resultJson.firstName,
