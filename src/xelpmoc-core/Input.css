@@ -18,7 +18,7 @@
 .hollow {
   composes: base;
   background: transparent;
-  color: #fff;
+  color: #000;
 }
 .box {
   height: 100%;

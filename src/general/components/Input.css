@@ -25,11 +25,10 @@
   }
   .hollow {
     composes: base;
-    color: #fff;
-    border-bottom-color: #fff;
+    color: #000;
   }
   .hollow input::placeholder {
-    color: #fff;
+    color: #000;
     opacity: 0.5;
   }
 }
