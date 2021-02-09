@@ -7,6 +7,7 @@ import infoIcon from "./img/infoIcon.svg";
 import ProductImage from "../../general/components/ProductImage";
 import OrderHistoryDetails from "./OrderHistoryDetails";
 import moment from "moment";
+const images = require.context("./img", true);
 import { RESOLVED } from "../../lib/constants";
 const ticketStatusDropDownMenu = [
     { label: "All Tickets", value: "all" },
@@ -73,9 +74,9 @@ export default class OrderHistoryList extends Component {
                                                     <div className={Styles.nonRelatedIcon}>
                                                         <div
                                                             style={{
-                                                                background: `url(${require(`./img/${tickets.issueBucket
+                                                                background: `url(${images(`./${tickets.issueBucket
                                                                     .split(" ")[0]
-                                                                    .toLowerCase()}_ticket.svg`)})`,
+                                                                    .toLowerCase()}_ticket.svg`).default})`,
                                                                 backgroundSize: "auto",
                                                                 backgroundRepeat: "no-repeat",
                                                                 width: tickets.issueBucket.includes("EGV")
