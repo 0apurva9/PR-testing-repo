@@ -76,6 +76,19 @@ export default class ReturnModes extends React.Component {
       ) {
         for (var key in data.returnModesDetails.returnModes) {
           if (key === "quickDrop" && data.returnModesDetails.returnModes[key]) {
+            if (
+              data.returnModesDetails.returnStoreDetailsList &&
+              Array.isArray(data.returnModesDetails.returnStoreDetailsList) &&
+              data.returnModesDetails.returnStoreDetailsList.length > 0
+            ) {
+              this.setState({
+                selectedOptionStores:
+                  data.returnModesDetails.returnStoreDetailsList[0].address.id,
+                selectedReturnStore: JSON.stringify(
+                  data.returnModesDetails.returnStoreDetailsList[0]
+                )
+              });
+            }
             this.setState({ selectedOption: "Return To Store" });
             break;
           } else if (
