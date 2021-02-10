@@ -13,7 +13,6 @@ import { LOG_OUT_USER_SUCCESS } from "../actions/account.actions.js";
 import ChangePassword from "./ChangePassword.js";
 import * as Cookie from "../../lib/Cookie";
 import ProfilePicture from "../../blp/components/ProfilePicture.js";
-import { EMAIL_REGULAR_EXPRESSION, MOBILE_PATTERN } from "../../auth/components/Login";
 import {
     LOGGED_IN_USER_DETAILS,
     CUSTOMER_ACCESS_TOKEN,
