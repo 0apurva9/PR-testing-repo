@@ -115,7 +115,7 @@ export default class ColorComponent extends React.Component {
             this.props.productDetails && this.props.productDetails.variantTheme
                 ? this.props.productDetails.variantTheme
                 : [];
-        let stockCount = 0;
+        let stockCount = [];
         const winningUssID = this.props.productDetails && this.props.productDetails.winningUssID;
         const pincodeListResponse =
             this.props.productDetails &&
@@ -256,7 +256,9 @@ export default class ColorComponent extends React.Component {
                                                                                     />
                                                                                 ) : null}
                                                                             </div>
-                                                                            {stockCount <= 3 &&
+                                                                            {stockCount.length > 0 &&
+                                                                            stockCount[0] &&
+                                                                            stockCount[0] <= 3 &&
                                                                             colorElement.isAvailable &&
                                                                             colorElement.selected ? (
                                                                                 <div
@@ -264,7 +266,7 @@ export default class ColorComponent extends React.Component {
                                                                                         styles["shade-stock-left"]
                                                                                     }
                                                                                 >
-                                                                                    {`${stockCount} left`}
+                                                                                    {`${stockCount[0]} left`}
                                                                                 </div>
                                                                             ) : null}
                                                                             {this.state.showTooltip &&
