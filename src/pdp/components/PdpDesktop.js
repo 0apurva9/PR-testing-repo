@@ -2028,7 +2028,14 @@ export default class PdpApparel extends React.Component {
                                         )}
 
                                         {productData.knowMore && (
-                                            <Accordion text="Know More" headerFontSize={18}>
+                                            <Accordion
+                                                text={`${
+                                                    productData.rootCategory === "Electronics"
+                                                        ? "Return Policy"
+                                                        : "Know More"
+                                                }`}
+                                                headerFontSize={18}
+                                            >
                                                 <div className={styles.containerWithBottomBorder}>
                                                     {productData.rootCategory === "Electronics" &&
                                                         productData.knowMore &&
