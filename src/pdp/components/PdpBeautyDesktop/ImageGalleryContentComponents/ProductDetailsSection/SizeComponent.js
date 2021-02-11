@@ -61,12 +61,14 @@ export default class SizeComponent extends React.Component {
                                                     onClick={() => this.handleSizeOptionClick(val.url)}
                                                 >
                                                     <div className={selectedClass}>
-                                                        <div
-                                                            className={styles["size-icon"]}
-                                                            style={{
-                                                                backgroundImage: `url(${val.imageUrl})`,
-                                                            }}
-                                                        ></div>
+                                                        {val.imageUrl ? (
+                                                            <div
+                                                                className={styles["size-icon"]}
+                                                                style={{
+                                                                    backgroundImage: `url(${val.imageUrl})`,
+                                                                }}
+                                                            ></div>
+                                                        ) : null}
                                                         {val.size}
                                                     </div>
                                                 </div>
@@ -81,13 +83,15 @@ export default class SizeComponent extends React.Component {
                                                     )}
                                                 >
                                                     <div className={styles["size-outer"]}>
-                                                        <div
-                                                            className={styles["size-icon"]}
-                                                            style={{
-                                                                backgroundImage: `url(${val.imageUrl})`,
-                                                                backgroundSize: `auto ${34}px`,
-                                                            }}
-                                                        ></div>
+                                                        {val.imageUrl ? (
+                                                            <div
+                                                                className={styles["size-icon"]}
+                                                                style={{
+                                                                    backgroundImage: `url(${val.imageUrl})`,
+                                                                    backgroundSize: `auto ${34}px`,
+                                                                }}
+                                                            ></div>
+                                                        ) : null}
                                                         {val.size}
                                                     </div>
                                                 </div>
