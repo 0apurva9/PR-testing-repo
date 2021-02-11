@@ -127,6 +127,7 @@ export default class HeaderWrapper extends React.Component {
 
     componentDidMount() {
         // this.props.getWishListItems();
+        this.props.seachAbVersion();
         if (this.props.location.pathname !== HOME_ROUTER && !this.props.location.pathname.includes(SAVE_LIST_PAGE)) {
             this.props.getWishlist();
         }
