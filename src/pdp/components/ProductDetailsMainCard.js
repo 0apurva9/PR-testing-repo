@@ -12,6 +12,7 @@ import MetaTags from "react-meta-tags";
 import { isBrowser } from "browser-or-node";
 
 import { setDataLayerForPdpDirectCalls, SET_DATA_LAYER_FOR_REVIEW_AND_RATING_EVENT } from "../../lib/adobeUtils";
+import ShareLinkComponent from "./ShareLinkComponent";
 const NO_REVIEW_TEXT = "Be the first to review this product";
 export const PRIMARY_OFFER = "PRODUCT_PROMOTION";
 export default class ProductDetailsMainCard extends React.Component {
@@ -188,6 +189,12 @@ export default class ProductDetailsMainCard extends React.Component {
                                 </div>
                             )}
                         </DesktopOnly>
+                        <div className={styles.shareBlock}>
+                            <ShareLinkComponent
+                                displayToast={this.props.displayToast}
+                                openBeautyPopup={this.props.openBeautyPopup}
+                            />
+                        </div>
                     </div>
                 </div>
 
@@ -266,6 +273,8 @@ ProductDetailsMainCard.propTypes = {
     brandName: PropTypes.string,
     hasPriceBreakUp: PropTypes.bool,
     doublePrice: PropTypes.number,
+    displayToast: PropTypes.func,
+    openBeautyPopup: PropTypes.func,
 };
 ProductDetailsMainCard.defaultProps = {
     isPdp: false,
