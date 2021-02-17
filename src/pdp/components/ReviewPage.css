@@ -1,76 +1,83 @@
 .base {
-  width: 100%;
-  height: auto;
-  position: relative;
-  border-bottom: 2px solid #d2d2d2;
-  padding: 10px 0px;
+	width: 100%;
+	height: auto;
+	position: relative;
+	border-bottom: 2px solid #d2d2d2;
+	padding: 10px 0px;
 }
+
 .base:last-child {
-  border: none;
+	border: none;
 }
+
 .starHolder {
-  width: auto;
-  height: auto;
-  display: inline-block;
+	width: auto;
+	height: auto;
+	display: inline-block;
 }
+
 .heading {
-  display: inline-block;
-  color: #212121;
-  font-size: 14px;
-  line-height: 35px;
+	display: inline-block;
+	color: #212121;
+	font-size: 14px;
+	line-height: 35px;
 }
+
 .text {
-  width: 100%;
-  height: auto;
-  color: #4a4a4a;
-  font-size: 14px;
-  line-height: 20px;
-  white-space: pre-wrap;
-  word-break: break-word;
+	width: 100%;
+	height: auto;
+	color: #4a4a4a;
+	font-size: 14px;
+	line-height: 20px;
+	white-space: pre-wrap;
+	word-break: break-word;
 	margin-top: 10px;
 	font-family: 'light';
 }
 
 .familyLight {
-  font-family: 'light';
+	font-family: 'light';
 }
 
 .dateTimeBox {
-  width: 100%;
-  height: auto;
-  color: #8d8d8d;
-  font-size: 14px;
-  line-height: 35px;
-  white-space: initial;
-  margin-bottom: 10px;
-  font-family: light;
+	width: 100%;
+	height: auto;
+	color: #8d8d8d;
+	font-size: 14px;
+	line-height: 35px;
+	white-space: initial;
+	margin-bottom: 10px;
+	font-family: light;
 }
+
 .isBuyer {
-  width: auto;
-  height: 17px;
-  line-height: 17px;
-  position: relative;
-  padding-left: 20px;
-  padding-right: 10px;
-  display: inline-block;
-  vertical-align: middle;
+	width: auto;
+	height: 17px;
+	line-height: 17px;
+	position: relative;
+	padding-left: 20px;
+	padding-right: 10px;
+	display: inline-block;
+	vertical-align: middle;
 	font-size: 13px;
 }
+
 .nameHolder {
-  display: inline-block;
-  vertical-align: middle;
-  padding-right: 10px;
+	display: inline-block;
+	vertical-align: middle;
+	padding-right: 10px;
 	font-family: 'regular';
 	color: #4a4a4a;
 }
+
 .buyerIcon {
-  width: 16px;
-  height: 16px;
-  position: absolute;
-  left: 0px;
-  top: 0;
-  bottom: 0;
-  background: url(./img/verifiedCheck.svg) no-repeat;
+	width: 16px;
+	height: 16px;
+	position: absolute;
+	left: 0px;
+	top: 0;
+	bottom: 0;
+	background: url(./img/verifiedCheck.svg) no-repeat;
 }
 
 .productAttribute {
