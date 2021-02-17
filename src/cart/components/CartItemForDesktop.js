@@ -606,6 +606,18 @@ export default class CartItemForDesktop extends React.Component {
                                                 </div>
                                             </React.Fragment>
                                         )}
+                                    {this.props.product.exchangeDetails.exchangePriceDetail &&
+                                        this.props.product.exchangeDetails.exchangePriceDetail.cashifyMaxMinDiff && (
+                                            <React.Fragment>
+                                                <div className={styles.font14LightLeft}>Diagnostic Check Val</div>
+                                                <div className={styles.font14LightRight}>
+                                                    {
+                                                        this.props.product.exchangeDetails.exchangePriceDetail
+                                                            .cashifyMaxMinDiff.formattedValueNoDecimal
+                                                    }
+                                                </div>
+                                            </React.Fragment>
+                                        )}
                                     <div className={styles.exchangePickupDetails}>
                                         <span className={styles.font14bold}>Pick Up</span>: Within 3 days of Product
                                         Delivery <span className={styles.separator}>|</span>
