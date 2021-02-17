@@ -1,0 +1,45 @@
+.ratingTextContainer {
+	display: flex;
+	align-items: center;
+}
+
+.ratingText {
+	font-family: semibold;
+  font-size: 40px;
+	color: #212121;
+}
+
+.starContainer {
+  margin: 0 12px 0 10px;
+}
+
+.ratingTextContainerOther {
+	display: flex;
+	align-items: center;
+}
+
+.starContainerOther{
+	margin: 0 0 0 10px;
+}
+
+.ratingTextContainerReviewPage {
+	display: flex;
+	width: 48px;
+	height: 28px;
+	border-radius: 14px;
+	background-color: #ecf9e5;
+	justify-content: center;
+	align-items: center;
+	margin-right: 8px;
+}
+
+.ratingTextReviewPage {
+	font-family: semibold;
+	font-size: 16px;
+	color: #212121;
+}
+
+.starContainerReviewPage {
+	margin: 0 2px;
+}
+

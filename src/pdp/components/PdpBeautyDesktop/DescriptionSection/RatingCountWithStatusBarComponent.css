@@ -1,0 +1,29 @@
+.rating {
+	font-size: 13px;
+	font-family: light;
+	color: #212121;
+	width: 5px;
+	display: inline-block;
+}
+
+.ratingCount {
+	font-size: 13px;
+	font-family: light;
+	color: #979797;
+	text-align: right;
+}
+
+.ratingStar {
+	display: inline-block;
+	margin-left: 5px;
+}
+
+.ratingCountStatusBar {
+	width: 100px;
+	height: 4px;
+	border-radius: 0.6px;
+	margin: 0 20px 0 20px;
+	background-color: #E7E7E7;
+	display: inline-block;
+	vertical-align: middle;
+}
