@@ -404,6 +404,7 @@ const mapStateToProps = state => {
         appliancesExchangeDetails: state.productDescription.getAppliancesExchangeDetails,
         updatedAppliancesExchangeDetails: state.productDescription.updatedAppliancesExchangeDetails,
         appliancesExchangePincodeDetails: state.productDescription.appliancesExchangeCheckPincodeDetails,
+        reviews: state.productDescription.reviews,
     };
 };
 
