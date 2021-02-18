@@ -1247,6 +1247,8 @@ export default class PdpApparel extends React.Component {
                                                 impulseOfferCalloutList={this.props.impulseOfferCalloutList}
                                                 potentialPromotions={productData.potentialPromotions}
                                                 isPdp={true}
+                                                displayToast={this.props.displayToast}
+                                                openBeautyPopup={this.props.openBeautyPopup}
                                             />
                                         </div>
                                         <div className={styles.wisthListIconHolder}>
@@ -2445,4 +2447,5 @@ PdpApparel.propTypes = {
     cartCountDetailsLoading: PropTypes.bool,
     checkPincodeFromHaptikChatbot: PropTypes.func,
     getProductSpecification: PropTypes.func,
+    openBeautyPopup: PropTypes.func,
 };
