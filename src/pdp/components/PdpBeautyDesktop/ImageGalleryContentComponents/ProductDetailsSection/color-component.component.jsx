@@ -204,7 +204,7 @@ export default class ColorComponent extends React.Component {
                                                 <React.Fragment>
                                                     <div className={styles["shade-list-block"]}>
                                                         {colorAndSize.colorOptions.map((colorElement, j) => {
-                                                            let classForHexCode = /* !colorElement.swatchUrl && */ colorElement.colorHexCode
+                                                            let classForHexCode = colorElement.colorHexCode
                                                                 ? {
                                                                       backgroundColor: `${colorElement.colorHexCode}`,
                                                                       width: "58px",
@@ -245,7 +245,8 @@ export default class ColorComponent extends React.Component {
                                                                                 ].join(" ")}
                                                                                 style={classForHexCode}
                                                                             >
-                                                                                {/*    {colorElement.swatchUrl ? (
+                                                                                {!colorElement.colorHexCode &&
+                                                                                colorElement.swatchUrl ? (
                                                                                     <img
                                                                                         src={colorElement.swatchUrl}
                                                                                         className={
@@ -253,7 +254,7 @@ export default class ColorComponent extends React.Component {
                                                                                         }
                                                                                         alt={"swatch"}
                                                                                     />
-                                                                                ) : null} */}
+                                                                                ) : null}
                                                                             </div>
                                                                             {stockCount.length > 0 &&
                                                                             stockCount[0] &&
