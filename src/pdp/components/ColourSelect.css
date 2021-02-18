@@ -54,17 +54,26 @@
     line-height: 16px;
     margin: 0;
     color: rgb(33, 33, 33);
-    display: block;
+    display: none;
     position: absolute;
     left: 50%;
     bottom: -25%;
     border: 0.5px solid rgb(151, 151, 151);
     background-color: #ffffff;
-    min-width: 61px;
-    width: 100%;
     text-align: center;
     z-index: 9;
+    padding: 3px;
 }
+
+.base:hover .shadeToolTip {
+    display: block;
+}
+
+.base:nth-child(5n + 0) .shadeToolTip {
+    right: 0;
+    left: auto;
+}
+
 @media screen and (min-width: 1025px) {
     .base {
         width: 36px;

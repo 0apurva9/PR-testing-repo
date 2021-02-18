@@ -65,7 +65,7 @@
     width: 100%;
     height: auto;
     max-height: 215px;
-    overflow-y: auto;
+    /* overflow-y: auto; */
 }
 .catagoryHolder {
     width: 100%;
