@@ -204,14 +204,13 @@ export default class ColorComponent extends React.Component {
                                                 <React.Fragment>
                                                     <div className={styles["shade-list-block"]}>
                                                         {colorAndSize.colorOptions.map((colorElement, j) => {
-                                                            let classForHexCode =
-                                                                !colorElement.swatchUrl && colorElement.colorHexCode
-                                                                    ? {
-                                                                          backgroundColor: `${colorElement.colorHexCode}`,
-                                                                          width: "58px",
-                                                                          height: "58px",
-                                                                      }
-                                                                    : null;
+                                                            let classForHexCode = colorElement.colorHexCode
+                                                                ? {
+                                                                      backgroundColor: `${colorElement.colorHexCode}`,
+                                                                      width: "58px",
+                                                                      height: "58px",
+                                                                  }
+                                                                : null;
                                                             if (colorElement.productCode) {
                                                                 return (
                                                                     <div>
@@ -246,7 +245,8 @@ export default class ColorComponent extends React.Component {
                                                                                 ].join(" ")}
                                                                                 style={classForHexCode}
                                                                             >
-                                                                                {colorElement.swatchUrl ? (
+                                                                                {!colorElement.colorHexCode &&
+                                                                                colorElement.swatchUrl ? (
                                                                                     <img
                                                                                         src={colorElement.swatchUrl}
                                                                                         className={
