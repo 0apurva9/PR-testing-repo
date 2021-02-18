@@ -19,6 +19,7 @@ export default class Video extends React.Component {
                 onEnded={this.props.onEnded}
                 onPlay={this.props.onPlay}
                 light={this.props.light}
+                playIcon={this.props.playIcon}
             />
         );
     }
@@ -30,4 +31,5 @@ Video.propTypes = {
     onEnded: PropTypes.func,
     onPlay: PropTypes.func,
     light: PropTypes.string,
+    playIcon: PropTypes.element,
 };
