@@ -401,6 +401,7 @@ export default class FilterDesktop extends React.Component {
                                                                                 selected={val.selected}
                                                                                 value={val.url}
                                                                                 key={i}
+                                                                                index={i}
                                                                             />
                                                                         );
                                                                     }
@@ -483,7 +484,7 @@ export default class FilterDesktop extends React.Component {
                                                                                 this.viewMore(facetDataValues.values)
                                                                             }
                                                                         >
-                                                                            More Brands
+                                                                            {`+ ${facetDataValues.values.length} more`}
                                                                         </div>
                                                                     </div>
                                                                 )}
