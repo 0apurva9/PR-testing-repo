@@ -4,7 +4,6 @@ import DesktopHeader from "./DesktopHeader.js";
 import * as Cookie from "../../lib/Cookie";
 import styles from "./HeaderWrapper.css";
 import queryString from "query-string";
-import throttle from "lodash.throttle";
 import {
     CNCTOHD,
     HOME_ROUTER,
@@ -67,18 +66,17 @@ export default class HeaderWrapper extends React.Component {
     handleScroll = () => {
         let lastScrollTop = window.pageYOffset;
         document.addEventListener(
-          "scroll",
-          () => {
-            let ScrollSticky =
-              window.pageYOffset || document.documentElement.scrollTop - 1;
-            if (ScrollSticky > lastScrollTop + 1) {
-              this.setState({ stickyHeader: true });
-            } else if (ScrollSticky < lastScrollTop + 1) {
-              this.setState({ stickyHeader: false });
-            }
-            lastScrollTop = ScrollSticky <= 0 ? 0 : ScrollSticky; // For Mobile or negative scrolling
-          },
-          false
+            "scroll",
+            () => {
+                let ScrollSticky = window.pageYOffset || document.documentElement.scrollTop - 1;
+                if (ScrollSticky > lastScrollTop + 1) {
+                    this.setState({ stickyHeader: true });
+                } else if (ScrollSticky < lastScrollTop + 1) {
+                    this.setState({ stickyHeader: false });
+                }
+                lastScrollTop = ScrollSticky <= 0 ? 0 : ScrollSticky; // For Mobile or negative scrolling
+            },
+            false
         );
         this.setState({ stickyHeader: false });
     };
