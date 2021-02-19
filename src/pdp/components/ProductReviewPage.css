@@ -40,7 +40,7 @@
   border: grey;
 }
 .dropdown {
-  width: 50%;
+  width: 100%;
   height: auto;
   float: left;
   padding: 10px 0px 0px 0px;
@@ -69,7 +69,6 @@
     top: 60px;
   }
   .dropDownHolder {
-    background: #ececec;
     padding: 0px 0px 0px 20px;
     width: 80%;
   }
@@ -80,9 +79,10 @@
     padding: 35px;
     border-radius: 4px;
     margin-bottom: 5%;
+		border: 1px solid #d5d5d5;
   }
   .dropdown {
-    width: 50%;
+    width: 175px;
     height: auto;
     float: right;
     margin-left: 50px;
@@ -127,12 +127,18 @@
     font-family: light;
   }
 
-  .headerWithRating,
-  .dropdownWithButton {
+  .headerWithRating {
     width: 50%;
     height: auto;
     display: inline-block;
     vertical-align: top;
+  }
+	.dropdownWithButton {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    vertical-align: top;
+		margin-bottom: 12px;
   }
   .headerWrapper {
     width: 100%;
@@ -153,7 +159,7 @@
   .pageIteam {
     width: 7px;
     height: 17px;
-    font-family: Rubik;
+    font-family: 'regular';
     font-size: 14px;
     font-weight: 500;
     font-style: normal;
@@ -161,7 +167,7 @@
     line-height: normal;
     letter-spacing: normal;
     text-align: center;
-    color: #212121;
+    color: #6c6c6c;
   }
   .paginationListHolder {
     width: 100%;
@@ -182,7 +188,7 @@
     text-decoration: none;
     width: 7px;
     height: 17px;
-    font-family: Rubik;
+    font-family: 'regular';
     font-size: 14px;
     font-weight: 500;
     font-style: normal;
@@ -190,25 +196,26 @@
     line-height: normal;
     letter-spacing: normal;
     text-align: center;
-    color: #212121;
+    color: #6c6c6c;
     cursor: pointer;
   }
   .activePageIteam {
-    background-color: rgba(33, 33, 33, 0.93);
-    padding: 8px 13px;
-    border-radius: 50px;
-    color: #fdfdfd;
+		background-color: #212121;
+    padding: 4px 0 0 0;
+    color: #ffffff;
     text-align: center;
-    line-height: normal;
-    width: 50px;
-    height: 50px;
+    width: 24px;
+    height: 24px;
+    display: inline-block;
     vertical-align: middle;
+    border-radius: 8px;
   }
   .listHolder {
     height: auto;
     font-size: 14px;
     padding: 0px 9px 0px 10px;
     width: auto;
+		margin: 8px 0;
   }
   .paginationHolder {
     width: 100%;
@@ -223,39 +230,18 @@
   .pageNumberInfoText {
     font-size: 14px;
     color: #2d2d2d;
-    font-family: Rubik;
+    font-family: 'regular';
     text-align: center;
-  }
-  .previousbutton {
-    background-image: url(./img/previousbutton.svg);
-    width: 136px;
-    height: 40px;
-    background-repeat: no-repeat;
-    cursor: pointer;
-  }
-  .nextbutton {
-    background-image: url(./img/nextbutton.svg);
-    width: 117px;
-    height: 40px;
-    background-repeat: no-repeat;
-    cursor: pointer;
   }
   .pageInfo {
     width: 24%;
     height: auto;
   }
   .pageInfoText {
-    padding: 11px 0;
-    height: 14px;
-    font-family: Rubik;
+    font-family: 'light';
     font-size: 14px;
-    font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    text-align: center;
-    color: #2d2d2d;
+    color: #4a4a4a;
+		padding: 10px 0;
   }
   .continueHiddenButtonHolder{
     visibility: hidden;
@@ -263,4 +249,109 @@
   .continueButtonHolder{
     visibility: show;
   }
+	.currentPageNumber{
+		font-family: 'regular';
+		color:#212121;
+	}
+	.previousButton{
+		width: 120px;
+		height: 40px;
+		border-radius: 4px;
+		color: #212121;
+		cursor: pointer;
+		border: 1px solid #212121;
+		padding: 11px 0 0 33px;
+    position: relative;
+    font-size: 14px;
+    font-family: 'semibold';
+	}
+	.previousButton::before{
+		content: "";
+    border: 1px solid #212121;
+		border-width: 0 2px 2px 0;
+    padding: 4px;
+    -ms-transform: rotate(135deg);
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+    position: absolute;
+		top: 14px;
+    left: 18px;
+	}
+	.nextButton{
+		width: 120px;
+		height: 40px;
+		border-radius: 4px;
+		color: #212121;
+		cursor: pointer;
+		border: 1px solid #212121;
+		padding: 11px 0 0 35px;
+    position: relative;
+    font-size: 14px;
+    font-family: 'semibold';
+	}
+	.nextButton::after{
+		content: "";
+    border: 1px solid #212121;
+		border-width: 0 2px 2px 0;
+    padding: 4px;
+    -ms-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    position: absolute;
+		top: 14px;
+    right: 28px;
+	}
+	.writeReviewButton{
+		font-size: 14px;
+    padding: 12px 0;
+    text-align: center;
+    margin: 10px 0;
+    color: #da1c5c;
+    border: 1px solid #da1c5c;
+    border-radius: 4px;
+    font-family: 'semibold';
+	}
+	.colorItem{
+		margin-bottom: 20px;
+	}
+	.title{
+		font-size: 14px;
+		font-family: 'semibold';
+		margin-bottom: 16px;
+	}
+	.filterContainer{
+		padding: 20px;
+		border: 1px solid #ebebeb;
+	}
+	.colorBox{
+		display: inline-block;
+		width: 28px;
+		height: 28px;
+		border-radius: 7px;
+    vertical-align: middle;
+    margin: 0 0 0 14px;
+	}
+	.filterName{
+		font-size: 14px;
+    font-family: 'light';
+		margin-left: 14px;
+	}
+	.sizeContainer{
+		position: relative;
+		padding-top: 16px;
+	}
+	.sizeContainer::before{
+		position: absolute;
+    content: "";
+    width: 237px;
+    height: 1px;
+    top: 0;
+    left: -20px;
+    right: 0;
+    border-top: 1px solid #ebebeb;
+	}
+	.checkBoxHolder{
+		display: inline-block;
+		vertical-align: text-bottom;
+	}
 }

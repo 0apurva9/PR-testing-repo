@@ -61,12 +61,14 @@ export default class RatingReviewHeaderComponent extends React.Component {
 
         return (
             <React.Fragment>
-                <div className={styles.reviewsHeader}>
-                    <div className={styles.reviewsHeading}>RATINGS AND REVIEWS</div>
-                    <div className={styles.reviewsButton} onClick={() => this.props.goToReviewPage()}>
-                        See all
+                {!this.props.isReviewPage ? (
+                    <div className={styles.reviewsHeader}>
+                        <div className={styles.reviewsHeading}>RATINGS AND REVIEWS</div>
+                        <div className={styles.reviewsButton} onClick={() => this.props.goToReviewPage()}>
+                            See all
+                        </div>
                     </div>
-                </div>
+                ) : null}
 
                 {this.props.productDetails.averageRating &&
                     this.props.reviews &&
@@ -130,4 +132,5 @@ RatingReviewHeaderComponent.propTypes = {
             totalCountOfEachStarRating: PropTypes.array,
         })
     ),
+    isReviewPage: PropTypes.bool,
 };
