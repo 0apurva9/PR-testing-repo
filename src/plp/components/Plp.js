@@ -691,6 +691,9 @@ export default class Plp extends React.Component {
                                 >
                                     {selectedFilter &&
                                         selectedFilter.map((selectedFilterData, i) => {
+                                            if (selectedFilterData.name === "Exclude out of stock") {
+                                                return null;
+                                            }
                                             return (
                                                 <div
                                                     className={styles.selectedFilterWithIcon}
