@@ -65,28 +65,22 @@ export default class HeaderWrapper extends React.Component {
     };
 
     handleScroll = () => {
-        return throttle(() => {
-            if (UserAgent.checkUserAgentIsMobile()) {
-                if (window.pageYOffset < 30 && this.state.stickyHeader) {
-                    this.setState({ stickyHeader: false });
-                } else if (window.pageYOffset > 30 && !this.state.stickyHeader) {
-                    this.setState({ stickyHeader: true });
-                }
-            } else {
-                if (window.pageYOffset > this.state.showStickyHeader) {
-                    this.setState({
-                        showStickyHeader: window.pageYOffset,
-                        stickyHeader: true,
-                    });
-                }
-                if (this.state.showStickyHeader > window.pageYOffset) {
-                    this.setState({
-                        showStickyHeader: window.pageYOffset,
-                        stickyHeader: false,
-                    });
-                }
+        let lastScrollTop = window.pageYOffset;
+        document.addEventListener(
+          "scroll",
+          () => {
+            let ScrollSticky =
+              window.pageYOffset || document.documentElement.scrollTop - 1;
+            if (ScrollSticky > lastScrollTop + 1) {
+              this.setState({ stickyHeader: true });
+            } else if (ScrollSticky < lastScrollTop + 1) {
+              this.setState({ stickyHeader: false });
             }
-        }, 50);
+            lastScrollTop = ScrollSticky <= 0 ? 0 : ScrollSticky; // For Mobile or negative scrolling
+          },
+          false
+        );
+        this.setState({ stickyHeader: false });
     };
 
     handleSelect(val) {
