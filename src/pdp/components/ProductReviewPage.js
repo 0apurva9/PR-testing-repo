@@ -34,8 +34,8 @@ import {
 import commentArray from "../../mock/lang_profanity.json";
 import { checkUserLoggedIn } from "../../lib/userUtils";
 import RatingReviewHeaderComponent from "./PdpBeautyDesktop/DescriptionSection/RatingReviewHeaderComponent";
-import Accordion from "../../general/components/Accordion";
-import CheckBox from "../../general/components/CheckBox";
+import AccordionForReviewFilter from "../../general/components/AccordionForReviewFilter";
+import CheckboxMultiSelect from "../../general/components/CheckboxMultiSelect";
 const WRITE_REVIEW_TEXT = "Write Review";
 const PRODUCT_QUANTITY = "1";
 export default class ProductReviewPage extends Component {
@@ -52,6 +52,7 @@ export default class ProductReviewPage extends Component {
             reviewListPerPage: 10,
             filterShow: true,
             isFilterSelected: false,
+            checkedItems: new Map(),
         };
         this.filterOptions = [
             { label: "Oldest First", value: "byDate_asc" },
@@ -307,8 +308,70 @@ export default class ProductReviewPage extends Component {
         this.setState({ filterShow: !this.state.filterShow });
     };
 
-    toggleFilterClick = () => {
-        this.setState({ isFilterSelected: !this.state.isFilterSelected });
+    toggleFilterClick = e => {
+        const itemName = e.target.name;
+        const isChecked = e.target.checked;
+        this.setState(
+            prevState => ({ checkedItems: prevState.checkedItems.set(itemName, isChecked) }),
+            () => {
+                this.applyFilters(this.state.checkedItems);
+            }
+        );
+    };
+
+    applyFilters = checkedItems => {
+        // get product ids and send to api
+        let variantOptions = this.props.productDetails.variantOptions;
+        let selectedFilter;
+        checkedItems.forEach((value, key) => {
+            if (value) {
+                selectedFilter = variantOptions.filter(variant => {
+                    if (variant.colorlink.color === key || variant.sizelink.size === key) {
+                        return variant;
+                    }
+                });
+            }
+        });
+
+        let productIds = [];
+        let filterCheckToAppliedOn = [];
+
+        selectedFilter &&
+            selectedFilter.forEach(filterDetails => {
+                productIds.push(filterDetails.sizelink.productCode);
+
+                if (!filterCheckToAppliedOn.includes(filterDetails.colorlink.color)) {
+                    filterCheckToAppliedOn.push(filterDetails.colorlink.color);
+                }
+
+                if (!filterCheckToAppliedOn.includes(filterDetails.sizelink.size)) {
+                    filterCheckToAppliedOn.push(filterDetails.sizelink.size);
+                }
+            });
+
+        let productCodes = this.props.match.params[0];
+        if (productIds.length > 0) {
+            productCodes = productIds.join(",");
+        }
+        this.props.getProductReviews(productCodes, 0, this.state.orderBy, this.state.sort);
+
+        // show selected filter
+        if (this.state.checkedItems && this.state.checkedItems.size > 0) {
+            this.setState({ checkedItems: new Map() });
+        }
+        const updatedCheckedItems = new Map();
+        filterCheckToAppliedOn.forEach(singleFilter => {
+            updatedCheckedItems.set(singleFilter, true);
+        });
+        this.setState({ checkedItems: updatedCheckedItems });
+    };
+
+    clearFilters = () => {
+        console.log(this.state.checkedItems);
+        if (this.state.checkedItems && this.state.checkedItems.size > 0) {
+            this.setState({ checkedItems: new Map() });
+            this.props.getProductReviews(this.props.match.params[0], 0, this.state.orderBy, this.state.sort);
+        }
     };
 
     render() {
@@ -318,19 +381,31 @@ export default class ProductReviewPage extends Component {
             variantOptions &&
             variantOptions
                 .map(item => item.colorlink.color)
-                .filter((value, index, self) => self.indexOf(value) === index);
+                .filter((value, index, self) => {
+                    if (value && self.indexOf(value) === index) {
+                        return value;
+                    }
+                });
 
         let colorHexCodeSet =
             variantOptions &&
             variantOptions
                 .map(item => item.colorlink.colorHexCode)
-                .filter((value, index, self) => self.indexOf(value) === index);
+                .filter((value, index, self) => {
+                    if (value && self.indexOf(value) === index) {
+                        return value;
+                    }
+                });
 
         let sizeSet =
             variantOptions &&
             variantOptions
                 .map(item => item.sizelink.size)
-                .filter((value, index, self) => self.indexOf(value) === index);
+                .filter((value, index, self) => {
+                    if (value && self.indexOf(value) === index) {
+                        return value;
+                    }
+                });
 
         const { currentPage, reviewListPerPage } = this.state;
         const indexOfLastTodo = currentPage * reviewListPerPage;
@@ -429,11 +504,10 @@ export default class ProductReviewPage extends Component {
                                 />
                                 <div className={styles.writeReviewButton}>WRITE A REVIEW</div>
                                 <div>
-                                    <Accordion
+                                    <AccordionForReviewFilter
                                         text1="Filter by"
                                         text2="Clear all"
                                         isOpen={this.state.filterShow}
-                                        headerFontSize={14}
                                         text1Size={14}
                                         text1FontFamily="semibold"
                                         text2Color={"#4a4a4a"}
@@ -443,54 +517,67 @@ export default class ProductReviewPage extends Component {
                                         handleClick={() => this.toggleFilterShow()}
                                         padding="0px 40px 0px 20px"
                                         backgroundColor="#f9f9f9"
+                                        clearFilters={() => this.clearFilters()}
                                     >
                                         <div className={styles.filterContainer}>
-                                            <div className={styles.title}>Colour</div>
-                                            {colorSet &&
-                                                colorSet.length > 0 &&
-                                                colorSet.map((color, index) => {
-                                                    return (
-                                                        <div className={styles.colorItem} key={JSON.stringify(index)}>
-                                                            <div className={styles.checkBoxHolder}>
-                                                                <CheckBox
-                                                                    isCircle={true}
-                                                                    size="18px"
-                                                                    selected={this.state.isFilterSelected}
-                                                                    onClick={() => this.toggleFilterClick()}
-                                                                />
-                                                            </div>
-                                                            <span
-                                                                className={styles.colorBox}
-                                                                style={{ backgroundColor: colorHexCodeSet[index] }}
-                                                            ></span>
-                                                            <span className={styles.filterName}>{color}</span>
-                                                        </div>
-                                                    );
-                                                })}
-                                            <div className={styles.sizeContainer}>
-                                                <div className={styles.title}>Size</div>
-                                                {sizeSet &&
-                                                    sizeSet.length > 0 &&
-                                                    sizeSet.map((size, index) => {
+                                            {colorSet && colorSet.length > 0 && (
+                                                <React.Fragment>
+                                                    <div className={styles.title}>Colour</div>
+                                                    {colorSet.map((color, index) => {
                                                         return (
                                                             <div
                                                                 className={styles.colorItem}
                                                                 key={JSON.stringify(index)}
                                                             >
                                                                 <div className={styles.checkBoxHolder}>
-                                                                    <CheckBox
-                                                                        isCircle={true}
-                                                                        size="18px"
-                                                                        selected={false}
+                                                                    <CheckboxMultiSelect
+                                                                        name={color}
+                                                                        checked={
+                                                                            this.state.checkedItems &&
+                                                                            this.state.checkedItems.get(color)
+                                                                        }
+                                                                        onChange={e => this.toggleFilterClick(e)}
                                                                     />
                                                                 </div>
-                                                                <span className={styles.filterName}>{size}</span>
+                                                                <span
+                                                                    className={styles.colorBox}
+                                                                    style={{ backgroundColor: colorHexCodeSet[index] }}
+                                                                ></span>
+                                                                <span className={styles.filterName}>{color}</span>
                                                             </div>
                                                         );
                                                     })}
+                                                </React.Fragment>
+                                            )}
+                                            <div className={styles.sizeContainer}>
+                                                {sizeSet && sizeSet.length > 0 && (
+                                                    <React.Fragment>
+                                                        <div className={styles.title}>Size</div>
+                                                        {sizeSet.map((size, index) => {
+                                                            return (
+                                                                <div
+                                                                    className={styles.colorItem}
+                                                                    key={JSON.stringify(index)}
+                                                                >
+                                                                    <div className={styles.checkBoxHolder}>
+                                                                        <CheckboxMultiSelect
+                                                                            name={size}
+                                                                            checked={
+                                                                                this.state.checkedItems &&
+                                                                                this.state.checkedItems.get(size)
+                                                                            }
+                                                                            onChange={e => this.toggleFilterClick(e)}
+                                                                        />
+                                                                    </div>
+                                                                    <span className={styles.filterName}>{size}</span>
+                                                                </div>
+                                                            );
+                                                        })}
+                                                    </React.Fragment>
+                                                )}
                                             </div>
                                         </div>
-                                    </Accordion>
+                                    </AccordionForReviewFilter>
                                 </div>
                             </DesktopOnly>
                         </div>
@@ -553,10 +640,6 @@ export default class ProductReviewPage extends Component {
                                     this.props.reviews.reviews &&
                                     this.props.reviews.reviews.length > 0 && (
                                         <div className={styles.headerWrapper}>
-                                            {/* <div className={styles.headerWithRating}>
-										<div className={styles.header}>All Reviews</div>
-									</div> */}
-
                                             <div className={styles.dropdownWithButton}>
                                                 <div className={styles.dropdown}>
                                                     <div className={styles.dropDownBox}>
@@ -571,16 +654,6 @@ export default class ProductReviewPage extends Component {
                                                         />
                                                     </div>
                                                 </div>
-                                                {/* {this.props.match.path !== WRITE_REVIEWS_WITH_SLUG &&
-											this.props.match.path !== WRITE_REVIEWS &&
-											!this.state.visible && (
-												<div
-													className={styles.reviewText}
-													onClick={this.reviewSection}
-												>
-													{WRITE_REVIEW_TEXT}
-												</div>
-											)} */}
                                             </div>
                                         </div>
                                     )}

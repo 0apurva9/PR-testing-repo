@@ -24,7 +24,7 @@ export default class RatingReviewHeaderComponent extends React.Component {
     };
 
     getComponentForTotalCount = (totalCountOfEachStarRating, sumOfStarRating) => {
-        totalCountOfEachStarRating.map((eachStarRating, index) => {
+        const totalCountComponent = totalCountOfEachStarRating.map((eachStarRating, index) => {
             let statusBarWidth = Math.round((eachStarRating.totalRatingCount / sumOfStarRating) * 100);
             return (
                 <RatingCountWithStatusBarComponent
@@ -36,10 +36,11 @@ export default class RatingReviewHeaderComponent extends React.Component {
                 />
             );
         });
+        return <React.Fragment>{totalCountComponent}</React.Fragment>;
     };
 
     getComponentForParameterizedRating = parameterizedRating => {
-        parameterizedRating.map((eachRating, index) => {
+        const parameterizedRatingComponent = parameterizedRating.map((eachRating, index) => {
             if (eachRating.paramVisibility) {
                 return (
                     <RatingWithStatusBarComponent
@@ -53,6 +54,7 @@ export default class RatingReviewHeaderComponent extends React.Component {
                 return null;
             }
         });
+        return <React.Fragment>{parameterizedRatingComponent}</React.Fragment>;
     };
 
     render() {

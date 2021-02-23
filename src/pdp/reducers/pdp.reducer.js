@@ -635,6 +635,7 @@ const productDescription = (
                 reviewsStatus: action.status,
                 reviewsError: action.error,
                 loading: false,
+                reviews: {},
             });
 
         case pdpActions.PRODUCT_MSD_REQUEST:
