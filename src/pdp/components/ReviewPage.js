@@ -30,7 +30,7 @@ export default class ReviewPage extends React.Component {
                                 </span>
                             )}
 
-                            <span className={styles.nameHolder}>{this.props.reviewAge}</span>
+                            <span className={styles.reviewAge}>{this.props.reviewAge}</span>
                         </span>
                     </div>
                 ) : (

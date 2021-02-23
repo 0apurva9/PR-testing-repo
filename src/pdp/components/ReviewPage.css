@@ -112,6 +112,13 @@
 	border-radius: 4px;
 }
 
+.reviewAge{
+	float: right;
+	font-family: 'light';
+	font-size: 13px;
+	color: rgb(141,141,141);
+}
+
 @media screen and (min-width: 1025px) {
   .base {
     border-bottom: 1px solid #d2d2d2;
