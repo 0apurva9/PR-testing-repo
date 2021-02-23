@@ -24,8 +24,8 @@
 	top: 0;
 	left: 0;
 	height: 18px;
-    width: 18px;
-    border-radius: 10px;
+	width: 18px;
+	border-radius: 10px;
 	border:1px solid #cccccc;
 }
 
@@ -45,11 +45,11 @@
 
 .checkboxContainer .checkmark:after {
 	left: 6px;
-    top: 3px;
-    width: 3px;
-    height: 8px;
-    border: 1px solid #212121;
-    border-width: 0 1px 1px 0;
+	top: 3px;
+	width: 3px;
+	height: 8px;
+	border: 1px solid #212121;
+	border-width: 0 1px 1px 0;
 	-webkit-transform: rotate(45deg);
 	-ms-transform: rotate(45deg);
 	transform: rotate(45deg);
