@@ -334,19 +334,9 @@ export default class ProductReviewPage extends Component {
         });
 
         let productIds = [];
-        let filterCheckToAppliedOn = [];
-
         selectedFilter &&
             selectedFilter.forEach(filterDetails => {
                 productIds.push(filterDetails.sizelink.productCode);
-
-                if (!filterCheckToAppliedOn.includes(filterDetails.colorlink.color)) {
-                    filterCheckToAppliedOn.push(filterDetails.colorlink.color);
-                }
-
-                if (!filterCheckToAppliedOn.includes(filterDetails.sizelink.size)) {
-                    filterCheckToAppliedOn.push(filterDetails.sizelink.size);
-                }
             });
 
         let productCodes = this.props.match.params[0];
@@ -354,16 +344,6 @@ export default class ProductReviewPage extends Component {
             productCodes = productIds.join(",");
         }
         this.props.getProductReviews(productCodes, 0, this.state.orderBy, this.state.sort);
-
-        // show selected filter
-        if (this.state.checkedItems && this.state.checkedItems.size > 0) {
-            this.setState({ checkedItems: new Map() });
-        }
-        const updatedCheckedItems = new Map();
-        filterCheckToAppliedOn.forEach(singleFilter => {
-            updatedCheckedItems.set(singleFilter, true);
-        });
-        this.setState({ checkedItems: updatedCheckedItems });
     };
 
     clearFilters = () => {
@@ -372,6 +352,10 @@ export default class ProductReviewPage extends Component {
             this.setState({ checkedItems: new Map() });
             this.props.getProductReviews(this.props.match.params[0], 0, this.state.orderBy, this.state.sort);
         }
+    };
+
+    openRatingReviewModal = () => {
+        this.props.openRatingReviewModal();
     };
 
     render() {
@@ -502,7 +486,9 @@ export default class ProductReviewPage extends Component {
                                     numberOfReviews={this.props.productDetails.numberOfReviews}
                                     discount={this.props.productDetails.discount}
                                 />
-                                <div className={styles.writeReviewButton}>WRITE A REVIEW</div>
+                                <div className={styles.writeReviewButton} onClick={() => this.openRatingReviewModal()}>
+                                    WRITE A REVIEW
+                                </div>
                                 <div>
                                     <AccordionForReviewFilter
                                         text1="Filter by"
@@ -726,4 +712,5 @@ ProductReviewPage.propTypes = {
     loading: PropTypes.bool,
     showSecondaryLoader: PropTypes.func,
     buyNow: PropTypes.func,
+    openRatingReviewModal: PropTypes.func,
 };
