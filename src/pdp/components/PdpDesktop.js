@@ -331,6 +331,8 @@ export default class PdpApparel extends React.Component {
 
         if (
             this.props.productDetails.isServiceableToPincode !== prevProps.productDetails.isServiceableToPincode &&
+            this.props.productDetails.isServiceableToPincode &&
+            this.props.productDetails.isServiceableToPincode.status &&
             this.props.productDetails.isServiceableToPincode.status === YES
         ) {
             if (this.props.productDetails.bundlingSuggestionAvailable) {

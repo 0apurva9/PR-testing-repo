@@ -78,8 +78,10 @@ import { getChatbotDetails } from "../../plp/actions/plp.actions";
 
 const mapDispatchToProps = dispatch => {
     return {
-        getProductDescription: async productCode => {
-            const productDetailsResponse = await dispatch(getProductDescription(productCode, null, null, true));
+        getProductDescription: async (productCode, preventLoading = false) => {
+            const productDetailsResponse = await dispatch(
+                getProductDescription(productCode, null, null, true, preventLoading)
+            );
             if (productDetailsResponse && productDetailsResponse.status === SUCCESS) {
                 let categoryHierarchy = productDetailsResponse.productDescription.categoryHierarchy;
                 let isACCategory =
