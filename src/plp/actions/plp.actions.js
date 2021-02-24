@@ -318,19 +318,25 @@ export function getProductListings(
                     window.digitalData.page &&
                     window.digitalData.page.category &&
                     window.digitalData.page.category.subCategory1 &&
+                    breadcrumbs.length > 0 &&
+                    breadcrumbs[0] &&
                     breadcrumbs[0].name &&
                     breadcrumbs[0].name.replace(/ /g, "_").toLowerCase() !==
                         window.digitalData.page.category.subCategory1 &&
+                    breadcrumbs.length > 0 &&
+                    breadcrumbs[1] &&
                     breadcrumbs[1].name &&
                     breadcrumbs[1].name.replace(/ /g, "_").toLowerCase() !==
                         window.digitalData.page.category.subCategory2) ||
                 (breadcrumbs &&
+                    breadcrumbs.length > 0 &&
                     breadcrumbs[0] &&
                     window.digitalData &&
                     window.digitalData.page &&
                     window.digitalData.page.category &&
                     !window.digitalData.page.category.subCategory1) ||
                 (breadcrumbs &&
+                    breadcrumbs.length > 0 &&
                     breadcrumbs[0] &&
                     window.digitalData &&
                     window.digitalData.page &&
