@@ -63,13 +63,13 @@ export default class ProductGalleryDesktop extends React.Component {
 
     componentDidMount() {
         if (this.type === "image") {
-            this.getPosition(this.zoom);
-            this.getDimensions(this.zoom);
+            this.getPosition(this.zoom.current);
+            this.getDimensions(this.zoom.current);
         }
     }
 
     handleZoomMove(evt) {
-        const scrollTop = (window.pageYOffset || this.zoom.scrollTop) - (this.zoom.clientTop || 0);
+        const scrollTop = (window.pageYOffset || this.zoom.current.scrollTop) - (this.zoom.current.clientTop || 0);
         const zoomX = ((evt.clientX - this.zoomPositionX) / this.zoomWidth) * -100 + 25;
         const zoomY = ((evt.clientY - this.zoomPositionY + scrollTop) / this.zoomHeight) * -100 + 25;
         setTimeout(() => {
