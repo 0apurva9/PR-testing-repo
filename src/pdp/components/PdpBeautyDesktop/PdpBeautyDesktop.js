@@ -76,6 +76,7 @@ export default class PdpBeautyDesktop extends React.Component {
     componentDidMount = () => {
         loadSmoothScroll();
         setDataLayer(ADOBE_VIRTUAL_PAGELOAD);
+        this.props.getUserAddress();
         const categoryHierarchy = this.props.productDetails.categoryHierarchy
             ? this.props.productDetails.categoryHierarchy
             : [];
@@ -223,4 +224,5 @@ PdpBeautyDesktop.propTypes = {
             ),
         }),
     }),
+    getUserAddress: PropTypes.func,
 };
