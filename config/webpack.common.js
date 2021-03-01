@@ -73,6 +73,12 @@ module.exports = env => {
                     toType: "file",
                     force: true,
                 },
+                {
+                    from: path.resolve(process.cwd(), "src/assets/.well-known"),
+                    to: path.resolve(process.cwd(), outFolder),
+                    toType: "dir",
+                    force: true,
+                },
             ],
         }),
         new webpack.ProvidePlugin({
