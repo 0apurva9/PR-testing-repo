@@ -36,6 +36,7 @@ import { checkUserLoggedIn } from "../../lib/userUtils";
 import RatingReviewHeaderComponent from "./PdpBeautyDesktop/DescriptionSection/RatingReviewHeaderComponent";
 import AccordionForReviewFilter from "../../general/components/AccordionForReviewFilter";
 import CheckboxMultiSelect from "../../general/components/CheckboxMultiSelect";
+import CustomButton from "../../general/components/CustomButton";
 const WRITE_REVIEW_TEXT = "Write Review";
 const PRODUCT_QUANTITY = "1";
 export default class ProductReviewPage extends Component {
@@ -347,7 +348,6 @@ export default class ProductReviewPage extends Component {
     };
 
     clearFilters = () => {
-        console.log(this.state.checkedItems);
         if (this.state.checkedItems && this.state.checkedItems.size > 0) {
             this.setState({ checkedItems: new Map() });
             this.props.getProductReviews(this.props.match.params[0], 0, this.state.orderBy, this.state.sort);
@@ -355,11 +355,29 @@ export default class ProductReviewPage extends Component {
     };
 
     openRatingReviewModal = () => {
-        this.props.openRatingReviewModal();
+        const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+        const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+        if (!userDetails || !customerCookie) {
+            const url = this.props.location.pathname;
+            this.props.setUrlToRedirectToAfterAuth(url);
+            this.props.showAuthPopUp();
+            sessionStorage.setItem("showRatingModalAfterLoggedIn", true);
+        } else {
+            this.props.openRatingReviewModal({ productCode: this.props.productDetails.productListingId });
+        }
     };
 
     render() {
-        let variantOptions = this.props.productDetails && this.props.productDetails.variantOptions;
+        if (
+            sessionStorage.getItem("showRatingModalAfterLoggedIn") &&
+            Cookie.getCookie(LOGGED_IN_USER_DETAILS) &&
+            Cookie.getCookie(CUSTOMER_ACCESS_TOKEN)
+        ) {
+            this.props.openRatingReviewModal({ productCode: this.props.productDetails.productListingId });
+            sessionStorage.removeItem("showRatingModalAfterLoggedIn");
+        }
+
+        let variantOptions = this.props.reviews && this.props.reviews.variantOptions;
 
         let colorSet =
             variantOptions &&
@@ -486,60 +504,39 @@ export default class ProductReviewPage extends Component {
                                     numberOfReviews={this.props.productDetails.numberOfReviews}
                                     discount={this.props.productDetails.discount}
                                 />
-                                <div className={styles.writeReviewButton} onClick={() => this.openRatingReviewModal()}>
-                                    WRITE A REVIEW
-                                </div>
-                                <div>
-                                    <AccordionForReviewFilter
-                                        text1="Filter by"
-                                        text2="Clear all"
-                                        isOpen={this.state.filterShow}
-                                        text1Size={14}
-                                        text1FontFamily="semibold"
-                                        text2Color={"#4a4a4a"}
-                                        text2FontFamily="light"
-                                        text2Size={14}
-                                        textAlign={"right"}
-                                        handleClick={() => this.toggleFilterShow()}
-                                        padding="0px 40px 0px 20px"
-                                        backgroundColor="#f9f9f9"
-                                        clearFilters={() => this.clearFilters()}
-                                    >
-                                        <div className={styles.filterContainer}>
-                                            {colorSet && colorSet.length > 0 && (
-                                                <React.Fragment>
-                                                    <div className={styles.title}>Colour</div>
-                                                    {colorSet.map((color, index) => {
-                                                        return (
-                                                            <div
-                                                                className={styles.colorItem}
-                                                                key={JSON.stringify(index)}
-                                                            >
-                                                                <div className={styles.checkBoxHolder}>
-                                                                    <CheckboxMultiSelect
-                                                                        name={color}
-                                                                        checked={
-                                                                            this.state.checkedItems &&
-                                                                            this.state.checkedItems.get(color)
-                                                                        }
-                                                                        onChange={e => this.toggleFilterClick(e)}
-                                                                    />
-                                                                </div>
-                                                                <span
-                                                                    className={styles.colorBox}
-                                                                    style={{ backgroundColor: colorHexCodeSet[index] }}
-                                                                ></span>
-                                                                <span className={styles.filterName}>{color}</span>
-                                                            </div>
-                                                        );
-                                                    })}
-                                                </React.Fragment>
-                                            )}
-                                            <div className={styles.sizeContainer}>
-                                                {sizeSet && sizeSet.length > 0 && (
+                                <CustomButton
+                                    handleClick={() => this.openRatingReviewModal()}
+                                    text="WRITE A REVIEW"
+                                    width="238px"
+                                    height="40px"
+                                    fontSize="14px"
+                                    color="#da1c5c"
+                                    border="1px solid #da1c5c"
+                                    borderRadius="4px"
+                                    fontFamily="semibold"
+                                />
+                                {this.props.reviews && this.props.reviews.variantOptions && (
+                                    <div>
+                                        <AccordionForReviewFilter
+                                            text1="Filter by"
+                                            text2="Clear all"
+                                            isOpen={this.state.filterShow}
+                                            text1Size={14}
+                                            text1FontFamily="semibold"
+                                            text2Color={"#4a4a4a"}
+                                            text2FontFamily="light"
+                                            text2Size={14}
+                                            textAlign={"right"}
+                                            handleClick={() => this.toggleFilterShow()}
+                                            padding="0px 40px 0px 20px"
+                                            backgroundColor="#f9f9f9"
+                                            clearFilters={() => this.clearFilters()}
+                                        >
+                                            <div className={styles.filterContainer}>
+                                                {colorSet && colorSet.length > 0 && (
                                                     <React.Fragment>
-                                                        <div className={styles.title}>Size</div>
-                                                        {sizeSet.map((size, index) => {
+                                                        <div className={styles.title}>Colour</div>
+                                                        {colorSet.map((color, index) => {
                                                             return (
                                                                 <div
                                                                     className={styles.colorItem}
@@ -547,24 +544,61 @@ export default class ProductReviewPage extends Component {
                                                                 >
                                                                     <div className={styles.checkBoxHolder}>
                                                                         <CheckboxMultiSelect
-                                                                            name={size}
+                                                                            name={color}
                                                                             checked={
                                                                                 this.state.checkedItems &&
-                                                                                this.state.checkedItems.get(size)
+                                                                                this.state.checkedItems.get(color)
                                                                             }
                                                                             onChange={e => this.toggleFilterClick(e)}
                                                                         />
                                                                     </div>
-                                                                    <span className={styles.filterName}>{size}</span>
+                                                                    <span
+                                                                        className={styles.colorBox}
+                                                                        style={{
+                                                                            backgroundColor: colorHexCodeSet[index],
+                                                                        }}
+                                                                    ></span>
+                                                                    <span className={styles.filterName}>{color}</span>
                                                                 </div>
                                                             );
                                                         })}
                                                     </React.Fragment>
                                                 )}
+                                                <div className={styles.sizeContainer}>
+                                                    {sizeSet && sizeSet.length > 0 && (
+                                                        <React.Fragment>
+                                                            <div className={styles.title}>Size</div>
+                                                            {sizeSet.map((size, index) => {
+                                                                return (
+                                                                    <div
+                                                                        className={styles.colorItem}
+                                                                        key={JSON.stringify(index)}
+                                                                    >
+                                                                        <div className={styles.checkBoxHolder}>
+                                                                            <CheckboxMultiSelect
+                                                                                name={size}
+                                                                                checked={
+                                                                                    this.state.checkedItems &&
+                                                                                    this.state.checkedItems.get(size)
+                                                                                }
+                                                                                onChange={e =>
+                                                                                    this.toggleFilterClick(e)
+                                                                                }
+                                                                            />
+                                                                        </div>
+                                                                        <span className={styles.filterName}>
+                                                                            {size}
+                                                                        </span>
+                                                                    </div>
+                                                                );
+                                                            })}
+                                                        </React.Fragment>
+                                                    )}
+                                                </div>
                                             </div>
-                                        </div>
-                                    </AccordionForReviewFilter>
-                                </div>
+                                        </AccordionForReviewFilter>
+                                    </div>
+                                )}
                             </DesktopOnly>
                         </div>
                         <div className={styles.dropDownHolder}>

@@ -1,0 +1,16 @@
+.base {
+	display: inline-block;
+	line-height: 3;
+    text-align: center;
+    margin: 10px 0;
+    cursor: pointer;
+}
+
+.baseDisabled {
+	display: inline-block;
+	line-height: 3;
+    text-align: center;
+    margin: 10px 0;
+	color: #8d8d8d;
+	border: 1px solid #8d8d8d;
+}

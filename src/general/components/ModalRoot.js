@@ -1302,7 +1302,13 @@ export default class ModalRoot extends React.Component {
             ),
 
             RatingAndReviewWrapperModalV2: (
-                <RatingAndReviewWrapperModalV2 closeModal={() => this.handleClose()} {...this.props.ownProps} />
+                <RatingAndReviewWrapperModalV2
+                    closeModal={() => this.handleClose()}
+                    {...this.props.ownProps}
+                    addProductReview={(productCode, productReview) =>
+                        this.props.addProductReview(productCode, productReview)
+                    }
+                />
             ),
         };
 

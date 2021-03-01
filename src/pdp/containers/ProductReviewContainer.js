@@ -54,8 +54,8 @@ const mapDispatchToProps = dispatch => {
         buyNow: async productDetails => {
             return dispatch(tempCartIdForLoggedInUser(productDetails));
         },
-        openRatingReviewModal: () => {
-            dispatch(showModal(RATING_REVIEW_MODAL_V2));
+        openRatingReviewModal: data => {
+            dispatch(showModal(RATING_REVIEW_MODAL_V2, data));
         },
     };
 };
