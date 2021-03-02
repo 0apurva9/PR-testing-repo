@@ -101,7 +101,7 @@ export default class ExchangeDetailsOrderDetails extends React.Component {
                                         )}
                                         {this.props.products.exchangeDetails.exchangePriceDetail.cashifyMaxMinDiff && (
                                             <tr>
-                                                <td>Diagnostic Check Val</td>
+                                                <td>Diagnostic Check Value</td>
                                                 <td>
                                                     {
                                                         this.props.products.exchangeDetails.exchangePriceDetail
