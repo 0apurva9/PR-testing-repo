@@ -609,7 +609,7 @@ export default class CartItemForDesktop extends React.Component {
                                     {this.props.product.exchangeDetails.exchangePriceDetail &&
                                         this.props.product.exchangeDetails.exchangePriceDetail.cashifyMaxMinDiff && (
                                             <React.Fragment>
-                                                <div className={styles.font14LightLeft}>Diagnostic Check Val</div>
+                                                <div className={styles.font14LightLeft}>Diagnostic Check Value</div>
                                                 <div className={styles.font14LightRight}>
                                                     {
                                                         this.props.product.exchangeDetails.exchangePriceDetail
