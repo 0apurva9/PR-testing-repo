@@ -41,6 +41,8 @@ import OrderHistoryList from "./OrderHistoryList";
 import Icon from "../../xelpmoc-core/Icon";
 import moment from "moment";
 import ProductImage from "../../general/components/ProductImage";
+
+const images = require.context("./img", true);
 const ORDER_REALTED_QUESTION = "orderRelated";
 const NON_ORDER_REALTED_QUESTION = "NonOrderRelated";
 const FAQ_PAGE = "ss-faq";
@@ -1267,13 +1269,8 @@ export default class OrderRelatedIssue extends React.Component {
                                             image={
                                               this.state.parentIssueType ==
                                                 faq.FAQHeader
-                                                ? `${require("../components/img/" +
-                                                  faq.image.split(".")[0] +
-                                                  "active" +
-                                                  ".svg")}`
-                                                : `${require("../components/img/" +
-                                                  faq.image.split(".")[0] +
-                                                  ".svg")}`
+                                                ? `${images("./" + faq.image.split(".")[0] + "active" + ".svg").default}`
+                                                : `${images("./" + faq.image.split(".")[0] + ".svg").default}`
                                             }
                                             width={33}
                                             height={33}

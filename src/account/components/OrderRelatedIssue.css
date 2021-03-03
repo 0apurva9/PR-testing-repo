@@ -329,3 +329,11 @@
     background-size: 80%;
     background-repeat: no-repeat;
 }
+.cahtIcon {
+    position: fixed;
+    right: 11px;
+    bottom: 20px;
+    z-index: 100%;
+    z-index: 101 !important;
+    cursor: pointer;
+}
