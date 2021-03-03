@@ -322,7 +322,7 @@ export default class ProductReviewPage extends Component {
 
     applyFilters = checkedItems => {
         // get product ids and send to api
-        let variantOptions = this.props.productDetails.variantOptions;
+        let variantOptions = this.props.reviews.variantOptions;
         let selectedFilter;
         checkedItems.forEach((value, key) => {
             if (value) {
@@ -364,6 +364,7 @@ export default class ProductReviewPage extends Component {
             sessionStorage.setItem("showRatingModalAfterLoggedIn", true);
         } else {
             this.props.openRatingReviewModal({ productCode: this.props.productDetails.productListingId });
+            this.props.getParametersEligibleToRate(this.props.productDetails.productListingId);
         }
     };
 
@@ -374,6 +375,7 @@ export default class ProductReviewPage extends Component {
             Cookie.getCookie(CUSTOMER_ACCESS_TOKEN)
         ) {
             this.props.openRatingReviewModal({ productCode: this.props.productDetails.productListingId });
+            this.props.getParametersEligibleToRate(this.props.productDetails.productListingId);
             sessionStorage.removeItem("showRatingModalAfterLoggedIn");
         }
 
@@ -747,4 +749,5 @@ ProductReviewPage.propTypes = {
     showSecondaryLoader: PropTypes.func,
     buyNow: PropTypes.func,
     openRatingReviewModal: PropTypes.func,
+    getParametersEligibleToRate: PropTypes.func,
 };
