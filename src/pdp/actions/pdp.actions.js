@@ -241,6 +241,14 @@ export const APPLIANCE_EXCHANGE_CHECK_PINCODE_REQUEST = "APPLIANCE_EXCHANGE_CHEC
 export const APPLIANCE_EXCHANGE_CHECK_PINCODE_SUCCESS = "APPLIANCE_EXCHANGE_CHECK_PINCODE_SUCCESS";
 export const APPLIANCE_EXCHANGE_CHECK_PINCODE_FAILURE = "APPLIANCE_EXCHANGE_CHECK_PINCODE_FAILURE";
 
+export const PARAMS_ELIGIBLE_TO_RATE_REQUEST = "PARAMS_ELIGIBLE_TO_RATE_REQUEST";
+export const PARAMS_ELIGIBLE_TO_RATE_SUCCESS = "PARAMS_ELIGIBLE_TO_RATE_SUCCESS";
+export const PARAMS_ELIGIBLE_TO_RATE_FAILURE = "PARAMS_ELIGIBLE_TO_RATE_FAILURE";
+
+export const SUMBIT_PARAMETER_RATING_REQUEST = "SUMBIT_PARAMETER_RATING_REQUEST";
+export const SUMBIT_PARAMETER_RATING_SUCCESS = "SUMBIT_PARAMETER_RATING_SUCCESS";
+export const SUMBIT_PARAMETER_RATING_FAILURE = "SUMBIT_PARAMETER_RATING_FAILURE";
+
 export function getProductDescriptionRequest() {
     return {
         type: PRODUCT_DESCRIPTION_REQUEST,
@@ -1223,15 +1231,21 @@ export function addProductReviewFailure(error) {
 
 export function addProductReview(productCode, productReview) {
     let reviewData = new FormData();
-    reviewData.append("comment", productReview.comment);
-    reviewData.append("rating", productReview.rating);
-    reviewData.append("headline", productReview.headline);
+    if (productReview.comment) {
+        reviewData.append("comment", productReview.comment);
+    }
+    if (productReview.rating) {
+        reviewData.append("rating", productReview.rating);
+    }
+    if (productReview.headline) {
+        reviewData.append("headline", productReview.headline);
+    }
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     return async (dispatch, getState, { api }) => {
         dispatch(addProductReviewRequest());
         try {
             const result = await api.postFormData(
-                `${PRODUCT_SIZE_GUIDE_PATH}${productCode}/reviews?access_token=${
+                `${PRODUCT_SIZE_GUIDE_PATH}${productCode}/reviews_V1?access_token=${
                     JSON.parse(customerCookie).access_token
                 }`,
                 reviewData
@@ -1380,7 +1394,7 @@ export function getProductReviews(productCode, pageIndex, orderBy, sortBy) {
         dispatch(getProductReviewsRequest());
         try {
             const result = await api.get(
-                `${PRODUCT_SIZE_GUIDE_PATH}${productCode.toUpperCase()}/users/${userName}/reviews?access_token=${accessToken}&page=${pageIndex}&pageSize=${PAGE_NUMBER}&orderBy=${orderBy}&sort=${sortBy}`
+                `${PRODUCT_SIZE_GUIDE_PATH}${productCode.toUpperCase()}/users/${userName}/reviews_V1?access_token=${accessToken}&page=${pageIndex}&pageSize=${PAGE_NUMBER}&orderBy=${orderBy}&sort=${sortBy}`
             );
             const resultJson = await result.json();
             const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2760,6 +2774,105 @@ export function appliancesExchangeCheckPincode(productCode, pincode) {
             }
         } catch (e) {
             dispatch(appliancesExchangeCheckPincodeFailure(e.message));
+        }
+    };
+}
+
+export function getParametersEligibleToRateRequest() {
+    return {
+        type: PARAMS_ELIGIBLE_TO_RATE_REQUEST,
+        status: REQUESTING,
+    };
+}
+
+export function getParametersEligibleToRateSuccess(data) {
+    return {
+        type: PARAMS_ELIGIBLE_TO_RATE_SUCCESS,
+        status: SUCCESS,
+        data,
+    };
+}
+
+export function getParametersEligibleToRateFailure(error) {
+    return {
+        type: PARAMS_ELIGIBLE_TO_RATE_FAILURE,
+        status: ERROR,
+        error,
+    };
+}
+
+export function getParametersEligibleToRate(productCode) {
+    let userDetails = getLoggedInUserDetails();
+    let accessToken = getGlobalAccessToken();
+    let userName = ANONYMOUS_USER;
+    if (userDetails) {
+        userName = userDetails.userName;
+        accessToken = getCustomerAccessToken();
+    }
+
+    return async (dispatch, getState, { api }) => {
+        dispatch(getParametersEligibleToRateRequest());
+        try {
+            const result = await api.get(
+                `${PRODUCT_SIZE_GUIDE_PATH}${productCode.toUpperCase()}/users/${userName}/getParametersEligibleToRate?access_token=${accessToken}`
+            );
+            const resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+            if (resultJsonStatus.status || result.status !== 200) {
+                dispatch(getParametersEligibleToRateFailure());
+            }
+            dispatch(getParametersEligibleToRateSuccess(resultJson));
+        } catch (e) {
+            dispatch(getParametersEligibleToRateFailure(e.message));
+        }
+    };
+}
+
+export function submitParameterRatingRequest() {
+    return {
+        type: SUMBIT_PARAMETER_RATING_REQUEST,
+        status: REQUESTING,
+    };
+}
+
+export function submitParameterRatingSuccess(data) {
+    return {
+        type: SUMBIT_PARAMETER_RATING_SUCCESS,
+        status: SUCCESS,
+        data,
+    };
+}
+
+export function submitParameterRatingFailure(error) {
+    return {
+        type: SUMBIT_PARAMETER_RATING_FAILURE,
+        status: ERROR,
+        error,
+    };
+}
+
+export function submitParameterRating(productCode, parameterizedRating) {
+    let userDetails = getLoggedInUserDetails();
+    let accessToken = getGlobalAccessToken();
+    if (userDetails) {
+        accessToken = getCustomerAccessToken();
+    }
+
+    return async (dispatch, getState, { api }) => {
+        dispatch(submitParameterRatingRequest());
+        try {
+            const result = await api.post(
+                `${PRODUCT_SIZE_GUIDE_PATH}${productCode.toUpperCase()}/parameter_rating_V1?access_token=${accessToken}&channel=${CHANNEL}&platform=${PLATFORM}`,
+                parameterizedRating
+            );
+            const resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+            if (resultJsonStatus.status || result.status !== 200) {
+                dispatch(submitParameterRatingFailure());
+            }
+            dispatch(submitParameterRatingSuccess(resultJson));
+        } catch (e) {
+            dispatch(submitParameterRatingFailure(e.message));
         }
     };
 }
