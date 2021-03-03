@@ -1,5 +1,3 @@
-const env = process.env;
-
 export function HaptikChatBotInitSetup() {
   const loadScripts = scriptContent => {
     const haptikInitialSetupScript = document.createElement("SCRIPT"),
@@ -12,7 +10,7 @@ export function HaptikChatBotInitSetup() {
     haptikSrcScript.id = "sdk-setup";
     haptikSrcScript.setAttribute("charset", "UTF-8");
     haptikSrcScript.async = true;
-    haptikSrcScript.src = env.REACT_APP_HAPTIK_SRC_URL;
+    haptikSrcScript.src = process.env.REACT_APP_HAPTIK_SRC_URL;
 
     const bodyEle = document.getElementsByTagName("body")[0];
     bodyEle.appendChild(haptikInitialSetupScript);
@@ -20,9 +18,9 @@ export function HaptikChatBotInitSetup() {
   };
 
   const haptikInitSetup = JSON.stringify({
-    "business-id": env.REACT_APP_HAPTIK_BUSINESS_ID,
-    "client-id": env.REACT_APP_HAPTIK_CLIENT_ID,
-    "base-url": env.REACT_APP_HAPTIK_BASE_URL,
+    "business-id": process.env.REACT_APP_HAPTIK_BUSINESS_ID,
+    "client-id": process.env.REACT_APP_HAPTIK_CLIENT_ID,
+    "base-url": process.env.REACT_APP_HAPTIK_BASE_URL,
     "custom-button": true
   });
 
