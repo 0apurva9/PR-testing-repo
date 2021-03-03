@@ -8,11 +8,11 @@
 }
 
 .tabSwitches {
-    display: block;
+	display: block;
 	position: relative;
-    width: 366px;
-    margin: 0 auto;
-    border-top: 2px solid #f3f3f3;
+	width: 366px;
+	margin: 0 auto;
+	border-top: 2px solid #f3f3f3;
 }
 
 .subSection {
