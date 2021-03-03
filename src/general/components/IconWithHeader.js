@@ -3,16 +3,13 @@ import styles from "./IconWithHeader.css";
 import Icon from "../../xelpmoc-core/Icon";
 import PropTypes from "prop-types";
 import UnderLinedButton from "./UnderLinedButton";
-import VisibilityChild from "../../home/components/VisibilityChild";
 import {
   EXPRESS,
   COLLECT,
   SHORT_COLLECT,
-  COLLECT_TEXT,
   HOME_DELIVERY,
   SHORT_EXPRESS,
   SAME_DAY_DELIVERY,
-  SELECTED_DELIVERY_MODE,
   SHORT_SAME_DAY_DELIVERY,
   QUIQPIQ
 } from "../../lib/constants";
@@ -49,6 +46,7 @@ export default class IconWithHeader extends React.Component {
         return "" + date + "th " + monthNames[month];
     }
   }
+
   getDayNumberSuffix(d) {
     let dateWithMonth = "";
     let date = "";
@@ -58,6 +56,7 @@ export default class IconWithHeader extends React.Component {
     month = dateWithMonth.getMonth();
     return this.getDateMonthFormate(date, month);
   }
+
   render() {
     let placedTime = "";
     let getClickAndPiqSelectedDate = "";
@@ -85,10 +84,7 @@ export default class IconWithHeader extends React.Component {
     let nextWithOutFormatDay = day.setDate(day.getDate() + 1);
     let nextDay = new Date(nextWithOutFormatDay);
     let nextDayFormat = format(nextDay, "DD-MMM-YYYY");
-    let productDayFormat = format(
-      placedTime && placedTime.deliveryDate,
-      "DD-MMM-YYYY"
-    );
+
     if (this.props.selectedDeliveryMode === COLLECT) {
       let getClickAndPiqSelectedSlaveId =
         this.props &&
@@ -383,7 +379,30 @@ IconWithHeader.propTypes = {
   notShowDay: PropTypes.bool,
   splitIntoTwoLine: PropTypes.bool,
   inCartPage: PropTypes.bool,
-  isShippingObjAvailable: PropTypes.bool
+  isShippingObjAvailable: PropTypes.bool,
+  deliveryInformationWithDate: PropTypes.array,
+  code: PropTypes.string,
+  placedTime: PropTypes.object,
+  selectedDeliveryMode: PropTypes.string,
+  selectedStoreDetails: PropTypes.string,
+  type: PropTypes.string,
+  inCheckOutPage: PropTypes.bool,
+  inPdpPage: PropTypes.bool,
+  marginBottom: PropTypes.string,
+  iconSize: PropTypes.number,
+  dateFormatted: PropTypes.string,
+  dateFormattedText: PropTypes.string,
+  fontFamily: PropTypes.string,
+  fontSize: PropTypes.string,
+  isStaticText: PropTypes.bool,
+  header: PropTypes.string,
+  deliveryInformationByCart: PropTypes.bool,
+  deliveryModes: PropTypes.string,
+  placedTimeForCod: PropTypes.string,
+  isShowCliqAndPiqUnderLineText: PropTypes.string,
+  onPiq: PropTypes.func,
+  numberOfStore: PropTypes.string,
+  children: PropTypes.node,
 };
 IconWithHeader.defaultProps = {
   isHomeDelivery: false,

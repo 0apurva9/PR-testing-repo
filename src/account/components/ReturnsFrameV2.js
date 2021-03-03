@@ -1,5 +1,4 @@
 import React from "react";
-import UnderLinedButton from "../../general/components/UnderLinedButton";
 import PropTypes from "prop-types";
 import Button from "../../general/components/Button";
 import styles from "./ReturnsFrameV2.css";
@@ -10,11 +9,13 @@ export default class ReturnsFrameV2 extends React.Component {
       this.props.onContinue();
     }
   }
+
   handleCancel() {
     if (this.props.onCancel) {
       this.props.onCancel();
     }
   }
+
   render() {
     let disabled;
     let bankDetails = this.props.children.props.bankDetail;
@@ -49,7 +50,10 @@ export default class ReturnsFrameV2 extends React.Component {
 ReturnsFrameV2.propTypes = {
   headerText: PropTypes.string,
   onContinue: PropTypes.func,
-  onCancel: PropTypes.func
+  onCancel: PropTypes.func,
+  buttonText: PropTypes.string,
+  isFooterNeeded: PropTypes.bool,
+  children: PropTypes.node
 };
 ReturnsFrameV2.defaultProps = {
   buttonText: "CONTINUE"

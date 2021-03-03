@@ -15,6 +15,7 @@ import {
   getUTCDateMonthFormat
 } from "../../lib/dateTimeFunction";
 import DesktopOnly from "../../general/components/DesktopOnly";
+import { RouterPropTypes } from "../../general/router-prop-types";
 import ProfileMenu from "./ProfileMenu";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import UserProfile from "./UserProfile";
@@ -32,14 +33,17 @@ export default class TransactionHistoryDesktop extends React.Component {
       showNull: false
     };
   }
+
   componentDidMount() {
     if (this.props.getTransactionDetails) {
       this.props.getTransactionDetails();
     }
   }
+
   setDate = date => {
     this.filteredTransactionDetails(this.state.checked, date);
   };
+
   getMonth = day => {
     let date = day.split("-");
     var monthString = "";
@@ -50,6 +54,7 @@ export default class TransactionHistoryDesktop extends React.Component {
     }
     return monthString;
   };
+
   checkDateExpired = date => {
     let expiredDate = new Date(date);
     let dayDifference = Math.floor(
@@ -71,6 +76,7 @@ export default class TransactionHistoryDesktop extends React.Component {
       return true;
     }
   };
+
   transactiondetailPage(data) {
     this.props.history.push({
       pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}${TRANSACTION_DETAIL_PAGE}`,
@@ -79,11 +85,13 @@ export default class TransactionHistoryDesktop extends React.Component {
       }
     });
   }
+
   navigateToCliqCash() {
     this.props.history.push({
       pathname: `${MY_ACCOUNT_PAGE}${MY_ACCOUNT_CLIQ_CASH_PAGE}`
     });
   }
+
   showDatePickerModule = type => {
     this.setState({
       checked: type,
@@ -99,6 +107,7 @@ export default class TransactionHistoryDesktop extends React.Component {
       this.props.showDatePickerModule(data);
     }
   };
+
   filteredTransactionDetails = (type, filterDate) => {
     this.setState({
       checked: type,
@@ -136,7 +145,7 @@ export default class TransactionHistoryDesktop extends React.Component {
           originalData.reduce((result, val) => {
             val.items =
               val.items &&
-              val.items.filter((transaction, j) => {
+              val.items.filter(transaction => {
                 if (
                   transaction &&
                   transaction.transactionType &&
@@ -185,7 +194,7 @@ export default class TransactionHistoryDesktop extends React.Component {
                 val.items =
                   val &&
                   val.items &&
-                  val.items.filter((transaction, j) => {
+                  val.items.filter(transaction => {
                     let dates =
                       transaction &&
                       transaction.transactionDate &&
@@ -309,7 +318,7 @@ export default class TransactionHistoryDesktop extends React.Component {
                   {transactionDetails && transactionDetails.length > 0 ? (
                     transactionDetails.map((val, i) => {
                       return (
-                        <div className={styles.transactionBase}>
+                        <div key={i} className={styles.transactionBase}>
                           {this.state.checked != 4 && (
                             <div className={styles.dateSection}>
                               <div className={styles.borderSection} />
@@ -324,6 +333,7 @@ export default class TransactionHistoryDesktop extends React.Component {
                             val.items.map((value, i) => {
                               return (
                                 <div
+                                  key={i}
                                   className={styles.orderSection}
                                   onClick={() =>
                                     this.transactiondetailPage(value)
@@ -494,5 +504,12 @@ export default class TransactionHistoryDesktop extends React.Component {
 }
 
 TransactionHistoryDesktop.propTypes = {
-  transactionDetails: PropTypes.array
+  transactionDetails: PropTypes.array,
+  getTransactionDetails: PropTypes.func,
+  history: RouterPropTypes.history,
+  showDatePickerModule: PropTypes.func,
+  userAddress: PropTypes.object,
+  loading: PropTypes.bool,
+  showSecondaryLoader: PropTypes.func,
+  hideSecondaryLoader: PropTypes.func
 };

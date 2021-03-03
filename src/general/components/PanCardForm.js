@@ -17,7 +17,9 @@ export default class PanCardForm extends Component {
       panCradNumberError: false,
       ImageUrl: ""
     };
+    this.file = React.createRef();
   }
+
   componentDidMount() {
     let getUserDetails = queryString.parse(this.props.location.search);
     if (this.props.getPanCardDetails) {
@@ -25,6 +27,7 @@ export default class PanCardForm extends Component {
     }
     this.props.setHeaderText("PANCARD");
   }
+
   handleChange = Pancard_number => {
     let capitalizedata = Pancard_number.toUpperCase();
     this.setState({
@@ -32,6 +35,7 @@ export default class PanCardForm extends Component {
       Pancard_number: capitalizedata
     });
   };
+
   handleFileUpload = event => {
     if (event.target.files[0]) {
       let panImage = URL.createObjectURL(event.target.files[0]);
@@ -41,9 +45,11 @@ export default class PanCardForm extends Component {
       });
     }
   };
+
   removeFile = () => {
     this.setState({ ImageUrl: "", file: "" });
   };
+
   async onSubmit() {
     if (!this.state.Pancard_number.match(panRegEx)) {
       return this.setState({ panCradNumberError: true });
@@ -67,6 +73,7 @@ export default class PanCardForm extends Component {
       }
     }
   }
+
   render() {
     return (
       <div className={styles.base}>
@@ -160,7 +167,7 @@ export default class PanCardForm extends Component {
               />
               <input
                 type="file"
-                ref="file"
+                ref={this.file}
                 className={styles.file}
                 onChange={event => this.handleFileUpload(event)}
                 name="textFile"

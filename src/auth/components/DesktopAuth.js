@@ -32,15 +32,18 @@ export default class DesktopAuth extends React.Component {
       }
     }
   }
+
   handleClose() {
     if (this.props.closeModal) {
       this.props.closeModal();
     }
   }
+
   redirectToHelp = url => {
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
   };
+
   render() {
     return (
       <div className={styles.popup}>

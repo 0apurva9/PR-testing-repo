@@ -10,6 +10,7 @@ export default class HowExchangeModalWorks extends React.Component {
   closeHowExchangeWorksModal() {
     this.props.closeHowExchangeWorksModal();
   }
+
   render() {
     return (
       <div className={styles.howExchangeWorksContainer}>
@@ -154,7 +155,7 @@ export default class HowExchangeModalWorks extends React.Component {
           </div>
           <div className={styles.contentContainerHEW}>
             <div className={styles.contentHeading}>
-              5) The phone I'm exchanging is a dual SIM device. Do I have to
+              5) The phone I&apos;m exchanging is a dual SIM device. Do I have to
               provide both the IMEI numbers while filling the Exchange Offer
               form?
             </div>
@@ -221,7 +222,7 @@ export default class HowExchangeModalWorks extends React.Component {
               be responsible for any misuse of your data as a result. In the
               event the device is not working, or the pick-up executive is not
               able to do an iCloud unlock check, screen lock check and IMEI
-              check due to your phone being "factory reset" the exchange may not
+              check due to your phone being &quot;factory reset&quot; the exchange may not
               go through.
             </div>
           </div>

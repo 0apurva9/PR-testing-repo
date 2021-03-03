@@ -6,6 +6,7 @@ export default class ReviewGuidelineModal extends React.Component {
       this.props.closeModal();
     }
   }
+
   render() {
     return (
       <div className={styles.base}>

@@ -11,6 +11,7 @@ export default class ImageFlexible extends React.Component {
     super(props);
     this.state = { imageStatus: LOADING };
   }
+
   handleImageLoaded() {
     this.setState({ imageStatus: LOADED });
   }
@@ -36,6 +37,7 @@ export default class ImageFlexible extends React.Component {
     }
     return img;
   };
+
   render() {
     return <div className={styles.base}>{this.renderImage()}</div>;
   }

@@ -38,6 +38,7 @@ import {
   ADOBE_LOGIN_START
 } from "../../lib/adobeUtils";
 import * as UserAgent from "../../lib/UserAgent.js";
+import { RouterPropTypes } from "../../general/router-prop-types";
 export const EMAIL_REGULAR_EXPRESSION = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 export const MOBILE_PATTERN = /^[6,7,8,9]{1}[0-9]{9}$/;
 const MINIMUM_PASSWORD_LENGTH = "8";
@@ -52,6 +53,7 @@ class Login extends Component {
       passwordValue: props.passwordValue ? props.passwordValue : ""
     };
   }
+
   componentDidMount() {
     const digitalData = window.digitalData;
     setDataLayerForLogin(ADOBE_LOGIN_START);
@@ -69,6 +71,7 @@ class Login extends Component {
       setDataLayer(ADOBE_LOGIN_AND_SIGN_UP_PAGE, isLoginFromCheckoutPage);
     }
   }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.authCallsIsSucceed) {
       const productDetailsForBuyNow = localStorage.getItem(
@@ -131,6 +134,7 @@ class Login extends Component {
       this.props.clearUrlToRedirectToAfterAuth();
     }
   }
+
   async goForBuyNow() {
     const productDetailsForBuyNow = localStorage.getItem(
       BUY_NOW_PRODUCT_DETAIL
@@ -148,6 +152,7 @@ class Login extends Component {
       }
     }
   }
+
   async goForRetryPayment() {
     const getCartIsAndUserIDForRetryPayment = localStorage.getItem(
       RETRY_PAYMENT_CART_AND_USER_ID_DETAILS
@@ -186,9 +191,11 @@ class Login extends Component {
       this.props.history.push(HOME_ROUTER);
     }
   }
+
   navigateToSignUp() {
     this.props.history.push(SIGN_UP_PATH);
   }
+
   goBack() {
     if (this.props.history.length <= 3) {
       this.props.history.replace(HOME_ROUTER);
@@ -206,6 +213,7 @@ class Login extends Component {
       this.props.history.goBack();
     }
   }
+
   onSubmit = () => {
     if (this.props.onSubmit) {
       let userDetails = {};
@@ -239,11 +247,13 @@ class Login extends Component {
       }
     }
   };
+
   checkLogin(val) {
     if (val === "Enter") {
       this.onSubmit();
     }
   }
+
   onForgotPassword() {
     if (this.props.onForgotPassword) {
       this.props.onForgotPassword();
@@ -390,7 +400,20 @@ Login.propTypes = {
   onChangePassword: PropTypes.func,
   emailValue: PropTypes.string,
   passwordValue: PropTypes.string,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  redirectToAfterAuthUrl: PropTypes.func,
+  clearUrlToRedirectToAfterAuth: PropTypes.func,
+  displayToast: PropTypes.func,
+  authCallsIsSucceed: PropTypes.bool,
+  tempCartIdForLoggedInUserLoading: PropTypes.bool,
+  loadingForAddProductToWishList: PropTypes.bool,
+  retryPaymentDetailsStatus: PropTypes.bool,
+  error: PropTypes.string,
+  addProductToWishList: PropTypes.func,
+  authCallsInProcess: PropTypes.func,
+  tempCartIdForLoggedInUser: PropTypes.func,
+  retryPayment: PropTypes.func,
+  ...RouterPropTypes
 };
 
 Login.defaultProps = {

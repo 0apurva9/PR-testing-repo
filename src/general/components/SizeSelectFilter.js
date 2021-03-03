@@ -31,5 +31,6 @@ SizeSelectFilter.propTypes = {
       size: PropTypes.string,
       selected: PropTypes.bool
     })
-  )
+  ),
+  selected: PropTypes.bool
 };

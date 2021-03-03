@@ -14,6 +14,7 @@ export default class ConfirmAddress extends React.Component {
   UNSAFE_componentWillMount() {
     document.title = "Select Delivery Address";
   }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -21,6 +22,7 @@ export default class ConfirmAddress extends React.Component {
       label: UserAgent.checkUserAgentIsMobile() ? "More" : "See all"
     };
   }
+
   showMore() {
     this.setState({ showAll: !this.state.showAll }, () => {
       if (this.state.label === "More" || this.state.label === "See all") {
@@ -32,21 +34,25 @@ export default class ConfirmAddress extends React.Component {
       }
     });
   }
+
   onNewAddress() {
     if (this.props.onNewAddress) {
       this.props.onNewAddress(true);
     }
   }
+
   onSelectAddress(addressId) {
     if (this.props.onSelectAddress) {
       this.props.onSelectAddress(addressId);
     }
   }
+
   onRedirectionToNextSection() {
     if (this.props.onRedirectionToNextSection) {
       this.props.onRedirectionToNextSection();
     }
   }
+
   render() {
     let buttonHolder = styles.buttonHolder;
     if (
@@ -258,6 +264,13 @@ ConfirmAddress.propTypes = {
   onNewAddress: PropTypes.func,
   indexNumber: PropTypes.string,
   isReturn: PropTypes.bool,
+  selected: PropTypes.bool,
+  disabled: PropTypes.bool,
+  showAllAddress: PropTypes.bool,
+  showOneAddress: PropTypes.bool,
+  onSelectAddress: PropTypes.func,
+  title: PropTypes.string,
+  onRedirectionToNextSection: PropTypes.func,
   address: PropTypes.arrayOf(
     PropTypes.shape({
       addressTitle: PropTypes.string,

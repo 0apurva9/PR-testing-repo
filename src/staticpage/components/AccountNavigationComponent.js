@@ -7,6 +7,7 @@ export default class AccountNavigationComponent extends Component {
     const urlSuffix = url.value.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
   };
+
   render() {
     let particularPage;
     this.props.feedComponentData &&
@@ -23,7 +24,7 @@ export default class AccountNavigationComponent extends Component {
             value={particularPage.url.replace("/", "")}
             label={particularPage.linkName}
             height={40}
-            options={this.props.feedComponentData.nodeList.map((val, i) => {
+            options={this.props.feedComponentData.nodeList.map((val) => {
               return {
                 value: val.url.replace("/", ""),
                 label: val.linkName
@@ -37,7 +38,7 @@ export default class AccountNavigationComponent extends Component {
             placeholder={"Select"}
             label={this.props.feedComponentData.nodeList.linkName}
             height={40}
-            options={this.props.feedComponentData.nodeList.map((val, i) => {
+            options={this.props.feedComponentData.nodeList.map((val) => {
               return {
                 value: val.url.replace("/", ""),
                 label: val.linkName

@@ -8,6 +8,7 @@ export default class SizeSelect extends React.Component {
       this.props.onSelect();
     }
   }
+
   render() {
     let className = styles.base;
     if (this.props.disabled) {
@@ -46,7 +47,10 @@ SizeSelect.propTypes = {
   size: PropTypes.string,
   selected: PropTypes.bool,
   disabled: PropTypes.bool,
-  fontSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  fontSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  onSelect: PropTypes.func,
+  isSizeOrLength: PropTypes.string,
+  categoryEyeWear: PropTypes.bool,
 };
 SizeSelect.defaultProps = {
   fontSize: 14,

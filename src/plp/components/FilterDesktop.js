@@ -26,7 +26,7 @@ const BRAND = "Brand";
 const COLOUR = "Colour";
 const PRICE = "Price";
 export default class FilterDesktop extends React.Component {
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       openedFilters: [],
@@ -37,10 +37,6 @@ export default class FilterDesktop extends React.Component {
 
   onClear = () => {
     const searchQuery = this.props.location.search;
-    const firstSearchData =
-      this.props.facetdatacategory &&
-      this.props.facetdatacategory.filters &&
-      this.props.facetdatacategory.filters[0].categoryName;
     const parsedQueryString = queryString.parse(this.props.location.search);
     const query = parsedQueryString.q;
 
@@ -93,16 +89,17 @@ export default class FilterDesktop extends React.Component {
       this.props.onClear();
     }
   };
+
   onApply = () => {
     this.props.onApply();
   };
+
   onCategorySelect = (
     val,
     filterType,
     filterValue,
     filterName,
     isFilter,
-    i
   ) => {
     setDataLayerForSelectedFilterDirectCalls(
       ADOBE_DIRECT_CALL_FOR_FILTER_OPTION,
@@ -176,15 +173,19 @@ export default class FilterDesktop extends React.Component {
       this.props.onL3CategorySelect();
     }
   };
+
   onL1Click = (val, filterType, filterValue, filterName, i) => {
     this.onCategorySelect(val, filterType, filterValue, filterName, false, i);
   };
+
   onL2Click = (val, filterType, filterValue, filterName, i) => {
     this.onCategorySelect(val, filterType, filterValue, filterName, false, i);
   };
+
   onL3Click = (val, filterType, filterValue, filterName, i) => {
     this.onCategorySelect(val, filterType, filterValue, filterName, false, i);
   };
+
   onFilterClick = (
     val,
     filterType,
@@ -254,6 +255,7 @@ export default class FilterDesktop extends React.Component {
       componentName: "isFilterTrue"
     });
   };
+
   onOpenAccordion = filterName => {
     const openedFilters = cloneDeep(this.state.openedFilters);
     const indexOfFilter = this.state.openedFilters.indexOf(filterName);
@@ -265,12 +267,15 @@ export default class FilterDesktop extends React.Component {
       this.setState({ openedFilters });
     }
   };
-  viewMore(brandData) {
+
+  viewMore() {
     this.setState({ openBrandPopUp: true });
   }
+
   viewMoreColor() {
     this.setState({ showAllColor: !this.state.showAllColor });
   }
+
   render() {
     const { facetData, facetdatacategory } = this.props;
 
@@ -292,7 +297,7 @@ export default class FilterDesktop extends React.Component {
     return (
       <React.Fragment>
         {this.state.openBrandPopUp &&
-          autoShowFilters.map((facetDataValues, i) => {
+          autoShowFilters.map((facetDataValues) => {
             return (
               facetDataValues &&
               facetDataValues.name === BRAND &&
@@ -406,6 +411,7 @@ export default class FilterDesktop extends React.Component {
                                 facetDataValues.values.map((val, i) => {
                                   return (
                                     <ColourSelect
+                                      key={i}
                                       typeOfFilter={facetDataValues.name}
                                       colour={val.hexColor}
                                       onSelect={(
@@ -572,6 +578,7 @@ export default class FilterDesktop extends React.Component {
                               {facetDataValues.values.map((val, i) => {
                                 return (
                                   <ColourSelect
+                                    key={i}
                                     typeOfFilter={facetDataValues.name}
                                     colour={val.hexColor}
                                     onSelect={(data, filterType, filterValue) =>

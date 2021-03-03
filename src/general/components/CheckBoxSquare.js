@@ -30,7 +30,10 @@ export default class CheckBoxSquare extends React.Component {
   }
 }
 CheckBoxSquare.propTypes = {
-  isCircle: PropTypes.bool
+  isCircle: PropTypes.bool,
+  selected: PropTypes.bool,
+  size: PropTypes.string,
+  checked: PropTypes.bool
 };
 CheckBoxSquare.defaultProps = {
   size: "20px",

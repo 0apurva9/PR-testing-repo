@@ -143,11 +143,11 @@ export default class AppliancesExchangeSelection extends React.Component {
     });
   }
 
-  showHowAppliancesExchangeWorks(data) {
+  showHowAppliancesExchangeWorks() {
     this.setState({ showHowAppliancesExchangeWorks: true });
   }
 
-  hideHowAppliancesExchangeWorks(data) {
+  hideHowAppliancesExchangeWorks() {
     this.setState({ showHowAppliancesExchangeWorks: false });
   }
 
@@ -274,6 +274,7 @@ export default class AppliancesExchangeSelection extends React.Component {
                           : styles.brandNameContainer
                       }
                       onClick={() => this.selectBrand(brand, index)}
+                      key={index}
                     >
                       <img className={styles.brandImage} src={brand.imageUrl} />
                       <span className={styles.brandName}>
@@ -290,7 +291,7 @@ export default class AppliancesExchangeSelection extends React.Component {
                 this.state.selectedBrandData.modelCapacityList.map(
                   (capacity, capacityIndex) => {
                     return (
-                      <React.Fragment>
+                      <React.Fragment key = {capacityIndex}>
                         <div className={styles.capacityHeading}>
                           {capacity.iconUrl && (
                             <div className={styles.capacityIconContainer}>
@@ -305,6 +306,7 @@ export default class AppliancesExchangeSelection extends React.Component {
                           let currentIndex = `${capacityIndex}${index}`;
                           return (
                             <div
+                            key= {index}
                               className={
                                 currentIndex ===
                                 this.state.selectedCapacityIndex
@@ -339,6 +341,7 @@ export default class AppliancesExchangeSelection extends React.Component {
                   (condition, index) => {
                     return (
                       <div
+                      key={index}
                         className={
                           index === this.state.selectedConditionIndex
                             ? styles.conditionNameContainerSelected
@@ -392,5 +395,7 @@ export default class AppliancesExchangeSelection extends React.Component {
 AppliancesExchangeSelection.propTypes = {
   appliancesExchangeDetails: PropTypes.object,
   closeAppliancesExchangeModal: PropTypes.func,
-  ussid: PropTypes.string
+  ussid: PropTypes.string,
+  updateAppliancesExchangeDetails: PropTypes.func,
+  history: PropTypes.object
 };

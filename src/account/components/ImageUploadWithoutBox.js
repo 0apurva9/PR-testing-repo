@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./ImageUpload.css";
 import PropTypes from "prop-types";
-import Input3 from "../../general/components/Input3.js";
 export default class ImageUploadWithoutBox extends React.Component {
   constructor(props) {
     super(props);
@@ -9,6 +8,7 @@ export default class ImageUploadWithoutBox extends React.Component {
       value: this.props.value ? this.props.value : "Upload picture of Receipt"
     };
   }
+
   handleChange(event) {
     const file = event.target.files[0];
 
@@ -16,11 +16,13 @@ export default class ImageUploadWithoutBox extends React.Component {
       this.props.onChange(file);
     }
   }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.state.value) {
       this.setState({ value: nextProps.value });
     }
   }
+
   render() {
     return (
       <div className={styles.base}>
@@ -46,5 +48,6 @@ export default class ImageUploadWithoutBox extends React.Component {
   }
 }
 ImageUploadWithoutBox.propTypes = {
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  value: PropTypes.string
 };

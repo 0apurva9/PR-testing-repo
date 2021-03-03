@@ -11,6 +11,7 @@ export default class CourierProduct extends React.Component {
       window.open(this.props.selfCourierDocumentLink);
     }
   }
+
   render() {
     return (
       <div
@@ -84,7 +85,11 @@ CourierProduct.propTypes = {
   indexNumber: PropTypes.string,
   header: PropTypes.string,
   subText: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  selfCourierDocumentLink: PropTypes.string,
+  backgroundColor: PropTypes.string,
+  padding: PropTypes.string,
+  children: PropTypes.node
 };
 CourierProduct.defaultProps = {
   backgroundColor: "#fff",

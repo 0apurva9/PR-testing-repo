@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import styles from "./CliqGiftCardBuySend.css";
+import { RouterPropTypes } from "../../general/router-prop-types";
 import PropTypes from "prop-types";
 import xCross from "./img/x-circle.svg";
 import Input2 from "../../general/components/Input2";
@@ -51,6 +52,7 @@ export default class CliqGiftCardBuySend extends Component {
       });
     }
   }
+
   componentWillMount() {
     if (this.props.clearGiftCardStatus) {
       this.props.clearGiftCardStatus();
@@ -61,7 +63,7 @@ export default class CliqGiftCardBuySend extends Component {
     let minValue = this.props.minPrice;
     let maxValue = this.props.maxPrice;
     if (this.props.createGiftCardDetails) {
-      const EMAIL_REGULAR_EXPRESSION = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+      const EMAIL_REGULAR_EXPRESSION = /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+.)+[^<>()[\].,;:\s@"]{2,})$/i;
       if (this.props.createGiftCardDetails) {
         if (this.state.buyForYourself) {
           const giftCardDetails = {};
@@ -257,7 +259,7 @@ export default class CliqGiftCardBuySend extends Component {
                   hollow={true}
                   borderBottom={`2px solid ${
                     this.state.emailValidate ? "#d88600" : "#ececec"
-                  }`}
+                    }`}
                   textStyle={{ fontSize: 14, letterSpacing: "0.03px" }}
                   height={33}
                   noPadding={true}
@@ -281,8 +283,8 @@ export default class CliqGiftCardBuySend extends Component {
                     <img src={xCross} alt="cross sign" />
                   </div>
                 ) : (
-                  ""
-                )}
+                    ""
+                  )}
               </div>
               {this.state.showUpdateSenderField ? (
                 <div className={styles.buyGiftCardEmailField}>
@@ -307,31 +309,31 @@ export default class CliqGiftCardBuySend extends Component {
                       <img src={xCross} alt="cross sign" />
                     </div>
                   ) : (
-                    ""
-                  )}
+                      ""
+                    )}
                 </div>
               ) : (
-                ""
-              )}
+                  ""
+                )}
               {!this.state.showUpdateSenderField &&
-              this.state.senderName !== "" ? (
-                <div className={styles.changeNameDiv}>
-                  <span className={styles.changeNameSpan}>
-                    {this.state.senderName}
+                this.state.senderName !== "" ? (
+                  <div className={styles.changeNameDiv}>
+                    <span className={styles.changeNameSpan}>
+                      {this.state.senderName}
+                    </span>
+                    <span className={styles.changeNameFrom}> (from) </span>
+                    <span
+                      onClick={() =>
+                        this.setState({ showUpdateSenderField: true })
+                      }
+                      className={styles.changeLink}
+                    >
+                      Change
                   </span>
-                  <span className={styles.changeNameFrom}> (from) </span>
-                  <span
-                    onClick={() =>
-                      this.setState({ showUpdateSenderField: true })
-                    }
-                    className={styles.changeLink}
-                  >
-                    Change
-                  </span>
-                </div>
-              ) : (
-                ""
-              )}
+                  </div>
+                ) : (
+                  ""
+                )}
               <div className={styles.sendGiftCardBtn}>
                 <Button
                   type="primary"
@@ -352,8 +354,8 @@ export default class CliqGiftCardBuySend extends Component {
               </div>
             </div>
           ) : (
-            ""
-          )}
+              ""
+            )}
           {this.state.sendGiftCard ? (
             <div className={styles.buyForYourself}>
               <div className={styles.buyGiftCardEmailField}>
@@ -377,7 +379,7 @@ export default class CliqGiftCardBuySend extends Component {
                   hollow={true}
                   borderBottom={`2px solid ${
                     this.state.emailValidate ? "#d88600" : "#ececec"
-                  }`}
+                    }`}
                   textStyle={{ fontSize: 14, letterSpacing: "0.03px" }}
                   height={33}
                   noPadding={true}
@@ -394,7 +396,7 @@ export default class CliqGiftCardBuySend extends Component {
                   hollow={true}
                   borderBottom={`2px solid ${
                     this.state.emailValidate ? "#d88600" : "#ececec"
-                  }`}
+                    }`}
                   textStyle={{ fontSize: 14, letterSpacing: "0.03px" }}
                   height={33}
                   noPadding={true}
@@ -448,38 +450,38 @@ export default class CliqGiftCardBuySend extends Component {
                       <img src={xCross} alt="cross sign" />
                     </div>
                   ) : (
-                    ""
-                  )}
+                      ""
+                    )}
                 </div>
               ) : (
-                ""
-              )}
+                  ""
+                )}
               {!this.state.showUpdateSenderField &&
-              this.state.senderName !== "" ? (
-                <div className={styles.changeNameDiv}>
-                  <span className={styles.changeNameSpan}>
-                    {this.state.senderName}
+                this.state.senderName !== "" ? (
+                  <div className={styles.changeNameDiv}>
+                    <span className={styles.changeNameSpan}>
+                      {this.state.senderName}
+                    </span>
+                    <span className={styles.changeNameFrom}> (from) </span>
+                    <span
+                      onClick={() =>
+                        this.setState({ showUpdateSenderField: true })
+                      }
+                      className={styles.changeLink}
+                    >
+                      Change
                   </span>
-                  <span className={styles.changeNameFrom}> (from) </span>
-                  <span
-                    onClick={() =>
-                      this.setState({ showUpdateSenderField: true })
-                    }
-                    className={styles.changeLink}
-                  >
-                    Change
-                  </span>
-                </div>
-              ) : (
-                ""
-              )}
+                  </div>
+                ) : (
+                  ""
+                )}
               <div className={styles.sendGiftCardBtn}>
                 <Button
                   type="primary"
                   disabled={
                     this.state.email &&
-                    this.state.receiverName &&
-                    this.state.senderName
+                      this.state.receiverName &&
+                      this.state.senderName
                       ? false
                       : true
                   }
@@ -495,8 +497,8 @@ export default class CliqGiftCardBuySend extends Component {
               </div>
             </div>
           ) : (
-            ""
-          )}
+              ""
+            )}
         </div>
       </React.Fragment>
     );
@@ -504,11 +506,12 @@ export default class CliqGiftCardBuySend extends Component {
 }
 CliqGiftCardBuySend.propTypes = {
   selectedAmount: PropTypes.string,
-  history: PropTypes.object,
   senderName: PropTypes.string,
   email: PropTypes.string,
   maxPrice: PropTypes.number,
   minPrice: PropTypes.number,
   displayToast: PropTypes.func,
-  createGiftCardDetails: PropTypes.func
+  createGiftCardDetails: PropTypes.func,
+  clearGiftCardStatus: PropTypes.func,
+  ...RouterPropTypes
 };

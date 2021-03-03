@@ -24,11 +24,13 @@ export default class StickyHeader extends React.Component {
       this.props.goToWishList();
     }
   };
+
   redirectToHome() {
     if (this.props.redirectToHome) {
       this.props.redirectToHome();
     }
   }
+
   render() {
     let base = styles.base;
     if (this.props.isShowCompanyLogo) {
@@ -74,7 +76,10 @@ StickyHeader.propTypes = {
   goBack: PropTypes.func,
   goToCart: PropTypes.func,
   goToWishList: PropTypes.func,
-  isShowCompanyLogo: PropTypes.bool
+  isShowCompanyLogo: PropTypes.bool,
+  redirectToHome: PropTypes.func,
+  text: PropTypes.string,
+  bagCount: PropTypes.number,
 };
 StickyHeader.defaultProps = {
   isShowCompanyLogo: false

@@ -10,14 +10,17 @@ export default class SelectDevice extends React.Component {
       isModelSelected: false
     };
   }
+
   onChange(val) {
     this.setState({ isBrandSelected: true });
     this.props.onChange(val);
   }
+
   onChangeSecondary(val) {
     this.setState({ isModelSelected: true });
     this.props.onChangeSecondary(val);
   }
+
   saveDeviceDetails(deviceNo) {
     this.props.saveDeviceDetails(deviceNo);
   }
@@ -43,7 +46,7 @@ export default class SelectDevice extends React.Component {
           customSelect="customSelect1"
           options={
             sortedBrandNames &&
-            sortedBrandNames.map((val, i) => {
+            sortedBrandNames.map((val) => {
               return {
                 value: val.exchangeBrandId,
                 label: val.exchangeBrandName,
@@ -60,7 +63,7 @@ export default class SelectDevice extends React.Component {
           customSelect="customSelect2"
           options={
             sortedModelNames &&
-            sortedModelNames.map((val, i) => {
+            sortedModelNames.map((val) => {
               return {
                 value: val.exchangeModelName,
                 label: val.exchangeModelName,
@@ -74,7 +77,7 @@ export default class SelectDevice extends React.Component {
         {this.state.isBrandSelected && this.state.isModelSelected ? (
           <div
             className={styles.evaluateButton}
-            onClick={deviceNo => this.saveDeviceDetails(this.props.deviceNo)}
+            onClick={() => this.saveDeviceDetails(this.props.deviceNo)}
           >
             Evaluate
           </div>

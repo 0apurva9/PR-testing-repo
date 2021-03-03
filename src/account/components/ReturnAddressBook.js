@@ -12,7 +12,6 @@ import {
   ORDER_CODE,
   RETURN_TO_ADDRESS
 } from "../../lib/constants.js";
-import { displayCouponsForLoggedInUser } from "../../cart/actions/cart.actions";
 const EDIT = "/edit";
 const ADD = "/add";
 
@@ -21,6 +20,7 @@ export default class ReturnAddressBook extends React.Component {
     super(props);
     this.state = { defaultAddress: "" };
   }
+
   componentDidMount() {
     this.props.getUserAddress();
     let defaultAddress =
@@ -37,15 +37,8 @@ export default class ReturnAddressBook extends React.Component {
       defaultAddressClone: defaultAddress
     });
   }
+
   componentWillReceiveProps(nextProps) {
-    let defaultAddress =
-      nextProps.userAddress &&
-      nextProps.userAddress.addresses &&
-      nextProps.userAddress.addresses.find(value => {
-        if (value.defaultAddress === true) {
-          return value;
-        }
-      });
     if (
       nextProps &&
       nextProps.getPinCodeDetails &&
@@ -64,6 +57,7 @@ export default class ReturnAddressBook extends React.Component {
       });
     }
   }
+
   removeAddress = addressId => {
     if (this.props.removeAddress) {
       this.props.removeAddress(addressId);
@@ -257,7 +251,7 @@ export default class ReturnAddressBook extends React.Component {
             onSelectAddress={address => this.handleClick(address)}
             selected={[defaultAddressId]}
             onRedirectionToNextSection={() => this.handleSubmit}
-            disabled={[defaultAddressId] ? false : true}
+            disabled={defaultAddressId ? false : true}
             onNewAddress={() => this.addAddress(orderId)}
             onEditAddress={() =>
               this.editAddress(this.state.defaultAddress, orderId)

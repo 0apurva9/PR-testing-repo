@@ -52,9 +52,11 @@ export default class Sort extends React.Component {
       this.props.setIfSortHasBeenClicked();
     }
   }
+
   handleCloseClick = () => {
     this.props.onCloseSort();
   };
+
   render() {
     let data = this.props.sortList;
     return (

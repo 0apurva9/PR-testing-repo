@@ -43,5 +43,6 @@ export default class DetailsComponent extends React.Component {
 }
 
 DetailsComponent.propTypes = {
-  productDetails: PropTypes.object
+  productDetails: PropTypes.object,
+  handleDetailsScroll: PropTypes.func
 };

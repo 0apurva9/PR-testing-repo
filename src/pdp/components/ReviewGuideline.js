@@ -10,7 +10,7 @@ export default class ReviewGuideline extends React.Component {
         </div>
         <div className={styles.reviewBody}>
           <div className={styles.reviewContentWrapper}>
-            <div className={styles.contentHeader}>Do's</div>
+            <div className={styles.contentHeader}>Do&#39;s</div>
             <ul className={styles.contentContainer}>
               <li className={styles.reviewTipsText}>
                 Describe your experience using the product.
@@ -19,7 +19,7 @@ export default class ReviewGuideline extends React.Component {
                 Share details about what you like or dislike.
               </li>
             </ul>
-            <div className={styles.contentHeader}>Dont's</div>
+            <div className={styles.contentHeader}>Dont&#39;s</div>
             <ul className={styles.contentContainer}>
               <li className={styles.reviewTipsText}>
                 Share personal information such as email address, phone number

@@ -12,6 +12,7 @@ export default class ReturnBankForm extends React.Component {
       this.props.onCancel();
     }
   }
+
   render() {
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const userAccountDetails = JSON.parse(userDetails);

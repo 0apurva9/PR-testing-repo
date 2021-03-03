@@ -30,6 +30,7 @@ class WriteReview extends React.Component {
       resetRating: false
     };
   }
+
   onChangeTitle(val) {
     this.setState({ title: val });
     if (this.props.onChangeTitle) {
@@ -51,16 +52,19 @@ class WriteReview extends React.Component {
     );
     this.setState({ rating: val });
   };
+
   onCancel() {
     if (this.props.onCancel) {
       this.props.onCancel();
     }
   }
+
   showReviewGuidelineModal = () => {
     if (this.props.showReviewGuidelineModal) {
       this.props.showReviewGuidelineModal();
     }
   };
+
   onSubmit = async () => {
     if (
       /\s*[0-9a-zA-Z]+/.test(this.state.comment) &&
@@ -104,6 +108,7 @@ class WriteReview extends React.Component {
       });
     }
   };
+
   render() {
     return (
       <div className={styles.base}>
@@ -197,5 +202,12 @@ WriteReview.propTypes = {
   title: PropTypes.string,
   comment: PropTypes.string,
   onSubmit: PropTypes.func,
-  onCancel: PropTypes.func
+  onCancel: PropTypes.func,
+  onChangeComment: PropTypes.func,
+  showReviewGuidelineModal: PropTypes.func,
+  history: PropTypes.object,
+  setUrlToRedirectToAfterAuth: PropTypes.func,
+  url: PropTypes.string,
+  location: PropTypes.object,
+  match: PropTypes.object
 };

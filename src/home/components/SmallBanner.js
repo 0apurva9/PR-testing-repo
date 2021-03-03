@@ -8,6 +8,7 @@ export default class SmallBanner extends React.Component {
       this.props.onClick();
     }
   };
+
   render() {
     return (
       <div className={styles.base} onClick={this.handleClick}>

@@ -77,7 +77,6 @@ class OrderListDetails extends Component {
       showQuestionList,
       showFeedBack,
       isAnswerHelpFull,
-      currentQuestionIndex,
       nextQuestions
     } = this.state;
     return (

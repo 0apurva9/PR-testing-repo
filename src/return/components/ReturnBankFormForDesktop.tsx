@@ -1,10 +1,10 @@
-import * as React from 'react';
+import * as React from "react";
 // import ReturnBankForm from '../../account/components/ReturnBankForm';
-import ReplaceRefundSelection from '../../account/components/ReplaceRefundSelection';
+import ReplaceRefundSelection from "../../account/components/ReplaceRefundSelection";
 // import DummyTab from '../../cart/components/DummyTab.js';
-import { IProps, IStateForBank } from './interface/ReturnBankFormForDesktop';
+import { IProps, IStateForBank } from "./interface/ReturnBankFormForDesktop";
 // import { MODE_OF_RETURN, REFUND_DETAILS } from '../../lib/constants.js';
-import SelectedReasonForReturn from '../../account/components/SelectedReasonForReturn';
+import SelectedReasonForReturn from "../../account/components/SelectedReasonForReturn";
 
 // import {
 // IFSC_PATTERN,
@@ -52,110 +52,109 @@ import SelectedReasonForReturn from '../../account/components/SelectedReasonForR
 // const REG_X_FOR_RNRSELECTION = /replace-refund-selection/i;
 
 export default class ReturnBankFormForDesktop extends React.Component<IProps, IStateForBank> {
-	constructor(props: IProps) {
-		super(props);
-		this.state = {
-			accountNumber: '',
-			reEnterAccountNumber: '',
-			userName: '',
-			bankName: '',
-			code: '',
-		};
-	}
+    constructor(props: IProps) {
+        super(props);
+        this.state = {
+            accountNumber: "",
+            reEnterAccountNumber: "",
+            userName: "",
+            bankName: "",
+            code: "",
+        };
+    }
 
-	// private onChangeBankDetail(val: IStateForBank) {
-	// 	this.setState(val);
-	// }
-	// private onContinue() {
-	// 	if (!this.state.accountNumber) {
-	// 		this.props.displayToast(ACCOUNT_NUMBER);
-	// 		return false;
-	// 	}
-	// 	if (!this.state.reEnterAccountNumber) {
-	// 		this.props.displayToast(RE_ENTER_ACCOUNT_NUMBER);
-	// 		return false;
-	// 	}
-	// 	if (this.state.accountNumber !== this.state.reEnterAccountNumber) {
-	// 		this.props.displayToast(ACCOUNT_NUMBER_MATCH_TEXT);
-	// 		return false;
-	// 	}
-	// 	if (!this.state.userName) {
-	// 		this.props.displayToast(ACCOUNT_HOLDER_NAME);
-	// 		return false;
-	// 	}
-	// 	if (!this.state.mode) {
-	// 		this.props.displayToast(REFUND_MODE_TEXT);
-	// 		return false;
-	// 	}
-	// 	if (!this.state.bankName) {
-	// 		this.props.displayToast(BANK_NAME);
-	// 		return false;
-	// 	}
-	// 	if (!this.state.code) {
-	// 		this.props.displayToast(IFSC_CODE_TEXT);
-	// 		return false;
-	// 	}
-	// 	if (this.state.code && !IFSC_PATTERN.test(this.state.code)) {
-	// 		this.props.displayToast(IFSC_CODE_VALID_TEXT);
-	// 		return false;
-	// 	} else {
-	// 		this.props.onContinue(this.state);
-	// 	}
-	// }
-	// onSelectMode(mode) {
-	// 	if (mode === QUICK_DROP) {
-	// 		this.props.history.push({
-	// 			pathname: `${RETURNS_PREFIX}/${this.orderCode}${RETURN_TO_STORE}${RETURNS_STORE_MAP}`,
-	// 			state: {
-	// 				authorizedRequest: true,
-	// 			},
-	// 		});
-	// 	} else if (mode === SCHEDULED_PICKUP) {
-	// 		this.props.history.push({
-	// 			pathname: `${RETURNS_PREFIX}/${this.orderCode}${RETURN_CLIQ_PIQ}${RETURN_CLIQ_PIQ_ADDRESS}`,
-	// 			state: {
-	// 				authorizedRequest: true,
-	// 			},
-	// 		});
-	// 	} else if (mode === SELF_COURIER) {
-	// 		this.props.history.push({
-	// 			pathname: `${RETURNS_PREFIX}/${this.orderCode}${RETURNS_SELF_COURIER}`,
-	// 			state: {
-	// 				authorizedRequest: true,
-	// 			},
-	// 		});
-	// 	}
-	// }
-	handleCancel() {
-		if (this.props.onCancel) {
-			this.props.onCancel();
-		}
-	}
-	public render() {
-		let subReason = this.props.selectedReasonAndCommentObj && this.props.selectedReasonAndCommentObj.subReason;
-		let comments = this.props.selectedReasonAndCommentObj && this.props.selectedReasonAndCommentObj.comment;
-		return (
-			<React.Fragment>
-				<SelectedReasonForReturn
-					header={this.props.returnFlow ? 'Reason for return' : 'Select reason for your return'}
-					titleDescription={
-						this.props.selectedReasonAndCommentObj && this.props.selectedReasonAndCommentObj.reason
-					}
-					handleCancel={() => this.props.changeReturnReason()}
-					returnFlow={this.props.returnFlow}
-					subDescription={subReason}
-					commentsInReturn={comments}
-				/>
-				<ReplaceRefundSelection
-					{...this.props}
-					onCancel={() => this.handleCancel()}
-					onChangeBankingDetail={this.props.onChange}
-					displayToast={this.props.displayToast}
-					selectedReasonAndCommentObj={this.props.selectedReasonAndCommentObj}
-					//getRefundOptionsData={this.props.getRefundOptionsData}
-					//selectMode={mode => this.onSelectMode(mode)}
-				/>
-				{/* <ReplaceRefundSelection
+    // private onChangeBankDetail(val: IStateForBank) {
+    // 	this.setState(val);
+    // }
+    // private onContinue() {
+    // 	if (!this.state.accountNumber) {
+    // 		this.props.displayToast(ACCOUNT_NUMBER);
+    // 		return false;
+    // 	}
+    // 	if (!this.state.reEnterAccountNumber) {
+    // 		this.props.displayToast(RE_ENTER_ACCOUNT_NUMBER);
+    // 		return false;
+    // 	}
+    // 	if (this.state.accountNumber !== this.state.reEnterAccountNumber) {
+    // 		this.props.displayToast(ACCOUNT_NUMBER_MATCH_TEXT);
+    // 		return false;
+    // 	}
+    // 	if (!this.state.userName) {
+    // 		this.props.displayToast(ACCOUNT_HOLDER_NAME);
+    // 		return false;
+    // 	}
+    // 	if (!this.state.mode) {
+    // 		this.props.displayToast(REFUND_MODE_TEXT);
+    // 		return false;
+    // 	}
+    // 	if (!this.state.bankName) {
+    // 		this.props.displayToast(BANK_NAME);
+    // 		return false;
+    // 	}
+    // 	if (!this.state.code) {
+    // 		this.props.displayToast(IFSC_CODE_TEXT);
+    // 		return false;
+    // 	}
+    // 	if (this.state.code && !IFSC_PATTERN.test(this.state.code)) {
+    // 		this.props.displayToast(IFSC_CODE_VALID_TEXT);
+    // 		return false;
+    // 	} else {
+    // 		this.props.onContinue(this.state);
+    // 	}
+    // }
+    // onSelectMode(mode) {
+    // 	if (mode === QUICK_DROP) {
+    // 		this.props.history.push({
+    // 			pathname: `${RETURNS_PREFIX}/${this.orderCode}${RETURN_TO_STORE}${RETURNS_STORE_MAP}`,
+    // 			state: {
+    // 				authorizedRequest: true,
+    // 			},
+    // 		});
+    // 	} else if (mode === SCHEDULED_PICKUP) {
+    // 		this.props.history.push({
+    // 			pathname: `${RETURNS_PREFIX}/${this.orderCode}${RETURN_CLIQ_PIQ}${RETURN_CLIQ_PIQ_ADDRESS}`,
+    // 			state: {
+    // 				authorizedRequest: true,
+    // 			},
+    // 		});
+    // 	} else if (mode === SELF_COURIER) {
+    // 		this.props.history.push({
+    // 			pathname: `${RETURNS_PREFIX}/${this.orderCode}${RETURNS_SELF_COURIER}`,
+    // 			state: {
+    // 				authorizedRequest: true,
+    // 			},
+    // 		});
+    // 	}
+    // }
+    private handleCancel() {
+        if (this.props.onCancel) {
+            this.props.onCancel();
+        }
+    }
+
+    public render() {
+        const subReason = this.props.selectedReasonAndCommentObj && this.props.selectedReasonAndCommentObj.subReason;
+        const comments = this.props.selectedReasonAndCommentObj && this.props.selectedReasonAndCommentObj.comment;
+        return (
+            <React.Fragment>
+                <SelectedReasonForReturn
+                    header={this.props.returnFlow ? "Reason for return" : "Select reason for your return"}
+                    titleDescription={
+                        this.props.selectedReasonAndCommentObj && this.props.selectedReasonAndCommentObj.reason
+                    }
+                    handleCancel={() => this.props.changeReturnReason()}
+                    returnFlow={this.props.returnFlow}
+                    subDescription={subReason}
+                    commentsInReturn={comments}
+                />
+                <ReplaceRefundSelection
+                    {...this.props}
+                    onCancel={() => this.handleCancel()}
+                    onChangeBankingDetail={this.props.onChange}
+                    displayToast={this.props.displayToast}
+                    selectedReasonAndCommentObj={this.props.selectedReasonAndCommentObj}
+                />
+                {/* <ReplaceRefundSelection
         {...this.props}
         productInfo={
           this.props.returnRequest &&
@@ -172,7 +171,7 @@ export default class ReturnBankFormForDesktop extends React.Component<IProps, IS
         updateRefundMode={this.props.updateRefundMode} //function
         getCliqCashDetails={this.props.getCliqCashDetails}
         getCustomerBankDetails={this.props.getCustomerBankDetails}/> */}
-				{/* <ReturnBankForm
+                {/* <ReturnBankForm
 					headerText="Refund Details"
 					onContinue={() => this.onContinue()}
 					onCancel={() => this.props.onCancel()}
@@ -180,7 +179,7 @@ export default class ReturnBankFormForDesktop extends React.Component<IProps, IS
 				/>
 				<DummyTab title={MODE_OF_RETURN} number={2} />
 				<DummyTab title={REFUND_DETAILS} number={3} /> */}
-			</React.Fragment>
-		);
-	}
+            </React.Fragment>
+        );
+    }
 }

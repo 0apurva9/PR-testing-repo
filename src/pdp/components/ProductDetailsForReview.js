@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./ProductDetailsForReview.css";
 import ProductImage from "../../general/components/ProductImage.js";
-import StarRating from "../../general/components/StarRating.js";
 import PropTypes from "prop-types";
 import { RUPEE_SYMBOL } from "../../lib/constants";
 export default class ProductDetailsForReview extends React.Component {
@@ -103,10 +102,14 @@ ProductDetailsForReview.propTypes = {
   brandName: PropTypes.string,
   productName: PropTypes.string,
   price: PropTypes.string,
+  seoDoublePrice: PropTypes.string,
   discountPrice: PropTypes.string,
   averageRating: PropTypes.number,
   totalNoOfReviews: PropTypes.number,
-  outOfStock: PropTypes.bool
+  outOfStock: PropTypes.bool,
+  onClickImage: PropTypes.func,
+  productTitle: PropTypes.string,
+  size: PropTypes.string,
 };
 ProductDetailsForReview.defaultProps = {
   showAverageRatingWithDays: false

@@ -10,6 +10,7 @@ export default class Accordion extends React.Component {
       isOpen: this.props.isOpen ? this.props.isOpen : false
     };
   }
+
   openMenu() {
     if (!this.props.controlled) {
       this.setState(prevState => ({
@@ -23,6 +24,7 @@ export default class Accordion extends React.Component {
       setDataLayer(ADOBE_PDP_KNOW_MORE_CLICK);
     }
   }
+
   handleClick(evt) {
     if (this.props.handleClick) {
       evt.stopPropagation();
@@ -32,11 +34,13 @@ export default class Accordion extends React.Component {
       setDataLayer(ADOBE_PDP_KNOW_MORE_CLICK);
     }
   }
+
   componentWillReceiveProps(props) {
     if (this.state.isOpen !== props.isOpen) {
       this.setState({ isOpen: props.isOpen });
     }
   }
+
   render() {
     let iconActive = styles.iconup;
     let activeheader = styles.textBox;
@@ -124,7 +128,24 @@ Accordion.propTypes = {
   controlled: PropTypes.bool,
   onOpen: PropTypes.func,
   isOpen: PropTypes.bool,
-  headerElement: PropTypes.bool
+  headerElement: PropTypes.bool,
+  handleClick: PropTypes.func,
+  text1Color: PropTypes.string,
+  text1Size: PropTypes.string,
+  text1FontFamily: PropTypes.string,
+  widthForText1: PropTypes.string,
+  text2Color: PropTypes.string,
+  text2Size: PropTypes.string,
+  text2FontFamily: PropTypes.string,
+  backgroundColor: PropTypes.string,
+  padding: PropTypes.string,
+  text1: PropTypes.string,
+  text2: PropTypes.string,
+  textAlign: PropTypes.string,
+  widthForText2: PropTypes.string,
+  faqQuestion: PropTypes.string,
+  arrowHide: PropTypes.bool,
+  children: PropTypes.node
 };
 
 Accordion.defaultProps = {

@@ -12,11 +12,13 @@ export default class BrandSection extends React.Component {
       this.props.follow();
     }
   }
+
   seeAll() {
     if (this.props.goToBrandStore) {
       this.props.goToBrandStore();
     }
   }
+
   render() {
     return (
       <div
@@ -32,7 +34,6 @@ export default class BrandSection extends React.Component {
           <span className={styles.buttonHolder}>
             <Button
               type="hollow"
-              color="#fff"
               label={this.props.btnLabel}
               onClick={() => this.follow()}
               width={100}
@@ -78,5 +79,11 @@ BrandSection.propTypes = {
     })
   ),
   seeAll: PropTypes.func,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  follow: PropTypes.func,
+  goToBrandStore: PropTypes.func,
+  backgroundColor: PropTypes.string,
+  backgroundImage: PropTypes.string,
+  btnLabel: PropTypes.string,
+  description: PropTypes.string
 };

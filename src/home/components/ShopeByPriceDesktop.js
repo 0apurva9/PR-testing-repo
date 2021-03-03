@@ -14,6 +14,7 @@ export default class ShopeByPriceDesktop extends React.Component {
       this.props.setClickedElementId();
     }
   };
+
   render() {
     const { feedComponentData } = this.props;
 
@@ -53,5 +54,8 @@ ShopeByPriceDesktop.propTypes = {
       title: PropTypes.string,
       subItems: PropTypes.string
     })
-  )
+  ),
+  history: PropTypes.object,
+  setClickedElementId: PropTypes.func,
+  feedComponentData: PropTypes.func,
 };

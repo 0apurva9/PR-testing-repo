@@ -5,12 +5,12 @@ import UnderLinedButton from "../../general/components/UnderLinedButton.js";
 import DeliveryAddressReturn from "./DeliveryAddressReturn.js";
 import Button from "../../general/components/Button.js";
 import DesktopOnly from "../../general/components/DesktopOnly";
+import { RouterPropTypes } from "../../general/router-prop-types";
 
 import {
   RETURNS_PREFIX,
   RETURN_LANDING,
   RETURNS_MODES,
-  ORDER_PREFIX,
   ORDER_CODE,
   ORDER,
   MY_ACCOUNT
@@ -21,6 +21,7 @@ export default class ReturnChangeAddress extends React.Component {
   componentWillMount() {
     document.title = "Select Delivery Address";
   }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -29,6 +30,7 @@ export default class ReturnChangeAddress extends React.Component {
       selectedAddress: ""
     };
   }
+
   showMore() {
     this.setState({ showAll: !this.state.showAll }, () => {
       if (this.state.label === "More" || this.state.label === "See all") {
@@ -40,11 +42,13 @@ export default class ReturnChangeAddress extends React.Component {
       }
     });
   }
+
   onNewAddress() {
     if (this.props.onNewAddress) {
       this.props.onNewAddress();
     }
   }
+
   onSelectAddress(address) {
     this.setState({ selectedAddress: address });
     if (this.props.onSelectAddress) {
@@ -57,6 +61,7 @@ export default class ReturnChangeAddress extends React.Component {
       this.props.onRedirectionToNextSection();
     }
   }
+
   render() {
     let buttonHolder = styles.buttonHolder;
     if (
@@ -221,7 +226,18 @@ ReturnChangeAddress.propTypes = {
       addressTitle: PropTypes.string,
       addressDescription: PropTypes.string
     })
-  )
+  ),
+  onSelectAddress: PropTypes.func,
+  onRedirectionToNextSection: PropTypes.func,
+  data: PropTypes.shape({
+    sellerorderno: PropTypes.string
+  }),
+  disabled: PropTypes.bool,
+  changeAddress: PropTypes.bool,
+  defaultAddress: PropTypes.string,
+  orderId: PropTypes.string,
+  history: RouterPropTypes.history,
+  selected: PropTypes.string
 };
 ReturnChangeAddress.defaultProps = {
   indexNumber: "1",

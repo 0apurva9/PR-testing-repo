@@ -10,6 +10,7 @@ export default class Grid extends React.Component {
       navigator.userAgent
     );
   }
+
   render() {
     return (
       <div
@@ -71,7 +72,9 @@ Grid.propTypes = {
   elementWidthDesktop: PropTypes.number,
   elementWidthMobile: PropTypes.number,
   offset: PropTypes.number,
-  offsetDesktop: PropTypes.string
+  offsetDesktop: PropTypes.string,
+  offsetMobile: PropTypes.string,
+  children: PropTypes.node
 };
 
 Grid.defaultProps = {

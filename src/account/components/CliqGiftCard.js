@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { RouterPropTypes } from "../../general/router-prop-types";
 import styles from "./CliqCashDesktop.css";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import ProfileMenu from "./ProfileMenu";
@@ -47,6 +48,7 @@ export default class CliqGiftCard extends Component {
       this.props.getCliqCashbackDetails(cashbackmode);
     }
   }
+
   selectAmount(amount) {
     if (
       this.props.cliqCashbackDetailsStatus &&
@@ -71,11 +73,13 @@ export default class CliqGiftCard extends Component {
       });
     }
   }
+
   navigateToLogin() {
     const url = this.props.location.pathname;
     this.props.setUrlToRedirectToAfterAuth(url);
     return <Redirect to={LOGIN_PATH} />;
   }
+
   showCliqCashModulePopUp = () => {
     setDataLayerForGiftCard(SET_DATA_LAYER_ADD_GIFT_CARD);
     if (this.props.showCliqCashModule) {
@@ -86,11 +90,13 @@ export default class CliqGiftCard extends Component {
       this.props.showCliqCashModule(obj);
     }
   };
+
   kycVerification = () => {
     if (this.props.showKycVerification) {
       this.props.showKycVerification(this.props);
     }
   };
+
   navigateCheckBalance() {
     if (this.props.showCliqCashModule) {
       const obj = {};
@@ -103,6 +109,7 @@ export default class CliqGiftCard extends Component {
       this.props.showCliqCashModule(obj);
     }
   }
+
   navigateSendGiftCard() {
     if (
       this.props.cliqCashbackDetailsStatus &&
@@ -256,8 +263,8 @@ export default class CliqGiftCard extends Component {
                     className={styles.addGiftCardButtonHolder}
                     onClick={() =>
                       this.props &&
-                      this.props.cliqCashUserDetails &&
-                      !this.props.cliqCashUserDetails.isWalletOtpVerified
+                        this.props.cliqCashUserDetails &&
+                        !this.props.cliqCashUserDetails.isWalletOtpVerified
                         ? this.kycVerification()
                         : this.showCliqCashModulePopUp()
                     }
@@ -288,7 +295,7 @@ export default class CliqGiftCard extends Component {
                     className={styles.addGiftCardButtonHolder}
                     onClick={() =>
                       this.props.cliqCashUserDetails &&
-                      !this.props.cliqCashUserDetails.isWalletOtpVerified
+                        !this.props.cliqCashUserDetails.isWalletOtpVerified
                         ? this.kycVerification()
                         : this.navigateCheckBalance()
                     }
@@ -303,7 +310,14 @@ export default class CliqGiftCard extends Component {
               </div>
             </div>
             <div className={styles.faqAndTcHolder}>
-              <FaqAndTcBase history={this.props.history} />
+              <FaqAndTcBase
+                history={this.props.history}
+                keyCallOutCliqCash_Egv={
+                  this.props &&
+                  this.props.giftCardsDetails &&
+                  this.props.giftCardsDetails.keyCallOutEgv
+                }
+              />
             </div>
           </div>
           <div className={MyAccountStyles.userProfile}>
@@ -351,14 +365,12 @@ CliqGiftCard.propTypes = {
     ),
     status: string
   }),
-  history: PropTypes.object,
   setUrlToRedirectToAfterAuth: PropTypes.func.isRequired,
-  location: PropTypes.object,
   setHeaderText: PropTypes.func.isRequired,
   getGiftCardDetails: PropTypes.func.isRequired,
   giftCardsDetails: PropTypes.shape({
     landingPageOptions: PropTypes.shape({
-      option: array
+      options: array
     })
   }),
   cliqCashUserDetails: PropTypes.shape({
@@ -393,5 +405,8 @@ CliqGiftCard.propTypes = {
         offerEndDate: string
       })
     )
-  })
+  }),
+  getCliqCashbackDetails: PropTypes.func,
+  showCashBackDetailsPopup: PropTypes.func,
+  ...RouterPropTypes
 };

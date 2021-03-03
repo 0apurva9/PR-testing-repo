@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 export default class Button extends React.Component {
   renderButton() {
-    var { backgroundColor, borderRadius, textStyle, ...other } = this.props;
+    var { ...other } = this.props;
     switch (this.props.type) {
       case "primary":
         return (
@@ -94,6 +94,7 @@ export default class Button extends React.Component {
         return <CoreButton {...this.props} />;
     }
   }
+
   render() {
     return <React.Fragment>{this.renderButton()}</React.Fragment>;
   }
@@ -109,6 +110,16 @@ Button.propTypes = {
   ]),
   dataTest: PropTypes.string,
   backgroundColor: PropTypes.string,
+  borderColor: PropTypes.string,
+  color: PropTypes.string,
+  height: PropTypes.number,
+  borderRadius: PropTypes.number,
+  linearColor: PropTypes.objectOf(
+    PropTypes.shape({
+      fromColor: PropTypes.string,
+      toColor: PropTypes.string,
+    })
+  ),
   textStyle: PropTypes.objectOf(
     PropTypes.shape({
       color: PropTypes.string,

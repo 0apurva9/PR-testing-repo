@@ -18,12 +18,6 @@ export default class ProductDetailsCard extends React.Component {
   };
 
   render() {
-    /* let discount = "";
-    if(this.props.priceDouble && this.props.discountPriceDouble){
-      discount = Math.round(
-        ((this.props.discountPriceDouble - this.props.priceDouble)/this.props.discountPriceDouble) * 100
-        );
-    } */
     return (
       <div className={styles.base}>
         <div className={styles.productImageHolder}>
@@ -94,9 +88,6 @@ export default class ProductDetailsCard extends React.Component {
                     </span>
                   </del>
                 )}
-              {/*   <span className={styles.discount}>
-                {discount && discount > 0 &&`(${discount}%)`}
-              </span>  */}
             </div>
           )}
           {this.props.productTitle && (
@@ -124,7 +115,7 @@ export default class ProductDetailsCard extends React.Component {
               }
             />
             <meta
-              itemprop="itemReviewed"
+              itemProp="itemReviewed"
               content={this.props.averageRating ? this.props.averageRating : 0}
             />
             {this.props.averageRating && !this.props.showAverageRatingWithDays && (
@@ -167,10 +158,17 @@ ProductDetailsCard.propTypes = {
   brandName: PropTypes.string,
   productName: PropTypes.string,
   price: PropTypes.string,
+  seoDoublePrice: PropTypes.string,
   discountPrice: PropTypes.string,
   averageRating: PropTypes.number,
   totalNoOfReviews: PropTypes.number,
-  outOfStock: PropTypes.bool
+  outOfStock: PropTypes.bool,
+  onClickImage: PropTypes.func,
+  productTitle: PropTypes.string,
+  size: PropTypes.string,
+  numberOfReviews: PropTypes.number,
+  showAverageRatingWithDays: PropTypes.bool,
+  daysAgo: PropTypes.number
 };
 ProductDetailsCard.defaultProps = {
   showAverageRatingWithDays: false

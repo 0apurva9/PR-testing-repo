@@ -8,6 +8,7 @@ export default class AddressItem extends React.Component {
       this.props.selectItem();
     }
   }
+
   render() {
     return (
       <div className={styles.base}>

@@ -10,8 +10,6 @@ import {
   removeAddress,
   resetAddAddressDetails,
   getPinCodeChangeAddressOrderedProduct,
-  getPinCodeSuccess,
-  getReturnRequest
 } from "../../account/actions/account.actions";
 import {
   showSecondaryLoader,

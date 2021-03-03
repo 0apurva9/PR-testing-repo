@@ -7,10 +7,6 @@ export default class MultiSelectCheckbox extends React.Component {
     if (this.props.selected) {
       className = styles.selected;
     }
-    // let squareBox = styles.square;
-    // if (this.props.checked) {
-    //   squareBox = styles.checked;
-    // }
     return (
       <React.Fragment>
         {/* {this.props.isCircle && ( */}
@@ -30,7 +26,10 @@ export default class MultiSelectCheckbox extends React.Component {
   }
 }
 MultiSelectCheckbox.propTypes = {
-  isCircle: PropTypes.bool
+  isCircle: PropTypes.bool,
+  selected: PropTypes.string,
+  size: PropTypes.string,
+  height: PropTypes.string
 };
 MultiSelectCheckbox.defaultProps = {
   size: "20px",

@@ -1,6 +1,5 @@
 import React from "react";
 import CarouselWithControls from "../../general/components/CarouselWithControls.js";
-import Carousel from "../../general/components/Carousel";
 import ProductModule from "../../general/components/ProductModule.js";
 import ProductImageHeader from "../../general/components/ProductImageHeader.js";
 import MobileOnly from "../../general/components/MobileOnly.js";
@@ -21,13 +20,10 @@ import {
   PDP_FOLLOW_AND_UN_FOLLOW,
   PRODUCT_DESCRIPTION_PRODUCT_CODE,
   PRODUCT_DESCRIPTION_SLUG_PRODUCT_CODE,
-  RUPEE_SYMBOL
 } from "../../lib/constants.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import {
   setDataLayerForVisitBrand,
-  getDigitalDataForPdp,
-  SIMILAR_PRODUCTS_PDP_WIDGET,
   setDataLayerForMsdItemWidgets,
   ADOBE_CAROUSEL_CLICK,
   ADOBE_CAROUSEL_SHOW,
@@ -42,6 +38,7 @@ class PDPRecommendedSections extends React.Component {
     super(props);
     this.selector = React.createRef();
   }
+
   componentDidMount = () => {
     if (this.props.visitedNewProduct) {
       if (this.props.match.path === PRODUCT_DESCRIPTION_PRODUCT_CODE) {
@@ -64,11 +61,8 @@ class PDPRecommendedSections extends React.Component {
       }
     }
   };
+
   goToProductDescription = (url, items, widgetName, index) => {
-    let similarWidgetData = {
-      widgetName: widgetName,
-      items: items
-    };
     let selectedWidgetID =
       widgetName === "About the Brand"
         ? 114
@@ -102,8 +96,6 @@ class PDPRecommendedSections extends React.Component {
         widgetName === "About the Brand"
           ? items && items.productListingId
           : items.product_id,
-      prodPrice:
-        widgetName === "About the Brand" ? items && items.mrp : items.price,
       posOfReco: index,
       widgetID: selectedWidgetID
     };
@@ -146,6 +138,7 @@ class PDPRecommendedSections extends React.Component {
     });
     this.props.history.push(url);
   };
+
   visitBrand() {
     if (this.props.aboutTheBrand.webURL) {
       setDataLayerForVisitBrand();
@@ -155,6 +148,7 @@ class PDPRecommendedSections extends React.Component {
       this.props.history.push(`c-${this.props.aboutTheBrand.brandId}`);
     }
   }
+
   renderAboutTheBrand() {
     let brandId;
 
@@ -269,17 +263,10 @@ class PDPRecommendedSections extends React.Component {
           {items.map((val, i) => {
             const transformedDatum = transformData(val);
             let productImage, mrpInteger, seoDoublePrice, imageURL;
-            // if (widgetName === "About the Brand") {
-            //   productImage = transformedDatum && transformedDatum.imageUrl;
-            //   mrpInteger = transformedDatum && transformedDatum.mrp;
-            //   seoDoublePrice =
-            //     transformedDatum && transformedDatum.winningSellerMOP;
-            //   imageURL = val.webURL;
-            // } else {
             productImage = transformedDatum && transformedDatum.image_link;
             mrpInteger = transformedDatum && transformedDatum.price;
             seoDoublePrice = transformedDatum && transformedDatum.mop;
-            imageURL = val.link && val.link.replace(/^.*\/\/[^\/]+/, "");
+            imageURL = val.link && val.link.replace(/^.*\/\/[^\\/]+/, "");
             //}
             let discount =
               mrpInteger && seoDoublePrice
@@ -294,7 +281,7 @@ class PDPRecommendedSections extends React.Component {
                 productId={val.productListingId}
                 isShowAddToWishlistIcon={false}
                 discountPercent={discount}
-                onClick={url =>
+                onClick={() =>
                   this.goToProductDescription(imageURL, val, widgetName, i)
                 }
                 widgetName={widgetName}
@@ -324,6 +311,7 @@ class PDPRecommendedSections extends React.Component {
       return null;
     }
   }
+
   renderRecentlyBoughtTogetherModuleSection(title, key) {
     if (
       this.props.msdItems &&

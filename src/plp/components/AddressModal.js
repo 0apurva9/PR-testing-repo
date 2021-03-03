@@ -30,12 +30,14 @@ export default class AddressModal extends React.Component {
     );
     this.props.closeModal();
   }
+
   componentDidMount() {
     let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
     let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
 
     if (customerCookie && userDetails) this.props.getUserAddress();
   }
+
   render() {
     return (
       <BottomSlideModal
@@ -103,7 +105,17 @@ AddressModal.propTypes = {
       address: PropTypes.string,
       value: PropTypes.string
     })
-  )
+  ),
+  checkPinCodeAvailability: PropTypes.func,
+  closeModal: PropTypes.func,
+  getProductPinCode: PropTypes.func,
+  productCode: PropTypes.string,
+  addressModalForCartPage: PropTypes.bool,
+  exchangeAvailable: PropTypes.bool,
+  getUserAddress: PropTypes.func,
+  labelText: PropTypes.string,
+  userAddress: PropTypes.object
+
 };
 AddressModal.defaultProps = {
   data: [

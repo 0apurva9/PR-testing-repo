@@ -7,21 +7,25 @@ export default class ControlInput extends React.Component {
       this.props.onFocus(event);
     }
   }
+
   handleBlur(event) {
     if (this.props.onBlur) {
       this.props.onBlur(event);
     }
   }
+
   handleChange(event) {
     if (this.props.onChange) {
       this.props.onChange(event.target.value);
     }
   }
+
   handleKeyPress(event) {
     if (this.props.onKeyPress) {
       this.props.onKeyPress(event);
     }
   }
+
   handleKeyUp = event => {
     if (this.props.onKeyUp) {
       this.props.onKeyUp(event);
@@ -108,7 +112,18 @@ ControlInput.propTypes = {
   textStyle: PropTypes.shape({
     fontSize: PropTypes.number
   }),
-  dataTest: PropTypes.string
+  dataTest: PropTypes.string,
+  onKeyPress: PropTypes.func,
+  onKeyUp: PropTypes.func,
+  borderBottom: PropTypes.string,
+  leftChildSize: PropTypes.number,
+  rightChildSize: PropTypes.number,
+  borderColor: PropTypes.string,
+  value: PropTypes.string,
+  maxLength: PropTypes.number,
+  disabled: PropTypes.bool,
+  autoFocus: PropTypes.bool,
+  focused: PropTypes.bool
 };
 
 ControlInput.defaultProps = {

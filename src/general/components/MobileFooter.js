@@ -110,7 +110,7 @@ class MobileFooter extends React.Component {
           value={BAG}
           text="My Bag"
           selected={selected}
-          onSelect={val => this.handleSelect(PRODUCT_CART_ROUTER)}
+          onSelect={() => this.handleSelect(PRODUCT_CART_ROUTER)}
         />
       </div>
     );
@@ -120,7 +120,12 @@ class MobileFooter extends React.Component {
 export default withRouter(MobileFooter);
 
 MobileFooter.propTypes = {
-  selected: PropTypes.oneOf([HOME, CATEGORIES, BRANDS, PROFILE, BAG])
+  selected: PropTypes.oneOf([HOME, CATEGORIES, BRANDS, PROFILE, BAG]),
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }),
+  location: PropTypes.object,
+  pathname: PropTypes.string,
 };
 MobileFooter.defaultProps = {
   selected: HOME

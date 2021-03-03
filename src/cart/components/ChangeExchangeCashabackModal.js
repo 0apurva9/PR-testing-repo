@@ -10,6 +10,7 @@ export default class ChangeExchangeCashabackModal extends React.Component {
       orderId: ""
     };
   }
+
   componentDidMount() {
     if (this.props.exchangePaymentMode) {
       if (this.props.exchangePaymentMode === "CLIQ_CASH") {
@@ -23,9 +24,11 @@ export default class ChangeExchangeCashabackModal extends React.Component {
       this.setState({ orderId: this.props.orderId });
     }
   }
+
   closeModal() {
     this.props.closeModal();
   }
+
   goToEchangeCashbackSelection(orderId, currentCashbackMode) {
     let exchangeCashbackSelectionURL = `/my-account/getAccountInfoForExchange?parentOrderId=${orderId}`;
     this.props.history.push({
@@ -33,6 +36,7 @@ export default class ChangeExchangeCashabackModal extends React.Component {
       state: { currentCashbackMode: currentCashbackMode, orderId: orderId }
     });
   }
+
   render() {
     return (
       <div className={styles.base}>

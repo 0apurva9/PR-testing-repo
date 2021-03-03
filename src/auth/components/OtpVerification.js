@@ -21,11 +21,13 @@ export default class OtpVerification extends React.Component {
       this.props.callVerify();
     }
   };
+
   resendOtp = () => {
     if (this.props.resendOtp) {
       this.props.resendOtp(this.props.userObj);
     }
   };
+
   onSubmitOtp = otp => {
     if (this.props.submitOtp) {
       if (this.props.username && this.props.password) {
@@ -39,6 +41,7 @@ export default class OtpVerification extends React.Component {
       }
     }
   };
+
   handleOtpInput(val) {
     if (val.length <= 6) {
       this.setState({ otp: val });
@@ -47,6 +50,7 @@ export default class OtpVerification extends React.Component {
       }
     }
   }
+
   onClickWrongNumber() {
     if (this.props.onClickWrongNumber) {
       this.props.onClickWrongNumber();
@@ -177,7 +181,12 @@ OtpVerification.propTypes = {
   mobileNumber: PropTypes.string,
   submit: PropTypes.func,
   callVerify: PropTypes.func,
-  resendOtp: PropTypes.func
+  resendOtp: PropTypes.func,
+  userObj: PropTypes.object,
+  submitOtp: PropTypes.func,
+  username: PropTypes.string,
+  password: PropTypes.string,
+  onClickWrongNumber: PropTypes.func,
 };
 
 OtpVerification.defaultProps = {

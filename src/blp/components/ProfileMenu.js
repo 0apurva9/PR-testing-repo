@@ -8,11 +8,12 @@ export default class ProfileMenu extends React.Component {
       this.props.onSave(value);
     }
   }
+
   render() {
     return (
       <div
         className={styles.base}
-        onClick={value => this.onSave({ value: this.props.text })}
+        onClick={() => this.onSave({ value: this.props.text })}
       >
         <div className={styles.iconeHolder}>
           <Icon image={this.props.image} size={25} />
@@ -25,5 +26,6 @@ export default class ProfileMenu extends React.Component {
 
 ProfileMenu.propTypes = {
   onSave: PropTypes.func,
-  text: PropTypes.string
+  text: PropTypes.string,
+  image: PropTypes.string,
 };

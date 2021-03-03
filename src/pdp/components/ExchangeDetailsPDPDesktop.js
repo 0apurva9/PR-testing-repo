@@ -6,9 +6,11 @@ export default class ExchangeDetailsPDPDesktop extends React.Component {
   openExchangeModal() {
     this.props.openExchangeModal();
   }
+
   openHowExchangeWorksModal(data) {
     this.props.openHowExchangeWorksModal(data);
   }
+
   trimProductName(productName) {
     if (productName.length > 22) {
       return productName.substring(0, 21) + ".. ";
@@ -16,6 +18,7 @@ export default class ExchangeDetailsPDPDesktop extends React.Component {
       return productName;
     }
   }
+
   render() {
     return (
       <React.Fragment>

@@ -5,9 +5,11 @@ export default class AppliancesExchangeTnCModal extends React.Component {
   closeTnCModal() {
     this.props.closeTnCModal();
   }
+
   goToWebForm() {
     this.props.history.push(`/my-account/cliq-care`);
   }
+
   render() {
     return (
       <div className={styles.termsConditionsContainer}>
@@ -85,7 +87,7 @@ export default class AppliancesExchangeTnCModal extends React.Component {
               for the same is processed before exchange process completion. The
               customer has received full refund since the exchange is in
               process. In this case if the customer proceeds with exchange, the
-              Exchange Cashback credited would be without the "Additional Value"
+              Exchange Cashback credited would be without the &quot;Additional Value&quot;
             </li>
           </ul>
           <div className={styles.contentHeadingTnC}>3) Payments</div>

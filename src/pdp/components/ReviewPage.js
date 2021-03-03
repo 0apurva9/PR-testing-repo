@@ -84,5 +84,8 @@ ReviewPage.propTypes = {
   date: PropTypes.string,
   heading: PropTypes.string,
   rating: PropTypes.number,
-  isBuyer: PropTypes.bool
+  isBuyer: PropTypes.bool,
+  fromBeautyPdp: PropTypes.bool,
+  name: PropTypes.string,
+  reviewAge: PropTypes.string
 };

@@ -10,207 +10,175 @@ import moment from "moment";
 import { RESOLVED } from "../../lib/constants";
 const CREATION_DATE_FORMAT = "DD MMM";
 const STATUS_DATE_FORMAT = "DD MMM, YYYY";
+const images = require.context("./img", true);
 export default class OrderHistoryDetails extends Component {
-  componentDidMount() {
-    window.scroll(0, 0);
-  }
-  render() {
-    const { selectedTickerHistory } = this.props;
-    return (
-      <div className={Styles.orderInfo}>
-        <div className={Styles.fontLight}>
-          {" "}
-          Ticket ID :{" "}
-          <span className={Styles.fontBold}>
-            {" "}
-            {selectedTickerHistory.ticketId}{" "}
-          </span>
-        </div>
-        <div className={Styles.fontLight}>
-          {" "}
-          Created on :{" "}
-          <span className={Styles.fontBold}>
-            {selectedTickerHistory.creationDate &&
-              moment(
-                selectedTickerHistory.creationDate,
-                "DD-MM-YYYY hh:mm:ss"
-              ).format(`${CREATION_DATE_FORMAT},YYYY | hh:mm A`)}
-          </span>
-        </div>
-        <div className={Styles.orderInfoDetails}>
-          <div className={Styles.orderImg}>
-            {selectedTickerHistory.status === RESOLVED ? (
-              <div className={Styles.resolvedIcon}>
-                <Icon image={resolvedTick} width={22} height={22} />
-              </div>
-            ) : null}
-            {selectedTickerHistory.issueBucket ? (
-              <div className={Styles.nonOrderIcon}>
-                <div
-                  style={{
-                    background: `url(${require(`./img/${selectedTickerHistory.issueBucket
-                      .split(" ")[0]
-                      .toLowerCase()}_ticket.svg`)})`,
-                    backgroundSize: "contain",
-                    backgroundRepeat: "no-repeat",
-                    width: selectedTickerHistory.issueBucket.includes("EGV")
-                      ? "44px"
-                      : "42px",
-                    height: selectedTickerHistory.issueBucket.includes("EGV")
-                      ? "30px"
-                      : "42px"
-                  }}
-                />
-              </div>
-            ) : (
-              <ProductImage image={selectedTickerHistory.productImage} />
-            )}
-          </div>
-          <div className={Styles.orderDetails}>
-            <div className={Styles.productName}>
-              {selectedTickerHistory.issueType}
-            </div>
-          </div>
-        </div>
-        <div className={Styles.statusDisplay}>
-          <div className={Styles.fontLight}>
-            {" "}
-            Status :{" "}
-            <span className={Styles.fontBold}>
-              {" "}
-              {selectedTickerHistory.status}
-            </span>
-          </div>
-          <div className={Styles.fontLight}>
-            {" "}
-            {selectedTickerHistory.status === RESOLVED
-              ? "Resolved On"
-              : "Estimated Resolution"}{" "}
-            :{" "}
-            <span className={Styles.fontBold}>
-              {selectedTickerHistory.status === RESOLVED
-                ? selectedTickerHistory.resolvedDate &&
-                  moment(
-                    selectedTickerHistory.resolvedDate.split(" ")[0],
-                    "DD-MM-YYYY"
-                  ).format(STATUS_DATE_FORMAT)
-                : selectedTickerHistory.resolutionDate &&
-                  moment(
-                    selectedTickerHistory.resolutionDate.split(" ")[0],
-                    "DD-MM-YYYY"
-                  ).format(STATUS_DATE_FORMAT)}
-            </span>{" "}
-            <span
-              className={
-                selectedTickerHistory.slaBreach === "true"
-                  ? Styles.delayedStatusText
-                  : Styles.statusText
-              }
-            ></span>
-          </div>
-          {selectedTickerHistory.statusMessage &&
-            (!selectedTickerHistory.escalationFlag ||
-              selectedTickerHistory.escalationFlag === "false") && (
-              <div className={Styles.resolvedBox}>
-                <Icon image={resolveIcon} width={18} height={18} />
-                <span className={Styles.resolvedStatusText}>
-                  {selectedTickerHistory.statusMessage}
-                </span>
-              </div>
-            )}
+    componentDidMount() {
+        window.scroll(0, 0);
+    }
 
-          {selectedTickerHistory.escalationFlag === "true" ? (
-            <div className={Styles.escalationBody}>
-              <div className={Styles.iconBody}>
-                <Icon image={infoIcon} size={14}></Icon>
-              </div>
-              <div className={Styles.txtBody}>
-                <div className={Styles.lightTxt}>
-                  {" "}
-                  Your issue has been escalated{" "}
-                </div>
-                {selectedTickerHistory.statusMessage && (
-                  <span>
+    render() {
+        const { selectedTickerHistory } = this.props;
+        return (
+            <div className={Styles.orderInfo}>
+                <div className={Styles.fontLight}>
                     {" "}
-                    Note :{" "}
-                    {selectedTickerHistory.statusMessage.replace(/&#39;/g, "'")}
-                  </span>
-                )}
-              </div>
-            </div>
-          ) : null}
-        </div>
-        {selectedTickerHistory.customerComment && (
-          <div className={Styles.communication}>
-            <div className={Styles.communicationHeading}>
-              Communication details
-            </div>
-            <div className={Styles.customerCetails}>
-              <div className={Styles.customerCircle}></div>
-              <div className={Styles.commentBody}>
-                <div className={Styles.fontBold}>
-                  {this.props.userName} |{" "}
-                  <span className={Styles.dateBox}>
-                    {selectedTickerHistory.creationDate &&
-                      moment(
-                        selectedTickerHistory.creationDate,
-                        "DD-MM-YYYY hh:mm:ss"
-                      ).format(`${CREATION_DATE_FORMAT}, hh:mm A`)}
-                  </span>
+                    Ticket ID : <span className={Styles.fontBold}> {selectedTickerHistory.ticketId} </span>
                 </div>
+                <div className={Styles.fontLight}>
+                    {" "}
+                    Created on :{" "}
+                    <span className={Styles.fontBold}>
+                        {selectedTickerHistory.creationDate &&
+                            moment(selectedTickerHistory.creationDate, "DD-MM-YYYY hh:mm:ss").format(
+                                `${CREATION_DATE_FORMAT},YYYY | hh:mm A`
+                            )}
+                    </span>
+                </div>
+                <div className={Styles.orderInfoDetails}>
+                    <div className={Styles.orderImg}>
+                        {selectedTickerHistory.status === RESOLVED ? (
+                            <div className={Styles.resolvedIcon}>
+                                <Icon image={resolvedTick} width={22} height={22} />
+                            </div>
+                        ) : null}
+                        {selectedTickerHistory.issueBucket ? (
+                            <div className={Styles.nonOrderIcon}>
+                                <div
+                                    style={{
+                                        background: `url(${images(`./${selectedTickerHistory.issueBucket
+                                            .split(" ")[0]
+                                            .toLowerCase()}_ticket.svg`).default})`,
+                                        backgroundSize: "contain",
+                                        backgroundRepeat: "no-repeat",
+                                        width: selectedTickerHistory.issueBucket.includes("EGV") ? "44px" : "42px",
+                                        height: selectedTickerHistory.issueBucket.includes("EGV") ? "30px" : "42px",
+                                    }}
+                                />
+                            </div>
+                        ) : (
+                            <ProductImage image={selectedTickerHistory.productImage} />
+                        )}
+                    </div>
+                    <div className={Styles.orderDetails}>
+                        <div className={Styles.productName}>{selectedTickerHistory.issueType}</div>
+                    </div>
+                </div>
+                <div className={Styles.statusDisplay}>
+                    <div className={Styles.fontLight}>
+                        {" "}
+                        Status : <span className={Styles.fontBold}> {selectedTickerHistory.status}</span>
+                    </div>
+                    <div className={Styles.fontLight}>
+                        {" "}
+                        {selectedTickerHistory.status === RESOLVED ? "Resolved On" : "Estimated Resolution"} :{" "}
+                        <span className={Styles.fontBold}>
+                            {selectedTickerHistory.status === RESOLVED
+                                ? selectedTickerHistory.resolvedDate &&
+                                  moment(selectedTickerHistory.resolvedDate.split(" ")[0], "DD-MM-YYYY").format(
+                                      STATUS_DATE_FORMAT
+                                  )
+                                : selectedTickerHistory.resolutionDate &&
+                                  moment(selectedTickerHistory.resolutionDate.split(" ")[0], "DD-MM-YYYY").format(
+                                      STATUS_DATE_FORMAT
+                                  )}
+                        </span>{" "}
+                        <span
+                            className={
+                                selectedTickerHistory.slaBreach === "true"
+                                    ? Styles.delayedStatusText
+                                    : Styles.statusText
+                            }
+                        ></span>
+                    </div>
+                    {selectedTickerHistory.statusMessage &&
+                        (!selectedTickerHistory.escalationFlag || selectedTickerHistory.escalationFlag === "false") && (
+                            <div className={Styles.resolvedBox}>
+                                <Icon image={resolveIcon} width={18} height={18} />
+                                <span className={Styles.resolvedStatusText}>{selectedTickerHistory.statusMessage}</span>
+                            </div>
+                        )}
 
+                    {selectedTickerHistory.escalationFlag === "true" ? (
+                        <div className={Styles.escalationBody}>
+                            <div className={Styles.iconBody}>
+                                <Icon image={infoIcon} size={14}></Icon>
+                            </div>
+                            <div className={Styles.txtBody}>
+                                <div className={Styles.lightTxt}> Your issue has been escalated </div>
+                                {selectedTickerHistory.statusMessage && (
+                                    <span> Note : {selectedTickerHistory.statusMessage.replace(/&#39;/g, "'")}</span>
+                                )}
+                            </div>
+                        </div>
+                    ) : null}
+                </div>
                 {selectedTickerHistory.customerComment && (
-                  <div className={Styles.commentTxt}>
-                    {selectedTickerHistory.customerComment}
-                  </div>
+                    <div className={Styles.communication}>
+                        <div className={Styles.communicationHeading}>Communication details</div>
+                        <div className={Styles.customerCetails}>
+                            <div className={Styles.customerCircle}></div>
+                            <div className={Styles.commentBody}>
+                                <div className={Styles.fontBold}>
+                                    {this.props.userName} |{" "}
+                                    <span className={Styles.dateBox}>
+                                        {selectedTickerHistory.creationDate &&
+                                            moment(selectedTickerHistory.creationDate, "DD-MM-YYYY hh:mm:ss").format(
+                                                `${CREATION_DATE_FORMAT}, hh:mm A`
+                                            )}
+                                    </span>
+                                </div>
+
+                                {selectedTickerHistory.customerComment && (
+                                    <div className={Styles.commentTxt}>{selectedTickerHistory.customerComment}</div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
                 )}
-              </div>
+                {selectedTickerHistory.agentResolution && (
+                    <div className={Styles.communication}>
+                        <div className={Styles.customerCetails}>
+                            <div className={Styles.customerCircle}></div>
+                            <div className={Styles.commentBody}>
+                                <div className={Styles.fontBold}>
+                                    CLiQ Care |{" "}
+                                    <span className={Styles.dateBox}>
+                                        {selectedTickerHistory.resolutionDate &&
+                                            moment(selectedTickerHistory.resolutionDate, "DD-MM-YYYY hh:mm:ss").format(
+                                                `${CREATION_DATE_FORMAT}, hh:mm A`
+                                            )}
+                                    </span>
+                                </div>
+                                <div className={Styles.commentTxt}>{selectedTickerHistory.agentResolution}</div>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
-          </div>
-        )}
-        {selectedTickerHistory.agentResolution && (
-          <div className={Styles.communication}>
-            <div className={Styles.customerCetails}>
-              <div className={Styles.customerCircle}></div>
-              <div className={Styles.commentBody}>
-                <div className={Styles.fontBold}>
-                  CLiQ Care |{" "}
-                  <span className={Styles.dateBox}>
-                    {selectedTickerHistory.resolutionDate &&
-                      moment(
-                        selectedTickerHistory.resolutionDate,
-                        "DD-MM-YYYY hh:mm:ss"
-                      ).format(`${CREATION_DATE_FORMAT}, hh:mm A`)}
-                  </span>
-                </div>
-                <div className={Styles.commentTxt}>
-                  {selectedTickerHistory.agentResolution}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    );
-  }
+        );
+    }
 }
 
 OrderHistoryDetails.propTypes = {
-  selectedTickerHistory: PropTypes.shape({
-    creationDate: PropTypes.string,
-    customerComment: PropTypes.string,
-    issueBucket: PropTypes.string,
-    issueType: PropTypes.string,
-    orderId: PropTypes.string,
-    productImage: PropTypes.string,
-    productTitle: PropTypes.string,
-    resolutionDate: PropTypes.string,
-    slaBreach: PropTypes.string,
-    ticketId: PropTypes.string,
-    status: PropTypes.string,
-    transactionId: PropTypes.string,
-    escalationFlag: PropTypes.string,
-    statusMessage: PropTypes.string,
-    agentResolution: PropTypes.string
-  })
+    selectedTickerHistory: PropTypes.shape({
+        agentResolution: PropTypes.string,
+        creationDate: PropTypes.string,
+        customerComment: PropTypes.string,
+        escalationFlag: PropTypes.string,
+        issueBucket: PropTypes.string,
+        issueType: PropTypes.string,
+        orderId: PropTypes.string,
+        productImage: PropTypes.string,
+        productTitle: PropTypes.string,
+        resolutionDate: PropTypes.string,
+        resolvedDate: PropTypes.shape({
+            split: PropTypes.func,
+        }),
+        slaBreach: PropTypes.string,
+        status: PropTypes.string,
+        statusMessage: PropTypes.string,
+        ticketId: PropTypes.string,
+        transactionId: PropTypes.string,
+    }),
+    userName: PropTypes.any,
 };

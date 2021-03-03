@@ -31,5 +31,6 @@ export default class BrandCoupons extends React.Component {
 BrandCoupons.propTypes = {
   label: PropTypes.string,
   time: PropTypes.string,
-  image: PropTypes.string
+  image: PropTypes.string,
+  heading: PropTypes.string
 };

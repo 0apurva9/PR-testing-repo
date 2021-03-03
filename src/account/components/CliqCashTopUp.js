@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { RouterPropTypes } from "../../general/router-prop-types";
 import styles from "./CliqCashDesktop.css";
 import { default as MyAccountStyles } from "./MyAccountDesktop.css";
 import ProfileMenu from "./ProfileMenu";
@@ -15,12 +16,10 @@ import {
 } from "../../lib/constants";
 
 import PropTypes, {
-  array,
   arrayOf,
   string,
   object,
   bool,
-  number
 } from "prop-types";
 import { Redirect } from "react-router-dom";
 import { getCustomerAccessToken } from "../../common/services/common.services";
@@ -29,12 +28,10 @@ import {
   setDataLayerForGiftCard,
   SET_DATA_LAYER_ADD_GIFT_CARD
 } from "../../lib/adobeUtils";
-import BackToCliqCashSection from "./BackToCliqCashSection";
 import Input2 from "../../general/components/Input2";
 import Button from "../../general/components/Button";
 
 import { Link } from "react-router-dom";
-import { getItemBreakUpDetails } from "../../cart/actions/cart.actions";
 import greenLightBulb from "../components/img/greenLightBulb.svg";
 const MINIMUM_PRICE = 10;
 const MAXIMUM_PRICE = 10000;
@@ -49,30 +46,31 @@ export default class CliqCashTopUp extends Component {
     this.state = {
       selectedAmount:
         this.props.location &&
-        this.props.location.state &&
-        this.props.location.state.selectedAmount
+          this.props.location.state &&
+          this.props.location.state.selectedAmount
           ? this.props.location.state.selectedAmount
           : "",
       isValidAmount: true,
       maxPrice:
         this.props.giftCardsDetails &&
-        this.props.giftCardsDetails.topUpOptions &&
-        this.props.giftCardsDetails.topUpOptions.maxPrice &&
-        this.props.giftCardsDetails.topUpOptions.maxPrice &&
-        this.props.giftCardsDetails.topUpOptions.maxPrice.value
+          this.props.giftCardsDetails.topUpOptions &&
+          this.props.giftCardsDetails.topUpOptions.maxPrice &&
+          this.props.giftCardsDetails.topUpOptions.maxPrice &&
+          this.props.giftCardsDetails.topUpOptions.maxPrice.value
           ? this.props.giftCardsDetails.topUpOptions.maxPrice.value
           : MAXIMUM_PRICE,
       minPrice:
         this.props.giftCardsDetails &&
-        this.props.giftCardsDetails.topUpOptions &&
-        this.props.giftCardsDetails.topUpOptions.minPrice &&
-        this.props.giftCardsDetails.topUpOptions.minPrice &&
-        this.props.giftCardsDetails.topUpOptions.minPrice.value
+          this.props.giftCardsDetails.topUpOptions &&
+          this.props.giftCardsDetails.topUpOptions.minPrice &&
+          this.props.giftCardsDetails.topUpOptions.minPrice &&
+          this.props.giftCardsDetails.topUpOptions.minPrice.value
           ? this.props.giftCardsDetails.topUpOptions.minPrice.value
           : MINIMUM_PRICE,
       buyForYourself: true
     };
   }
+
   componentDidMount() {
     this.props.setHeaderText(GIFT_CARD);
     if (this.props.getGiftCardDetails) {
@@ -88,6 +86,7 @@ export default class CliqCashTopUp extends Component {
       this.props.getCliqCashbackDetails(cashbackmode);
     }
   }
+
   selectAmount(amount) {
     if (amount < this.state.minPrice || amount > this.state.maxPrice) {
       this.setState({ selectedAmount: amount, isValidAmount: false });
@@ -107,11 +106,13 @@ export default class CliqCashTopUp extends Component {
       window._satellite.track("cliqCash_Price_card_Click");
     }
   }
+
   navigateToLogin() {
     const url = this.props.location.pathname;
     this.props.setUrlToRedirectToAfterAuth(url);
     return <Redirect to={LOGIN_PATH} />;
   }
+
   showCliqCashModulePopUp = () => {
     setDataLayerForGiftCard(SET_DATA_LAYER_ADD_GIFT_CARD);
     if (this.props.showCliqCashModule) {
@@ -122,11 +123,13 @@ export default class CliqCashTopUp extends Component {
       this.props.showCliqCashModule(obj);
     }
   };
+
   kycVerification = () => {
     if (this.props.showKycVerification) {
       this.props.showKycVerification(this.props);
     }
   };
+
   UNSAFE_componentWillReceiveProps(nextProps) {
     if (nextProps.giftCardDetailsStatus === SUCCESS) {
       let giftCardDetails = {};
@@ -173,7 +176,7 @@ export default class CliqCashTopUp extends Component {
       ) {
         this.props.displayToast(
           `Amount should be greater than ₹${
-            this.state.minPrice
+          this.state.minPrice
           }  and less than ₹${this.state.maxPrice}.`
         );
         return false;
@@ -196,35 +199,25 @@ export default class CliqCashTopUp extends Component {
   }
 
   render() {
-    let userData, fullName, email;
+    let userData;
     const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     const customerAccessToken = getCustomerAccessToken();
-    if (userDetails) {
-      userData = JSON.parse(userDetails);
-      if (userData.firstName === undefined || userData.lastName === undefined) {
-        fullName = "";
-      } else {
-        fullName = userData.firstName + " " + userData.lastName;
-      }
-      email = userData.userName;
-    }
-
     if (!userDetails || !customerAccessToken) {
       return this.navigateToLogin();
     }
 
     let offerDetails =
       this.props &&
-      this.props.location &&
-      this.props.location.state &&
-      this.props.location.state.offerDetails
+        this.props.location &&
+        this.props.location.state &&
+        this.props.location.state.offerDetails
         ? this.props.location.state.offerDetails
         : undefined;
 
     (offerDetails &&
       offerDetails.cashbackMode &&
       offerDetails.cashbackMode === "TOPUP") ||
-    (offerDetails && offerDetails.cashbackMode && offerDetails.cashbackMode) ===
+      (offerDetails && offerDetails.cashbackMode && offerDetails.cashbackMode) ===
       "EGV"
       ? localStorage.setItem("cashback", "enabled")
       : localStorage.setItem("cashback", "disabled");
@@ -250,17 +243,17 @@ export default class CliqCashTopUp extends Component {
                     {"  "}
                     <span className={styles.rupeeTopUp}>₹</span>
                     {this.props &&
-                    this.props.cliqCashUserDetails &&
-                    this.props.cliqCashUserDetails.totalCliqCashBalance &&
-                    this.props.cliqCashUserDetails.totalCliqCashBalance.value &&
-                    this.props.cliqCashUserDetails.totalCliqCashBalance.value >
+                      this.props.cliqCashUserDetails &&
+                      this.props.cliqCashUserDetails.totalCliqCashBalance &&
+                      this.props.cliqCashUserDetails.totalCliqCashBalance.value &&
+                      this.props.cliqCashUserDetails.totalCliqCashBalance.value >
                       0
                       ? parseFloat(
-                          Math.round(
-                            this.props.cliqCashUserDetails.totalCliqCashBalance
-                              .value * 100
-                          ) / 100
-                        ).toLocaleString("hi-IN")
+                        Math.round(
+                          this.props.cliqCashUserDetails.totalCliqCashBalance
+                            .value * 100
+                        ) / 100
+                      ).toLocaleString("hi-IN")
                       : "0"}
                     <span className={styles.floatingNumber}>.00</span>
                   </div>
@@ -323,13 +316,13 @@ export default class CliqCashTopUp extends Component {
                     {RUPEE_SYMBOL}
                   </div>
                 ) : (
-                  ""
-                )}
+                    ""
+                  )}
                 <Input2
                   hollow={true}
                   placeholder={`Or enter an amount between ${RUPEE_SYMBOL}${
                     this.state.minPrice
-                  }-${RUPEE_SYMBOL}${this.state.maxPrice}`}
+                    }-${RUPEE_SYMBOL}${this.state.maxPrice}`}
                   value={this.state.selectedAmount}
                   onChange={amount => this.selectAmount(amount)}
                   textStyle={{ fontSize: 14, letterSpacing: "0.03px" }}
@@ -371,11 +364,11 @@ export default class CliqCashTopUp extends Component {
                   type="primary"
                   disabled={
                     this.state.email === "" ||
-                    this.state.senderName === "" ||
-                    this.state.selectedAmount == "" ||
-                    this.state.selectedAmount < this.state.minPrice ||
-                    this.state.selectedAmount > this.state.maxPrice ||
-                    this.state.isValidAmount === false
+                      this.state.senderName === "" ||
+                      this.state.selectedAmount == "" ||
+                      this.state.selectedAmount < this.state.minPrice ||
+                      this.state.selectedAmount > this.state.maxPrice ||
+                      this.state.isValidAmount === false
                       ? true
                       : false
                   }
@@ -437,22 +430,33 @@ CliqCashTopUp.propTypes = {
     ),
     status: string
   }),
-  history: PropTypes.object,
   setUrlToRedirectToAfterAuth: PropTypes.func.isRequired,
-  location: PropTypes.object,
   setHeaderText: PropTypes.func.isRequired,
   getGiftCardDetails: PropTypes.func.isRequired,
   giftCardsDetails: PropTypes.shape({
-    landingPageOptions: PropTypes.shape({
-      option: array,
+    topUpOptions: PropTypes.shape({
       maxPrice: PropTypes.shape({
-        value: number
+        value: PropTypes.number
       }),
-      mixPrice: PropTypes.shape({
-        value: number
-      })
-    })
+      minPrice: PropTypes.shape({
+        value: PropTypes.number
+      }),
+    }),
   }),
   showCliqCashModule: PropTypes.func,
-  showKycVerification: PropTypes.func
+  showKycVerification: PropTypes.func,
+  getCliqCashbackDetails: PropTypes.func,
+  createGiftCardDetails: PropTypes.func,
+  displayToast: PropTypes.func,
+  fullName: PropTypes.string,
+  email: PropTypes.string,
+  cliqCashbackDetails: PropTypes.shape({
+    cashbackOffers: PropTypes.array
+  }),
+  cliqCashUserDetails: PropTypes.shape({
+    totalCliqCashBalance: PropTypes.shape({
+      value: PropTypes.number,
+    })
+  }),
+  ...RouterPropTypes
 };

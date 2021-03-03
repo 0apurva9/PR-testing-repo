@@ -11,11 +11,13 @@ export default class OrderReturn extends React.Component {
       this.props.replaceItem();
     }
   }
+
   writeReview() {
     if (this.props.writeReview) {
       this.props.writeReview();
     }
   }
+
   render() {
     return (
       <React.Fragment>

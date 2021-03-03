@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import styles from "./TermsNConditionsModal.css";
 import ArrowBack from "../../general/components/img/TNCArrow.svg";
@@ -10,6 +9,7 @@ export default class TermsNCondtionsModal extends React.Component {
     newDate = newDate[0];
     return newDate;
   }
+
   // componentDidMount() {
   //   const myDomNode = ReactDOM.findDOMNode(this.refs[this.props.selectedOffer]);
   //   myDomNode.scrollIntoView();
@@ -27,6 +27,7 @@ export default class TermsNCondtionsModal extends React.Component {
   createMarkup = input => {
     return { __html: input };
   };
+
   render() {
     let offer = this.props.selectedOffer;
     return (
@@ -98,5 +99,11 @@ TermsNCondtionsModal.propTypes = {
     messageDetails: PropTypes.string,
     endDate: PropTypes.string,
     startDate: PropTypes.string
-  })
+  }),
+  closeModal: PropTypes.func,
+  selectedOffer: PropTypes.object,
+  showVoucherModal: PropTypes.bool,
+  offers: PropTypes.bool,
+  productDetails: PropTypes.bool,
+  showDetails: PropTypes.object,
 };

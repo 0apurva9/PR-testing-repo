@@ -20,6 +20,7 @@ class SaveAndSecure extends React.Component {
     const urlSuffix = url.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
   };
+
   render() {
     return (
       <div className={styles.base}>

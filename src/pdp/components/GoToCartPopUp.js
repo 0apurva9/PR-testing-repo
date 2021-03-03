@@ -12,12 +12,14 @@ export default class GoToCartPopUp extends React.Component {
       this.props.goToCartPage(this.props.code);
     }
   }
+
   goToHomePage() {
     setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING);
     if (this.props.goToHomePage) {
       this.props.goToHomePage();
     }
   }
+
   render() {
     return (
       <BottomSlideModal>

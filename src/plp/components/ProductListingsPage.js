@@ -20,6 +20,7 @@ import {
 } from "./PlpBrandCategoryWrapper.js";
 import { setDataLayer, ADOBE_PLP_TYPE, ICID2, CID } from "../../lib/adobeUtils";
 import { isBrowser } from "browser-or-node";
+import * as Cookie from "../../lib/Cookie";
 
 const OUT_OF_STOCK_FLAG = "inStockFlag";
 const SEARCH_CATEGORY_TO_IGNORE = "all";
@@ -30,12 +31,14 @@ const MAX_PRICE_FROM_API = "and Above";
 const MAX_PRICE_FROM_API_2 = "Greater than";
 const MAX_PRICE_FROM_UI = "-₹9,999,999";
 const CATEGORY_TEXT = "category";
+const DEFAULT_PLP_VIEW = "defaultPlpView";
 
 class ProductListingsPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isVirtualPageLoaded: false
+      isVirtualPageLoaded: false,
+      defaultViewData: []
     };
   }
 
@@ -255,6 +258,7 @@ class ProductListingsPage extends Component {
     }
     return encodeURIComponent(searchText);
   }
+
   getCategoryId(searchText = "") {
     searchText = decodeURIComponent(searchText);
     let searchParts = searchText.split(":");
@@ -264,7 +268,18 @@ class ProductListingsPage extends Component {
     }
     return "";
   }
+
   componentDidMount() {
+    const defaultViewCookie = Cookie.getCookie(DEFAULT_PLP_VIEW);
+
+    if (!defaultViewCookie) {
+      if (this.props.getDefaultPlpView) {
+        this.props.getDefaultPlpView();
+      }
+    } else {
+      this.setState({ defaultViewData: JSON.parse(defaultViewCookie) });
+    }
+
     if (
       this.props.location.state &&
       this.props.location.state.disableSerpSearch === true
@@ -404,7 +419,6 @@ class ProductListingsPage extends Component {
       return;
     }
     if (this.props.location.state && !this.props.location.state.isFilter) {
-      let component = "DirectSearch";
       const searchText = this.getSearchTextFromUrl();
       const pageMatch = PAGE_REGEX.exec(this.props.location.pathname);
       if (pageMatch) {
@@ -421,27 +435,31 @@ class ProductListingsPage extends Component {
         page = pageMatch[1] ? pageMatch[1] : 1;
         page = page - 1;
       }
-      this.props.getProductListings(searchText, SUFFIX, page);
+
+      let suffix = SUFFIX;
+      const parsedQueryString = queryString.parse(this.props.location.search);
+      if (parsedQueryString.text) {
+        suffix = `${suffix}&qc=true&test=v2`;
+      }
+
+      this.props.getProductListings(searchText, suffix, page);
       return;
     }
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (nextProps.urlString !== this.props.urlString && nextProps.urlString) {
-  //     if (
-  //       nextProps.urlString.includes("https") ||
-  //       nextProps.urlString.includes("http")
-  //     ) {
-  //       window.location.href = nextProps.urlString;
-  //     } else {
-  //       this.props.history.push(nextProps.urlString, {
-  //         isFilter: false
-  //       });
-  //     }
-  //   }
-  // }
-
   componentDidUpdate(prevProps) {
+    const defaultViewCookie = Cookie.getCookie(DEFAULT_PLP_VIEW);
+
+    if (!defaultViewCookie) {
+      if (this.props.getDefaultPlpView) {
+        this.props.getDefaultPlpView();
+      }
+    } else {
+      if (this.state.defaultViewData && this.state.defaultViewData.length < 1) {
+        this.setState({ defaultViewData: JSON.parse(defaultViewCookie) });
+      }
+    }
+
     if (
       !this.props.urlString &&
       this.props.lastVisitedPlpUrl === window.location.href
@@ -459,8 +477,8 @@ class ProductListingsPage extends Component {
       return;
     }
     if (this.props.urlString) {
-      let windowLocation = window.location.href.replace(/^.*\/\/[^\/]+/, "");
-      let newUrlString = this.props.urlString.replace(/^.*\/\/[^\/]+/, "");
+      let windowLocation = window.location.href.replace(/^.*\/\/[^\\/]+/, "");
+      let newUrlString = this.props.urlString.replace(/^.*\/\/[^\\/]+/, "");
       if (
         this.props.urlString &&
         windowLocation !== newUrlString &&
@@ -471,7 +489,7 @@ class ProductListingsPage extends Component {
           this.props.urlString.includes("http")
         ) {
           let urlString = this.props.urlString;
-          urlString = urlString.replace(/^.*\/\/[^\/]+/, "");
+          urlString = urlString.replace(/^.*\/\/[^\\/]+/, "");
           this.props.history.replace(urlString);
         }
       }
@@ -480,7 +498,6 @@ class ProductListingsPage extends Component {
     if (this.props.location.search !== prevProps.location.search) {
       let page = 0;
       if (this.props.match.path === SKU_PAGE) {
-        const skuId = this.props.match.params.slug;
         const searchText = this.getSearchTextFromUrl();
         this.props.getProductListings(searchText, SKU_SUFFIX, 0);
         return;
@@ -580,6 +597,7 @@ class ProductListingsPage extends Component {
         onFilterClick={this.onFilterClick}
         isFilter={isFilter}
         urlString={this.props.urlString}
+        defaultViewData={this.state.defaultViewData}
       />
     );
   }

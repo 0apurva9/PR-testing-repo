@@ -1,40 +1,10 @@
 import React from "react";
 import CarouselWithControls from "../../general/components/CarouselWithControls.js";
-import Carousel from "../../general/components/Carousel";
 import ProductModule from "../../general/components/ProductModule.js";
-import ProductImageHeader from "../../general/components/ProductImageHeader.js";
-import MobileOnly from "../../general/components/MobileOnly.js";
-import UnderLinedButton from "../../general/components/UnderLinedButton.js";
-import Logo from "../../general/components/Logo";
-import DesktopOnly from "../../general/components/DesktopOnly.js";
 import { transformData } from "../../home/components/utils.js";
-import Button from "../../general/components/Button.js";
 import { withRouter } from "react-router-dom";
-import Observer from "@researchgate/react-intersection-observer";
 import CommonCenter from "../../general/components/CommonCenter";
-import {
-  ABOUT_THE_BRAND_WIDGET_KEY,
-  SIMILAR_PRODUCTS_WIDGET_KEY
-} from "../../pdp/actions/pdp.actions.js";
-import { FollowUnFollowButtonContainer } from "../../pdp/containers/FollowUnFollowButtonContainer";
 import styles from "./AutomatedWidgetsForHome.css";
-import {
-  PDP_FOLLOW_AND_UN_FOLLOW,
-  PRODUCT_DESCRIPTION_PRODUCT_CODE,
-  PRODUCT_DESCRIPTION_SLUG_PRODUCT_CODE,
-  RUPEE_SYMBOL
-} from "../../lib/constants.js";
-import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
-import {
-  setDataLayerForVisitBrand,
-  getDigitalDataForPdp,
-  SIMILAR_PRODUCTS_PDP_WIDGET,
-  setDataLayerForMsdItemWidgets,
-  ADOBE_CAROUSEL_CLICK,
-  ADOBE_CAROUSEL_SHOW,
-  widgetsTrackingForRecommendation
-} from "../../lib/adobeUtils.js";
-import { automatedWidgetsForHome } from "../actions/home.actions.js";
 
 // only want to kick off a request for the MSD stuff if they are visible.
 

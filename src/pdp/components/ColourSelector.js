@@ -12,7 +12,8 @@ export default class ColourSelector extends React.Component {
       displayColour: this.props.selected ? this.props.selected[0] : [""]
     };
   }
-  updateColour(productUrl, selectedColourUrl, currentColour) {
+
+  updateColour(productUrl, selectedColourUrl) {
     if (selectedColourUrl !== productUrl) {
       if (
         this.props.history.location.state &&
@@ -27,6 +28,7 @@ export default class ColourSelector extends React.Component {
       }
     }
   }
+
   renderColours(datum, i, selectedColourUrl) {
     return (
       <ColourSelect
@@ -40,6 +42,7 @@ export default class ColourSelector extends React.Component {
       />
     );
   }
+
   render() {
     const selectedSize = this.props.data.filter(val => {
       return val.sizelink.productCode === this.props.productId;
@@ -90,7 +93,7 @@ export default class ColourSelector extends React.Component {
             <div className={styles.colorHolder}>
               {colors.map((datum, i) => {
                 return (
-                  <div className={styles.colour}>
+                  <div className={styles.colour} key = {i}>
                     {this.renderColours(datum, i, selectedColourUrl)}
                   </div>
                 );
@@ -113,5 +116,7 @@ ColourSelector.propTypes = {
       color: PropTypes.string,
       hexCode: PropTypes.string
     })
-  )
+  ),
+  selected: PropTypes.array,
+  history: PropTypes.object
 };

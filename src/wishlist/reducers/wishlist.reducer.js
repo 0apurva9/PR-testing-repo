@@ -1,6 +1,5 @@
 import cloneDeep from "lodash.clonedeep";
 import * as wishlistActions from "../actions/wishlist.actions";
-import { SUCCESS } from "../../lib/constants";
 import { CLEAR_ERROR } from "../../general/error.actions.js";
 const wishlistItems = (
   state = {
@@ -11,11 +10,16 @@ const wishlistItems = (
     loading: false,
     status: null,
     error: null,
-    loadingForAddProductToWishList: null
+    loadingForAddProductToWishList: null,
+
+    addAllProdToWishlistStatus: null,
+    addAllProdToWishlistLoading: false,
+    addAllProdToWishlistError: null,
+    addAllProdToWishlist: null
   },
   action
 ) => {
-  let currentWishlistItems, indexToBeRemove;
+  let currentWishlistItems;
   switch (action.type) {
     case CLEAR_ERROR:
       return Object.assign({}, state, {
@@ -59,6 +63,23 @@ const wishlistItems = (
         status: action.status,
         loading: false,
         removeItemError: action.error
+      });
+    case wishlistActions.ADD_ALL_PRODUCT_TO_WISH_LIST_REQUEST:
+      return Object.assign({}, state, {
+        addAllProdToWishlistStatus: action.status,
+        addAllProdToWishlistLoading: true
+      });
+    case wishlistActions.ADD_ALL_PRODUCT_TO_WISH_LIST_SUCCESS:
+      return Object.assign({}, state, {
+        addAllProdToWishlistStatus: action.status,
+        addAllProdToWishlistLoading: false,
+        addAllProdToWishlist: action.error
+      });
+    case wishlistActions.ADD_ALL_PRODUCT_TO_WISH_LIST_FAILURE:
+      return Object.assign({}, state, {
+        addAllProdToWishlistStatus: action.status,
+        addAllProdToWishlistLoading: false,
+        addAllProdToWishlistError: action.error
       });
     case wishlistActions.GET_WISH_LIST_ITEMS_FAILURE:
       return Object.assign({}, state, {

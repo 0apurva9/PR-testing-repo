@@ -13,7 +13,6 @@ export default class OffersComponent extends React.Component {
   }
 
   render() {
-    const productDetails = this.props && this.props.productDetails;
     let offers = [];
     let offersTobeShown = [];
     offers = [...(this.props && this.props.offers)];

@@ -4,352 +4,310 @@ import Button from "../../general/components/Button.js";
 import styles from "./InvalidCouponPopUp.css";
 import queryString from "query-string";
 import {
-  FAILURE_LOWERCASE,
-  SUCCESS,
-  INVALID_NO_COST_EMI_TYPE,
-  NO_COST_EMI_COUPON,
-  BANK_COUPON_COOKIE,
-  COUPON_COOKIE,
-  BANK_OFFER_TYPE,
-  NCE_OFFER_TYPE,
-  OFFER_ERROR_PAYMENT_MODE_TYPE
+    FAILURE_LOWERCASE,
+    SUCCESS,
+    INVALID_NO_COST_EMI_TYPE,
+    NO_COST_EMI_COUPON,
+    BANK_COUPON_COOKIE,
+    COUPON_COOKIE,
+    BANK_OFFER_TYPE,
+    NCE_OFFER_TYPE,
+    OFFER_ERROR_PAYMENT_MODE_TYPE,
 } from "../../lib/constants";
 import { BANK_OFFERS } from "../../general/modal.actions.js";
-const ERROR_CODE_FOR_BANK_OFFER_INVALID_3 = "B9599";
+import { RouterPropTypes } from "../../general/router-prop-types";
+
 export default class ValidateOffersPopUp extends React.Component {
-  getBanksList(bankDetail) {
-    if (bankDetail) {
-      return bankDetail
-        .map(bank => {
-          return bank.bankName;
-        })
-        .join(", ");
-    } else {
-      return "";
-    }
-  }
-  getPaymentModesList(paymentModes) {
-    return (
-      paymentModes &&
-      paymentModes.map(payment => {
-        if (payment.mode == "UPI Intent") {
-          return "UPI Apps";
+    getBanksList(bankDetail) {
+        if (bankDetail) {
+            return bankDetail
+                .map(bank => {
+                    return bank.bankName;
+                })
+                .join(", ");
         } else {
-          return payment.mode;
+            return "";
         }
-      })
-    );
-  }
-  getInvalidUserCouponTemplate(couponResponse) {
-    let coupon = "";
-    let couponOffer = `Coupon code ${
-      couponResponse.couponCode ? couponResponse.couponCode : ""
-    } is valid for ${this.getBanksList(
-      couponResponse.bankDetails
-    )} ${this.getPaymentModesList(couponResponse.paymentModes)} transactions`;
+    }
 
-    couponOffer.length > 195
-      ? (coupon =
-          `Coupon code ${
+    getPaymentModesList(paymentModes) {
+        return (
+            paymentModes &&
+            paymentModes.map(payment => {
+                if (payment.mode == "UPI Intent") {
+                    return "UPI Apps";
+                } else {
+                    return payment.mode;
+                }
+            })
+        );
+    }
+
+    getInvalidUserCouponTemplate(couponResponse) {
+        let coupon = "";
+        let couponOffer = `Coupon code ${
             couponResponse.couponCode ? couponResponse.couponCode : ""
-          } is valid for ${this.getBanksList(
-            couponResponse.bankDetails
-          )} ${this.getPaymentModesList(
+        } is valid for ${this.getBanksList(couponResponse.bankDetails)} ${this.getPaymentModesList(
             couponResponse.paymentModes
-          )} transactions`.slice(0, 195) + "...")
-      : `Coupon code ${
-          couponResponse.couponCode ? couponResponse.couponCode : ""
-        } is valid for ${this.getBanksList(
-          couponResponse.bankDetails
-        )} ${this.getPaymentModesList(
-          couponResponse.paymentModes
         )} transactions`;
-    return coupon;
-  }
-  getInvalidBankOfferTemplate(couponResponse) {
-    let bankOfferMessage = "";
-    let bank = `The ${
-      couponResponse.couponCode ? couponResponse.couponCode : ""
-    } is valid for ${this.getBanksList(
-      couponResponse.bankDetails
-    )} ${this.getPaymentModesList(couponResponse.paymentModes)} transactions`;
 
-    bank.length < 195
-      ? (bankOfferMessage = `The ${
-          couponResponse.couponCode ? couponResponse.couponCode : ""
-        } is valid for ${this.getBanksList(couponResponse.bankDetails)}
-     ${this.getPaymentModesList(couponResponse.paymentModes)} transactions`)
-      : (bankOfferMessage =
-          `The ${
-            couponResponse.couponCode ? couponResponse.couponCode : ""
-          } is valid for ${this.getBanksList(
+        couponOffer.length > 195
+            ? (coupon =
+                  `Coupon code ${
+                      couponResponse.couponCode ? couponResponse.couponCode : ""
+                  } is valid for ${this.getBanksList(couponResponse.bankDetails)} ${this.getPaymentModesList(
+                      couponResponse.paymentModes
+                  )} transactions`.slice(0, 195) + "...")
+            : `Coupon code ${
+                  couponResponse.couponCode ? couponResponse.couponCode : ""
+              } is valid for ${this.getBanksList(couponResponse.bankDetails)} ${this.getPaymentModesList(
+                  couponResponse.paymentModes
+              )} transactions`;
+        return coupon;
+    }
+
+    getInvalidBankOfferTemplate(couponResponse) {
+        let bankOfferMessage = "";
+        let bank = `The ${couponResponse.couponCode ? couponResponse.couponCode : ""} is valid for ${this.getBanksList(
             couponResponse.bankDetails
-          )} ${this.getPaymentModesList(
-            couponResponse.paymentModes
-          )} transactions`.slice(0, 195) + "...");
+        )} ${this.getPaymentModesList(couponResponse.paymentModes)} transactions`;
 
-    return bankOfferMessage;
-  }
+        bank.length < 195
+            ? (bankOfferMessage = `The ${
+                  couponResponse.couponCode ? couponResponse.couponCode : ""
+              } is valid for ${this.getBanksList(couponResponse.bankDetails)}
+     ${this.getPaymentModesList(couponResponse.paymentModes)} transactions`)
+            : (bankOfferMessage =
+                  `The ${couponResponse.couponCode ? couponResponse.couponCode : ""} is valid for ${this.getBanksList(
+                      couponResponse.bankDetails
+                  )} ${this.getPaymentModesList(couponResponse.paymentModes)} transactions`.slice(0, 195) + "...");
 
-  getInvalidNCEOfferTemplate(couponResponse) {
-    return `The No Cost Emi offer is valid only for ${
-      couponResponse.bankDetails
-        ? this.getBanksList(couponResponse.bankDetails)
-        : ""
-    }`;
-  }
+        return bankOfferMessage;
+    }
 
-  getValidBankOfferTemplate() {
-    let couponCodeObj =
-      this.props.bankOffers && this.props.bankOffers.coupons
-        ? this.props.bankOffers.coupons.find(coupon => {
-            return coupon.offerCode === this.props.couponCode;
-          })
-        : {};
-    let couponOfferMessage = "";
-    let coupon = `The ${
-      this.props.couponCode ? this.props.couponCode : ""
-    } is valid only on ${this.getBanksList(
-      couponCodeObj.bankDetails
-    )} ${this.getPaymentModesList(couponCodeObj.paymentModes)} transactions`;
+    getInvalidNCEOfferTemplate(couponResponse) {
+        return `The No Cost Emi offer is valid only for ${
+            couponResponse.bankDetails ? this.getBanksList(couponResponse.bankDetails) : ""
+        }`;
+    }
 
-    coupon.length < 185
-      ? (couponOfferMessage = `The ${
-          this.props.couponCode ? this.props.couponCode : ""
-        } is valid only on ${this.getBanksList(
-          couponCodeObj.bankDetails
-        )} ${this.getPaymentModesList(
-          couponCodeObj.paymentModes
-        )} transactions`)
-      : (couponOfferMessage =
-          `The ${
-            this.props.couponCode ? this.props.couponCode : ""
-          } is valid only on ${this.getBanksList(
+    getValidBankOfferTemplate() {
+        let couponCodeObj =
+            this.props.bankOffers && this.props.bankOffers.coupons
+                ? this.props.bankOffers.coupons.find(coupon => {
+                      return coupon.offerCode === this.props.couponCode;
+                  })
+                : {};
+        let couponOfferMessage = "";
+        let coupon = `The ${this.props.couponCode ? this.props.couponCode : ""} is valid only on ${this.getBanksList(
             couponCodeObj.bankDetails
-          )} ${this.getPaymentModesList(
-            couponCodeObj.paymentModes
-          )} transactions`.slice(0, 185) + "...");
+        )} ${this.getPaymentModesList(couponCodeObj.paymentModes)} transactions`;
 
-    return couponOfferMessage;
-  }
-  getValidNCEOfferTemplate() {
-    let couponCodeObj =
-      this.props.nceOffers && this.props.nceOffers.bankList
-        ? this.props.nceOffers.bankList.find(coupon => {
-            return (
-              coupon.noCostEMICouponList &&
-              coupon.noCostEMICouponList.find(nce => {
-                return nce.emicouponCode === this.props.couponCode;
-              })
-            );
-          })
-        : {};
-    return `The No Cost EMI offer is valid only on ${
-      couponCodeObj && couponCodeObj.bankName ? couponCodeObj.bankName : ""
-    }.`;
-  }
+        coupon.length < 185
+            ? (couponOfferMessage = `The ${
+                  this.props.couponCode ? this.props.couponCode : ""
+              } is valid only on ${this.getBanksList(couponCodeObj.bankDetails)} ${this.getPaymentModesList(
+                  couponCodeObj.paymentModes
+              )} transactions`)
+            : (couponOfferMessage =
+                  `The ${this.props.couponCode ? this.props.couponCode : ""} is valid only on ${this.getBanksList(
+                      couponCodeObj.bankDetails
+                  )} ${this.getPaymentModesList(couponCodeObj.paymentModes)} transactions`.slice(0, 185) + "...");
 
-  async changePaymentMethod() {
-    if (
-      this.props &&
-      this.props.location &&
-      this.props.location.state &&
-      this.props.location.state.isFromRetryUrl
-    ) {
-      this.props.closeModal();
-    } else {
-      if (this.props.offerType === BANK_OFFER_TYPE) {
-        this.props.showModal(BANK_OFFERS, { coupons: this.props.bankOffers });
-      } else if (this.props.offerType === NCE_OFFER_TYPE) {
-        this.props.changePaymentMethod();
-      } else if (this.props.offerType === OFFER_ERROR_PAYMENT_MODE_TYPE) {
-        this.props.closeModal();
-        const noCostEmiCoupon = localStorage.getItem(NO_COST_EMI_COUPON);
-        if (noCostEmiCoupon) {
-          await this.props.releaseNoCostEmiCoupon(noCostEmiCoupon);
-        }
-        this.props.resetAllPaymentModes();
-      }
+        return couponOfferMessage;
     }
-  }
-  async continueWithoutCoupon() {
-    let releaseStatus = {};
-    const bankCouponCode = localStorage.getItem(BANK_COUPON_COOKIE);
-    const userCouponCode = localStorage.getItem(COUPON_COOKIE);
-    const noCostEmiCoupon = localStorage.getItem(NO_COST_EMI_COUPON);
-    const parsedQueryString = queryString.parse(this.props.location.search);
-    const isPaymentFailureCase = parsedQueryString.status;
-    if (
-      this.props.result &&
-      this.props.result.noCostEMI &&
-      Object.keys(this.props.result.noCostEMI).length > 0
-    ) {
-      this.props.resetAllPaymentModes();
+
+    getValidNCEOfferTemplate() {
+        let couponCodeObj =
+            this.props.nceOffers && this.props.nceOffers.bankList
+                ? this.props.nceOffers.bankList.find(coupon => {
+                      return (
+                          coupon.noCostEMICouponList &&
+                          coupon.noCostEMICouponList.find(nce => {
+                              return nce.emicouponCode === this.props.couponCode;
+                          })
+                      );
+                  })
+                : {};
+        return `The No Cost EMI offer is valid only on ${
+            couponCodeObj && couponCodeObj.bankName ? couponCodeObj.bankName : ""
+        }.`;
     }
-    if (this.props.result && this.props.result.userCoupon) {
-      if (noCostEmiCoupon) {
-        releaseStatus = await this.props.releaseNoCostEmiCoupon(
-          noCostEmiCoupon
-        );
-      }
-      if (!releaseStatus.status || releaseStatus.status === SUCCESS) {
-        if (bankCouponCode) {
-          releaseStatus = await this.props.releaseBankOffer(bankCouponCode);
-        }
-      }
-      if (!releaseStatus.status || releaseStatus.status === SUCCESS) {
+
+    async changePaymentMethod() {
         if (
-          this.props.result.userCoupon &&
-          this.props.result.userCoupon.couponCode &&
-          !isPaymentFailureCase
+            this.props &&
+            this.props.location &&
+            this.props.location.state &&
+            this.props.location.state.isFromRetryUrl
         ) {
-          releaseStatus = await this.props.releaseUserCoupon(
-            this.props.result.userCoupon.couponCode
-          );
-        } else if (
-          this.props.result.userCoupon &&
-          this.props.result.userCoupon.couponCode
-        ) {
-          releaseStatus = await this.props.releaseUserCoupon(
-            this.props.result.userCoupon.couponCode
-          );
-          this.props.closeModal();
+            this.props.closeModal();
+        } else {
+            if (this.props.offerType === BANK_OFFER_TYPE) {
+                this.props.showModal(BANK_OFFERS, { coupons: this.props.bankOffers });
+            } else if (this.props.offerType === NCE_OFFER_TYPE) {
+                this.props.changePaymentMethod();
+            } else if (this.props.offerType === OFFER_ERROR_PAYMENT_MODE_TYPE) {
+                this.props.closeModal();
+                const noCostEmiCoupon = localStorage.getItem(NO_COST_EMI_COUPON);
+                if (noCostEmiCoupon) {
+                    await this.props.releaseNoCostEmiCoupon(noCostEmiCoupon);
+                }
+                this.props.resetAllPaymentModes();
+            }
         }
-      }
-    } else if (this.props.result && this.props.result.bankOffer) {
-      if (noCostEmiCoupon) {
-        releaseStatus = await this.props.releaseNoCostEmiCoupon(
-          noCostEmiCoupon
-        );
-      }
-      if (!releaseStatus.status || releaseStatus.status === SUCCESS) {
-        if (bankCouponCode) {
-          releaseStatus = await this.props.releaseBankOffer(bankCouponCode);
-        }
-      }
-    } else if (this.props.result && this.props.result.noCostEmiCoupon) {
-      if (
-        this.props.result.noCostEmiCoupon.couponType ===
-        INVALID_NO_COST_EMI_TYPE
-      ) {
-        releaseStatus = await this.props.releaseNoCostEmiCoupon(
-          noCostEmiCoupon
-        );
-      }
-    }
-    if (
-      this.props.result &&
-      !this.props.result.userCoupon &&
-      !this.props.result.bankOffer &&
-      !this.props.result.noCostEmiCoupon
-    ) {
-      if (noCostEmiCoupon) {
-        releaseStatus = await this.props.releaseNoCostEmiCoupon(
-          noCostEmiCoupon
-        );
-      }
-      if (!releaseStatus.status || releaseStatus.status === SUCCESS) {
-        if (bankCouponCode) {
-          releaseStatus = await this.props.releaseBankOffer(bankCouponCode);
-        }
-      }
-      if (!releaseStatus.status || releaseStatus.status === SUCCESS) {
-        if (userCouponCode && !isPaymentFailureCase) {
-          releaseStatus = await this.props.releaseUserCoupon(userCouponCode);
-        }
-      }
-      if (!releaseStatus.status || releaseStatus.status === SUCCESS) {
-        localStorage.removeItem(BANK_COUPON_COOKIE);
-        localStorage.removeItem(COUPON_COOKIE);
-        if (this.props.redoCall) {
-          this.props.redoCall();
-        }
-        this.props.closeModal();
-      }
-    }
-    if (releaseStatus.status === SUCCESS) {
-      if (this.props.redoCall) {
-        this.props.redoCall();
-      }
-      this.props.closeModal();
-    }
-  }
-  componentWillUnmount() {
-    document.body.style.pointerEvents = "auto";
-  }
-  render() {
-    let Retryoffer;
-    if (
-      (this.props &&
-        this.props.location &&
-        this.props.location.state &&
-        this.props.location.state.isFromRetryUrl) ||
-      this.props.location.pathname.includes("payment-method")
-    ) {
-      Retryoffer = false;
-    } else {
-      Retryoffer = true;
     }
 
-    document.body.style.pointerEvents = "none";
-    const parsedQueryString = queryString.parse(this.props.location.search);
-    const isPaymentFailureCase = parsedQueryString.status;
-    const data = this.props.result;
-    let labelForFirstButton = "Change Payment Mode";
-    let labelForSecondButton = "Continue without offers";
-    let popUpHeading = "Different Payment Method";
-    if (this.props.offerType === BANK_OFFER_TYPE) {
-      labelForFirstButton = "Choose another bank offer";
-      labelForSecondButton = "Continue without offer";
-      popUpHeading = "Unable to apply bank offer";
-    } else if (this.props.offerType === NCE_OFFER_TYPE) {
-      labelForFirstButton = "Choose another No Cost EMI";
-      labelForSecondButton = "Continue without offers";
-      popUpHeading = "Unable to apply No Cost EMI";
+    async continueWithoutCoupon() {
+        let releaseStatus = {};
+        const bankCouponCode = localStorage.getItem(BANK_COUPON_COOKIE);
+        const userCouponCode = localStorage.getItem(COUPON_COOKIE);
+        const noCostEmiCoupon = localStorage.getItem(NO_COST_EMI_COUPON);
+        const parsedQueryString = queryString.parse(this.props.location.search);
+        const isPaymentFailureCase = parsedQueryString.status;
+        if (this.props.result && this.props.result.noCostEMI && Object.keys(this.props.result.noCostEMI).length > 0) {
+            this.props.resetAllPaymentModes();
+        }
+        if (this.props.result && this.props.result.userCoupon) {
+            if (noCostEmiCoupon) {
+                releaseStatus = await this.props.releaseNoCostEmiCoupon(noCostEmiCoupon);
+            }
+            if (!releaseStatus.status || releaseStatus.status === SUCCESS) {
+                if (bankCouponCode) {
+                    releaseStatus = await this.props.releaseBankOffer(bankCouponCode);
+                }
+            }
+            if (!releaseStatus.status || releaseStatus.status === SUCCESS) {
+                if (this.props.result.userCoupon && this.props.result.userCoupon.couponCode && !isPaymentFailureCase) {
+                    releaseStatus = await this.props.releaseUserCoupon(this.props.result.userCoupon.couponCode);
+                } else if (this.props.result.userCoupon && this.props.result.userCoupon.couponCode) {
+                    releaseStatus = await this.props.releaseUserCoupon(this.props.result.userCoupon.couponCode);
+                    this.props.closeModal();
+                }
+            }
+        } else if (this.props.result && this.props.result.bankOffer) {
+            if (noCostEmiCoupon) {
+                releaseStatus = await this.props.releaseNoCostEmiCoupon(noCostEmiCoupon);
+            }
+            if (!releaseStatus.status || releaseStatus.status === SUCCESS) {
+                if (bankCouponCode) {
+                    releaseStatus = await this.props.releaseBankOffer(bankCouponCode);
+                }
+            }
+        } else if (this.props.result && this.props.result.noCostEmiCoupon) {
+            if (this.props.result.noCostEmiCoupon.couponType === INVALID_NO_COST_EMI_TYPE) {
+                releaseStatus = await this.props.releaseNoCostEmiCoupon(noCostEmiCoupon);
+            }
+        }
+        if (
+            this.props.result &&
+            !this.props.result.userCoupon &&
+            !this.props.result.bankOffer &&
+            !this.props.result.noCostEmiCoupon
+        ) {
+            if (noCostEmiCoupon) {
+                releaseStatus = await this.props.releaseNoCostEmiCoupon(noCostEmiCoupon);
+            }
+            if (!releaseStatus.status || releaseStatus.status === SUCCESS) {
+                if (bankCouponCode) {
+                    releaseStatus = await this.props.releaseBankOffer(bankCouponCode);
+                }
+            }
+            if (!releaseStatus.status || releaseStatus.status === SUCCESS) {
+                if (userCouponCode && !isPaymentFailureCase) {
+                    releaseStatus = await this.props.releaseUserCoupon(userCouponCode);
+                }
+            }
+            if (!releaseStatus.status || releaseStatus.status === SUCCESS) {
+                localStorage.removeItem(BANK_COUPON_COOKIE);
+                localStorage.removeItem(COUPON_COOKIE);
+                if (this.props.redoCall) {
+                    this.props.redoCall();
+                }
+                this.props.closeModal();
+            }
+        }
+        if (releaseStatus.status === SUCCESS) {
+            if (this.props.redoCall) {
+                this.props.redoCall();
+            }
+            this.props.closeModal();
+        }
     }
-    return (
-      <div className={styles.base}>
-        <div className={styles.paymentMethodDescription}>
-          <div className={styles.headingText}>{popUpHeading}</div>
-          <div className={styles.descriptionText}>
-            <div className={styles.invalidCouponHeading}>
-              {this.props.result.couponMessage
-                ? this.props.result.couponMessage
-                : this.props.result.error
-                ? this.props.result.error
-                : ""}
-            </div>
-            {this.props.offerType === BANK_OFFER_TYPE && (
-              <div className={styles.invalidCouponHeading}>
-                {this.getValidBankOfferTemplate()}
-              </div>
-            )}
-            {this.props.offerType === NCE_OFFER_TYPE && (
-              <div className={styles.invalidCouponHeading}>
-                {this.getValidNCEOfferTemplate()}
-              </div>
-            )}
-            {data && data.userCoupon && data.userCoupon && (
-              <div className={styles.invalidCouponHeading}>
-                {this.getInvalidUserCouponTemplate(data.userCoupon)}
-              </div>
-            )}
-            {data && data.bankOffer && data.bankOffer && (
-              <div className={styles.invalidCouponHeading}>
-                {this.getInvalidBankOfferTemplate(data.bankOffer)}
-              </div>
-            )}
-            {data && data.noCostEmiCoupon && data.noCostEmiCoupon && (
-              <div className={styles.invalidCouponHeading}>
-                {this.getInvalidNCEOfferTemplate(data.noCostEmiCoupon)}
-              </div>
-            )}
-            {data && data.noCostEMI && data.noCostEMI && (
-              <div className={styles.invalidCouponHeading}>
-                {this.getInvalidNCEOfferTemplate(data.noCostEMI)}
-              </div>
-            )}
-            {/* {data &&
+
+    componentWillUnmount() {
+        document.body.style.pointerEvents = "auto";
+    }
+
+    render() {
+        let Retryoffer;
+        if (
+            (this.props &&
+                this.props.location &&
+                this.props.location.state &&
+                this.props.location.state.isFromRetryUrl) ||
+            this.props.location.pathname.includes("payment-method")
+        ) {
+            Retryoffer = false;
+        } else {
+            Retryoffer = true;
+        }
+
+        document.body.style.pointerEvents = "none";
+        const parsedQueryString = queryString.parse(this.props.location.search);
+        const isPaymentFailureCase = parsedQueryString.status;
+        const data = this.props.result;
+        let labelForFirstButton = "Change Payment Mode";
+        let labelForSecondButton = "Continue without offers";
+        let popUpHeading = "Different Payment Method";
+        if (this.props.offerType === BANK_OFFER_TYPE) {
+            labelForFirstButton = "Choose another bank offer";
+            labelForSecondButton = "Continue without offer";
+            popUpHeading = "Unable to apply bank offer";
+        } else if (this.props.offerType === NCE_OFFER_TYPE) {
+            labelForFirstButton = "Choose another No Cost EMI";
+            labelForSecondButton = "Continue without offers";
+            popUpHeading = "Unable to apply No Cost EMI";
+        }
+        return (
+            <div className={styles.base}>
+                <div className={styles.paymentMethodDescription}>
+                    <div className={styles.headingText}>{popUpHeading}</div>
+                    <div className={styles.descriptionText}>
+                        <div className={styles.invalidCouponHeading}>
+                            {this.props.result.couponMessage
+                                ? this.props.result.couponMessage
+                                : this.props.result.error
+                                ? this.props.result.error
+                                : ""}
+                        </div>
+                        {this.props.offerType === BANK_OFFER_TYPE && (
+                            <div className={styles.invalidCouponHeading}>{this.getValidBankOfferTemplate()}</div>
+                        )}
+                        {this.props.offerType === NCE_OFFER_TYPE && (
+                            <div className={styles.invalidCouponHeading}>{this.getValidNCEOfferTemplate()}</div>
+                        )}
+                        {data && data.userCoupon && data.userCoupon && (
+                            <div className={styles.invalidCouponHeading}>
+                                {this.getInvalidUserCouponTemplate(data.userCoupon)}
+                            </div>
+                        )}
+                        {data && data.bankOffer && data.bankOffer && (
+                            <div className={styles.invalidCouponHeading}>
+                                {this.getInvalidBankOfferTemplate(data.bankOffer)}
+                            </div>
+                        )}
+                        {data && data.noCostEmiCoupon && data.noCostEmiCoupon && (
+                            <div className={styles.invalidCouponHeading}>
+                                {this.getInvalidNCEOfferTemplate(data.noCostEmiCoupon)}
+                            </div>
+                        )}
+                        {data && data.noCostEMI && data.noCostEMI && (
+                            <div className={styles.invalidCouponHeading}>
+                                {this.getInvalidNCEOfferTemplate(data.noCostEMI)}
+                            </div>
+                        )}
+                        {/* {data &&
               ((data.noCostEmiCoupon &&
                 data.noCostEmiCoupon.status &&
                 data.noCostEmiCoupon.status.toLowerCase() === SUCCESS) ||
@@ -372,56 +330,75 @@ export default class ValidateOffersPopUp extends React.Component {
                     )}
                 </div>
               )} */}
-            {data &&
-              !data.noCostEmiCoupon &&
-              !data.bankOffer &&
-              !data.userCoupon && (
-                <div className={styles.invalidCouponHeading}>
-                  {data.errorMessage ? data.errorMessage : ""}
+                        {data && !data.noCostEmiCoupon && !data.bankOffer && !data.userCoupon && (
+                            <div className={styles.invalidCouponHeading}>
+                                {data.errorMessage ? data.errorMessage : ""}
+                            </div>
+                        )}
+                    </div>
                 </div>
-              )}
-          </div>
-        </div>
-        <div className={styles.buttonHolderForPaymentModeForValidate}>
-          <div className={styles.button}>
-            <Button
-              type="primary"
-              backgroundColor="#ff1744"
-              height={36}
-              label={labelForFirstButton}
-              width={211}
-              textStyle={{ color: "#FFF", fontSize: 14 }}
-              onClick={() => this.changePaymentMethod()}
-            />
-          </div>
-        </div>
-        {Retryoffer &&
-          (!isPaymentFailureCase ||
-            (isPaymentFailureCase &&
-              (!data ||
-                !data.userCoupon ||
-                !data.userCoupon.status ||
-                data.userCoupon.status.toLowerCase() !==
-                  FAILURE_LOWERCASE))) && (
-            <div className={styles.buttonHolderForContinueCouponForValidate}>
-              <div className={styles.button}>
-                <Button
-                  type="secondary"
-                  height={36}
-                  label={labelForSecondButton}
-                  width={211}
-                  onClick={() => this.continueWithoutCoupon()}
-                />
-              </div>
+                <div className={styles.buttonHolderForPaymentModeForValidate}>
+                    <div className={styles.button}>
+                        <Button
+                            type="primary"
+                            backgroundColor="#ff1744"
+                            height={36}
+                            label={labelForFirstButton}
+                            width={211}
+                            textStyle={{ color: "#FFF", fontSize: 14 }}
+                            onClick={() => this.changePaymentMethod()}
+                        />
+                    </div>
+                </div>
+                {Retryoffer &&
+                    (!isPaymentFailureCase ||
+                        (isPaymentFailureCase &&
+                            (!data ||
+                                !data.userCoupon ||
+                                !data.userCoupon.status ||
+                                data.userCoupon.status.toLowerCase() !== FAILURE_LOWERCASE))) && (
+                        <div className={styles.buttonHolderForContinueCouponForValidate}>
+                            <div className={styles.button}>
+                                <Button
+                                    type="secondary"
+                                    height={36}
+                                    label={labelForSecondButton}
+                                    width={211}
+                                    onClick={() => this.continueWithoutCoupon()}
+                                />
+                            </div>
+                        </div>
+                    )}
             </div>
-          )}
-      </div>
-    );
-  }
+        );
+    }
 }
+
 ValidateOffersPopUp.propTypes = {
-  cardLogo: PropTypes.string,
-  changePaymentMethod: PropTypes.func,
-  continueWithoutCoupon: PropTypes.func,
-  couponCode: PropTypes.string
+    cardLogo: PropTypes.string,
+    changePaymentMethod: PropTypes.func,
+    continueWithoutCoupon: PropTypes.func,
+    couponCode: PropTypes.string,
+    closeModal: PropTypes.func,
+    redoCall: PropTypes.func,
+    releaseUserCoupon: PropTypes.func,
+    releaseBankOffer: PropTypes.func,
+    releaseNoCostEmiCoupon: PropTypes.func,
+    resetAllPaymentModes: PropTypes.func,
+    offerType: PropTypes.string,
+    showModal: PropTypes.func,
+    bankOffers: PropTypes.string,
+    result: PropTypes.shape({
+        userCoupon: PropTypes.string,
+        bankOffer: PropTypes.string,
+        noCostEmiCoupon: PropTypes.string,
+        noCostEMI: PropTypes.object,
+        error: PropTypes.string,
+        couponMessage: PropTypes.string,
+        errorMessage: PropTypes.string,
+    }),
+    nceOffers: PropTypes.shape({
+        bankList: PropTypes.array,
+    }),
+    ...RouterPropTypes,
 };

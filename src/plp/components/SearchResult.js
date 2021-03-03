@@ -5,10 +5,10 @@ export default class SearchResult extends React.Component {
   render() {
     return (
       <div className={styles.base}>
-        '{this.props.resultCount}' results found for{" "}
-        <span className={styles.bold}>"{this.props.searchString}"</span>.
+      &apos;{this.props.resultCount}&apos; results found for{" "}
+        <span className={styles.bold}>&quot;{this.props.searchString}&quot;</span>.
         Showing results for{" "}
-        <span className={styles.bold}>"{this.props.resultDefault}"</span>
+        <span className={styles.bold}>&quot;{this.props.resultDefault}&quot;</span>
       </div>
     );
   }

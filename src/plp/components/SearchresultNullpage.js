@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import Carousel from "../../general/components/Carousel";
-import CategoryWithName from "../../general/components/CategoryWithName";
 import styles from "./SearchresultNullpage.css";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import ProductModule from "../../general/components/ProductModule";
-import { RUPEE_SYMBOL, HOME_ROUTER } from "../../lib/constants.js";
+import { HOME_ROUTER } from "../../lib/constants.js";
 import DiscoverMoreComponentDesktop from "../../home/components/DiscoverMoreComponentDesktop.js";
 import DiscoverMoreL1ForNullSearchResultDesktop from "../../home/components/DiscoverMoreL1ForNullSearchResultDesktop";
 import DesktopOnly from "../../general/components/DesktopOnly.js";
@@ -21,6 +20,7 @@ export default class SearchresultNullpage extends Component {
     setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CONTINUE_SHOPPING);
     this.props.history.push(HOME_ROUTER);
   }
+
   redirectToPlp(webUrl, item, widgetName, index) {
     let icidTracking = `"search":${widgetName}:"blank":${index +
       1}:"blank ":"blank":"blank":${item.product_id}`;
@@ -28,6 +28,7 @@ export default class SearchresultNullpage extends Component {
     const urlSuffix = webUrl.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
   }
+
   dicountPrice(discountedPrice, price) {
     //.replace(RUPEE_SYMBOL, "")
     const mrpInteger = parseInt(price, 10);
@@ -37,6 +38,7 @@ export default class SearchresultNullpage extends Component {
 
     return discount;
   }
+
   render() {
     return (
       <React.Fragment>
@@ -186,6 +188,7 @@ export default class SearchresultNullpage extends Component {
 SearchresultNullpage.propTypes = {
   imageURL: propTypes.string,
   title: propTypes.string,
+  history: propTypes.object,
   data: propTypes.arrayOf(
     propTypes.shape({
       imageURL: propTypes.string,
@@ -194,5 +197,7 @@ SearchresultNullpage.propTypes = {
       btnText: propTypes.string,
       items: propTypes.string
     })
-  )
+  ),
+  feeds: propTypes.array,
+  setClickedElementId: propTypes.func,
 };

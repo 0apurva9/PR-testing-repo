@@ -25,6 +25,7 @@ export default class BannerProductCarousal extends React.Component {
       this.props.getItems(this.props.positionInFeed, data.itemIds);
     }
   }
+
   render() {
     const feedComponentData = this.props.feedComponentData;
     if (!feedComponentData) {
@@ -64,5 +65,11 @@ export default class BannerProductCarousal extends React.Component {
   }
 }
 BannerProductCarousal.propTypes = {
-  seeAll: PropTypes.func
+  seeAll: PropTypes.func,
+  feedComponentData: PropTypes.object,
+  history: PropTypes.object,
+  postData: PropTypes.object,
+  setClickedElementId: PropTypes.func,
+  getItems: PropTypes.func,
+  positionInFeed: PropTypes.number
 };

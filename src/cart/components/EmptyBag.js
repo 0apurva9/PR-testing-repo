@@ -19,12 +19,14 @@ export default class EmptyBag extends React.Component {
       this.props.onContinueShopping();
     }
   }
+
   handleOnSaved() {
     setDataLayerForCartDirectCalls(ADOBE_DIRECT_CALL_FOR_CART_SAVED_LIST);
     if (this.props.viewSavedProduct) {
       this.props.viewSavedProduct();
     }
   }
+
   render() {
     return (
       <div className={styles.base}>

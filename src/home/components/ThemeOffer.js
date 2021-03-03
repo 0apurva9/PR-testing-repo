@@ -30,9 +30,11 @@ export default class ThemeOffer extends React.Component {
       }
     }
   };
+
   handleClickOnLink = event => {
     event.preventDefault();
   };
+
   componentDidUpdate() {
     const offers = this.props.feedComponentData.offers;
 
@@ -80,7 +82,7 @@ export default class ThemeOffer extends React.Component {
               header: feedComponentData.title,
               buttonText: feedComponentData.btnText,
               isWhite: true,
-              seeAll: val => {
+              seeAll: () => {
                 this.handleClick(this.props.feedComponentData.webURL);
               }
             }}
@@ -97,7 +99,7 @@ export default class ThemeOffer extends React.Component {
               carouselOptions={{
                 header: feedComponentData.title,
                 buttonText: feedComponentData.btnText,
-                seeAll: val => {
+                seeAll: () => {
                   this.handleClick(this.props.feedComponentData.webURL);
                 }
               }}
@@ -105,12 +107,13 @@ export default class ThemeOffer extends React.Component {
                 <a
                   href={this.props.feedComponentData.webURL}
                   target="_blank"
+                  rel="noreferrer"
                   onClick={event => this.handleClickOnLink(event)}
                 >
                   <ProductImageHeaderDesktop
                     backgroundColor={feedComponentData.backgroundHexCode}
                     backgroundImage={feedComponentData.backgroundImageURL}
-                    onClick={val =>
+                    onClick={() =>
                       this.handleClick(this.props.feedComponentData.webURL)
                     }
                   />
@@ -129,5 +132,10 @@ ThemeOffer.propTypes = {
   header: PropTypes.string,
   seeAll: PropTypes.func,
   buttonText: PropTypes.string,
-  feedComponentData: PropTypes.object
+  feedComponentData: PropTypes.object,
+  history: PropTypes.object,
+  postData: PropTypes.object,
+  setClickedElementId: PropTypes.func,
+  getItems: PropTypes.func,
+  positionInFeed: PropTypes.number
 };

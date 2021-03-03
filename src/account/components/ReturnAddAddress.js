@@ -37,6 +37,7 @@ import {
   NAME_VALIDATION,
   PINCODE_NOT_SERVICEABLE_TEXT
 } from "../../lib/constants";
+import { RouterPropTypes } from "../../general/router-prop-types";
 export default class ReturnAddAddress extends React.Component {
   constructor(props) {
     super(props);
@@ -62,16 +63,19 @@ export default class ReturnAddAddress extends React.Component {
       pinCodeFailure: false
     };
   }
+
   handleOnFocusInput() {
     if (this.props.onFocusInput) {
       this.props.onFocusInput();
     }
   }
+
   componentDidMount() {
     if (this.props.getUserDetails) {
       this.props.getUserDetails();
     }
   }
+
   getPinCodeDetails = val => {
     let landmarkList = [];
     if (val.length <= 6) {
@@ -89,6 +93,7 @@ export default class ReturnAddAddress extends React.Component {
       this.props.getPinCode(val);
     }
   };
+
   handlePhoneInput(val) {
     if (val.length <= 10) {
       const cloneAddress = cloneDeep(this.state);
@@ -99,6 +104,7 @@ export default class ReturnAddAddress extends React.Component {
       }
     }
   }
+
   onChangeEmailId(val) {
     const cloneAddress = cloneDeep(this.state);
     Object.assign(cloneAddress, { emailId: val });
@@ -107,6 +113,7 @@ export default class ReturnAddAddress extends React.Component {
       this.props.getAddressDetails(cloneAddress);
     }
   }
+
   onChange(val) {
     this.setState(val);
     if (this.props.getAddressDetails) {
@@ -115,6 +122,7 @@ export default class ReturnAddAddress extends React.Component {
       this.props.getAddressDetails(cloneAddress);
     }
   }
+
   onChangeDefaultFlag() {
     this.setState(prevState => ({
       defaultFlag: !prevState.defaultFlag
@@ -125,6 +133,7 @@ export default class ReturnAddAddress extends React.Component {
       this.props.getAddressDetails(cloneAddress);
     }
   }
+
   componentWillUnmount() {
     if (this.props.resetAddAddressDetails) {
       this.props.resetAddAddressDetails();
@@ -133,6 +142,7 @@ export default class ReturnAddAddress extends React.Component {
       this.props.resetAutoPopulateDataForPinCode();
     }
   }
+
   componentWillReceiveProps(nextProps) {
     let landmarkList = [];
     if (nextProps.addUserAddressStatus === SUCCESS) {
@@ -193,6 +203,7 @@ export default class ReturnAddAddress extends React.Component {
       }
     }
   }
+
   onSelectLandmark = landmark => {
     if (landmark.value === OTHER_LANDMARK) {
       if (this.props.clearPinCodeStatus) {
@@ -211,6 +222,7 @@ export default class ReturnAddAddress extends React.Component {
       });
     }
   };
+
   addNewAddress = () => {
     if (!this.state.postalCode) {
       this.props.displayToast(PINCODE_TEXT);
@@ -302,9 +314,11 @@ export default class ReturnAddAddress extends React.Component {
       this.props.addUserAddress(addressObj);
     }
   };
+
   goBack = () => {
     this.props.history.goBack();
   };
+
   clearAllValue = () => {
     this.setState({
       postalCode: "",
@@ -323,9 +337,11 @@ export default class ReturnAddAddress extends React.Component {
       isEnable: false
     });
   };
+
   onChangeSalutation(val) {
     this.setState({ salutation: val.value });
   }
+
   render() {
     if (this.props.loading) {
       if (this.props.showSecondaryLoader) {
@@ -422,7 +438,7 @@ export default class ReturnAddAddress extends React.Component {
             </div>
             <div className={styles.addressValidMsg}>Character Limit : 120</div>
             <div className={styles.addressValidMsg}>
-              Special characters allowed are - # & ( ) ' ' . , \ / + _
+              Special characters allowed are - # & ( ) &apos; &apos; . , \ / + _
             </div>
             <div className={styles.content}>
               <SelectBoxMobile2
@@ -430,7 +446,7 @@ export default class ReturnAddAddress extends React.Component {
                 placeholder={"Landmark"}
                 options={
                   this.state.landmarkList.length > 0 &&
-                  this.state.landmarkList.map((val, i) => {
+                  this.state.landmarkList.map(val => {
                     return {
                       value: val && val.landmark,
                       label: val && val.landmark
@@ -593,7 +609,42 @@ ReturnAddAddress.propTypes = {
   clearAllValue: PropTypes.func,
   buttonText: PropTypes.string,
   options: PropTypes.string,
-  titleValue: PropTypes.string
+  titleValue: PropTypes.string,
+  onFocusInput: PropTypes.func,
+  getPinCode: PropTypes.func,
+  displayToast: PropTypes.func,
+  clearPinCodeStatus: PropTypes.func,
+  getPincodeStatus: PropTypes.string,
+  getPinCodeDetails: PropTypes.shape({
+    landMarks: PropTypes.string,
+    cityName: PropTypes.string,
+    state: PropTypes.shape({
+      name: PropTypes.string
+    })
+  }),
+  getUserDetails: PropTypes.func,
+  resetAutoPopulateDataForPinCode: PropTypes.func,
+  resetAddAddressDetails: PropTypes.func,
+  addUserAddress: PropTypes.func,
+  addUserAddressStatus: PropTypes.string,
+  userDetails: PropTypes.shape({
+    emailID: PropTypes.string
+  }),
+  history: RouterPropTypes.history,
+  loading: PropTypes.bool,
+  showSecondaryLoader: PropTypes.func,
+  hideSecondaryLoader: PropTypes.func,
+  getAddressDetails: PropTypes.func,
+  postalCode: PropTypes.string,
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  line1: PropTypes.string,
+  line2: PropTypes.string,
+  town: PropTypes.string,
+  state: PropTypes.string,
+  phone: PropTypes.string,
+  emailId: PropTypes.string,
+  isFirstAddress: PropTypes.bool
 };
 ReturnAddAddress.defaultProps = {
   heading: "Add Pickup Address",

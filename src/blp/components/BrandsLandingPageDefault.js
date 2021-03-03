@@ -26,7 +26,10 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import BannerImage from "../../general/components/BannerImage";
 import Banner from "../../general/components/Banner";
 import { groupByBrandAccordingToFirstLetter } from "../../pdp/reducers/utils";
+import { RouterPropTypes } from "../../general/router-prop-types";
+
 const REGULAR_EXPRESSION_FOR_NON_ALPHABET = /^[0-9]+(.)*$/;
+
 export default class BrandsLandingPageDefault extends React.Component {
   constructor(props) {
     super(props);
@@ -37,6 +40,7 @@ export default class BrandsLandingPageDefault extends React.Component {
       selectedBrandType: null
     };
   }
+
   handleClick = webURL => {
     if (webURL) {
       const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
@@ -48,27 +52,33 @@ export default class BrandsLandingPageDefault extends React.Component {
     this.props.getFollowedBrands();
     this.props.getAllBrands();
   }
+
   componentWillUpdate() {
     this.props.setHeaderText(BRANDS);
   }
+
   renderToAnotherURL(webURL) {
     if (webURL) {
       const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
       this.props.history.push(urlSuffix);
     }
   }
+
   switchTab(val) {
     if (val !== undefined && this.state.currentActiveBrandType !== val) {
       this.setState({ currentActiveBrandType: val });
     }
   }
+
   handleShowFollow() {
     const showFollowing = !this.state.showFollowing;
     this.setState({ showFollowing });
   }
+
   renderLoader() {
     return <Loader />;
   }
+
   findSelectedText(selectedBrandType) {
     if (this.state.selectedBrandType !== selectedBrandType) {
       this.setState({ selectedBrandType: selectedBrandType });
@@ -167,12 +177,13 @@ export default class BrandsLandingPageDefault extends React.Component {
                   <MobileOnly>
                     <BannerMobile bannerHeight="45vw">
                       {currentActiveHeroBanner &&
-                        currentActiveHeroBanner.map(heroBanner => {
+                        currentActiveHeroBanner.map((heroBanner, i) => {
                           return (
                             <BrandBanner
                               image={heroBanner.imageURL}
                               logo={heroBanner.brandLogo}
                               title={heroBanner.title}
+                              key={i}
                               onClick={() =>
                                 this.renderToAnotherURL(heroBanner.webURL)
                               }
@@ -205,9 +216,9 @@ export default class BrandsLandingPageDefault extends React.Component {
             <MobileOnly>
               {currentActiveHeroBanner &&
                 currentActiveHeroBanner.length < 2 &&
-                currentActiveHeroBanner.map(heroBanner => {
+                currentActiveHeroBanner.map((heroBanner, i) => {
                   return (
-                    <div className={styles.monoBannerHolder}>
+                    <div className={styles.monoBannerHolder} key={i}>
                       <BrandBanner
                         image={heroBanner.imageURL}
                         logo={heroBanner.brandLogo}
@@ -251,11 +262,12 @@ export default class BrandsLandingPageDefault extends React.Component {
                             .filter(brand => {
                               return brand.isFollowing === "true";
                             })
-                            .map(brand => {
+                            .map((brand, i) => {
                               return (
                                 <BrandImage
                                   isFollowing={brand.isFollowing}
                                   image={brand.imageURL}
+                                  key={i}
                                   onClick={() => this.handleClick(brand.webURL)}
                                 />
                               );
@@ -293,7 +305,7 @@ export default class BrandsLandingPageDefault extends React.Component {
                             <Carousel elementWidthDesktop={16.66}>
                               {showFollowBrands.map((brand, index) => {
                                 return (
-                                  <div className={styles.brandDetails}>
+                                  <div className={styles.brandDetails} key={index}>
                                     <BrandImage
                                       key={index}
                                       isFollowing={brand.isFollowing}
@@ -323,6 +335,7 @@ export default class BrandsLandingPageDefault extends React.Component {
                 presentLabel.map((brandInitials, i) => {
                   return (
                     <div
+                      key={i}
                       className={
                         brandInitials === this.state.selectedBrandType
                           ? styles.activeTextWithCircle
@@ -394,5 +407,10 @@ export default class BrandsLandingPageDefault extends React.Component {
 }
 BrandsLandingPageDefault.propTypes = {
   loading: PropTypes.bool,
-  brandsStores: PropTypes.object
+  brandsStores: PropTypes.object,
+  getFollowedBrands: PropTypes.func,
+  getAllBrands: PropTypes.func,
+  setHeaderText: PropTypes.func,
+  followedBrands: PropTypes,
+  ...RouterPropTypes
 };

@@ -9,7 +9,6 @@ import {
 import {
   CLIQ_CASH_MODULE,
   showModal,
-  BOTTOM_ALERT_POP_UP,
   POP_UP,
   hideModal,
   CLIQ_CASH_SUCESS_MODULE

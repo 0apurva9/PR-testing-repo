@@ -1,13 +1,10 @@
 import React from "react";
 import styles from "./OfferModal.css";
-import BottomSlideModal from "../../general/components/BottomSlideModal.js";
 import TimerCounter from "../../general/components/TimerCounter";
 import {
   setDataLayer,
-  ADOBE_PRODUCT_BUNDLED_OFFER,
-  ADOBE_OFFER_CARD_VIEW_MORE_TNC
+  ADOBE_PRODUCT_BUNDLED_OFFER
 } from "../../lib/adobeUtils";
-import BundledProduct from "./BundledProduct";
 import { DEFAULT_PIN_CODE_LOCAL_STORAGE } from "../../lib/constants";
 export default class VoucherOfferModal extends React.Component {
   state = {
@@ -49,6 +46,7 @@ export default class VoucherOfferModal extends React.Component {
       params.ussid
     );
   };
+
   getParams = async Title => {
     let bundleProduct;
     var snippet = document.createElement("div");
@@ -109,6 +107,7 @@ export default class VoucherOfferModal extends React.Component {
     }
     // setDataLayer(ADOBE_OFFER_CARD_VIEW_MORE_TNC, this.props.productListings);
   };
+
   checkTimerForPotential() {
     let endDateTime;
     let timerStartTime;
@@ -146,6 +145,7 @@ export default class VoucherOfferModal extends React.Component {
       }
     }
   }
+
   checkTimer(timerStartTime, endDateTime, isPotential) {
     if (isPotential) {
       return this.checkTimerForPotential();
@@ -164,8 +164,8 @@ export default class VoucherOfferModal extends React.Component {
       return null;
     }
   }
+
   render() {
-    let offerList = this.state.addBundledProduct;
     return (
       <div className={styles.base}>
         <div className={styles.header}>Offers</div>

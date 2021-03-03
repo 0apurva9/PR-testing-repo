@@ -8,6 +8,7 @@ export default class FooterButton extends React.Component {
       this.props.onClick(e);
     }
   }
+
   render() {
     return (
       <div

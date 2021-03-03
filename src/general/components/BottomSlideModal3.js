@@ -6,6 +6,7 @@ export default class BottomSlideModal3 extends React.Component {
       this.props.onCancel();
     }
   }
+
   render() {
     return (
       <div className={styles.base}>

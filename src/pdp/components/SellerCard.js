@@ -16,11 +16,13 @@ export default class SellerCard extends React.Component {
       goToBagFlag: false
     };
   }
+
   handleClick(val) {
     if (this.props.selectItem && !this.props.disabled) {
       this.props.selectItem(val);
     }
   }
+
   async addToBag() {
     if (this.props.addToBag) {
       let addToBagResponse = await this.props.addToBag();
@@ -32,14 +34,17 @@ export default class SellerCard extends React.Component {
       }
     }
   }
+
   goToCart() {
     if (this.props.goToBag) {
       this.props.goToBag();
     }
   }
+
   openExchangeModal() {
     this.props.openExchangeModal();
   }
+
   handleShowPiqPage = ussid => {
     if (this.props.getAllStoresForCliqAndPiq) {
       this.props.updateOtherSellerUssID(ussid);
@@ -61,15 +66,13 @@ export default class SellerCard extends React.Component {
     let serviceableDeliveryModes = {};
 
     if (this.props.serviceablePincodeList) {
-      this.props.serviceablePincodeList.map((product, j) => {
+      this.props.serviceablePincodeList.map((product) => {
         if (product.ussid === this.props.winningUssID) {
           serviceableDeliveryModes = Object.assign(product);
-          return (
             product.validDeliveryModes &&
-            product.validDeliveryModes.map((deliveryMode, k) => {
-              return (
+            product.validDeliveryModes.map((deliveryMode) => {
                 this.props.eligibleDeliveryModes &&
-                this.props.eligibleDeliveryModes.map((val, i) => {
+                this.props.eligibleDeliveryModes.map((val) => {
                   if (
                     SHIPPING_TYPES[deliveryMode.type] === val.code &&
                     !availableDeliveryModes.includes(deliveryMode.type)
@@ -77,10 +80,8 @@ export default class SellerCard extends React.Component {
                     availableDeliveryModes.push(deliveryMode.type);
                     tempValidDeliveryMode.push({ deliveryMode });
                   }
-                })
-              );
-            })
-          );
+                });
+            });
           serviceableDeliveryModes.validDeliveryModes = tempValidDeliveryMode;
         }
       });
@@ -120,7 +121,7 @@ export default class SellerCard extends React.Component {
               {this.props.eligibleDeliveryModes &&
                 this.props.eligibleDeliveryModes.map((val, i) => {
                   return (
-                    <div className={styles.shippingText}>
+                    <div className={styles.shippingText} key = {i}>
                       {val.name}
                       {val.description && <span>-</span>}
                       {val.description}
@@ -253,5 +254,19 @@ SellerCard.propTypes = {
   cashText: PropTypes.string,
   selected: PropTypes.bool,
   onClick: PropTypes.func,
-  hasCod: PropTypes.bool
+  hasCod: PropTypes.bool,
+  selectItem: PropTypes.func,
+  displayToast: PropTypes.func,
+  addToBag: PropTypes.func,
+  goToBag: PropTypes.func,
+  productListingId: PropTypes.string,
+  openExchangeModal: PropTypes.func,
+  getAllStoresForCliqAndPiq: PropTypes.func,
+  showPdpPiqPage: PropTypes.func,
+  updateOtherSellerUssID: PropTypes.func,
+  eligibleDeliveryModes: PropTypes.array,
+  serviceablePincodeList: PropTypes.array,
+  winningUssID: PropTypes.string,
+  deliveryModesATP: PropTypes.string,
+  exchangeAvailable: PropTypes.bool,
 };

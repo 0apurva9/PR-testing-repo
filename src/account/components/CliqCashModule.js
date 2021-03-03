@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { RouterPropTypes } from "../../general/router-prop-types";
 import styles from "./CliqCashModule.css";
 import BottomSlideModal from "../../general/components/BottomSlideModal";
 import Input2 from "../../general/components/Input2";
@@ -24,9 +25,11 @@ export default class CliqCashModule extends Component {
       sendRecentTransactions: true
     };
   }
+
   componentDidMount() {
     this.props.setHeaderText(GIFT_CARD_HEADER_TEXT);
   }
+
   getRedeemCliqVoucher = () => {
     if (this.state.cardNumber && this.state.cardPin) {
       this.setState({ cliqCashUpdate: true });
@@ -71,6 +74,7 @@ export default class CliqCashModule extends Component {
         this.setState({ cardNumber: cardNumber });
       }
   }
+
   onChangePinNumber(cardPin) {
     this.setState({ cardError: false });
     if (cardPin === "" || NUMBER_REGEX.test(cardPin))
@@ -78,16 +82,19 @@ export default class CliqCashModule extends Component {
         this.setState({ cardPin });
       }
   }
+
   onCancel() {
     if (this.props.closeModal) {
       this.props.closeModal();
     }
   }
+
   displayToast = message => {
     if (this.props.displayToast) {
       this.props.displayToast(message);
     }
   };
+
   render() {
     if (this.props.loading) {
       this.props.showSecondaryLoader();
@@ -113,15 +120,15 @@ export default class CliqCashModule extends Component {
                 </div>
               </React.Fragment>
             ) : (
-              <React.Fragment>
-                <div className={styles.subText}>
-                  Your Gift Card Amount will be added to your CLiQ Cash.
+                <React.Fragment>
+                  <div className={styles.subText}>
+                    Your Gift Card Amount will be added to your CLiQ Cash.
                 </div>
-                <div className={styles.subTextSpan}>
-                  You can claim it at the time of checkout
+                  <div className={styles.subTextSpan}>
+                    You can claim it at the time of checkout
                 </div>
-              </React.Fragment>
-            )}
+                </React.Fragment>
+              )}
 
             <div className={styles.inputContainer}>
               <div className={styles.cardNumber}>
@@ -168,8 +175,8 @@ export default class CliqCashModule extends Component {
                       : "Enter a valid gift card number"}
                   </span>
                 ) : (
-                  ""
-                )}
+                    ""
+                  )}
               </div>
             </div>
 
@@ -203,9 +210,11 @@ CliqCashModule.propTypes = {
   checkBalance: PropTypes.func,
   isCheckBalance: PropTypes.bool,
   displayToast: PropTypes.func,
-  history: PropTypes.object,
   hideSecondaryLoader: PropTypes.func,
   showSecondaryLoader: PropTypes.func,
   checkBalanceDetailsError: PropTypes.string,
-  btnLabel: PropTypes.string
+  btnLabel: PropTypes.string,
+  loading: PropTypes.bool,
+  heading: PropTypes.string,
+  ...RouterPropTypes
 };

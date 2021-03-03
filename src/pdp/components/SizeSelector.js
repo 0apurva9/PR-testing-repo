@@ -1,12 +1,10 @@
 import React from "react";
 import styles from "./SizeSelector.css";
-import { Redirect } from "react-router-dom";
 import SizeSelect from "./SizeSelect";
 import DumbCarousel from "../../general/components/DumbCarousel";
 import MobileOnly from "../../general/components/MobileOnly";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
-import * as UserAgent from "../../lib/UserAgent.js";
 import PropTypes from "prop-types";
 import {
   SUCCESS,
@@ -23,7 +21,6 @@ import {
 } from "../../lib/adobeUtils";
 const SIZE_GUIDE = "Size guide";
 const PRODUCT_CODE_REG_EX = /p-([a-z0-9A-Z]+)/;
-const MODEL_FIT = "Model fit";
 const SIMILAR_SIZE_MODAL = "View Similar";
 export default class SizeSelector extends React.Component {
   constructor(props) {
@@ -43,10 +40,12 @@ export default class SizeSelector extends React.Component {
     this.props.setUrlToRedirectToAfterAuth(url);
     this.props.history.push(LOGIN_PATH);
   }
+
   navigateToLoginOnWishList(url) {
     this.props.setUrlToRedirectToAfterAuth(url);
     this.props.history.push(LOGIN_PATH);
   }
+
   handleShowSize() {
     if (this.props.eyeWearSizeGuide) {
       this.props.showSizeSelectorForEyeWear();
@@ -56,6 +55,7 @@ export default class SizeSelector extends React.Component {
       }
     }
   }
+
   handleSimilarOOSSizeSelector(data) {
     if (data.length < 2) {
       this.handleSimilarSizeOOSModal(data[0]);
@@ -154,6 +154,7 @@ export default class SizeSelector extends React.Component {
       this.props.closeModal();
     }
   }
+
   showAllLensPower = () => {
     this.setState({ showLensPower: !this.state.showLensPower });
   };
@@ -184,12 +185,6 @@ export default class SizeSelector extends React.Component {
   }
 
   renderSize(datum, i) {
-    let infoDetails = [];
-    if (this.props.infoDetails) {
-      infoDetails = this.props.infoDetails.filter(item => {
-        return item.key === MODEL_FIT;
-      });
-    }
 
     return (
       <React.Fragment>
@@ -218,6 +213,7 @@ export default class SizeSelector extends React.Component {
       </React.Fragment>
     );
   }
+
   render() {
     const selectedColour = this.props.data.filter(val => {
       return val.colorlink.selected;
@@ -318,7 +314,7 @@ export default class SizeSelector extends React.Component {
                 sizes &&
                 sizes.map((datum, i) => {
                   return (
-                    <div className={styles.size}>
+                    <div className={styles.size} key = {i}>
                       {this.renderSize(datum, i)}
                     </div>
                   );
@@ -330,7 +326,7 @@ export default class SizeSelector extends React.Component {
                     {sizes &&
                       sizes.map((datum, i) => {
                         return (
-                          <React.Fragment>
+                          <React.Fragment key = {i}>
                             {positivePowerIndex === i ? <br /> : null}
                             <div
                               className={styles.size}
@@ -436,7 +432,30 @@ SizeSelector.propTypes = {
   ),
   headerText: PropTypes.string,
   productId: PropTypes.string,
-  textSize: PropTypes.oneOfType([PropTypes.string, PropTypes.string])
+  textSize: PropTypes.oneOfType([PropTypes.string, PropTypes.string]),
+  location: PropTypes.object,
+  history: PropTypes.object,
+  addToWishlist: PropTypes.bool,
+  setUrlToRedirectToAfterAuth: PropTypes.func,
+  eyeWearSizeGuide: PropTypes,
+  showSizeGuide: PropTypes.func,
+  showSizeSelectorForEyeWear: PropTypes.func,
+  showOOSSizeSelectorModal: PropTypes.func,
+  showSimilarSizeOOSModal: PropTypes.func,
+  isFromModal: PropTypes.bool,
+  buyNowFlag: PropTypes.bool,
+  getProductDescription: PropTypes.func,
+  buyNow: PropTypes.func,
+  displayToast: PropTypes.func,
+  addProductToWishList: PropTypes.func,
+  addProductToCart: PropTypes.func,
+  closeModal: PropTypes.func,
+  infoDetails: PropTypes.array,
+  isSizeOrLength: PropTypes.bool,
+  categoryHierarchy: PropTypes.array,
+  hasSizeGuide: PropTypes.bool,
+  renderSize: PropTypes.func
+
 };
 SizeSelector.defaultProps = {
   headerText: "Size"

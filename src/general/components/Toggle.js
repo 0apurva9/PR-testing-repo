@@ -8,6 +8,7 @@ export default class Toggle extends React.Component {
       active: this.props.active
     };
   }
+
   handleToggle() {
     if (!this.props.disabled) {
       this.setState({ active: !this.state.active }, () => {
@@ -17,11 +18,13 @@ export default class Toggle extends React.Component {
       });
     }
   }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.active !== this.state.active) {
       this.setState({ active: nextProps.active });
     }
   }
+
   render() {
     let base = styles.base;
     let className = styles.toggleInActive;

@@ -8,6 +8,7 @@ export default class FillupRating extends React.Component {
       rating: this.props.rating
     };
   }
+
   rate(rating) {
     this.setState(
       {
@@ -20,11 +21,13 @@ export default class FillupRating extends React.Component {
       }
     );
   }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.resetRating === true) {
       this.setState({ rating: null });
     }
   }
+
   render() {
     const starSpans = [];
     for (let i = 1; i <= 5; i++) {
@@ -56,5 +59,6 @@ export default class FillupRating extends React.Component {
 }
 FillupRating.propTypes = {
   rating: PropTypes.number,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  resetRating: PropTypes.bool
 };

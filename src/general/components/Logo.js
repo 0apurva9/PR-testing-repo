@@ -34,7 +34,8 @@ Logo.propTypes = {
   width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   imageHeight: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   imageWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  image: PropTypes.string
+  image: PropTypes.string,
+  maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 };
 Logo.defaultProps = {
   imageHeight: "100%",

@@ -4,15 +4,16 @@ import PropTypes from "prop-types";
 export default class BrandsTypeList extends React.Component {
   handleClick(val) {
     if (this.props.selectItem) {
-      this.props.selectItem();
+      this.props.selectItem(val);
     }
   }
+
   render() {
     let className = styles.base;
     return (
       <div
         className={this.props.selected ? styles.active : className}
-        onClick={val => this.handleClick(this.props.list)}
+        onClick={() => this.handleClick(this.props.list)}
       >
         {this.props.list}
       </div>
@@ -21,5 +22,7 @@ export default class BrandsTypeList extends React.Component {
 }
 BrandsTypeList.propTypes = {
   list: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  selectItem: PropTypes.func,
+  selected: PropTypes.bool
 };

@@ -39,7 +39,7 @@ What do I want to do?
       if there is no category or brand, then we know there is text and we need to append.
 */
 
-export function applySortToUrl(query, url, sortValue, icid2, cid) {
+export function applySortToUrl(query, url, sortValue) {
   let newQuery = "";
   let newUrl = `/search/?q=`;
   let match;

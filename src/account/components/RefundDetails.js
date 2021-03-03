@@ -9,6 +9,7 @@ export default class RefundAddress extends React.Component {
       this.props.onCancel();
     }
   }
+
   render() {
     return (
       <div className={styles.base}>

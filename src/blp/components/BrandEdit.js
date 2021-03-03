@@ -13,6 +13,7 @@ export default class BrandEdit extends React.Component {
       brandEdit: false
     };
   }
+
   onClickButton(brandId, followStatus, webURL) {
     if (UserAgent.checkUserAgentIsMobile()) {
       if (this.state.brandEdit === true) {
@@ -26,6 +27,7 @@ export default class BrandEdit extends React.Component {
       this.props.onRedirectToBrandPage(webURL);
     }
   }
+
   onShowDelete() {
     this.setState({ onDelete: !this.state.onDelete });
     if (this.state.label === "Edit") {
@@ -34,9 +36,11 @@ export default class BrandEdit extends React.Component {
       this.setState({ label: "Edit", brandEdit: false });
     }
   }
+
   handleDelete = (brandId, followStatus) => {
     this.props.onClick(brandId, followStatus);
   };
+
   render() {
     return (
       <div className={styles.base}>
@@ -75,7 +79,8 @@ BrandEdit.propTypes = {
   ),
   btnText: PropTypes.string,
   header: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  onRedirectToBrandPage: PropTypes.func
 };
 BrandEdit.defaultProps = {
   btnText: "Edit",

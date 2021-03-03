@@ -16,25 +16,31 @@ export default class CategoriesPage extends React.Component {
   componentDidMount() {
     this.props.getCategories();
   }
+
   componentDidUpdate() {
     this.props.setHeaderText(CATEGORIES);
   }
+
   handleClick(webURL) {
     if (webURL) {
       const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
       this.props.history.push(urlSuffix);
     }
   }
+
   handleViewAll(webURL) {
     const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
   }
+
   handleOpenL1(val) {
     this.setState({ openIndex: val });
   }
+
   closeItem() {
     this.setState({ openIndex: null });
   }
+
   render() {
     let categoriesData = this.props.categories;
     return (

@@ -8,16 +8,19 @@ export default class KycDetailPopUpWithBottomSlideModal extends React.Component 
       this.props.resendOtp();
     }
   }
+
   submitOtp(value) {
     if (this.props.submitOtp) {
       this.props.submitOtp(value);
     }
   }
+
   wrongNumber() {
     if (this.props.wrongNumber) {
       this.props.wrongNumber();
     }
   }
+
   onCancel() {
     if (this.props.closeModal) {
       this.props.closeModal();
@@ -28,7 +31,7 @@ export default class KycDetailPopUpWithBottomSlideModal extends React.Component 
     return (
       <BottomSlideModal
         heading="KYC Verification"
-        closeModal={value => this.onCancel()}
+        closeModal={() => this.onCancel()}
       >
         <KycDetailsPopup
           mobileNumber={this.props.mobileNumber}
@@ -44,5 +47,8 @@ export default class KycDetailPopUpWithBottomSlideModal extends React.Component 
 KycDetailPopUpWithBottomSlideModal.propTypes = {
   mobileNumber: PropTypes.string,
   submitOtp: PropTypes.func,
-  resendOtp: PropTypes.func
+  resendOtp: PropTypes.func,
+  wrongNumber: PropTypes.func,
+  closeModal: PropTypes.func,
+  loadingForVerifyWallet: PropTypes.bool
 };

@@ -25,5 +25,7 @@ export default class Video extends React.Component {
 Video.propTypes = {
   url: PropTypes.string,
   playing: PropTypes.bool,
-  controls: PropTypes.bool
+  controls: PropTypes.bool,
+  onEnded: PropTypes.func,
+  onPlay: PropTypes.func,
 };

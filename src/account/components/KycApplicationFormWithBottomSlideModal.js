@@ -9,6 +9,7 @@ export default class KycApplicationFormWithBottomSlideModal extends React.Compon
       return this.props.generateOtp(value);
     }
   }
+
   onCancel() {
     if (this.props.closeModal) {
       this.props.closeModal();
@@ -20,15 +21,16 @@ export default class KycApplicationFormWithBottomSlideModal extends React.Compon
       this.props.displayToast(message);
     }
   };
+
   render() {
     return (
       <BottomSlideModal
         heading="KYC Verification"
-        closeModal={value => this.onCancel()}
+        closeModal={() => this.onCancel()}
       >
         <KycApplicationForm
           {...this.props}
-          onCancel={value => this.onCancel()}
+          onCancel={() => this.onCancel()}
           generateOtp={value => this.generateOtp(value)}
           mobileNumber={this.props.mobileNumber}
           loadingForGetOtpToActivateWallet={
@@ -42,5 +44,9 @@ export default class KycApplicationFormWithBottomSlideModal extends React.Compon
 }
 KycApplicationFormWithBottomSlideModal.propTypes = {
   mobileNumber: PropTypes.string,
-  generateOtp: PropTypes.func
+  generateOtp: PropTypes.func,
+  closeModal:PropTypes.func,
+  displayToast:PropTypes.func,
+  value:PropTypes.string,
+  loadingForGetOtpToActivateWallet:PropTypes.bool,
 };

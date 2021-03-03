@@ -8,6 +8,7 @@ export default class ProductCapsuleCircle extends React.Component {
       this.props.onClick(this.props.url);
     }
   };
+
   render() {
     return (
       <div className={styles.base} onClick={this.handleClick}>
@@ -24,5 +25,7 @@ export default class ProductCapsuleCircle extends React.Component {
   }
 }
 ProductCapsuleCircle.propTypes = {
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  url: PropTypes.string,
+  image: PropTypes.string,
 };

@@ -39,20 +39,25 @@ export default class ContentWidget extends React.Component {
       this.props.setClickedElementId();
     }
   }
+
   forward = () => {
     this.goLeft();
   };
+
   back = () => {
     this.goRight();
   };
+
   handleSwipeStart(evt) {
     evt.stopPropagation();
     this.setState({ touchStart: evt.touches[0].clientX });
   }
+
   handleSwipeMove(evt) {
     evt.stopPropagation();
     this.setState({ touchEnd: evt.touches[0].clientX });
   }
+
   handleSwipeEnd() {
     if (this.state.touchEnd) {
       if (this.state.touchStart - this.state.touchEnd < -30) {
@@ -62,6 +67,7 @@ export default class ContentWidget extends React.Component {
       }
     }
   }
+
   goLeft() {
     if (!this.state.goLeft || !this.state.goRight) {
       const position = this.state.position + 1;
@@ -85,6 +91,7 @@ export default class ContentWidget extends React.Component {
       );
     }
   }
+
   goRight() {
     if (!this.state.goLeft || !this.state.goRight) {
       let position = this.state.position - 1;
@@ -131,12 +138,14 @@ export default class ContentWidget extends React.Component {
       newNode.prev = newNode;
     }
   };
+
   componentDidMount = () => {
     this.registerAnimationELement();
     this.props.allData.forEach(val => {
       this.addToHead(val);
     });
   };
+
   componentWillReceiveProps(props) {
     if (this.state.position < props.position) {
       this.setState({ position: props.position });
@@ -146,6 +155,7 @@ export default class ContentWidget extends React.Component {
       this.goRight();
     }
   }
+
   registerAnimationELement = () => {
     const element = document.getElementById("animation-root");
     element.addEventListener("animationend", () => {
@@ -172,6 +182,7 @@ export default class ContentWidget extends React.Component {
 
     this.setState({ data, goLeft: false, goRight: false });
   };
+
   render() {
     let direction = styles.base;
     if (this.state.goLeft) {
@@ -219,7 +230,7 @@ export default class ContentWidget extends React.Component {
           }
 
           return (
-            <div className={className} id={i === 0 ? "animation-root" : ""}>
+            <div className={className} id={i === 0 ? "animation-root" : ""} key={i}>
               <ContentCard
                 image={val.imageURL}
                 header={val.title}

@@ -12,11 +12,13 @@ export default class InformationHeader extends React.Component {
       this.props.goBack();
     }
   }
+
   redirectToHome() {
     if (this.props.redirectToHome) {
       this.props.redirectToHome();
     }
   }
+
   render() {
     return (
       <div className={styles.base}>
@@ -67,7 +69,11 @@ InformationHeader.propTypes = {
   count: PropTypes.number,
   hasBackButton: PropTypes.bool,
   onClick: PropTypes.func,
-  hasCrossButton: PropTypes.bool
+  hasCrossButton: PropTypes.bool,
+  goBack: PropTypes.func,
+  redirectToHome: PropTypes.func,
+  isLogoCart: PropTypes.bool,
+  safeSecureText: PropTypes.string
 };
 InformationHeader.defaultProps = {
   hasBackButton: true,

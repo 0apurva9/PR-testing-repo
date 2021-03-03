@@ -26,6 +26,7 @@ export default class KycApplicationForm extends React.Component {
       isLoader: false
     };
   }
+
   generateOtp = async () => {
     if (!this.state.firstName || this.state.firstName === "") {
       this.props.displayToast(NAME_TEXT);
@@ -50,6 +51,7 @@ export default class KycApplicationForm extends React.Component {
       }
     }
   };
+
   onCancel() {
     if (this.props.onCancel) {
       this.props.onCancel();
@@ -196,5 +198,7 @@ KycApplicationForm.propTypes = {
   lastName: PropTypes.string,
   mobileNumber: PropTypes.string,
   generateOtp: PropTypes.func,
-  onCancel: PropTypes.func
+  onCancel: PropTypes.func,
+  displayToast: PropTypes.func,
+  loadingForGetOtpToActivateWallet:PropTypes.bool,
 };

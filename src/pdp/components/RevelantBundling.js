@@ -96,10 +96,9 @@ export default class RevelantBundling extends React.Component {
   };
 
   getDiscountedPrice = () => {
-    let selectedOne = this.state.totalSelectedProducts;
     let total = 0;
     if (this.state.totalSelectedProducts.length > 0) {
-      Array.from(this.state.totalSelectedProducts).map((data, key) => {
+      Array.from(this.state.totalSelectedProducts).map((data) => {
         let price =
           data && data.winningSellerPrice
             ? data.winningSellerPrice.doubleValue
@@ -109,7 +108,7 @@ export default class RevelantBundling extends React.Component {
       return `${RUPEE_SYMBOL}${total}`;
     } else {
       if (this.props.bundledItem.length > 0) {
-        this.props.bundledItem.map((data, key) => {
+        this.props.bundledItem.map((data) => {
           let price =
             data && data.winningSellerPrice
               ? data.winningSellerPrice.doubleValue
@@ -125,7 +124,7 @@ export default class RevelantBundling extends React.Component {
   totalPrice = () => {
     let total = 0;
     this.state.totalSelectedProducts.length;
-    Array.from(this.state.totalSelectedProducts).map((data, key) => {
+    Array.from(this.state.totalSelectedProducts).map((data) => {
       let price =
         data && data.winningSellerPrice
           ? data.winningSellerPrice.doubleValue
@@ -141,6 +140,7 @@ export default class RevelantBundling extends React.Component {
 
     return `${RUPEE_SYMBOL}${totalPrice}`;
   };
+
   totalSelectedProducts(e) {
     let tmp = this.state.totalSelectedProducts;
     if (tmp.indexOf(e) > -1 && tmp.length > 0) {
@@ -156,30 +156,17 @@ export default class RevelantBundling extends React.Component {
   renderLoader() {
     return <Loader />;
   }
+
   baseProductWithOneBundledProduct() {
     let Bundledprice = "";
     let BundleddiscountPrice = "";
-    let BundledseoDoublePrice = 0;
     let price = "";
-    if (
-      this.props.productDetails.winningSellerPrice &&
-      this.props.productDetails.winningSellerPrice.doubleValue
-    ) {
-      BundledseoDoublePrice = this.props.productDetails.winningSellerPrice
-        .doubleValue;
-    } else if (
-      this.props.productDetails.mrpPrice &&
-      this.props.productDetails.mrpPrice.doubleValue
-    ) {
-      BundledseoDoublePrice = this.props.productDetails.mrpPrice.doubleValue;
-    }
     if (
       this.props.productDetails.mrpPrice &&
       this.props.productDetails.mrpPrice.formattedValueNoDecimal
     ) {
       Bundledprice = this.props.productDetails.mrpPrice.formattedValueNoDecimal;
     }
-
     if (
       this.props.productDetails.winningSellerPrice &&
       this.props.productDetails.winningSellerPrice.formattedValueNoDecimal
@@ -261,23 +248,11 @@ export default class RevelantBundling extends React.Component {
       </React.Fragment>
     );
   }
+
   baseProduct() {
     let Bundledprice = "";
     let BundleddiscountPrice = "";
-    let BundledseoDoublePrice = 0;
     let price = "";
-    if (
-      this.props.productDetails.winningSellerPrice &&
-      this.props.productDetails.winningSellerPrice.doubleValue
-    ) {
-      BundledseoDoublePrice = this.props.productDetails.winningSellerPrice
-        .doubleValue;
-    } else if (
-      this.props.productDetails.mrpPrice &&
-      this.props.productDetails.mrpPrice.doubleValue
-    ) {
-      BundledseoDoublePrice = this.props.productDetails.mrpPrice.doubleValue;
-    }
     if (
       this.props.productDetails.mrpPrice &&
       this.props.productDetails.mrpPrice.formattedValueNoDecimal
@@ -364,7 +339,9 @@ export default class RevelantBundling extends React.Component {
       </React.Fragment>
     );
   }
+
   bundledProduct() {}
+
   render() {
     if (this.props.relevantBundleProductData === null) {
       return this.renderLoader();
@@ -382,8 +359,7 @@ export default class RevelantBundling extends React.Component {
     let disabled;
     let itemsSelected = selectedOne + 1;
     const relevantProduct = this.props && this.props.relevantBundleProductData;
-    const secondaryBundleProductData =
-      this.props && this.props.secondaryBundleProductData;
+
     arr.push(relevantProduct);
     // arr.push(secondaryBundleProductData);
 

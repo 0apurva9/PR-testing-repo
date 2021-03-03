@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./TopSellingBrandSlider.css";
-import PropTypes from "prop-types";
 import Carousel from "../../general/components/Carousel";
 import CommonCenter from "../../general/components/CommonCenter";
 import TopSellingBrandComponent from "../../general/components/TopSellingBrandComponent";
@@ -43,6 +42,7 @@ export default class TopSellingBrandsMonetization extends React.Component {
       }
     }
   }
+
   handleClickOnLink = (event, webURL) => {
     event.preventDefault();
     if (webURL) {
@@ -57,6 +57,7 @@ export default class TopSellingBrandsMonetization extends React.Component {
       }
     }
   };
+
   render() {
     let { bannerComponent } = this.state;
     return (
@@ -70,6 +71,8 @@ export default class TopSellingBrandsMonetization extends React.Component {
                   <a
                     href={datum.click_tracking_url}
                     target="_blank"
+                    rel="noreferrer"
+                    key={i}
                     onClick={event =>
                       this.handleClickOnLink(event, datum.click_tracking_url)
                     }

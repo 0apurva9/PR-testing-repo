@@ -7,16 +7,18 @@ export default class NoResultPage extends React.Component {
   redirectToHome() {
     this.props.history.push(HOME_ROUTER);
   }
+
   componentDidMount() {
     setDataLayerForNotFound();
   }
+
   render() {
     return (
       <div className={styles.base}>
         <div className={styles.headerWithTextHolder}>
           <div className={styles.pageTitle}>404</div>
           <div className={styles.noResultText}>
-            The page you are looking for can't be found
+            The page you are looking for can&apos;t be found
           </div>
         </div>
         <div className={styles.buttonFooter}>

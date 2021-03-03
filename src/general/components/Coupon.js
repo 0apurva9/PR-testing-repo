@@ -11,6 +11,7 @@ export default class Coupon extends React.Component {
       this.props.onClick();
     }
   };
+
   render() {
     return (
       <div
@@ -49,7 +50,10 @@ Coupon.propTypes = {
   label: PropTypes.string,
   onClick: PropTypes.func,
   subText: PropTypes.string,
-  buttonLabel: PropTypes.string
+  buttonLabel: PropTypes.string,
+  color: PropTypes.string,
+  backgroundColor: PropTypes.string,
+  showApplyButton: PropTypes.bool,
 };
 Coupon.defaultProps = {
   backgroundColor: "#fff",

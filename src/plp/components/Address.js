@@ -8,6 +8,7 @@ export default class Address extends React.Component {
       this.props.selectItem();
     }
   }
+
   render() {
     let classActive = styles.addressHolder;
     if (this.props.selected) {

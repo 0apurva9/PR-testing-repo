@@ -21,7 +21,6 @@ import {
   mergeCartId,
   getCartDetails,
   getCartCountForLoggedInUser,
-  getMinicartProducts
 } from "../../cart/actions/cart.actions";
 import {
   createWishlist,
@@ -77,7 +76,6 @@ const mapDispatchToProps = dispatch => {
             );
             dispatch(setIfAllAuthCallsHaveSucceeded());
             await dispatch(getCartCountForLoggedInUser());
-            // dispatch(getMinicartProducts());
           } else {
             Cookies.deleteCookie(CART_DETAILS_FOR_ANONYMOUS);
             dispatch(setIfAllAuthCallsHaveSucceeded());

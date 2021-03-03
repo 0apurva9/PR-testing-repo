@@ -1,5 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
 import AwbForm from "./AwbForm.js";
 import styles from "./UpdateRefundDetailsPopup.css";
 import Icon from "../../xelpmoc-core/Icon";
@@ -11,9 +10,11 @@ export default class UpdateRefundDetailsPopup extends React.Component {
       this.props.onUpdate(val);
     }
   }
+
   handleClick() {
     this.props.closeModal();
   }
+
   render() {
     return (
       <BottomSlideModal crossIconHide="false">

@@ -64,7 +64,17 @@ Widget.propTypes = {
   positionInFeed: PropTypes.number,
   type: PropTypes.string,
   postData: PropTypes.object,
-  disableGetComponentDataCall: PropTypes.bool
+  disableGetComponentDataCall: PropTypes.bool,
+  getComponentData: PropTypes.func,
+  feedType: PropTypes.string,
+  children: PropTypes.node,
+  msdDiscoverMoreHomeComponents: PropTypes.func,
+  autoWishlistComponent: PropTypes.func,
+  wishListedItem: PropTypes.array,
+  automatedWidgetsForHome: PropTypes.func,
+  msdABPCBrandCount: PropTypes.number,
+  msdAbcComponents: PropTypes.object,
+  id: PropTypes.string
 };
 
 Widget.defaultProps = {

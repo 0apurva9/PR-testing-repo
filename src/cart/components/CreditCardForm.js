@@ -7,7 +7,7 @@ import DesktopOnly from "../../general/components/DesktopOnly";
 import cardValidator from "simple-card-validator";
 import styles from "./CreditCardForm.css";
 import MobileOnly from "../../general/components/MobileOnly";
-import { BANK_GATWAY_DOWN, IS_FORWARD_JOURNEY } from "../../lib/constants";
+import { BANK_GATWAY_DOWN } from "../../lib/constants";
 import {
   WHATSAPP_NOTIFICATION_CHECKED,
   WHATSAPP_NOTIFICATION_UNCHECKED,
@@ -20,194 +20,165 @@ const REGX_FOR_CARD_FORMATTER = /(.{4})/g;
 const bankErrorMessage = `Your bank is currently unable to process payments due to a technical issue.`;
 
 export default class CreditCardForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.expiryYearObject = [];
-    const currentYear = new Date().getFullYear();
-    for (let i = MINIMUM_YEARS_TO_SHOW; i <= MAXIMUM_YEARS_TO_SHOW; i++) {
-      this.expiryYearObject.push({
-        label: currentYear + i,
-        value: currentYear + i
-      });
+    constructor(props) {
+        super(props);
+        this.expiryYearObject = [];
+        const currentYear = new Date().getFullYear();
+        for (let i = MINIMUM_YEARS_TO_SHOW; i <= MAXIMUM_YEARS_TO_SHOW; i++) {
+            this.expiryYearObject.push({
+                label: currentYear + i,
+                value: currentYear + i,
+            });
+        }
+
+        this.monthOptions = [
+            { label: "1", value: 1 },
+            { label: "2", value: 2 },
+            { label: "3", value: 3 },
+            { label: "4", value: 4 },
+            { label: "5", value: 5 },
+            { label: "6", value: 6 },
+            { label: "7", value: 7 },
+            { label: "8", value: 8 },
+            { label: "9", value: 9 },
+            { label: "10", value: 10 },
+            { label: "11", value: 11 },
+            { label: "12", value: 12 },
+        ];
+        this.state = {
+            selected: false,
+            cardNumber:
+                this.props.cardDetails && this.props.cardDetails.cardNumber ? this.props.cardDetails.cardNumber : "",
+            cardName: this.props.cardDetails && this.props.cardDetails.cardName ? this.props.cardDetails.cardName : "",
+            cvvNumber:
+                this.props.cardDetails && this.props.cardDetails.cvvNumber ? this.props.cardDetails.cvvNumber : "",
+            ExpiryMonth:
+                this.props.cardDetails && this.props.cardDetails.monthValue ? this.props.cardDetails.monthValue : null,
+            ExpiryYear:
+                this.props.cardDetails && this.props.cardDetails.yearValue ? this.props.cardDetails.yearValue : null,
+            value: this.props.cardDetails && this.props.cardDetails.value ? props.value : "",
+            monthValue:
+                this.props.cardDetails && this.props.cardDetails.monthValue ? this.props.cardDetails.monthValue : "",
+            yearValue:
+                this.props.cardDetails && this.props.cardDetails.yearValue ? this.props.cardDetails.yearValue : "",
+            isCalledBinValidation: false,
+            invalidCard: false,
+            emiInvalidCardError: this.props.emiBinValidationErrorMessage ? this.props.emiBinValidationErrorMessage : "",
+        };
+	}
+
+    onChangeCardNumber(val) {
+        this.setState({ cardNumber: val });
+        this.onChange({ cardNumber: val });
+        // let allowEmiEligibleBin = false;
+        // if (this.props.isDebitCard == undefined) {
+        //   allowEmiEligibleBin = true;
+        // }
+        if (val.replace(/\s/g, "").length < 6) {
+            this.setState({ isCalledBinValidation: false });
+        }
+        if (
+            (val.replace(/\s/g, "").length >= 6 &&
+                val.replace(/\s/g, "").length - this.state.cardNumber.replace(/\s/g, "").length > 1) ||
+            (val.replace(/\s/g, "").length >= 6 &&
+                val.replace(/\s/g, "").slice(0, 5) !== this.state.cardNumber.replace(/\s/g, "").slice(0, 5) &&
+                this.state.cardNumber !== val)
+        ) {
+            this.setState({ isCalledBinValidation: true });
+            this.props.binValidation(val.replace(/\s/g, "").substring(0, 6), this.props.isDebitCard);
+        }
+        if (val.replace(/\s/g, "").length >= 6) {
+            this.setState({ isCalledBinValidation: true });
+            if (!this.state.isCalledBinValidation) {
+                this.props.binValidation(val.replace(/\s/g, "").substring(0, 6), this.props.isDebitCard);
+            }
+        }
     }
 
-    this.monthOptions = [
-      { label: "1", value: 1 },
-      { label: "2", value: 2 },
-      { label: "3", value: 3 },
-      { label: "4", value: 4 },
-      { label: "5", value: 5 },
-      { label: "6", value: 6 },
-      { label: "7", value: 7 },
-      { label: "8", value: 8 },
-      { label: "9", value: 9 },
-      { label: "10", value: 10 },
-      { label: "11", value: 11 },
-      { label: "12", value: 12 }
-    ];
-    this.state = {
-      selected: false,
-      cardNumber:
-        this.props.cardDetails && this.props.cardDetails.cardNumber
-          ? this.props.cardDetails.cardNumber
-          : "",
-      cardName:
-        this.props.cardDetails && this.props.cardDetails.cardName
-          ? this.props.cardDetails.cardName
-          : "",
-      cvvNumber:
-        this.props.cardDetails && this.props.cardDetails.cvvNumber
-          ? this.props.cardDetails.cvvNumber
-          : "",
-      ExpiryMonth:
-        this.props.cardDetails && this.props.cardDetails.monthValue
-          ? this.props.cardDetails.monthValue
-          : null,
-      ExpiryYear:
-        this.props.cardDetails && this.props.cardDetails.yearValue
-          ? this.props.cardDetails.yearValue
-          : null,
-      value:
-        this.props.cardDetails && this.props.cardDetails.value
-          ? props.value
-          : "",
-      monthValue:
-        this.props.cardDetails && this.props.cardDetails.monthValue
-          ? this.props.cardDetails.monthValue
-          : "",
-      yearValue:
-        this.props.cardDetails && this.props.cardDetails.yearValue
-          ? this.props.cardDetails.yearValue
-          : "",
-      isCalledBinValidation: false,
-      invalidCard: false,
-      emiInvalidCardError: this.props.emiBinValidationErrorMessage
-        ? this.props.emiBinValidationErrorMessage
-        : ""
+    getNumber() {
+        return this.props.cardNumber && this.props.cardNumber.length > 0
+            ? this.props.cardNumber
+                  .replace(REGX_FOR_WHITE_SPACE, "")
+                  .replace(REGX_FOR_CARD_FORMATTER, "$1 ")
+                  .trim()
+            : this.state.cardNumber
+            ? this.state.cardNumber
+                  .replace(REGX_FOR_WHITE_SPACE, "")
+                  .replace(REGX_FOR_CARD_FORMATTER, "$1 ")
+                  .trim()
+            : "";
+    }
+
+    onChange(val) {
+        this.setState(val);
+        if (this.props.onChangeCardDetail) {
+            this.props.onChangeCardDetail(val);
+        }
+    }
+
+    onBlurOfCardInput() {
+        const card = new cardValidator(this.state.cardNumber);
+        if (this.state.cardNumber !== "") {
+            if (card.validateCard()) {
+                this.setState({ invalidCard: false });
+            } else {
+                this.setState({ invalidCard: true });
+            }
+        } else {
+            this.setState({ invalidCard: false });
+        }
+        this.handleOnBlur();
+    }
+
+    handleOnFocusInput() {
+        if (this.props.onFocusInput) {
+            this.props.onFocusInput();
+        }
+    }
+
+    handleOnBlur() {
+        if (this.props.onBlur) {
+            this.props.onBlur();
+        }
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.cardDetails && (!nextProps.cardDetails.cardNumber || nextProps.cardDetails.cardNumber === "")) {
+            this.setState({
+                selected: false,
+                cardNumber: "",
+                cardName: "",
+                cvvNumber: "",
+                ExpiryMonth: null,
+                ExpiryYear: null,
+                value: "",
+                monthValue: "Expiry Month",
+                yearValue: "Expiry year",
+            });
+        } else {
+            this.setState({
+                cardNumber: nextProps.cardDetails && nextProps.cardDetails.cardNumber,
+                cardName: nextProps.cardDetails && nextProps.cardDetails.cardName,
+                cvvNumber: nextProps.cardDetails && nextProps.cardDetails.cvvNumber,
+                ExpiryMonth: nextProps.cardDetails && nextProps.cardDetails.monthValue,
+                ExpiryYear: nextProps.cardDetails && nextProps.cardDetails.yearValue,
+                monthValue: nextProps.cardDetails && nextProps.cardDetails.monthValue,
+                yearValue: nextProps.cardDetails && nextProps.cardDetails.yearValue,
+                emiInvalidCardError: nextProps.emiBinValidationErrorMessage,
+            });
+        }
+    }
+
+    handleCheckout = () => {
+      if (this.props.onCheckout) {
+        if (this.props.whatsappSelected) {
+          getWhatsAppNotification(WHATSAPP_NOTIFICATION_CHECKED);
+        } else if (!this.props.whatsappSelected) {
+          getWhatsAppNotification(WHATSAPP_NOTIFICATION_UNCHECKED);
+        }
+        this.props.onCheckout();
+      }
     };
-  }
-
-  onChangeCardNumber(val) {
-    this.setState({ cardNumber: val });
-    this.onChange({ cardNumber: val });
-    // let allowEmiEligibleBin = false;
-    // if (this.props.isDebitCard == undefined) {
-    //   allowEmiEligibleBin = true;
-    // }
-    if (val.replace(/\s/g, "").length < 6) {
-      this.setState({ isCalledBinValidation: false });
-    }
-    if (
-      (val.replace(/\s/g, "").length >= 6 &&
-        val.replace(/\s/g, "").length -
-          this.state.cardNumber.replace(/\s/g, "").length >
-          1) ||
-      (val.replace(/\s/g, "").length >= 6 &&
-        val.replace(/\s/g, "").slice(0, 5) !==
-          this.state.cardNumber.replace(/\s/g, "").slice(0, 5) &&
-        this.state.cardNumber !== val)
-    ) {
-      this.setState({ isCalledBinValidation: true });
-      this.props.binValidation(
-        val.replace(/\s/g, "").substring(0, 6),
-        this.props.isDebitCard
-      );
-    }
-    if (val.replace(/\s/g, "").length >= 6) {
-      this.setState({ isCalledBinValidation: true });
-      if (!this.state.isCalledBinValidation) {
-        this.props.binValidation(
-          val.replace(/\s/g, "").substring(0, 6),
-          this.props.isDebitCard
-        );
-      }
-    }
-  }
-
-  getNumber() {
-    return this.props.cardNumber && this.props.cardNumber.length > 0
-      ? this.props.cardNumber
-          .replace(REGX_FOR_WHITE_SPACE, "")
-          .replace(REGX_FOR_CARD_FORMATTER, "$1 ")
-          .trim()
-      : this.state.cardNumber
-      ? this.state.cardNumber
-          .replace(REGX_FOR_WHITE_SPACE, "")
-          .replace(REGX_FOR_CARD_FORMATTER, "$1 ")
-          .trim()
-      : "";
-  }
-
-  onChange(val) {
-    this.setState(val);
-    if (this.props.onChangeCardDetail) {
-      this.props.onChangeCardDetail(val);
-    }
-  }
-  onBlurOfCardInput() {
-    const card = new cardValidator(this.state.cardNumber);
-    if (this.state.cardNumber !== "") {
-      if (card.validateCard()) {
-        this.setState({ invalidCard: false });
-      } else {
-        this.setState({ invalidCard: true });
-      }
-    } else {
-      this.setState({ invalidCard: false });
-    }
-    this.handleOnBlur();
-  }
-  handleOnFocusInput() {
-    if (this.props.onFocusInput) {
-      this.props.onFocusInput();
-    }
-  }
-  handleOnBlur() {
-    if (this.props.onBlur) {
-      this.props.onBlur();
-    }
-  }
-  componentWillReceiveProps(nextProps) {
-    if (
-      nextProps.cardDetails &&
-      (!nextProps.cardDetails.cardNumber ||
-        nextProps.cardDetails.cardNumber === "")
-    ) {
-      this.setState({
-        selected: false,
-        cardNumber: "",
-        cardName: "",
-        cvvNumber: "",
-        ExpiryMonth: null,
-        ExpiryYear: null,
-        value: "",
-        monthValue: "Expiry Month",
-        yearValue: "Expiry year"
-      });
-    } else {
-      this.setState({
-        cardNumber: nextProps.cardDetails && nextProps.cardDetails.cardNumber,
-        cardName: nextProps.cardDetails && nextProps.cardDetails.cardName,
-        cvvNumber: nextProps.cardDetails && nextProps.cardDetails.cvvNumber,
-        ExpiryMonth: nextProps.cardDetails && nextProps.cardDetails.monthValue,
-        ExpiryYear: nextProps.cardDetails && nextProps.cardDetails.yearValue,
-        monthValue: nextProps.cardDetails && nextProps.cardDetails.monthValue,
-        yearValue: nextProps.cardDetails && nextProps.cardDetails.yearValue,
-        emiInvalidCardError: nextProps.emiBinValidationErrorMessage
-      });
-    }
-  }
-  handleCheckout = () => {
-    if (this.props.onCheckout) {
-      if (this.props.whatsappSelected) {
-        getWhatsAppNotification(WHATSAPP_NOTIFICATION_CHECKED);
-      } else if (!this.props.whatsappSelected) {
-        getWhatsAppNotification(WHATSAPP_NOTIFICATION_UNCHECKED);
-      }
-      localStorage.setItem(IS_FORWARD_JOURNEY, true);
-      this.props.onCheckout();
-    }
-  };
 
   render() {
     return (
@@ -259,7 +230,10 @@ export default class CreditCardForm extends React.Component {
                 )}
               {this.state.emiInvalidCardError &&
                 this.state.cardNumber.length > 6 && (
-                  <span className={styles.invalidCardText}>
+                  <span
+                    className={styles.invalidCardText}
+                    data-test="creditCardForm-err-msg"
+                  >
                     {this.state.emiInvalidCardError}
                   </span>
                 )}
@@ -425,27 +399,37 @@ export default class CreditCardForm extends React.Component {
                     onClick={this.handleCheckout}
                   />
                 </div>
-              </DesktopOnly>
+				</DesktopOnly>
             </div>
-          </div>
-          <div className={styles.saveCardText}>
-            <div className={styles.saveText}>
-              We will save your card details securely for a faster checkout; we
-              don't store the CVV number. To remove your card details, visit My
-              Account.
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+			</div>
+		</div>
+		</div>
+        );
+    }
 }
 CreditCardForm.propTypes = {
-  placeholder: PropTypes.string,
-  placeHolderCardName: PropTypes.string,
-  selected: PropTypes.bool,
-  onClick: PropTypes.func,
-  onSaveData: PropTypes.func,
-  optionsYear: PropTypes.string,
-  options: PropTypes.string
+    placeholder: PropTypes.string,
+    placeHolderCardName: PropTypes.string,
+    selected: PropTypes.bool,
+    onClick: PropTypes.func,
+    onSaveData: PropTypes.func,
+    optionsYear: PropTypes.string,
+    options: PropTypes.string,
+    cardDetails: PropTypes.object,
+    value: PropTypes.string,
+    emiBinValidationErrorMessage: PropTypes.string,
+    binValidation: PropTypes.func,
+    isDebitCard: PropTypes.bool,
+    cardNumber: PropTypes.string,
+    onChangeCardDetail: PropTypes.func,
+    onFocusInput: PropTypes.func,
+    onBlur: PropTypes.func,
+    emiEligibiltyDetails: PropTypes.object,
+    bankError: PropTypes.string,
+    bankGatewayStatus: PropTypes.string,
+    cardName: PropTypes.string,
+    cvvNumber: PropTypes.string,
+    buttonDisabled: PropTypes.bool,
+    onCheckout: PropTypes.func,
+    whatsappSelected: PropTypes.bool,
 };

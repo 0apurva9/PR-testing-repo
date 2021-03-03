@@ -17,6 +17,7 @@ export default class FilterCategorySection extends Component {
       selectedCategoryCodes
     };
   }
+
   onSelect(val) {
     const selectedCategoryCodes = this.state.selectedCategoryCodes;
     // if the val is in selectedCategoryCodes, then we need to reverse the render
@@ -31,6 +32,7 @@ export default class FilterCategorySection extends Component {
       this.props.onCategorySelect(val);
     }
   }
+
   render() {
     return (
       <div className={styles.base}>
@@ -73,5 +75,7 @@ FilterCategorySection.propTypes = {
       subListItem: PropTypes.string,
       subListCount: PropTypes.number
     })
-  )
+  ),
+  categoryTypeList: PropTypes.array,
+  onCategorySelect: PropTypes.func
 };

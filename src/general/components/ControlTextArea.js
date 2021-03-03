@@ -7,11 +7,13 @@ export default class ControlTextArea extends React.Component {
       this.props.onFocus(event);
     }
   }
+
   handleChange(event) {
     if (this.props.onChange) {
       this.props.onChange(event.target.value);
     }
   }
+
   render() {
     return (
       <div className={styles.container}>
@@ -35,7 +37,8 @@ ControlTextArea.propTypes = {
   height: PropTypes.number,
   value: PropTypes.string,
   placeholder: PropTypes.string,
-  maxLength: PropTypes.number
+  maxLength: PropTypes.number,
+  onFocus: PropTypes.func,
 };
 ControlTextArea.defaultProps = {
   height: 100,

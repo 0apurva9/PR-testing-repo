@@ -12,6 +12,7 @@ export default class SearchInput extends React.Component {
       value: null
     };
   }
+
   handleOnChange(val) {
     this.setState({ value: val }, () => {
       if (this.props.onChange) {
@@ -19,6 +20,7 @@ export default class SearchInput extends React.Component {
       }
     });
   }
+
   render() {
     return (
       <ControlInput

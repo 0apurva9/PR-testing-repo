@@ -18,6 +18,7 @@ class CustomerCallSuccessModal extends React.Component {
     super();
     this.clickedOnSubmitButton = false;
   }
+
   componentWillUnmount() {
     this.props.history.push(HOME_ROUTER);
   }
@@ -29,6 +30,7 @@ class CustomerCallSuccessModal extends React.Component {
   closeModal() {
     this.props.closeModal();
   }
+
   render() {
     const { PrefferedSlot = "", WaitTime = 0 } =
       (this.props &&
@@ -80,7 +82,11 @@ export default withRouter(CustomerCallSuccessModal);
 
 CustomerCallSuccessModal.propTypes = {
   closeModal: PropTypes.func,
+  history:PropTypes.shape({
+  push:PropTypes.func,
+  }),
   callSuccessData: PropTypes.shape({
+    data:PropTypes.object,
     Status: PropTypes.string,
     RecUpdated: PropTypes.string,
     PrefferedSlot: PropTypes.string

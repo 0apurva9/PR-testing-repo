@@ -16,6 +16,7 @@ class DiscoverMore500 extends React.Component {
       showAll: false
     };
   }
+
   handleClick = (webUrl, categoryName, i) => {
     widgetsTracking({
       widgetName:
@@ -73,13 +74,15 @@ class DiscoverMore500 extends React.Component {
 export default withRouter(DiscoverMore500);
 DiscoverMore500.propTypes = {
   feedComponentData: PropTypes.shape({
-    data: PropTypes.shape({
+    title: PropTypes.string,
+    postParams: PropTypes.object,
       data: PropTypes.arrayOf(
         PropTypes.shape({
           imageURL: PropTypes.string,
           title: PropTypes.string
         })
       )
-    })
-  })
+  }),
+  history: PropTypes.object,
+  setClickedElementId: PropTypes.func
 };

@@ -11,7 +11,6 @@ import {
   tempCartIdForLoggedInUser,
   getCartCountForLoggedInUser,
   removeItemFromCartLoggedIn,
-  getMinicartProducts
 } from "../../cart/actions/cart.actions";
 import * as Cookies from "../../lib/Cookie";
 import { withRouter } from "react-router-dom";
@@ -43,7 +42,6 @@ import {
 } from "../../lib/adobeUtils";
 import { getCartDetails } from "../../cart/actions/cart.actions.js";
 import {
-  getWishListItems,
   createWishlist,
   addProductToWishList,
   getWishlist
@@ -52,7 +50,6 @@ import {
   showSecondaryLoader,
   hideSecondaryLoader
 } from "../../general/secondaryLoader.actions.js";
-import ProductDetails from "../../pdp/components/ProductDetails";
 import { retryPayment } from "../../account/actions/account.actions";
 export const OTP_VERIFICATION_REQUIRED_MESSAGE = "OTP VERIFICATION REQUIRED";
 const mapDispatchToProps = dispatch => {
@@ -181,7 +178,7 @@ const mapDispatchToProps = dispatch => {
             dispatch(setIfAllAuthCallsHaveSucceeded());
             // dispatch(getCartCountForLoggedInUser());
           }
-          let haveCart;
+
           if (guid) {
             // Get the bagCount if Cart GUID exists for Logged-in user
             await dispatch(
@@ -221,7 +218,7 @@ const mapDispatchToProps = dispatch => {
           ? parseInt(JSON.parse(cartDetailsLoggedInUser).count)
           : 0;
         if (productObj.index >= 0) {
-          const removeCartResponse = await dispatch(
+          await dispatch(
             removeItemFromCartLoggedIn(
               cartDetailsLoggedInUserCount -
                 cartDetailsCount +

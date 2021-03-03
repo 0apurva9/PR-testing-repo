@@ -40,6 +40,7 @@ export default class ConnectWidget extends React.Component {
 
     return levelTwoEncryption;
   }
+
   handleClick(webUrl) {
     if (
       (webUrl === "#" || !webUrl) &&
@@ -149,7 +150,12 @@ export default class ConnectWidget extends React.Component {
 }
 ConnectWidget.propTypes = {
   knowMore: PropTypes.string,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  feedComponentData: PropTypes.object,
+  getTargetMboxData: PropTypes.func,
+  history: PropTypes.object,
+  setClickedElementId: PropTypes.func,
+  positionInFeed: PropTypes.bool
 };
 ConnectWidget.defaultProps = {
   header: "Faster Delivery, Easier Returns.",

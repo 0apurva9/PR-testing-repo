@@ -76,5 +76,11 @@ AutomatedBrandProductCarousel.propTypes = {
   bannerImage: PropTypes.string,
   bannerLogo: PropTypes.string,
   bannerDescription: PropTypes.string,
-  seeAll: PropTypes.func
+  seeAll: PropTypes.func,
+  feedComponentData: PropTypes.object,
+  history: PropTypes.object,
+  setClickedElementId: PropTypes.func,
+  getItems: PropTypes.func,
+  positionInFeed: PropTypes.number,
+  postData: PropTypes.object
 };

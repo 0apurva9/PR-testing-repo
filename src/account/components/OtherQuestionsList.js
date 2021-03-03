@@ -1,9 +1,12 @@
 import React, { Component } from "react";
 import styles from "./OtherQuestionsList.css";
+const images = require.context("./img", true);
+
 export default class OtherQuestionsList extends Component {
   constructor(props) {
     super(props);
   }
+
   componentDidMount() {
     window.scroll(0, 0);
   }
@@ -35,7 +38,7 @@ export default class OtherQuestionsList extends Component {
                         this.props.selectOtehrQuestion(parrentIssue)
                       }
                       style={{
-                        background: `url(${require(`./img/${bgImage}.svg`)})`,
+                        background: `url(${images(`./${bgImage}.svg`).default})`,
                         backgroundSize: "cover",
                         backgroundRepeat: "no-repeat"
                       }}

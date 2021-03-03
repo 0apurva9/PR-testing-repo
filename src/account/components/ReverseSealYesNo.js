@@ -12,16 +12,19 @@ export default class ReverseSealYesNo extends React.Component {
       confirmation: null
     };
   }
+
   moreInfo() {
     if (this.props.moreInfo) {
       this.props.moreInfo();
     }
   }
+
   onSelectReverseSeal(val) {
     if (this.props.selectReverseSeal) {
       this.props.selectReverseSeal(val);
     }
   }
+
   render() {
     const options = [
       {
@@ -65,6 +68,7 @@ export default class ReverseSealYesNo extends React.Component {
                 {options.map((val, i) => {
                   return (
                     <YesNoQuestion
+                      key={i}
                       text={val.text}
                       confirmation={val.confirmation}
                       value={val.confirmation}
@@ -80,7 +84,8 @@ export default class ReverseSealYesNo extends React.Component {
 }
 ReverseSealYesNo.propTypes = {
   moreInfo: PropTypes.func,
-  isMoreInfo: PropTypes.bool
+  isMoreInfo: PropTypes.bool,
+  selectReverseSeal: PropTypes.func
 };
 ReverseSealYesNo.defaultProps = {
   isMoreInfo: false

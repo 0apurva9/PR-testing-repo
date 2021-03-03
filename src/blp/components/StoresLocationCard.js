@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./StoresLocationCard.css";
 import PropTypes from "prop-types";
-import Image from "../../xelpmoc-core/Image";
 
 export default class StoresLocationCard extends React.Component {
   render() {
@@ -34,5 +33,6 @@ export default class StoresLocationCard extends React.Component {
 StoresLocationCard.propTypes = {
   headingText: PropTypes.string,
   label: PropTypes.string,
-  image: PropTypes.string
+  image: PropTypes.string,
+  descriptionText: PropTypes.string
 };

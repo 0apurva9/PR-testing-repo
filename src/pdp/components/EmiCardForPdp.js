@@ -77,7 +77,9 @@ EmiCardForPdp.propTypes = {
       term: PropTypes.string,
       interestPayable: PropTypes.string
     })
-  )
+  ),
+  showInterestRate: PropTypes.bool,
+  width: PropTypes.number
 };
 EmiCardForPdp.defaultProps = {
   showInterestRate: true,

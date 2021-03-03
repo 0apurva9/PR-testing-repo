@@ -14,6 +14,7 @@ class BankOffersDetails extends Component {
       selectedBankOfferCode: props.selectedBankOfferCode
     };
   }
+
   async applyUserCoupon() {
     if (this.state.selectedBankOfferCode) {
       if (
@@ -113,6 +114,7 @@ class BankOffersDetails extends Component {
       }
     }
   }
+
   render() {
     return (
       <SlideModal {...this.props}>

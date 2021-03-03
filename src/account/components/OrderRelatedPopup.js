@@ -12,8 +12,7 @@ export default class OrderRelatedPopup extends React.Component {
     orderDate,
     productName,
     productPrice,
-    productStatus,
-    index
+    productStatus
   ) {
     if (this.props.setProductDetails) {
       this.props.setProductDetails(
@@ -40,6 +39,7 @@ export default class OrderRelatedPopup extends React.Component {
       this.props.closeModal();
     }
   }
+
   render() {
     return (
       <div className={styles.base}>
@@ -55,7 +55,7 @@ export default class OrderRelatedPopup extends React.Component {
               this.props.ordersTransactionData.orderData.map(
                 (orderDetails, index) => {
                   return (
-                    <div className={styles.orderMainCard}>
+                    <div key={index} className={styles.orderMainCard}>
                       {orderDetails.products &&
                         orderDetails.products.map((productsDetails, i) => {
                           return (
@@ -70,8 +70,7 @@ export default class OrderRelatedPopup extends React.Component {
                                   orderDetails.orderDate,
                                   productsDetails.productName,
                                   productsDetails.price,
-                                  productsDetails.statusDisplay,
-                                  index
+                                  productsDetails.statusDisplay
                                 )
                               }
                               key={i}

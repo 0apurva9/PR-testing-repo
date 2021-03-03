@@ -19,11 +19,6 @@ export default class ReviewList extends React.Component {
                 if (!data) return null;
                 let userName = data.userName;
                 let alias = data.alias;
-                let name =
-                  data &&
-                  data.principal &&
-                  data.principal.name &&
-                  data.principal.name.trim();
                 return (
                   <ReviewPage
                     fromBeautyPdp={this.props.fromBeautyPdp}
@@ -45,11 +40,6 @@ export default class ReviewList extends React.Component {
               if (!data) return null;
               let userName = data.userName;
               let alias = data.alias;
-              /*  let name =
-                data &&
-                data.principal &&
-                data.principal.name &&
-                data.principal.name.trim(); */
               return (
                 <ReviewPage
                   fromBeautyPdp={this.props.fromBeautyPdp}
@@ -76,7 +66,10 @@ ReviewList.propTypes = {
       rating: PropTypes.String,
       heading: PropTypes.string,
       text: PropTypes.string,
-      label: PropTypes.String
-    })
-  )
+      label: PropTypes.String,
+      })
+    ),
+    limit: PropTypes.number,
+    fromBeautyPdp: PropTypes.bool,
+    currentreviewList: PropTypes.array
 };

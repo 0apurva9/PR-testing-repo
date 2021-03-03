@@ -11,6 +11,7 @@ export default class BankOfferPersonalisedComponent extends React.Component {
       targetData: ""
     };
   }
+
   componentDidMount = async () => {
     let check =
       this.props.feedComponentData &&
@@ -39,6 +40,7 @@ export default class BankOfferPersonalisedComponent extends React.Component {
       }
     }
   };
+
   handleClick(webUrl) {
     if (webUrl) {
       // Check if URL starts https://www.tatacliq.com or https://tatacliq.com

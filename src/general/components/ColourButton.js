@@ -7,6 +7,7 @@ export default class ColourButton extends React.Component {
       this.props.onClick();
     }
   }
+
   render() {
     return (
       <div
@@ -28,9 +29,11 @@ export default class ColourButton extends React.Component {
 ColourButton.propTypes = {
   onClick: PropTypes.func,
   color: PropTypes.string,
+  colour: PropTypes.string,
   label: PropTypes.string,
   fontFamily: PropTypes.string,
-  fontSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  fontSize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  size: PropTypes.string
 };
 ColourButton.defaultProps = {
   size: "14px"

@@ -24,6 +24,7 @@ export default class FlashSale extends React.Component {
       collapse: false
     };
   }
+
   componentDidUpdate() {
     const offers = this.props.feedComponentData.offers;
     const itemIds = this.props.feedComponentData.itemIds;
@@ -237,6 +238,7 @@ export default class FlashSale extends React.Component {
 }
 FlashSale.propTypes = {
   backgroundImage: PropTypes.string,
+  feedComponentData: PropTypes.object,
   data: PropTypes.arrayOf(
     PropTypes.shape({
       imageURL: PropTypes.string,
@@ -244,7 +246,14 @@ FlashSale.propTypes = {
       description: PropTypes.string,
       price: PropTypes.string
     })
-  )
+  ),
+  getItems: PropTypes.func,
+  positionInFeed: PropTypes.number,
+  postData: PropTypes.object,
+  location: PropTypes.object,
+  history: PropTypes.object,
+  setClickedElementId: PropTypes.func,
+  buttonText: PropTypes.string
 };
 FlashSale.defaultProps = {
   headingText: "Exclusive offers",

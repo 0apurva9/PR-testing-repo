@@ -18,6 +18,7 @@ export default class DropdownMenu extends React.Component {
       value
     );
   };
+
   goToOrdersPage = value => {
     setDataLayerForHeaderAndFooterDirectCalls(
       ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
@@ -27,6 +28,7 @@ export default class DropdownMenu extends React.Component {
       this.props.goToOrdersPage();
     }
   };
+
   goToDefaultWishList = value => {
     setDataLayerForHeaderAndFooterDirectCalls(
       ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
@@ -36,6 +38,7 @@ export default class DropdownMenu extends React.Component {
       this.props.goToDefaultWishList();
     }
   };
+
   goToAlertsAndCoupon = value => {
     setDataLayerForHeaderAndFooterDirectCalls(
       ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
@@ -45,6 +48,7 @@ export default class DropdownMenu extends React.Component {
       this.props.goToAlertsAndCoupon();
     }
   };
+
   goToGiftCard = value => {
     setDataLayerForHeaderAndFooterDirectCalls(
       ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
@@ -54,6 +58,7 @@ export default class DropdownMenu extends React.Component {
       this.props.goToGiftCard();
     }
   };
+
   goToCliqCash = value => {
     setDataLayerForHeaderAndFooterDirectCalls(
       ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
@@ -63,6 +68,7 @@ export default class DropdownMenu extends React.Component {
       this.props.goToCliqCash();
     }
   };
+
   openSignUpPopUp(value) {
     setDataLayerForHeaderAndFooterDirectCalls(
       ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
@@ -72,6 +78,7 @@ export default class DropdownMenu extends React.Component {
       this.props.openSignUp();
     }
   }
+
   render() {
     let userCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
     if (userCookie) {

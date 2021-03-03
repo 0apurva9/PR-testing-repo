@@ -6,11 +6,12 @@ export default class BottomSlideModal extends React.Component {
       this.props.closeModal();
     }
   }
+
   render() {
     return (
       <div className={styles.base}>
         {this.props.heading && (
-          <div className={styles.header}>
+          <div className={styles.header} data-test="bottom-slide-heading">
             {this.props.heading}
             <div
               className={styles.cancel}

@@ -11,11 +11,13 @@ export default class BrandsToolTip extends React.Component {
       this.props.onClick();
     }
   }
+
   unfollow() {
     if (this.props.unfollow) {
       this.props.unfollow();
     }
   }
+
   render() {
     let className = styles.delete;
     return (
@@ -50,7 +52,10 @@ export default class BrandsToolTip extends React.Component {
     );
   }
 }
+
 BrandsToolTip.propTypes = {
   onClick: PropTypes.func,
-  logo: PropTypes.string
+  logo: PropTypes.string,
+  unfollow: PropTypes.func,
+  onDelete: PropTypes.bool
 };

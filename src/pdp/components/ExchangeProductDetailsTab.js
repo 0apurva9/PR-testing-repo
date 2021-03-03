@@ -9,9 +9,11 @@ export default class ExchangeProductDetailsTab extends React.Component {
   openCashbackModal() {
     this.props.openCashbackModal();
   }
+
   changeDevice(deviceNo) {
     this.props.changeDevice(deviceNo);
   }
+
   render() {
     return (
       <React.Fragment>
@@ -24,7 +26,7 @@ export default class ExchangeProductDetailsTab extends React.Component {
           {this.props.bothDeviceAdded && (
             <span
               className={styles.changeDevice}
-              onClick={deviceNo => this.changeDevice(this.props.deviceNo)}
+              onClick={() => this.changeDevice(this.props.deviceNo)}
             >
               Change
             </span>

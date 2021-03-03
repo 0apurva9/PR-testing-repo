@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./DigitalBundledProductSuggestion.css";
-import PropTypes from "prop-types";
 import ProductImage from "../../general/components/ProductImage";
 import {
   SUCCESS,
@@ -31,13 +30,14 @@ export default class DigitalBundledProductSuggestion extends React.Component {
       showLoader: false
     };
   }
-  componentDidUpdate(prevProps, prevState) {
+
+  componentDidUpdate(prevProps) {
     if (
       this.props.addBundledProductsToCartDetails !==
       prevProps.addBundledProductsToCartDetails
     ) {
       if (
-        this.props.addBundledProductsToCartDetails.status.toLowerCase() ===
+        this.convertToLowerCase(this.props.addBundledProductsToCartDetails.status) ===
         SUCCESS
       ) {
         this.setState({ showLoader: false });
@@ -64,7 +64,7 @@ export default class DigitalBundledProductSuggestion extends React.Component {
       }
 
       if (
-        this.props.addBundledProductsToCartDetails.status.toLowerCase() ===
+        this.convertToLowerCase(this.props.addBundledProductsToCartDetails.status) ===
         FAILURE_LOWERCASE
       ) {
         this.setState({ showLoader: false });
@@ -112,6 +112,12 @@ export default class DigitalBundledProductSuggestion extends React.Component {
     this.props.addBundledProductsToCart(bundledProductDataForAddToCart, "CART");
   }
 
+  convertToLowerCase(data){
+	if(data){
+		return data.toLowerCase();
+	}
+  }
+
   render() {
     let productName = trimProductName(
       this.props.digitalProduct.productName,
@@ -129,8 +135,8 @@ export default class DigitalBundledProductSuggestion extends React.Component {
               parseFloat(this.props.digitalProduct.bundlingDiscount) !== 0 && (
                 <ComboOfferStrip
                   bundlingDiscount={this.props.digitalProduct.bundlingDiscount}
-                  productName={this.props.digitalProduct.productName}
-                  isUIChange={true}
+                  productName={this.props.mainProduct.productName}
+                  isFromCartPage={true}
                 />
               )}
             <div className={styles.digitalBundledProductDetails}>
@@ -190,46 +196,3 @@ export default class DigitalBundledProductSuggestion extends React.Component {
     );
   }
 }
-
-DigitalBundledProductSuggestion.propTypes = {
-  mainProduct: PropTypes.object,
-  digitalProduct: PropTypes.objectOf(
-    PropTypes.shape({
-      imageURL: PropTypes.string,
-      productListingId: PropTypes.string,
-      productName: PropTypes.string,
-      mrpPrice: PropTypes.objectOf(
-        PropTypes.shape({
-          currencyIso: PropTypes.string,
-          doubleValue: PropTypes.number,
-          formattedValue: PropTypes.string,
-          formattedValueNoDecimal: PropTypes.string,
-          priceType: PropTypes.string,
-          value: PropTypes.number,
-          currencySymbol: PropTypes.string
-        })
-      ),
-      winningSellerPrice: PropTypes.objectOf(
-        PropTypes.shape({
-          currencyIso: PropTypes.string,
-          doubleValue: PropTypes.number,
-          formattedValue: PropTypes.string,
-          formattedValueNoDecimal: PropTypes.string,
-          priceType: PropTypes.string,
-          value: PropTypes.number,
-          currencySymbol: PropTypes.string
-        })
-      )
-    })
-  ),
-  history: PropTypes.object,
-  addBundledProductsToCartDetails: PropTypes.objectOf(
-    PropTypes.shape({
-      status: PropTypes.string,
-      error: PropTypes.string
-    })
-  ),
-  addBundledProductsToCart: PropTypes.func,
-  getCartDetails: PropTypes.func,
-  displayToast: PropTypes.func
-};

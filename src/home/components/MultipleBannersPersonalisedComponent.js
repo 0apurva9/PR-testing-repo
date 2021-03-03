@@ -12,6 +12,7 @@ export default class MultipleBannersPersonalisedComponent extends React.Componen
       targetData: ""
     };
   }
+
   componentDidMount = async () => {
     let check =
       this.props.feedComponentData &&
@@ -40,6 +41,7 @@ export default class MultipleBannersPersonalisedComponent extends React.Componen
       }
     }
   };
+
   handleClick(webUrl) {
     if (webUrl) {
       // Check if URL starts https://www.tatacliq.com or https://tatacliq.com
@@ -58,6 +60,7 @@ export default class MultipleBannersPersonalisedComponent extends React.Componen
       this.props.setClickedElementId();
     }
   }
+
   render() {
     let data = this.state.targetData
       ? this.state.targetData

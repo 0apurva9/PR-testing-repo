@@ -3,12 +3,14 @@ import styles from "./ProductDescriptionPage.css";
 
 export default class FlixMediaContainer extends React.Component {
   scripts = [];
+
   constructor(props) {
     super(props);
     this.state = {
       flixModelNo: null
     };
   }
+
   componentDidMount() {
     let flixModelNo = this.props.flixModelNo.value;
     let brandName = this.props.brandName.toUpperCase();
@@ -31,6 +33,7 @@ export default class FlixMediaContainer extends React.Component {
     headID.appendChild(flixScript);
     this.setState({ flixModelNo: flixModelNo });
   }
+
   render() {
     return <div id="flixinpage" className={styles.flixInpage} />;
   }

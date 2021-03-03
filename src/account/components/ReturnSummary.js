@@ -56,16 +56,19 @@ export default class ReturnSummary extends React.Component {
       this.props.onContinue();
     }
   }
+
   onChangeAddress() {
     if (this.props.onChangeAddress) {
       this.props.onChangeAddress();
     }
   }
+
   handleCancel() {
     if (this.props.onCancel) {
       this.props.onCancel();
     }
   }
+
   render() {
     return (
       <ReturnsFrame
@@ -160,6 +163,33 @@ export default class ReturnSummary extends React.Component {
 ReturnSummary.propTypes = {
   onChangeAddress: PropTypes.func,
   onContinue: PropTypes.func,
+  onCancel:PropTypes.func,
+  isPaypal:PropTypes.bool,
+  orderDetails:PropTypes.shape({
+    paymentCardDigit:PropTypes.string,
+    paymentCard:PropTypes.string,
+  }),
+  selectedAddress:PropTypes.shape({
+    addressType:PropTypes.string,
+    line1:PropTypes.string,
+    landmark:PropTypes.string,
+    state:PropTypes.string,
+    city:PropTypes.string,
+    postalCode:PropTypes.string,
+  }),
+  returnProducts:PropTypes.shape({
+    orderProductWsDTO: PropTypes.arrayOf([
+      PropTypes.shape({
+        imageURL: PropTypes.string,
+        productName: PropTypes.string,
+        productBrand: PropTypes.string,
+        price: PropTypes.string,
+        quantity: PropTypes.string
+      })
+    ])
+  }),
+  dateSelected:PropTypes.string,
+  timeSelected:PropTypes.string,
   data: PropTypes.shape({
     addressType: PropTypes.string,
     address1: PropTypes.string,

@@ -1,12 +1,10 @@
 import React from "react";
 import styles from "../../cart/components/AddDeliveryAddress.css";
+import { RouterPropTypes } from "../../general/router-prop-types";
 import PropTypes from "prop-types";
 import Input2 from "../../general/components/Input2.js";
 import ControlInput from "../../general/components/ControlInput";
-import Icon from "../../xelpmoc-core/Icon";
 import SelectBoxMobile2 from "../../general/components/SelectBoxMobile2";
-import CircleButton from "../../xelpmoc-core/CircleButton";
-import informationIcon from "../../general/components/img/GPS.svg";
 import GridSelect from "../../general/components/GridSelect";
 import CheckboxAndText from "../../cart/components/CheckboxAndText";
 import TextArea from "../../general/components/TextArea.js";
@@ -14,19 +12,16 @@ import cloneDeep from "lodash.clonedeep";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
 import Button from "../../general/components/Button";
 import { SUCCESS, ERROR } from "../../lib/constants.js";
-import SelectBoxMobile from "../../general/components/SelectBoxMobile";
 import {
   EMAIL_REGULAR_EXPRESSION,
   MOBILE_PATTERN
 } from "../../auth/components/Login";
 import * as UserAgent from "../../lib/UserAgent.js";
 import * as Cookie from "../../lib/Cookie";
-import AddEmailAddress from "../../cart/components/AddEmailAddress";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import CheckOutHeader from "../../cart/components/CheckOutHeader.js";
 import CancelAndContinueButton from "../../account/components/CancelAndContinueButton";
-import DesktopCheckout from "../../cart/components/DesktopCheckout";
 import ReturnAndOrderCancelWrapper from "../../return/components/ReturnAndOrderCancelWrapper";
 import {
   SAVE_TEXT,
@@ -37,10 +32,6 @@ import {
   ADDRESS_VALIDATION_TEXT,
   ADDRESS_MINLENGTH_VALID_TEXT,
   ADDRESS_MAXLENGTH_VALID_TEXT,
-  EMAIL_TEXT,
-  LANDMARK_TEXT,
-  LANDMARK_ENTER_TEXT,
-  MOBILE_TEXT,
   PINCODE_VALID_TEXT,
   EMAIL_VALID_TEXT,
   PHONE_VALID_TEXT,
@@ -55,9 +46,7 @@ import {
   MY_ACCOUNT_ADDRESS_ADD_PAGE,
   MY_ACCOUNT,
   LOGGED_IN_USER_DETAILS,
-  CUSTOMER_ACCESS_TOKEN,
   MY_ACCOUNT_ADDRESS_PAGE,
-  LOGIN_PATH,
   PINCODE_NOT_SERVICEABLE_TEXT,
   CHECKOUT_ROUTER
 } from "../../lib/constants";
@@ -69,8 +58,6 @@ import {
   ADOBE_ADD_NEW_ADDRESS_ON_CHECKOUT_PAGE,
   ADOBE_ADD_NEW_ADDRESS_ON_MY_ACCOUNT_PAGE
 } from "../../lib/adobeUtils";
-const DISCLAIMER =
-  "Safe and secure payments. Easy returns. 100% Authentic products.";
 export default class ReturnNewAddress extends React.Component {
   constructor(props) {
     super(props);
@@ -78,7 +65,7 @@ export default class ReturnNewAddress extends React.Component {
     this.state = {
       flag:
         `${MY_ACCOUNT}${MY_ACCOUNT_ADDRESS_ADD_PAGE}` === getUrl &&
-        !UserAgent.checkUserAgentIsMobile()
+          !UserAgent.checkUserAgentIsMobile()
           ? true
           : false,
       countryIso: ISO_CODE,
@@ -102,6 +89,7 @@ export default class ReturnNewAddress extends React.Component {
       pinCodeFailure: false
     };
   }
+
   handleOnFocusInput() {
     if (this.props.onFocusInput) {
       this.props.onFocusInput();
@@ -133,6 +121,7 @@ export default class ReturnNewAddress extends React.Component {
       }
     }
   };
+
   handlePhoneInput(val) {
     if (val === "" || /^[0-9]+$/.test(val)) {
       if (val.length <= 10) {
@@ -154,6 +143,7 @@ export default class ReturnNewAddress extends React.Component {
       this.props.getAddressDetails(cloneAddress);
     }
   }
+
   onChange(val) {
     if (val.firstName) {
       if (/^[a-zA-Z]+$/.test(val.firstName)) {
@@ -187,6 +177,7 @@ export default class ReturnNewAddress extends React.Component {
       this.props.getAddressDetails(cloneAddress);
     }
   }
+
   onChangeDefaultFlag() {
     this.setState(prevState => ({
       defaultFlag: !prevState.defaultFlag
@@ -199,6 +190,7 @@ export default class ReturnNewAddress extends React.Component {
       this.props.getAddressDetails(cloneAddress);
     }
   }
+
   componentWillUnmount() {
     if (this.props.resetAddAddressDetails) {
       this.props.resetAddAddressDetails();
@@ -207,6 +199,7 @@ export default class ReturnNewAddress extends React.Component {
       this.props.resetAutoPopulateDataForPinCode();
     }
   }
+
   componentWillReceiveProps(nextProps) {
     let landmarkList = [];
     if (nextProps.addUserAddressStatus === SUCCESS) {
@@ -251,8 +244,8 @@ export default class ReturnNewAddress extends React.Component {
         landmarkList = [{ landmark: OTHER_LANDMARK }];
         let stateName =
           nextProps.getPinCodeDetails &&
-          nextProps.getPinCodeDetails.state &&
-          nextProps.getPinCodeDetails.state.name
+            nextProps.getPinCodeDetails.state &&
+            nextProps.getPinCodeDetails.state.name
             ? nextProps.getPinCodeDetails.state.name
             : "";
         let townName =
@@ -267,6 +260,7 @@ export default class ReturnNewAddress extends React.Component {
       }
     }
   }
+
   onSelectLandmark = landmark => {
     if (landmark.value === OTHER_LANDMARK) {
       if (this.props.clearPinCodeStatus) {
@@ -285,14 +279,17 @@ export default class ReturnNewAddress extends React.Component {
       });
     }
   };
+
   handleCancel() {
     if (this.props.handleCancelAddress) {
       this.props.handleCancelAddress();
     }
   }
+
   onAddressPage() {
     this.props.history.push(`${MY_ACCOUNT}${MY_ACCOUNT_ADDRESS_PAGE}`);
   }
+
   addNewAddress = () => {
     if (!this.state.postalCode) {
       this.props.displayToast(PINCODE_TEXT);
@@ -381,7 +378,6 @@ export default class ReturnNewAddress extends React.Component {
           firstName: `${salutation} ${firstName}`
         });
       }
-      const getUrl = this.props.history.location.pathname;
       if (this.props.history.location.pathname === CHECKOUT_ROUTER) {
         setDataLayerForCheckoutDirectCalls(
           ADOBE_ADD_NEW_ADDRESS_ON_CHECKOUT_PAGE
@@ -413,6 +409,7 @@ export default class ReturnNewAddress extends React.Component {
       isEnable: false
     });
   };
+
   onChangeSalutation(val) {
     this.setState({ salutation: val.value });
   }
@@ -647,7 +644,7 @@ export default class ReturnNewAddress extends React.Component {
                           Character Limit : 120
                         </div>
                         <div className={styles.validAddress}>
-                          Special characters allowed are - # & ( ) ' ' . , \ / +
+                          Special characters allowed are - # & ( ) &apos; &apos; . , \ / +
                           _
                         </div>
                       </DesktopOnly>
@@ -657,7 +654,7 @@ export default class ReturnNewAddress extends React.Component {
                         Character Limit : 120
                       </div>
                       <div className={styles.validAddress}>
-                        Special characters allowed are - # & ( ) ' ' . , \ / + _
+                        Special characters allowed are - # & ( ) &apos; &apos; . , \ / + _
                       </div>
                     </MobileOnly>
                   </div>
@@ -668,7 +665,7 @@ export default class ReturnNewAddress extends React.Component {
                         placeholder={"Landmark"}
                         options={
                           this.state.landmarkList.length > 0 &&
-                          this.state.landmarkList.map((val, i) => {
+                          this.state.landmarkList.map((val) => {
                             return {
                               value: val && val.landmark,
                               label: val && val.landmark
@@ -706,7 +703,7 @@ export default class ReturnNewAddress extends React.Component {
                         placeholder={"Landmark"}
                         options={
                           this.state.landmarkList.length > 0 &&
-                          this.state.landmarkList.map((val, i) => {
+                          this.state.landmarkList.map((val) => {
                             return {
                               value: val && val.landmark,
                               label: val && val.landmark
@@ -858,26 +855,6 @@ export default class ReturnNewAddress extends React.Component {
                     </DesktopOnly>
                   </div>
                 </div>
-
-                {/* Unsure about how to implement this commenting out till then ...
-                                {!this.state.userEmailId &&
-
-                                    this.state.userEmailId === "" && (
-                                        <div className={styles.emailHolder}>
-                                            <AddEmailAddress
-                                                value={
-                                                    this.props.emailId
-                                                        ? this.props.emailId
-                                                        : this.state.emailId
-                                                }
-                                                onChange={emailId =>
-                                                    this.onChangeEmailId(
-                                                        emailId
-                                                    )
-                                                }
-                                            />
-                                        </div>
-                                    )} */}
                 <MobileOnly>
                   <div className={styles.buttonHolder}>
                     <div className={styles.saveAndContinueButton}>
@@ -999,7 +976,7 @@ export default class ReturnNewAddress extends React.Component {
                           placeholder={"Landmark"}
                           options={
                             this.state.landmarkList.length > 0 &&
-                            this.state.landmarkList.map((val, i) => {
+                            this.state.landmarkList.map((val) => {
                               return {
                                 value: val && val.landmark,
                                 label: val && val.landmark
@@ -1157,8 +1134,48 @@ ReturnNewAddress.propTypes = {
   buttonText: PropTypes.string,
   options: PropTypes.string,
   titleValue: PropTypes.string,
-  isReturn: PropTypes.bool
+  isReturn: PropTypes.bool,
+  onFocusInput: PropTypes.func,
+  getUserDetails: PropTypes.func,
+  getPinCode: PropTypes.func,
+  getAddressDetails: PropTypes.func,
+  resetAddAddressDetails: PropTypes.func,
+  resetAutoPopulateDataForPinCode: PropTypes.func,
+  getPincodeStatus: PropTypes.func,
+  addUserAddressStatus: PropTypes.string,
+  clearPinCodeStatus: PropTypes.func,
+  handleCancelAddress: PropTypes.func,
+  addUserAddress: PropTypes.func,
+  loading: PropTypes.bool,
+  showSecondaryLoader: PropTypes.bool,
+  hideSecondaryLoader: PropTypes.bool,
+  label: PropTypes.string,
+  getUrl: PropTypes.func,
+  displayToast: PropTypes.func,
+  postalCode: PropTypes.string,
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  town: PropTypes.string,
+  state: PropTypes.string,
+  line1: PropTypes.string,
+  phone: PropTypes.number,
+  line2: PropTypes.string,
+  isFirstAddress: PropTypes.bool,
+  userAddress: PropTypes.object,
+  getPinCodeDetails: PropTypes.shape({
+    landMarks: PropTypes.string,
+    state: PropTypes.shape({
+      name: PropTypes.string
+    }),
+    cityName: PropTypes.string,
+    landmark: PropTypes.string,
+  }),
+  userDetails: PropTypes.shape({
+    emailID: PropTypes.string
+  }),
+  ...RouterPropTypes
 };
+
 ReturnNewAddress.defaultProps = {
   heading: "Add address",
   defaultAddress: false,

@@ -11,6 +11,7 @@ export default class HeroBannerPersonalisedComponent extends React.Component {
       targetData: ""
     };
   }
+
   componentDidMount = async () => {
     let check =
       this.props.feedComponentData &&
@@ -39,8 +40,9 @@ export default class HeroBannerPersonalisedComponent extends React.Component {
       }
     }
   };
+
   renderBanner = () => {
-    const { feedComponentData, ...rest } = this.props;
+    const { ...rest } = this.props;
     let data = this.state.targetData
       ? this.state.targetData
       : this.props.feedComponentData;
@@ -92,6 +94,7 @@ export default class HeroBannerPersonalisedComponent extends React.Component {
       return <HomeSkeleton />;
     }
   };
+
   render() {
     return (
       <div
@@ -109,6 +112,8 @@ export default class HeroBannerPersonalisedComponent extends React.Component {
 HeroBannerPersonalisedComponent.propTypes = {
   loading: PropTypes.bool,
   feedComponentData: PropTypes.shape({
+    items: PropTypes.array,
+    type: PropTypes.string,
     data: PropTypes.shape({
       items: PropTypes.arrayOf(
         PropTypes.shape({
@@ -118,5 +123,7 @@ HeroBannerPersonalisedComponent.propTypes = {
         })
       )
     })
-  })
+  }),
+  positionInFeed: PropTypes.number,
+  getTargetMboxData: PropTypes.func
 };

@@ -137,7 +137,7 @@ export default class HowAppliancesExchangeWorks extends React.Component {
               <div className={styles.contentDescriptionHEW}>
                 To check if Exchange is available at your location, please check
                 the list of pin codes which are serviceable for exchange on the
-                "Exchange details" page
+                &quot;Exchange details&quot; page
               </div>
             </div>
             <div className={styles.contentContainerHEW}>

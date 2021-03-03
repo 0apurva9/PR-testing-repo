@@ -29,7 +29,7 @@ export default class AddressCarousel extends React.Component {
                     datum.state ? datum.state : ""
                   } ${datum.postalCode ? datum.postalCode : ""}`}
                   value={datum.postalCode}
-                  selectItem={pincode =>
+                  selectItem={() =>
                     this.props.selectAddress(datum.postalCode)
                   }
                 />
@@ -48,7 +48,8 @@ AddressCarousel.propTypes = {
       address: PropTypes.string,
       value: PropTypes.string
     })
-  )
+  ),
+  selectAddress: PropTypes.func
 };
 AddressCarousel.defaultProps = {
   text: "Or, select an address"

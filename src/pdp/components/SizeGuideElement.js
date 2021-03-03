@@ -23,5 +23,6 @@ export default class SizeGuideElement extends React.Component {
 }
 SizeGuideElement.propTypes = {
   key: propTypes.string,
-  value: propTypes.number
+  value: propTypes.number,
+  data: propTypes.array,
 };

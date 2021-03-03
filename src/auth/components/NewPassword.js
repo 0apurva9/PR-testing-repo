@@ -66,11 +66,13 @@ export default class NewPassword extends React.Component {
       }
     }
   }
+
   onEnter(val) {
     if (val === "Enter") {
       this.handleContinue();
     }
   }
+
   render() {
     let emailIdOrMobileNumber;
     if (this.props.userObj && this.props.userObj.userName) {
@@ -178,5 +180,10 @@ export default class NewPassword extends React.Component {
 
 NewPassword.propTypes = {
   handleCancel: PropTypes.func,
-  onContinue: PropTypes.func
+  onContinue: PropTypes.func,
+  displayToast: PropTypes.func,
+  userObj: PropTypes.object,
+  userName: PropTypes.string,
+  otpDetails: PropTypes.string,
+  loading: PropTypes.bool
 };

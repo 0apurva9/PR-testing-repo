@@ -12,6 +12,7 @@ export default class DiscoverMoreComponentDesktop extends React.Component {
       label: "View More"
     };
   }
+
   goToLink = webURL => {
     if (webURL) {
       const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
@@ -21,6 +22,7 @@ export default class DiscoverMoreComponentDesktop extends React.Component {
       this.props.setClickedElementId();
     }
   };
+
   showSeeAll = () => {
     this.setState({ showAll: !this.state.showAll }, () => {
       if (this.state.label === "View More") {
@@ -30,15 +32,18 @@ export default class DiscoverMoreComponentDesktop extends React.Component {
       }
     });
   };
+
   onRedirectToHeader = val => {
     if (val) {
       const urlSuffix = val.replace(TATA_CLIQ_ROOT, "$1");
       this.props.history.push(urlSuffix);
     }
   };
+
   handleClickOnLink = event => {
     event.preventDefault();
   };
+
   render() {
     return (
       <div className={styles.base}>
@@ -46,6 +51,7 @@ export default class DiscoverMoreComponentDesktop extends React.Component {
           <a
             href={this.props.webURL}
             target="_blank"
+            rel="noreferrer"
             onClick={event => this.handleClickOnLink(event)}
             style={{ width: "100%", height: "100%" }}
           >
@@ -105,5 +111,8 @@ DiscoverMoreComponentDesktop.propTypes = {
       title: PropTypes.string,
       webURL: PropTypes.string
     })
-  )
+  ),
+  setClickedElementId: PropTypes.func,
+  history: PropTypes.object,
+  webURL: PropTypes.string
 };

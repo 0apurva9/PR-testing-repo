@@ -2,15 +2,12 @@ import React from "react";
 import {
   HOME_ROUTER,
   SUCCESS,
-  SUCCESS_UPPERCASE,
-  SUCCESS_CAMEL_CASE,
   AC_PDP_EXCHANGE_DETAILS,
   AC_CART_EXCHANGE_DETAILS
 } from "../../lib/constants";
 import PropTypes from "prop-types";
 import styles from "./LogoutButton.css";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
-import Button from "../../general/components/Button";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
 import {
@@ -20,11 +17,9 @@ import {
   ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
   ADOBE_LOGOUT_SUCCESSFULL
 } from "../../lib/adobeUtils";
+import { RouterPropTypes } from "../../general/router-prop-types";
+
 const LOGOUT_TEXT = "You have logged out successfully";
-let clevertap = { logout: () => {} };
-if (typeof window !== "undefined") {
-  clevertap = window.clevertap;
-}
 export default class LogoutButton extends React.Component {
   async logoutUser() {
     if (this.props.logoutUser) {
@@ -70,6 +65,7 @@ export default class LogoutButton extends React.Component {
       }
     }
   }
+
   render() {
     return (
       <React.Fragment>
@@ -96,7 +92,17 @@ export default class LogoutButton extends React.Component {
 }
 LogoutButton.propTypes = {
   label: PropTypes.string,
-  logout: PropTypes.func
+  logout: PropTypes.func,
+  history: RouterPropTypes.history,
+  location: RouterPropTypes.location,
+  color: PropTypes.string,
+  size: PropTypes.string,
+  fontFamily: PropTypes.string,
+  displayToast: PropTypes.func,
+  resetUserAddressAfterLogout: PropTypes.func,
+  logoutUser: PropTypes.func,
+  setBagCount: PropTypes.func,
+  setFalseForAllAuthCallHasSucceedFlag: PropTypes.func
 };
 LogoutButton.defaultProps = {
   size: "14px",

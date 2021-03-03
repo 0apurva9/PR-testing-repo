@@ -3,7 +3,6 @@ import ConfirmAddress from "../../cart/components/ConfirmAddress.js";
 import BagPageItem from "../../cart/components/BagPageItem";
 import Icon from "../../xelpmoc-core/Icon";
 import CheckBox from "../../general/components/CheckBox";
-import Checkout from "../../cart/components/Checkout.js";
 import styles from "./CncToHdFlow.css";
 import HomeImage from "../../general/components/img/homeDelivery.svg";
 import {
@@ -34,6 +33,7 @@ export default class CncToHdFlow extends React.Component {
       thankYouPage: false
     };
   }
+
   onSelectAddress(selectedAddress) {
     let addressSelectedByUser = this.props.userAddress.addresses.find(
       address => {
@@ -56,25 +56,30 @@ export default class CncToHdFlow extends React.Component {
       });
     }
   }
+
   updateLocalStoragePinCode(pinCode) {
     const postalCode = parseInt(pinCode, 10);
     localStorage.setItem(DEFAULT_PIN_CODE_LOCAL_STORAGE, postalCode);
   }
+
   addNewAddress() {
     this.setState({
       addNewAddress: true
     });
   }
+
   handleCancelAddress() {
     this.setState({
       addNewAddress: false
     });
   }
+
   getPinCodeDetails = pinCode => {
     if (this.props.getPinCode) {
       this.props.getPinCode(pinCode);
     }
   };
+
   async addAddress(address) {
     if (this.props.addUserAddress) {
       let addressResponse = await this.props.addUserAddress(address);
@@ -86,6 +91,7 @@ export default class CncToHdFlow extends React.Component {
       }
     }
   }
+
   async submitCncToHdDetails() {
     let orderCode = this.props.orderId;
     if (this.props.submitCncToHdDetails) {
@@ -106,6 +112,7 @@ export default class CncToHdFlow extends React.Component {
       }
     }
   }
+
   componentWillReceiveProps(nextProps) {
     if (
       !this.state.addressSelected &&
@@ -127,28 +134,34 @@ export default class CncToHdFlow extends React.Component {
       });
     }
   }
+
   continueShopping = () => {
     this.props.history.push(HOME_ROUTER);
   };
+
   navigateToOrderDetailPage() {
     let orderId = queryString.parse(this.props.location.search).orderCode;
     return <Redirect to={`${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${orderId}`} />;
   }
+
   onViewDetails() {
     let orderId = this.props.orderId
       ? this.props.orderId
       : queryString.parse(this.props.location.search).orderCode;
     this.props.history.push(`${MY_ACCOUNT}${ORDER}/?${ORDER_CODE}=${orderId}`);
   }
+
   captureOrderExperience = rating => {
     const orderCode = this.props.orderId;
     if (this.props.captureOrderExperience) {
       this.props.captureOrderExperience(orderCode, rating);
     }
   };
+
   navigateToLogin() {
     return <Redirect to={LOGIN_PATH} />;
   }
+
   render() {
     let isCncToHdOrderDetails = "";
     isCncToHdOrderDetails = this.props.orderDetails;

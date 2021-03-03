@@ -19,21 +19,25 @@ export default class CliqCashKnowMoreSlider extends React.Component {
       this.autoRun();
     }, this.props.interval * 1000);
   };
+
   componentDidMount() {
     if (this.props.interval) {
       this.autoRun();
     }
   }
+
   showCliqCashModule = () => {
     if (this.props.showCliqCashModule) {
       this.props.showCliqCashModule(this.props);
     }
   };
+
   showKycVerification = () => {
     if (this.props.showKycVerification) {
       this.props.showKycVerification(this.props);
     }
   };
+
   goForward = () => {
     if (this.state.position < 7) {
       const childCount = React.Children.count(this.props.children);
@@ -52,6 +56,7 @@ export default class CliqCashKnowMoreSlider extends React.Component {
       clearInterval(this.timer);
     }
   };
+
   goBack = () => {
     if (this.state.position > 0) {
       const childCount = React.Children.count(this.props.children);
@@ -70,6 +75,7 @@ export default class CliqCashKnowMoreSlider extends React.Component {
     }
     clearInterval(this.timer);
   };
+
   render() {
     const translationAmount = -(100 * this.state.position);
     const transform = `translateX(${translationAmount}%)`;
@@ -155,16 +161,16 @@ export default class CliqCashKnowMoreSlider extends React.Component {
         <div
           className={
             this.props &&
-            this.props.stepsInfo &&
-            this.props.stepsInfo[this.state.position].stepNumber === 5
+              this.props.stepsInfo &&
+              this.props.stepsInfo[this.state.position].stepNumber === 5
               ? styles.buttonHolder
               : styles.hideButtonHolder
           }
           onClick={() =>
             this.props &&
-            this.props.cliqCashUserDetails &&
-            (!this.props.cliqCashUserDetails.isWalletCreated ||
-              !this.props.cliqCashUserDetails.isWalletOtpVerified)
+              this.props.cliqCashUserDetails &&
+              (!this.props.cliqCashUserDetails.isWalletCreated ||
+                !this.props.cliqCashUserDetails.isWalletOtpVerified)
               ? this.showKycVerification()
               : this.showCliqCashModule()
           }
@@ -179,7 +185,19 @@ export default class CliqCashKnowMoreSlider extends React.Component {
 }
 
 CliqCashKnowMoreSlider.propTypes = {
-  interval: PropTypes.number
+  interval: PropTypes.number,
+  children: PropTypes.node,
+  showCliqCashModule: PropTypes.func,
+  showKycVerification: PropTypes.func,
+  cliqCashUserDetails: PropTypes.shape({
+    isWalletCreated: PropTypes.bool,
+    isWalletOtpVerified: PropTypes.bool
+  }),
+  stepsInfo: PropTypes.arrayOf(
+    PropTypes.shape({
+      stepNumber: PropTypes.number
+    })
+  )
 };
 CliqCashKnowMoreSlider.defaultProps = {
   interval: 2

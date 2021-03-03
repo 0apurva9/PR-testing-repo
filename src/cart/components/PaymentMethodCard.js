@@ -20,11 +20,13 @@ export default class PaymentMethodCard extends React.Component {
       this.props.onChangeCvv(i);
     }
   }
+
   onToggle(val) {
     if (this.props.onToggle) {
       this.props.onToggle(val);
     }
   }
+
   render() {
     let headerTextHolder = styles.paymentHeader;
     if (this.props.hasCashBalance) {

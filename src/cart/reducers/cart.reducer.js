@@ -13,7 +13,6 @@ import {
   CLIQ_CASH_APPLIED_LOCAL_STORAGE,
   EMI_TENURE,
   BANK_COUPON_COOKIE,
-  SELECTED_STORE,
   DEFAULT_PIN_CODE_LOCAL_STORAGE
 } from "../../lib/constants";
 export const EGV_GIFT_CART_ID = "giftCartId";
@@ -283,7 +282,6 @@ const cart = (
     instacredMiddleLayerISEnableStatus: null,
     instacredMiddleLayerISEnable: null,
     instacredMiddleLayerISEnableLoading: false,
-    instacredMiddleLayerISEnableError: null,
 
     upiMiddleLayerHowItWorksStatus: null,
     upiMiddleLayerHowItWorks: null,
@@ -302,7 +300,7 @@ const cart = (
     getCustomComponent: null,
     getCustomComponentError: null,
     getCustomComponentLoading: false,
-    instacredMiddleLayerISEnableError: null,
+
 
     emiEligibiltyDetails: null,
     emiEligibiltyStatus: null,
@@ -315,11 +313,16 @@ const cart = (
     submitAppliancesExchangeDataStatus: null,
     submitAppliancesExchangeDataLoading: false,
     submitAppliancesExchangeDataDetails: null,
-    submitAppliancesExchangeDataError: null
+    submitAppliancesExchangeDataError: null,
+
+    mdeFraudCheckStatus: null,
+    mdeFraudCheckLoading: false,
+    mdeFraudCheckDetails: null,
+    mdeFraudCheckError: null
   },
   action
 ) => {
-  let cloneCartDetailCNC, cartDetails;
+  let cloneCartDetailCNC, cartAmount, cartDetails, carDetailsCopy = {};
   switch (action.type) {
     case CLEAR_ERROR:
       return Object.assign({}, state, {
@@ -407,10 +410,11 @@ const cart = (
     case cartActions.APPLY_USER_COUPON_SUCCESS:
       Cookies.createCookie(COUPON_COOKIE, action.couponCode);
 
-      let carDetailsCopy = cloneDeep(state.cartDetails);
-      let cartAmount = action.couponResult.cartAmount;
+      carDetailsCopy = cloneDeep(state.cartDetails);
+      cartAmount = action.couponResult.cartAmount;
       carDetailsCopy.cartAmount = cartAmount;
       carDetailsCopy.appliedCoupon = action.couponCode;
+
       return Object.assign({}, state, {
         couponStatus: action.status,
         cartDetails: carDetailsCopy,
@@ -2467,6 +2471,28 @@ const cart = (
         submitAppliancesExchangeDataStatus: action.status,
         submitAppliancesExchangeDataError: action.error,
         submitAppliancesExchangeDataLoading: false
+      });
+
+    case cartActions.MDE_FRAUD_CHECK_REQUEST:
+      return Object.assign({}, state, {
+        mdeFraudCheckStatus: action.status,
+        mdeFraudCheckLoading: true
+      });
+
+    case cartActions.MDE_FRAUD_CHECK_SUCCESS:
+      return Object.assign({}, state, {
+        mdeFraudCheckStatus: action.status,
+        mdeFraudCheckDetails: action.data ? action.data : null,
+        mdeFraudCheckLoading: false,
+        mdeFraudCheckError: null
+      });
+
+    case cartActions.MDE_FRAUD_CHECK_FAILURE:
+      return Object.assign({}, state, {
+        mdeFraudCheckStatus: action.status,
+        mdeFraudCheckError: action.error,
+        mdeFraudCheckDetails: null,
+        mdeFraudCheckLoading: false
       });
 
     default:

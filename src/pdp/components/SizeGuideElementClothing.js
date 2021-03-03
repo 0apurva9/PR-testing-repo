@@ -13,12 +13,14 @@ export default class SizeGuideElementClothing extends Component {
       cmsActive: false
     };
   }
+
   handleToggleClick = (inch, cms) => {
     this.setState({
       inchActive: inch,
       cmsActive: cms
     });
   };
+
   render() {
     const sizeGuideList =
       this.props.data && this.props.data.sizeGuideTabularWsData;

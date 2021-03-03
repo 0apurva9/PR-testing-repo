@@ -24,10 +24,14 @@ export default class SearchPage extends React.Component {
     this.newSearchArray = [];
     this.setWrapperRef = this.setWrapperRef.bind(this);
     this.handleClickOutside = this.handleClickOutside.bind(this);
+    this.elementScrollRefTop = React.createRef();
+    this.elementScrollRefBottom = React.createRef();
   }
+
   componentDidMount() {
     document.addEventListener("mousedown", this.handleClickOutside);
   }
+
   handleClickOutside(event) {
     if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
       this.setState({
@@ -35,9 +39,11 @@ export default class SearchPage extends React.Component {
       });
     }
   }
+
   setWrapperRef(node) {
     this.wrapperRef = node;
   }
+
   onSearchOrCloseIconClick = () => {
     const showResults = this.state.showResults;
     this.props.clearSearchResults();
@@ -48,6 +54,7 @@ export default class SearchPage extends React.Component {
       showSearchBar: !this.state.showSearchBar
     });
   };
+
   handleBrandClick(
     webURL,
     dtmDataObject,
@@ -108,6 +115,7 @@ export default class SearchPage extends React.Component {
       isFilter: false
     });
   }
+
   handleCategoryClick(
     webURL,
     dtmDataObject,
@@ -173,7 +181,8 @@ export default class SearchPage extends React.Component {
       isFilter: false
     });
   }
-  handleSearch(val, e) {
+
+  handleSearch(val) {
     this.setState({
       showData: true
     });
@@ -194,21 +203,25 @@ export default class SearchPage extends React.Component {
       }
     }
   }
+
   handleBackClick() {
     if (this.props.canGoBack) {
       this.props.canGoBack();
     }
   }
+
   redirectToHome() {
     this.props.history.push(HOME_ROUTER);
   }
+
   checkIfSingleWordinSearchString() {
     return this.state.searchString
       ? this.state.searchString.trim().split(" ").length === 1
       : true;
   }
+
   handleOnSearchString(searchString) {
-    var format = /[!@#$%^&*_+=[\]{};:|<>?]+/;
+    var format = /[!@#$%^*_+=[\]{};:|<>?]+/;
     if (
       /\s*[0-9a-zA-Z]+/.test(searchString) &&
       !format.test(searchString) &&
@@ -280,8 +293,9 @@ export default class SearchPage extends React.Component {
       );
     }
   }
-  handleBlur(event) {
-    if (!this.refs.elementScrollRefTop && !this.refs.elementScrollRefBottom) {
+
+  handleBlur() {
+    if (!this.elementScrollRefTop && !this.elementScrollRefBottom) {
       this.setState(
         {
           showResults: false,
@@ -298,6 +312,7 @@ export default class SearchPage extends React.Component {
       );
     }
   }
+
   handleUpDownArrow(val) {
     this.setState({
       showData: true
@@ -369,8 +384,8 @@ export default class SearchPage extends React.Component {
           }`
         });
       }
-      if (this.state.currentFlag > 3 && this.refs.elementScrollRefBottom) {
-        this.refs.elementScrollRefBottom.scrollIntoView();
+      if (this.state.currentFlag > 3 && this.elementScrollRefBottom) {
+        this.elementScrollRefBottom.scrollIntoView();
       }
     }
     if (val === "ArrowUp") {
@@ -411,8 +426,8 @@ export default class SearchPage extends React.Component {
           }`
         });
       }
-      if (this.state.currentFlag < 5 && this.refs.elementScrollRefTop) {
-        this.refs.elementScrollRefTop.scrollIntoView(false);
+      if (this.state.currentFlag < 5 && this.elementScrollRefTop) {
+        this.elementScrollRefTop.scrollIntoView(false);
       }
     }
     if (val === "Enter") {
@@ -423,6 +438,7 @@ export default class SearchPage extends React.Component {
       });
     }
   }
+
   handleStoreBrandMerClick(redirectUrl, searchString) {
     if (
       redirectUrl.indexOf("http") !== -1 ||
@@ -653,7 +669,8 @@ export default class SearchPage extends React.Component {
                     data.topCategories.map((val, i) => {
                       return (
                         <div
-                          ref={"elementScrollRefTop"}
+                          key={i}
+                          ref={this.elementScrollRefTop}
                           className={
                             this.state.currentFlag === i
                               ? styles.color
@@ -710,7 +727,8 @@ export default class SearchPage extends React.Component {
                     suggestedKeyWord.map((val, i) => {
                       return (
                         <div
-                          ref={"elementScrollRefBottom"}
+                          key={i}
+                          ref={this.elementScrollRefBottom}
                           className={
                             this.state.currentFlag ===
                             i +
@@ -739,6 +757,7 @@ export default class SearchPage extends React.Component {
                     data.topBrands.map((val, i) => {
                       return (
                         <div
+                          key={i}
                           className={
                             this.state.currentFlag ===
                             i +

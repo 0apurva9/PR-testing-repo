@@ -55,7 +55,7 @@ export default class FollowingBrands extends React.Component {
                     })
                     .map((datum, i) => {
                       return (
-                        <div className={styles.element}>
+                        <div className={styles.element} key={i}>
                           <BrandImage
                             key={i}
                             image={datum.imageURL}

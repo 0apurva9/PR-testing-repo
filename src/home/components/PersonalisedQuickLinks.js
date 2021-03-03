@@ -10,6 +10,7 @@ export default class PersonalisedQuickLinks extends React.Component {
       targetData: ""
     };
   }
+
   componentDidMount = async () => {
     let check =
       this.props.feedComponentData &&
@@ -38,6 +39,7 @@ export default class PersonalisedQuickLinks extends React.Component {
       }
     }
   };
+
   onClick = webUrl => {
     if (webUrl) {
       const urlSuffix = webUrl.replace(TATA_CLIQ_ROOT, "$1");
@@ -62,7 +64,7 @@ export default class PersonalisedQuickLinks extends React.Component {
                       <QuickLinks
                         key={i}
                         imageURL={val.imageURL}
-                        onClick={data => this.onClick(val.webURL)}
+                        onClick={() => this.onClick(val.webURL)}
                       />
                     );
                   })}

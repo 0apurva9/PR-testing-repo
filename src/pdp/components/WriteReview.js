@@ -39,6 +39,7 @@ class WriteReview extends React.Component {
       resetRating: false
     };
   }
+
   onChangeTitle(val) {
     this.setState({ title: val });
     if (this.props.onChangeTitle) {
@@ -65,18 +66,21 @@ class WriteReview extends React.Component {
     });
     this.setState({ rating: val });
   };
+
   onCancel() {
     if (this.props.onCancel) {
       this.props.onCancel();
     }
     setDataLayerForRatingAndReview(SET_DATA_LAYER_REVIEW_CANCEL_CLICK);
   }
+
   showReviewGuidelineModal = () => {
     if (this.props.showReviewGuidelineModal) {
       this.props.showReviewGuidelineModal();
     }
     setDataLayerForRatingAndReview(SET_DATA_LAYER_REVIEW_GUIDELINE);
   };
+
   onSubmit = async () => {
     setDataLayer(ADOBE_REVIEW_SUBMIT_BUTTON);
     if (
@@ -122,6 +126,7 @@ class WriteReview extends React.Component {
     }
     setDataLayerForRatingAndReview(SET_DATA_LAYER_REVIEW_SUBMIT_CLICK);
   };
+
   render() {
     return (
       <div className={styles.base}>
@@ -215,5 +220,11 @@ WriteReview.propTypes = {
   title: PropTypes.string,
   comment: PropTypes.string,
   onSubmit: PropTypes.func,
-  onCancel: PropTypes.func
+  onCancel: PropTypes.func,
+  location: PropTypes.object,
+  history: PropTypes.object,
+  match: PropTypes.object,
+  onChangeComment: PropTypes.func,
+  showReviewGuidelineModal: PropTypes.func,
+  setUrlToRedirectToAfterAuth: PropTypes.func,
 };

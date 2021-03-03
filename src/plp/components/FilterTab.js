@@ -8,6 +8,7 @@ export default class SelectedFilter extends React.Component {
       this.props.onClick();
     }
   };
+
   render() {
     let classActive = styles.base;
     if (this.props.type === "advance") {

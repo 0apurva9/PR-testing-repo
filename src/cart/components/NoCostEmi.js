@@ -2,12 +2,7 @@ import React from "react";
 import styles from "./NoCostEmi.css";
 import PropTypes from "prop-types";
 import { Collapse } from "react-collapse";
-import {
-  INSTACRED,
-  CARDLESS_EMI,
-  CREDIT_CARD_EMI,
-  DEBIT_CARD_EMI
-} from "../../lib/constants";
+import { INSTACRED, CARDLESS_EMI, CREDIT_CARD_EMI, DEBIT_CARD_EMI } from "../../lib/constants";
 export default class NoCostEmi extends React.Component {
   constructor(props) {
     super(props);
@@ -16,7 +11,7 @@ export default class NoCostEmi extends React.Component {
     };
   }
 
-  openMenu(e) {
+  openMenu() {
     const isOpen = !this.state.isOpen;
     this.setState({
       isOpen
@@ -36,21 +31,6 @@ export default class NoCostEmi extends React.Component {
       this.props.selectInstacred(true);
       this.props.onChange({ currentPaymentMode: INSTACRED });
     }
-    // if (
-    //   isOpen &&
-    //   this.props.EMIText === STANDARD_EMI &&
-    //   !this.props.emiList &&
-    //   this.props.getEmiBankDetails
-    // ) {
-    //   this.props.getEmiBankDetails();
-    // }
-    // if (
-    //   isOpen &&
-    //   this.props.EMIText === NO_COST_EMI &&
-    //   this.props.getBankAndTenureDetails
-    // ) {
-    //   this.props.getBankAndTenureDetails();
-    // }
     if (isOpen && this.props.EMIText === CARDLESS_EMI) {
       const isOpen = true;
       this.setState({
@@ -58,42 +38,52 @@ export default class NoCostEmi extends React.Component {
       });
     }
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.isOpenSubEMI !== this.state.isOpen) {
-      this.setState({ isOpen: nextProps.isOpenSubEMI });
+
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        if (nextProps.isOpenSubEMI !== this.state.isOpen) {
+            this.setState({ isOpen: nextProps.isOpenSubEMI });
+        }
     }
-  }
-  render() {
-    let rotateIcon = styles.iconHolder;
-    if (this.state.isOpen) {
-      rotateIcon = styles.rot;
+
+    render() {
+        let rotateIcon = styles.iconHolder;
+        if (this.state.isOpen) {
+            rotateIcon = styles.rot;
+        }
+        let tabExtension = "";
+        if (this.props.EMITabName === CREDIT_CARD_EMI) {
+            tabExtension = this.props.creditCardTabNameExtension;
+        } else if (this.props.EMITabName === DEBIT_CARD_EMI) {
+            tabExtension = this.props.debitCardTabNameExtension;
+        }
+        return (
+            <div className={styles.base}>
+                <div
+                    className={styles.holder}
+                    onClick={() => {
+                        this.openMenu();
+                    }}
+                >
+                    <div className={rotateIcon} />
+                    <div className={styles.textHolder}>
+                        {this.props.EMITabName}
+                        {tabExtension && `(${tabExtension})`}
+                    </div>
+                </div>
+                <Collapse isOpened={this.state.isOpen}>{this.props.children}</Collapse>
+            </div>
+        );
     }
-    let tabExtension = "";
-    if (this.props.EMITabName === CREDIT_CARD_EMI) {
-      tabExtension = this.props.creditCardTabNameExtension;
-    } else if (this.props.EMITabName === DEBIT_CARD_EMI) {
-      tabExtension = this.props.debitCardTabNameExtension;
-    }
-    return (
-      <div className={styles.base}>
-        <div
-          className={styles.holder}
-          onClick={e => {
-            this.openMenu(e);
-          }}
-        >
-          <div className={rotateIcon} />
-          <div className={styles.textHolder}>
-            {this.props.EMITabName}
-            {tabExtension && `(${tabExtension})`}
-          </div>
-        </div>
-        <Collapse isOpened={this.state.isOpen}>{this.props.children}</Collapse>
-      </div>
-    );
-  }
 }
 NoCostEmi.propTypes = {
   EMIText: PropTypes.string,
-  onOpenMenu: PropTypes.func
+  onOpenMenu: PropTypes.func,
+  isOpenSubEMI: PropTypes.bool,
+  onChangeEMIType: PropTypes.func,
+  EMITabName: PropTypes.string,
+  selectInstacred: PropTypes.func,
+  onChange: PropTypes.func,
+  creditCardTabNameExtension: PropTypes.string,
+  children: PropTypes.node,
+  debitCardTabNameExtension: PropTypes.string,
 };

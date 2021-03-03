@@ -9,6 +9,7 @@ export default class FloatingLabelInputWithPlace extends React.Component {
       value: props.value ? props.value : ""
     };
   }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.state.value) {
       this.setState({
@@ -17,15 +18,18 @@ export default class FloatingLabelInputWithPlace extends React.Component {
       });
     }
   }
+
   onFocusBack = () => {
     this.current.focus();
   };
+
   handleFocus(event) {
     if (this.props.onFocus) {
       this.props.onFocus(event);
     }
     this.setState({ labelUpper: true });
   }
+
   handleBlur(event) {
     if (event.target.value) {
       this.setState({ labelUpper: true });
@@ -36,16 +40,19 @@ export default class FloatingLabelInputWithPlace extends React.Component {
       this.setState({ labelUpper: false });
     }
   }
+
   handleKeyPress(event) {
     if (this.props.onKeyPress) {
       this.props.onKeyPress(event);
     }
   }
+
   handleKeyUp = event => {
     if (this.props.onKeyUp) {
       this.props.onKeyUp(event);
     }
   };
+
   handleChange(event) {
     const NUMBER_REGEX = /^[0-9]+$/;
     const ALPHABET_REGEX = /^[a-zA-Z ]+$/;
@@ -87,6 +94,7 @@ export default class FloatingLabelInputWithPlace extends React.Component {
       this.setState({ labelUpper: true });
     }
   }
+
   render() {
     return (
       <div
@@ -137,7 +145,11 @@ FloatingLabelInputWithPlace.propTypes = {
   label: PropTypes.string,
   onChange: PropTypes.func,
   value: PropTypes.string,
-  height: PropTypes.string
+  height: PropTypes.string,
+  disabled: PropTypes.bool,
+  fontSize: PropTypes.string,
+  focusBack: PropTypes.bool,
+  placeholder: PropTypes.string,
 };
 FloatingLabelInputWithPlace.defaultProps = {
   type: "text",

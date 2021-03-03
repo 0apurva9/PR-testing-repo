@@ -8,11 +8,13 @@ export default class ShowReturnConfirmPopup extends React.Component {
       this.props.onConfirmReturn(val);
     }
   }
+
   closeModal() {
     if (this.props.closeModal) {
       this.props.closeModal();
     }
   }
+
   render() {
     let confirmData = {};
     confirmData.orderId = this.props.orderId;

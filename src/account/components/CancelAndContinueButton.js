@@ -8,11 +8,13 @@ export default class CancelAndContinueButton extends React.Component {
       this.props.handleCancel();
     }
   }
+
   handleContinue() {
     if (this.props.handleContinue) {
       this.props.handleContinue();
     }
   }
+
   render() {
     return (
       <div className={styles.base}>

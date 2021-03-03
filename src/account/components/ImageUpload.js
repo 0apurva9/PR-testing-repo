@@ -8,6 +8,7 @@ export default class ImageUpload extends React.Component {
       value: this.props.value ? this.props.value : "Upload picture of Receipt"
     };
   }
+
   handleChange(event) {
     let file = event.target.files[0];
     if (this.props.isMultipleUpload) {
@@ -17,11 +18,13 @@ export default class ImageUpload extends React.Component {
       this.props.onChange(file);
     }
   }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.value !== this.state.value) {
       this.setState({ value: nextProps.value });
     }
   }
+
   render() {
     return (
       <div className={styles.base}>
@@ -45,5 +48,7 @@ export default class ImageUpload extends React.Component {
   }
 }
 ImageUpload.propTypes = {
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  value: PropTypes.string,
+  isMultipleUpload: PropTypes.bool,
 };

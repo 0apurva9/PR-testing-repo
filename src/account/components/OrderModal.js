@@ -19,9 +19,9 @@ export default class OrderModal extends React.Component {
           )}
           {this.props.data &&
             this.props.data.shippingList &&
-            this.props.data.shippingList.map(val => {
+            this.props.data.shippingList.map((val, i) => {
               return (
-                <div className={styles.step}>
+                <div key={i} className={styles.step}>
                   {val.location && (
                     <div className={styles.location}>{val.location}</div>
                   )}
@@ -39,5 +39,6 @@ export default class OrderModal extends React.Component {
   }
 }
 OrderModal.propTypes = {
-  data: PropTypes.object
+  data: PropTypes.object,
+  closeModal: PropTypes.func
 };

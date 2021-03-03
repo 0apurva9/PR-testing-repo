@@ -10,11 +10,13 @@ export default class AutoImageBanner extends React.Component {
       imageStatus: ERROR
     };
   }
+
   handleClick = () => {
     if (this.props.onClick) {
       this.props.onClick();
     }
   };
+
   handleImageLoaded() {
     this.setState({ imageStatus: LOADED });
   }
@@ -22,6 +24,7 @@ export default class AutoImageBanner extends React.Component {
   handleImageErrored() {
     this.setState({ imageStatus: ERROR });
   }
+
   renderImage = () => {
     const img = (
       <img
@@ -39,6 +42,7 @@ export default class AutoImageBanner extends React.Component {
     }
     return img;
   };
+
   render() {
     return (
       <div

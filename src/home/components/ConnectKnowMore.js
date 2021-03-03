@@ -8,6 +8,7 @@ class ConnectKnowMore extends React.Component {
     const urlSuffix = this.props.url.replace(TATA_CLIQ_ROOT, "$1");
     this.props.history.push(urlSuffix);
   }
+
   render() {
     return (
       <div

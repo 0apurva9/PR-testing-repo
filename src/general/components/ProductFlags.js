@@ -92,6 +92,7 @@ export default class ProductFlags extends React.Component {
       return null;
     }
   };
+
   render() {
     return <React.Fragment>{this.renderFlag()}</React.Fragment>;
   }

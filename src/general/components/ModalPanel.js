@@ -7,6 +7,7 @@ export default class ModalPanel extends React.Component {
       this.props.closeModal();
     }
   }
+
   render() {
     return (
       <div className={ModalStyles.base}>

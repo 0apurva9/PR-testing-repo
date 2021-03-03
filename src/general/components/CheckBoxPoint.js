@@ -7,6 +7,7 @@ export default class CheckBoxPoint extends React.Component {
       this.props.selectItem();
     }
   }
+
   render() {
     let classNameBase = styles.base;
     return (

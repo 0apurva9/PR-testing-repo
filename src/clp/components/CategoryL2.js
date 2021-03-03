@@ -8,6 +8,7 @@ export default class CategoryL2 extends React.Component {
       this.props.onClick(this.props.url);
     }
   }
+
   render() {
     return (
       <div className={this.props.base}>
@@ -34,5 +35,7 @@ export default class CategoryL2 extends React.Component {
 CategoryL2.propTypes = {
   label: PropTypes.string,
   onClick: PropTypes.func,
-  url: PropTypes.string
+  url: PropTypes.string,
+  children: PropTypes.node,
+  base: PropTypes.string,
 };

@@ -1,5 +1,6 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
+import { RouterPropTypes } from "../../general/router-prop-types";
 import ReturnsFrame from "./ReturnsFrame";
 import OrderCard from "./OrderCard";
 import ReturnsToBank from "./ReturnsToBank";
@@ -59,10 +60,11 @@ export default class ReturnsStoreConfirmation extends React.Component {
       <Redirect
         to={`${RETURNS_PREFIX}/${
           this.orderCode
-        }${RETURN_LANDING}${RETURNS_REASON}`}
+          }${RETURN_LANDING}${RETURNS_REASON}`}
       />
     );
   }
+
   render() {
     // Preventing user to open this page direct by hitting URL
 
@@ -92,7 +94,7 @@ export default class ReturnsStoreConfirmation extends React.Component {
               }
               productName={`${data.orderProductWsDTO[0].productBrand} ${
                 data.orderProductWsDTO[0].productName
-              }`}
+                }`}
               price={data.orderProductWsDTO[0].price}
               additionalContent={
                 this.props.isPaypal && (
@@ -129,6 +131,24 @@ export default class ReturnsStoreConfirmation extends React.Component {
 }
 ReturnsStoreConfirmation.propTypes = {
   onContinue: PropTypes.func,
+  cancel:PropTypes.func,
+  isPaypal:PropTypes.bool,
+  isFooterNeeded:PropTypes.bool,
+  orderDetails: PropTypes.shape({
+    paymentCardDigit: PropTypes.string,
+    paymentCard: PropTypes.string
+  }),
+  returnProductDetails: PropTypes.shape({
+    orderProductWsDTO: PropTypes.arrayOf([
+      PropTypes.shape({
+        imageURL: PropTypes.string,
+        productName: PropTypes.string,
+        productBrand: PropTypes.string,
+        price: PropTypes.string,
+        quantity: PropTypes.string
+      })
+    ])
+  }),
   data: PropTypes.shape({
     orderProductWsDTO: PropTypes.arrayOf([
       PropTypes.shape({
@@ -139,5 +159,6 @@ ReturnsStoreConfirmation.propTypes = {
         quantity: PropTypes.string
       })
     ])
-  })
+  }),
+  ...RouterPropTypes
 };

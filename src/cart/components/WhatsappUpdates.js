@@ -10,12 +10,14 @@ export default class WhatsappUpdates extends React.Component {
       whatsAppActive: true
     };
   }
+
   async handleWhatsAppClick() {
     await this.setState({ whatsAppActive: !this.state.whatsAppActive });
     if (this.props.handleWhatsAppClick) {
       this.props.handleWhatsAppClick(this.state.whatsAppActive);
     }
   }
+
   render() {
     return (
       <div

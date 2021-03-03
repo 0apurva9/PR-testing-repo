@@ -15,6 +15,7 @@ export default class DumbCarousel extends React.Component {
               this.props.children.map((child, i) => {
                 return (
                   <div
+                    key={i}
                     className={styles.element}
                     style={{
                       width:
@@ -41,6 +42,7 @@ export default class DumbCarousel extends React.Component {
               this.props.children.map((child, i) => {
                 return (
                   <div
+                    key={i}
                     className={styles.element}
                     style={{
                       width:
@@ -65,7 +67,9 @@ DumbCarousel.propTypes = {
     PropTypes.number,
     PropTypes.string
   ]),
-  position: PropTypes.number
+  position: PropTypes.number,
+  children: PropTypes.node,
+  headerComponent: PropTypes.node
 };
 
 DumbCarousel.defaultProps = {

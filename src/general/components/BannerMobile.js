@@ -4,7 +4,7 @@ import styles from "./BannerMobile.css";
 export default class BannerMobile extends React.Component {
   constructor(props) {
     super(props);
-    const itemArray = React.Children.map(this.props.children, (child, i) => {
+    const itemArray = React.Children.map(this.props.children, (child) => {
       return child;
     });
     const lastItem = itemArray.pop();
@@ -22,14 +22,17 @@ export default class BannerMobile extends React.Component {
       absolutePosition: 0
     };
   }
+
   swipeStart(evt) {
     evt.stopPropagation();
     this.setState({ touchStart: evt.touches[0].clientX });
   }
+
   swipeMove(evt) {
     evt.stopPropagation();
     this.setState({ touchEnd: evt.touches[0].clientX });
   }
+
   swipeEnd() {
     if (this.state.touchStart < this.state.touchEnd) {
       this.slideForward();
@@ -37,6 +40,7 @@ export default class BannerMobile extends React.Component {
       this.slideBack();
     }
   }
+
   handleSwipe(val) {
     if (this.props.onSwipe) {
       this.props.onSwipe(val);
@@ -45,7 +49,7 @@ export default class BannerMobile extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.children) {
-      const itemArray = React.Children.map(nextProps.children, (child, i) => {
+      const itemArray = React.Children.map(nextProps.children, (child) => {
         return child;
       });
       const lastItem = itemArray.pop();
@@ -59,6 +63,7 @@ export default class BannerMobile extends React.Component {
       });
     }
   }
+
   slideForward = () => {
     const visibleItems = [];
     visibleItems.push(this.state.visibleItems[0]);
@@ -72,6 +77,7 @@ export default class BannerMobile extends React.Component {
     );
     this.setState({ visibleItems, direction: "forward" });
   };
+
   slideBack = () => {
     const visibleItems = [];
     visibleItems.push(
@@ -82,6 +88,7 @@ export default class BannerMobile extends React.Component {
 
     this.setState({ visibleItems, direction: "back" });
   };
+
   swapForward = () => {
     const visibleItems = [];
     let absolutePosition =
@@ -141,6 +148,7 @@ export default class BannerMobile extends React.Component {
     });
     this.handleSwipe(absolutePosition);
   };
+
   animationEnd(evt) {
     evt.stopPropagation();
     if (evt.target.classList.contains(styles.slider)) {
@@ -197,7 +205,8 @@ export default class BannerMobile extends React.Component {
 }
 BannerMobile.propTypes = {
   bannerHeight: PropTypes.string,
-  onSwipe: PropTypes.func
+  onSwipe: PropTypes.func,
+  children: PropTypes.node
 };
 BannerMobile.defaultProps = {
   bannerHeight: "66.33vw"

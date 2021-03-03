@@ -2,139 +2,139 @@ import React from "react";
 import PropTypes from "prop-types";
 import MoreBrands from "../../blp/components/MoreBrands";
 import BrandEdit from "../../blp/components/BrandEdit";
-import * as styles from "./MyAccountBrands.css";
+import styles from "./MyAccountBrands.css";
 import Loader from "../../general/components/Loader";
 import {
-  LOGGED_IN_USER_DETAILS,
-  CUSTOMER_ACCESS_TOKEN,
-  LOGIN_PATH,
-  DEFAULT_BRANDS_LANDING_PAGE,
-  BRANDS,
-  HOME_ROUTER
+    LOGGED_IN_USER_DETAILS,
+    CUSTOMER_ACCESS_TOKEN,
+    LOGIN_PATH,
+    DEFAULT_BRANDS_LANDING_PAGE,
+    BRANDS,
+    HOME_ROUTER,
 } from "../../lib/constants";
 import * as UserAgent from "../../lib/UserAgent.js";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
 import * as Cookie from "../../lib/Cookie";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import ProfileMenu from "./ProfileMenu";
-import * as myAccountStyles from "./MyAccountDesktop.css";
+import myAccountStyles from "./MyAccountDesktop.css";
 import UserProfile from "./UserProfile";
+import { RouterPropTypes } from "../../general/router-prop-types";
 export default class MyAccountBrands extends React.Component {
-  componentDidMount() {
-    this.props.setHeaderText(BRANDS);
-    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    if (userDetails && customerCookie) {
-      this.props.getFollowedBrands();
+    componentDidMount() {
+        this.props.setHeaderText(BRANDS);
+        const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+        const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+        if (userDetails && customerCookie) {
+            this.props.getFollowedBrands();
+        }
     }
-  }
-  componentDidUpdate() {
-    this.props.setHeaderText(BRANDS);
-  }
-  navigateToLogin() {
-    if (UserAgent.checkUserAgentIsMobile()) {
-      this.props.history.push(LOGIN_PATH);
-      return null;
-    } else {
-      if (this.props.showAuthPopUp) {
-        this.props.history.push(HOME_ROUTER);
-        this.props.showAuthPopUp();
-        return null;
-      }
-    }
-  }
-  navigateToBLP() {
-    this.props.history.push(DEFAULT_BRANDS_LANDING_PAGE);
-  }
-  followAndUnFollow(brandId, followStatus) {
-    if (this.props.followAndUnFollowBrand) {
-      this.props.followAndUnFollowBrand(brandId, followStatus);
-    }
-  }
-  onRedirectToBrandPage(webURL) {
-    const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
-    this.props.history.push(urlSuffix);
-  }
-  renderLoader() {
-    return <Loader />;
-  }
 
-  render() {
-    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    if (this.props.loading) {
-      return this.renderLoader();
+    componentDidUpdate() {
+        this.props.setHeaderText(BRANDS);
     }
-    if (!userDetails || !customerCookie) {
-      return this.navigateToLogin();
+
+    navigateToLogin() {
+        if (UserAgent.checkUserAgentIsMobile()) {
+            this.props.history.push(LOGIN_PATH);
+            return null;
+        } else {
+            if (this.props.showAuthPopUp) {
+                this.props.history.push(HOME_ROUTER);
+                this.props.showAuthPopUp();
+                return null;
+            }
+        }
     }
-    let followedBrands = [];
-    if (this.props.followedBrands) {
-      followedBrands = this.props.followedBrands.filter(
-        brand => brand.isFollowing === "true"
-      );
+
+    navigateToBLP() {
+        this.props.history.push(DEFAULT_BRANDS_LANDING_PAGE);
     }
-    const userData = JSON.parse(userDetails);
-    return (
-      <div className={styles.base}>
-        <div className={myAccountStyles.holder}>
-          <DesktopOnly>
-            <div className={myAccountStyles.profileMenu}>
-              <ProfileMenu {...this.props} />
+
+    followAndUnFollow(brandId, followStatus) {
+        if (this.props.followAndUnFollowBrand) {
+            this.props.followAndUnFollowBrand(brandId, followStatus);
+        }
+    }
+
+    onRedirectToBrandPage(webURL) {
+        const urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
+        this.props.history.push(urlSuffix);
+    }
+
+    renderLoader() {
+        return <Loader />;
+    }
+
+    render() {
+        const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+        const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+        if (this.props.loading) {
+            return this.renderLoader();
+        }
+        if (!userDetails || !customerCookie) {
+            return this.navigateToLogin();
+        }
+        let followedBrands = [];
+        if (this.props.followedBrands) {
+            followedBrands = this.props.followedBrands.filter(brand => brand.isFollowing === "true");
+        }
+        const userData = JSON.parse(userDetails);
+        return (
+            <div className={styles.base}>
+                <div className={myAccountStyles.holder}>
+                    <DesktopOnly>
+                        <div className={myAccountStyles.profileMenu}>
+                            <ProfileMenu {...this.props} />
+                        </div>
+                    </DesktopOnly>
+                    <div className={styles.brandDetail}>
+                        <div className={styles.brandDetailWithHolder}>
+                            <MoreBrands
+                                width={170}
+                                type="primary"
+                                label="More Brands"
+                                onClick={() => this.navigateToBLP()}
+                            />
+                            {followedBrands && followedBrands.length > 0 && (
+                                <div className={styles.brandsHolder}>
+                                    <BrandEdit
+                                        data={followedBrands}
+                                        onClick={(brandId, followStatus) =>
+                                            this.followAndUnFollow(brandId, followStatus)
+                                        }
+                                        onRedirectToBrandPage={webURL => this.onRedirectToBrandPage(webURL)}
+                                    />
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                    <DesktopOnly>
+                        <div className={myAccountStyles.userProfile}>
+                            <UserProfile
+                                image={userData.imageUrl}
+                                userLogin={userData.userName}
+                                loginType={userData.loginType}
+                                onClick={() => this.renderToAccountSetting()}
+                                firstName={userData && userData.firstName && userData.firstName.trim().charAt(0)}
+                                heading={userData && userData.firstName && `${userData.firstName} `}
+                                lastName={userData && userData.lastName && `${userData.lastName}`}
+                                userAddress={this.props.userAddress}
+                            />
+                        </div>
+                    </DesktopOnly>
+                </div>
             </div>
-          </DesktopOnly>
-          <div className={styles.brandDetail}>
-            <div className={styles.brandDetailWithHolder}>
-              <MoreBrands
-                width={170}
-                type="primary"
-                label="More Brands"
-                onClick={() => this.navigateToBLP()}
-              />
-              {followedBrands &&
-                followedBrands.length > 0 && (
-                  <div className={styles.brandsHolder}>
-                    <BrandEdit
-                      data={followedBrands}
-                      onClick={(brandId, followStatus) =>
-                        this.followAndUnFollow(brandId, followStatus)
-                      }
-                      onRedirectToBrandPage={webURL =>
-                        this.onRedirectToBrandPage(webURL)
-                      }
-                    />
-                  </div>
-                )}
-            </div>
-          </div>
-          <DesktopOnly>
-            <div className={myAccountStyles.userProfile}>
-              <UserProfile
-                image={userData.imageUrl}
-                userLogin={userData.userName}
-                loginType={userData.loginType}
-                onClick={() => this.renderToAccountSetting()}
-                firstName={
-                  userData &&
-                  userData.firstName &&
-                  userData.firstName.trim().charAt(0)
-                }
-                heading={
-                  userData && userData.firstName && `${userData.firstName} `
-                }
-                lastName={
-                  userData && userData.lastName && `${userData.lastName}`
-                }
-                userAddress={this.props.userAddress}
-              />
-            </div>
-          </DesktopOnly>
-        </div>
-      </div>
-    );
-  }
+        );
+    }
 }
 MyAccountBrands.propTypes = {
-  loading: PropTypes.bool,
-  followedBrands: PropTypes.array
+    loading: PropTypes.bool,
+    followedBrands: PropTypes.array,
+    setHeaderText: PropTypes.func,
+    getFollowedBrands: PropTypes.func,
+    history: RouterPropTypes.history,
+    showAuthPopUp: PropTypes.func,
+    followAndUnFollowBrand: PropTypes.func,
+    userAddress: PropTypes.object
 };

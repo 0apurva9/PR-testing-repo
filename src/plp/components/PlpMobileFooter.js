@@ -7,11 +7,13 @@ export default class PlpMobileFooter extends React.Component {
       this.props.onFilter();
     }
   };
+
   onSort() {
     if (this.props.onSort) {
       this.props.onSort();
     }
   }
+
   render() {
     return (
       <div className={styles.base}>
@@ -52,5 +54,7 @@ export default class PlpMobileFooter extends React.Component {
 
 PlpMobileFooter.propTypes = {
   onFilter: PropTypes.func,
-  onSort: PropTypes.func
+  onSort: PropTypes.func,
+  hasFilters: PropTypes.bool,
+  hasSort: PropTypes.bool,
 };

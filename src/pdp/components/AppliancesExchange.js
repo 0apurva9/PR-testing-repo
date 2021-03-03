@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  RUPEE_SYMBOL,
   AC_PDP_EXCHANGE_DETAILS,
   EXCHANGE_ADDED_MESSAGE,
   EXCHANGE_REMOVED_MESSAGE
@@ -203,5 +202,7 @@ AppliancesExchange.propTypes = {
   openAppliancesExchangeModal: PropTypes.func,
   appliancesExchangeDetails: PropTypes.object,
   productData: PropTypes.object,
-  ussid: PropTypes.string
+  ussid: PropTypes.string,
+  updatedAppliancesExchangeDetails: PropTypes.object,
+  displayToast: PropTypes.func
 };

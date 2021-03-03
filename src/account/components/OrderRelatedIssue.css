@@ -1,308 +1,308 @@
 .base {
-  width: 100%;
-  height: auto;
-  background: #ececec;
-  min-height: 100vh;
+    width: 100%;
+    height: auto;
+    background: #ececec;
+    min-height: 100vh;
 }
 
 @media screen and (min-width: 1025px) {
-  .baseWrapper {
-    width: 100%;
-    height: auto;
-    max-width: 1200px;
-    margin: auto;
-    padding: 60px 0px 100px 0px;
-  }
-  .formAbdTabHolder {
-    width: 100%;
-    height: auto;
-    display: flex;
-    flex-direction: row;
-  }
-  .tabHolder {
-    width: 25%;
-    height: auto;
-    min-height: 200px;
-    padding-right: 9px;
-  }
-  .tabHeader {
-    font-size: 16px;
-    color: #212121;
-    font-family: semibold;
-    border-bottom: 1px solid #eee;
-    padding: 24px 0px 16px 0px;
-  }
-  .formHolder {
-    width: 75%;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    padding-left: 9px;
-  }
-  .tabHolderBox {
-    background: #fff;
-    padding: 0px 24px 11px 24px;
-    border-radius: 6px;
-  }
-  .faqHeader {
-    font-size: 14px;
-    font-family: regular;
-    color: #212121;
-    margin-bottom: 3px;
-  }
-  .faqSubheading {
-    font-size: 12px;
-    font-family: light;
-    color: #4a4a4a;
-  }
-  .faqList {
-    line-height: 14px;
-    margin-top: 16px;
-    cursor: pointer;
-  }
-  .faqListBox {
-    display: flex;
-    margin-bottom: 24px;
-  }
-  .faqIcon {
-    padding-right: 20px;
-  }
-  .recentTicket {
-    margin-bottom: 16px;
-  }
-  .recentList {
-    position: relative;
-    line-height: 19px;
-    margin-top: 13px;
-  }
+    .baseWrapper {
+        width: 100%;
+        height: auto;
+        max-width: 1200px;
+        margin: auto;
+        padding: 60px 0px 100px 0px;
+    }
+    .formAbdTabHolder {
+        width: 100%;
+        height: auto;
+        display: flex;
+        flex-direction: row;
+    }
+    .tabHolder {
+        width: 25%;
+        height: auto;
+        min-height: 200px;
+        padding-right: 9px;
+    }
+    .tabHeader {
+        font-size: 16px;
+        color: #212121;
+        font-family: semibold;
+        border-bottom: 1px solid #eee;
+        padding: 24px 0px 16px 0px;
+    }
+    .formHolder {
+        width: 75%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        padding-left: 9px;
+    }
+    .tabHolderBox {
+        background: #fff;
+        padding: 0px 24px 11px 24px;
+        border-radius: 6px;
+    }
+    .faqHeader {
+        font-size: 14px;
+        font-family: regular;
+        color: #212121;
+        margin-bottom: 3px;
+    }
+    .faqSubheading {
+        font-size: 12px;
+        font-family: light;
+        color: #4a4a4a;
+    }
+    .faqList {
+        line-height: 14px;
+        margin-top: 16px;
+        cursor: pointer;
+    }
+    .faqListBox {
+        display: flex;
+        margin-bottom: 24px;
+    }
+    .faqIcon {
+        padding-right: 20px;
+    }
+    .recentTicket {
+        margin-bottom: 16px;
+    }
+    .recentList {
+        position: relative;
+        line-height: 19px;
+        margin-top: 13px;
+    }
 }
 
 .faqIconBox {
-  width: 40px;
-  height: 40px;
-  position: relative;
+    width: 40px;
+    height: 40px;
+    position: relative;
 }
 
 .colorRed {
-  color: #da1c5c;
+    color: #da1c5c;
 }
 
 .callMeBackFormBox {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
 }
 
 .formBox {
-  width: 460px;
-  background: #fff;
-  border-radius: 8px;
-  padding: 32px;
-  margin: 20px 0px;
+    width: 460px;
+    background: #fff;
+    border-radius: 8px;
+    padding: 32px;
+    margin: 20px 0px;
 }
 
 .mobileNumberBox {
-  border: 1px solid #cdcdcd;
-  border-radius: 8px;
-  padding: 24px;
+    border: 1px solid #cdcdcd;
+    border-radius: 8px;
+    padding: 24px;
 }
 
 .fieldLabel {
-  font-size: 16px;
-  font-family: semibold;
-  color: #212121;
-  margin-bottom: 8px;
+    font-size: 16px;
+    font-family: semibold;
+    color: #212121;
+    margin-bottom: 8px;
 }
 
 .languageBox {
-  margin-top: 24px;
+    margin-top: 24px;
 }
 
 .language {
-  border: 1px solid #cdcdcd;
-  border-radius: 8px;
-  padding: 0px 24px;
-  margin: 20px 0px;
+    border: 1px solid #cdcdcd;
+    border-radius: 8px;
+    padding: 0px 24px;
+    margin: 20px 0px;
 }
 
 .inputField {
-  position: relative;
+    position: relative;
 }
 
-.inputField>.customBtn {
-  position: absolute;
-  top: 6px;
-  right: 2px;
+.inputField > .customBtn {
+    position: absolute;
+    top: 6px;
+    right: 2px;
 }
 
 .customBtn {
-  color: rgb(218, 28, 92);
-  font-size: 14px;
-  font-family: semibold;
-  cursor: pointer;
+    color: rgb(218, 28, 92);
+    font-size: 14px;
+    font-family: semibold;
+    cursor: pointer;
 }
 
 .requestButtonBox {
-  margin-top: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    margin-top: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .buttonBox {
-  margin-top: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .radioTicketType {
-  margin: 0px;
-  font-size: 14px;
-  font-family: regular;
-  width: 100%;
-  color: #4a4a4a;
-  padding: 17px 0px;
+    margin: 0px;
+    font-size: 14px;
+    font-family: regular;
+    width: 100%;
+    color: #4a4a4a;
+    padding: 17px 0px;
 }
 
 .radioTicketType:not(:last-child) {
-  border-bottom: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .radioTicketType label {
-  padding: 0px 0 0 0px;
-  position: relative;
-  display: block;
-  width: 100%;
-  font-family: light;
-  margin-bottom: 0px;
+    padding: 0px 0 0 0px;
+    position: relative;
+    display: block;
+    width: 100%;
+    font-family: light;
+    margin-bottom: 0px;
 }
 
 .fontBold {
-  font-weight: 600!important;
+    font-weight: 600 !important;
 }
 
 .radioTicketType label input[type="radio"] {
-  opacity: 0;
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 17px;
-  height: 17px;
-  margin: 0;
-  padding: 0;
+    opacity: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 17px;
+    height: 17px;
+    margin: 0;
+    padding: 0;
 }
 
-.radioTicketType label input[type="radio"]+span {
-  width: 18px;
-  height: 18px;
-  position: absolute;
-  /* left: 0; */
-  top: -1px;
-  background: #ffffff;
-  border: 1px solid #212121;
-  border-radius: 100%;
-  right: 0px;
+.radioTicketType label input[type="radio"] + span {
+    width: 18px;
+    height: 18px;
+    position: absolute;
+    /* left: 0; */
+    top: -1px;
+    background: #ffffff;
+    border: 1px solid #212121;
+    border-radius: 100%;
+    right: 0px;
 }
 
-.radioTicketType label input[type="radio"]+span:after {
-  content: url(./img/active.svg);
-  width: 20px;
-  height: 20px;
-  border-radius: 100%;
-  position: absolute;
-  left: -2px;
-  top: -2px;
-  transform: scale(0);
+.radioTicketType label input[type="radio"] + span:after {
+    content: url(./img/active.svg);
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    position: absolute;
+    left: -2px;
+    top: -2px;
+    transform: scale(0);
 }
 
-.radioTicketType label input[type="radio"]:checked+span:after {
-  transform: scale(1);
+.radioTicketType label input[type="radio"]:checked + span:after {
+    transform: scale(1);
 }
 
 .recentOrder {
-  margin-bottom: 20px;
-  background: #fff;
-  padding: 0px 24px 43px 24px;
-  border-radius: 6px;
+    margin-bottom: 20px;
+    background: #fff;
+    padding: 0px 24px 43px 24px;
+    border-radius: 6px;
 }
 
 .recentTicketBox {
-  border-bottom: 1px solid #eee;
-  padding: 24px 0px 16px 0px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+    border-bottom: 1px solid #eee;
+    padding: 24px 0px 16px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .recentTxt {
-  font-size: 16px;
-  font-family: semibold;
-  color: #212121;
+    font-size: 16px;
+    font-family: semibold;
+    color: #212121;
 }
 
 .viewAll {
-  font-size: 12px;
-  font-family: semibold;
-  color: #da1c5c;
-  cursor: pointer;
+    font-size: 12px;
+    font-family: semibold;
+    color: #da1c5c;
+    cursor: pointer;
 }
 
 .recentTicektImage {
-  width: 40px;
-  height: 54px;
+    width: 40px;
+    height: 54px;
 }
 
 .recentTicektImage img {
-  width: 40px;
-  height: 54px;
+    width: 40px;
+    height: 54px;
 }
 
 .recentTicketDetails {
-  display: flex;
-  margin: 11px 0px;
+    display: flex;
+    margin: 11px 0px;
 }
 
 .recentTicketTxt {
-  font-size: 12px;
-  color: #8d8d8d;
-  font-family: light;
-  padding-left: 10px;
-  width: 179px;
+    font-size: 12px;
+    color: #8d8d8d;
+    font-family: light;
+    padding-left: 10px;
+    width: 179px;
 }
 
 .recentTicketDetailsBox {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .recentTiketStatusBox {
-  display: flex;
+    display: flex;
 }
 
 .inProcess {
-  width: 8px;
-  height: 8px;
-  border: 1.4px solid #499b1f;
-  border-radius: 50px;
-  margin-right: 10px;
-  margin-top: 3px;
+    width: 8px;
+    height: 8px;
+    border: 1.4px solid #499b1f;
+    border-radius: 50px;
+    margin-right: 10px;
+    margin-top: 3px;
 }
 
 .recentStatus {
-  font-size: 12px;
-  font-family: light;
-  color: #212121;
+    font-size: 12px;
+    font-family: light;
+    color: #212121;
 }
 
 .tickets {
-  font-size: 16px;
-  font-family: semibold;
-  margin-top: 17px;
+    font-size: 16px;
+    font-family: semibold;
+    margin-top: 17px;
 }
 
 .homePage {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .nonOrderRelatedImg {
@@ -315,11 +315,17 @@
   background: #f1f1f1;
 }
 
-.cahtIcon {
-  position: fixed;
-  right: 11px;
-  bottom: 20px;
-  z-index: 100%;
-  z-index: 101 !important;
-  cursor: pointer;
+.imageBase {
+    position: relative;
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background-position: center;
+    background-size: 80%;
+    background-repeat: no-repeat;
 }

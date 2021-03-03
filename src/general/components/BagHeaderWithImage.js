@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./BagHeaderWithImage.css";
-import Image from "../../xelpmoc-core/Image";
 import ProductImage from "./ProductImage";
 import PropTypes from "prop-types";
 
@@ -25,5 +24,6 @@ BagHeaderWithImage.propTypes = {
   header: PropTypes.string,
   features: PropTypes.string,
   priceText: PropTypes.string,
-  image: PropTypes.string
+  image: PropTypes.string,
+  mobileBrand: PropTypes.string,
 };

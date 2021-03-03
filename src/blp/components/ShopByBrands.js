@@ -13,6 +13,7 @@ export default class ShopByBrands extends React.Component {
         NUMBER_OFVISIBLE_ITEM} more brands`
     };
   }
+
   showMore() {
     this.setState({ showAll: !this.state.showAll }, () => {
       if (this.state.label === "View Less") {
@@ -25,11 +26,13 @@ export default class ShopByBrands extends React.Component {
       }
     });
   }
+
   handleClick(val) {
     if (this.props.onClick) {
       this.props.onClick(val);
     }
   }
+
   render() {
     return (
       <div className={styles.base}>

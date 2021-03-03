@@ -28,10 +28,11 @@ import {
   setDataLayer,
   ADOBE_LOGIN_AND_SIGN_UP_PAGE
 } from "../../lib/adobeUtils";
+import { RouterPropTypes } from "../../general/router-prop-types";
 import * as UserAgent from "../../lib/UserAgent.js";
 export const RETRY_PAYMENT_CART_ID = "retryPaymentCartId";
 export const RETRY_PAYMENT_DETAILS = "retryPaymentDetails";
-const PASSWORD_MATCH_TEXT = "Password did not match";
+
 class SignUp extends Component {
   constructor(props) {
     super(props);
@@ -39,14 +40,15 @@ class SignUp extends Component {
       nameValue: props.nameValue ? props.nameValue : "",
       emailValue: props.emailValue ? props.emailValue : "",
       passwordValue: props.passwordValue ? props.passwordValue : ""
-      // reEnterPasswordValue: ""
     };
   }
+
   componentDidMount() {
     if (UserAgent.checkUserAgentIsMobile()) {
       setDataLayer(ADOBE_LOGIN_AND_SIGN_UP_PAGE);
     }
   }
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.authCallsIsSucceed) {
       /*
@@ -90,11 +92,13 @@ then in this case we have to hit generate temp cart id for user
       }
     }
   }
+
   checkSignUp(val) {
     if (val === "Enter") {
       this.onSubmit();
     }
   }
+
   onSubmit() {
     if (!this.state.emailValue) {
       this.props.displayToast("Please enter email address ");
@@ -125,12 +129,15 @@ then in this case we have to hit generate temp cart id for user
       );
     }
   }
+
   goBack() {
     this.props.history.push(HOME_ROUTER);
   }
+
   navigateToLogin() {
     this.props.history.push(LOGIN_PATH);
   }
+
   onChangeName(val) {
     if (this.props.onChangeName) {
       this.props.onChangeName(val);
@@ -160,9 +167,6 @@ then in this case we have to hit generate temp cart id for user
     }
     this.setState({ passwordValue: val });
   }
-  // onChangeReEnterPassword(val) {
-  //   this.setState({ reEnterPasswordValue: val });
-  // }
 
   goForWishlist() {
     const productDetailsForWishList = localStorage.getItem(
@@ -178,6 +182,7 @@ then in this case we have to hit generate temp cart id for user
       this.props.clearUrlToRedirectToAfterAuth();
     }
   }
+
   async goForRetryPayment() {
     const getCartIsAndUserIDForRetryPayment = localStorage.getItem(
       RETRY_PAYMENT_CART_AND_USER_ID_DETAILS
@@ -216,6 +221,7 @@ then in this case we have to hit generate temp cart id for user
       this.props.history.push(HOME_ROUTER);
     }
   }
+
   render() {
     const pathName = this.props.location && this.props.location.pathname;
     let footerText = "";
@@ -292,20 +298,6 @@ then in this case we have to hit generate temp cart id for user
               maxLength={200}
             />
           </div>
-          {/* <MediaQuery query="(min-device-width: 1025px)">
-            <div className={styles.dummyDiv}>
-              <PasswordInput
-                onKeyUp={event => {
-                  this.checkSignUp(event.key);
-                }}
-                placeholder={"Re-enter Password"}
-                password={this.state.reEnterPasswordValue}
-                onChange={val => this.onChangeReEnterPassword(val)}
-                fontSize={14}
-                maxLength={200}
-              />
-            </div>
-          </MediaQuery> */}
           <div className={styles.buttonSignup}>
             <div className={styles.buttonHolder}>
               <MediaQuery query="(min-device-width: 1025px)">
@@ -357,7 +349,19 @@ SignUp.propTypes = {
   nameValue: PropTypes.string,
   emailValue: PropTypes.string,
   passwordValue: PropTypes.string,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  authCallsIsSucceed: PropTypes.bool,
+  tempCartIdForLoggedInUserLoading: PropTypes.bool,
+  loadingForAddProductToWishList: PropTypes.bool,
+  retryPaymentDetailsStatus: PropTypes.bool,
+  redirectToAfterAuthUrl: PropTypes.func,
+  clearUrlToRedirectToAfterAuth: PropTypes.func,
+  displayToast: PropTypes.func,
+  onPhoneNumberChange: PropTypes.func,
+  addProductToWishList: PropTypes.func,
+  retryPayment: PropTypes.func,
+  authCallsInProcess: PropTypes.bool,
+  ...RouterPropTypes
 };
 
 SignUp.defaultProps = {

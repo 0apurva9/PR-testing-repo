@@ -25,6 +25,7 @@ export default class KycDetailsPopup extends React.Component {
       this.props.submitOtp(this.state.otp);
     }
   }
+
   wrongNumber() {
     if (this.props.wrongNumber) {
       this.props.wrongNumber();
@@ -83,7 +84,10 @@ export default class KycDetailsPopup extends React.Component {
 KycDetailsPopup.propTypes = {
   mobileNumber: PropTypes.string,
   wrongNumber: PropTypes.func,
-  resendOtp: PropTypes.func
+  resendOtp: PropTypes.func,
+  otp: PropTypes.string,
+  submitOtp: PropTypes.func,
+  loadingForVerifyWallet: PropTypes.bool
 };
 
 KycDetailsPopup.defaultProps = {

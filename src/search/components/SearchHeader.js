@@ -24,11 +24,13 @@ export default class SearchHeader extends React.Component {
       value: this.props.value
     };
   }
+
   onClickBack() {
     if (this.props.onClickBack) {
       this.props.onClickBack();
     }
   }
+
   onTypedSearch(val) {
     if (this.props.onSearch) {
       this.props.onSearch(val);
@@ -46,19 +48,23 @@ export default class SearchHeader extends React.Component {
       });
     }
   }
+
   onClick() {
     this.setState({ increase: true });
   }
+
   redirectToHome() {
     if (this.props.redirectToHome) {
       this.props.redirectToHome();
     }
   }
+
   searchString = () => {
     if (this.props.onSearchString) {
       this.props.onSearchString(this.props.searchString);
     }
   };
+
   componentWillReceiveProps(nextProps) {
     if (nextProps.value && nextProps.value !== this.state.value) {
       this.setState({ value: nextProps.value });
@@ -70,6 +76,7 @@ export default class SearchHeader extends React.Component {
       });
     }
   }
+
   handleKeyUp = event => {
     if (event.key === "Enter") {
       this.searchString();
@@ -88,11 +95,13 @@ export default class SearchHeader extends React.Component {
     this.props.onSearchOrCloseIconClick();
     this.setState({ isWhite: true, isRed: false, increase: false, value: "" });
   }
+
   handleBlur(event) {
     if (this.props.onBlur) {
       this.props.onBlur(event);
     }
   }
+
   render() {
     let search = searchIcon;
     if (this.props.display) {
@@ -223,7 +232,18 @@ SearchHeader.propTypes = {
   onClickBack: PropTypes.func,
   onSearch: PropTypes.func,
   canGoBack: PropTypes.bool,
-  redirectToHome: PropTypes.func
+  redirectToHome: PropTypes.func,
+  onSearchString: PropTypes.func,
+  onKeyUp: PropTypes.func,
+  value: PropTypes.string,
+  searchString: PropTypes.string,
+  setOnClick: PropTypes.bool,
+  onSearchOrCloseIconClick: PropTypes.func,
+  onBlur: PropTypes.func,
+  display: PropTypes.bool,
+  isGoBack: PropTypes.bool,
+  isLogo: PropTypes.bool
+
 };
 SearchHeader.defaultProps = {
   text: "Mobile",

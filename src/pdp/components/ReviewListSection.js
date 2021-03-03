@@ -5,6 +5,7 @@ export default class ReviewListSection extends React.Component {
   componentDidMount() {
     this.props.getProductReviews(0, "desc", "byDate");
   }
+
   render() {
     if (this.props.reviews && this.props.reviews.reviews) {
       return (

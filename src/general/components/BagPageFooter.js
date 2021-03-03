@@ -10,11 +10,13 @@ export default class BagPageFooter extends React.Component {
       this.props.onSave();
     }
   }
+
   onRemove() {
     if (this.props.onRemove) {
       this.props.onRemove();
     }
   }
+
   render() {
     return (
       <div className={styles.base}>
@@ -36,7 +38,12 @@ export default class BagPageFooter extends React.Component {
 }
 BagPageFooter.propTypes = {
   image: PropTypes.string,
-  onRemove: PropTypes.func
+  onRemove: PropTypes.func,
+  onSave: PropTypes.func,
+  productCode: PropTypes.string,
+  index: PropTypes.number,
+  removeText: PropTypes.string,
+  winningUssID: PropTypes.string
 };
 BagPageFooter.defaultProps = {
   removeText: "Remove"
