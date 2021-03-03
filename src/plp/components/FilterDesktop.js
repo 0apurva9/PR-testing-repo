@@ -1,6 +1,9 @@
 import React from "react";
 import cloneDeep from "lodash.clonedeep";
 import FilterSelect from "./FilterSelect";
+import CheckBox from "../../general/components/CheckBox.js";
+import cancelIcon from "../../general/components/img/cancelGrey.svg";
+import Icon from "../../xelpmoc-core/Icon";
 import FilterCategory from "./FilterCategory";
 import FilterCategoryL1 from "./FilterCategoryL1";
 import styles from "./FilterDesktop.css";
@@ -334,6 +337,75 @@ export default class FilterDesktop extends React.Component {
                                 backgroundColor="#f9f9f9"
                             >
                                 <div className={styles.subFilterDetails}>
+                                    <div className={styles.newFilterHolder}>
+                                        <div className={styles.newFilterBlock}>
+                                            <div className={styles.newFilHeader}>Department</div>
+                                            <div className={styles.newFilCheckboxBlock}>
+                                                <div className={styles.newFilCheckbox}>
+                                                    <CheckBox selected={this.props.selected} />
+                                                </div>
+                                                <div className={styles.newFilName}>Womens</div>
+                                                <div className={styles.newFilCount}>2345</div>
+                                            </div>
+                                            <div className={styles.newFilCheckboxBlock}>
+                                                <div className={styles.newFilCheckbox}>
+                                                    <CheckBox selected={this.props.selected} />
+                                                </div>
+                                                <div className={styles.newFilName}>Mens</div>
+                                                <div className={styles.newFilCount}>2345</div>
+                                            </div>
+                                            <div className={styles.newFilCheckboxBlock}>
+                                                <div className={styles.newFilCheckbox}>
+                                                    <CheckBox selected={this.props.selected} />
+                                                </div>
+                                                <div className={styles.newFilName}>Electronics</div>
+                                                <div className={styles.newFilCount}>2345</div>
+                                            </div>
+                                        </div>
+                                        <div className={styles.newFilterBlock}>
+                                            <div className={styles.newFilHeader}>Department Selected</div>
+                                            <div className={styles.newFilSelcted}>
+                                                <div className={styles.newselectedFilterWithIcon}>
+                                                    Electronics
+                                                    <div className={styles.newFilcancelIcon}>
+                                                        <Icon image={cancelIcon} size={10} backgroundSize="auto 20px" />
+                                                    </div>
+                                                </div>
+                                                <div className={styles.newselectedFilterWithIcon}>
+                                                    Mens
+                                                    <div className={styles.newFilcancelIcon}>
+                                                        <Icon image={cancelIcon} size={10} backgroundSize="auto 20px" />
+                                                    </div>
+                                                </div>
+                                                <div className={styles.newselectedFilterWithIcon}>
+                                                    Beauty & Grooming
+                                                    <div className={styles.newFilcancelIcon}>
+                                                        <Icon image={cancelIcon} size={10} backgroundSize="auto 20px" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className={styles.newFilterBlock}>
+                                            <div className={styles.newFilHeader}>Category</div>
+                                            <div className={styles.newFilCheckboxBlock}>
+                                                <div className={styles.newFilCheckbox}>
+                                                    <CheckBox selected={this.props.selected} />
+                                                </div>
+                                                <div className={styles.newFilName}>Womens</div>
+                                                <div className={styles.newFilCount}>2345</div>
+                                            </div>
+                                        </div>
+                                        <div className={styles.newFilterBlock}>
+                                            <div className={styles.newFilHeader}>Product Type</div>
+                                            <div className={styles.newFilCheckboxBlock}>
+                                                <div className={styles.newFilCheckbox}>
+                                                    <CheckBox selected={this.props.selected} />
+                                                </div>
+                                                <div className={styles.newFilName}>Womens</div>
+                                                <div className={styles.newFilCount}>2345</div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div className={styles.filterHeader}>Category</div>
                                     <div className={styles.catagoryHolder}>
                                         {this.props.isCategorySelected &&
