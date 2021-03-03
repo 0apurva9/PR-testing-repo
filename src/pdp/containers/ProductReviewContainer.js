@@ -1,7 +1,13 @@
 import { connect } from "react-redux";
 import ProductReviewPage from "../components/ProductReviewPage";
 import { withRouter } from "react-router-dom";
-import { addProductToCart, getProductReviews, getProductDescription, addProductReview } from "../actions/pdp.actions";
+import {
+    addProductToCart,
+    getProductReviews,
+    getProductDescription,
+    addProductReview,
+    getParametersEligibleToRate,
+} from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions";
 import { showSecondaryLoader, hideSecondaryLoader } from "../../general/secondaryLoader.actions";
 import {
@@ -56,6 +62,9 @@ const mapDispatchToProps = dispatch => {
         },
         openRatingReviewModal: data => {
             dispatch(showModal(RATING_REVIEW_MODAL_V2, data));
+        },
+        getParametersEligibleToRate: productCode => {
+            dispatch(getParametersEligibleToRate(productCode));
         },
     };
 };

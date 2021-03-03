@@ -45,6 +45,7 @@ import {
     getProductPinCode,
     updateAppliancesExchangeDetails,
     addProductReview,
+    submitParameterRating,
 } from "../../pdp/actions/pdp.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 import * as Cookies from "../../lib/Cookie";
@@ -101,6 +102,7 @@ const mapStateToProps = state => {
         genesysCallConfigData: state.profile.genesysResponseData,
         appliancesExchangeDetails: state.productDescription.getAppliancesExchangeDetails,
         logoutUserStatuss: state.profile.logoutUserStatus,
+        paramsEligibleToRateDetails: state.productDescription.paramsEligibleToRateDetails,
     };
 };
 
@@ -409,6 +411,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         addProductReview: (productCode, productReview) => {
             dispatch(addProductReview(productCode, productReview));
+        },
+        submitParameterRating: (productCode, parameterizedRating) => {
+            dispatch(submitParameterRating(productCode, parameterizedRating));
         },
     };
 };

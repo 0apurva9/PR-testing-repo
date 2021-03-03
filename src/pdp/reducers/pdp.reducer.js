@@ -135,6 +135,16 @@ const productDescription = (
         appliancesExchangeCheckPincodeLoading: false,
         appliancesExchangeCheckPincodeError: null,
         appliancesExchangeCheckPincodeDetails: null,
+
+        paramsEligibleToRateStatus: null,
+        paramsEligibleToRateLoading: false,
+        paramsEligibleToRateError: null,
+        paramsEligibleToRateDetails: null,
+
+        submitParameterRatingStatus: null,
+        submitParameterRatingLoading: false,
+        submitParameterRatingError: null,
+        submitParameterRatingDetails: null,
     },
     action
 ) => {
@@ -1315,6 +1325,48 @@ const productDescription = (
                 appliancesExchangeCheckPincodeLoading: false,
                 appliancesExchangeCheckPincodeError: action.error,
                 appliancesExchangeCheckPincodeDetails: null,
+            });
+
+        case pdpActions.PARAMS_ELIGIBLE_TO_RATE_REQUEST:
+            return Object.assign({}, state, {
+                paramsEligibleToRateStatus: action.status,
+                paramsEligibleToRateLoading: true,
+            });
+
+        case pdpActions.PARAMS_ELIGIBLE_TO_RATE_SUCCESS:
+            return Object.assign({}, state, {
+                paramsEligibleToRateStatus: action.status,
+                paramsEligibleToRateLoading: false,
+                paramsEligibleToRateDetails: action.data,
+            });
+
+        case pdpActions.PARAMS_ELIGIBLE_TO_RATE_FAILURE:
+            return Object.assign({}, state, {
+                paramsEligibleToRateStatus: action.status,
+                paramsEligibleToRateLoading: false,
+                paramsEligibleToRateError: action.error,
+                paramsEligibleToRateDetails: null,
+            });
+
+        case pdpActions.SUMBIT_PARAMETER_RATING_REQUEST:
+            return Object.assign({}, state, {
+                submitParameterRatingStatus: action.status,
+                submitParameterRatingLoading: true,
+            });
+
+        case pdpActions.SUMBIT_PARAMETER_RATING_SUCCESS:
+            return Object.assign({}, state, {
+                submitParameterRatingStatus: action.status,
+                submitParameterRatingLoading: false,
+                submitParameterRatingDetails: action.data,
+            });
+
+        case pdpActions.SUMBIT_PARAMETER_RATING_FAILURE:
+            return Object.assign({}, state, {
+                submitParameterRatingStatus: action.status,
+                submitParameterRatingLoading: false,
+                submitParameterRatingError: action.error,
+                submitParameterRatingDetails: null,
             });
 
         default:
