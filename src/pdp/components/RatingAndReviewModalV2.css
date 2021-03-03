@@ -1,0 +1,54 @@
+.base {
+    margin-top: 30px;
+}
+
+.tabContent {
+    display: block;
+    min-height: 407px;
+}
+
+.tabSwitches {
+    display: block;
+    width: 366px;
+    margin: 0 auto;
+    border-top: 2px solid #f3f3f3;
+}
+
+.subSection {
+    display: inline-block;
+    width: 33%;
+    text-align: center;
+    font-size: 14px;
+    padding: 0 20px;
+}
+
+.subSection:nth-child(3) {
+    padding: 0 21px;
+}
+
+.iconContainer {
+    display: flex;
+    margin: 5px 0;
+    justify-content: center;
+}
+
+.buttonContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.subSectionOneActive,
+.subSectionTwoActive,
+.subSectionThreeActive {
+    display: inline-block;
+    width: 33%;
+    text-align: center;
+    font-size: 16px;
+    padding: 0 15px;
+}
+
+.currentRating {
+    font-family: 'semibold';
+    margin-right: 5px;
+}
