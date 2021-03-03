@@ -10,7 +10,6 @@ import {
   clearOrderTransactionDetails,
   getCustomerQueriesFieldsv2,
   getNonOrderRelatedQuestions,
-  getCliqCareWmsResponse,
   getAllOrdersDetails,
   getAllOthersHelp,
   sendInvoice,
