@@ -1562,7 +1562,7 @@ export function getRecentlyViewedProduct() {
             msdRequestObject.append("user_id", userDetails.customerId);
         }
         msdRequestObject.append("api_key", API_KEY);
-        if (process.process.env.environment === "qa2") {
+        if (process.env.environment === "qa2") {
             msdRequestObject.append("mad_uuid", QA2_MCV_ID);
         } else {
             const mcvId = await getMcvId();
