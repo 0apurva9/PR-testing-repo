@@ -346,7 +346,12 @@ const account = (
     ticketHistoryDetails: null,
     initialTicketDetailsData: null,
     ticketDetailsDataLoading: false,
-    ticketDetailsError: null
+    ticketDetailsError: null,
+
+    haptikBotConfigDataStatus: null,
+    haptikBotConfigDataLoading: false,
+    haptikBotConfigData: null,
+    haptikBotConfigDataError: null
   },
   action
 ) => {
@@ -2257,6 +2262,27 @@ const account = (
       return {
         ...state,
         ticketHistoryDetails: { ...state.initialTicketDetailsData }
+      };
+
+    case accountActions.GET_HAPTIK_CONFIG_DATA_REQUEST:
+      return {
+        ...state,
+        haptikBotConfigDataStatus: action.status,
+        haptikBotConfigDataLoading: true
+      };
+    case accountActions.GET_HAPTIK_CONFIG_DATA_SUCCESS:
+      return {
+        ...state,
+        haptikBotConfigDataStatus: action.status,
+        haptikBotConfigDataLoading: false,
+        haptikBotConfigData: action.haptikBotConfigData
+      };
+    case accountActions.GET_HAPTIK_CONFIG_DATA_FAILURE:
+      return {
+        ...state,
+        haptikBotConfigDataStatus: action.status,
+        haptikBotConfigDataLoading: false,
+        haptikBotConfigDataError: action.error
       };
 
     default:
