@@ -32,7 +32,7 @@ export default class ReviewList extends React.Component {
                                         key={i}
                                         colorlink={data.colorlink}
                                         sizelink={data.sizelink}
-                                        parameterizedRating={data.parameterizedRating}
+                                        eligibleParamCaptured={data.eligibleParamCaptured}
                                     />
                                 );
                             })}
@@ -56,7 +56,7 @@ export default class ReviewList extends React.Component {
                                     key={i}
                                     colorlink={data.colorlink}
                                     sizelink={data.sizelink}
-                                    parameterizedRating={data.parameterizedRating}
+                                    eligibleParamCaptured={data.eligibleParamCaptured}
                                 />
                             );
                         })}
@@ -75,7 +75,7 @@ ReviewList.propTypes = {
             label: PropTypes.string,
             colorlink: PropTypes.object,
             sizelink: PropTypes.object,
-            parameterizedRating: PropTypes.object,
+            eligibleParamCaptured: PropTypes.object,
         })
     ),
     limit: PropTypes.number,
