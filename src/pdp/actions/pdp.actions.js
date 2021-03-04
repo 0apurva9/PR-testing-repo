@@ -1240,14 +1240,12 @@ export function addProductReview(productCode, productReview) {
     if (productReview.headline) {
         reviewData.append("headline", productReview.headline);
     }
-    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    let accessToken = getCustomerAccessToken();
     return async (dispatch, getState, { api }) => {
         dispatch(addProductReviewRequest());
         try {
             const result = await api.postFormData(
-                `${PRODUCT_SIZE_GUIDE_PATH}${productCode}/reviews_V1?access_token=${
-                    JSON.parse(customerCookie).access_token
-                }`,
+                `${PRODUCT_SIZE_GUIDE_PATH}${productCode}/reviews_V1?access_token=${accessToken}`,
                 reviewData
             );
             const resultJson = await result.json();
@@ -1379,17 +1377,14 @@ export function getProductReviewsFailure(error) {
 }
 
 export function getProductReviews(productCode, pageIndex, orderBy, sortBy) {
-    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    const globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-    let accessToken, userName;
-    if (userDetails && customerCookie) {
-        userName = JSON.parse(userDetails).userName;
-        accessToken = JSON.parse(customerCookie).access_token;
-    } else {
-        userName = ANONYMOUS_USER;
-        accessToken = globalCookie && JSON.parse(globalCookie).access_token;
+	let userDetails = getLoggedInUserDetails();
+    let accessToken = getGlobalAccessToken();
+    let userName = ANONYMOUS_USER;
+    if (userDetails) {
+        userName = userDetails.userName;
+        accessToken = getCustomerAccessToken();
     }
+
     return async (dispatch, getState, { api }) => {
         dispatch(getProductReviewsRequest());
         try {

@@ -65,13 +65,13 @@ export default class ReviewPage extends React.Component {
                     </div>
                 )}
 
-                {this.props.parameterizedRating && this.props.parameterizedRating.length > 0 ? (
+                {this.props.eligibleParamCaptured && this.props.eligibleParamCaptured.length > 0 ? (
                     <div className={styles.ratingWithStatusBarContainer}>
-                        {this.props.parameterizedRating.map(rating => {
+                        {this.props.eligibleParamCaptured.map(rating => {
                             if (rating.paramVisibility) {
                                 return (
                                     <RatingWithStatusBarComponent
-                                        currentRating={rating.parameterAvgRating}
+                                        currentRating={rating.parameterRating}
                                         showCurrentRating={false}
                                         ratingTitle={rating.parameterName}
                                         isFluid={true}
@@ -97,5 +97,5 @@ ReviewPage.propTypes = {
     reviewAge: PropTypes.string,
     colorlink: PropTypes.object,
     sizelink: PropTypes.object,
-    parameterizedRating: PropTypes.object,
+    eligibleParamCaptured: PropTypes.object,
 };
