@@ -399,13 +399,15 @@ export default class FilterDesktop extends React.Component {
                                                 } else if (val.childFilters && val.childFilters.length === 1) {
                                                     return (
                                                         <div className={styles.newFilSelcted} key={i}>
-                                                            <div className={styles.newFilHeader}>Category</div>
-                                                            <SelectedCategoryLevel
-                                                                name={val.childFilters[0].categoryName}
-                                                                onL1Click={this.onL1Click}
-                                                                l1Name={val.categoryName}
-                                                                l1CategoryCode={val.categoryCode}
-                                                            />
+                                                            <div className={styles.newFilterBlock}>
+                                                                <div className={styles.newFilHeader}>Category</div>
+                                                                <SelectedCategoryLevel
+                                                                    name={val.childFilters[0].categoryName}
+                                                                    onL1Click={this.onL1Click}
+                                                                    l1Name={val.categoryName}
+                                                                    l1CategoryCode={val.categoryCode}
+                                                                />
+                                                            </div>
                                                         </div>
                                                     );
                                                 } else return null;
