@@ -24,6 +24,7 @@ import L1CategoryFilter from "./L1CategoryFilter";
 import SelectedCategoryLevel from "./SelectedCategoryLevel";
 import L2CategoryFilter from "./L2CategoryFilter";
 import L3CategoryFilter from "./L3CategoryFilter";
+import L4CategoryFilter from "./L4CategoryFilter";
 const BRAND = "Brand";
 const COLOUR = "Colour";
 const PRICE = "Price";
@@ -349,22 +350,6 @@ export default class FilterDesktop extends React.Component {
                                             {this.props.isCategorySelected &&
                                                 facetdatacategory &&
                                                 facetdatacategory.filters &&
-                                                facetdatacategory.filters.length === 1 &&
-                                                facetdatacategory.filters.map((val, i) => {
-                                                    if (val.quantity > 1) {
-                                                        return (
-                                                            <div className={styles.newFilSelcted} key={i}>
-                                                                <SelectedCategoryLevel
-                                                                    name={val.categoryName}
-                                                                    // onClickResetL1={this.resetL1Category}
-                                                                />
-                                                            </div>
-                                                        );
-                                                    } else return null;
-                                                })}
-                                            {this.props.isCategorySelected &&
-                                                facetdatacategory &&
-                                                facetdatacategory.filters &&
                                                 facetdatacategory.filters.length > 1 &&
                                                 facetdatacategory.filters.map((val, i) => {
                                                     if (val.quantity > 1) {
@@ -376,6 +361,22 @@ export default class FilterDesktop extends React.Component {
                                                                 onL1Click={this.onL1Click}
                                                                 key={i}
                                                             />
+                                                        );
+                                                    } else return null;
+                                                })}
+                                            {this.props.isCategorySelected &&
+                                                facetdatacategory &&
+                                                facetdatacategory.filters &&
+                                                facetdatacategory.filters.length === 1 &&
+                                                facetdatacategory.filters.map((val, i) => {
+                                                    if (val.quantity > 1) {
+                                                        return (
+                                                            <div className={styles.newFilSelcted} key={i}>
+                                                                <SelectedCategoryLevel
+                                                                    name={val.categoryName}
+                                                                    // onClickResetL1={this.resetL1Category}
+                                                                />
+                                                            </div>
                                                         );
                                                     } else return null;
                                                 })}
@@ -421,9 +422,9 @@ export default class FilterDesktop extends React.Component {
                                                     val.childFilters.length === 1 &&
                                                     !val.selected &&
                                                     val.childFilters[0] &&
+                                                    val.childFilters[0].selected &&
                                                     val.childFilters[0].childFilters &&
-                                                    val.childFilters[0].childFilters.length > 0 &&
-                                                    val.childFilters[0].selected
+                                                    val.childFilters[0].childFilters.length > 0
                                                 ) {
                                                     return (
                                                         <div className={styles.newFilterBlock} key={i}>
@@ -454,7 +455,94 @@ export default class FilterDesktop extends React.Component {
                                                             />
                                                         </div>
                                                     );
-                                                }
+                                                } else if (
+                                                    val.childFilters &&
+                                                    val.childFilters.length === 1 &&
+                                                    !val.selected &&
+                                                    val.childFilters[0] &&
+                                                    val.childFilters[0].childFilters &&
+                                                    val.childFilters[0].childFilters.length === 1 &&
+                                                    val.childFilters[0].childFilters[0].childFilters &&
+                                                    val.childFilters[0].childFilters[0].childFilters.length === 1 &&
+                                                    val.childFilters[0].childFilters[0].childFilters[0].selected
+                                                ) {
+                                                    return (
+                                                        <div className={styles.newFilSelcted} key={i}>
+                                                            <div className={styles.newFilHeader}>Product Type</div>
+                                                            <SelectedCategoryLevel
+                                                                name={val.childFilters[0].childFilters[0].categoryName}
+                                                                onClick={this.onL2Click}
+                                                                l2Name={val.childFilters[0].categoryName}
+                                                                l2CategoryCode={val.childFilters[0].categoryCode}
+                                                            />
+                                                        </div>
+                                                    );
+                                                } else return null;
+                                            })}
+                                        {/* Conditions for handling L4 filters */}
+                                        {this.props.isCategorySelected &&
+                                            facetdatacategory &&
+                                            facetdatacategory.filters &&
+                                            facetdatacategory.filters.length === 1 &&
+                                            facetdatacategory.filters.map((val, i) => {
+                                                if (
+                                                    val.childFilters &&
+                                                    val.childFilters.length === 1 &&
+                                                    !val.selected &&
+                                                    val.childFilters[0] &&
+                                                    !val.childFilters[0].selected &&
+                                                    val.childFilters[0].childFilters &&
+                                                    val.childFilters[0].childFilters.length === 1 &&
+                                                    val.childFilters[0].childFilters[0].childFilters &&
+                                                    val.childFilters[0].childFilters[0].childFilters.length > 0 &&
+                                                    val.childFilters[0].childFilters[0].selected
+                                                ) {
+                                                    return (
+                                                        <div className={styles.newFilterBlock} key={i}>
+                                                            <div className={styles.newFilHeader}>
+                                                                Leaf Node Product Type
+                                                            </div>
+                                                            <L4CategoryFilter
+                                                                l4filters={
+                                                                    val.childFilters[0].childFilters[0].childFilters
+                                                                }
+                                                                onL4Click={this.onL3Click}
+                                                            />
+                                                        </div>
+                                                    );
+                                                } else if (
+                                                    val.childFilters &&
+                                                    val.childFilters.length === 1 &&
+                                                    !val.selected &&
+                                                    val.childFilters[0] &&
+                                                    !val.childFilters[0].selected &&
+                                                    val.childFilters[0].childFilters &&
+                                                    val.childFilters[0].childFilters.length > 0 &&
+                                                    val.childFilters[0].childFilters[0].childFilters &&
+                                                    val.childFilters[0].childFilters[0].childFilters.length === 1 &&
+                                                    val.childFilters[0].childFilters[0].childFilters[0].selected
+                                                ) {
+                                                    return (
+                                                        <div className={styles.newFilSelcted} key={i}>
+                                                            <div className={styles.newFilHeader}>
+                                                                Leaf Node Product Type
+                                                            </div>
+                                                            <SelectedCategoryLevel
+                                                                name={
+                                                                    val.childFilters[0].childFilters[0].childFilters[0]
+                                                                        .categoryName
+                                                                }
+                                                                onL4Click={this.onL3Click}
+                                                                l3Name={
+                                                                    val.childFilters[0].childFilters[0].categoryName
+                                                                }
+                                                                l3CategoryCode={
+                                                                    val.childFilters[0].childFilters[0].categoryCode
+                                                                }
+                                                            />
+                                                        </div>
+                                                    );
+                                                } else return null;
                                             })}
                                     </div>
                                     <div className={styles.filterHeader}>Category</div>

@@ -14,6 +14,9 @@ export default class SelectedCategoryLevel extends React.Component {
         if (this.props.onClickResetL1) {
             this.props.onClickResetL1();
         }
+        if (this.props.onL4Click) {
+            this.props.onL4Click(this.props.l3CategoryCode, "Category", this.props.l3Name, this.props.l3Name);
+        }
     };
 
     render() {
