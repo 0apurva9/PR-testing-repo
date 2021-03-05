@@ -1,9 +1,6 @@
 import React from "react";
 import cloneDeep from "lodash.clonedeep";
 import FilterSelect from "./FilterSelect";
-import CheckBox from "../../general/components/CheckBox.js";
-import cancelIcon from "../../general/components/img/cancelGrey.svg";
-import Icon from "../../xelpmoc-core/Icon";
 import FilterCategory from "./FilterCategory";
 import FilterCategoryL1 from "./FilterCategoryL1";
 import styles from "./FilterDesktop.css";
@@ -23,6 +20,10 @@ import {
     ADOBE_MDE_CLICK_ON_EXCHANGE_AVAILABLE_FILTER,
 } from "../../lib/adobeUtils";
 import * as Cookie from "../../lib/Cookie";
+import L1CategoryFilter from "./L1CategoryFilter";
+import SelectedCategoryLevel from "./SelectedCategoryLevel";
+import L2CategoryFilter from "./L2CategoryFilter";
+import L3CategoryFilter from "./L3CategoryFilter";
 const BRAND = "Brand";
 const COLOUR = "Colour";
 const PRICE = "Price";
@@ -166,6 +167,10 @@ export default class FilterDesktop extends React.Component {
 
     onL3Click = (val, filterType, filterValue, filterName, i) => {
         this.onCategorySelect(val, filterType, filterValue, filterName, false, i);
+    };
+
+    resetL1Category = () => {
+        this.props.history.goBack();
     };
 
     onFilterClick = (val, filterType, filterValue, filterSelected, webUrl, colourValue) => {
@@ -339,72 +344,118 @@ export default class FilterDesktop extends React.Component {
                                 <div className={styles.subFilterDetails}>
                                     <div className={styles.newFilterHolder}>
                                         <div className={styles.newFilterBlock}>
+                                            {/* Conditions for handling L1 filters */}
                                             <div className={styles.newFilHeader}>Department</div>
-                                            <div className={styles.newFilCheckboxBlock}>
-                                                <div className={styles.newFilCheckbox}>
-                                                    <CheckBox selected={this.props.selected} />
-                                                </div>
-                                                <div className={styles.newFilName}>Womens</div>
-                                                <div className={styles.newFilCount}>2345</div>
-                                            </div>
-                                            <div className={styles.newFilCheckboxBlock}>
-                                                <div className={styles.newFilCheckbox}>
-                                                    <CheckBox selected={this.props.selected} />
-                                                </div>
-                                                <div className={styles.newFilName}>Mens</div>
-                                                <div className={styles.newFilCount}>2345</div>
-                                            </div>
-                                            <div className={styles.newFilCheckboxBlock}>
-                                                <div className={styles.newFilCheckbox}>
-                                                    <CheckBox selected={this.props.selected} />
-                                                </div>
-                                                <div className={styles.newFilName}>Electronics</div>
-                                                <div className={styles.newFilCount}>2345</div>
-                                            </div>
+                                            {this.props.isCategorySelected &&
+                                                facetdatacategory &&
+                                                facetdatacategory.filters &&
+                                                facetdatacategory.filters.length === 1 &&
+                                                facetdatacategory.filters.map((val, i) => {
+                                                    if (val.quantity > 1) {
+                                                        return (
+                                                            <div className={styles.newFilSelcted} key={i}>
+                                                                <SelectedCategoryLevel
+                                                                    name={val.categoryName}
+                                                                    // onClickResetL1={this.resetL1Category}
+                                                                />
+                                                            </div>
+                                                        );
+                                                    } else return null;
+                                                })}
+                                            {this.props.isCategorySelected &&
+                                                facetdatacategory &&
+                                                facetdatacategory.filters &&
+                                                facetdatacategory.filters.length > 1 &&
+                                                facetdatacategory.filters.map((val, i) => {
+                                                    if (val.quantity > 1) {
+                                                        return (
+                                                            <L1CategoryFilter
+                                                                name={val.categoryName}
+                                                                count={val.quantity}
+                                                                value={val.categoryCode}
+                                                                onL1Click={this.onL1Click}
+                                                                key={i}
+                                                            />
+                                                        );
+                                                    } else return null;
+                                                })}
                                         </div>
-                                        <div className={styles.newFilterBlock}>
-                                            <div className={styles.newFilHeader}>Department Selected</div>
-                                            <div className={styles.newFilSelcted}>
-                                                <div className={styles.newselectedFilterWithIcon}>
-                                                    Electronics
-                                                    <div className={styles.newFilcancelIcon}>
-                                                        <Icon image={cancelIcon} size={10} backgroundSize="auto 20px" />
-                                                    </div>
-                                                </div>
-                                                <div className={styles.newselectedFilterWithIcon}>
-                                                    Mens
-                                                    <div className={styles.newFilcancelIcon}>
-                                                        <Icon image={cancelIcon} size={10} backgroundSize="auto 20px" />
-                                                    </div>
-                                                </div>
-                                                <div className={styles.newselectedFilterWithIcon}>
-                                                    Beauty & Grooming
-                                                    <div className={styles.newFilcancelIcon}>
-                                                        <Icon image={cancelIcon} size={10} backgroundSize="auto 20px" />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className={styles.newFilterBlock}>
-                                            <div className={styles.newFilHeader}>Category</div>
-                                            <div className={styles.newFilCheckboxBlock}>
-                                                <div className={styles.newFilCheckbox}>
-                                                    <CheckBox selected={this.props.selected} />
-                                                </div>
-                                                <div className={styles.newFilName}>Womens</div>
-                                                <div className={styles.newFilCount}>2345</div>
-                                            </div>
-                                        </div>
-                                        <div className={styles.newFilterBlock}>
-                                            <div className={styles.newFilHeader}>Product Type</div>
-                                            <div className={styles.newFilCheckboxBlock}>
-                                                <div className={styles.newFilCheckbox}>
-                                                    <CheckBox selected={this.props.selected} />
-                                                </div>
-                                                <div className={styles.newFilName}>Womens</div>
-                                                <div className={styles.newFilCount}>2345</div>
-                                            </div>
-                                        </div>
+                                        {/* Conditions for handling L2 filters */}
+                                        {this.props.isCategorySelected &&
+                                            facetdatacategory &&
+                                            facetdatacategory.filters &&
+                                            facetdatacategory.filters.length === 1 &&
+                                            facetdatacategory.filters.map((val, i) => {
+                                                if (val.childFilters && val.childFilters.length > 1 && val.selected) {
+                                                    return (
+                                                        <div className={styles.newFilterBlock} key={i}>
+                                                            <div className={styles.newFilHeader}>Category</div>
+                                                            <L2CategoryFilter
+                                                                l2filters={val.childFilters}
+                                                                onClick={this.onL2Click}
+                                                            />
+                                                        </div>
+                                                    );
+                                                } else if (val.childFilters && val.childFilters.length === 1) {
+                                                    return (
+                                                        <div className={styles.newFilSelcted} key={i}>
+                                                            <div className={styles.newFilHeader}>Category</div>
+                                                            <SelectedCategoryLevel
+                                                                name={val.childFilters[0].categoryName}
+                                                                onL1Click={this.onL1Click}
+                                                                l1Name={val.categoryName}
+                                                                l1CategoryCode={val.categoryCode}
+                                                            />
+                                                        </div>
+                                                    );
+                                                } else return null;
+                                            })}
+                                        {/* Conditions for handling L3 filters */}
+                                        {this.props.isCategorySelected &&
+                                            facetdatacategory &&
+                                            facetdatacategory.filters &&
+                                            facetdatacategory.filters.length === 1 &&
+                                            facetdatacategory.filters.map((val, i) => {
+                                                if (
+                                                    val.childFilters &&
+                                                    val.childFilters.length === 1 &&
+                                                    !val.selected &&
+                                                    val.childFilters[0] &&
+                                                    val.childFilters[0].childFilters &&
+                                                    val.childFilters[0].childFilters.length > 0 &&
+                                                    val.childFilters[0].selected
+                                                ) {
+                                                    return (
+                                                        <div className={styles.newFilterBlock} key={i}>
+                                                            <div className={styles.newFilHeader}>Product Type</div>
+                                                            <L3CategoryFilter
+                                                                l3filters={val.childFilters[0].childFilters}
+                                                                onL3Click={this.onL3Click}
+                                                            />
+                                                        </div>
+                                                    );
+                                                } else if (
+                                                    val.childFilters &&
+                                                    val.childFilters.length === 1 &&
+                                                    !val.selected &&
+                                                    val.childFilters[0] &&
+                                                    val.childFilters[0].childFilters &&
+                                                    val.childFilters[0].childFilters.length === 1 &&
+                                                    val.childFilters[0].childFilters[0].selected
+                                                ) {
+                                                    return (
+                                                        <div className={styles.newFilSelcted} key={i}>
+                                                            <div className={styles.newFilHeader}>Product Type</div>
+                                                            <SelectedCategoryLevel
+                                                                name={val.childFilters[0].childFilters[0].categoryName}
+                                                                onClick={this.onL2Click}
+                                                                l2Name={val.childFilters[0].categoryName}
+                                                                l2CategoryCode={val.childFilters[0].categoryCode}
+                                                            />
+                                                        </div>
+                                                    );
+                                                }
+                                            })}
                                     </div>
                                     <div className={styles.filterHeader}>Category</div>
                                     <div className={styles.catagoryHolder}>
@@ -730,4 +781,76 @@ export default class FilterDesktop extends React.Component {
             </React.Fragment>
         );
     }
+}
+
+{
+    /*                                     <div className={styles.newFilterHolder}>
+                                        <div className={styles.newFilterBlock}>
+                                            <div className={styles.newFilHeader}>Department</div>
+                                            <div className={styles.newFilCheckboxBlock}>
+                                                <div className={styles.newFilCheckbox}>
+                                                    <CheckBox selected={this.props.selected} />
+                                                </div>
+                                                <div className={styles.newFilName}>Womens</div>
+                                                <div className={styles.newFilCount}>2345</div>
+                                            </div>
+                                            <div className={styles.newFilCheckboxBlock}>
+                                                <div className={styles.newFilCheckbox}>
+                                                    <CheckBox selected={this.props.selected} />
+                                                </div>
+                                                <div className={styles.newFilName}>Mens</div>
+                                                <div className={styles.newFilCount}>2345</div>
+                                            </div>
+                                            <div className={styles.newFilCheckboxBlock}>
+                                                <div className={styles.newFilCheckbox}>
+                                                    <CheckBox selected={this.props.selected} />
+                                                </div>
+                                                <div className={styles.newFilName}>Electronics</div>
+                                                <div className={styles.newFilCount}>2345</div>
+                                            </div>
+                                        </div>
+                                        <div className={styles.newFilterBlock}>
+                                            <div className={styles.newFilHeader}>Department Selected</div>
+                                            <div className={styles.newFilSelcted}>
+                                                <div className={styles.newselectedFilterWithIcon}>
+                                                    Electronics
+                                                    <div className={styles.newFilcancelIcon}>
+                                                        <Icon image={cancelIcon} size={10} backgroundSize="auto 20px" />
+                                                    </div>
+                                                </div>
+                                                <div className={styles.newselectedFilterWithIcon}>
+                                                    Mens
+                                                    <div className={styles.newFilcancelIcon}>
+                                                        <Icon image={cancelIcon} size={10} backgroundSize="auto 20px" />
+                                                    </div>
+                                                </div>
+                                                <div className={styles.newselectedFilterWithIcon}>
+                                                    Beauty & Grooming
+                                                    <div className={styles.newFilcancelIcon}>
+                                                        <Icon image={cancelIcon} size={10} backgroundSize="auto 20px" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className={styles.newFilterBlock}>
+                                            <div className={styles.newFilHeader}>Category</div>
+                                            <div className={styles.newFilCheckboxBlock}>
+                                                <div className={styles.newFilCheckbox}>
+                                                    <CheckBox selected={this.props.selected} />
+                                                </div>
+                                                <div className={styles.newFilName}>Womens</div>
+                                                <div className={styles.newFilCount}>2345</div>
+                                            </div>
+                                        </div>
+                                        <div className={styles.newFilterBlock}>
+                                            <div className={styles.newFilHeader}>Product Type</div>
+                                            <div className={styles.newFilCheckboxBlock}>
+                                                <div className={styles.newFilCheckbox}>
+                                                    <CheckBox selected={this.props.selected} />
+                                                </div>
+                                                <div className={styles.newFilName}>Womens</div>
+                                                <div className={styles.newFilCount}>2345</div>
+                                            </div>
+                                        </div>
+                                    </div> */
 }
