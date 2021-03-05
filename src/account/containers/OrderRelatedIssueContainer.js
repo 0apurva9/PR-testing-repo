@@ -2,23 +2,24 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import OrderRelatedIssue from "../components/orderRelatedIssue";
 import {
-    getOrderRelatedQuestions,
-    getOrdersTransactionData,
-    uploadUserFile,
-    submitOrderDetails,
-    getUserDetails,
-    clearOrderTransactionDetails,
-    getCustomerQueriesFieldsv2,
-    getNonOrderRelatedQuestions,
-    getAllOrdersDetails,
-    getAllOthersHelp,
-    sendInvoice,
-    getFaqRelatedQuestions,
-    setSelfServeState,
-    fetchOrderItemDetails,
-    getCliq2CallConfig,
-    placeCustomerCallRequest,
-    getRecentTicketHistoryDetails,
+  getOrderRelatedQuestions,
+  getOrdersTransactionData,
+  uploadUserFile,
+  submitOrderDetails,
+  getUserDetails,
+  clearOrderTransactionDetails,
+  getCustomerQueriesFieldsv2,
+  getNonOrderRelatedQuestions,
+  getAllOrdersDetails,
+  getAllOthersHelp,
+  sendInvoice,
+  getFaqRelatedQuestions,
+  setSelfServeState,
+  fetchOrderItemDetails,
+  getCliq2CallConfig,
+  placeCustomerCallRequest,
+  getRecentTicketHistoryDetails,
+  getHaptikBotConfig
 } from "../actions/account.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 import { showSecondaryLoader, hideSecondaryLoader } from "../../general/secondaryLoader.actions";
@@ -59,62 +60,66 @@ const mapDispatchToProps = dispatch => {
         getAllOrdersDetails: () => {
             dispatch(getAllOrdersDetails(false, false, false, false));
         },
-
         getUserDetails: () => {
-            dispatch(getUserDetails());
+          dispatch(getUserDetails());
         },
         showCustomerQueryModal: getCustomerQueryDetailsObject => {
-            dispatch(showModal(CUSTOMER_QUERY_POPUP, getCustomerQueryDetailsObject));
+          dispatch(showModal(CUSTOMER_QUERY_POPUP, getCustomerQueryDetailsObject));
         },
         displayToast: message => {
-            dispatch(displayToast(message));
+          dispatch(displayToast(message));
         },
         submitOrderDetails: async raiseTicketObj => {
-            return dispatch(submitOrderDetails(raiseTicketObj));
+          return dispatch(submitOrderDetails(raiseTicketObj));
         },
         getAllOthersHelp: pageId => {
-            dispatch(getAllOthersHelp(pageId));
+          dispatch(getAllOthersHelp(pageId));
         },
         getFaqRelatedQuestions: async FAQPageId => {
-            return dispatch(getFaqRelatedQuestions(FAQPageId));
+          return dispatch(getFaqRelatedQuestions(FAQPageId));
         },
         sendInvoice: (ussid, sellerOrderNo) => {
-            dispatch(sendInvoice(ussid, sellerOrderNo));
+          dispatch(sendInvoice(ussid, sellerOrderNo));
         },
         setUrlToRedirectToAfterAuth: url => {
-            dispatch(setUrlToRedirectToAfterAuth(url));
+          dispatch(setUrlToRedirectToAfterAuth(url));
         },
         setSelfServeState: currentState => {
-            dispatch(setSelfServeState(currentState));
+          dispatch(setSelfServeState(currentState));
         },
         fetchOrderItemDetails: (orderId, transactionId) => {
-            dispatch(fetchOrderItemDetails(orderId, transactionId));
+          dispatch(fetchOrderItemDetails(orderId, transactionId));
         },
         customerQueryErrorModal: getCustomerQueryDetailsObject => {
-            dispatch(showModal(CUSTOMER_QUERY_ERROR_MODAL, getCustomerQueryDetailsObject));
+          dispatch(
+            showModal(CUSTOMER_QUERY_ERROR_MODAL, getCustomerQueryDetailsObject)
+          );
         },
         getCliq2CallConfig: async Cliq2CallConfigId => {
-            return dispatch(getCliq2CallConfig(Cliq2CallConfigId));
+          return dispatch(getCliq2CallConfig(Cliq2CallConfigId));
         },
         showCliq2CallOption: getCustomerQueryDetailsObject => {
-            dispatch(showModal(CLIQ_2_CALL_POP_UP, getCustomerQueryDetailsObject));
+          dispatch(showModal(CLIQ_2_CALL_POP_UP, getCustomerQueryDetailsObject));
         },
         timeSlotPopUP: getCustomerQueryDetailsObject => {
-            dispatch(showModal(TIME_SLOT_POP_UP, getCustomerQueryDetailsObject));
+          dispatch(showModal(TIME_SLOT_POP_UP, getCustomerQueryDetailsObject));
         },
         placeCustomerCallRequest: async callRequestData => {
-            return dispatch(placeCustomerCallRequest(callRequestData));
+          return dispatch(placeCustomerCallRequest(callRequestData));
         },
         showCallQuerySuccessModal: callSuccessData => {
-            dispatch(showModal(CUSTOMER_CALL_QUERY_SUCCESS, callSuccessData));
+          dispatch(showModal(CUSTOMER_CALL_QUERY_SUCCESS, callSuccessData));
         },
         getRecentTicketHistoryDetails: (paginated, ticketStatus) => {
-            dispatch(getRecentTicketHistoryDetails(paginated, ticketStatus));
+          dispatch(getRecentTicketHistoryDetails(paginated, ticketStatus));
         },
         clearOrderTransactionDetails: () => {
-            dispatch(clearOrderTransactionDetails());
+          dispatch(clearOrderTransactionDetails());
         },
-    };
+        getHaptikBotConfig: pageId => {
+          dispatch(getHaptikBotConfig(pageId));
+        }
+  };
 };
 const mapStateToProps = state => {
     return {
@@ -148,11 +153,14 @@ const mapStateToProps = state => {
         cliq2CallConfigData: state.profile.cliq2CallConfigData,
         genesysResponseLoading: state.profile.genesysResponseLoading,
         genesysResponseData: state.profile.genesysResponseData,
-        genesysCustomerCallRequestData: state.profile.genesysCustomerCallRequestData,
+        genesysCustomerCallRequestData:
+          state.profile.genesysCustomerCallRequestData,
         ticketDetailsDataLoading: state.profile.ticketDetailsDataLoading,
         ticketHistoryDetails: state.profile.ticketHistoryDetails,
         initialTicketDetailsData: state.profile.initialTicketDetailsData,
-    };
+        haptikBotConfigDataLoading: state.profile.haptikBotConfigDataLoading,
+        haptikBotConfigData: state.profile.haptikBotConfigData
+  };
 };
 
 const OrderRelatedIssueContainer = withRouter(connect(mapStateToProps, mapDispatchToProps)(OrderRelatedIssue));
