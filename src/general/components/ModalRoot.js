@@ -1316,6 +1316,7 @@ export default class ModalRoot extends React.Component {
                         this.props.getTitleSuggestions(productCode, userRating)
                     }
                     getTitleSuggestionsDetails={this.props.getTitleSuggestionsDetails}
+                    displayToast={this.props.displayToast}
                 />
             ),
         };

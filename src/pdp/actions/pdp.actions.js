@@ -1249,7 +1249,7 @@ export function addProductReview(productCode, productReview) {
         dispatch(addProductReviewRequest());
         try {
             const result = await api.postFormData(
-                `${PRODUCT_SIZE_GUIDE_PATH}${productCode}/reviews_V1?access_token=${accessToken}`,
+                `${PRODUCT_SIZE_GUIDE_PATH}${productCode}/reviews_V1?access_token=${accessToken}&isPwa=true&channel=${CHANNEL}&platform=${PLATFORM}`,
                 reviewData
             );
             const resultJson = await result.json();
