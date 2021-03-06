@@ -11,7 +11,7 @@ import rnrRatingFilled from "./img/rnrRatingFilled.svg";
 import rnrQualitiesBlank from "./img/rnrQualitiesBlank.svg";
 import rnrQualitiesFilled from "./img/rnrQualitiesFilled.svg";
 import rnrReviewBlank from "./img/rnrReviewBlank.svg";
-// import rnrReviewFilled from "./img/rnrReviewFilled.svg";
+import rnrReviewFilled from "./img/rnrReviewFilled.svg";
 
 import Icon from "../../xelpmoc-core/Icon";
 
@@ -24,11 +24,15 @@ export default class RatingAndReviewModalV2 extends Component {
             currentRating: this.props.rating ? this.props.rating : null,
             currentParamsData: null,
             qualities: null,
+            disableReviewSubmit: true,
         };
     }
 
     activateSection = section => {
         this.setState({ sectionActive: section });
+        if (section === 3) {
+            this.props.getTitleSuggestions(this.props.productCode, this.state.currentRating);
+        }
     };
 
     getUpdatedRating = rating => {
@@ -39,6 +43,7 @@ export default class RatingAndReviewModalV2 extends Component {
         let productReview = {};
         productReview.rating = this.state.currentRating;
         this.props.addProductReview(this.props.productCode, productReview);
+        // on success
         this.activateSection(2);
     };
 
@@ -53,16 +58,33 @@ export default class RatingAndReviewModalV2 extends Component {
 
     submitQualities = () => {
         this.props.submitParameterRating(this.props.productCode, this.state.qualities);
+        // on success
         this.activateSection(3);
+        this.props.getTitleSuggestions(this.props.productCode, this.state.currentRating);
     };
 
     getStatusBarClass = acvtiveSession => {
-        const statusBarClasses = {
-            1: null,
-            2: styles.width33,
-            3: styles.width66,
-        };
-        return statusBarClasses[acvtiveSession];
+        switch (acvtiveSession) {
+            case 1:
+                return null;
+
+            case 2:
+                return styles.width33;
+
+            case 3:
+                return styles.width66;
+
+            default:
+                return styles.width100;
+        }
+    };
+
+    getUpdatedReviewDetails = (title, reviewDetails) => {
+        if (title && reviewDetails) {
+            this.setState({ disableReviewSubmit: false });
+        } else {
+            this.setState({ disableReviewSubmit: true });
+        }
     };
 
     render() {
@@ -82,6 +104,11 @@ export default class RatingAndReviewModalV2 extends Component {
             classNameThree = styles.subSectionThreeActive;
         }
 
+        let statusBar = this.getStatusBarClass(this.state.sectionActive);
+        if (!this.state.disableReviewSubmit) {
+            statusBar = styles.width100;
+        }
+
         let currentParamsDataLength = this.state.currentParamsData && Object.keys(this.state.currentParamsData).length;
 
         return (
@@ -98,11 +125,18 @@ export default class RatingAndReviewModalV2 extends Component {
                             }
                         />
                     )}
-                    {this.state.sectionActive === 3 && <RnRReviewSectionComponent />}
+                    {this.state.sectionActive === 3 && (
+                        <RnRReviewSectionComponent
+                            getTitleSuggestionsDetails={this.props.getTitleSuggestionsDetails}
+                            getUpdatedReviewDetails={(title, reviewDetails) =>
+                                this.getUpdatedReviewDetails(title, reviewDetails)
+                            }
+                        />
+                    )}
                 </div>
 
                 <div className={styles.tabSwitches}>
-                    <div className={this.getStatusBarClass(this.state.sectionActive)} />
+                    <div className={statusBar} />
                     <div className={classNameOne}>
                         <div className={styles.iconContainer}>
                             <span className={styles.currentRating}>
@@ -132,7 +166,7 @@ export default class RatingAndReviewModalV2 extends Component {
                         )}
                     <div className={classNameThree}>
                         <div className={styles.iconContainer}>
-                            <Icon image={rnrReviewBlank} size={26} />
+                            <Icon image={this.state.disableReviewSubmit ? rnrReviewBlank : rnrReviewFilled} size={26} />
                         </div>
                         Your Review
                     </div>
@@ -157,7 +191,7 @@ export default class RatingAndReviewModalV2 extends Component {
                         <React.Fragment>
                             <CustomButton
                                 text="Skip"
-                                width="120px"
+                                width="auto"
                                 height="36px"
                                 fontSize="12px"
                                 color="#494745"
@@ -181,6 +215,34 @@ export default class RatingAndReviewModalV2 extends Component {
                             />
                         </React.Fragment>
                     )}
+                    {this.state.sectionActive === 3 && (
+                        <React.Fragment>
+                            <CustomButton
+                                text="Skip"
+                                width="auto"
+                                height="36px"
+                                fontSize="12px"
+                                color="#494745"
+                                border="none"
+                                borderRadius="4px"
+                                fontFamily="light"
+                                handleClick={() => this.activateSection(3)}
+                                disabled={false}
+                            />
+                            <CustomButton
+                                text="Submit"
+                                width="120px"
+                                height="36px"
+                                fontSize="12px"
+                                color="#da1c5c"
+                                border="1px solid #da1c5c"
+                                borderRadius="4px"
+                                fontFamily="regular"
+                                handleClick={() => this.submitQualities()}
+                                disabled={this.state.disableReviewSubmit ? true : false}
+                            />
+                        </React.Fragment>
+                    )}
                 </div>
             </div>
         );
@@ -193,4 +255,6 @@ RatingAndReviewModalV2.propTypes = {
     productCode: PropTypes.string,
     paramsEligibleToRateDetails: PropTypes.object,
     submitParameterRating: PropTypes.func,
+    getTitleSuggestions: PropTypes.func,
+    getTitleSuggestionsDetails: PropTypes.object,
 };

@@ -145,6 +145,11 @@ const productDescription = (
         submitParameterRatingLoading: false,
         submitParameterRatingError: null,
         submitParameterRatingDetails: null,
+
+        getTitleSuggestionsStatus: null,
+        getTitleSuggestionsLoading: false,
+        getTitleSuggestionsError: null,
+        getTitleSuggestionsDetails: null,
     },
     action
 ) => {
@@ -1367,6 +1372,27 @@ const productDescription = (
                 submitParameterRatingLoading: false,
                 submitParameterRatingError: action.error,
                 submitParameterRatingDetails: null,
+            });
+
+        case pdpActions.GET_TITE_SUGGESTIONS_REQUEST:
+            return Object.assign({}, state, {
+                getTitleSuggestionsStatus: action.status,
+                getTitleSuggestionsLoading: true,
+            });
+
+        case pdpActions.GET_TITE_SUGGESTIONS_SUCCESS:
+            return Object.assign({}, state, {
+                getTitleSuggestionsStatus: action.status,
+                getTitleSuggestionsLoading: false,
+                getTitleSuggestionsDetails: action.data,
+            });
+
+        case pdpActions.GET_TITE_SUGGESTIONS_FAILURE:
+            return Object.assign({}, state, {
+                getTitleSuggestionsStatus: action.status,
+                getTitleSuggestionsLoading: false,
+                getTitleSuggestionsError: action.error,
+                getTitleSuggestionsDetails: null,
             });
 
         default:
