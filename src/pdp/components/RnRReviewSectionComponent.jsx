@@ -15,14 +15,15 @@ class RnRReviewSectionComponent extends Component {
         };
     }
 
-    componentDidMount() {
+    componentDidUpdate(prevProps) {
         if (
-            this.props.getTitleSuggestionsDetails &&
-            this.props.getTitleSuggestionsDetails.status === "SUCCESS" &&
-            this.props.getTitleSuggestionsDetails.suggestions &&
-            this.props.getTitleSuggestionsDetails.suggestions.length > 0
+            this.props.titleSuggestionsDetails &&
+            this.props.titleSuggestionsDetails !== prevProps.titleSuggestionsDetails &&
+            this.props.titleSuggestionsDetails.status === "SUCCESS" &&
+            this.props.titleSuggestionsDetails.suggestions &&
+            this.props.titleSuggestionsDetails.suggestions.length > 0
         ) {
-            this.setState({ suggestions: this.props.getTitleSuggestionsDetails.suggestions });
+            this.setState({ suggestions: this.props.titleSuggestionsDetails.suggestions });
         }
     }
 
@@ -84,7 +85,7 @@ class RnRReviewSectionComponent extends Component {
 }
 
 RnRReviewSectionComponent.propTypes = {
-    getTitleSuggestionsDetails: PropTypes.object,
+    titleSuggestionsDetails: PropTypes.object,
     getUpdatedReviewDetails: PropTypes.func,
 };
 

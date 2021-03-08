@@ -1246,6 +1246,7 @@ export default class PdpApparel extends React.Component {
                                                 impulseOfferCalloutList={this.props.impulseOfferCalloutList}
                                                 potentialPromotions={productData.potentialPromotions}
                                                 isPdp={true}
+                                                displayRatingReview={productData.displayRatingReview}
                                             />
                                         </div>
                                         <div className={styles.wisthListIconHolder}>
@@ -2151,7 +2152,8 @@ export default class PdpApparel extends React.Component {
                                         <React.Fragment>
                                             {productData.numberOfReviews &&
                                             (productData.numberOfReviews !== 0 ||
-                                                productData.numberOfReviews !== "0") ? (
+                                                productData.numberOfReviews !== "0") &&
+                                            productData.displayRatingReview ? (
                                                 <div className={styles.reviewsHolder} ref={this.reviewListRef}>
                                                     <RatingReviewHeaderComponent
                                                         goToReviewPage={() => this.goToReviewPage()}
@@ -2306,6 +2308,7 @@ PdpApparel.propTypes = {
         ),
         productName: PropTypes.string,
         categoryL4Code: PropTypes.string,
+        displayRatingReview: PropTypes.bool,
     }),
     getUserAddress: PropTypes.func,
     getPdpOffers: PropTypes.func,

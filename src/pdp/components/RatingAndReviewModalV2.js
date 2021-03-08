@@ -27,7 +27,32 @@ export default class RatingAndReviewModalV2 extends Component {
             disableReviewSubmit: true,
             title: null,
             reviewDetails: null,
+            titleSuggestionsDetails: null,
         };
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.addReviewDetails !== prevProps.addReviewDetails) {
+            // handle submit for rating submit and redirect to parameter screen
+            if (this.state.currentRating && !this.state.reviewDetails) {
+                this.activateSection(2);
+            }
+
+            // handle submit for review screen and redirect to success screen
+            if (this.state.currentRating && this.state.reviewDetails) {
+                this.activateSection(4);
+            }
+        }
+
+        // handle submit for parameter submit and redirect to review screen
+        if (this.props.submitParameterRatingDetails !== prevProps.submitParameterRatingDetails) {
+            this.activateSection(3);
+        }
+
+        // get title suggestions details
+        if (this.props.getTitleSuggestionsDetails !== prevProps.getTitleSuggestionsDetails) {
+            this.setState({ titleSuggestionsDetails: this.props.getTitleSuggestionsDetails });
+        }
     }
 
     activateSection = section => {
@@ -46,7 +71,7 @@ export default class RatingAndReviewModalV2 extends Component {
         productReview.rating = this.state.currentRating;
         this.props.addProductReview(this.props.productCode, productReview);
         // on success
-        this.activateSection(2);
+        // this.activateSection(2);
     };
 
     getUpdatedParameters = (paramsData, paramsDataForAPI) => {
@@ -61,8 +86,7 @@ export default class RatingAndReviewModalV2 extends Component {
     submitQualities = () => {
         this.props.submitParameterRating(this.props.productCode, this.state.qualities);
         // on success
-        this.activateSection(3);
-        this.props.getTitleSuggestions(this.props.productCode, this.state.currentRating);
+        // this.activateSection(3);
     };
 
     getStatusBarClass = acvtiveSession => {
@@ -99,7 +123,7 @@ export default class RatingAndReviewModalV2 extends Component {
             productReview.comment = this.state.reviewDetails;
             this.props.addProductReview(this.props.productCode, productReview);
             // on success
-            this.activateSection(4);
+            // this.activateSection(4);
         }
     };
 
@@ -143,7 +167,7 @@ export default class RatingAndReviewModalV2 extends Component {
                     )}
                     {this.state.sectionActive === 3 && (
                         <RnRReviewSectionComponent
-                            getTitleSuggestionsDetails={this.props.getTitleSuggestionsDetails}
+                            titleSuggestionsDetails={this.state.titleSuggestionsDetails}
                             getUpdatedReviewDetails={(title, reviewDetails) =>
                                 this.getUpdatedReviewDetails(title, reviewDetails)
                             }
@@ -250,7 +274,7 @@ export default class RatingAndReviewModalV2 extends Component {
                                 border="none"
                                 borderRadius="4px"
                                 fontFamily="light"
-                                handleClick={() => this.activateSection(3)}
+                                handleClick={() => this.activateSection(4)}
                                 disabled={false}
                             />
                             <CustomButton
@@ -282,4 +306,6 @@ RatingAndReviewModalV2.propTypes = {
     getTitleSuggestions: PropTypes.func,
     getTitleSuggestionsDetails: PropTypes.object,
     displayToast: PropTypes.func,
+    addReviewDetails: PropTypes.object,
+    submitParameterRatingDetails: PropTypes.object,
 };

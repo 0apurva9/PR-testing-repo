@@ -1254,14 +1254,19 @@ export function addProductReview(productCode, productReview) {
             );
             const resultJson = await result.json();
             const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-            if (resultJsonStatus.status) {
-                throw new Error(resultJsonStatus.message);
+            if (resultJsonStatus.status || result.status !== 200) {
+                let errorMessage = resultJsonStatus.message;
+                if (resultJson.status === "FAILURE" && resultJson.errorMessage) {
+                    errorMessage = resultJson.errorMessage;
+                }
+                dispatch(addProductReviewFailure(errorMessage));
+            } else {
+                dispatch(displayToast(SUBMIT_REVIEW_TEXT));
+                setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_SUBMIT_REVIEW);
+                dispatch(addProductReviewSuccess(productReview));
             }
-            dispatch(displayToast(SUBMIT_REVIEW_TEXT));
-            setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_SUBMIT_REVIEW);
-            return dispatch(addProductReviewSuccess(productReview));
         } catch (e) {
-            return dispatch(addProductReviewFailure(e.message));
+            dispatch(addProductReviewFailure(e.message));
         }
     };
 }
@@ -2859,9 +2864,15 @@ export function submitParameterRating(productCode, parameterizedRating) {
             const resultJson = await result.json();
             const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
             if (resultJsonStatus.status || result.status !== 200) {
-                dispatch(submitParameterRatingFailure());
+                let errorMessage = resultJsonStatus.message;
+                if (resultJson.status === "FAILURE" && resultJson.errorMessage) {
+                    errorMessage = resultJson.errorMessage;
+                }
+                dispatch(displayToast(errorMessage));
+                dispatch(submitParameterRatingFailure(errorMessage));
+            } else {
+                dispatch(submitParameterRatingSuccess(resultJson));
             }
-            dispatch(submitParameterRatingSuccess(resultJson));
         } catch (e) {
             dispatch(submitParameterRatingFailure(e.message));
         }
