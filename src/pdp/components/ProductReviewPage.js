@@ -538,11 +538,11 @@ export default class ProductReviewPage extends Component {
                                                 {colorSet && colorSet.length > 0 && (
                                                     <React.Fragment>
                                                         <div className={styles.title}>Colour</div>
-                                                        {colorSet.map((color, index) => {
+                                                        {colorSet.map((color) => {
                                                             return (
                                                                 <div
                                                                     className={styles.colorItem}
-                                                                    key={JSON.stringify(index)}
+                                                                    key={color}
                                                                 >
                                                                     <div className={styles.checkBoxHolder}>
                                                                         <CheckboxMultiSelect
@@ -570,11 +570,11 @@ export default class ProductReviewPage extends Component {
                                                     {sizeSet && sizeSet.length > 0 && (
                                                         <React.Fragment>
                                                             <div className={styles.title}>Size</div>
-                                                            {sizeSet.map((size, index) => {
+                                                            {sizeSet.map((size) => {
                                                                 return (
                                                                     <div
                                                                         className={styles.colorItem}
-                                                                        key={JSON.stringify(index)}
+                                                                        key={size}
                                                                     >
                                                                         <div className={styles.checkBoxHolder}>
                                                                             <CheckboxMultiSelect
