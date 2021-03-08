@@ -73,6 +73,7 @@ export const CHECK_PIN_CODE_FROM_PLP_REQUEST = "CHECK_PIN_CODE_FROM_PLP_REQUEST"
 export const CHECK_PIN_CODE_FROM_PLP_SUCCESS = "CHECK_PIN_CODE_FROM_PLP_SUCCESS";
 export const CHECK_PIN_CODE_FROM_PLP_FAILURE = "CHECK_PIN_CODE_FROM_PLP_FAILURE";
 export const WEB_MNL_LOGIN_SUCCESS = "WEB_MNL_LOGIN_SUCCESS";
+
 export const GET_DEFAULT_PLP_VIEW_REQUEST = "GET_DEFAULT_PLP_VIEW_REQUEST";
 export const GET_DEFAULT_PLP_VIEW_SUCCESS = "GET_DEFAULT_PLP_VIEW_SUCCESS";
 export const GET_DEFAULT_PLP_VIEW_FAILURE = "GET_DEFAULT_PLP_VIEW_FAILURE";
@@ -315,19 +316,25 @@ export function getProductListings(
                     window.digitalData.page &&
                     window.digitalData.page.category &&
                     window.digitalData.page.category.subCategory1 &&
+                    breadcrumbs.length > 0 &&
+                    breadcrumbs[0] &&
                     breadcrumbs[0].name &&
                     breadcrumbs[0].name.replace(/ /g, "_").toLowerCase() !==
                         window.digitalData.page.category.subCategory1 &&
+                    breadcrumbs.length > 0 &&
+                    breadcrumbs[1] &&
                     breadcrumbs[1].name &&
                     breadcrumbs[1].name.replace(/ /g, "_").toLowerCase() !==
                         window.digitalData.page.category.subCategory2) ||
                 (breadcrumbs &&
+                    breadcrumbs.length > 0 &&
                     breadcrumbs[0] &&
                     window.digitalData &&
                     window.digitalData.page &&
                     window.digitalData.page.category &&
                     !window.digitalData.page.category.subCategory1) ||
                 (breadcrumbs &&
+                    breadcrumbs.length > 0 &&
                     breadcrumbs[0] &&
                     window.digitalData &&
                     window.digitalData.page &&

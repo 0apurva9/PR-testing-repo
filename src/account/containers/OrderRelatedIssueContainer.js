@@ -19,6 +19,7 @@ import {
     getCliq2CallConfig,
     placeCustomerCallRequest,
     getRecentTicketHistoryDetails,
+    getHaptikBotConfig,
 } from "../actions/account.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 import { showSecondaryLoader, hideSecondaryLoader } from "../../general/secondaryLoader.actions";
@@ -33,9 +34,9 @@ import {
     showMobileNumberLoginModal,
 } from "../../general/modal.actions";
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
     return {
-        getOrderRelatedQuestions: async (transactionId) => {
+        getOrderRelatedQuestions: async transactionId => {
             return dispatch(getOrderRelatedQuestions(transactionId));
         },
         getNonOrderRelatedQuestions: () => {
@@ -44,7 +45,7 @@ const mapDispatchToProps = (dispatch) => {
         getCustomerQueriesFieldsv2: async (uItemplateCode, isSelectRadio) => {
             return dispatch(getCustomerQueriesFieldsv2(uItemplateCode, isSelectRadio));
         },
-        getOrdersTransactionData: (paginated) => {
+        getOrdersTransactionData: paginated => {
             dispatch(getOrdersTransactionData(paginated));
         },
         showSecondaryLoader: () => {
@@ -60,53 +61,52 @@ const mapDispatchToProps = (dispatch) => {
         getAllOrdersDetails: () => {
             dispatch(getAllOrdersDetails(false, false, false, false));
         },
-
         getUserDetails: () => {
             dispatch(getUserDetails());
         },
-        showCustomerQueryModal: (getCustomerQueryDetailsObject) => {
+        showCustomerQueryModal: getCustomerQueryDetailsObject => {
             dispatch(showModal(CUSTOMER_QUERY_POPUP, getCustomerQueryDetailsObject));
         },
-        displayToast: (message) => {
+        displayToast: message => {
             dispatch(displayToast(message));
         },
-        submitOrderDetails: async (raiseTicketObj) => {
+        submitOrderDetails: async raiseTicketObj => {
             return dispatch(submitOrderDetails(raiseTicketObj));
         },
-        getAllOthersHelp: (pageId) => {
+        getAllOthersHelp: pageId => {
             dispatch(getAllOthersHelp(pageId));
         },
-        getFaqRelatedQuestions: async (FAQPageId) => {
+        getFaqRelatedQuestions: async FAQPageId => {
             return dispatch(getFaqRelatedQuestions(FAQPageId));
         },
         sendInvoice: (ussid, sellerOrderNo) => {
             dispatch(sendInvoice(ussid, sellerOrderNo));
         },
-        setUrlToRedirectToAfterAuth: (url) => {
+        setUrlToRedirectToAfterAuth: url => {
             dispatch(setUrlToRedirectToAfterAuth(url));
         },
-        setSelfServeState: (currentState) => {
+        setSelfServeState: currentState => {
             dispatch(setSelfServeState(currentState));
         },
         fetchOrderItemDetails: (orderId, transactionId) => {
             dispatch(fetchOrderItemDetails(orderId, transactionId));
         },
-        customerQueryErrorModal: (getCustomerQueryDetailsObject) => {
+        customerQueryErrorModal: getCustomerQueryDetailsObject => {
             dispatch(showModal(CUSTOMER_QUERY_ERROR_MODAL, getCustomerQueryDetailsObject));
         },
-        getCliq2CallConfig: async (Cliq2CallConfigId) => {
+        getCliq2CallConfig: async Cliq2CallConfigId => {
             return dispatch(getCliq2CallConfig(Cliq2CallConfigId));
         },
-        showCliq2CallOption: (getCustomerQueryDetailsObject) => {
+        showCliq2CallOption: getCustomerQueryDetailsObject => {
             dispatch(showModal(CLIQ_2_CALL_POP_UP, getCustomerQueryDetailsObject));
         },
-        timeSlotPopUP: (getCustomerQueryDetailsObject) => {
+        timeSlotPopUP: getCustomerQueryDetailsObject => {
             dispatch(showModal(TIME_SLOT_POP_UP, getCustomerQueryDetailsObject));
         },
-        placeCustomerCallRequest: async (callRequestData) => {
+        placeCustomerCallRequest: async callRequestData => {
             return dispatch(placeCustomerCallRequest(callRequestData));
         },
-        showCallQuerySuccessModal: (callSuccessData) => {
+        showCallQuerySuccessModal: callSuccessData => {
             dispatch(showModal(CUSTOMER_CALL_QUERY_SUCCESS, callSuccessData));
         },
         getRecentTicketHistoryDetails: (paginated, ticketStatus) => {
@@ -118,9 +118,12 @@ const mapDispatchToProps = (dispatch) => {
         openMobileNumberLoginModal: () => {
             dispatch(showMobileNumberLoginModal());
         },
+        getHaptikBotConfig: pageId => {
+            dispatch(getHaptikBotConfig(pageId));
+        },
     };
 };
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
     return {
         userDetails: state.profile.userDetails,
         uploadUserFileLoading: state.profile.uploadUserFileLoading,
@@ -157,6 +160,8 @@ const mapStateToProps = (state) => {
         ticketHistoryDetails: state.profile.ticketHistoryDetails,
         initialTicketDetailsData: state.profile.initialTicketDetailsData,
         isMNLLogin: state.mobileNumberLogin.isMNLLogin,
+        haptikBotConfigDataLoading: state.profile.haptikBotConfigDataLoading,
+        haptikBotConfigData: state.profile.haptikBotConfigData,
     };
 };
 
