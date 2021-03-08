@@ -249,6 +249,10 @@ export const SUMBIT_PARAMETER_RATING_REQUEST = "SUMBIT_PARAMETER_RATING_REQUEST"
 export const SUMBIT_PARAMETER_RATING_SUCCESS = "SUMBIT_PARAMETER_RATING_SUCCESS";
 export const SUMBIT_PARAMETER_RATING_FAILURE = "SUMBIT_PARAMETER_RATING_FAILURE";
 
+export const GET_TITE_SUGGESTIONS_REQUEST = "GET_TITE_SUGGESTIONS_REQUEST";
+export const GET_TITE_SUGGESTIONS_SUCCESS = "GET_TITE_SUGGESTIONS_SUCCESS";
+export const GET_TITE_SUGGESTIONS_FAILURE = "GET_TITE_SUGGESTIONS_FAILURE";
+
 export function getProductDescriptionRequest() {
     return {
         type: PRODUCT_DESCRIPTION_REQUEST,
@@ -1377,7 +1381,7 @@ export function getProductReviewsFailure(error) {
 }
 
 export function getProductReviews(productCode, pageIndex, orderBy, sortBy) {
-	let userDetails = getLoggedInUserDetails();
+    let userDetails = getLoggedInUserDetails();
     let accessToken = getGlobalAccessToken();
     let userName = ANONYMOUS_USER;
     if (userDetails) {
@@ -2798,12 +2802,8 @@ export function getParametersEligibleToRateFailure(error) {
 
 export function getParametersEligibleToRate(productCode) {
     let userDetails = getLoggedInUserDetails();
-    let accessToken = getGlobalAccessToken();
-    let userName = ANONYMOUS_USER;
-    if (userDetails) {
-        userName = userDetails.userName;
-        accessToken = getCustomerAccessToken();
-    }
+    let userName = userDetails.userName;
+    let accessToken = getCustomerAccessToken();
 
     return async (dispatch, getState, { api }) => {
         dispatch(getParametersEligibleToRateRequest());
@@ -2847,11 +2847,7 @@ export function submitParameterRatingFailure(error) {
 }
 
 export function submitParameterRating(productCode, parameterizedRating) {
-    let userDetails = getLoggedInUserDetails();
-    let accessToken = getGlobalAccessToken();
-    if (userDetails) {
-        accessToken = getCustomerAccessToken();
-    }
+    let accessToken = getCustomerAccessToken();
 
     return async (dispatch, getState, { api }) => {
         dispatch(submitParameterRatingRequest());
@@ -2868,6 +2864,52 @@ export function submitParameterRating(productCode, parameterizedRating) {
             dispatch(submitParameterRatingSuccess(resultJson));
         } catch (e) {
             dispatch(submitParameterRatingFailure(e.message));
+        }
+    };
+}
+
+export function getTitleSuggestionsRequest() {
+    return {
+        type: GET_TITE_SUGGESTIONS_REQUEST,
+        status: REQUESTING,
+    };
+}
+
+export function getTitleSuggestionsSuccess(data) {
+    return {
+        type: GET_TITE_SUGGESTIONS_SUCCESS,
+        status: SUCCESS,
+        data,
+    };
+}
+
+export function getTitleSuggestionsFailure(error) {
+    return {
+        type: GET_TITE_SUGGESTIONS_FAILURE,
+        status: ERROR,
+        error,
+    };
+}
+
+export function getTitleSuggestions(productCode, userRating) {
+    let userDetails = getLoggedInUserDetails();
+    let userName = userDetails.userName;
+    let accessToken = getCustomerAccessToken();
+
+    return async (dispatch, getState, { api }) => {
+        dispatch(getTitleSuggestionsRequest());
+        try {
+            const result = await api.get(
+                `${PRODUCT_SIZE_GUIDE_PATH}${productCode.toUpperCase()}/users/${userName}/getTitleSuggestions?access_token=${accessToken}&userRating=${userRating}`
+            );
+            const resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+            if (resultJsonStatus.status || result.status !== 200) {
+                dispatch(getTitleSuggestionsFailure());
+            }
+            dispatch(getTitleSuggestionsSuccess(resultJson));
+        } catch (e) {
+            dispatch(getTitleSuggestionsFailure(e.message));
         }
     };
 }
