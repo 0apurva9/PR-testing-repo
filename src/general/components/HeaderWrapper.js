@@ -127,6 +127,7 @@ export default class HeaderWrapper extends React.Component {
 
     componentDidMount() {
         // this.props.getWishListItems();
+        this.props.isMPLWebMNLLogin();
         if (this.props.location.pathname !== HOME_ROUTER && !this.props.location.pathname.includes(SAVE_LIST_PAGE)) {
             this.props.getWishlist();
         }
@@ -168,11 +169,15 @@ export default class HeaderWrapper extends React.Component {
     };
 
     openSignUp = () => {
-        if (this.props.location.pathname !== "/checkout" && this.props.location.pathname !== "/cart") {
-            this.props.setUrlToRedirectToAfterAuth(`${this.props.location.pathname}${this.props.location.search}`);
+        if (this.props.isMNLLogin.value) {
+            this.props.openMobileNumberLoginModal();
+        } else {
+            if (this.props.location.pathname !== "/checkout" && this.props.location.pathname !== "/cart") {
+              this.props.setUrlToRedirectToAfterAuth(`${this.props.location.pathname}${this.props.location.search}`);
+            }
+            this.props.history.push(LOGIN_PATH);
+            return null;
         }
-        this.props.history.push(LOGIN_PATH);
-        return null;
     };
 
     render() {

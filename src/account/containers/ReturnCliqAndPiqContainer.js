@@ -18,6 +18,7 @@ import {
 import { hideSecondaryLoader, showSecondaryLoader } from "../../general/secondaryLoader.actions";
 const mapDispatchToProps = (dispatch, ownProps) => {
     return {
+        subReasonCode: ownProps.subReasonCode,
         addUserAddress: (addressDetails, fromAccount) => {
             if (addressDetails.emailId) {
                 let userDetails = {};
