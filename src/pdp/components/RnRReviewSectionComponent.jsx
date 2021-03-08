@@ -32,8 +32,7 @@ class RnRReviewSectionComponent extends Component {
     };
 
     changeReviewDetails = reviewDetails => {
-        let reviewDetailsLength = reviewDetails.length;
-        this.setState({ reviewDetails, reviewDetailsLength });
+        this.setState({ reviewDetails, reviewDetailsLength: reviewDetails.length });
         this.props.getUpdatedReviewDetails(this.state.selectedTitle, reviewDetails);
     };
 
@@ -44,10 +43,10 @@ class RnRReviewSectionComponent extends Component {
                 <div className={styles.ratingDetailsContainer}>
                     <div className={styles.subHeading}>Choose a Title</div>
                     {this.state.suggestions &&
-                        this.state.suggestions.map((title, index) => {
+                        this.state.suggestions.map((title) => {
                             return (
                                 <div
-                                    key={JSON.stringify(index)}
+                                    key={title.titleSuggestion}
                                     className={
                                         this.state.selectedTitle !== title.titleSuggestion
                                             ? styles.suggestionTitle
