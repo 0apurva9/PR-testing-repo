@@ -36,7 +36,7 @@ export default class CustomerQueryForm extends Component {
     this.state = {
       name:
         getUserDetails && (getUserDetails.firstName || getUserDetails.lastName)
-          ? `${getUserDetails.firstName.trim()} ${getUserDetails.lastName.trim()}`
+        ? `${getUserDetails.firstName && getUserDetails.firstName.trim()} ${getUserDetails.lastName && getUserDetails.lastName.trim()}`
           : "",
       mobile:
         getUserDetails &&
