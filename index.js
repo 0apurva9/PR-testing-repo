@@ -83,34 +83,30 @@ app.all("/mobileloginapi/*", proxyMiddleware(process.env.apiBaseUrl));
 app.get("/.well-known/assetlinks.json", (req, res) => {
     res.json([
         {
-            "relation": [
-                "delegate_permission/common.handle_all_urls"
-            ],
-            "target": {
-                "namespace": "android_app",
-                "package_name": "com.tul.tatacliq",
-                "sha256_cert_fingerprints": [
-                    "F0:1B:9A:4E:86:01:DC:8D:D8:78:6D:95:05:4C:1B:09:DB:3A:0F:1F:CA:C7:23:B0:5E:BE:7D:54:15:BD:A1:81"
-                ]
-            }
-        }
+            relation: ["delegate_permission/common.handle_all_urls"],
+            target: {
+                namespace: "android_app",
+                package_name: "com.tul.tatacliq",
+                sha256_cert_fingerprints: [
+                    "F0:1B:9A:4E:86:01:DC:8D:D8:78:6D:95:05:4C:1B:09:DB:3A:0F:1F:CA:C7:23:B0:5E:BE:7D:54:15:BD:A1:81",
+                ],
+            },
+        },
     ]);
 });
 
 app.get("/.well-known/assetlinks.json", (req, res) => {
     res.json([
         {
-            "relation": [
-                "delegate_permission/common.handle_all_urls"
-            ],
-            "target": {
-                "namespace": "android_app",
-                "package_name": "com.tul.tatacliq",
-                "sha256_cert_fingerprints": [
-                    "F0:1B:9A:4E:86:01:DC:8D:D8:78:6D:95:05:4C:1B:09:DB:3A:0F:1F:CA:C7:23:B0:5E:BE:7D:54:15:BD:A1:81"
-                ]
-            }
-        }
+            relation: ["delegate_permission/common.handle_all_urls"],
+            target: {
+                namespace: "android_app",
+                package_name: "com.tul.tatacliq",
+                sha256_cert_fingerprints: [
+                    "F0:1B:9A:4E:86:01:DC:8D:D8:78:6D:95:05:4C:1B:09:DB:3A:0F:1F:CA:C7:23:B0:5E:BE:7D:54:15:BD:A1:81",
+                ],
+            },
+        },
     ]);
 });
 
