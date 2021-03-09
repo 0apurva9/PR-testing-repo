@@ -113,7 +113,7 @@ export default class AddToWishListButton extends React.Component {
                     this.props.history.push(LOGIN_PATH);
                 } else {
                     if (this.props.showAuthPopUp) {
-                        this.props.showAuthPopUp();
+                        this.props.showAuthPopUp(this.props.isMNLLogin.value);
                     }
                 }
             }
