@@ -538,7 +538,7 @@ export default class ProductReviewPage extends Component {
                                                 {colorSet && colorSet.length > 0 && (
                                                     <React.Fragment>
                                                         <div className={styles.title}>Colour</div>
-                                                        {colorSet.map((color) => {
+                                                        {colorSet.map((color, index) => {
                                                             return (
                                                                 <div
                                                                     className={styles.colorItem}
