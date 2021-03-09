@@ -5,15 +5,15 @@ import styles from "./RatingAndReviewModalV2.css";
 import RnRQualitiesSectionComponent from "./RnRQualitiesSectionComponent";
 import RnRRatingSectionComponent from "./RnRRatingSectionComponent";
 import RnRReviewSectionComponent from "./RnRReviewSectionComponent";
+import RnRSuccessSectionComponent from "./RnRSuccessSectionComponent";
 
+import Icon from "../../xelpmoc-core/Icon";
 import rnrRatingBlank from "./img/rnrRatingBlank.svg";
 import rnrRatingFilled from "./img/rnrRatingFilled.svg";
 import rnrQualitiesBlank from "./img/rnrQualitiesBlank.svg";
 import rnrQualitiesFilled from "./img/rnrQualitiesFilled.svg";
 import rnrReviewBlank from "./img/rnrReviewBlank.svg";
 import rnrReviewFilled from "./img/rnrReviewFilled.svg";
-
-import Icon from "../../xelpmoc-core/Icon";
 
 const success = "success";
 export default class RatingAndReviewModalV2 extends Component {
@@ -25,7 +25,34 @@ export default class RatingAndReviewModalV2 extends Component {
             currentParamsData: null,
             qualities: null,
             disableReviewSubmit: true,
+            title: null,
+            reviewDetails: null,
+            titleSuggestionsDetails: null,
         };
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.addReviewDetails !== prevProps.addReviewDetails) {
+            // handle submit for rating submit and redirect to parameter screen
+            if (this.state.currentRating && !this.state.reviewDetails) {
+                this.activateSection(2);
+            }
+
+            // handle submit for review screen and redirect to success screen
+            if (this.state.currentRating && this.state.reviewDetails) {
+                this.activateSection(4);
+            }
+        }
+
+        // handle submit for parameter submit and redirect to review screen
+        if (this.props.submitParameterRatingDetails !== prevProps.submitParameterRatingDetails) {
+            this.activateSection(3);
+        }
+
+        // get title suggestions details
+        if (this.props.getTitleSuggestionsDetails !== prevProps.getTitleSuggestionsDetails) {
+            this.setState({ titleSuggestionsDetails: this.props.getTitleSuggestionsDetails });
+        }
     }
 
     activateSection = section => {
@@ -44,7 +71,7 @@ export default class RatingAndReviewModalV2 extends Component {
         productReview.rating = this.state.currentRating;
         this.props.addProductReview(this.props.productCode, productReview);
         // on success
-        this.activateSection(2);
+        // this.activateSection(2);
     };
 
     getUpdatedParameters = (paramsData, paramsDataForAPI) => {
@@ -59,8 +86,7 @@ export default class RatingAndReviewModalV2 extends Component {
     submitQualities = () => {
         this.props.submitParameterRating(this.props.productCode, this.state.qualities);
         // on success
-        this.activateSection(3);
-        this.props.getTitleSuggestions(this.props.productCode, this.state.currentRating);
+        // this.activateSection(3);
     };
 
     getStatusBarClass = acvtiveSession => {
@@ -81,9 +107,23 @@ export default class RatingAndReviewModalV2 extends Component {
 
     getUpdatedReviewDetails = (title, reviewDetails) => {
         if (title && reviewDetails) {
-            this.setState({ disableReviewSubmit: false });
+            this.setState({ disableReviewSubmit: false, title: title, reviewDetails: reviewDetails });
         } else {
             this.setState({ disableReviewSubmit: true });
+        }
+    };
+
+    submitReviews = () => {
+        if (this.state.reviewDetails.length < 50) {
+            this.props.displayToast("Please enter minimum 50 characters");
+        } else {
+            let productReview = {};
+            productReview.rating = this.state.currentRating;
+            productReview.headline = this.state.title;
+            productReview.comment = this.state.reviewDetails;
+            this.props.addProductReview(this.props.productCode, productReview);
+            // on success
+            // this.activateSection(4);
         }
     };
 
@@ -127,50 +167,58 @@ export default class RatingAndReviewModalV2 extends Component {
                     )}
                     {this.state.sectionActive === 3 && (
                         <RnRReviewSectionComponent
-                            getTitleSuggestionsDetails={this.props.getTitleSuggestionsDetails}
+                            titleSuggestionsDetails={this.state.titleSuggestionsDetails}
                             getUpdatedReviewDetails={(title, reviewDetails) =>
                                 this.getUpdatedReviewDetails(title, reviewDetails)
                             }
                         />
                     )}
+                    {this.state.sectionActive === 4 && <RnRSuccessSectionComponent />}
                 </div>
 
-                <div className={styles.tabSwitches}>
-                    <div className={statusBar} />
-                    <div className={classNameOne}>
-                        <div className={styles.iconContainer}>
-                            <span className={styles.currentRating}>
-                                {this.state.currentRating ? this.state.currentRating : null}
-                            </span>
-                            <Icon image={!this.state.currentRating ? rnrRatingBlank : rnrRatingFilled} size={16} />
-                        </div>
-                        {rating || this.state.currentRating ? (
-                            <span>You rated this product</span>
-                        ) : (
-                            <span>Rate this product</span>
-                        )}
-                    </div>
-                    {paramsEligibleToRateDetails &&
-                        paramsEligibleToRateDetails.status &&
-                        paramsEligibleToRateDetails.status.toLowerCase() === success &&
-                        paramsEligibleToRateDetails.eligibleParamToCaptureRating.length > 0 && (
-                            <div className={classNameTwo}>
-                                <div className={styles.iconContainer}>
-                                    <Icon
-                                        image={currentParamsDataLength !== 5 ? rnrQualitiesBlank : rnrQualitiesFilled}
-                                        size={30}
-                                    />
-                                </div>
-                                Qualities you liked
+                {this.state.sectionActive !== 4 && (
+                    <div className={styles.tabSwitches}>
+                        <div className={statusBar} />
+                        <div className={classNameOne}>
+                            <div className={styles.iconContainer}>
+                                <span className={styles.currentRating}>
+                                    {this.state.currentRating ? this.state.currentRating : null}
+                                </span>
+                                <Icon image={!this.state.currentRating ? rnrRatingBlank : rnrRatingFilled} size={16} />
                             </div>
-                        )}
-                    <div className={classNameThree}>
-                        <div className={styles.iconContainer}>
-                            <Icon image={this.state.disableReviewSubmit ? rnrReviewBlank : rnrReviewFilled} size={26} />
+                            {rating || this.state.currentRating ? (
+                                <span>You rated this product</span>
+                            ) : (
+                                <span>Rate this product</span>
+                            )}
                         </div>
-                        Your Review
+                        {paramsEligibleToRateDetails &&
+                            paramsEligibleToRateDetails.status &&
+                            paramsEligibleToRateDetails.status.toLowerCase() === success &&
+                            paramsEligibleToRateDetails.eligibleParamToCaptureRating.length > 0 && (
+                                <div className={classNameTwo}>
+                                    <div className={styles.iconContainer}>
+                                        <Icon
+                                            image={
+                                                currentParamsDataLength !== 5 ? rnrQualitiesBlank : rnrQualitiesFilled
+                                            }
+                                            size={30}
+                                        />
+                                    </div>
+                                    Qualities you liked
+                                </div>
+                            )}
+                        <div className={classNameThree}>
+                            <div className={styles.iconContainer}>
+                                <Icon
+                                    image={this.state.disableReviewSubmit ? rnrReviewBlank : rnrReviewFilled}
+                                    size={26}
+                                />
+                            </div>
+                            Your Review
+                        </div>
                     </div>
-                </div>
+                )}
 
                 <div className={styles.buttonContainer}>
                     {this.state.sectionActive === 1 && (
@@ -226,7 +274,7 @@ export default class RatingAndReviewModalV2 extends Component {
                                 border="none"
                                 borderRadius="4px"
                                 fontFamily="light"
-                                handleClick={() => this.activateSection(3)}
+                                handleClick={() => this.activateSection(4)}
                                 disabled={false}
                             />
                             <CustomButton
@@ -238,7 +286,7 @@ export default class RatingAndReviewModalV2 extends Component {
                                 border="1px solid #da1c5c"
                                 borderRadius="4px"
                                 fontFamily="regular"
-                                handleClick={() => this.submitQualities()}
+                                handleClick={() => this.submitReviews()}
                                 disabled={this.state.disableReviewSubmit ? true : false}
                             />
                         </React.Fragment>
@@ -257,4 +305,7 @@ RatingAndReviewModalV2.propTypes = {
     submitParameterRating: PropTypes.func,
     getTitleSuggestions: PropTypes.func,
     getTitleSuggestionsDetails: PropTypes.object,
+    displayToast: PropTypes.func,
+    addReviewDetails: PropTypes.object,
+    submitParameterRatingDetails: PropTypes.object,
 };

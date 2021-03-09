@@ -105,6 +105,8 @@ const mapStateToProps = state => {
         logoutUserStatuss: state.profile.logoutUserStatus,
         paramsEligibleToRateDetails: state.productDescription.paramsEligibleToRateDetails,
         getTitleSuggestionsDetails: state.productDescription.getTitleSuggestionsDetails,
+        addReviewDetails: state.productDescription.addReviewDetails,
+        submitParameterRatingDetails: state.productDescription.submitParameterRatingDetails,
     };
 };
 
