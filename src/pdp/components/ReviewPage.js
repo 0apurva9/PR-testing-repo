@@ -2,90 +2,70 @@ import React from "react";
 import styles from "./ReviewPage.css";
 import PropTypes from "prop-types";
 import StarRating from "../../general/components/StarRating";
-const months = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec"
-];
+const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 const INVALID_DATE = "Invalid Date";
 export default class ReviewPage extends React.Component {
-  render() {
-    let getDate;
-    let userReviewDate =
-      this.props.date && this.props.date.split(" ")[0].split("-");
-    if (userReviewDate) {
-      getDate = userReviewDate[2].split("T")[0];
+    render() {
+        let getDate;
+        let userReviewDate = this.props.date && this.props.date.split(" ")[0].split("-");
+        if (userReviewDate) {
+            getDate = userReviewDate[2].split("T")[0];
+        }
+        let date = getDate + " " + months[userReviewDate[1] - 1] + ", " + userReviewDate[0];
+        return (
+            <div className={styles.base}>
+                {this.props.rating && (
+                    <div className={styles.starHolder}>
+                        <StarRating averageRating={this.props.rating} />
+                    </div>
+                )}
+                {this.props.heading && <div className={styles.heading}>{this.props.heading}</div>}
+                {this.props.text && (
+                    <div
+                        className={this.props.fromBeautyPdp ? [styles.text, styles.familyLight].join(" ") : styles.text}
+                    >
+                        {this.props.text.replace(new RegExp("<br />", "g"), "\r\n")}
+                    </div>
+                )}
+                {date && date !== INVALID_DATE ? (
+                    <div className={styles.dateTimeBox}>
+                        <span>
+                            <span className={styles.nameHolder}>
+                                {this.props.name &&
+                                    this.props.name.charAt(0).toUpperCase() + this.props.name.slice(1).toLowerCase()}
+                            </span>
+                            {this.props.isBuyer && (
+                                <span className={styles.isBuyer}>
+                                    <span className={styles.buyerIcon} />
+                                    Buyer
+                                </span>
+                            )}
+                            {this.props.reviewAge ? (
+                                <span className={styles.nameHolder}>{this.props.reviewAge}</span>
+                            ) : (
+                                <span className={styles.nameHolder}>{date}</span>
+                            )}
+                        </span>
+                    </div>
+                ) : (
+                    <div className={styles.dateTimeBox}>
+                        {this.props.name &&
+                            this.props.name.charAt(0).toUpperCase() + this.props.name.slice(1).toLowerCase()}
+                    </div>
+                )}
+                <div />
+            </div>
+        );
     }
-    let date =
-      getDate + " " + months[userReviewDate[1] - 1] + ", " + userReviewDate[0];
-    return (
-      <div className={styles.base}>
-        {this.props.rating && (
-          <div className={styles.starHolder}>
-            <StarRating averageRating={this.props.rating} />
-          </div>
-        )}
-        {this.props.heading && (
-          <div className={styles.heading}>{this.props.heading}</div>
-        )}
-        {this.props.text && (
-          <div
-            className={
-              this.props.fromBeautyPdp
-                ? [styles.text, styles.familyLight].join(" ")
-                : styles.text
-            }
-          >
-            {this.props.text.replace(new RegExp("<br />", "g"), "\r\n")}
-          </div>
-        )}
-        {date && date !== INVALID_DATE ? (
-          <div className={styles.dateTimeBox}>
-            <span>
-              <span className={styles.nameHolder}>
-                {this.props.name &&
-                  this.props.name.charAt(0).toUpperCase() +
-                    this.props.name.slice(1).toLowerCase()}
-              </span>
-              {this.props.isBuyer && (
-                <span className={styles.isBuyer}>
-                  <span className={styles.buyerIcon} />
-                  Buyer
-                </span>
-              )}
-
-              <span className={styles.nameHolder}>{this.props.reviewAge}</span>
-            </span>
-          </div>
-        ) : (
-          <div className={styles.dateTimeBox}>
-            {this.props.name &&
-              this.props.name.charAt(0).toUpperCase() +
-                this.props.name.slice(1).toLowerCase()}
-          </div>
-        )}
-        <div />
-      </div>
-    );
-  }
 }
 ReviewPage.propTypes = {
-  text: PropTypes.string,
-  date: PropTypes.string,
-  heading: PropTypes.string,
-  rating: PropTypes.number,
-  isBuyer: PropTypes.bool,
-  fromBeautyPdp: PropTypes.bool,
-  name: PropTypes.string,
-  reviewAge: PropTypes.string
+    text: PropTypes.string,
+    date: PropTypes.string,
+    heading: PropTypes.string,
+    rating: PropTypes.number,
+    isBuyer: PropTypes.bool,
+    fromBeautyPdp: PropTypes.bool,
+    name: PropTypes.string,
+    reviewAge: PropTypes.string,
 };

@@ -56,6 +56,7 @@ import {
     SIZE_SELECTOR_OOS_MODAL,
     EXCHANGE_MODAL,
     APPLIANCES_EXCHANGE_MODAL,
+    showMobileNumberLoginModal,
 } from "../../general/modal.actions.js";
 import ProductDescriptionPageWrapper from "../components/ProductDescriptionPageWrapper";
 import { withRouter } from "react-router-dom";
@@ -78,8 +79,10 @@ import { getChatbotDetails } from "../../plp/actions/plp.actions";
 
 const mapDispatchToProps = dispatch => {
     return {
-        getProductDescription: async productCode => {
-            const productDetailsResponse = await dispatch(getProductDescription(productCode, null, null, true));
+        getProductDescription: async (productCode, preventLoading = false) => {
+            const productDetailsResponse = await dispatch(
+                getProductDescription(productCode, null, null, true, preventLoading)
+            );
             if (productDetailsResponse && productDetailsResponse.status === SUCCESS) {
                 let categoryHierarchy = productDetailsResponse.productDescription.categoryHierarchy;
                 let isACCategory =
@@ -345,6 +348,9 @@ const mapDispatchToProps = dispatch => {
         appliancesExchangeCheckPincode: (productCode, pincode) => {
             dispatch(appliancesExchangeCheckPincode(productCode, pincode));
         },
+        openMobileNumberLoginModal: () => {
+            dispatch(showMobileNumberLoginModal());
+        },
     };
 };
 
@@ -404,6 +410,9 @@ const mapStateToProps = state => {
         appliancesExchangeDetails: state.productDescription.getAppliancesExchangeDetails,
         updatedAppliancesExchangeDetails: state.productDescription.updatedAppliancesExchangeDetails,
         appliancesExchangePincodeDetails: state.productDescription.appliancesExchangeCheckPincodeDetails,
+        isMNLLogin: state.mobileNumberLogin.isMNLLogin,
+        isMobileNumberLoginModalActive: state.modal.isMobileNumberLoginModalActive,
+        tempCartIdForLoggedInUserLoading: state.cart.tempCartIdForLoggedInUserLoading,
     };
 };
 
