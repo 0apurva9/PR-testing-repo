@@ -8,11 +8,13 @@
 }
 
 .tabSwitches {
-	display: block;
+	display: flex;
 	position: relative;
 	width: 366px;
 	margin: 0 auto;
 	border-top: 2px solid #f3f3f3;
+	justify-content: space-around;
+    align-items: center;
 }
 
 .subSection {
@@ -72,6 +74,14 @@
 .width66 {
 	position: absolute;
 	width: 66.66%;
+	left: 0;
+	top: -2px;
+	border-top: 2px solid #499b1f;
+}
+
+.width50 {
+	position: absolute;
+	width: 50%;
 	left: 0;
 	top: -2px;
 	border-top: 2px solid #499b1f;

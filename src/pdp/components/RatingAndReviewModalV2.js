@@ -16,6 +16,7 @@ import rnrReviewBlank from "./img/rnrReviewBlank.svg";
 import rnrReviewFilled from "./img/rnrReviewFilled.svg";
 
 const success = "success";
+const failure = "failure";
 export default class RatingAndReviewModalV2 extends Component {
     constructor(props) {
         super(props);
@@ -56,7 +57,26 @@ export default class RatingAndReviewModalV2 extends Component {
     }
 
     activateSection = section => {
-        this.setState({ sectionActive: section });
+        if (section === 2) {
+            if (
+                this.props.paramsEligibleToRateDetails &&
+                this.props.paramsEligibleToRateDetails.status &&
+                this.props.paramsEligibleToRateDetails.status.toLowerCase() === success
+            ) {
+                this.setState({ sectionActive: 2 });
+            }
+            if (
+                this.props.paramsEligibleToRateDetails &&
+                this.props.paramsEligibleToRateDetails.status &&
+                this.props.paramsEligibleToRateDetails.status.toLowerCase() === failure
+            ) {
+                this.props.getTitleSuggestions(this.props.productCode, this.state.currentRating);
+                this.setState({ sectionActive: 3 });
+            }
+        } else {
+            this.setState({ sectionActive: section });
+        }
+
         if (section === 3) {
             this.props.getTitleSuggestions(this.props.productCode, this.state.currentRating);
         }
@@ -147,6 +167,14 @@ export default class RatingAndReviewModalV2 extends Component {
         let statusBar = this.getStatusBarClass(this.state.sectionActive);
         if (!this.state.disableReviewSubmit) {
             statusBar = styles.width100;
+        }
+        if (
+            paramsEligibleToRateDetails &&
+            paramsEligibleToRateDetails.status &&
+            paramsEligibleToRateDetails.status.toLowerCase() === failure &&
+            this.state.sectionActive === 3
+        ) {
+            statusBar = styles.width50;
         }
 
         let currentParamsDataLength = this.state.currentParamsData && Object.keys(this.state.currentParamsData).length;
