@@ -331,6 +331,8 @@ export default class PdpApparel extends React.Component {
 
         if (
             this.props.productDetails.isServiceableToPincode !== prevProps.productDetails.isServiceableToPincode &&
+            this.props.productDetails.isServiceableToPincode &&
+            this.props.productDetails.isServiceableToPincode.status &&
             this.props.productDetails.isServiceableToPincode.status === YES
         ) {
             if (this.props.productDetails.bundlingSuggestionAvailable) {
@@ -586,9 +588,7 @@ export default class PdpApparel extends React.Component {
 
     updateSize = () => {
         this.setState({ sizeError: false });
-	};
-
-
+    };
 
     //---------------Functions used only in HomeFurnishings Ends here---------------------
     showPincodeModal = () => {
@@ -1249,6 +1249,8 @@ export default class PdpApparel extends React.Component {
                                                 impulseOfferCalloutList={this.props.impulseOfferCalloutList}
                                                 potentialPromotions={productData.potentialPromotions}
                                                 isPdp={true}
+                                                displayToast={this.props.displayToast}
+                                                openBeautyPopup={this.props.openBeautyPopup}
                                             />
                                         </div>
                                         <div className={styles.wisthListIconHolder}>
@@ -2030,7 +2032,14 @@ export default class PdpApparel extends React.Component {
                                         )}
 
                                         {productData.knowMore && (
-                                            <Accordion text="Know More" headerFontSize={18}>
+                                            <Accordion
+                                                text={`${
+                                                    productData.rootCategory === "Electronics"
+                                                        ? "Return Policy"
+                                                        : "Know More"
+                                                }`}
+                                                headerFontSize={18}
+                                            >
                                                 <div className={styles.containerWithBottomBorder}>
                                                     {productData.rootCategory === "Electronics" &&
                                                         productData.knowMore &&
@@ -2440,4 +2449,5 @@ PdpApparel.propTypes = {
     cartCountDetailsLoading: PropTypes.bool,
     checkPincodeFromHaptikChatbot: PropTypes.func,
     getProductSpecification: PropTypes.func,
+    openBeautyPopup: PropTypes.func,
 };
