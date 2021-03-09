@@ -92,12 +92,10 @@
     }
 
     .dropdown {
-        width: 175px;
-        height: auto;
-        float: right;
-        margin-left: 50px;
-        flex-direction: row-reverse;
-        padding: 0px;
+		width: 175px;
+		height: auto;
+		margin-left: 10px;
+		padding: 0px;
     }
 
     .dropDownBox {
@@ -153,9 +151,10 @@
     .dropdownWithButton {
         width: 100%;
         height: auto;
-        display: inline-block;
-        vertical-align: top;
-        margin-bottom: 12px;
+		margin-bottom: 12px;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
     }
 
     .headerWrapper {
@@ -391,4 +390,9 @@
         display: inline-block;
         vertical-align: baseline;
     }
+
+	.sortByLabel {
+		display: block;
+		font-size: 14px;
+	}
 }

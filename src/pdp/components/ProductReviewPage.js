@@ -540,10 +540,7 @@ export default class ProductReviewPage extends Component {
                                                         <div className={styles.title}>Colour</div>
                                                         {colorSet.map((color, index) => {
                                                             return (
-                                                                <div
-                                                                    className={styles.colorItem}
-                                                                    key={color}
-                                                                >
+                                                                <div className={styles.colorItem} key={color}>
                                                                     <div className={styles.checkBoxHolder}>
                                                                         <CheckboxMultiSelect
                                                                             name={color}
@@ -570,12 +567,9 @@ export default class ProductReviewPage extends Component {
                                                     {sizeSet && sizeSet.length > 0 && (
                                                         <React.Fragment>
                                                             <div className={styles.title}>Size</div>
-                                                            {sizeSet.map((size) => {
+                                                            {sizeSet.map(size => {
                                                                 return (
-                                                                    <div
-                                                                        className={styles.colorItem}
-                                                                        key={size}
-                                                                    >
+                                                                    <div className={styles.colorItem} key={size}>
                                                                         <div className={styles.checkBoxHolder}>
                                                                             <CheckboxMultiSelect
                                                                                 name={size}
@@ -663,6 +657,7 @@ export default class ProductReviewPage extends Component {
                                     this.props.reviews.reviews.length > 0 && (
                                         <div className={styles.headerWrapper}>
                                             <div className={styles.dropdownWithButton}>
+                                                <div className={styles.sortByLabel}>Sort by:</div>
                                                 <div className={styles.dropdown}>
                                                     <div className={styles.dropDownBox}>
                                                         <SelectBoxMobile2
