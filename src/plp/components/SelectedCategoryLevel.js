@@ -24,9 +24,11 @@ export default class SelectedCategoryLevel extends React.Component {
             <React.Fragment>
                 <div className={styles.newselectedFilterWithIcon}>
                     {this.props.name}
-                    <div className={styles.newFilcancelIcon} onClick={this.onClick}>
-                        <Icon image={cancelIcon} size={10} backgroundSize="auto 20px" />
-                    </div>
+                    {this.props.showCloseIcon ? (
+                        <div className={styles.newFilcancelIcon} onClick={this.onClick}>
+                            <Icon image={cancelIcon} size={10} backgroundSize="auto 20px" />
+                        </div>
+                    ) : null}
                 </div>
             </React.Fragment>
         );

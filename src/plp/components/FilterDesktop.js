@@ -1,8 +1,8 @@
 import React from "react";
 import cloneDeep from "lodash.clonedeep";
 import FilterSelect from "./FilterSelect";
-import FilterCategory from "./FilterCategory";
-import FilterCategoryL1 from "./FilterCategoryL1";
+/* import FilterCategory from "./FilterCategory";
+import FilterCategoryL1 from "./FilterCategoryL1"; */
 import styles from "./FilterDesktop.css";
 import queryString from "query-string";
 import { createUrlFromQueryAndCategory } from "./FilterUtils.js";
@@ -25,10 +25,12 @@ import SelectedCategoryLevel from "./SelectedCategoryLevel";
 import L2CategoryFilter from "./L2CategoryFilter";
 import L3CategoryFilter from "./L3CategoryFilter";
 import L4CategoryFilter from "./L4CategoryFilter";
+import { HOME_ROUTER } from "../../lib/constants";
 const BRAND = "Brand";
 const COLOUR = "Colour";
 const PRICE = "Price";
 const RESTRICTED_FILTERS = "restrictedFilters";
+const PLP_LANDING_URL = "plpLandingUrl";
 export default class FilterDesktop extends React.Component {
     constructor() {
         super();
@@ -170,8 +172,16 @@ export default class FilterDesktop extends React.Component {
         this.onCategorySelect(val, filterType, filterValue, filterName, false, i);
     };
 
-    resetL1Category = () => {
-        this.props.history.goBack();
+    resetL1Category = (isFilter = false) => {
+        const plpLandingUrl = localStorage.getItem(PLP_LANDING_URL);
+        if (plpLandingUrl && plpLandingUrl.includes("/search/?searchCategory")) {
+            this.props.history.push(plpLandingUrl, {
+                isFilter,
+                componentName: "isFilterTrue",
+            });
+        } else {
+            this.props.history.push(HOME_ROUTER);
+        }
     };
 
     onFilterClick = (val, filterType, filterValue, filterSelected, webUrl, colourValue) => {
@@ -305,6 +315,10 @@ export default class FilterDesktop extends React.Component {
         } else {
             return <div />;
         }
+        let showCloseIcon = true;
+        if (this.props.location && this.props.location.state && this.props.location.state.categoryOrBrandTab) {
+            showCloseIcon = false;
+        }
 
         return (
             <React.Fragment>
@@ -374,7 +388,8 @@ export default class FilterDesktop extends React.Component {
                                                             <div className={styles.newFilSelcted} key={i}>
                                                                 <SelectedCategoryLevel
                                                                     name={val.categoryName}
-                                                                    // onClickResetL1={this.resetL1Category}
+                                                                    showCloseIcon={showCloseIcon}
+                                                                    onClickResetL1={this.resetL1Category}
                                                                 />
                                                             </div>
                                                         );
@@ -387,7 +402,7 @@ export default class FilterDesktop extends React.Component {
                                             facetdatacategory.filters &&
                                             facetdatacategory.filters.length === 1 &&
                                             facetdatacategory.filters.map((val, i) => {
-                                                if (val.childFilters && val.childFilters.length > 1 && val.selected) {
+                                                if (val.childFilters && val.childFilters.length > 1) {
                                                     return (
                                                         <div className={styles.newFilterBlock} key={i}>
                                                             <div className={styles.newFilHeader}>Category</div>
@@ -407,6 +422,7 @@ export default class FilterDesktop extends React.Component {
                                                                     onL1Click={this.onL1Click}
                                                                     l1Name={val.categoryName}
                                                                     l1CategoryCode={val.categoryCode}
+                                                                    showCloseIcon={true}
                                                                 />
                                                             </div>
                                                         </div>
@@ -422,11 +438,12 @@ export default class FilterDesktop extends React.Component {
                                                 if (
                                                     val.childFilters &&
                                                     val.childFilters.length === 1 &&
-                                                    !val.selected &&
+                                                    /*  !val.selected && */
                                                     val.childFilters[0] &&
-                                                    val.childFilters[0].selected &&
+                                                    /* val.childFilters[0].selected && */
                                                     val.childFilters[0].childFilters &&
-                                                    val.childFilters[0].childFilters.length > 0
+                                                    /* val.childFilters[0].childFilters.length > 0 */
+                                                    val.childFilters[0].childFilters.length > 1
                                                 ) {
                                                     return (
                                                         <div className={styles.newFilterBlock} key={i}>
@@ -440,11 +457,12 @@ export default class FilterDesktop extends React.Component {
                                                 } else if (
                                                     val.childFilters &&
                                                     val.childFilters.length === 1 &&
-                                                    !val.selected &&
+                                                    /*  !val.selected && */
                                                     val.childFilters[0] &&
                                                     val.childFilters[0].childFilters &&
-                                                    val.childFilters[0].childFilters.length === 1 &&
-                                                    val.childFilters[0].childFilters[0].selected
+                                                    val.childFilters[0].childFilters.length ===
+                                                        1 /*&&
+                                                     val.childFilters[0].childFilters[0].selected */
                                                 ) {
                                                     return (
                                                         <div className={styles.newFilSelcted} key={i}>
@@ -454,19 +472,22 @@ export default class FilterDesktop extends React.Component {
                                                                 onClick={this.onL2Click}
                                                                 l2Name={val.childFilters[0].categoryName}
                                                                 l2CategoryCode={val.childFilters[0].categoryCode}
+                                                                showCloseIcon={true}
                                                             />
                                                         </div>
                                                     );
                                                 } else if (
+                                                    // eslint-disable-next-line no-dupe-else-if
                                                     val.childFilters &&
                                                     val.childFilters.length === 1 &&
-                                                    !val.selected &&
+                                                    /*  !val.selected && */
                                                     val.childFilters[0] &&
                                                     val.childFilters[0].childFilters &&
                                                     val.childFilters[0].childFilters.length === 1 &&
                                                     val.childFilters[0].childFilters[0].childFilters &&
-                                                    val.childFilters[0].childFilters[0].childFilters.length === 1 &&
-                                                    val.childFilters[0].childFilters[0].childFilters[0].selected
+                                                    val.childFilters[0].childFilters[0].childFilters.length ===
+                                                        1 /*&&
+                                                     val.childFilters[0].childFilters[0].childFilters[0].selected */
                                                 ) {
                                                     return (
                                                         <div className={styles.newFilSelcted} key={i}>
@@ -476,6 +497,7 @@ export default class FilterDesktop extends React.Component {
                                                                 onClick={this.onL2Click}
                                                                 l2Name={val.childFilters[0].categoryName}
                                                                 l2CategoryCode={val.childFilters[0].categoryCode}
+                                                                showCloseIcon={true}
                                                             />
                                                         </div>
                                                     );
@@ -496,7 +518,7 @@ export default class FilterDesktop extends React.Component {
                                                     val.childFilters[0].childFilters &&
                                                     val.childFilters[0].childFilters.length === 1 &&
                                                     val.childFilters[0].childFilters[0].childFilters &&
-                                                    val.childFilters[0].childFilters[0].childFilters.length > 0 &&
+                                                    val.childFilters[0].childFilters[0].childFilters.length > 1 &&
                                                     val.childFilters[0].childFilters[0].selected
                                                 ) {
                                                     return (
@@ -515,14 +537,15 @@ export default class FilterDesktop extends React.Component {
                                                 } else if (
                                                     val.childFilters &&
                                                     val.childFilters.length === 1 &&
-                                                    !val.selected &&
+                                                    /* !val.selected && */
                                                     val.childFilters[0] &&
-                                                    !val.childFilters[0].selected &&
+                                                    /*  !val.childFilters[0].selected && */
                                                     val.childFilters[0].childFilters &&
                                                     val.childFilters[0].childFilters.length > 0 &&
                                                     val.childFilters[0].childFilters[0].childFilters &&
-                                                    val.childFilters[0].childFilters[0].childFilters.length === 1 &&
-                                                    val.childFilters[0].childFilters[0].childFilters[0].selected
+                                                    val.childFilters[0].childFilters[0].childFilters.length ===
+                                                        1 /*  &&
+                                                    val.childFilters[0].childFilters[0].childFilters[0].selected */
                                                 ) {
                                                     return (
                                                         <div className={styles.newFilSelcted} key={i}>
@@ -541,13 +564,14 @@ export default class FilterDesktop extends React.Component {
                                                                 l3CategoryCode={
                                                                     val.childFilters[0].childFilters[0].categoryCode
                                                                 }
+                                                                showCloseIcon={true}
                                                             />
                                                         </div>
                                                     );
                                                 } else return null;
                                             })}
                                     </div>
-                                    <div className={styles.filterHeader}>Category</div>
+                                    {/*   <div className={styles.filterHeader}>Category</div>
                                     <div className={styles.catagoryHolder}>
                                         {this.props.isCategorySelected &&
                                             facetdatacategory &&
@@ -573,7 +597,7 @@ export default class FilterDesktop extends React.Component {
                                                     );
                                                 }
                                             })}
-                                    </div>
+                                    </div> */}
 
                                     {autoShowFilters.map((facetDataValues, i) => {
                                         return (
