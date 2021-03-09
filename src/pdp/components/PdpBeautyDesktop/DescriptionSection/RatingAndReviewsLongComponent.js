@@ -19,7 +19,8 @@ export default class RatingsAndReviewsLongComponent extends React.Component {
     render() {
         const productDetails = this.props.productDetails;
         return productDetails.numberOfReviews &&
-            (productDetails.numberOfReviews !== 0 || productDetails.numberOfReviews !== "0") ? (
+            (productDetails.numberOfReviews !== 0 || productDetails.numberOfReviews !== "0") &&
+            productDetails.displayRatingReview ? (
             <div id="rating-parent" className={styles.container} ref={this.props.ratingReviewsRef}>
                 <div className={styles.ratingReviewComponent}>
                     <div>

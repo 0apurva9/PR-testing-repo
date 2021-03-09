@@ -1308,10 +1308,17 @@ export default class ModalRoot extends React.Component {
                     addProductReview={(productCode, productReview) =>
                         this.props.addProductReview(productCode, productReview)
                     }
+                    addReviewDetails={this.props.addReviewDetails}
                     paramsEligibleToRateDetails={this.props.paramsEligibleToRateDetails}
                     submitParameterRating={(productCode, parameterizedRating) =>
                         this.props.submitParameterRating(productCode, parameterizedRating)
                     }
+                    submitParameterRatingDetails={this.props.submitParameterRatingDetails}
+                    getTitleSuggestions={(productCode, userRating) =>
+                        this.props.getTitleSuggestions(productCode, userRating)
+                    }
+                    getTitleSuggestionsDetails={this.props.getTitleSuggestionsDetails}
+                    displayToast={this.props.displayToast}
                 />
             ),
         };

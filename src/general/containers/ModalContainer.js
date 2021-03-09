@@ -46,6 +46,7 @@ import {
     updateAppliancesExchangeDetails,
     addProductReview,
     submitParameterRating,
+    getTitleSuggestions,
 } from "../../pdp/actions/pdp.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 import * as Cookies from "../../lib/Cookie";
@@ -103,6 +104,9 @@ const mapStateToProps = state => {
         appliancesExchangeDetails: state.productDescription.getAppliancesExchangeDetails,
         logoutUserStatuss: state.profile.logoutUserStatus,
         paramsEligibleToRateDetails: state.productDescription.paramsEligibleToRateDetails,
+        getTitleSuggestionsDetails: state.productDescription.getTitleSuggestionsDetails,
+        addReviewDetails: state.productDescription.addReviewDetails,
+        submitParameterRatingDetails: state.productDescription.submitParameterRatingDetails,
     };
 };
 
@@ -414,6 +418,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         submitParameterRating: (productCode, parameterizedRating) => {
             dispatch(submitParameterRating(productCode, parameterizedRating));
+        },
+        getTitleSuggestions: (productCode, userRating) => {
+            dispatch(getTitleSuggestions(productCode, userRating));
         },
     };
 };

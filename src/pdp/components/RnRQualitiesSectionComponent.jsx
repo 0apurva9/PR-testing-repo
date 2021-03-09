@@ -101,56 +101,68 @@ class RnRQualitiesSectionComponent extends Component {
             <React.Fragment>
                 <div className={styles.heading}>Help us understand what you liked</div>
                 <div className={styles.ratingDetailsContainer}>
-                    {paramsEligibleToRateDetails.eligibleParamToCaptureRating.map((eachQuality, index) => {
-                        let currentRating = this.state.paramsData && this.state.paramsData[index];
-                        return (
-                            <div key={JSON.stringify(index)}>
-                                {eachQuality.parameterCapture ? (
-                                    <React.Fragment>
-                                        <div className={styles.qualityName}>{eachQuality.parameterName}</div>
-                                        <div className={styles.eachRatingContainer}>
-                                            <div
-                                                className={this.getStatusBar(1, currentRating)}
-                                                onClick={() => this.setParameters(index, 1, eachQuality.parameterName)}
-                                            >
-                                                1
-                                            </div>
-                                            <div
-                                                className={this.getStatusBar(2, currentRating)}
-                                                onClick={() => this.setParameters(index, 2, eachQuality.parameterName)}
-                                            >
-                                                2
-                                            </div>
-                                            <div
-                                                className={this.getStatusBar(3, currentRating)}
-                                                onClick={() => this.setParameters(index, 3, eachQuality.parameterName)}
-                                            >
-                                                3
-                                            </div>
-                                            <div
-                                                className={this.getStatusBar(4, currentRating)}
-                                                onClick={() => this.setParameters(index, 4, eachQuality.parameterName)}
-                                            >
-                                                4
-                                            </div>
-                                            <div
-                                                className={this.getStatusBar(5, currentRating)}
-                                                onClick={() => this.setParameters(index, 5, eachQuality.parameterName)}
-                                            >
-                                                5
-                                            </div>
+                    {paramsEligibleToRateDetails.eligibleParamToCaptureRating &&
+                        paramsEligibleToRateDetails.eligibleParamToCaptureRating.length > 0 &&
+                        paramsEligibleToRateDetails.eligibleParamToCaptureRating.map((eachQuality, index) => {
+                            let currentRating = this.state.paramsData && this.state.paramsData[index];
+                            return (
+                                <div key={eachQuality.parameterName}>
+                                    {eachQuality.parameterCapture ? (
+                                        <React.Fragment>
+                                            <div className={styles.qualityName}>{eachQuality.parameterName}</div>
+                                            <div className={styles.eachRatingContainer}>
+                                                <div
+                                                    className={this.getStatusBar(1, currentRating)}
+                                                    onClick={() =>
+                                                        this.setParameters(index, 1, eachQuality.parameterName)
+                                                    }
+                                                >
+                                                    1
+                                                </div>
+                                                <div
+                                                    className={this.getStatusBar(2, currentRating)}
+                                                    onClick={() =>
+                                                        this.setParameters(index, 2, eachQuality.parameterName)
+                                                    }
+                                                >
+                                                    2
+                                                </div>
+                                                <div
+                                                    className={this.getStatusBar(3, currentRating)}
+                                                    onClick={() =>
+                                                        this.setParameters(index, 3, eachQuality.parameterName)
+                                                    }
+                                                >
+                                                    3
+                                                </div>
+                                                <div
+                                                    className={this.getStatusBar(4, currentRating)}
+                                                    onClick={() =>
+                                                        this.setParameters(index, 4, eachQuality.parameterName)
+                                                    }
+                                                >
+                                                    4
+                                                </div>
+                                                <div
+                                                    className={this.getStatusBar(5, currentRating)}
+                                                    onClick={() =>
+                                                        this.setParameters(index, 5, eachQuality.parameterName)
+                                                    }
+                                                >
+                                                    5
+                                                </div>
 
-                                            {currentRating && (
-                                                <span className={styles.ratingCount}>
-                                                    {currentRating}/<span className={styles.ffLight}>5</span>
-                                                </span>
-                                            )}
-                                        </div>
-                                    </React.Fragment>
-                                ) : null}
-                            </div>
-                        );
-                    })}
+                                                {currentRating && (
+                                                    <span className={styles.ratingCount}>
+                                                        {currentRating}/<span className={styles.ffLight}>5</span>
+                                                    </span>
+                                                )}
+                                            </div>
+                                        </React.Fragment>
+                                    ) : null}
+                                </div>
+                            );
+                        })}
                 </div>
             </React.Fragment>
         );

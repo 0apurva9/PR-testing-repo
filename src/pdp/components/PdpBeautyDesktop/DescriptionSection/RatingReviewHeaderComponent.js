@@ -28,7 +28,7 @@ export default class RatingReviewHeaderComponent extends React.Component {
             let statusBarWidth = Math.round((eachStarRating.totalRatingCount / sumOfStarRating) * 100);
             return (
                 <RatingCountWithStatusBarComponent
-                    key={JSON.stringify(index)}
+                    key={index.toString()}
                     rating={eachStarRating.starRating}
                     width={`${statusBarWidth}%`}
                     backgroundColor={eachStarRating.starRating > 2 ? "#499b1f" : "#f9cf15"}
@@ -44,7 +44,7 @@ export default class RatingReviewHeaderComponent extends React.Component {
             if (eachRating.paramVisibility) {
                 return (
                     <RatingWithStatusBarComponent
-                        key={JSON.stringify(index)}
+                        key={index.toString()}
                         currentRating={eachRating.parameterAvgRating}
                         showCurrentRating={true}
                         ratingText={eachRating.parameterName}
