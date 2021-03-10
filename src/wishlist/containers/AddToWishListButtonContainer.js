@@ -8,6 +8,7 @@ import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js"
 import { removeItemFromCartLoggedIn } from "../../cart/actions/cart.actions";
 import { DEFAULT_PIN_CODE_LOCAL_STORAGE, PRODUCT_ADDED_TO_WISHLIST } from "../../lib/constants";
 import { showModal, DESKTOP_AUTH } from "../../general/modal.actions.js";
+import { showMobileNumberLoginModal } from "../../general/modal.actions";
 //const toastMessageOnSuccessAddToWishlist = "Added";
 const toastMessageOnAlreadyInWishlist = "Already in wishlist";
 const REMOVED_SAVELIST = "Removed Successfully";
@@ -45,8 +46,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                 }
             });
         },
-        showAuthPopUp: () => {
-            dispatch(showModal(DESKTOP_AUTH));
+        showAuthPopUp: isMNLLoginValue => {
+            isMNLLoginValue ? dispatch(showMobileNumberLoginModal()) : dispatch(showModal(DESKTOP_AUTH));
         },
     };
 };
@@ -61,6 +62,7 @@ const mapStateToProps = (state, ownProps) => {
         index: ownProps.index,
         isSizeSelectedForAddToWishlist: ownProps.isSizeSelectedForAddToWishlist,
         showSizeSelector: ownProps.showSizeSelector,
+        isMNLLogin: state.mobileNumberLogin.isMNLLogin,
     };
 };
 const AddToWishListButtonContainer = withRouter(connect(mapStateToProps, mapDispatchToProps)(AddToWishListButton));

@@ -28,7 +28,7 @@ export default class ReturnAndOrderCancelWrapper extends React.Component<IProps,
 
     public render() {
         const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-        const userAccountDetails = JSON.parse(userDetails);
+        const userAccountDetails = userDetails && JSON.parse(userDetails);
         const returnProductDetails = this.props.returnProductDetails;
         const orderDetails = this.props.orderDetails;
         const returnFlow = this.props.returnFlow;
@@ -55,9 +55,9 @@ export default class ReturnAndOrderCancelWrapper extends React.Component<IProps,
                                             returnProductDetails.orderProductWsDTO[0] &&
                                             returnProductDetails.orderProductWsDTO[0]
                                                 .productBrand} ${returnProductDetails &&
-                                            returnProductDetails.orderProductWsDTO &&
-                                            returnProductDetails.orderProductWsDTO[0] &&
-                                            returnProductDetails.orderProductWsDTO[0].productName}`}
+                                                returnProductDetails.orderProductWsDTO &&
+                                                returnProductDetails.orderProductWsDTO[0] &&
+                                                returnProductDetails.orderProductWsDTO[0].productName}`}
                                         price={
                                             returnProductDetails &&
                                             returnProductDetails.orderProductWsDTO &&
@@ -78,9 +78,9 @@ export default class ReturnAndOrderCancelWrapper extends React.Component<IProps,
                                             orderDetails && orderDetails.productBrand
                                                 ? orderDetails.productBrand
                                                 : returnProductDetails &&
-                                                  returnProductDetails.orderProductWsDTO &&
-                                                  returnProductDetails.orderProductWsDTO[0] &&
-                                                  returnProductDetails.orderProductWsDTO[0].productBrand
+                                                returnProductDetails.orderProductWsDTO &&
+                                                returnProductDetails.orderProductWsDTO[0] &&
+                                                returnProductDetails.orderProductWsDTO[0].productBrand
                                         }
                                         onHollow={true}
                                         returnFlow={returnFlow}
@@ -88,9 +88,9 @@ export default class ReturnAndOrderCancelWrapper extends React.Component<IProps,
                                         onClick={() =>
                                             this.onClickImage(
                                                 orderDetails &&
-                                                    orderDetails.orderProductWsDTO &&
-                                                    orderDetails.orderProductWsDTO[0] &&
-                                                    orderDetails.orderProductWsDTO[0].productcode
+                                                orderDetails.orderProductWsDTO &&
+                                                orderDetails.orderProductWsDTO[0] &&
+                                                orderDetails.orderProductWsDTO[0].productcode
                                             )
                                         }
                                         exchangeDetails={

@@ -146,13 +146,13 @@ export default class ProductDescriptionPageWrapper extends React.Component {
             }, 0);
 
             if (this.props.match.path === PRODUCT_DESCRIPTION_PRODUCT_CODE) {
-                this.props.getProductDescription(this.props.match.params[0]);
+                this.props.getProductDescription(this.props.match.params[0], true);
                 // this.props.getMsdRequest(this.props.match.params[0]);
             } else if (this.props.match.path === PRODUCT_DESCRIPTION_SLUG_PRODUCT_CODE) {
                 setTimeout(() => {
                     window.scrollTo(0, 0);
                 }, 0);
-                this.props.getProductDescription(this.props.match.params[1]);
+                this.props.getProductDescription(this.props.match.params[1], true);
                 // this.props.getMsdRequest(this.props.match.params[1]);
             } else {
                 //need to show error page
@@ -275,11 +275,12 @@ export default class ProductDescriptionPageWrapper extends React.Component {
     }
 
     render() {
-        if (this.props.loading) {
-            this.showLoader();
-        } else {
-            this.hideLoader();
-        }
+        //UPF-2999 : Removing below loader to enhance user experience
+        // if (this.props.loading) {
+        //     this.showLoader();
+        // } else {
+        //     this.hideLoader();
+        // }
 
         if (!checkUserAgentIsMobile() && this.props.showPiqPage && this.props.stores && this.props.stores.length > 0) {
             let cliqAndPiqDetails = {};
