@@ -34,11 +34,11 @@ export async function HaptikChatBotInitSetup() {
     const customSignUpConfig = await getCustomSignUpConfig();
 
     const haptikInitSetup = JSON.stringify({
-        "business-id": process.env.HAPTIK_BUSINESS_ID,
-        "client-id": process.env.HAPTIK_CLIENT_ID,
-        "base-url": process.env.HAPTIK_BASE_URL,
-        "custom-button": true,
-        "signup-type": "guest",
+      "business-id": process.env.HAPTIK_BUSINESS_ID,
+      "client-id": process.env.HAPTIK_CLIENT_ID,
+      "base-url": process.env.HAPTIK_BASE_URL,
+      "custom-button": true,
+      "signup-type": "third_party"
     });
 
     loadScripts(`window.haptikInitSettings = ${haptikInitSetup}`, customSignUpConfig);
