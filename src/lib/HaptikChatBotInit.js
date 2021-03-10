@@ -39,7 +39,7 @@ export async function HaptikChatBotInitSetup() {
     "client-id": process.env.HAPTIK_CLIENT_ID,
     "base-url": process.env.HAPTIK_BASE_URL,
     "custom-button": true,
-    "signup-type": "tata-cliq-custom-signup"
+    "signup-type": "third_party"
   });
 
   loadScripts(
