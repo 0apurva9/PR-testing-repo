@@ -21,7 +21,7 @@ export default class RatingAndReviewModalV2 extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            sectionActive: this.props.rating ? 2 : 1,
+            sectionActive: this.props.section ? this.props.section : 1,
             currentRating: this.props.rating ? this.props.rating : null,
             currentParamsData: null,
             qualities: null,
@@ -169,9 +169,10 @@ export default class RatingAndReviewModalV2 extends Component {
             statusBar = styles.width100;
         }
         if (
-            paramsEligibleToRateDetails &&
+            (!paramsEligibleToRateDetails ||
+			paramsEligibleToRateDetails &&
             paramsEligibleToRateDetails.status &&
-            paramsEligibleToRateDetails.status.toLowerCase() === failure &&
+            paramsEligibleToRateDetails.status.toLowerCase() === failure) &&
             this.state.sectionActive === 3
         ) {
             statusBar = styles.width50;
@@ -336,4 +337,5 @@ RatingAndReviewModalV2.propTypes = {
     displayToast: PropTypes.func,
     addReviewDetails: PropTypes.object,
     submitParameterRatingDetails: PropTypes.object,
+	section: PropTypes.number,
 };

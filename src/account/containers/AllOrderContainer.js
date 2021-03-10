@@ -14,11 +14,14 @@ import {
   showModal,
   hideModal,
   DESKTOP_AUTH,
-  RATING_AND_REVIEW_MODAL
+  RATING_AND_REVIEW_MODAL,
+  RATING_REVIEW_MODAL_V2,
 } from "../../general/modal.actions";
 import {
   addProductReview,
-  getProductDescription
+  getProductDescription,
+  getParametersEligibleToRate,
+  getTitleSuggestions,
 } from "../../pdp/actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions";
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -71,7 +74,16 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     getRetryOrderDetails: orderId => {
       return dispatch(getRetryOrderDetails(orderId));
-    }
+    },
+	openRatingReviewModal: data => {
+		dispatch(showModal(RATING_REVIEW_MODAL_V2, data));
+	},
+	getParametersEligibleToRate: productCode => {
+		dispatch(getParametersEligibleToRate(productCode));
+	},
+	getTitleSuggestions: (productCode, rating) => {
+		dispatch(getTitleSuggestions(productCode, rating));
+	},
   };
 };
 const mapStateToProps = (state, ownProps) => {

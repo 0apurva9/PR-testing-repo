@@ -101,7 +101,8 @@ class RnRQualitiesSectionComponent extends Component {
             <React.Fragment>
                 <div className={styles.heading}>Help us understand what you liked</div>
                 <div className={styles.ratingDetailsContainer}>
-                    {paramsEligibleToRateDetails.eligibleParamToCaptureRating &&
+                    {paramsEligibleToRateDetails &&
+					paramsEligibleToRateDetails.eligibleParamToCaptureRating &&
                         paramsEligibleToRateDetails.eligibleParamToCaptureRating.length > 0 &&
                         paramsEligibleToRateDetails.eligibleParamToCaptureRating.map((eachQuality, index) => {
                             let currentRating = this.state.paramsData && this.state.paramsData[index];
