@@ -350,6 +350,7 @@ AddToWishListButton.propTypes = {
     isSizeSelectedForAddToWishlist: PropTypes.bool,
     showSizeSelector: PropTypes.func,
     index: PropTypes.number,
+    isMNLLogin: PropTypes.object,
 };
 AddToWishListButton.defaultProps = {
     size: 20,

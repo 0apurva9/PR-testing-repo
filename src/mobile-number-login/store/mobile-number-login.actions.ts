@@ -473,7 +473,7 @@ export function updateEmailOtp() {
 
         dispatch(setMnlApiResponse(mnlApiResponse));
 
-        if (mnlApiResponse.status === "Success" || mnlApiResponse.status === "success") {
+        if (mnlApiResponse.status.toLowerCase() === "success") {
             dispatch(showMobileNumberLoginModal());
             dispatch(changeLoginStep("isStepChangeEmailOtp"));
         }
@@ -516,7 +516,7 @@ export function validateEmailOtp() {
 
         dispatch(setMnlApiResponse(mnlApiResponse));
 
-        if (mnlApiResponse.status === "Success" || mnlApiResponse.status === "success") {
+        if (mnlApiResponse.status.toLowerCase() === "success") {
             dispatch(changeLoginStep("isStepChangeEmail"));
         }
         dispatch(hideSecondaryLoader());
@@ -558,7 +558,7 @@ export function addnewEmail() {
 
         dispatch(setMnlApiResponse(mnlApiResponse));
 
-        if (mnlApiResponse.status === "Success" || mnlApiResponse.status === "success") {
+        if (mnlApiResponse.status.toLowerCase() === "success") {
             dispatch(changeLoginStep("isStepChangeEmailSucess"));
 
             dispatch(logoutUserByMobileNumber());
@@ -631,7 +631,12 @@ export function sendOtpUpdatePassword() {
             }
             return;
         }
-        dispatch(changeLoginStep("isStepValidateProfileOtp"));
+        //dispatch(changeLoginStep("isStepValidateProfileOtp"));
+        //dispatch(changeLoginStep("isStepForgotPasswordOtp"));
+        if (mnlApiResponse.status.toLowerCase() === "success") {
+            dispatch(showMobileNumberLoginModal());
+            dispatch(changeLoginStep("isStepForgotPasswordOtp"));
+        }
 
         dispatch(hideSecondaryLoader());
     };
@@ -647,6 +652,7 @@ export function verifyOtpUpdatePassword() {
         const result: Response = await api.post(
             `marketplacewebservices/v2/mpl/users/${loginId}/verifyOtpUpdatePassword`,
             apiData,
+            null,
             true,
             {
                 Authorization: `Bearer ${JSON.parse(authentication).accessToken}`,
@@ -678,6 +684,7 @@ export function updatePasswordProfile() {
         const result: Response = await api.post(
             `marketplacewebservices/v2/mpl/users/${loginId}/updatepassword`,
             apiData,
+            null,
             true,
             {
                 Authorization: `Bearer ${JSON.parse(authentication).accessToken}`,
@@ -692,7 +699,7 @@ export function updatePasswordProfile() {
             }
             return;
         }
-        if (mnlApiResponse.status === "Success" || mnlApiResponse.status === "success") {
+        if (mnlApiResponse.status.toLowerCase() === "success") {
             dispatch(changeLoginStep("isChangeProfilePasswordSuccess"));
         }
         dispatch(hideSecondaryLoader());
@@ -756,7 +763,7 @@ export function validateOtpChangeProfileNumber() {
             }
             return;
         }
-        if (mnlApiResponse.status === "Success" || mnlApiResponse.status === "success") {
+        if (mnlApiResponse.status.toLowerCase() === "success") {
             dispatch(changeLoginStep("isChangeMobileNumberSuccess"));
 
             dispatch(logoutUserByMobileNumber());

@@ -1300,6 +1300,7 @@ CartPage.propTypes = {
     verifyIMEINumber: PropTypes.func,
     wishListCount: PropTypes.number,
     openMdeFraudDetailsModal: PropTypes.func,
+    isMNLLogin: PropTypes.object,
 };
 
 CartPage.defaultProps = {
