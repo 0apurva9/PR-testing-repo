@@ -24,6 +24,7 @@ import {
     generateOtpChangeProfileNumber,
     webMnlEmailHidden,
     setForgetPassword,
+    sendOtpUpdatePassword,
 } from "./store/mobile-number-login.actions";
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -102,6 +103,11 @@ const mapDispatchToProps = (disptach: Function) => {
         },
         setForgetPassword: (isForgetPasswordValue: boolean) => {
             disptach(setForgetPassword(isForgetPasswordValue));
+        },
+        resendOtpChangePassword: (apiData: MnlApiData) => {
+            disptach(showSecondaryLoader());
+            disptach(setMnlApiData(apiData));
+            disptach(sendOtpUpdatePassword());
         },
     };
 };

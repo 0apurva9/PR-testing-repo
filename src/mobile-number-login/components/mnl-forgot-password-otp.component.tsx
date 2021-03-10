@@ -1,7 +1,8 @@
 import React from "react";
 import styles from "../mobile-number-login.css";
 import { MnlApiData, MnlApiResponse } from "../mobile-number-login.types";
-import { OTP_RESEND_TIME } from "../../lib/constants";
+import { OTP_RESEND_TIME, CUSTOMER_ACCESS_TOKEN } from "../../lib/constants";
+import * as Cookies from "../../lib/Cookie";
 
 export class MnlForgotPasswordOtp extends React.Component<MnlForgotPasswordOtpProps, MnlForgotPasswordOtpState> {
     public state: Readonly<MnlForgotPasswordOtpState> = {
@@ -73,22 +74,36 @@ export class MnlForgotPasswordOtp extends React.Component<MnlForgotPasswordOtpPr
     }
 
     private onContinueBtnClick() {
-        const mnlApidata = Object.assign({}, this.props.mnlApidata, { otp: this.state.otp });
-        this.props.validateChallenge(mnlApidata);
+        const mnlApiData = Object.assign({}, this.props.mnlApidata, { otp: this.state.otp });
+        const customerCookie = Cookies.getCookie(CUSTOMER_ACCESS_TOKEN);
+        if (customerCookie) {
+            this.props.validateProfileOtp(mnlApiData);
+        } else {
+            this.props.validateChallenge(mnlApiData);
+        }
     }
 
     private onClickResendOtp() {
         const mnlApidata = Object.assign({}, this.props.mnlApidata, { otp: this.state.otp });
-        this.props.resendOtp(mnlApidata);
+        const customerCookie = Cookies.getCookie(CUSTOMER_ACCESS_TOKEN);
+        if (customerCookie) {
+            this.props.resendOtpChangePassword(mnlApidata);
+        } else {
+            this.props.resendOtp(mnlApidata);
+        }
         this.setState({ resendOtp: false, resendOtpIn: OTP_RESEND_TIME }, () => this.startTimer());
     }
 
     public render() {
+        const customerCookie = Cookies.getCookie(CUSTOMER_ACCESS_TOKEN);
         return (
             <div className={styles.whiteBox}>
                 <div className={styles.headSec}>
                     <h2>No Worries</h2>
-                    <p>Please enter the 6 digit OTP that we just sent on Email</p>
+                    <p>
+                        Please enter the 6 digit OTP that we just sent on Email
+                        {customerCookie && " & Mobile"}
+                    </p>
                 </div>
                 <div className={styles.formSec}>
                     <div className={styles.feildSec}>
@@ -147,6 +162,8 @@ export interface MnlForgotPasswordOtpProps {
     mnlApiResponse: MnlApiResponse | null;
     validateChallenge: (mnlApiData: MnlApiData) => void;
     resendOtp: (mnlApiData: MnlApiData) => void;
+    validateProfileOtp: (mnlApiData: MnlApiData) => void;
+    resendOtpChangePassword: (mnlApiData: MnlApiData) => void;
 }
 
 export interface MnlForgotPasswordOtpState {
