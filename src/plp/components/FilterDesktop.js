@@ -466,14 +466,16 @@ export default class FilterDesktop extends React.Component {
                                                 ) {
                                                     return (
                                                         <div className={styles.newFilSelcted} key={i}>
-                                                            <div className={styles.newFilHeader}>Product Type</div>
-                                                            <SelectedCategoryLevel
-                                                                name={val.childFilters[0].childFilters[0].categoryName}
-                                                                onClick={this.onL2Click}
-                                                                l2Name={val.childFilters[0].categoryName}
-                                                                l2CategoryCode={val.childFilters[0].categoryCode}
-                                                                showCloseIcon={true}
-                                                            />
+                                                            <div className={styles.newFilterBlock}>
+                                                                <div className={styles.newFilHeader}>Product Type</div>
+                                                                <SelectedCategoryLevel
+                                                                    name={val.childFilters[0].childFilters[0].categoryName}
+                                                                    onClick={this.onL2Click}
+                                                                    l2Name={val.childFilters[0].categoryName}
+                                                                    l2CategoryCode={val.childFilters[0].categoryCode}
+                                                                    showCloseIcon={true}
+                                                                />
+                                                            </div>
                                                         </div>
                                                     );
                                                 } else if (
@@ -491,14 +493,16 @@ export default class FilterDesktop extends React.Component {
                                                 ) {
                                                     return (
                                                         <div className={styles.newFilSelcted} key={i}>
-                                                            <div className={styles.newFilHeader}>Product Type</div>
-                                                            <SelectedCategoryLevel
-                                                                name={val.childFilters[0].childFilters[0].categoryName}
-                                                                onClick={this.onL2Click}
-                                                                l2Name={val.childFilters[0].categoryName}
-                                                                l2CategoryCode={val.childFilters[0].categoryCode}
-                                                                showCloseIcon={true}
-                                                            />
+                                                            <div className={styles.newFilterBlock}>
+                                                                <div className={styles.newFilHeader}>Product Type</div>
+                                                                <SelectedCategoryLevel
+                                                                    name={val.childFilters[0].childFilters[0].categoryName}
+                                                                    onClick={this.onL2Click}
+                                                                    l2Name={val.childFilters[0].categoryName}
+                                                                    l2CategoryCode={val.childFilters[0].categoryCode}
+                                                                    showCloseIcon={true}
+                                                                />
+                                                            </div>
                                                         </div>
                                                     );
                                                 } else return null;
@@ -523,15 +527,17 @@ export default class FilterDesktop extends React.Component {
                                                 ) {
                                                     return (
                                                         <div className={styles.newFilterBlock} key={i}>
-                                                            <div className={styles.newFilHeader}>
-                                                                Leaf Node Product Type
+                                                            <div className={styles.newFilterBlock}>
+                                                                <div className={styles.newFilHeader}>
+                                                                    Leaf Node Product Type
+                                                                </div>
+                                                                <L4CategoryFilter
+                                                                    l4filters={
+                                                                        val.childFilters[0].childFilters[0].childFilters
+                                                                    }
+                                                                    onL4Click={this.onL3Click}
+                                                                />
                                                             </div>
-                                                            <L4CategoryFilter
-                                                                l4filters={
-                                                                    val.childFilters[0].childFilters[0].childFilters
-                                                                }
-                                                                onL4Click={this.onL3Click}
-                                                            />
                                                         </div>
                                                     );
                                                 } else if (
@@ -549,23 +555,25 @@ export default class FilterDesktop extends React.Component {
                                                 ) {
                                                     return (
                                                         <div className={styles.newFilSelcted} key={i}>
-                                                            <div className={styles.newFilHeader}>
-                                                                Leaf Node Product Type
+                                                            <div className={styles.newFilterBlock}>
+                                                                <div className={styles.newFilHeader}>
+                                                                    Leaf Node Product Type
+                                                                </div>
+                                                                <SelectedCategoryLevel
+                                                                    name={
+                                                                        val.childFilters[0].childFilters[0].childFilters[0]
+                                                                            .categoryName
+                                                                    }
+                                                                    onL4Click={this.onL3Click}
+                                                                    l3Name={
+                                                                        val.childFilters[0].childFilters[0].categoryName
+                                                                    }
+                                                                    l3CategoryCode={
+                                                                        val.childFilters[0].childFilters[0].categoryCode
+                                                                    }
+                                                                    showCloseIcon={true}
+                                                                />
                                                             </div>
-                                                            <SelectedCategoryLevel
-                                                                name={
-                                                                    val.childFilters[0].childFilters[0].childFilters[0]
-                                                                        .categoryName
-                                                                }
-                                                                onL4Click={this.onL3Click}
-                                                                l3Name={
-                                                                    val.childFilters[0].childFilters[0].categoryName
-                                                                }
-                                                                l3CategoryCode={
-                                                                    val.childFilters[0].childFilters[0].categoryCode
-                                                                }
-                                                                showCloseIcon={true}
-                                                            />
                                                         </div>
                                                     );
                                                 } else return null;
