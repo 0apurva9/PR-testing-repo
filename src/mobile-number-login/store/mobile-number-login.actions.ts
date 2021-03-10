@@ -616,6 +616,7 @@ export function sendOtpUpdatePassword() {
                 phoneNumber: apiData.mobileNumber,
                 otp: "",
             },
+            null,
             true,
             {
                 Authorization: `Bearer ${JSON.parse(authentication).accessToken}`,
@@ -671,8 +672,8 @@ export function updatePasswordProfile() {
     const loginId = userDetails.userName || null;
     return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
         let apiData: MnlApiData = getState().mobileNumberLogin.mnlApiData;
-        apiData.platformNumber = undefined;
-        apiData.maskedPhoneNumber = undefined;
+        apiData.platformNumber = "";
+        apiData.maskedPhoneNumber = "";
         apiData = JSON.parse(JSON.stringify(apiData));
         const result: Response = await api.post(
             `marketplacewebservices/v2/mpl/users/${loginId}/updatepassword`,
