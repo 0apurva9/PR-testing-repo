@@ -18,6 +18,7 @@ import {
     AC_PDP_EXCHANGE_DETAILS,
     PLATFORM,
     AC_CART_EXCHANGE_DETAILS,
+	FAILURE_UPPERCASE,
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -1254,9 +1255,10 @@ export function addProductReview(productCode, productReview) {
             );
             const resultJson = await result.json();
             const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-            if (resultJsonStatus.status || result.status !== 200) {
+            if (resultJsonStatus.status ||
+				(result.status !== 200 && result.status !== 201 && resultJson && resultJson.status && resultJson.status === FAILURE_UPPERCASE)) {
                 let errorMessage = resultJsonStatus.message;
-                if (resultJson.status === "FAILURE" && resultJson.errorMessage) {
+                if (resultJson.status === FAILURE_UPPERCASE && resultJson.errorMessage) {
                     errorMessage = resultJson.errorMessage;
                 }
                 dispatch(addProductReviewFailure(errorMessage));
@@ -2865,7 +2867,7 @@ export function submitParameterRating(productCode, parameterizedRating) {
             const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
             if (resultJsonStatus.status || result.status !== 200) {
                 let errorMessage = resultJsonStatus.message;
-                if (resultJson.status === "FAILURE" && resultJson.errorMessage) {
+                if (resultJson && resultJson.status && resultJson.status === FAILURE_UPPERCASE && resultJson.errorMessage) {
                     errorMessage = resultJson.errorMessage;
                 }
                 dispatch(displayToast(errorMessage));

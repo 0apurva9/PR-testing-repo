@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./RatingAndIconComponent.css";
 import Icon from "../../../../xelpmoc-core/Icon";
 import FilledStarGreen from "../img/green-filled-star.svg";
+import FilledStarOrange from "../img/orange-filled-star.svg";
 import PropTypes from "prop-types";
 
 export default class RatingAndIconComponent extends React.Component {
@@ -14,7 +15,10 @@ export default class RatingAndIconComponent extends React.Component {
                             {Math.round(this.props.averageRating * 10) / 10}
                         </div>
                         <div className={styles.starContainerReviewPage}>
-                            <Icon image={FilledStarGreen} size={11} />
+                            <Icon
+                                image={this.props.averageRating > 2.5 ? FilledStarGreen : FilledStarOrange}
+                                size={11}
+                            />
                         </div>
                     </div>
                 ) : (
@@ -23,7 +27,10 @@ export default class RatingAndIconComponent extends React.Component {
                     >
                         <div className={styles.ratingText}>{Math.round(this.props.averageRating * 10) / 10}</div>
                         <div className={this.props.isFluidUI ? styles.starContainer : styles.starContainerOther}>
-                            <Icon image={FilledStarGreen} size={32} />
+                            <Icon
+                                image={this.props.averageRating > 2.5 ? FilledStarGreen : FilledStarOrange}
+                                size={32}
+                            />
                         </div>
                     </div>
                 )}

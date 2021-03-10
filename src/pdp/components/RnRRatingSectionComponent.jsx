@@ -3,12 +3,12 @@ import styles from "./RnRRatingSectionComponent.css";
 import PropTypes from "prop-types";
 
 import InitialRatingStarGrey from "./img/InitialRatingStarGrey.jpg";
-import EmptyRatingStarGrey from "./img/EmptyRatingStarGrey.svg";
 import oneStarRating from "./img/oneStarRating.jpg";
 import twoStarRating from "./img/twoStarRating.jpg";
 import threeStarRating from "./img/threeStarRating.jpg";
 import fourStarRating from "./img/fourStarRating.jpg";
 import fiveStarRating from "./img/fiveStarRating.jpg";
+import RnREmptyRatingGreyStarComponent from "./RnREmptyRatingGreyStarComponent";
 
 class RnRRatingSectionComponent extends Component {
     constructor(props) {
@@ -53,16 +53,9 @@ class RnRRatingSectionComponent extends Component {
                     <React.Fragment>
                         <div className={styles.heading}>Tell us how you felt about these product</div>
                         <img src={InitialRatingStarGrey} className={styles.ratingInitial} />
-                        <div className={styles.emptyRatingStarGreyContainer}>
-                            <div className={styles.eachRatingContainer}>
-                                <div className={styles.eachRating} onClick={() => this.submitRating(1)} />
-                                <div className={styles.eachRating} onClick={() => this.submitRating(2)} />
-                                <div className={styles.eachRating} onClick={() => this.submitRating(3)} />
-                                <div className={styles.eachRating} onClick={() => this.submitRating(4)} />
-                                <div className={styles.eachRating} onClick={() => this.submitRating(5)} />
-                            </div>
-                            <img src={EmptyRatingStarGrey} className={styles.emptyRatingStarGrey} />
-                        </div>
+						<RnREmptyRatingGreyStarComponent
+							submitRating={(rating) => this.submitRating(rating)}
+						/>
                     </React.Fragment>
                 ) : (
                     <React.Fragment>
