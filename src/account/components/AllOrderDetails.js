@@ -60,13 +60,14 @@ import {
     ADOBE_MY_ACCOUNT_HELP_AND_SUPPORT,
     SET_DATA_LAYER_RATING_STAR_CLICK,
 } from "../../lib/adobeUtils";
-import FillupRatingOrder from "../../pdp/components/FillupRatingOrder.js";
 import Icon from "../../xelpmoc-core/Icon";
 import * as UserAgent from "../../lib/UserAgent.js";
 import AccountUsefulLink from "./AccountUsefulLink.js";
 import TabHolder from "./TabHolder";
 import TabData from "./TabData";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest";
+import RnREmptyRatingGreyStarComponent from "../../pdp/components/RnREmptyRatingGreyStarComponent";
+import RatingAndIconComponent from "../../pdp/components/PdpBeautyDesktop/DescriptionSection/RatingAndIconComponent";
 const PRODUCT_RETURN = "Return";
 const dateFormat = "DD MMM YYYY";
 const SCROLL_CHECK_INTERVAL = 500;
@@ -427,6 +428,16 @@ export default class AllOrderDetails extends React.Component {
         });
     }
 
+	submitRating = (rating, productCode, section) => {
+		this.props.openRatingReviewModal({ productCode: productCode, rating: rating, section: section });
+		if(section === 2){
+			this.props.getParametersEligibleToRate(productCode);
+		}
+		if(section === 3){
+			this.props.getTitleSuggestions(productCode, rating);
+		}
+	};
+
     render() {
         let userData;
         const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -763,37 +774,47 @@ export default class AllOrderDetails extends React.Component {
                                                                                               styles.reviewHeading
                                                                                           }
                                                                                       >
-                                                                                          Rate this product
+                                                                                          {product.userRating && product.isRated ? "Your Rating" : "Rate this product"}
                                                                                       </div>
                                                                                       <div className={styles.ratingBar}>
-                                                                                          <FillupRatingOrder
-                                                                                              rating={
-                                                                                                  product.userRating
-                                                                                              }
-                                                                                              onChange={val =>
-                                                                                                  this.onRatingChange(
-                                                                                                      val,
-                                                                                                      product
-                                                                                                  )
-                                                                                              }
-                                                                                              //resetRating={this.state.resetRating}
-                                                                                          />
-                                                                                          {product.userRating &&
-                                                                                          !product.isReviewed ? (
-                                                                                              <div
-                                                                                                  className={
-                                                                                                      styles.writeReviewText
-                                                                                                  }
-                                                                                                  onClick={() =>
-                                                                                                      this.writeReview(
-                                                                                                          product
-                                                                                                      )
-                                                                                                  }
-                                                                                              >
-                                                                                                  Write a Review
-                                                                                              </div>
-                                                                                          ) : null}
+																						  {product.userRating && product.isRated ? (
+																							<RatingAndIconComponent
+																								averageRating={product.userRating}
+																							/>
+																						  ) : (
+																							<RnREmptyRatingGreyStarComponent
+																								submitRating={(rating) => this.submitRating(rating, product.productcode)}
+																							/>
+																						  )}
                                                                                       </div>
+
+																					  	{!product.isReviewed && product.isRated && product.userRating ? (
+																							<React.Fragment>
+																								{product.isParamConfigured && !product.isParamRatingPresent ? (
+																								<div className={styles.writeReviewText}>
+																									<span
+																										className={styles.writeReviewTitle}
+																										onClick={() => this.submitRating(product.userRating, product.productcode, 2)}
+																									>
+																										Write a Review
+																									</span>
+																								</div>
+																								) : (
+																								<div className={styles.writeReviewText}>
+																									<span
+																										className={styles.writeReviewTitle}
+																										onClick={() => this.submitRating(product.userRating, product.productcode, 3)}
+																									>
+																										Write a Review
+																									</span>
+																								</div>
+																								)}
+																							</React.Fragment>
+																						) : null}
+
+																						{product.isRated && product.userRating && product.isReviewed ? (
+																							<div className={styles.reviewSuccess}>Rating and Review Submitted</div>
+																						) : null}
                                                                                   </div>
                                                                               )}
                                                                       </div>
