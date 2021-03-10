@@ -179,6 +179,8 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
                                 validateOtp={mnlApiData => this.props.validateOtp(mnlApiData)}
                                 validateChallenge={mnlApiData => this.props.validateChallenge(mnlApiData)}
                                 resendOtp={mnlApiData => this.props.generateOtp(mnlApiData)}
+                                resendOtpChangePassword={mnlApiData => this.props.resendOtpChangePassword(mnlApiData)}
+                                validateProfileOtp={mnlApiData => this.props.validateProfileOtp(mnlApiData)}
                             />
                         )}
 
@@ -220,6 +222,7 @@ export interface MobileNumberLoginProps extends RouteComponentProps<null> {
     displayToast: (msg: string) => void;
     setForgetPassword: (isForgetPasswordValue: boolean) => void;
     isForgetPasswordValue: boolean;
+    resendOtpChangePassword: (apiData: MnlApiData) => void;
 }
 
 export interface MobileNumberLoginState {
