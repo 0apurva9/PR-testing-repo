@@ -2,6 +2,7 @@ import * as modalActions from "./modal.actions.js";
 
 const modal = (
   state = {
+    isModalEnabled : false,
     modalDisplayed: false,
     modalType: null,
     isMobileNumberLoginModalActive: false
@@ -14,7 +15,8 @@ const modal = (
         modalDisplayed: true,
         modalType: action.modalType,
         scrollPosition: action.scrollPosition,
-        ownProps: action.ownProps
+        ownProps: action.ownProps,
+        isModalEnabled : true
       });
     case modalActions.HIDE_MODAL:
       window.scrollTo(0, state.scrollPosition);

@@ -3,6 +3,8 @@ const app = express();
 const proxyMiddleware = require("./config/proxy-middleware");
 const isLocalMachineBuild = process.env.local === "true";
 const reload = require("reload");
+const SITEMAP_DIRECTORY = "/etappdata/hybris/data/feed/report/sitemap";
+const path = require("path");
 
 const startServer = () => app.listen(3000, () => console.log("Server running on port 3000"));
 
@@ -72,6 +74,22 @@ if (!isLocalMachineBuild) {
     });
 }
 app.use(express.static("build/public"));
+
+
+app.use(express.static(path.resolve(`${SITEMAP_DIRECTORY}`)));
+
+app.get("/sitemaps/*", (req, res) => {
+    const fileName = req.path.split("sitemaps/");
+    try {
+        res.sendFile(path.resolve(`${SITEMAP_DIRECTORY}/sitemaps/${fileName[1]}`));
+    } catch (error) {
+        res.send({ statusCode: 400, message: `File does not exist ${fileName[1]}` });
+    }
+});
+
+app.get("/sitemap.xml", (req, res) => {
+    res.sendFile(path.resolve(`${SITEMAP_DIRECTORY}/sitemap.xml`));
+});
 
 app.get("/marketplacewebservices/v2/mpl/getOrderInvoice/*", (req, res) => {
     res.redirect("https://www.tatacliq.com" + req.originalUrl);

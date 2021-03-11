@@ -663,7 +663,7 @@ class App extends Component {
                             !this.props.location.pathname.includes(LOGIN_PATH) &&
                             !this.props.location.pathname.includes(SIGN_UP_PATH) && <DesktopFooterContainer />}
                     </DesktopOnly>
-                    <ModalContainer />
+                    {this.props.isModalEnabled ? <ModalContainer /> : <React.Fragment /> }
                     <ErrorContainer />
                     <ToastContainer />
                     {this.props.isMobileNumberLoginModalActive && <MobileNumberContainer />}
