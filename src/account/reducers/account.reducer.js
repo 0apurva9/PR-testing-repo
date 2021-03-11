@@ -351,7 +351,17 @@ const account = (
     haptikBotConfigDataStatus: null,
     haptikBotConfigDataLoading: false,
     haptikBotConfigData: null,
-    haptikBotConfigDataError: null
+    haptikBotConfigDataError: null,
+
+	getPendingReviewsStatus: null,
+	getPendingReviewsLoading: false,
+	getPendingReviewsError: null,
+	getPendingReviewsDetails: null,
+
+	getPublishedReviewsStatus: null,
+	getPublishedReviewsLoading: false,
+	getPublishedReviewsError: null,
+	getPublishedReviewsDetails: null,
   },
   action
 ) => {
@@ -2284,6 +2294,48 @@ const account = (
         haptikBotConfigDataLoading: false,
         haptikBotConfigDataError: action.error
       };
+
+	case accountActions.GET_PENDING_REVIEWS_REQUEST:
+		return Object.assign({}, state, {
+			getPendingReviewsStatus: action.status,
+			getPendingReviewsLoading: true,
+		});
+
+	case accountActions.GET_PENDING_REVIEWS_SUCCESS:
+		return Object.assign({}, state, {
+			getPendingReviewsStatus: action.status,
+			getPendingReviewsLoading: false,
+			getPendingReviewsDetails: action.data,
+		});
+
+	case accountActions.GET_PENDING_REVIEWS_FAILURE:
+		return Object.assign({}, state, {
+			getPendingReviewsStatus: action.status,
+			getPendingReviewsLoading: false,
+			getPendingReviewsError: action.error,
+			getPendingReviewsDetails: null,
+		});
+
+	case accountActions.GET_PUBLISHED_REVIEWS_REQUEST:
+		return Object.assign({}, state, {
+			getPublishedReviewsStatus: action.status,
+			getPublishedReviewsLoading: true,
+		});
+
+	case accountActions.GET_PUBLISHED_REVIEWS_SUCCESS:
+		return Object.assign({}, state, {
+			getPublishedReviewsStatus: action.status,
+			getPublishedReviewsLoading: false,
+			getPublishedReviewsDetails: action.data,
+		});
+
+	case accountActions.GET_PUBLISHED_REVIEWS_FAILURE:
+		return Object.assign({}, state, {
+			getPublishedReviewsStatus: action.status,
+			getPublishedReviewsLoading: false,
+			getPublishedReviewsError: action.error,
+			getPublishedReviewsDetails: null,
+		});
 
     default:
       return state;

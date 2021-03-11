@@ -1,0 +1,59 @@
+.base {
+	width: 100%;
+	background-color: #ffffff;
+}
+
+.reviewsBase {
+	position: relative;
+}
+
+.reviews {
+	padding-bottom: 5px;
+}
+
+.switches {
+	display: flex;
+}
+
+.tabs {
+	display: block;
+	margin-top: 20px;
+	padding: 0 24px;
+}
+
+.pendingTitle {
+	padding: 12px 30px;
+	cursor: pointer;
+	font-size: 14px;
+	font-family: "light";
+}
+
+.pendingTitleActive {
+	padding: 12px 30px;
+	border-bottom: 2px solid #da1c5c;
+	cursor: pointer;
+	font-size: 14px;
+	font-family: "semibold";
+}
+
+.publishedTitle {
+	padding: 12px 30px;
+	cursor: pointer;
+	font-size: 14px;
+	font-family: "light";
+}
+
+.publishedTitleActive {
+	padding: 12px 30px;
+	border-bottom: 2px solid #da1c5c;
+	cursor: pointer;
+	font-size: 14px;
+	font-family: "semibold";
+}
+
+.noReviewsText {
+	display: flex;
+	justify-content: center;
+	padding: 20px 0;
+	font-size: 14px;
+}

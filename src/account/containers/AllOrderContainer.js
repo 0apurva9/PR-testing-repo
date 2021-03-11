@@ -5,7 +5,9 @@ import {
   reSendEmailForGiftCard,
   retryPayment,
   submitProductRatingByUser,
-  getRetryOrderDetails
+  getRetryOrderDetails,
+  getPendingReviews,
+  getPublishedReviews,
 } from "../actions/account.actions";
 import { withRouter } from "react-router-dom";
 import AllOrderDetails from "../components/AllOrderDetails";
@@ -84,6 +86,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 	getTitleSuggestions: (productCode, rating) => {
 		dispatch(getTitleSuggestions(productCode, rating));
 	},
+	getPendingReviews: () => {
+		dispatch(getPendingReviews());
+	},
+	getPublishedReviews: () => {
+		dispatch(getPublishedReviews());
+	},
   };
 };
 const mapStateToProps = (state, ownProps) => {
@@ -93,7 +101,9 @@ const mapStateToProps = (state, ownProps) => {
     userAddress: state.profile.userAddress,
     ratedProductDetails: state.profile.ratedProductDetails,
     addReviewStatus: state.productDescription.addReviewStatus,
-    ...ownProps
+    ...ownProps,
+	pendingReviewsDetails: state.profile.getPendingReviewsDetails,
+	publishedReviewsDetails: state.profile.getPublishedReviewsDetails,
   };
 };
 

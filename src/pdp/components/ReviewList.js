@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./ReviewList.css";
 import ReviewPage from "./ReviewPage";
 import PropTypes from "prop-types";
+import ProductDetailsWithEachReview from "./ProductDetailsWithEachReview";
 
 export default class ReviewList extends React.Component {
     render() {
@@ -20,20 +21,64 @@ export default class ReviewList extends React.Component {
                                 let userName = data.userName;
                                 let alias = data.alias;
                                 return (
-                                    <ReviewPage
-                                        fromBeautyPdp={this.props.fromBeautyPdp}
-                                        rating={data && data.rating}
-                                        heading={data && data.headline}
-                                        text={data && data.comment}
-                                        date={data && data.date}
-                                        isBuyer={data && data.isBuyer}
-                                        reviewAge={data && data.reviewAge}
-                                        name={userName ? userName : alias}
-                                        key={i}
-                                        colorlink={data.colorlink}
-                                        sizelink={data.sizelink}
-                                        eligibleParamCaptured={data.eligibleParamCaptured}
-                                    />
+									<div key={i.toString()} className={this.props.showProductDetails ? styles.reviewContainer : null}>
+										{this.props.showProductDetails ? (
+											<React.Fragment>
+												<ProductDetailsWithEachReview
+													imageUrl={data.productImageUrl}
+													brandName={data.brandName}
+													productName={data.productTitle}
+													isPendingForApproval={data.isPendingForApproval}
+													userRating={data.rating}
+													isRated={data.isRated}
+													isReviewed={data.isReviewed}
+													isParamConfigured={data.isParamConfigured}
+													isParamRatingPresent={data.isParamRatingPresent}
+													productcode={data.listingId}
+													submitRating={(rating, productCode, section) => this.props.submitRating(rating, productCode, section)}
+													isPublishedReview={this.props.isPublishedReview}
+													canEditDelete={data.canEditDelete}
+												/>
+											</React.Fragment>
+										) :  null}
+
+										{/* to show on pending/published review page conditionally */}
+										{this.props.showProductDetails &&
+										(data.isPendingForApproval || this.props.isPublishedReview) ? (
+											<ReviewPage
+												fromBeautyPdp={this.props.fromBeautyPdp}
+												rating={data && data.rating}
+												heading={data && data.headline}
+												text={data && data.comment}
+												date={data && data.date}
+												isBuyer={data && data.isBuyer}
+												reviewAge={data && data.reviewAge}
+												name={userName ? userName : alias}
+												key={i}
+												colorlink={data.colorlink}
+												sizelink={data.sizelink}
+												eligibleParamCaptured={data.eligibleParamCaptured}
+											/>
+										) : null}
+
+										{/* to show on PDP/Review list page */}
+										{!this.props.showProductDetails ? (
+											<ReviewPage
+												fromBeautyPdp={this.props.fromBeautyPdp}
+												rating={data && data.rating}
+												heading={data && data.headline}
+												text={data && data.comment}
+												date={data && data.date}
+												isBuyer={data && data.isBuyer}
+												reviewAge={data && data.reviewAge}
+												name={userName ? userName : alias}
+												key={i}
+												colorlink={data.colorlink}
+												sizelink={data.sizelink}
+												eligibleParamCaptured={data.eligibleParamCaptured}
+											/>
+										) : null}
+									</div>
                                 );
                             })}
                     {this.props &&
@@ -81,4 +126,7 @@ ReviewList.propTypes = {
     limit: PropTypes.number,
     fromBeautyPdp: PropTypes.bool,
     currentreviewList: PropTypes.array,
+	showProductDetails: PropTypes.bool,
+	submitRating: PropTypes.func,
+	isPublishedReview: PropTypes.bool,
 };
