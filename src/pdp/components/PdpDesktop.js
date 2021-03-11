@@ -78,6 +78,7 @@ import PropTypes from "prop-types";
 import ProductBundling from "./ProductBundling";
 import { renderMetaTags } from "./../../lib/seoUtils";
 import AppliancesExchange from "./AppliancesExchange";
+import { initiateHaptikScript } from "./../../common/services/common.services";
 
 const WASH = "Wash";
 const NECK_COLLAR = "Neck/Collar";
@@ -241,6 +242,7 @@ export default class PdpApparel extends React.Component {
                     });
             }
         }
+        initiateHaptikScript();
         let isACCategory = categoryHierarchyCheck.find(category => {
             return category.category_id === "MSH1230";
         });

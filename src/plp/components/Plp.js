@@ -32,6 +32,7 @@ import FilterContainer from "../containers/FilterContainer";
 import ProductGrid from "./ProductGrid";
 import PlpMobileFooter from "./PlpMobileFooter";
 import Chatbot from "./Chatbot";
+import { initiateHaptikScript } from "./../../common/services/common.services";
 export const SUFFIX = `&isTextSearch=false&isFilter=false`;
 const SCROLL_CHECK_INTERVAL = 500;
 const OFFSET_BOTTOM = 800;
@@ -271,24 +272,7 @@ export default class Plp extends React.Component {
         if (this.props.getChatbotDetails) {
             this.props.getChatbotDetails();
         }
-        this.initiateHaptikScript();
-    }
-
-    initiateHaptikScript() {
-        var f = document.getElementsByTagName("SCRIPT")[0];
-        var p = document.createElement("SCRIPT");
-        var date = new Date();
-        var timestamp = date.getTime();
-        var source_url = process.env.HAPTIK_CHATBOT_URL + "/static/aspectwise/js/haptik.js?" + timestamp;
-        p.type = "text/javascript";
-        p.setAttribute("charset", "utf-8");
-        p.setAttribute("clientid", "tatacliq");
-        p.async = true;
-        p.id = "buzzosrc";
-        p.src = source_url;
-        if (!document.getElementById("buzzosrc")) {
-            f.parentNode.insertBefore(p, f);
-        }
+        initiateHaptikScript();
     }
 
     setHeaderText = () => {

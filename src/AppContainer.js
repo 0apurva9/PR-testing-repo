@@ -55,6 +55,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
     return {
+        isModalEnabled : state.modal.isModalEnabled,
         modalStatus: state.modal.modalDisplayed,
         beautyPopupModal: state.productDescription.beautyPopupModal,
         scrollPosition: state.modal.scrollPosition,
