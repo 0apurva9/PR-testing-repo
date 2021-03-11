@@ -76,6 +76,8 @@ const user = (
                     action.user.customerInfo.lastName !== undefined && action.user.customerInfo.lastName !== "undefined"
                         ? action.user.customerInfo.lastName
                         : "";
+                userDetails.userEmail = action.user.customerInfo.emailId;
+                userDetails.mobileNumber = action.user.customerInfo.mobileNumber;
             }
             const MOBILE_REG_EX = /^[0][1-9]\d{9}$|^[1-9]\d{9}$/g;
             //const EMAIL_REG_EX = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;

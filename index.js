@@ -75,7 +75,6 @@ if (!isLocalMachineBuild) {
 }
 app.use(express.static("build/public"));
 
-
 app.use(express.static(path.resolve(`${SITEMAP_DIRECTORY}`)));
 
 app.get("/sitemaps/*", (req, res) => {
