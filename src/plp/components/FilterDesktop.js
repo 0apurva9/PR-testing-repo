@@ -315,10 +315,6 @@ export default class FilterDesktop extends React.Component {
         } else {
             return <div />;
         }
-        let showCloseIcon = true;
-        if (this.props.location && this.props.location.state && this.props.location.state.categoryOrBrandTab) {
-            showCloseIcon = false;
-        }
 
         return (
             <React.Fragment>
@@ -388,7 +384,7 @@ export default class FilterDesktop extends React.Component {
                                                             <div className={styles.newFilSelcted} key={i}>
                                                                 <SelectedCategoryLevel
                                                                     name={val.categoryName}
-                                                                    showCloseIcon={showCloseIcon}
+                                                                    showCloseIcon={false}
                                                                     onClickResetL1={this.resetL1Category}
                                                                 />
                                                             </div>
@@ -512,14 +508,15 @@ export default class FilterDesktop extends React.Component {
                                                 if (
                                                     val.childFilters &&
                                                     val.childFilters.length === 1 &&
-                                                    !val.selected &&
+                                                    /*  !val.selected && */
                                                     val.childFilters[0] &&
                                                     !val.childFilters[0].selected &&
                                                     val.childFilters[0].childFilters &&
                                                     val.childFilters[0].childFilters.length === 1 &&
                                                     val.childFilters[0].childFilters[0].childFilters &&
-                                                    val.childFilters[0].childFilters[0].childFilters.length > 1 &&
-                                                    val.childFilters[0].childFilters[0].selected
+                                                    val.childFilters[0].childFilters[0].childFilters.length >
+                                                        1 /*&&
+                                                     val.childFilters[0].childFilters[0].selected */
                                                 ) {
                                                     return (
                                                         <div className={styles.newFilterBlock} key={i}>
