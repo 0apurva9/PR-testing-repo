@@ -500,25 +500,25 @@ class Feed extends Component {
 	) {
 		this.props.getChatbotDetails();
 	}
-	this.initiateHaptikScript();
+	// this.initiateHaptikScript();
 	}
 
-    initiateHaptikScript() {
-        var f = document.getElementsByTagName("SCRIPT")[0];
-        var p = document.createElement("SCRIPT");
-        var date = new Date();
-        var timestamp = date.getTime();
-        var source_url = process.env.HAPTIK_CHATBOT_URL + "/static/aspectwise/js/haptik.js?" + timestamp;
-        p.type = "text/javascript";
-        p.setAttribute("charset", "utf-8");
-        p.setAttribute("clientid", "tatacliq");
-        p.async = true;
-        p.id = "buzzosrc";
-        p.src = source_url;
-        if (!document.getElementById("buzzosrc")) {
-            f.parentNode.insertBefore(p, f);
-        }
-    }
+    // initiateHaptikScript() {
+    //     var f = document.getElementsByTagName("SCRIPT")[0];
+    //     var p = document.createElement("SCRIPT");
+    //     var date = new Date();
+    //     var timestamp = date.getTime();
+    //     var source_url = process.env.HAPTIK_CHATBOT_URL + "/static/aspectwise/js/haptik.js?" + timestamp;
+    //     p.type = "text/javascript";
+    //     p.setAttribute("charset", "utf-8");
+    //     p.setAttribute("clientid", "tatacliq");
+    //     p.async = true;
+    //     p.id = "buzzosrc";
+    //     p.src = source_url;
+    //     if (!document.getElementById("buzzosrc")) {
+    //         f.parentNode.insertBefore(p, f);
+    //     }
+    // }
 
     async componentDidUpdate() {
         const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);

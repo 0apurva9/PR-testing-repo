@@ -26,6 +26,21 @@ export default class SizeComponent extends React.Component {
         }
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        const variantTheme =
+            this.props.productDetails && this.props.productDetails.variantTheme
+                ? this.props.productDetails.variantTheme
+                : [];
+
+        const productListingId = this.props && this.props.productDetails && this.props.productDetails.productListingId;
+        if (Array.isArray(variantTheme) && variantTheme.length > 0 && productListingId) {
+            const sizeToSetInState = findSelectedSize(variantTheme, productListingId);
+            if (prevState.selectedIndex !== sizeToSetInState.selectedIndex) {
+                this.setState(sizeToSetInState);
+            }
+        }
+    }
+
     handleSizeOptionClick(url) {
         this.props.history.push(url);
     }
@@ -61,12 +76,14 @@ export default class SizeComponent extends React.Component {
                                                     onClick={() => this.handleSizeOptionClick(val.url)}
                                                 >
                                                     <div className={selectedClass}>
-                                                        <div
-                                                            className={styles["size-icon"]}
-                                                            style={{
-                                                                backgroundImage: `url(${val.imageUrl})`,
-                                                            }}
-                                                        ></div>
+                                                        {val.imageUrl ? (
+                                                            <div
+                                                                className={styles["size-icon"]}
+                                                                style={{
+                                                                    backgroundImage: `url(${val.imageUrl})`,
+                                                                }}
+                                                            ></div>
+                                                        ) : null}
                                                         {val.size}
                                                     </div>
                                                 </div>
@@ -81,13 +98,15 @@ export default class SizeComponent extends React.Component {
                                                     )}
                                                 >
                                                     <div className={styles["size-outer"]}>
-                                                        <div
-                                                            className={styles["size-icon"]}
-                                                            style={{
-                                                                backgroundImage: `url(${val.imageUrl})`,
-                                                                backgroundSize: `auto ${34}px`,
-                                                            }}
-                                                        ></div>
+                                                        {val.imageUrl ? (
+                                                            <div
+                                                                className={styles["size-icon"]}
+                                                                style={{
+                                                                    backgroundImage: `url(${val.imageUrl})`,
+                                                                    backgroundSize: `auto ${34}px`,
+                                                                }}
+                                                            ></div>
+                                                        ) : null}
                                                         {val.size}
                                                     </div>
                                                 </div>

@@ -108,28 +108,6 @@
   </script>
   <!-- End -- Adding Script for Gemini Integration-->
   <!-- Stripe.js -->
-  <script type="text/javascript">
-    function stripev2() {
-      var n = document.createElement("script");
-      n.src = ('https:' == document.location.protocol ? 'https://js.stripe.com/v2/' :
-        'https://js.stripe.com/v2/');
-      n.type = 'text/javascript';
-      n.async = true;
-      var s1 = document.getElementsByTagName('script')[0];
-      s1.parentNode.insertBefore(n, s1);
-
-    };
-    function stripev3() {
-      var n = document.createElement("script");
-      n.src = ('https:' == document.location.protocol ? 'https://js.stripe.com/v3/' :
-        'https://js.stripe.com/v3/');
-      n.type = 'text/javascript';
-      n.async = true;
-      var s1 = document.getElementsByTagName('script')[0];
-      s1.parentNode.insertBefore(n, s1);
-
-    };
-  </script>
   <!-- Stripe.js end -->
   <script defer="defer" type="text/javascript">
     var clevertap_account_id = "<%= htmlWebpackPlugin.options.CLEVERTAP_ACCOUNT_ID %>";

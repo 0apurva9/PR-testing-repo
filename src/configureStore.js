@@ -18,36 +18,39 @@ import user from "../src/auth/reducers/user.reducer";
 import { createStore, combineReducers, applyMiddleware } from "redux";
 import * as api from "../src/lib/apiRequest";
 import thunk from "redux-thunk";
+import { mobileNumberLoginReducer as mobileNumberLogin } from "./mobile-number-login/store/mobile-number-login.reducer";
 
 export const rootReducer = combineReducers({
-  auth,
-  user,
-  modal,
-  feed,
-  productListings,
-  productDescription,
-  search,
-  secondaryLoader,
-  toast,
-  cart,
-  brandDefault,
-  categoryDefault,
-  profile,
-  wishlistItems,
-  header,
-  icid,
-  desktopFooter
+    auth,
+    user,
+    modal,
+    feed,
+    productListings,
+    productDescription,
+    search,
+    secondaryLoader,
+    toast,
+    cart,
+    brandDefault,
+    categoryDefault,
+    profile,
+    wishlistItems,
+    header,
+    icid,
+    desktopFooter,
+    mobileNumberLogin,
 });
 
 export default function configureStore(preloadedState) {
-  let store = createStore(
-    rootReducer,
-    preloadedState,
-    applyMiddleware(
-      thunk.withExtraArgument({
-        api
-      })
-    )
-  );
-  return store;
+    // added redux tools
+    const store = createStore(
+        rootReducer,
+        preloadedState,
+        applyMiddleware(
+            thunk.withExtraArgument({
+                api,
+            })
+        )
+    );
+    return store;
 }

@@ -1,188 +1,202 @@
 .base {
-  width: 100%;
-  height: auto;
-  padding: 0 50px;
-  position: relative;
+    width: 100%;
+    height: auto;
+    padding: 0 50px;
+    position: relative;
 }
 .content {
-  width: 100%;
-  height: auto;
-  padding-bottom: 133%;
-  position: relative;
-  overflow: hidden;
+    width: 100%;
+    height: auto;
+    padding-bottom: 133%;
+    position: relative;
+    overflow: hidden;
 }
 .image {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 .nav {
-  width: 100%;
-  height: auto;
-  text-align: center;
-  margin-top: 20px;
+    width: 100%;
+    height: auto;
+    text-align: center;
+    margin-top: 20px;
 }
 .navImage {
-  width: 40px;
-  height: 60px;
-  margin: 0 15px;
-  display: inline-block;
-  vertical-align: top;
-  transition: 300ms;
-  opacity: 0.3;
-  position: relative;
-  cursor: pointer;
+    width: 40px;
+    height: 60px;
+    margin: 0 15px;
+    display: inline-block;
+    vertical-align: top;
+    transition: 300ms;
+    opacity: 0.3;
+    position: relative;
+    cursor: pointer;
 }
 .navActive {
-  composes: navImage;
-  opacity: 1;
+    composes: navImage;
+    opacity: 1;
 }
 
 .navArrow {
-  width: 35px;
-  height: 35px;
-  position: absolute;
-  top: -40px;
-  bottom: 0;
-  right: 10px;
-  margin: auto;
-  background: url("../../general/components/img/down-arrow-grey.svg");
-  background-position: center;
-  background-size: contain;
-  transform: rotate(-90deg);
-  cursor: pointer;
-  opacity: 0.6;
-  transition: 200ms;
+    width: 35px;
+    height: 35px;
+    position: absolute;
+    top: -40px;
+    bottom: 0;
+    right: 10px;
+    margin: auto;
+    background: url("../../general/components/img/down-arrow-grey.svg");
+    background-position: center;
+    background-size: contain;
+    transform: rotate(-90deg);
+    cursor: pointer;
+    opacity: 0.6;
+    transition: 200ms;
 }
 .navArrowBack {
-  composes: navArrow;
-  transform: rotate(90deg);
-  right: initial;
-  left: 10px;
+    composes: navArrow;
+    transform: rotate(90deg);
+    right: initial;
+    left: 10px;
 }
 .navArrow:hover {
-  opacity: 1;
+    opacity: 1;
 }
 @keyframes slideInRight {
-  0% {
-    transform: translateX(100%);
-  }
-  100% {
-    transform: translateX(0%);
-  }
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
 }
 @keyframes slideInLeft {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(0%);
-  }
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
 }
 @keyframes slideOutRight {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(100%);
-  }
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(100%);
+    }
 }
 @keyframes slideOutLeft {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-100%);
-  }
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
 }
 .slideInRight {
-  composes: image;
-  animation: slideInRight 200ms forwards;
+    composes: image;
+    animation: slideInRight 200ms forwards;
 }
 .slideInLeft {
-  composes: image;
-  animation: slideInLeft 200ms forwards;
+    composes: image;
+    animation: slideInLeft 200ms forwards;
 }
 .slideOutRight {
-  composes: image;
-  animation: slideOutRight 200ms forwards;
+    composes: image;
+    animation: slideOutRight 200ms forwards;
 }
 .slideOutLeft {
-  composes: image;
-  animation: slideOutLeft 200ms forwards;
+    composes: image;
+    animation: slideOutLeft 200ms forwards;
 }
 
 .zoom {
-  width: 100%;
-  height: auto;
-  padding-bottom: 100%;
-  position: absolute;
-  top: 0;
-  left: 100%;
-  z-index: 10;
-  overflow: hidden;
-  opacity: 0;
-  pointer-events: none;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+    width: 100%;
+    height: auto;
+    padding-bottom: 100%;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    z-index: 10;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
 }
 .zoomVisible {
-  composes: zoom;
-  opacity: 1;
+    composes: zoom;
+    opacity: 1;
 }
 .zoomer {
-  width: 200%;
-  height: 266%;
-  will-change: left, top;
-  position: absolute;
-  left: 0;
-  top: 0;
+    width: 200%;
+    height: 266%;
+    will-change: left, top;
+    position: absolute;
+    left: 0;
+    top: 0;
 }
 .zoomArea {
-  width: 50%;
-  padding-bottom: 50%;
-  position: absolute;
-  will-change: transform;
-  cursor: zoom-in;
-  top: 0;
-  left: 0;
-  background: rgba(255, 255, 255, 0.6);
+    width: 50%;
+    padding-bottom: 50%;
+    position: absolute;
+    will-change: transform;
+    cursor: zoom-in;
+    top: 0;
+    left: 0;
+    background: rgba(255, 255, 255, 0.6);
 }
 
 .videoImage {
-  background-image: url("../../general/components/img/play.svg");
-  background-repeat: no-repeat;
-  background-size: 80%;
-  background-position: center;
-  position: absolute;
-  background-color: #212121;
-  width: 100%;
-  height: 100%;
-  left: 0;
-  top: 0;
+    background-image: url("../../general/components/img/play.svg");
+    background-repeat: no-repeat;
+    background-size: 80%;
+    background-position: center;
+    position: absolute;
+    background-color: #212121;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
 }
 .hideZoomArea {
-  composes: zoomArea;
-  opacity: 0;
-  pointer-events: none;
+    composes: zoomArea;
+    opacity: 0;
+    pointer-events: none;
 }
 
-.product_desc_desktop{
-  margin-top: 30px;
-  font-weight: inherit;
-  font-family:light;
-  font-size: 14px;
-  line-height: 19px
+.product_desc_desktop {
+    margin-top: 30px;
+    font-weight: inherit;
+    font-family: light;
+    font-size: 14px;
+    line-height: 19px;
 }
-.marginTop10{
-  margin-top:10px;
+.marginTop10 {
+    margin-top: 10px;
 }
 
-.similarIcon{
-  position: absolute;
-  z-index: 100;
-  cursor: pointer;
-  bottom: 5px;
-  right: 35px;
+.similarIcon {
+    position: absolute;
+    z-index: 100;
+    cursor: pointer;
+    bottom: 5px;
+    right: 35px;
+}
+
+.play {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background: url("../../general/components/img/play.svg") no-repeat;
+    background-size: 50px;
+    background-position: center;
 }

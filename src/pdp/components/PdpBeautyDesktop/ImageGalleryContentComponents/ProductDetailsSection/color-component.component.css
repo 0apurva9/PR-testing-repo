@@ -80,7 +80,7 @@
 .shade-list-block {
     display: flex;
     flex-wrap: wrap;
-    align-items: center;
+    align-items: flex-start;
     margin: 0 -15px 0 0;
 }
 

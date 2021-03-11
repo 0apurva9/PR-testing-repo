@@ -1,278 +1,278 @@
 .baseClass {
-  width: 100%;
+    width: 100%;
 }
 
 .pin-code-heading {
-  font-family: "Rubik", sans-serif;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 16px;
-  margin: 0 0 12px 0;
-  color: rgb(33, 33, 33);
-  text-transform: uppercase;
+    font-family: "Rubik", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 16px;
+    margin: 0 0 12px 0;
+    color: rgb(33, 33, 33);
+    text-transform: uppercase;
 }
 
 .pin-code-change-block {
-  border: 1px solid rgb(230, 230, 230);
-  width: 385px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  border-radius: 4px;
-  margin: 0;
+    border: 1px solid rgb(230, 230, 230);
+    width: 386px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    border-radius: 4px;
+    margin: 0;
 }
 
 .pin-code-change-input-block {
-  width: 294px;
+    width: 294px;
 }
 
 .pin-code-change-input {
-  padding: 10px;
-  font-family: "Rubik", sans-serif;
-  color: rgb(33, 33, 33);
-  width: 293px;
+    padding: 10px;
+    font-family: "Rubik", sans-serif;
+    color: rgb(33, 33, 33);
+    width: 293px;
 }
 
 .pin-code-change-input::-webkit-input-placeholder {
-  /* Edge */
-  color: rgb(33, 33, 33);
+    /* Edge */
+    color: rgb(33, 33, 33);
 }
 
 .pin-code-change-input:-ms-input-placeholder {
-  /* Internet Explorer 10-11 */
-  color: rgb(33, 33, 33);
+    /* Internet Explorer 10-11 */
+    color: rgb(33, 33, 33);
 }
 
 .pin-code-change-input::placeholder {
-  color: rgb(33, 33, 33);
+    color: rgb(33, 33, 33);
 }
 
 .pin-code-change-button-block {
-  width: 90px;
-  border-left: 1px solid rgb(230, 230, 230);
-  height: 34px;
-  text-align: center;
-  cursor: pointer;
+    width: 90px;
+    border-left: 1px solid rgb(230, 230, 230);
+    height: 34px;
+    text-align: center;
+    cursor: pointer;
 }
 
 .pin-code-change-button {
-  border: 0;
-  background: none;
-  padding: 0 12px;
-  font-size: 12px;
-  font-weight: 600;
-  font-family: "Rubik", sans-serif;
-  color: rgb(218, 28, 92);
-  width: 85px;
-  display: block;
-  line-height: 34px;
+    border: 0;
+    background: none;
+    padding: 0 12px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: "Rubik", sans-serif;
+    color: rgb(218, 28, 92);
+    width: 85px;
+    display: block;
+    line-height: 34px;
 }
 
 .basePdp {
-  background-color: #fff;
-  z-index: 11;
-  float: left;
-  padding: 20px 20px 12px 0px;
-  width: 100%;
-  height: auto;
-  position: relative;
+    background-color: #fff;
+    z-index: 11;
+    float: left;
+    padding: 20px 20px 12px 0px;
+    width: 100%;
+    height: auto;
+    position: relative;
 }
 
 .label {
-  width: 100%;
-  height: auto;
-  line-height: 25px;
-  font-size: 14px;
+    width: 100%;
+    height: auto;
+    line-height: 25px;
+    font-size: 14px;
 }
 
 .dFlex {
-  display: -webkit-box;
+    display: -webkit-box;
 }
 
 .pinCodeAndButtonHolder {
-  width: 100%;
-  height: auto;
-  padding-right: 70px;
-  position: relative;
+    width: 100%;
+    height: auto;
+    padding-right: 70px;
+    position: relative;
 }
 
 .pinCodeAndButtonHolder::after {
-  content: "";
-  width: 100%;
-  border-top: 1px solid #000;
-  position: absolute;
-  left: 0;
-  bottom: -5px;
+    content: "";
+    width: 100%;
+    border-top: 1px solid #000;
+    position: absolute;
+    left: 0;
+    bottom: -5px;
 }
 
 .borderLeft {
-  width: 100%;
-  height: auto;
-  padding-right: 70px;
-  position: relative;
+    width: 100%;
+    height: auto;
+    padding-right: 70px;
+    position: relative;
 }
 
 .borderLeft::after {
-  content: "";
-  width: 100%;
-  border-top: 1px solid #000;
-  position: absolute;
-  left: 0;
-  bottom: -10px;
+    content: "";
+    width: 100%;
+    border-top: 1px solid #000;
+    position: absolute;
+    left: 0;
+    bottom: -10px;
 }
 
 .borderForNoPinCode {
-  composes: borderLeft;
+    composes: borderLeft;
 }
 
 .borderForNoPinCode:after {
-  content: "";
-  width: 100%;
-  border-top: 1px solid #000;
-  position: absolute;
-  left: 0;
-  bottom: -5px;
+    content: "";
+    width: 100%;
+    border-top: 1px solid #000;
+    position: absolute;
+    left: 0;
+    bottom: -5px;
 }
 
 .labelMessage {
-  width: 100%;
-  height: auto;
-  font-size: 14px;
-  color: #000000;
+    width: 100%;
+    height: auto;
+    font-size: 14px;
+    color: #000000;
 }
 
 .labelMessagePdp {
-  width: 60%;
-  height: auto;
-  font-size: 14px;
-  color: #000000;
+    width: 60%;
+    height: auto;
+    font-size: 14px;
+    color: #000000;
 }
 
 .buttonHolder,
 .buttonHolderPdp {
-  width: 120px;
-  height: auto;
-  top: 0;
-  right: 20px;
-  text-align: right;
-  position: absolute;
+    width: 120px;
+    height: auto;
+    top: 0;
+    right: 20px;
+    text-align: right;
+    position: absolute;
 }
 
 .buttonHolderPdp {
-  width: auto;
-  right: 0;
+    width: auto;
+    right: 0;
 }
 
 .button {
-  width: auto;
-  display: inline-block;
-  position: absolute;
-  color: #ff1744;
-  font-size: 14px;
-  line-height: 24px;
-  font-family: semibold;
-  right: -82px;
-  cursor: pointer;
-  min-width: 52px;
-  text-align: left;
+    width: auto;
+    display: inline-block;
+    position: absolute;
+    color: #ff1744;
+    font-size: 14px;
+    line-height: 24px;
+    font-family: semibold;
+    right: -82px;
+    cursor: pointer;
+    min-width: 52px;
+    text-align: left;
 }
 
 .shipToLabel {
-  width: 100%;
-  height: auto;
-  color: #212121;
-  font-size: 12px;
-  font-family: semibold;
-  margin-bottom: 15px;
+    width: 100%;
+    height: auto;
+    color: #212121;
+    font-size: 12px;
+    font-family: semibold;
+    margin-bottom: 15px;
 }
 
 .pincodeListDropDown {
-  width: 294px;
-  height: auto;
-  max-height: 223px;
-  padding: 25px;
-  border: 1px solid rgb(213, 213, 213);
-  position: absolute;
-  left: 0;
-  top: 110px;
-  z-index: 2;
-  background: #fff;
-  border-radius: 4px;
+    width: 294px;
+    height: auto;
+    max-height: 223px;
+    padding: 25px;
+    border: 1px solid rgb(213, 213, 213);
+    position: absolute;
+    left: 0;
+    top: 110px;
+    z-index: 2;
+    background: #fff;
+    border-radius: 4px;
 }
 
 .pincodeListDropDownForNotDefault {
-  composes: pincodeListDropDown;
-  top: 50px;
+    composes: pincodeListDropDown;
+    top: 50px;
 }
 
 .listOfPincode {
-  width: 100%;
-  height: auto;
+    width: 100%;
+    height: auto;
 }
 
 .dropdownList {
-  width: 100%;
-  height: auto;
-  margin-bottom: 20px;
-  color: #000;
+    width: 100%;
+    height: auto;
+    margin-bottom: 20px;
+    color: #000;
 }
 
 .withoutLoginSection {
-  width: 100%;
-  height: auto;
+    width: 100%;
+    height: auto;
 }
 
 .addressHeaderWithoutLogin {
-  width: 100%;
-  height: auto;
-  font-size: 14px;
-  color: rgb(33, 33, 33);
-  cursor: pointer;
+    width: 100%;
+    height: auto;
+    font-size: 14px;
+    color: rgb(33, 33, 33);
+    cursor: pointer;
 }
 
 .addressHeaderWithoutLogin span {
-  color: rgb(255, 23, 68);
+    color: rgb(255, 23, 68);
 }
 
 .addressHeader {
-  width: 100%;
-  height: auto;
-  color: rgb(33, 33, 33);
-  font-size: 12px;
-  font-family: semibold;
+    width: 100%;
+    height: auto;
+    color: rgb(33, 33, 33);
+    font-size: 12px;
+    font-family: semibold;
 }
 
 .addressDetails {
-  width: 100%;
-  height: 28px;
-  font-size: 12px;
-  color: rgb(33, 33, 33);
-  font-size: 12px;
-  line-height: 28px;
-  font-family: regular;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-  cursor: pointer;
+    width: 100%;
+    height: 28px;
+    font-size: 12px;
+    color: rgb(33, 33, 33);
+    font-size: 12px;
+    line-height: 28px;
+    font-family: regular;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    cursor: pointer;
 }
 
 .pinSection {
-  padding-right: 5px;
-  font-family: semibold;
+    padding-right: 5px;
+    font-family: semibold;
 }
 
 .moreAddress {
-  width: 100%;
-  height: auto;
-  font-size: 14px;
-  font-family: semibold;
-  color: rgba(255, 23, 68);
-  cursor: pointer;
+    width: 100%;
+    height: auto;
+    font-size: 14px;
+    font-family: semibold;
+    color: rgba(255, 23, 68);
+    cursor: pointer;
 }
 
 .cityName {
-  font-size: 14px;
-  color: #212121;
-  font-family: semibold;
-  padding-right: 2px;
+    font-size: 14px;
+    color: #212121;
+    font-family: semibold;
+    padding-right: 2px;
 }

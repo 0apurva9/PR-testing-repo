@@ -263,9 +263,17 @@ export function getProductDescriptionFailure(error) {
     };
 }
 
-export function getProductDescription(productCode, behaviorOfPage, isApiCall= 0, componentName= true) {
+export function getProductDescription(
+    productCode,
+    behaviorOfPage,
+    isApiCall = 0,
+    componentName = true,
+    preventLoading = false
+) {
     return async (dispatch, getState, { api }) => {
-        dispatch(getProductDescriptionRequest());
+        if (!preventLoading) {
+            dispatch(getProductDescriptionRequest());
+        }
         try {
             let behaviorOfPageTheCurrent = behaviorOfPage ? behaviorOfPage : null;
             const result = await api.getMiddlewareUrl(
@@ -285,17 +293,17 @@ export function getProductDescription(productCode, behaviorOfPage, isApiCall= 0,
                     urlLength.length === 2 &&
                     !(urlLength.includes("my-account") || urlLength.includes("checkout"))
                 ) {
-					window.location.pathname = resultJson.seo.alternateURL;
-					return;
+                    window.location.pathname = resultJson.seo.alternateURL;
+                    return;
                 }
                 if (componentName) {
                     setDataLayer(
-						ADOBE_PDP_TYPE,
-						resultJson,
-						getState() && getState().icid && getState().icid.value,
-						getState() && getState().icid && getState().icid.icidType,
-						behaviorOfPageTheCurrent
-					);
+                        ADOBE_PDP_TYPE,
+                        resultJson,
+                        getState() && getState().icid && getState().icid.value,
+                        getState() && getState().icid && getState().icid.icidType,
+                        behaviorOfPageTheCurrent
+                    );
                 }
                 return dispatch(getProductDescriptionSuccess(resultJson));
             } else {
@@ -709,8 +717,10 @@ export function getProductPinCode(
                 Object.keys(resultJson.listOfDataList[0].value).length === 0
             ) {
                 if (!resultJson.productOutOfStockMessage || !resultJson.productNotServiceableMessage) {
-                    pincodeError = "Please enter a valid pincode";
-                    dispatch(displayToast("Please enter a valid pincode"));
+                    pincodeError = "The pincode you entered is currently unserviceable, please try another pincode";
+                    dispatch(
+                        displayToast("The pincode you entered is currently unserviceable, please try another pincode")
+                    );
                 }
             } else if (
                 isComingFromPiqPage &&
