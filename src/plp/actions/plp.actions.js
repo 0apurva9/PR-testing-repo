@@ -78,6 +78,10 @@ export const GET_DEFAULT_PLP_VIEW_REQUEST = "GET_DEFAULT_PLP_VIEW_REQUEST";
 export const GET_DEFAULT_PLP_VIEW_SUCCESS = "GET_DEFAULT_PLP_VIEW_SUCCESS";
 export const GET_DEFAULT_PLP_VIEW_FAILURE = "GET_DEFAULT_PLP_VIEW_FAILURE";
 const DEFAULT_PLP_VIEW = "defaultPlpView";
+export const GET_RESTRICTED_FILTER_REQUEST = "GET_RESTRICTED_FILTER_REQUEST";
+export const GET_RESTRICTED_FILTER_SUCCESS = "GET_RESTRICTED_FILTER_SUCCESS";
+export const GET_RESTRICTED_FILTER_FAILURE = "GET_RESTRICTED_FILTER_FAILURE";
+const RESTRICTED_FILTERS = "restrictedFilters";
 
 export function setProductModuleRef(ref) {
     return {
@@ -717,11 +721,65 @@ export function getDefaultPlpView() {
             }
 
             if (resultJson && resultJson.applicationProperties && resultJson.applicationProperties.length >= 1) {
-                Cookie.createCookie(DEFAULT_PLP_VIEW, JSON.stringify(resultJson.applicationProperties));
+                Cookie.createCookie(DEFAULT_PLP_VIEW, JSON.stringify(resultJson.applicationProperties), 2);
             }
             return dispatch(getDefaultPlpViewSuccess(resultJson));
         } catch (e) {
             dispatch(getDefaultPlpViewFailure(e.message));
+        }
+    };
+}
+
+export function getRestrictedFiltersRequest() {
+    return {
+        type: GET_RESTRICTED_FILTER_REQUEST,
+        status: REQUESTING,
+    };
+}
+export function getRestrictedFiltersSuccess(data) {
+    return {
+        type: GET_RESTRICTED_FILTER_SUCCESS,
+        status: SUCCESS,
+        data,
+    };
+}
+
+export function getRestrictedFiltersFailure(error) {
+    return {
+        type: GET_RESTRICTED_FILTER_FAILURE,
+        status: ERROR,
+        error,
+    };
+}
+
+export function getRestrictedFilters() {
+    return async (dispatch, getState, { api }) => {
+        dispatch(getRestrictedFiltersRequest());
+        try {
+            const result = await api.customGetMiddlewareUrl(
+                `/otatacliq/getApplicationProperties.json?propertyNames=MP_DESKTOP_FILTER_FACET`
+            );
+            const resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+            if (resultJsonStatus.status) {
+                throw new Error(resultJsonStatus.message);
+            }
+
+            if (
+                resultJson &&
+                resultJson.applicationProperties &&
+                resultJson.applicationProperties.length >= 1 &&
+                resultJson.applicationProperties[0].value
+            ) {
+                Cookie.createCookie(
+                    RESTRICTED_FILTERS,
+                    JSON.stringify(resultJson.applicationProperties[0].value),
+                    0.0208333
+                );
+            }
+            return dispatch(getRestrictedFiltersSuccess(resultJson));
+        } catch (e) {
+            dispatch(getRestrictedFiltersFailure(e.message));
         }
     };
 }

@@ -627,8 +627,6 @@ export function sendOtpUpdatePassword() {
             }
             return;
         }
-        //dispatch(changeLoginStep("isStepValidateProfileOtp"));
-        //dispatch(changeLoginStep("isStepForgotPasswordOtp"));
         if (mnlApiResponse.status.toLowerCase() === "success") {
             dispatch(showMobileNumberLoginModal());
             dispatch(changeLoginStep("isStepForgotPasswordOtp"));

@@ -78,6 +78,7 @@ import PropTypes from "prop-types";
 import ProductBundling from "./ProductBundling";
 import { renderMetaTags } from "./../../lib/seoUtils";
 import AppliancesExchange from "./AppliancesExchange";
+import { initiateHaptikScript } from "./../../common/services/common.services";
 
 const WASH = "Wash";
 const NECK_COLLAR = "Neck/Collar";
@@ -241,6 +242,7 @@ export default class PdpApparel extends React.Component {
                     });
             }
         }
+        initiateHaptikScript();
         let isACCategory = categoryHierarchyCheck.find(category => {
             return category.category_id === "MSH1230";
         });
@@ -350,6 +352,8 @@ export default class PdpApparel extends React.Component {
 
         if (
             this.props.productDetails.isServiceableToPincode !== prevProps.productDetails.isServiceableToPincode &&
+            this.props.productDetails.isServiceableToPincode &&
+            this.props.productDetails.isServiceableToPincode.status &&
             this.props.productDetails.isServiceableToPincode.status === YES
         ) {
             if (this.props.productDetails.bundlingSuggestionAvailable) {
@@ -1270,6 +1274,8 @@ export default class PdpApparel extends React.Component {
                                                 impulseOfferCalloutList={this.props.impulseOfferCalloutList}
                                                 potentialPromotions={productData.potentialPromotions}
                                                 isPdp={true}
+                                                displayToast={this.props.displayToast}
+                                                openBeautyPopup={this.props.openBeautyPopup}
                                             />
                                         </div>
                                         <div className={styles.wisthListIconHolder}>
@@ -2051,7 +2057,14 @@ export default class PdpApparel extends React.Component {
                                         )}
 
                                         {productData.knowMore && (
-                                            <Accordion text="Know More" headerFontSize={18}>
+                                            <Accordion
+                                                text={`${
+                                                    productData.rootCategory === "Electronics"
+                                                        ? "Return Policy"
+                                                        : "Know More"
+                                                }`}
+                                                headerFontSize={18}
+                                            >
                                                 <div className={styles.containerWithBottomBorder}>
                                                     {productData.rootCategory === "Electronics" &&
                                                         productData.knowMore &&
@@ -2466,4 +2479,5 @@ PdpApparel.propTypes = {
     userDetails: PropTypes.object,
     isMobileNumberLoginModalActive: PropTypes.bool,
     tempCartIdForLoggedInUserLoading: PropTypes.bool,
+    openBeautyPopup: PropTypes.func,
 };

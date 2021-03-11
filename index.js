@@ -3,6 +3,8 @@ const app = express();
 const proxyMiddleware = require("./config/proxy-middleware");
 const isLocalMachineBuild = process.env.local === "true";
 const reload = require("reload");
+const SITEMAP_DIRECTORY = "/etappdata/hybris/data/feed/report/sitemap";
+const path = require("path");
 
 const startServer = () => app.listen(3000, () => console.log("Server running on port 3000"));
 
@@ -30,7 +32,7 @@ if (!isLocalMachineBuild) {
         );
         res.setHeader(
             "content-security-policy",
-            "frame-ancestors https://*.tatacliq.com; connect-src 'self' *.tatacliq.com *.tataque.com *.tataunistore.com *.facebook.com *.google.com *.google-analytics.com *.flixcar.com *.juspay.in *.stripe.com *.instacred.me *.ed-sys.net *.appsflyer.com *.madstreetden.com *.demdex.net *.onedirect.in *.ipify.org *.yupl.us *.tt.omtrdc.net *.omtrdc.net *.adobedtm.com *.cloudfront.net *.epsilondelta.co *.amazonaws.com *.facebook.net *.clevertap.com *.doubleclick.net *.haptikapi.com *.hellohaptik.com *.haptik.me *.bing.com *.akamaihd.net instacred.me wss://*.haptik.me *.o-s.io https://cqt.conneqtcorp.com https://e2e.tataque.com"
+            "frame-ancestors https://*.tatacliq.com; connect-src 'self' *.tatacliq.com *.tataque.com *.tataunistore.com *.facebook.com *.google.com *.google-analytics.com *.flixcar.com *.juspay.in *.stripe.com *.instacred.me *.ed-sys.net *.appsflyer.com *.madstreetden.com *.demdex.net *.onedirect.in *.ipify.org *.yupl.us *.tt.omtrdc.net *.omtrdc.net *.adobedtm.com *.cloudfront.net *.epsilondelta.co *.amazonaws.com *.facebook.net *.clevertap.com *.doubleclick.net *.haptikapi.com *.hellohaptik.com *.haptik.me *.bing.com *.akamaihd.net instacred.me wss://*.haptik.me *.o-s.io https://cqt.conneqtcorp.com wss://*.hellohaptik.com https://e2e.tataque.com"
         );
         // res.setHeader("Pragma", "no-cache");
         res.setHeader("Cache-Control", "max-age=0, no-cache, no-store");
@@ -73,6 +75,21 @@ if (!isLocalMachineBuild) {
 }
 app.use(express.static("build/public"));
 
+app.use(express.static(path.resolve(`${SITEMAP_DIRECTORY}`)));
+
+app.get("/sitemaps/*", (req, res) => {
+    const fileName = req.path.split("sitemaps/");
+    try {
+        res.sendFile(path.resolve(`${SITEMAP_DIRECTORY}/sitemaps/${fileName[1]}`));
+    } catch (error) {
+        res.send({ statusCode: 400, message: `File does not exist ${fileName[1]}` });
+    }
+});
+
+app.get("/sitemap.xml", (req, res) => {
+    res.sendFile(path.resolve(`${SITEMAP_DIRECTORY}/sitemap.xml`));
+});
+
 app.get("/marketplacewebservices/v2/mpl/getOrderInvoice/*", (req, res) => {
     res.redirect("https://www.tatacliq.com" + req.originalUrl);
 });
@@ -83,34 +100,30 @@ app.all("/mobileloginapi/*", proxyMiddleware(process.env.apiBaseUrl));
 app.get("/.well-known/assetlinks.json", (req, res) => {
     res.json([
         {
-            "relation": [
-                "delegate_permission/common.handle_all_urls"
-            ],
-            "target": {
-                "namespace": "android_app",
-                "package_name": "com.tul.tatacliq",
-                "sha256_cert_fingerprints": [
-                    "F0:1B:9A:4E:86:01:DC:8D:D8:78:6D:95:05:4C:1B:09:DB:3A:0F:1F:CA:C7:23:B0:5E:BE:7D:54:15:BD:A1:81"
-                ]
-            }
-        }
+            relation: ["delegate_permission/common.handle_all_urls"],
+            target: {
+                namespace: "android_app",
+                package_name: "com.tul.tatacliq",
+                sha256_cert_fingerprints: [
+                    "F0:1B:9A:4E:86:01:DC:8D:D8:78:6D:95:05:4C:1B:09:DB:3A:0F:1F:CA:C7:23:B0:5E:BE:7D:54:15:BD:A1:81",
+                ],
+            },
+        },
     ]);
 });
 
 app.get("/.well-known/assetlinks.json", (req, res) => {
     res.json([
         {
-            "relation": [
-                "delegate_permission/common.handle_all_urls"
-            ],
-            "target": {
-                "namespace": "android_app",
-                "package_name": "com.tul.tatacliq",
-                "sha256_cert_fingerprints": [
-                    "F0:1B:9A:4E:86:01:DC:8D:D8:78:6D:95:05:4C:1B:09:DB:3A:0F:1F:CA:C7:23:B0:5E:BE:7D:54:15:BD:A1:81"
-                ]
-            }
-        }
+            relation: ["delegate_permission/common.handle_all_urls"],
+            target: {
+                namespace: "android_app",
+                package_name: "com.tul.tatacliq",
+                sha256_cert_fingerprints: [
+                    "F0:1B:9A:4E:86:01:DC:8D:D8:78:6D:95:05:4C:1B:09:DB:3A:0F:1F:CA:C7:23:B0:5E:BE:7D:54:15:BD:A1:81",
+                ],
+            },
+        },
     ]);
 });
 

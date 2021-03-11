@@ -96,7 +96,8 @@ export default class OrderRelatedIssue extends React.Component {
                     : "",
             name:
                 getUserDetails && (getUserDetails.firstName || getUserDetails.lastName)
-                    ? `${getUserDetails.firstName.trim()} ${getUserDetails.lastName.trim()}`
+                    ? `${getUserDetails.firstName && getUserDetails.firstName.trim()} ${getUserDetails.lastName &&
+                          getUserDetails.lastName.trim()}`
                     : "",
             chooseLanguage: "English",
             timing: "",
