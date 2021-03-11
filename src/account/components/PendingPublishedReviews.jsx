@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import styles from "./PendingPublishedReviews.css";
 import PropTypes from 'prop-types';
-import ReviewList from '../../pdp/components/ReviewList';
+import PendingPublishedReviewList from '../../pdp/components/PendingPublishedReviewList';
 import SectionLoaderDesktop from '../../general/components/SectionLoaderDesktop';
-
+import ShowMoreButton from "../../general/components/ShowMoreButton";
 class PendingPublishedReviews extends Component {
 	constructor(props){
 		super(props);
@@ -15,8 +15,8 @@ class PendingPublishedReviews extends Component {
 	}
 
 	componentDidMount() {
-		this.props.getPendingReviews();
-		this.props.getPublishedReviews();
+		this.props.getPendingReviews(0);
+		this.props.getPublishedReviews(0);
 	}
 
 	componentDidUpdate(prevProps) {
@@ -30,6 +30,14 @@ class PendingPublishedReviews extends Component {
 
 	switchTabs = (section) => {
 		this.setState({activeTab : section});
+	};
+
+	showMorePendingReviews = () => {
+		this.props.getPendingReviews(this.state.pendingReviewsDetails.pageNumber + 1);
+	};
+
+	showMorePublishedReviews = () => {
+		this.props.getPublishedReviews(this.state.publishedReviewsDetails.pageNumber + 1);
 	};
 
 	render() {
@@ -49,16 +57,17 @@ class PendingPublishedReviews extends Component {
 								<div className={styles.reviews}>
 									{this.state.pendingReviewsDetails.reviews &&
 									this.state.pendingReviewsDetails.reviews.length > 0 && (
-										<ReviewList
+										<PendingPublishedReviewList
 											reviewList={this.state.pendingReviewsDetails.reviews}
-											totalNoOfReviews={this.state.pendingReviewsDetails.totalNoOfPages}
-											NoOfReviews={this.state.pendingReviewsDetails.totalNoOfReviews}
-											// currentreviewList={currentreviewList}
-											limit={true}
-											showProductDetails={true}
 											submitRating={(rating, productCode, section) => this.props.submitRating(rating, productCode, section)}
 										/>
 									)}
+									{this.state.pendingReviewsDetails.pageNumber + 1 < this.state.pendingReviewsDetails.totalNoOfPages ? (
+										<ShowMoreButton
+											onClick={() => this.showMorePendingReviews()}
+											label={"Show Past Reviews"}
+										/>
+									) : null}
 								</div>
 							) : (
 								<div className={styles.noReviewsText}>No reviews</div>
@@ -75,20 +84,18 @@ class PendingPublishedReviews extends Component {
 								<div className={styles.reviews}>
 									{this.state.publishedReviewsDetails.reviews &&
 									this.state.publishedReviewsDetails.reviews.length > 0 && (
-										<div className={styles.reviewsContainer}>
-											<ReviewList
-												reviewList={this.state.publishedReviewsDetails.reviews}
-												totalNoOfReviews={this.state.publishedReviewsDetails.totalNoOfPages}
-												NoOfReviews={this.state.publishedReviewsDetails.totalNoOfReviews}
-												// currentreviewList={currentreviewList}
-												limit={true}
-												showProductDetails={true}
-												submitRating={(rating, productCode, section) => this.props.submitRating(rating, productCode, section)}
-												isPublishedReview={true}
-											/>
-										</div>
-
+										<PendingPublishedReviewList
+											reviewList={this.state.publishedReviewsDetails.reviews}
+											submitRating={(rating, productCode, section) => this.props.submitRating(rating, productCode, section)}
+											isPublishedReview={true}
+										/>
 									)}
+									{this.state.publishedReviewsDetails.pageNumber + 1 < this.state.publishedReviewsDetails.totalNoOfPages ? (
+										<ShowMoreButton
+											onClick={() => this.showMorePublishedReviews()}
+											label={"Show Past Reviews"}
+										/>
+									) : null}
 								</div>
 							) : (
 								<div className={styles.noReviewsText}>No reviews</div>

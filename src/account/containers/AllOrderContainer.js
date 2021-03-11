@@ -86,11 +86,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 	getTitleSuggestions: (productCode, rating) => {
 		dispatch(getTitleSuggestions(productCode, rating));
 	},
-	getPendingReviews: () => {
-		dispatch(getPendingReviews());
+	getPendingReviews: (currentPage) => {
+		dispatch(getPendingReviews(currentPage));
 	},
-	getPublishedReviews: () => {
-		dispatch(getPublishedReviews());
+	getPublishedReviews: (currentPage) => {
+		dispatch(getPublishedReviews(currentPage));
 	},
   };
 };

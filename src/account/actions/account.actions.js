@@ -5510,18 +5510,13 @@ export function getPendingReviewsFailure(error) {
     };
 }
 
-export function getPendingReviews() {
+export function getPendingReviews(currentPage) {
     return async (dispatch, getState, { api }) => {
 		let userDetails = await getLoggedInUserDetails();
 		let userName = userDetails.userName;
 		let accessToken = await getCustomerAccessToken();
 
         dispatch(getPendingReviewsRequest());
-        let currentPage = 0;
-        // if (getState().profile.orderDetails) {
-        //     currentPage = getState().profile.orderDetails.currentPage + 1;
-        // }
-
         try {
 			const result = await api.get(
 				`${USER_PATH}/${userName}/getPendingReviewProducts?fields=BASIC&access_token=${accessToken}&page=${currentPage}&pageSize=${PAGE_SIZE}`
@@ -5562,18 +5557,13 @@ export function getPublishedReviewsFailure(error) {
     };
 }
 
-export function getPublishedReviews() {
+export function getPublishedReviews(currentPage) {
     return async (dispatch, getState, { api }) => {
 		let userDetails = await getLoggedInUserDetails();
 		let userName = userDetails.userName;
 		let accessToken = await getCustomerAccessToken();
 
         dispatch(getPublishedReviewsRequest());
-        let currentPage = 0;
-        // if (getState().profile.orderDetails) {
-        //     currentPage = getState().profile.orderDetails.currentPage + 1;
-        // }
-
         try {
 			const result = await api.get(
 				`${USER_PATH}/${userName}/viewApprovedUserReview?fields=BASIC&access_token=${accessToken}&page=${currentPage}&pageSize=${PAGE_SIZE}`

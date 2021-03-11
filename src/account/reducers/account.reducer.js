@@ -2302,10 +2302,22 @@ const account = (
 		});
 
 	case accountActions.GET_PENDING_REVIEWS_SUCCESS:
+		const currentPendingReviews = cloneDeep(state.getPendingReviewsDetails);
+		let updatedPendingReviewsObj;
+		if (action.data.pageNumber === 0) {
+			updatedPendingReviewsObj = Object.assign({}, currentPendingReviews, action.data);
+		} else {
+			let updatedPendingReviews = concat(currentPendingReviews.reviews, action.data.reviews);
+			updatedPendingReviewsObj = Object.assign({}, currentPendingReviews, {
+				reviews: updatedPendingReviews,
+				pageNumber: action.data.pageNumber,
+			});
+		}
+
 		return Object.assign({}, state, {
 			getPendingReviewsStatus: action.status,
 			getPendingReviewsLoading: false,
-			getPendingReviewsDetails: action.data,
+			getPendingReviewsDetails: updatedPendingReviewsObj,
 		});
 
 	case accountActions.GET_PENDING_REVIEWS_FAILURE:
@@ -2323,10 +2335,22 @@ const account = (
 		});
 
 	case accountActions.GET_PUBLISHED_REVIEWS_SUCCESS:
+		const currentPublishedReviews = cloneDeep(state.getPublishedReviewsDetails);
+		let updatedPublishedReviewsObj;
+		if (action.data.pageNumber === 0) {
+			updatedPublishedReviewsObj = Object.assign({}, currentPublishedReviews, action.data);
+		} else {
+			let updatedPublishedReviews = concat(currentPublishedReviews.reviews, action.data.reviews);
+			updatedPublishedReviewsObj = Object.assign({}, currentPublishedReviews, {
+				reviews: updatedPublishedReviews,
+				pageNumber: action.data.pageNumber,
+			});
+		}
+
 		return Object.assign({}, state, {
 			getPublishedReviewsStatus: action.status,
 			getPublishedReviewsLoading: false,
-			getPublishedReviewsDetails: action.data,
+			getPublishedReviewsDetails: updatedPublishedReviewsObj,
 		});
 
 	case accountActions.GET_PUBLISHED_REVIEWS_FAILURE:
