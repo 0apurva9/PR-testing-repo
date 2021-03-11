@@ -82,15 +82,6 @@
 	display: inline-block;
 	border-top: 1px solid #ececec;
 }
-.ratingReviewHolder {
-	display: flex;
-	position: relative;
-	padding-bottom: 5px;
-	margin-bottom: 34px;
-}
-.marginIcon {
-	margin-right: 24px;
-}
 .divider {
 	border-bottom: 1px solid #efefef;
 	padding-top: 10px;
@@ -107,40 +98,6 @@
 	float: left;
 	width: 100%;
 	margin-bottom: 5px;
-}
-.rateThisItem {
-	/* margin-top: 31px; */
-	font-family: semibold;
-	padding: 0 0 18px 0;
-	font-size: 14px;
-	border-top: 1px solid #ececec;
-	padding-top: 24px;
-}
-.boxReview {
-	border-radius: 100px;
-	height: 36px;
-	width: 180px;
-	border: 2px solid black;
-	cursor: pointer;
-	/* margin-top: -23px; */
-	/* margin-bottom: 21px; */
-}
-.boxReviewMargin {
-	border-radius: 100px;
-	height: 36px;
-	width: 180px;
-	border: 2px solid black;
-	/* margin-top: -23px; */
-	margin-bottom: 21px;
-	cursor: pointer;
-}
-.reviewText {
-	font-size: 14px;
-	color: black;
-	text-align: center;
-	font-family: semibold;
-	padding: 9px 15px 9px 16px;
-	margin-left: 16px;
 }
 .order {
 	width: 100%;
@@ -304,9 +261,6 @@
 	.base {
 		padding: 80px 0px;
 	}
-	.reviewText {
-		display: inline-block;
-	}
 	.orderIdAndPlacedHolder {
 		width: 75%;
 		height: auto;
@@ -400,11 +354,54 @@
 		box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4), 0 0 2px 0 rgba(0, 0, 0, 0.2);
 	}
 	.itemHeader {
-    width: 100%;
-    height: auto;
-    color: rgb(0, 0, 0);
-    font-size: 16px;
-    font-family: semibold;
-    margin-bottom: 20px;
-  }
+		width: 100%;
+		height: auto;
+		color: rgb(0, 0, 0);
+		font-size: 16px;
+		font-family: semibold;
+		margin-bottom: 20px;
+	}
+
+	.reviewSuccess {
+		display: inline-block;
+		width: calc(100% - 315px);
+		text-align: right;
+		font-size: 14px;
+		font-family: 'light';
+		color: #009700;
+	}
+
+	.writeReviewTitle {
+		cursor: pointer;
+	}
+
+	.reviewHolder {
+		width: 100%;
+		height: auto;
+		padding: 24px 0 19px 0;
+		border-top: 1px solid #eeeeee;
+	}
+
+	.reviewHeading {
+		margin-bottom: 5px;
+		font-family: semibold;
+		font-size: 14px;
+		color: #212121;
+		letter-spacing: 0;
+	}
+
+	.ratingBar {
+		display: inline-block;
+		width: 315px;
+	}
+
+	.writeReviewText{
+		display: inline-block;
+		color: #da1c5c;
+		font-size: 14px;
+		font-family: semibold;
+		text-align: right;
+		width: calc(100% - 315px);
+		text-align: right;
+	}
 }

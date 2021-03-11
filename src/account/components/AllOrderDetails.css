@@ -80,7 +80,7 @@
 .reviewHolder {
 	width: 100%;
 	height: auto;
-	padding: 24px 0 35px 0;
+	padding: 24px 0;
 }
 .orderCardIndividual {
 	width: 100%;
@@ -382,7 +382,6 @@
 }
 .ratingReviewHolder {
 	display: flex;
-	/* justify-content: space-between; */
 	padding: 5px 0 0 0;
 	margin-bottom: 34px;
 }

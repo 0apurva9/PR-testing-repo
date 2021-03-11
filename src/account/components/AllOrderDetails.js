@@ -796,7 +796,7 @@ export default class AllOrderDetails extends React.Component {
 																										className={styles.writeReviewTitle}
 																										onClick={() => this.submitRating(product.userRating, product.productcode, 2)}
 																									>
-																										Write a Review
+																										Rate Qualities
 																									</span>
 																								</div>
 																								) : (
