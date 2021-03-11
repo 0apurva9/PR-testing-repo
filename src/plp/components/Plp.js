@@ -32,6 +32,7 @@ import FilterContainer from "../containers/FilterContainer";
 import ProductGrid from "./ProductGrid";
 import PlpMobileFooter from "./PlpMobileFooter";
 import Chatbot from "./Chatbot";
+import { initiateHaptikScript } from "./../../common/services/common.services";
 export const SUFFIX = `&isTextSearch=false&isFilter=false`;
 const SCROLL_CHECK_INTERVAL = 500;
 const OFFSET_BOTTOM = 800;
@@ -271,24 +272,7 @@ export default class Plp extends React.Component {
         if (this.props.getChatbotDetails) {
             this.props.getChatbotDetails();
         }
-        this.initiateHaptikScript();
-    }
-
-    initiateHaptikScript() {
-        var f = document.getElementsByTagName("SCRIPT")[0];
-        var p = document.createElement("SCRIPT");
-        var date = new Date();
-        var timestamp = date.getTime();
-        var source_url = process.env.HAPTIK_CHATBOT_URL + "/static/aspectwise/js/haptik.js?" + timestamp;
-        p.type = "text/javascript";
-        p.setAttribute("charset", "utf-8");
-        p.setAttribute("clientid", "tatacliq");
-        p.async = true;
-        p.id = "buzzosrc";
-        p.src = source_url;
-        if (!document.getElementById("buzzosrc")) {
-            f.parentNode.insertBefore(p, f);
-        }
+        initiateHaptikScript();
     }
 
     setHeaderText = () => {
@@ -333,25 +317,6 @@ export default class Plp extends React.Component {
         const isBrand = /c-mbh/.test(this.props.location.pathname) ? true : false;
         const isCustom = /custom/.test(this.props.location.pathname) ? true : false;
 
-        if (this.props.productListings.seo && this.props.productListings.seo.tag) {
-            const tagText =
-                (brandData && brandData.length) === (searchresult && searchresult.length) &&
-                !isBrand &&
-                brandName !== this.props.productListings.seo.tag
-                    ? brandName + " " + this.props.productListings.seo.tag
-                    : this.props.productListings.seo.tag;
-            return tagText;
-        }
-        if (!this.props.productListings && this.props.headerText) {
-            return this.props.headerText;
-        }
-        if (isCustom) {
-            let customHeaderText = this.props && this.props.headerText;
-            if (customHeaderText && customHeaderText.includes("&")) {
-                let header = customHeaderText.split("&");
-                return header[0];
-            } else return customHeaderText;
-        }
         if (
             this.props.productListings.seo &&
             this.props.productListings.seo.breadcrumbs &&
@@ -367,6 +332,29 @@ export default class Plp extends React.Component {
                     : breadcrumbsName;
             return headerText;
         }
+
+        if (this.props.productListings.seo && this.props.productListings.seo.tag) {
+            const tagText =
+                (brandData && brandData.length) === (searchresult && searchresult.length) &&
+                !isBrand &&
+                brandName !== this.props.productListings.seo.tag
+                    ? brandName + " " + this.props.productListings.seo.tag
+                    : this.props.productListings.seo.tag;
+            return tagText;
+        }
+
+        if (!this.props.productListings && this.props.headerText) {
+            return this.props.headerText;
+        }
+
+        if (isCustom) {
+            let customHeaderText = this.props && this.props.headerText;
+            if (customHeaderText && customHeaderText.includes("&")) {
+                let header = customHeaderText.split("&");
+                return header[0];
+            } else return customHeaderText;
+        }
+
         if (slug) {
             splitSlug = this.props.match.params.slug.replace(/-/g, " ");
             splitSlug = splitSlug.replace(/\b\w/g, l => l.toUpperCase());
@@ -687,6 +675,9 @@ export default class Plp extends React.Component {
                                 >
                                     {selectedFilter &&
                                         selectedFilter.map((selectedFilterData, i) => {
+                                            if (selectedFilterData.name === "Exclude out of stock") {
+                                                return null;
+                                            }
                                             return (
                                                 <div
                                                     className={styles.selectedFilterWithIcon}

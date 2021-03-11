@@ -613,12 +613,12 @@ export function faceBookLoginFailure(error) {
 }
 
 export function facebookLogin() {
-    return async dispatch => {
+    return async (dispatch) => {
         try {
             dispatch(faceBookLoginRequest());
             const authResponse = await new Promise((resolve, reject) => {
                 window.FB.login(
-                    resp => {
+                    (resp) => {
                         if (resp.authResponse) {
                             resolve(resp);
                         } else {
@@ -631,8 +631,8 @@ export function facebookLogin() {
                 );
             });
 
-            const graphResponse = await new Promise(resolve => {
-                window.FB.api(`/${MY_PROFILE}`, { locale: LOCALE, fields: FACEBOOK_FIELDS }, response => {
+            const graphResponse = await new Promise((resolve) => {
+                window.FB.api(`/${MY_PROFILE}`, { locale: LOCALE, fields: FACEBOOK_FIELDS }, (response) => {
                     resolve(response);
                 });
             });
@@ -662,7 +662,7 @@ export function googlePlusLoginFailure(error) {
 export function loadGoogleSignInApi() {
     const scope = SCOPE;
     const clientId = process.env.GOOGLE_CLIENT_ID;
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         const firstJS = document.getElementsByTagName("script")[0];
         const js = document.createElement("script");
 
@@ -684,7 +684,7 @@ export function loadGoogleSignInApi() {
                                 resolve({
                                     status: SUCCESS,
                                 }),
-                            err => {
+                            (err) => {
                                 resolve({
                                     provider: "google",
                                     type: "load",
@@ -711,7 +711,7 @@ export function loadGoogleSignInApi() {
 }
 
 export function googlePlusLogin() {
-    return async dispatch => {
+    return async (dispatch) => {
         try {
             dispatch(googlePlusLoginRequest());
 

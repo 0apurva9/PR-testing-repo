@@ -1,0 +1,346 @@
+.overLay {
+    background: rgba(33, 33, 33, 0.7);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    z-index: 100;
+}
+
+.overLayInner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.whiteBox {
+    border-radius: 32px;
+    padding: 90px 70px 70px;
+    display: block;
+    margin: 0 auto;
+    background: #fff;
+    position: relative;
+    max-width: 470px;
+    min-width: 470px;
+}
+.whiteBox.login_sucess {
+    padding: 45px;
+}
+
+.signIn {
+    font-family: "Overpass", sans-serif !important;
+    position: relative;
+    /**
+  * Translate down and scale the label up to cover the placeholder,
+  * when following an input (with placeholder-shown support).
+  * Also make sure the label is only on one row, at max 2/3rds of the
+  * field—to make sure it scales properly and doesn't wrap.
+  */
+    /**
+  * By default, the placeholder should be transparent. Also, it should
+  * inherit the transition.
+  */
+    /**
+  * Show the placeholder when the input is focused.
+  */
+    /**
+  * When the element is focused, remove the label transform.
+  * Also, do this when the placeholder is _not_ shown, i.e. when
+  * there's something in the input at all.
+  */
+}
+.signIn .headSec {
+    margin: 0 0 32px;
+    text-align: center;
+}
+.signIn .headSec h2 {
+    color: #212121;
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0 0 5px;
+}
+.signIn .headSec p {
+    color: #9d9e9f;
+    font-size: 16px;
+    margin: 0;
+}
+.signIn .form_outer {
+    position: relative;
+    margin: 0 0 20px;
+}
+.signIn .form_outer.countryCode .form_control {
+    padding: 10px 16px 10px 70px;
+}
+.signIn .form_outer.countryCode label {
+    left: 50px;
+}
+.signIn .form_outer.countryCode .form_control:placeholder-shown + label {
+    left: 70px;
+}
+.signIn .form_outer.countryCode .form_control:not(:placeholder-shown) + label,
+.signIn .form_outer.countryCode .form_control:focus + label {
+    left: 10px;
+}
+.signIn .form_outer.forgotPass .form_control {
+    padding: 10px 40px 10px 16px;
+}
+.signIn .forGotBtn {
+    border: 0;
+    padding: 4px;
+    position: absolute;
+    right: 17px;
+    top: 13px;
+    outline: none;
+    background: transparent url(./images/forgot_icon.svg) no-repeat 50%;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    cursor: pointer;
+}
+.signIn .forGotBtn.eyeClose {
+    background-image: url(./images/forgot_icon_active.svg);
+}
+.signIn .form_control {
+    font-size: 16px;
+    border: 1px solid #e7e7e7;
+    border-radius: 4px;
+    padding: 10px 16px;
+    font-family: inherit;
+    -webkit-appearance: none;
+    cursor: text;
+    width: 100%;
+    outline: none;
+    color: #212121;
+    font-weight: 400;
+    font-family: "Overpass", sans-serif !important;
+}
+.signIn .form_control:focus {
+    outline: 0;
+}
+.signIn label {
+    position: absolute;
+    top: 10px;
+    left: 0;
+}
+.signIn .form_control:placeholder-shown + label {
+    cursor: text;
+    display: inline-block;
+    font-size: 12px;
+    color: rgba(33, 33, 33, 0.2);
+    position: absolute;
+    left: 16px;
+    top: 13px;
+    background: #fff;
+    transition: all 0.3s ease;
+}
+.signIn .form_control::-webkit-input-placeholder {
+    opacity: 0;
+    transition: inherit;
+}
+.signIn .form_control::-moz-placeholder {
+    /* Firefox 19+ */
+    opacity: 0;
+    transition: inherit;
+}
+.signIn .form_control:focus::-webkit-input-placeholder {
+    opacity: 0.2;
+}
+.signIn .form_control:focus::-moz-placeholder {
+    /* Firefox 19+ */
+    opacity: 0.2;
+}
+.signIn .form_control:not(:placeholder-shown) + label,
+.signIn .form_control:focus + label {
+    top: -7px;
+    left: 16px;
+    cursor: pointer;
+    color: rgba(33, 33, 33, 0.2);
+    font-size: 12px;
+    background: #fff;
+}
+.signIn .feildSec {
+    margin: 0 0 40px;
+}
+.signIn .formSec {
+    margin: 0 0 110px;
+}
+.signIn .formInfoTxt {
+    text-align: center;
+}
+.signIn .dateSlct {
+    position: absolute;
+    left: 20px;
+    top: 11px;
+}
+.signIn .dateSlct select {
+    border: 0;
+    background: url(./images/slct_drop.png) no-repeat right 0;
+    outline: none;
+    font-size: 16px;
+    color: #212121;
+    font-weight: 400;
+    width: 45px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+.signIn .btnPrimary {
+    width: 100%;
+    border-radius: 15px;
+    font-size: 18px;
+    color: #fff;
+    text-align: center;
+    border: 0;
+    outline: none;
+    padding: 13px 15px;
+    background-image: linear-gradient(to bottom right, #89216b, #da4453);
+    box-shadow: 0 28px 18px -23px #da4453;
+    cursor: pointer;
+}
+.signIn .btnPrimary:hover {
+    background-image: linear-gradient(to bottom right, #7a165d, #c13241);
+}
+.signIn .btnPrimary:disabled {
+    background-image: linear-gradient(to bottom right, #e7e7e7, #e2e2e2);
+    box-shadow: none;
+    cursor: not-allowed;
+}
+.signIn .btnSecondry {
+    width: 100%;
+    border-radius: 8px;
+    font-size: 17px;
+    color: #212121;
+    text-align: center;
+    border: 1px solid #e7e7e7;
+    outline: none;
+    padding: 14px 15px;
+    background: #fff;
+    cursor: pointer;
+}
+.signIn .btnLink {
+    color: #da1c5c;
+    font-size: 16px;
+    font-weight: 700;
+    font-size: 16px;
+    text-align: center;
+    border: 0;
+    outline: none;
+    padding: 3px;
+    background: transparent;
+    cursor: pointer;
+}
+.signIn .btnLink:disabled {
+    color: rgba(157, 158, 159, 0.5);
+    cursor: not-allowed;
+}
+.signIn input:-webkit-autofill,
+.signIn input:-webkit-autofill:hover,
+.signIn input:-webkit-autofill:focus,
+.signIn textarea:-webkit-autofill,
+.signIn textarea:-webkit-autofill:hover,
+.signIn textarea:-webkit-autofill:focus,
+.signIn select:-webkit-autofill,
+.signIn select:-webkit-autofill:hover,
+.signIn select:-webkit-autofill:focus {
+    -webkit-box-shadow: none;
+    transition: background-color 5000s ease-in-out 0s;
+    font-family: "Overpass", sans-serif !important;
+}
+.signIn .otpRow {
+    margin: 0 -4px 15px;
+    display: flex;
+}
+.signIn .otpCol {
+    flex: 1 0 16.666666667%;
+    max-width: 16.666666667%;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+.signIn .otpInput {
+    width: 50px;
+    height: 50px;
+    border: 1px solid #e7e7e7;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #212121;
+    outline: none;
+    padding: 15px;
+}
+.signIn .login_sucess_img {
+    margin: 0 0 40px;
+}
+.signIn .login_sucess_img img {
+    max-width: 390px;
+}
+.signIn .lognSucess_TxtSec {
+    width: 280px;
+    margin: 15px auto 0;
+}
+.signIn .lognSucess_TxtSec h3 {
+    font-size: 24px;
+    color: #212121;
+    margin: 20px 0;
+    font-weight: 700;
+    text-align: center;
+}
+.signIn .lognSucess_TxtSec h3:last-child {
+    margin-bottom: 0;
+}
+
+/*login ends*/
+.flexRow50 {
+    display: flex;
+    margin: 0 -9px;
+}
+
+.text_right {
+    text-align: right;
+}
+
+.justify_space {
+    justify-content: space-between;
+}
+
+.flexRow50Cols {
+    flex: 1 0 50%;
+    max-width: 50%;
+    padding-left: 9px;
+    padding-right: 9px;
+}
+
+.gogleIcon {
+    background: url(./images/google_icon.png) no-repeat 0 0;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 8px 0 0;
+}
+
+.fbIcon {
+    background: url(./images/facebook_icon.png) no-repeat 0 0;
+    width: 12px;
+    height: 20px;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 12px 0 0;
+}
+
+.loginCloseBtn {
+    background: transparent url(./images/close_icon.svg) no-repeat 0 0;
+    border: 0;
+    padding: 4px;
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    outline: none;
+    position: absolute;
+    right: 35px;
+    top: 35px;
+}
+
+label {
+    pointer-events:none;
+}

@@ -1546,6 +1546,20 @@ class CheckOutPage extends React.Component {
     }
 
     componentDidMount() {
+
+        let n = document.createElement("script");
+        n.src = "https://js.stripe.com/v2/";
+        n.type = "text/javascript";
+        n.async = true;
+        let s1 = document.getElementsByTagName("script")[0];
+        s1.parentNode.insertBefore(n, s1);
+        n = document.createElement("script");
+        n.src = "https://js.stripe.com/v3/";
+        n.type = "text/javascript";
+        n.async = true;
+        s1 = document.getElementsByTagName("script")[0];
+        s1.parentNode.insertBefore(n, s1);
+
         localStorage.setItem("APPROVED_UPI_VPA", []);
         let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
         let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);

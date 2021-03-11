@@ -28,6 +28,7 @@ import { checkUserAgentIsMobile } from "../../lib/UserAgent.js";
 import queryString from "query-string";
 import { isBrowser } from "browser-or-node";
 import * as Cookie from "../../lib/Cookie";
+import { initiateHaptikScript } from "./../../common/services/common.services";
 export const CLIQ_AND_PIQ_CART_ID = "cliqAndPiqCartId";
 export const CLIQ_AND_PIQ_CART_CODE = "cliqAndPiqCartCode";
 const ERROR_MESSAGE_FOR_MOBILE_NUMBER = "Please enter valid mobile number";
@@ -115,25 +116,8 @@ export default class ProductDescriptionPageWrapper extends React.Component {
         if (this.props.getChatbotDetails) {
             this.props.getChatbotDetails();
         }
-        this.initiateHaptikScript();
+        initiateHaptikScript();
     };
-
-    initiateHaptikScript() {
-        var f = document.getElementsByTagName("SCRIPT")[0];
-        var p = document.createElement("SCRIPT");
-        var date = new Date();
-        var timestamp = date.getTime();
-        var source_url = process.env.HAPTIK_CHATBOT_URL + "/static/aspectwise/js/haptik.js?" + timestamp;
-        p.type = "text/javascript";
-        p.setAttribute("charset", "utf-8");
-        p.setAttribute("clientid", "tatacliq");
-        p.async = true;
-        p.id = "buzzosrc";
-        p.src = source_url;
-        if (!document.getElementById("buzzosrc")) {
-            f.parentNode.insertBefore(p, f);
-        }
-    }
 
     componentDidUpdate(prevProps) {
         if (this.props.productDetails && this.props.productDetails !== "null") {
@@ -146,13 +130,13 @@ export default class ProductDescriptionPageWrapper extends React.Component {
             }, 0);
 
             if (this.props.match.path === PRODUCT_DESCRIPTION_PRODUCT_CODE) {
-                this.props.getProductDescription(this.props.match.params[0]);
+                this.props.getProductDescription(this.props.match.params[0], true);
                 // this.props.getMsdRequest(this.props.match.params[0]);
             } else if (this.props.match.path === PRODUCT_DESCRIPTION_SLUG_PRODUCT_CODE) {
                 setTimeout(() => {
                     window.scrollTo(0, 0);
                 }, 0);
-                this.props.getProductDescription(this.props.match.params[1]);
+                this.props.getProductDescription(this.props.match.params[1], true);
                 // this.props.getMsdRequest(this.props.match.params[1]);
             } else {
                 //need to show error page
@@ -275,11 +259,12 @@ export default class ProductDescriptionPageWrapper extends React.Component {
     }
 
     render() {
-        if (this.props.loading) {
-            this.showLoader();
-        } else {
-            this.hideLoader();
-        }
+        //UPF-2999 : Removing below loader to enhance user experience
+        // if (this.props.loading) {
+        //     this.showLoader();
+        // } else {
+        //     this.hideLoader();
+        // }
 
         if (!checkUserAgentIsMobile() && this.props.showPiqPage && this.props.stores && this.props.stores.length > 0) {
             let cliqAndPiqDetails = {};
