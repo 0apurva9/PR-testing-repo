@@ -84,7 +84,10 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
                             />
                         )}
                         {this.props.steps.isStepLoginChallenge && (
-                            <MnlChallenge setMnlApiData={mnlApiData => this.props.validateChallenge(mnlApiData)} />
+                            <MnlChallenge
+                                setMnlApiData={mnlApiData => this.props.validateChallenge(mnlApiData)}
+                                setMnlApiResponseNull={() => this.props.setMnlApiResponseNull()}
+                            />
                         )}
                         {this.props.steps.isStepLoginPassword && (
                             <MnlPassword
@@ -223,6 +226,7 @@ export interface MobileNumberLoginProps extends RouteComponentProps<null> {
     setForgetPassword: (isForgetPasswordValue: boolean) => void;
     isForgetPasswordValue: boolean;
     resendOtpChangePassword: (apiData: MnlApiData) => void;
+    setMnlApiResponseNull: () => void;
 }
 
 export interface MobileNumberLoginState {
