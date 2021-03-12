@@ -315,6 +315,10 @@ export default class FilterDesktop extends React.Component {
         } else {
             return <div />;
         }
+        let showCloseIcon = true;
+        if (this.props.location && this.props.location.state && this.props.location.state.categoryOrBrandTab) {
+            showCloseIcon = false;
+        }
 
         return (
             <React.Fragment>
@@ -384,7 +388,7 @@ export default class FilterDesktop extends React.Component {
                                                             <div className={styles.newFilSelcted} key={i}>
                                                                 <SelectedCategoryLevel
                                                                     name={val.categoryName}
-                                                                    showCloseIcon={false}
+                                                                    showCloseIcon={showCloseIcon}
                                                                     onClickResetL1={this.resetL1Category}
                                                                 />
                                                             </div>
@@ -465,7 +469,9 @@ export default class FilterDesktop extends React.Component {
                                                             <div className={styles.newFilterBlock}>
                                                                 <div className={styles.newFilHeader}>Product Type</div>
                                                                 <SelectedCategoryLevel
-                                                                    name={val.childFilters[0].childFilters[0].categoryName}
+                                                                    name={
+                                                                        val.childFilters[0].childFilters[0].categoryName
+                                                                    }
                                                                     onClick={this.onL2Click}
                                                                     l2Name={val.childFilters[0].categoryName}
                                                                     l2CategoryCode={val.childFilters[0].categoryCode}
@@ -492,7 +498,9 @@ export default class FilterDesktop extends React.Component {
                                                             <div className={styles.newFilterBlock}>
                                                                 <div className={styles.newFilHeader}>Product Type</div>
                                                                 <SelectedCategoryLevel
-                                                                    name={val.childFilters[0].childFilters[0].categoryName}
+                                                                    name={
+                                                                        val.childFilters[0].childFilters[0].categoryName
+                                                                    }
                                                                     onClick={this.onL2Click}
                                                                     l2Name={val.childFilters[0].categoryName}
                                                                     l2CategoryCode={val.childFilters[0].categoryCode}
@@ -514,7 +522,7 @@ export default class FilterDesktop extends React.Component {
                                                     val.childFilters.length === 1 &&
                                                     /*  !val.selected && */
                                                     val.childFilters[0] &&
-                                                    !val.childFilters[0].selected &&
+                                                    /* !val.childFilters[0].selected && */
                                                     val.childFilters[0].childFilters &&
                                                     val.childFilters[0].childFilters.length === 1 &&
                                                     val.childFilters[0].childFilters[0].childFilters &&
@@ -558,8 +566,8 @@ export default class FilterDesktop extends React.Component {
                                                                 </div>
                                                                 <SelectedCategoryLevel
                                                                     name={
-                                                                        val.childFilters[0].childFilters[0].childFilters[0]
-                                                                            .categoryName
+                                                                        val.childFilters[0].childFilters[0]
+                                                                            .childFilters[0].categoryName
                                                                     }
                                                                     onL4Click={this.onL3Click}
                                                                     l3Name={
