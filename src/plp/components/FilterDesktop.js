@@ -358,17 +358,17 @@ export default class FilterDesktop extends React.Component {
                             > */}
                             <div className={styles.subFilterDetails}>
                                 <div className={styles.newFilterHolder}>
-                                    <div className={styles.newFilterBlock}>
-                                        {/* Conditions for handling L1 filters */}
-                                        <div className={styles.newFilHeader}>Department</div>
-                                        <Accordion isOpen={true} padding="0px 40px 0px 20px">
-                                            {this.props.isCategorySelected &&
-                                                facetdatacategory &&
-                                                facetdatacategory.filters &&
-                                                facetdatacategory.filters.length > 1 &&
-                                                facetdatacategory.filters.map((val, i) => {
-                                                    if (val.quantity > 1) {
-                                                        return (
+                                    {/* Conditions for handling L1 filters */}                                    
+                                    {this.props.isCategorySelected &&
+                                    facetdatacategory &&
+                                    facetdatacategory.filters &&
+                                    facetdatacategory.filters.length > 1 &&
+                                    facetdatacategory.filters.map((val, i) => {
+                                        if (val.quantity > 1) {
+                                            return (
+                                                <Accordion isOpen={true} padding="0px 40px 0px 20px">
+                                                    <div className={styles.newFilterBlock}>
+                                                        <div className={styles.newFilHeader}>Department</div>
                                                             <L1CategoryFilter
                                                                 name={val.categoryName}
                                                                 count={val.quantity}
@@ -376,29 +376,31 @@ export default class FilterDesktop extends React.Component {
                                                                 onL1Click={this.onL1Click}
                                                                 key={i}
                                                             />
-                                                        );
-                                                    } else return null;
-                                                })}
-                                            {this.props.isCategorySelected &&
-                                                facetdatacategory &&
-                                                facetdatacategory.filters &&
-                                                facetdatacategory.filters.length === 1 &&
-                                                facetdatacategory.filters.map((val, i) => {
-                                                    if (val.quantity > 1) {
-                                                        return (
-                                                            <div className={styles.newFilSelcted} key={i}>
-                                                                <SelectedCategoryLevel
-                                                                    name={val.categoryName}
-                                                                    showCloseIcon={showCloseIcon}
-                                                                    onClickResetL1={this.resetL1Category}
-                                                                />
-                                                            </div>
-                                                        );
-                                                    } else return null;
-                                                })}
-                                        </Accordion>
-                                    </div>
-
+                                                    </div>                                          
+                                                </Accordion>
+                                            );
+                                        } else return null;
+                                    })}   
+                                    {this.props.isCategorySelected &&
+                                    facetdatacategory &&
+                                    facetdatacategory.filters &&
+                                    facetdatacategory.filters.length === 1 &&
+                                    facetdatacategory.filters.map((val, i) => {
+                                        if (val.quantity > 1) {
+                                            return (
+                                                <div className={styles.newFilterBlock}>
+                                                    <div className={styles.newFilHeader}>Department</div>
+                                                    <div className={styles.newFilSelcted} key={i}>
+                                                        <SelectedCategoryLevel
+                                                            name={val.categoryName}
+                                                            showCloseIcon={showCloseIcon}
+                                                            onClickResetL1={this.resetL1Category}
+                                                        />
+                                                    </div>
+                                                </div> 
+                                            );
+                                        } else return null;
+                                    })}
                                     {/* Conditions for handling L2 filters */}
                                     {this.props.isCategorySelected &&
                                         facetdatacategory &&
