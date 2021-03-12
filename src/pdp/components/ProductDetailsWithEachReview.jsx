@@ -100,6 +100,8 @@ ProductDetailsWithEachReview.propTypes = {
 	isParamConfigured: PropTypes.bool,
 	isParamRatingPresent: PropTypes.bool,
 	productcode: PropTypes.string,
+	isPublishedReview: PropTypes.bool,
+	canEditDelete: PropTypes.bool,
 };
 
 export default ProductDetailsWithEachReview;
