@@ -184,7 +184,10 @@ export default class RatingAndReviewModalV2 extends Component {
             <div className={styles.base}>
                 <div className={styles.tabContent}>
                     {this.state.sectionActive === 1 && (
-                        <RnRRatingSectionComponent getUpdatedRating={rating => this.getUpdatedRating(rating)} />
+                        <RnRRatingSectionComponent
+							getUpdatedRating={rating => this.getUpdatedRating(rating)}
+							selectedRating={this.state.currentRating}
+						/>
                     )}
                     {this.state.sectionActive === 2 && (
                         <RnRQualitiesSectionComponent

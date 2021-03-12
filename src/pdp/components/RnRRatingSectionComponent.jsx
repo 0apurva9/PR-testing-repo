@@ -14,7 +14,7 @@ class RnRRatingSectionComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            rating: 0,
+            rating: this.props.selectedRating ? this.props.selectedRating : 0,
         };
     }
 
