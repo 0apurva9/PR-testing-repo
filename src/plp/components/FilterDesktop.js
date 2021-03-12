@@ -342,7 +342,7 @@ export default class FilterDesktop extends React.Component {
                 <div className={styles.filterScroll} id="filterWrapper_desktop">
                     <div className={styles.filterDetails} id="filter_desktop">
                         <div className={styles.filtersOptionsList}>
-                            <Accordion
+                            {/*                             <Accordion
                                 text1="Refine"
                                 text2="Clear all"
                                 isOpen={true}
@@ -355,12 +355,13 @@ export default class FilterDesktop extends React.Component {
                                 handleClick={() => this.onClear()}
                                 padding="0px 40px 0px 20px"
                                 backgroundColor="#f9f9f9"
-                            >
-                                <div className={styles.subFilterDetails}>
-                                    <div className={styles.newFilterHolder}>
-                                        <div className={styles.newFilterBlock}>
-                                            {/* Conditions for handling L1 filters */}
-                                            <div className={styles.newFilHeader}>Department</div>
+                            > */}
+                            <div className={styles.subFilterDetails}>
+                                <div className={styles.newFilterHolder}>
+                                    <div className={styles.newFilterBlock}>
+                                        {/* Conditions for handling L1 filters */}
+                                        <div className={styles.newFilHeader}>Department</div>
+                                        <Accordion isOpen={true} padding="0px 40px 0px 20px">
                                             {this.props.isCategorySelected &&
                                                 facetdatacategory &&
                                                 facetdatacategory.filters &&
@@ -395,196 +396,200 @@ export default class FilterDesktop extends React.Component {
                                                         );
                                                     } else return null;
                                                 })}
-                                        </div>
-                                        {/* Conditions for handling L2 filters */}
-                                        {this.props.isCategorySelected &&
-                                            facetdatacategory &&
-                                            facetdatacategory.filters &&
-                                            facetdatacategory.filters.length === 1 &&
-                                            facetdatacategory.filters.map((val, i) => {
-                                                if (val.childFilters && val.childFilters.length > 1) {
-                                                    return (
-                                                        <div className={styles.newFilterBlock} key={i}>
-                                                            <div className={styles.newFilHeader}>Category</div>
+                                        </Accordion>
+                                    </div>
+
+                                    {/* Conditions for handling L2 filters */}
+                                    {this.props.isCategorySelected &&
+                                        facetdatacategory &&
+                                        facetdatacategory.filters &&
+                                        facetdatacategory.filters.length === 1 &&
+                                        facetdatacategory.filters.map((val, i) => {
+                                            if (val.childFilters && val.childFilters.length > 1) {
+                                                return (
+                                                    <div className={styles.newFilterBlock} key={i}>
+                                                        <div className={styles.newFilHeader}>Category</div>
+                                                        <Accordion isOpen={true} padding="0px 40px 0px 20px">
                                                             <L2CategoryFilter
                                                                 l2filters={val.childFilters}
                                                                 onClick={this.onL2Click}
                                                             />
+                                                        </Accordion>
+                                                    </div>
+                                                );
+                                            } else if (val.childFilters && val.childFilters.length === 1) {
+                                                return (
+                                                    <div className={styles.newFilSelcted} key={i}>
+                                                        <div className={styles.newFilterBlock}>
+                                                            <div className={styles.newFilHeader}>Category</div>
+                                                            <SelectedCategoryLevel
+                                                                name={val.childFilters[0].categoryName}
+                                                                onL1Click={this.onL1Click}
+                                                                l1Name={val.categoryName}
+                                                                l1CategoryCode={val.categoryCode}
+                                                                showCloseIcon={true}
+                                                            />
                                                         </div>
-                                                    );
-                                                } else if (val.childFilters && val.childFilters.length === 1) {
-                                                    return (
-                                                        <div className={styles.newFilSelcted} key={i}>
-                                                            <div className={styles.newFilterBlock}>
-                                                                <div className={styles.newFilHeader}>Category</div>
-                                                                <SelectedCategoryLevel
-                                                                    name={val.childFilters[0].categoryName}
-                                                                    onL1Click={this.onL1Click}
-                                                                    l1Name={val.categoryName}
-                                                                    l1CategoryCode={val.categoryCode}
-                                                                    showCloseIcon={true}
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                    );
-                                                } else return null;
-                                            })}
-                                        {/* Conditions for handling L3 filters */}
-                                        {this.props.isCategorySelected &&
-                                            facetdatacategory &&
-                                            facetdatacategory.filters &&
-                                            facetdatacategory.filters.length === 1 &&
-                                            facetdatacategory.filters.map((val, i) => {
-                                                if (
-                                                    val.childFilters &&
-                                                    val.childFilters.length === 1 &&
-                                                    /*  !val.selected && */
-                                                    val.childFilters[0] &&
-                                                    /* val.childFilters[0].selected && */
-                                                    val.childFilters[0].childFilters &&
-                                                    /* val.childFilters[0].childFilters.length > 0 */
-                                                    val.childFilters[0].childFilters.length > 1
-                                                ) {
-                                                    return (
-                                                        <div className={styles.newFilterBlock} key={i}>
-                                                            <div className={styles.newFilHeader}>Product Type</div>
+                                                    </div>
+                                                );
+                                            } else return null;
+                                        })}
+                                    {/* Conditions for handling L3 filters */}
+                                    {this.props.isCategorySelected &&
+                                        facetdatacategory &&
+                                        facetdatacategory.filters &&
+                                        facetdatacategory.filters.length === 1 &&
+                                        facetdatacategory.filters.map((val, i) => {
+                                            if (
+                                                val.childFilters &&
+                                                val.childFilters.length === 1 &&
+                                                /*  !val.selected && */
+                                                val.childFilters[0] &&
+                                                /* val.childFilters[0].selected && */
+                                                val.childFilters[0].childFilters &&
+                                                /* val.childFilters[0].childFilters.length > 0 */
+                                                val.childFilters[0].childFilters.length > 1
+                                            ) {
+                                                return (
+                                                    <div className={styles.newFilterBlock} key={i}>
+                                                        <div className={styles.newFilHeader}>Product Type</div>
+                                                        <Accordion isOpen={true} padding="0px 40px 0px 20px">
                                                             <L3CategoryFilter
                                                                 l3filters={val.childFilters[0].childFilters}
                                                                 onL3Click={this.onL3Click}
                                                             />
-                                                        </div>
-                                                    );
-                                                } else if (
-                                                    val.childFilters &&
-                                                    val.childFilters.length === 1 &&
-                                                    /*  !val.selected && */
-                                                    val.childFilters[0] &&
-                                                    val.childFilters[0].childFilters &&
-                                                    val.childFilters[0].childFilters.length ===
-                                                        1 /*&&
+                                                        </Accordion>
+                                                    </div>
+                                                );
+                                            } else if (
+                                                val.childFilters &&
+                                                val.childFilters.length === 1 &&
+                                                /*  !val.selected && */
+                                                val.childFilters[0] &&
+                                                val.childFilters[0].childFilters &&
+                                                val.childFilters[0].childFilters.length ===
+                                                    1 /*&&
                                                      val.childFilters[0].childFilters[0].selected */
-                                                ) {
-                                                    return (
-                                                        <div className={styles.newFilSelcted} key={i}>
-                                                            <div className={styles.newFilterBlock}>
-                                                                <div className={styles.newFilHeader}>Product Type</div>
-                                                                <SelectedCategoryLevel
-                                                                    name={
-                                                                        val.childFilters[0].childFilters[0].categoryName
-                                                                    }
-                                                                    onClick={this.onL2Click}
-                                                                    l2Name={val.childFilters[0].categoryName}
-                                                                    l2CategoryCode={val.childFilters[0].categoryCode}
-                                                                    showCloseIcon={true}
-                                                                />
-                                                            </div>
+                                            ) {
+                                                return (
+                                                    <div className={styles.newFilSelcted} key={i}>
+                                                        <div className={styles.newFilterBlock}>
+                                                            <div className={styles.newFilHeader}>Product Type</div>
+                                                            <SelectedCategoryLevel
+                                                                name={val.childFilters[0].childFilters[0].categoryName}
+                                                                onClick={this.onL2Click}
+                                                                l2Name={val.childFilters[0].categoryName}
+                                                                l2CategoryCode={val.childFilters[0].categoryCode}
+                                                                showCloseIcon={true}
+                                                            />
                                                         </div>
-                                                    );
-                                                } else if (
-                                                    // eslint-disable-next-line no-dupe-else-if
-                                                    val.childFilters &&
-                                                    val.childFilters.length === 1 &&
-                                                    /*  !val.selected && */
-                                                    val.childFilters[0] &&
-                                                    val.childFilters[0].childFilters &&
-                                                    val.childFilters[0].childFilters.length === 1 &&
-                                                    val.childFilters[0].childFilters[0].childFilters &&
-                                                    val.childFilters[0].childFilters[0].childFilters.length ===
-                                                        1 /*&&
+                                                    </div>
+                                                );
+                                            } else if (
+                                                // eslint-disable-next-line no-dupe-else-if
+                                                val.childFilters &&
+                                                val.childFilters.length === 1 &&
+                                                /*  !val.selected && */
+                                                val.childFilters[0] &&
+                                                val.childFilters[0].childFilters &&
+                                                val.childFilters[0].childFilters.length === 1 &&
+                                                val.childFilters[0].childFilters[0].childFilters &&
+                                                val.childFilters[0].childFilters[0].childFilters.length ===
+                                                    1 /*&&
                                                      val.childFilters[0].childFilters[0].childFilters[0].selected */
-                                                ) {
-                                                    return (
-                                                        <div className={styles.newFilSelcted} key={i}>
-                                                            <div className={styles.newFilterBlock}>
-                                                                <div className={styles.newFilHeader}>Product Type</div>
-                                                                <SelectedCategoryLevel
-                                                                    name={
-                                                                        val.childFilters[0].childFilters[0].categoryName
-                                                                    }
-                                                                    onClick={this.onL2Click}
-                                                                    l2Name={val.childFilters[0].categoryName}
-                                                                    l2CategoryCode={val.childFilters[0].categoryCode}
-                                                                    showCloseIcon={true}
-                                                                />
-                                                            </div>
+                                            ) {
+                                                return (
+                                                    <div className={styles.newFilSelcted} key={i}>
+                                                        <div className={styles.newFilterBlock}>
+                                                            <div className={styles.newFilHeader}>Product Type</div>
+                                                            <SelectedCategoryLevel
+                                                                name={val.childFilters[0].childFilters[0].categoryName}
+                                                                onClick={this.onL2Click}
+                                                                l2Name={val.childFilters[0].categoryName}
+                                                                l2CategoryCode={val.childFilters[0].categoryCode}
+                                                                showCloseIcon={true}
+                                                            />
                                                         </div>
-                                                    );
-                                                } else return null;
-                                            })}
-                                        {/* Conditions for handling L4 filters */}
-                                        {this.props.isCategorySelected &&
-                                            facetdatacategory &&
-                                            facetdatacategory.filters &&
-                                            facetdatacategory.filters.length === 1 &&
-                                            facetdatacategory.filters.map((val, i) => {
-                                                if (
-                                                    val.childFilters &&
-                                                    val.childFilters.length === 1 &&
-                                                    /*  !val.selected && */
-                                                    val.childFilters[0] &&
-                                                    /* !val.childFilters[0].selected && */
-                                                    val.childFilters[0].childFilters &&
-                                                    val.childFilters[0].childFilters.length === 1 &&
-                                                    val.childFilters[0].childFilters[0].childFilters &&
-                                                    val.childFilters[0].childFilters[0].childFilters.length >
-                                                        1 /*&&
+                                                    </div>
+                                                );
+                                            } else return null;
+                                        })}
+                                    {/* Conditions for handling L4 filters */}
+                                    {this.props.isCategorySelected &&
+                                        facetdatacategory &&
+                                        facetdatacategory.filters &&
+                                        facetdatacategory.filters.length === 1 &&
+                                        facetdatacategory.filters.map((val, i) => {
+                                            if (
+                                                val.childFilters &&
+                                                val.childFilters.length === 1 &&
+                                                /*  !val.selected && */
+                                                val.childFilters[0] &&
+                                                /* !val.childFilters[0].selected && */
+                                                val.childFilters[0].childFilters &&
+                                                val.childFilters[0].childFilters.length === 1 &&
+                                                val.childFilters[0].childFilters[0].childFilters &&
+                                                val.childFilters[0].childFilters[0].childFilters.length >
+                                                    1 /*&&
                                                      val.childFilters[0].childFilters[0].selected */
-                                                ) {
-                                                    return (
-                                                        <div className={styles.newFilterBlock} key={i}>
-                                                            <div className={styles.newFilterBlock}>
-                                                                <div className={styles.newFilHeader}>
-                                                                    Leaf Node Product Type
-                                                                </div>
+                                            ) {
+                                                return (
+                                                    <div className={styles.newFilterBlock} key={i}>
+                                                        <div className={styles.newFilterBlock}>
+                                                            <div className={styles.newFilHeader}>
+                                                                Leaf Node Product Type
+                                                            </div>
+                                                            <Accordion isOpen={true} padding="0px 40px 0px 20px">
                                                                 <L4CategoryFilter
                                                                     l4filters={
                                                                         val.childFilters[0].childFilters[0].childFilters
                                                                     }
                                                                     onL4Click={this.onL3Click}
                                                                 />
-                                                            </div>
+                                                            </Accordion>
                                                         </div>
-                                                    );
-                                                } else if (
-                                                    val.childFilters &&
-                                                    val.childFilters.length === 1 &&
-                                                    /* !val.selected && */
-                                                    val.childFilters[0] &&
-                                                    /*  !val.childFilters[0].selected && */
-                                                    val.childFilters[0].childFilters &&
-                                                    val.childFilters[0].childFilters.length > 0 &&
-                                                    val.childFilters[0].childFilters[0].childFilters &&
-                                                    val.childFilters[0].childFilters[0].childFilters.length ===
-                                                        1 /*  &&
+                                                    </div>
+                                                );
+                                            } else if (
+                                                val.childFilters &&
+                                                val.childFilters.length === 1 &&
+                                                /* !val.selected && */
+                                                val.childFilters[0] &&
+                                                /*  !val.childFilters[0].selected && */
+                                                val.childFilters[0].childFilters &&
+                                                val.childFilters[0].childFilters.length > 0 &&
+                                                val.childFilters[0].childFilters[0].childFilters &&
+                                                val.childFilters[0].childFilters[0].childFilters.length ===
+                                                    1 /*  &&
                                                     val.childFilters[0].childFilters[0].childFilters[0].selected */
-                                                ) {
-                                                    return (
-                                                        <div className={styles.newFilSelcted} key={i}>
-                                                            <div className={styles.newFilterBlock}>
-                                                                <div className={styles.newFilHeader}>
-                                                                    Leaf Node Product Type
-                                                                </div>
-                                                                <SelectedCategoryLevel
-                                                                    name={
-                                                                        val.childFilters[0].childFilters[0]
-                                                                            .childFilters[0].categoryName
-                                                                    }
-                                                                    onL4Click={this.onL3Click}
-                                                                    l3Name={
-                                                                        val.childFilters[0].childFilters[0].categoryName
-                                                                    }
-                                                                    l3CategoryCode={
-                                                                        val.childFilters[0].childFilters[0].categoryCode
-                                                                    }
-                                                                    showCloseIcon={true}
-                                                                />
+                                            ) {
+                                                return (
+                                                    <div className={styles.newFilSelcted} key={i}>
+                                                        <div className={styles.newFilterBlock}>
+                                                            <div className={styles.newFilHeader}>
+                                                                Leaf Node Product Type
                                                             </div>
+                                                            <SelectedCategoryLevel
+                                                                name={
+                                                                    val.childFilters[0].childFilters[0].childFilters[0]
+                                                                        .categoryName
+                                                                }
+                                                                onL4Click={this.onL3Click}
+                                                                l3Name={
+                                                                    val.childFilters[0].childFilters[0].categoryName
+                                                                }
+                                                                l3CategoryCode={
+                                                                    val.childFilters[0].childFilters[0].categoryCode
+                                                                }
+                                                                showCloseIcon={true}
+                                                            />
                                                         </div>
-                                                    );
-                                                } else return null;
-                                            })}
-                                    </div>
-                                    {/*   <div className={styles.filterHeader}>Category</div>
+                                                    </div>
+                                                );
+                                            } else return null;
+                                        })}
+                                </div>
+                                {/*   <div className={styles.filterHeader}>Category</div>
                                     <div className={styles.catagoryHolder}>
                                         {this.props.isCategorySelected &&
                                             facetdatacategory &&
@@ -612,60 +617,25 @@ export default class FilterDesktop extends React.Component {
                                             })}
                                     </div> */}
 
-                                    {autoShowFilters.map((facetDataValues, i) => {
-                                        return (
-                                            facetDataValues && (
-                                                <div className={styles.facetData} key={i}>
-                                                    <div className={styles.filterHeader}>{facetDataValues.name}</div>
-                                                    <div className={styles.allDataHolder}>
-                                                        <div className={styles.colorHolder}>
-                                                            {facetDataValues &&
-                                                                facetDataValues.name === COLOUR &&
-                                                                facetDataValues.values &&
-                                                                this.state.showAllColor === false &&
-                                                                facetDataValues.values.map((val, i) => {
-                                                                    if (i < 10) {
-                                                                        return (
-                                                                            <ColourSelect
-                                                                                typeOfFilter={facetDataValues.name}
-                                                                                colour={val.hexColor}
-                                                                                webUrl={val.webURL}
-                                                                                colourValue={val.name}
-                                                                                onSelect={(
-                                                                                    data,
-                                                                                    filterType,
-                                                                                    filterValue,
-                                                                                    bla,
-                                                                                    webUrl,
-                                                                                    colourValue
-                                                                                ) =>
-                                                                                    this.onFilterClick(
-                                                                                        data,
-                                                                                        filterType,
-                                                                                        filterValue,
-                                                                                        bla,
-                                                                                        webUrl,
-                                                                                        colourValue
-                                                                                    )
-                                                                                }
-                                                                                selected={val.selected}
-                                                                                value={val.url}
-                                                                                key={i}
-                                                                                index={i}
-                                                                            />
-                                                                        );
-                                                                    }
-                                                                })}
-                                                            {facetDataValues &&
-                                                                facetDataValues.name === COLOUR &&
-                                                                facetDataValues.values &&
-                                                                this.state.showAllColor === true &&
-                                                                facetDataValues.values.map((val, i) => {
+                                {autoShowFilters.map((facetDataValues, i) => {
+                                    return (
+                                        facetDataValues && (
+                                            <div className={styles.facetData} key={i}>
+                                                <div className={styles.filterHeader}>{facetDataValues.name}</div>
+                                                <div className={styles.allDataHolder}>
+                                                    <div className={styles.colorHolder}>
+                                                        {facetDataValues &&
+                                                            facetDataValues.name === COLOUR &&
+                                                            facetDataValues.values &&
+                                                            this.state.showAllColor === false &&
+                                                            facetDataValues.values.map((val, i) => {
+                                                                if (i < 10) {
                                                                     return (
                                                                         <ColourSelect
-                                                                            key={i}
                                                                             typeOfFilter={facetDataValues.name}
                                                                             colour={val.hexColor}
+                                                                            webUrl={val.webURL}
+                                                                            colourValue={val.name}
                                                                             onSelect={(
                                                                                 data,
                                                                                 filterType,
@@ -683,117 +653,150 @@ export default class FilterDesktop extends React.Component {
                                                                                     colourValue
                                                                                 )
                                                                             }
-                                                                            colourValue={val.name}
                                                                             selected={val.selected}
                                                                             value={val.url}
+                                                                            key={i}
+                                                                            index={i}
                                                                         />
                                                                     );
-                                                                })}
-                                                        </div>
-                                                        <DesktopOnly>
-                                                            {facetDataValues &&
-                                                                facetDataValues.name === COLOUR &&
-                                                                facetDataValues.values &&
-                                                                facetDataValues.values.length > 10 && (
-                                                                    <div className={styles.expandButtonHolder}>
-                                                                        <div
-                                                                            className={styles.moreText}
-                                                                            onClick={() => this.viewMoreColor()}
-                                                                        >
-                                                                            {this.state.showAllColor ? "Less" : "More"}
-                                                                        </div>
-                                                                    </div>
-                                                                )}
-                                                        </DesktopOnly>
-                                                    </div>
-                                                    <div className={styles.filterBrandHolder}>
+                                                                }
+                                                            })}
                                                         {facetDataValues &&
-                                                            facetDataValues.name === BRAND &&
-                                                            facetDataValues.values && (
-                                                                <div>
-                                                                    <BrandFilterTabDesktop
+                                                            facetDataValues.name === COLOUR &&
+                                                            facetDataValues.values &&
+                                                            this.state.showAllColor === true &&
+                                                            facetDataValues.values.map((val, i) => {
+                                                                return (
+                                                                    <ColourSelect
+                                                                        key={i}
                                                                         typeOfFilter={facetDataValues.name}
-                                                                        onFilterClick={this.onFilterClick}
-                                                                        brandsList={facetDataValues.values}
-                                                                        onBrandSearch={this.onBrandSearch}
-                                                                        history={this.props.history}
+                                                                        colour={val.hexColor}
+                                                                        onSelect={(
+                                                                            data,
+                                                                            filterType,
+                                                                            filterValue,
+                                                                            bla,
+                                                                            webUrl,
+                                                                            colourValue
+                                                                        ) =>
+                                                                            this.onFilterClick(
+                                                                                data,
+                                                                                filterType,
+                                                                                filterValue,
+                                                                                bla,
+                                                                                webUrl,
+                                                                                colourValue
+                                                                            )
+                                                                        }
+                                                                        colourValue={val.name}
+                                                                        selected={val.selected}
+                                                                        value={val.url}
                                                                     />
+                                                                );
+                                                            })}
+                                                    </div>
+                                                    <DesktopOnly>
+                                                        {facetDataValues &&
+                                                            facetDataValues.name === COLOUR &&
+                                                            facetDataValues.values &&
+                                                            facetDataValues.values.length > 10 && (
+                                                                <div className={styles.expandButtonHolder}>
+                                                                    <div
+                                                                        className={styles.moreText}
+                                                                        onClick={() => this.viewMoreColor()}
+                                                                    >
+                                                                        {this.state.showAllColor ? "Less" : "More"}
+                                                                    </div>
                                                                 </div>
                                                             )}
-                                                        <DesktopOnly>
-                                                            {facetDataValues &&
-                                                                facetDataValues.name === BRAND &&
-                                                                facetDataValues.values.length > 5 && (
-                                                                    <div className={styles.expandButtonHolder}>
-                                                                        <div
-                                                                            className={styles.moreText}
-                                                                            style={{
-                                                                                marginRight: 0,
-                                                                            }}
-                                                                            onClick={() =>
-                                                                                this.viewMore(facetDataValues.values)
-                                                                            }
-                                                                        >
-                                                                            {`+ ${facetDataValues.values.length} more`}
-                                                                        </div>
+                                                    </DesktopOnly>
+                                                </div>
+                                                <div className={styles.filterBrandHolder}>
+                                                    {facetDataValues &&
+                                                        facetDataValues.name === BRAND &&
+                                                        facetDataValues.values && (
+                                                            <div>
+                                                                <BrandFilterTabDesktop
+                                                                    typeOfFilter={facetDataValues.name}
+                                                                    onFilterClick={this.onFilterClick}
+                                                                    brandsList={facetDataValues.values}
+                                                                    onBrandSearch={this.onBrandSearch}
+                                                                    history={this.props.history}
+                                                                />
+                                                            </div>
+                                                        )}
+                                                    <DesktopOnly>
+                                                        {facetDataValues &&
+                                                            facetDataValues.name === BRAND &&
+                                                            facetDataValues.values.length > 5 && (
+                                                                <div className={styles.expandButtonHolder}>
+                                                                    <div
+                                                                        className={styles.moreText}
+                                                                        style={{
+                                                                            marginRight: 0,
+                                                                        }}
+                                                                        onClick={() =>
+                                                                            this.viewMore(facetDataValues.values)
+                                                                        }
+                                                                    >
+                                                                        {`+ ${facetDataValues.values.length} more`}
                                                                     </div>
-                                                                )}
-                                                        </DesktopOnly>
+                                                                </div>
+                                                            )}
+                                                    </DesktopOnly>
+                                                </div>
+                                                {facetDataValues && facetDataValues.name === PRICE && (
+                                                    <div className={styles.filterPriceHolder}>
+                                                        {facetDataValues.values && (
+                                                            <div>
+                                                                <PriceFilterTabDesktop
+                                                                    rangeApplied={facetDataValues.rangeApplied}
+                                                                    typeOfFilter={facetDataValues.name}
+                                                                    priceList={facetDataValues.values}
+                                                                    customRange={facetDataValues.customeRange}
+                                                                    history={this.props.history}
+                                                                    onFilterClick={this.onFilterClick}
+                                                                    query={this.props.query}
+                                                                />
+                                                            </div>
+                                                        )}
                                                     </div>
-                                                    {facetDataValues && facetDataValues.name === PRICE && (
+                                                )}
+                                                {facetDataValues &&
+                                                    facetDataValues.name !== COLOUR &&
+                                                    facetDataValues.name !== BRAND &&
+                                                    facetDataValues.name !== PRICE && (
                                                         <div className={styles.filterPriceHolder}>
                                                             {facetDataValues.values && (
                                                                 <div>
-                                                                    <PriceFilterTabDesktop
-                                                                        rangeApplied={facetDataValues.rangeApplied}
-                                                                        typeOfFilter={facetDataValues.name}
-                                                                        priceList={facetDataValues.values}
-                                                                        customRange={facetDataValues.customeRange}
-                                                                        history={this.props.history}
-                                                                        onFilterClick={this.onFilterClick}
-                                                                        query={this.props.query}
-                                                                    />
+                                                                    {facetDataValues.values.map((val, i) => {
+                                                                        return (
+                                                                            <FilterSelect
+                                                                                onClick={this.onFilterClick}
+                                                                                selected={val.selected}
+                                                                                hexColor={val.hexColor}
+                                                                                label={val.name}
+                                                                                count={val.count}
+                                                                                url={val.url}
+                                                                                value={val.value}
+                                                                                isBrand={facetDataValues.name === BRAND}
+                                                                                categoryId={categoryId}
+                                                                                history={this.props.history}
+                                                                                typeOfFilter={facetDataValues.name}
+                                                                                key={i}
+                                                                            />
+                                                                        );
+                                                                    })}
                                                                 </div>
                                                             )}
                                                         </div>
                                                     )}
-                                                    {facetDataValues &&
-                                                        facetDataValues.name !== COLOUR &&
-                                                        facetDataValues.name !== BRAND &&
-                                                        facetDataValues.name !== PRICE && (
-                                                            <div className={styles.filterPriceHolder}>
-                                                                {facetDataValues.values && (
-                                                                    <div>
-                                                                        {facetDataValues.values.map((val, i) => {
-                                                                            return (
-                                                                                <FilterSelect
-                                                                                    onClick={this.onFilterClick}
-                                                                                    selected={val.selected}
-                                                                                    hexColor={val.hexColor}
-                                                                                    label={val.name}
-                                                                                    count={val.count}
-                                                                                    url={val.url}
-                                                                                    value={val.value}
-                                                                                    isBrand={
-                                                                                        facetDataValues.name === BRAND
-                                                                                    }
-                                                                                    categoryId={categoryId}
-                                                                                    history={this.props.history}
-                                                                                    typeOfFilter={facetDataValues.name}
-                                                                                    key={i}
-                                                                                />
-                                                                            );
-                                                                        })}
-                                                                    </div>
-                                                                )}
-                                                            </div>
-                                                        )}
-                                                </div>
-                                            )
-                                        );
-                                    })}
-                                </div>
-                            </Accordion>
+                                            </div>
+                                        )
+                                    );
+                                })}
+                            </div>
+                            {/*    </Accordion> */}
                         </div>
                         <div className={styles.filtersOptions}>
                             {filterWithCollapse.map((facetDataValues, i) => {

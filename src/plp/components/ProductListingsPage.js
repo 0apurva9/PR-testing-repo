@@ -30,6 +30,7 @@ const MAX_PRICE_FROM_UI = "-₹9,999,999";
 const CATEGORY_TEXT = "category";
 const DEFAULT_PLP_VIEW = "defaultPlpView";
 const PLP_LANDING_URL = "plpLandingUrl";
+const PLP_URL_COUPLE = "plpUrlCouple";
 class ProductListingsPage extends Component {
     constructor(props) {
         super(props);
@@ -241,6 +242,7 @@ class ProductListingsPage extends Component {
         if (url.includes("/search/?searchCategory") && storedPlpUrl && storedPlpUrl !== url) {
             localStorage.setItem(PLP_LANDING_URL, url);
         }
+        // localStorage.setItem(PLP_URL_COUPLE, `${this.props.location.pathname}${this.props.location.search}`);
         const defaultViewCookie = Cookie.getCookie(DEFAULT_PLP_VIEW);
         if (!defaultViewCookie) {
             if (this.props.getDefaultPlpView) {
@@ -401,6 +403,22 @@ class ProductListingsPage extends Component {
         }
     }
 
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        const currentPlpUrl = `${this.props.location.pathname}${this.props.location.search}`;
+        const previousPlpUrl = `${nextProps.location.pathname}${nextProps.location.search}`;
+        if (currentPlpUrl !== previousPlpUrl) {
+            const urlCouple = {
+                currentPlpUrl,
+                previousPlpUrl,
+            };
+            localStorage.setItem(PLP_URL_COUPLE, JSON.stringify(urlCouple));
+        }
+    }
+
+    componentWillUnmount() {
+        localStorage.removeItem(PLP_URL_COUPLE);
+    }
+
     componentDidUpdate(prevProps) {
         const storedPlpUrl = localStorage.getItem(PLP_LANDING_URL);
         const url = `${this.props.location.pathname}${this.props.location.search}`;
@@ -410,6 +428,15 @@ class ProductListingsPage extends Component {
         if (url.includes("/search/?searchCategory") && storedPlpUrl && storedPlpUrl !== url) {
             localStorage.setItem(PLP_LANDING_URL, url);
         }
+        /*         const currentPlpUrl = `${this.props.location.pathname}${this.props.location.search}`;
+        const previousPlpUrl = `${prevProps.location.pathname}${prevProps.location.search}`;
+        if (currentPlpUrl !== previousPlpUrl) {
+            const urlCouple = {
+                currentPlpUrl,
+                previousPlpUrl,
+            };
+            localStorage.setItem(PLP_URL_COUPLE, JSON.stringify(urlCouple));
+        } */
         const defaultViewCookie = Cookie.getCookie(DEFAULT_PLP_VIEW);
 
         if (!defaultViewCookie) {
