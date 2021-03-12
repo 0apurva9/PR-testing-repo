@@ -109,16 +109,16 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
         if (this.props.isForgotPasswordClicked) {
             this.props.changeLoginStep("isForgotPassword");
         } else if (
-            this.props.mnlApiResponse?.userData.customer.newUser &&
+            this.props.mnlApiResponse?.userData.customer?.newUser &&
             this.props.mnlApiResponse.userData.validation &&
             this.props.mnlApiResponse.userData.validation.changedmailId
         ) {
             //login with new email id and registered mobile number
             this.props.validateOtp(mnlApidata);
         } else if (
-            this.props.mnlApiResponse?.userData.customer.newUser &&
-            !this.props.mnlApiResponse.userData.customer.passwordSet &&
-            this.props.mnlApiResponse.userData.customer.loginVia === "mobile"
+            this.props.mnlApiResponse?.userData.customer?.newUser &&
+            !this.props.mnlApiResponse.userData.customer?.passwordSet &&
+            this.props.mnlApiResponse.userData.customer?.loginVia === "mobile"
         ) {
             //login with new mobile number
             this.props.validateChallenge(mnlApidata);
@@ -137,16 +137,17 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
                         Please enter the 6 digit OTP that we just sent on +91{" "}
                         {this.props.mnlApiResponse &&
                         this.props.mnlApiResponse.userData &&
-                        this.props.mnlApiResponse.userData.customer.loginVia == "mobile"
+                        this.props.mnlApiResponse.userData.customer?.loginVia == "mobile"
                             ? this.props.mnlApidata.phoneNumber
-                            : this.props.mnlApiResponse?.userData.customer.maskedPhoneNumber ||
+                            : this.props.mnlApiResponse?.userData.customer?.maskedPhoneNumber ||
                               this.props.mnlApidata.phoneNumber}
                     </p>
-                    {this.props.mnlApiResponse?.userData.customer.passwordSet && (
-                        <button type="button" className={styles.btnLink} onClick={() => this.editMobileNumber()}>
-                            Edit Number
-                        </button>
-                    )}
+                    {this.props.mnlApiResponse?.userData.customer?.passwordSet &&
+                        this.props.mnlApiResponse.userData.customer?.loginVia === "mobile" && (
+                            <button type="button" className={styles.btnLink} onClick={() => this.editMobileNumber()}>
+                                Edit Number
+                            </button>
+                        )}
                 </div>
                 <div className={styles.formSec}>
                     <div className={styles.feildSec}>
@@ -171,7 +172,7 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
                         </div>
                         <div className={[styles.flexRow50, styles.justify_space].join(" ")}>
                             <div className={styles.flexRow50Cols}>
-                                {this.props.mnlApiResponse?.userData.customer.passwordSet ? (
+                                {this.props.mnlApiResponse?.userData.customer?.passwordSet ? (
                                     <button
                                         type="button"
                                         className={styles.btnLink}

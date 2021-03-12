@@ -79,7 +79,7 @@ export interface Validation {
 
 export interface UserData {
     authentication?: Authentication;
-    customer: Customer;
+    customer?: Customer;
     profileUpdate?: ProfileUpdate;
     validation?: Validation;
 }

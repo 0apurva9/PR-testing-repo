@@ -34,6 +34,12 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
         this.props.history.push("/");
     }
 
+    public checkLoginPath() {
+        if (this.props.location.pathname.includes("login") || this.props.location.pathname.includes("sign_up")) {
+            this.routeToHome();
+        }
+    }
+
     public componentDidMount() {
         this.props.webMnlEmailHidden();
     }
@@ -84,7 +90,10 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
                             />
                         )}
                         {this.props.steps.isStepLoginChallenge && (
-                            <MnlChallenge setMnlApiData={mnlApiData => this.props.validateChallenge(mnlApiData)} />
+                            <MnlChallenge
+                                setMnlApiData={mnlApiData => this.props.validateChallenge(mnlApiData)}
+                                setMnlApiResponseNull={() => this.props.setMnlApiResponseNull()}
+                            />
                         )}
                         {this.props.steps.isStepLoginPassword && (
                             <MnlPassword
@@ -156,6 +165,7 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
                             <MnlSucess1
                                 hideMobileNumberLoginModal={() => this.props.hideMobileNumberLoginModal()}
                                 changeLoginStep={stepKey => this.props.changeLoginStep(stepKey)}
+                                checkLoginPath={() => this.checkLoginPath()}
                             />
                         )}
                         {this.props.steps.isChangeProfilePasswordSuccess && (
@@ -223,6 +233,7 @@ export interface MobileNumberLoginProps extends RouteComponentProps<null> {
     setForgetPassword: (isForgetPasswordValue: boolean) => void;
     isForgetPasswordValue: boolean;
     resendOtpChangePassword: (apiData: MnlApiData) => void;
+    setMnlApiResponseNull: () => void;
 }
 
 export interface MobileNumberLoginState {
