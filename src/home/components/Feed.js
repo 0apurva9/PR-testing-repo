@@ -422,10 +422,14 @@ class Feed extends Component {
     }
 
     componentDidMount() {
-        if (this.props.mnlLoginPath) {
-            this.props.openMobileNumberLoginModal();
-        }
         const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+        if (this.props.mnlLoginPath) {
+            if (!userDetails) {
+                this.props.openMobileNumberLoginModal();
+            } else {
+                this.props.history.push("/");
+            }
+        }
         setDataLayer(ADOBE_VIRTUAL_PAGELOAD);
         if (!userDetails) {
             setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER);
@@ -722,6 +726,7 @@ Feed.propTypes = {
     wishlistCount: PropTypes.string,
     openMobileNumberLoginModal: PropTypes.func,
     mnlLoginPath: PropTypes.bool,
+    history: PropTypes.object,
 };
 
 Feed.defaultProps = {
