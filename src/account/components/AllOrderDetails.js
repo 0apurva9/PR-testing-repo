@@ -11,7 +11,6 @@ import SecondaryLoader from "../../general/components/SecondaryLoader";
 import * as Cookie from "../../lib/Cookie";
 import UserCouponsContainer from "../containers/UserCouponsContainer";
 import UserAlertsContainer from "../containers/UserAlertsContainer";
-import UserReviewContainer from "../containers/UserReviewContainer";
 import { setDataLayerForMyAccountDirectCalls, ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL } from "../../lib/adobeUtils";
 import ShowMoreButton from "../../general/components/ShowMoreButton";
 import RetryPaymentIcon from "./img/payment_retry.svg";
@@ -68,6 +67,7 @@ import TabData from "./TabData";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest";
 import RnREmptyRatingGreyStarComponent from "../../pdp/components/RnREmptyRatingGreyStarComponent";
 import RatingAndIconComponent from "../../pdp/components/PdpBeautyDesktop/DescriptionSection/RatingAndIconComponent";
+import PendingPublishedReviews from "./PendingPublishedReviews";
 const PRODUCT_RETURN = "Return";
 const dateFormat = "DD MMM YYYY";
 const SCROLL_CHECK_INTERVAL = 500;
@@ -429,7 +429,7 @@ export default class AllOrderDetails extends React.Component {
     }
 
 	submitRating = (rating, productCode, section) => {
-		this.props.openRatingReviewModal({ productCode: productCode, rating: rating, section: section });
+		this.props.openRatingReviewModal({ productCode, rating, section });
 		if(section === 2){
 			this.props.getParametersEligibleToRate(productCode);
 		}
@@ -565,7 +565,13 @@ export default class AllOrderDetails extends React.Component {
                                 )}
                                 {this.state.isSelected === 4 && (
                                     <div className={styles.reviewHolder}>
-                                        <UserReviewContainer />
+										<PendingPublishedReviews
+											getPendingReviews={this.props.getPendingReviews}
+											pendingReviewsDetails={this.props.pendingReviewsDetails}
+											getPublishedReviews={this.props.getPublishedReviews}
+											publishedReviewsDetails={this.props.publishedReviewsDetails}
+											submitRating={(rating, productCode, section) => this.submitRating(rating, productCode, section)}
+										/>
                                     </div>
                                 )}
 
