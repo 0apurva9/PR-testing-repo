@@ -25,12 +25,11 @@ import SelectedCategoryLevel from "./SelectedCategoryLevel";
 import L2CategoryFilter from "./L2CategoryFilter";
 import L3CategoryFilter from "./L3CategoryFilter";
 import L4CategoryFilter from "./L4CategoryFilter";
-import { HOME_ROUTER } from "../../lib/constants";
 const BRAND = "Brand";
 const COLOUR = "Colour";
 const PRICE = "Price";
 const RESTRICTED_FILTERS = "restrictedFilters";
-const PLP_LANDING_URL = "plpLandingUrl";
+const LAST_PLP_URL = "lastPlpUrl";
 export default class FilterDesktop extends React.Component {
     constructor() {
         super();
@@ -161,7 +160,16 @@ export default class FilterDesktop extends React.Component {
     };
 
     onL1Click = (val, filterType, filterValue, filterName, i) => {
-        this.onCategorySelect(val, filterType, filterValue, filterName, false, i);
+        const storedPlpUrl = localStorage.getItem(LAST_PLP_URL);
+        const currentUrl = `${this.props.location.pathname}${this.props.location.search}`;
+        if (storedPlpUrl) {
+            localStorage.removeItem(LAST_PLP_URL);
+            localStorage.setItem(LAST_PLP_URL, currentUrl);
+            this.onCategorySelect(val, filterType, filterValue, filterName, false, i);
+        } else {
+            localStorage.setItem(LAST_PLP_URL, currentUrl);
+            this.onCategorySelect(val, filterType, filterValue, filterName, false, i);
+        }
     };
 
     onL2Click = (val, filterType, filterValue, filterName, i) => {
@@ -173,14 +181,13 @@ export default class FilterDesktop extends React.Component {
     };
 
     resetL1Category = (isFilter = false) => {
-        const plpLandingUrl = localStorage.getItem(PLP_LANDING_URL);
-        if (plpLandingUrl && plpLandingUrl.includes("/search/?searchCategory")) {
-            this.props.history.push(plpLandingUrl, {
+        const storedPlpUrl = localStorage.getItem(LAST_PLP_URL);
+        if (storedPlpUrl && storedPlpUrl.includes("/search/?searchCategory")) {
+            localStorage.removeItem(LAST_PLP_URL);
+            this.props.history.push(storedPlpUrl, {
                 isFilter,
                 componentName: "isFilterTrue",
             });
-        } else {
-            this.props.history.push(HOME_ROUTER);
         }
     };
 
@@ -315,9 +322,10 @@ export default class FilterDesktop extends React.Component {
         } else {
             return <div />;
         }
-        let showCloseIcon = true;
-        if (this.props.location && this.props.location.state && this.props.location.state.categoryOrBrandTab) {
-            showCloseIcon = false;
+        let showCloseIcon = false;
+        const storedPlpUrl = localStorage.getItem(LAST_PLP_URL);
+        if (storedPlpUrl && storedPlpUrl.includes("/search/?searchCategory")) {
+            showCloseIcon = true;
         }
 
         return (
