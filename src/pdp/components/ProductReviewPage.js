@@ -340,11 +340,11 @@ export default class ProductReviewPage extends Component {
                 productIds.push(filterDetails.sizelink.productCode);
             });
 
-        let productCodes = this.props.match.params[0];
+        let filteredProducts = null;
         if (productIds.length > 0) {
-            productCodes = productIds.join(",");
+            filteredProducts = productIds.join(",");
         }
-        this.props.getProductReviews(productCodes, 0, this.state.orderBy, this.state.sort);
+        this.props.getProductReviews(this.props.match.params[0], 0, this.state.orderBy, this.state.sort, filteredProducts);
     };
 
     clearFilters = () => {
@@ -383,6 +383,7 @@ export default class ProductReviewPage extends Component {
 
         let colorSet =
             variantOptions &&
+			variantOptions.length > 0 &&
             variantOptions
                 .map(item => item.colorlink.color)
                 .filter((value, index, self) => {
@@ -393,6 +394,7 @@ export default class ProductReviewPage extends Component {
 
         let colorHexCodeSet =
             variantOptions &&
+			variantOptions.length > 0 &&
             variantOptions
                 .map(item => item.colorlink.colorHexCode)
                 .filter((value, index, self) => {
@@ -403,6 +405,7 @@ export default class ProductReviewPage extends Component {
 
         let sizeSet =
             variantOptions &&
+			variantOptions.length > 0 &&
             variantOptions
                 .map(item => item.sizelink.size)
                 .filter((value, index, self) => {
