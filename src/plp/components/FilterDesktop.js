@@ -358,49 +358,41 @@ export default class FilterDesktop extends React.Component {
                             > */}
                             <div className={styles.subFilterDetails}>
                                 <div className={styles.newFilterHolder}>
-                                    {/* Conditions for handling L1 filters */}                                    
+                                    {/* Conditions for handling L1 filters */}
                                     {this.props.isCategorySelected &&
                                     facetdatacategory &&
                                     facetdatacategory.filters &&
-                                    facetdatacategory.filters.length > 1 &&
-                                    facetdatacategory.filters.map((val, i) => {
-                                        if (val.quantity > 1) {
-                                            return (
-                                                <Accordion isOpen={true} padding="0px 40px 0px 20px">
+                                    facetdatacategory.filters.length > 1 ? (
+                                        <Accordion isOpen={true} padding="0px 40px 0px 20px">
+                                            <div className={styles.newFilterBlock}>
+                                                <div className={styles.newFilHeader}>Department</div>
+                                                <L1CategoryFilter
+                                                    l1filters={facetdatacategory.filters}
+                                                    onL1Click={this.onL1Click}
+                                                />
+                                            </div>
+                                        </Accordion>
+                                    ) : null}
+                                    {this.props.isCategorySelected &&
+                                        facetdatacategory &&
+                                        facetdatacategory.filters &&
+                                        facetdatacategory.filters.length === 1 &&
+                                        facetdatacategory.filters.map((val, i) => {
+                                            if (val.quantity > 1) {
+                                                return (
                                                     <div className={styles.newFilterBlock}>
                                                         <div className={styles.newFilHeader}>Department</div>
-                                                            <L1CategoryFilter
+                                                        <div className={styles.newFilSelcted} key={i}>
+                                                            <SelectedCategoryLevel
                                                                 name={val.categoryName}
-                                                                count={val.quantity}
-                                                                value={val.categoryCode}
-                                                                onL1Click={this.onL1Click}
-                                                                key={i}
+                                                                showCloseIcon={showCloseIcon}
+                                                                onClickResetL1={this.resetL1Category}
                                                             />
-                                                    </div>                                          
-                                                </Accordion>
-                                            );
-                                        } else return null;
-                                    })}   
-                                    {this.props.isCategorySelected &&
-                                    facetdatacategory &&
-                                    facetdatacategory.filters &&
-                                    facetdatacategory.filters.length === 1 &&
-                                    facetdatacategory.filters.map((val, i) => {
-                                        if (val.quantity > 1) {
-                                            return (
-                                                <div className={styles.newFilterBlock}>
-                                                    <div className={styles.newFilHeader}>Department</div>
-                                                    <div className={styles.newFilSelcted} key={i}>
-                                                        <SelectedCategoryLevel
-                                                            name={val.categoryName}
-                                                            showCloseIcon={showCloseIcon}
-                                                            onClickResetL1={this.resetL1Category}
-                                                        />
+                                                        </div>
                                                     </div>
-                                                </div> 
-                                            );
-                                        } else return null;
-                                    })}
+                                                );
+                                            } else return null;
+                                        })}
                                     {/* Conditions for handling L2 filters */}
                                     {this.props.isCategorySelected &&
                                         facetdatacategory &&
