@@ -40,6 +40,11 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
         }
     }
 
+    public closeLoginModal() {
+        this.props.hideMobileNumberLoginModal();
+        this.checkLoginPath();
+    }
+
     public componentDidMount() {
         this.props.webMnlEmailHidden();
     }
@@ -133,6 +138,7 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
                                 isForgotPasswordClicked={this.state.isForgotPasswordClicked}
                                 isStepValidateProfileOtp={this.props.steps.isStepValidateProfileOtp}
                                 resendOtp={apiData => this.props.validateChallenge(apiData)}
+                                resendOtpEmail={apiData => this.props.generateOtp(apiData)}
                                 resendOtpTime={this.props.resendOtpTime}
                                 setResendOtpTimmer={resendOtpTimmer => this.props.setResendOtpTimmer(resendOtpTimmer)}
                             />
@@ -197,7 +203,7 @@ export class MobileNumberLogin extends React.Component<MobileNumberLoginProps, M
                         <button
                             type="button"
                             className={styles.loginCloseBtn}
-                            onClick={() => this.props.hideMobileNumberLoginModal()}
+                            onClick={() => this.closeLoginModal()}
                         ></button>
                     </div>
                 </div>

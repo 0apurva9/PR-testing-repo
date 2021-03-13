@@ -87,7 +87,11 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
 
     private onClickResendOtp() {
         const mnlApidata = Object.assign({}, this.props.mnlApidata);
-        this.props.resendOtp(mnlApidata);
+        if (this.props.mnlApiResponse?.userData.customer?.loginVia == "email") {
+            this.props.resendOtpEmail(mnlApidata);
+        } else {
+            this.props.resendOtp(mnlApidata);
+        }
         this.setState({ resendOtp: false, resendOtpIn: OTP_RESEND_TIME }, () => this.startTimer());
     }
 
@@ -232,6 +236,7 @@ export interface MnlOtpProps {
     validateProfileOtp: (apiData: MnlApiData) => void;
     isForgotPasswordClicked: boolean;
     isStepValidateProfileOtp: boolean;
+    resendOtpEmail: (apiData: MnlApiData) => void;
 }
 
 export interface MnlOtpState {
