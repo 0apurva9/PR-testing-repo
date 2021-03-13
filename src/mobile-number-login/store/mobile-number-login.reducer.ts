@@ -74,7 +74,7 @@ export function mobileNumberLoginReducer(
                 mnlApiData: action.payload,
             };
         case SET_MNL_API_Response:
-            if (newState.mnlApiResponse && Object.keys(action.payload.userData).length) {
+            if (newState.mnlApiResponse && action.payload.statusCode !== 0) {
                 newState.mnlApiResponse.userData = { ...newState.mnlApiResponse.userData, ...action.payload.userData };
             } else {
                 newState.mnlApiResponse = action.payload;
