@@ -647,6 +647,9 @@ export function verifyOtpUpdatePassword() {
     const loginId = userDetails.userName || null;
     return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
         const apiData = getState().mobileNumberLogin.mnlApiData;
+        const loginUserData = getState().profile.userDetails;
+        apiData.email = loginUserData.emailID;
+        apiData.phoneNumber = loginUserData.mobileNumber;
         const result: Response = await api.post(
             `marketplacewebservices/v2/mpl/users/${loginId}/verifyOtpUpdatePassword`,
             apiData,
@@ -676,8 +679,11 @@ export function updatePasswordProfile() {
     const loginId = userDetails.userName || null;
     return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
         let apiData: MnlApiData = getState().mobileNumberLogin.mnlApiData;
+        const loginUserData = getState().profile.userDetails;
         apiData.platformNumber = "";
         apiData.maskedPhoneNumber = "";
+        apiData.email = loginUserData.emailID;
+        apiData.phoneNumber = loginUserData.mobileNumber;
         apiData = JSON.parse(JSON.stringify(apiData));
         const result: Response = await api.post(
             `marketplacewebservices/v2/mpl/users/${loginId}/updatepassword`,
