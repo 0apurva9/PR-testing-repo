@@ -1250,7 +1250,7 @@ export function addProductReview(productCode, productReview) {
         dispatch(addProductReviewRequest());
         try {
             const result = await api.postFormData(
-                `${PRODUCT_SIZE_GUIDE_PATH}${productCode}/reviews_V1?access_token=${accessToken}&isPwa=true&channel=${CHANNEL}&platform=${PLATFORM}`,
+                `v2/mpl/reviews/${productCode}/reviews_V1?access_token=${accessToken}&isPwa=true&channel=${CHANNEL}&platform=${PLATFORM}`,
                 reviewData
             );
             const resultJson = await result.json();
@@ -1400,7 +1400,7 @@ export function getProductReviews(productCode, pageIndex, orderBy, sortBy) {
         dispatch(getProductReviewsRequest());
         try {
             const result = await api.get(
-                `${PRODUCT_SIZE_GUIDE_PATH}${productCode.toUpperCase()}/users/${userName}/reviews_V1?access_token=${accessToken}&page=${pageIndex}&pageSize=${PAGE_NUMBER}&orderBy=${orderBy}&sort=${sortBy}`
+                `v2/mpl/reviews/${productCode.toUpperCase()}/users/${userName}/reviews_V1?access_token=${accessToken}&page=${pageIndex}&pageSize=${PAGE_NUMBER}&orderBy=${orderBy}&sort=${sortBy}`
             );
             const resultJson = await result.json();
             const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2808,15 +2808,13 @@ export function getParametersEligibleToRateFailure(error) {
 }
 
 export function getParametersEligibleToRate(productCode) {
-    let userDetails = getLoggedInUserDetails();
-    let userName = userDetails.userName;
-    let accessToken = getCustomerAccessToken();
+    let accessToken = getGlobalAccessToken();
 
     return async (dispatch, getState, { api }) => {
         dispatch(getParametersEligibleToRateRequest());
         try {
             const result = await api.get(
-                `${PRODUCT_SIZE_GUIDE_PATH}${productCode.toUpperCase()}/users/${userName}/getParametersEligibleToRate?access_token=${accessToken}`
+                `v2/mpl/reviews/${productCode.toUpperCase()}/getParametersEligibleToRate?access_token=${accessToken}`
             );
             const resultJson = await result.json();
             const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2860,7 +2858,7 @@ export function submitParameterRating(productCode, parameterizedRating) {
         dispatch(submitParameterRatingRequest());
         try {
             const result = await api.post(
-                `${PRODUCT_SIZE_GUIDE_PATH}${productCode.toUpperCase()}/parameter_rating_V1?access_token=${accessToken}&channel=${CHANNEL}&platform=${PLATFORM}`,
+                `v2/mpl/reviews/${productCode.toUpperCase()}/parameter_rating_V1?access_token=${accessToken}&channel=${CHANNEL}&platform=${PLATFORM}`,
                 parameterizedRating
             );
             const resultJson = await result.json();
@@ -2905,15 +2903,13 @@ export function getTitleSuggestionsFailure(error) {
 }
 
 export function getTitleSuggestions(productCode, userRating) {
-    let userDetails = getLoggedInUserDetails();
-    let userName = userDetails.userName;
-    let accessToken = getCustomerAccessToken();
+    let accessToken = getGlobalAccessToken();
 
     return async (dispatch, getState, { api }) => {
         dispatch(getTitleSuggestionsRequest());
         try {
             const result = await api.get(
-                `${PRODUCT_SIZE_GUIDE_PATH}${productCode.toUpperCase()}/users/${userName}/getTitleSuggestions?access_token=${accessToken}&userRating=${userRating}`
+                `v2/mpl/reviews/${productCode.toUpperCase()}/getTitleSuggestions?access_token=${accessToken}&userRating=${userRating}`
             );
             const resultJson = await result.json();
             const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
