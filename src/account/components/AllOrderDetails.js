@@ -174,7 +174,6 @@ export default class AllOrderDetails extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (this.props.addReviewStatus !== nextProps.addReviewStatus && nextProps.addReviewStatus === SUCCESS) {
-            this.props.hideModal();
             if (this.props.clearOrderDetails && this.props.getAllOrdersDetails) {
                 this.props.clearOrderDetails();
                 this.props.getAllOrdersDetails();
@@ -438,6 +437,12 @@ export default class AllOrderDetails extends React.Component {
 		}
 	};
 
+	editRatingReview = (productCode) => {
+		this.props.openRatingReviewModal({ productCode });
+		this.props.getUserProductReview(productCode);
+		this.props.getParametersEligibleToRate(productCode);
+	};
+
     render() {
         let userData;
         const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -571,6 +576,7 @@ export default class AllOrderDetails extends React.Component {
 											getPublishedReviews={this.props.getPublishedReviews}
 											publishedReviewsDetails={this.props.publishedReviewsDetails}
 											submitRating={(rating, productCode, section) => this.submitRating(rating, productCode, section)}
+											editRatingReview={(productcode) => this.editRatingReview(productcode)}
 										/>
                                     </div>
                                 )}

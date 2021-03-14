@@ -8,6 +8,7 @@ import {
   getRetryOrderDetails,
   getPendingReviews,
   getPublishedReviews,
+  getUserProductReview,
 } from "../actions/account.actions";
 import { withRouter } from "react-router-dom";
 import AllOrderDetails from "../components/AllOrderDetails";
@@ -20,7 +21,6 @@ import {
   RATING_REVIEW_MODAL_V2,
 } from "../../general/modal.actions";
 import {
-  addProductReview,
   getProductDescription,
   getParametersEligibleToRate,
   getTitleSuggestions,
@@ -65,9 +65,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     showRatingAndReviewModal: data => {
       dispatch(showModal(RATING_AND_REVIEW_MODAL, data));
     },
-    addProductReview: (productCode, productReview) => {
-      return dispatch(addProductReview(productCode, productReview));
-    },
     hideModal: () => {
       dispatch(hideModal());
     },
@@ -91,6 +88,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 	},
 	getPublishedReviews: (currentPage) => {
 		dispatch(getPublishedReviews(currentPage));
+	},
+	getUserProductReview : productCode => {
+		dispatch(getUserProductReview(productCode));
 	},
   };
 };

@@ -362,6 +362,12 @@ const account = (
 	getPublishedReviewsLoading: false,
 	getPublishedReviewsError: null,
 	getPublishedReviewsDetails: null,
+
+	getUserProductReviewStatus: null,
+	getUserProductReviewLoading: false,
+	getUserProductReviewError: null,
+	getUserProductReviewDetails: null,
+
   },
   action
 ) => {
@@ -2359,6 +2365,27 @@ const account = (
 			getPublishedReviewsLoading: false,
 			getPublishedReviewsError: action.error,
 			getPublishedReviewsDetails: null,
+		});
+
+	case accountActions.GET_USER_PRODUCT_REVIEWS_REQUEST:
+		return Object.assign({}, state, {
+			getUserProductReviewStatus: action.status,
+			getUserProductReviewLoading: true,
+		});
+
+	case accountActions.GET_USER_PRODUCT_REVIEWS_SUCCESS:
+		return Object.assign({}, state, {
+			getUserProductReviewStatus: action.status,
+			getUserProductReviewLoading: false,
+			getUserProductReviewDetails: action.data,
+		});
+
+	case accountActions.GET_USER_PRODUCT_REVIEWS_FAILURE:
+		return Object.assign({}, state, {
+			getUserProductReviewStatus: action.status,
+			getUserProductReviewLoading: false,
+			getUserProductReviewError: action.error,
+			getUserProductReviewDetails: null,
 		});
 
     default:
