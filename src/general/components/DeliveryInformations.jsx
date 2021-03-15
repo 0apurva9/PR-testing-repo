@@ -159,17 +159,17 @@ export default class DeliveryInformations extends React.Component {
             iconImage = deliveryIcon;
             if (this.props.inCartPage || this.props.inCheckOutPage) {
                 typeDate = `${formattedPlacedTime}`;
-                typeText = this.props.placedTime ? `${EXPRESS_TEXT}` : null;
+                typeText = this.props.placedTime ? `${EXPRESS_TEXT}` : "";
             } else {
                 typeDate = `${formattedPlacedTime}`;
-                typeText = !this.props.deliveryInformationByCart && this.props.placedTime ? `${EXPRESS_TEXT}` : null;
+                typeText = !this.props.deliveryInformationByCart && this.props.placedTime ? `${EXPRESS_TEXT}` : "";
             }
             arrowStyle = styles.arrowLink;
             iconSize = this.props.inCartPageIcon ? 34 : 38;
         } else if (this.props.type === SHORT_HOME_DELIVERY) {
             iconImage = deliveryIcon;
             typeDate = `${formattedPlacedTime}`;
-            typeText = this.props.placedTime ? `${HOME_TEXT}` : null;
+            typeText = this.props.placedTime ? `${HOME_TEXT}` : "";
             iconSize = 38;
         } else if (this.props.type === SHORT_COLLECT) {
             iconImage = quiqIcon;
@@ -182,16 +182,16 @@ export default class DeliveryInformations extends React.Component {
                 iconSize = 34;
             } else {
                 typeDate = `${formattedPlacedTime}`;
-                typeText = this.props.placedTime ? `${SHORT_SAME_DAY_TEXT}` : null;
+                typeText = this.props.placedTime ? `${SHORT_SAME_DAY_TEXT}` : "";
                 iconSize = 38;
             }
         } else if (this.props.type === SAME_DAY_DELIVERY) {
             iconImage = deliveryIcon;
-            typeText = this.props.placedTime ? SAME_DAY_DELIVERY_SHIPPING_TEXT : null;
+            typeText = this.props.placedTime ? SAME_DAY_DELIVERY_SHIPPING_TEXT : "";
             iconSize = 34;
         } else if (this.props.type === HOME_DELIVERY) {
             iconImage = deliveryIcon;
-            typeText = this.props.placedTime ? HOME_TEXT : null;
+            typeText = this.props.placedTime ? HOME_TEXT : "";
             iconSize = 34;
         } else if (this.props.isQuiqPiq) {
             iconImage = quiqpiqImage;

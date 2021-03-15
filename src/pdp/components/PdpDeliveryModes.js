@@ -93,7 +93,7 @@ export default class PdpDeliveryModes extends React.Component {
       (deliveryDates &&
         deliveryDates
           .map(val => {
-            return val.type;
+            return val?.deliveryMode?.type || val.type;
           })
           .includes(SHORT_EXPRESS)) ||
       (deliveryDates &&
@@ -105,7 +105,7 @@ export default class PdpDeliveryModes extends React.Component {
       (deliveryDates &&
         deliveryDates
           .map(val => {
-            return val.type;
+            return val?.deliveryMode?.type || val.type;
           })
           .includes(SHORT_SAME_DAY_DELIVERY))
         ? styles.standardAndCashOnDelivery
@@ -125,7 +125,7 @@ export default class PdpDeliveryModes extends React.Component {
             {deliveryDates &&
               deliveryDates
                 .map(val => {
-                  return val.type;
+                  return val?.deliveryMode?.type || val.type;
                 })
                 .includes(SHORT_SAME_DAY_DELIVERY) && (
                 <DeliveryInformation
@@ -179,7 +179,7 @@ export default class PdpDeliveryModes extends React.Component {
             {deliveryDates &&
               deliveryDates
                 .map(val => {
-                  return val.type;
+                  return val?.deliveryMode?.type || val.type;
                 })
                 .includes(SHORT_EXPRESS) && (
                 <DeliveryInformation
@@ -233,7 +233,7 @@ export default class PdpDeliveryModes extends React.Component {
             {deliveryDates &&
               deliveryDates
                 .map(val => {
-                  return val.type;
+                  return val?.deliveryMode?.type || val.type;
                 })
                 .includes(SHORT_COLLECT) && (
                 <DeliveryInformation
@@ -247,7 +247,7 @@ export default class PdpDeliveryModes extends React.Component {
                     deliveryDates &&
                     deliveryDates
                       .map(val => {
-                        return val.type;
+                        return val?.deliveryMode?.type || val.type;
                       })
                       .includes(SHORT_COLLECT)
                   }
@@ -293,7 +293,7 @@ export default class PdpDeliveryModes extends React.Component {
           {deliveryDates &&
             deliveryDates
               .map(val => {
-                return val.type;
+                return val?.deliveryMode?.type || val.type;
               })
               .includes(SHORT_HOME_DELIVERY) && (
               <div className={styles.infoHolder}>
@@ -307,7 +307,7 @@ export default class PdpDeliveryModes extends React.Component {
                     deliveryDates &&
                     deliveryDates
                       .map(val => {
-                        return val.type;
+                        return val?.deliveryMode?.type || val.type;
                       })
                       .includes(SHORT_HOME_DELIVERY)
                   }
@@ -315,10 +315,10 @@ export default class PdpDeliveryModes extends React.Component {
                     deliveryDates &&
                     deliveryDates
                       .filter(val => {
-                        return val.type === SHORT_HOME_DELIVERY;
+                        return val.type === SHORT_HOME_DELIVERY || val?.deliveryMode?.type === SHORT_HOME_DELIVERY;
                       })
                       .map(val => {
-                        return val.deliveryDate;
+                        return val.deliveryDate || val?.deliveryMode?.deliveryDate;
                       })[0]
                   }
                   notShowDay={true}
@@ -326,7 +326,7 @@ export default class PdpDeliveryModes extends React.Component {
                     deliveryDates &&
                     deliveryDates
                       .map(val => {
-                        return val.type;
+                        return val?.deliveryMode?.type || val.type;
                       })
                       .includes(SHORT_HOME_DELIVERY)
                       ? true
@@ -348,7 +348,7 @@ export default class PdpDeliveryModes extends React.Component {
                   }
                 />
               </div>
-            )}
+           )}
           {isCod === "Y" && (
             <div className={styles.infoHolder}>
               <DeliveryInformation
