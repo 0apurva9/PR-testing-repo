@@ -70,6 +70,7 @@ class RnRRatingSectionComponent extends Component {
 
 RnRRatingSectionComponent.propTypes = {
     getUpdatedRating: PropTypes.func,
+	selectedRating: PropTypes.number,
 };
 
 export default RnRRatingSectionComponent;

@@ -794,6 +794,8 @@ export default class OrderDetails extends React.Component {
                                                 products.consignmentStatus != "UNDELIVERED" &&
                                                 products.consignmentStatus != "CANCELLATION_INITIATED" &&
                                                 products.consignmentStatus != "PAYMENT_TIMEOUT" &&
+												products.consignmentStatus != "PAYMENT_SUCCESSFUL" &&
+                                                products.consignmentStatus != "PAYMENT_FAILED" &&
                                                 products.consignmentStatus != "PICK_CONFIRMED" &&
                                                 products.consignmentStatus != "ORDER_UNCOLLECTED" && (
                                                     <React.Fragment>

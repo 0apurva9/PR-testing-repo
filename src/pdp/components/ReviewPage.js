@@ -3,8 +3,12 @@ import styles from "./ReviewPage.css";
 import PropTypes from "prop-types";
 import RatingAndIconComponent from "./PdpBeautyDesktop/DescriptionSection/RatingAndIconComponent";
 import RatingWithStatusBarComponent from "./PdpBeautyDesktop/DescriptionSection/RatingWithStatusBarComponent";
-const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+import Icon from "../../xelpmoc-core/Icon";
+import defaultUserIcon from "./img/defaultUserIcon.svg";
+import maleUserIcon from "./img/maleUserIcon.svg";
+import femaleUserIcon from "./img/femaleUserIcon.svg";
 
+const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const INVALID_DATE = "Invalid Date";
 export default class ReviewPage extends React.Component {
     render() {
@@ -14,11 +18,24 @@ export default class ReviewPage extends React.Component {
             getDate = userReviewDate[2].split("T")[0];
         }
         let date = getDate + " " + months[userReviewDate[1] - 1] + ", " + userReviewDate[0];
+		let userIcon = defaultUserIcon;
+		if(this.props.gender) {
+			if(this.props.gender === "MALE") {
+				userIcon = maleUserIcon;
+			}
+			if(this.props.gender === "FEMALE") {
+				userIcon = femaleUserIcon;
+			}
+		}
+
         return (
             <div className={styles.base}>
                 {date && date !== INVALID_DATE ? (
                     <div className={styles.dateTimeBox}>
                         <span>
+							<span className={styles.userIconContainer}>
+								<Icon image={userIcon} size={25} />
+							</span>
                             <span className={styles.nameHolder}>
                                 {this.props.name &&
                                     this.props.name.charAt(0).toUpperCase() + this.props.name.slice(1).toLowerCase()}
@@ -98,4 +115,5 @@ ReviewPage.propTypes = {
     colorlink: PropTypes.object,
     sizelink: PropTypes.object,
     eligibleParamCaptured: PropTypes.object,
+	gender: PropTypes.string,
 };

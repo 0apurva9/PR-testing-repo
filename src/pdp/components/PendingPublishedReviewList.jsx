@@ -45,6 +45,7 @@ export default class PendingPublishedReviewList extends React.Component {
 										colorlink={data.colorlink}
 										sizelink={data.sizelink}
 										eligibleParamCaptured={data.eligibleParamCaptured}
+										gender={data.gender}
 									/>
 								) : null}
 

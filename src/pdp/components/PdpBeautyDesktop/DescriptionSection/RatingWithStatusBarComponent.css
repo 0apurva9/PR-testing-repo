@@ -24,7 +24,7 @@
 .ratingContainer {
 	width: 100%;
 	height: 22px;
-	padding: 2px 7px 0 7px;
+	padding: 2px 0 0 0;
 }
 
 .ratingContainerFluid {

@@ -7,6 +7,7 @@
 	font-family: semibold;
 	font-size: 40px;
 	color: #212121;
+	line-height: 0;
 }
 
 .starContainer {
@@ -16,6 +17,7 @@
 .ratingTextContainerOther {
 	display: flex;
 	align-items: center;
+	margin-bottom: 10px;
 }
 
 .starContainerOther {
