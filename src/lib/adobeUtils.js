@@ -600,6 +600,9 @@ export const ADOBE_SELF_SERVE_FAQ_PAGE_LOAD = "ADOBE_SELF_SERVE_FAQ_PAGE_LOAD";
 // for rating n review new UI
 export const ADOBE_RATING_REVIEW_PDP_INITIAL_DATA = "ADOBE_RATING_REVIEW_PDP_INITIAL_DATA";
 export const ADOBE_RATING_REVIEW_PDP_REVIEW_PAGE = "ADOBE_RATING_REVIEW_PDP_REVIEW_PAGE";
+export const ADOBE_RATING_REVIEW_WRITE_REVIEW_CLICK = "ADOBE_RATING_REVIEW_WRITE_REVIEW_CLICK";
+export const ADOBE_RATING_REVIEW_SORT_BY_CLICK = "ADOBE_RATING_REVIEW_SORT_BY_CLICK";
+const ADOBE_RATING_REVIEW_GENERIK_CLICK = "genericClick";
 
 export async function setDataLayer(type, apiResponse, icid, icidType, behaviorOfPage) {
     const response = cloneDeep(apiResponse);
@@ -4682,6 +4685,30 @@ export function setDataLayerForRatingReviewSection(type, data) {
 				linkName: "pdp:seeAll"
 			}
         });
+    }
+
+	if (type === ADOBE_RATING_REVIEW_WRITE_REVIEW_CLICK) {
+        Object.assign(previousDigitalData, {
+            rating: data,
+			event: {
+				linkName: "productReview:WriteReview"
+			}
+        });
+		if (window._satellite) {
+            window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_CLICK);
+        }
+    }
+
+	if (type === ADOBE_RATING_REVIEW_SORT_BY_CLICK) {
+        Object.assign(previousDigitalData, {
+            rating: data.ratingReviewData,
+			event: {
+				linkName: "productReview:sortBy:"+data.sortByValue
+			}
+        });
+		if (window._satellite) {
+            window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_CLICK);
+        }
     }
 
 	window.digitalData = previousDigitalData;
