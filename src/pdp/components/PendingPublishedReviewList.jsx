@@ -29,6 +29,7 @@ export default class PendingPublishedReviewList extends React.Component {
 									submitRating={(rating, productCode, section) => this.props.submitRating(rating, productCode, section)}
 									isPublishedReview={this.props.isPublishedReview}
 									canEditDelete={data.canEditDelete}
+									editRatingReview={(productcode) => this.props.editRatingReview(productcode)}
 								/>
 
 								{/* to show on pending/published review page conditionally */}
@@ -62,4 +63,5 @@ PendingPublishedReviewList.propTypes = {
     reviewList: PropTypes.array,
 	submitRating: PropTypes.func,
 	isPublishedReview: PropTypes.bool,
+	editRatingReview: PropTypes.func,
 };
