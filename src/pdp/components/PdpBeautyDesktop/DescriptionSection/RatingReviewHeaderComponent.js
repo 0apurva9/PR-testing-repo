@@ -5,8 +5,29 @@ import RatingAndIconComponent from "./RatingAndIconComponent";
 import RatingWithStatusBarComponent from "./RatingWithStatusBarComponent";
 import RatingCountWithStatusBarComponent from "./RatingCountWithStatusBarComponent";
 import PropTypes from "prop-types";
+import {
+	setDataLayerForRatingReviewSection,
+	ADOBE_RATING_REVIEW_PDP_INITIAL_DATA,
+	ADOBE_RATING_REVIEW_PDP_REVIEW_PAGE
+} from "../../../../lib/adobeUtils";
 
 export default class RatingReviewHeaderComponent extends React.Component {
+	componentDidMount() {
+		// on initial page load
+		if(this.props.productDetails) {
+			const ratingReviewData = {
+				averageStar: this.props.productDetails.averageRating ? this.props.productDetails.averageRating : null,
+				totalReview: this.props.productDetails.numberOfReviews ? this.props.productDetails.numberOfReviews : null,
+				rating: this.props.productDetails.ratingCount ? this.props.productDetails.ratingCount : null
+			};
+			if(!this.props.isReviewPage) {
+				setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_PDP_INITIAL_DATA, ratingReviewData);
+			} else {
+				setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_PDP_REVIEW_PAGE, ratingReviewData);
+			}
+		}
+	}
+
     getSumOfStarRating = totalCountOfEachStarRating => {
         let eachStarRatingArray = [];
         totalCountOfEachStarRating &&

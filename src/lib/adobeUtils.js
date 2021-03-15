@@ -597,6 +597,10 @@ export const ADOBE_SELF_SERVE_NON_ORDER_QUESTION_CLICK = "ADOBE_SELF_SERVE_NON_O
 export const ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD = "ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD";
 export const ADOBE_SELF_SERVE_FAQ_PAGE_LOAD = "ADOBE_SELF_SERVE_FAQ_PAGE_LOAD";
 
+// for rating n review new UI
+export const ADOBE_RATING_REVIEW_PDP_INITIAL_DATA = "ADOBE_RATING_REVIEW_PDP_INITIAL_DATA";
+export const ADOBE_RATING_REVIEW_PDP_REVIEW_PAGE = "ADOBE_RATING_REVIEW_PDP_REVIEW_PAGE";
+
 export async function setDataLayer(type, apiResponse, icid, icidType, behaviorOfPage) {
     const response = cloneDeep(apiResponse);
 
@@ -4660,4 +4664,25 @@ export function setDataLayerForCLiQCarePage(type, data, pageName) {
             window._satellite.track(LOGIN_START);
         }
     }
+}
+
+export function setDataLayerForRatingReviewSection(type, data) {
+	let previousDigitalData = cloneDeep(window.digitalData);
+
+	if (type === ADOBE_RATING_REVIEW_PDP_INITIAL_DATA) {
+        Object.assign(previousDigitalData, {
+            rating: data,
+        });
+    }
+
+	if (type === ADOBE_RATING_REVIEW_PDP_REVIEW_PAGE) {
+        Object.assign(previousDigitalData, {
+            rating: data,
+			event: {
+				linkName: "pdp:seeAll"
+			}
+        });
+    }
+
+	window.digitalData = previousDigitalData;
 }
