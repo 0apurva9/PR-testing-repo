@@ -474,6 +474,10 @@ export const GET_PUBLISHED_REVIEWS_REQUEST = "GET_PUBLISHED_REVIEWS_REQUEST";
 export const GET_PUBLISHED_REVIEWS_SUCCESS = "GET_PUBLISHED_REVIEWS_SUCCESS";
 export const GET_PUBLISHED_REVIEWS_FAILURE = "GET_PUBLISHED_REVIEWS_FAILURE";
 
+export const GET_USER_PRODUCT_REVIEWS_REQUEST = "GET_USER_PRODUCT_REVIEWS_REQUEST";
+export const GET_USER_PRODUCT_REVIEWS_SUCCESS = "GET_USER_PRODUCT_REVIEWS_SUCCESS";
+export const GET_USER_PRODUCT_REVIEWS_FAILURE = "GET_USER_PRODUCT_REVIEWS_FAILURE";
+
 const GENESYS_KEY = "Zgjei@$Pu";
 
 export function getDetailsOfCancelledProductRequest() {
@@ -5577,6 +5581,52 @@ export function getPublishedReviews(currentPage) {
 			}
         } catch (e) {
             dispatch(getPublishedReviewsFailure(e.message));
+        }
+    };
+}
+
+export function getUserProductReviewRequest() {
+    return {
+        type: GET_USER_PRODUCT_REVIEWS_REQUEST,
+        status: REQUESTING,
+    };
+}
+
+export function getUserProductReviewSuccess(data) {
+    return {
+        type: GET_USER_PRODUCT_REVIEWS_SUCCESS,
+        status: SUCCESS,
+        data,
+    };
+}
+
+export function getUserProductReviewFailure(error) {
+    return {
+        type: GET_USER_PRODUCT_REVIEWS_FAILURE,
+        status: ERROR,
+        error,
+    };
+}
+
+export function getUserProductReview(productCode) {
+    return async (dispatch, getState, { api }) => {
+		let userDetails = await getLoggedInUserDetails();
+		let userName = userDetails.userName;
+		let accessToken = await getCustomerAccessToken();
+
+        dispatch(getUserProductReviewRequest());
+        try {
+            const result = await api.get(
+                `v2/mpl/reviews/${productCode.toUpperCase()}/users/${userName}/getUserProductReview?access_token=${accessToken}`
+            );
+            const resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+            if (resultJsonStatus.status || result.status !== 200) {
+                dispatch(getUserProductReviewFailure());
+            }
+            dispatch(getUserProductReviewSuccess(resultJson));
+        } catch (e) {
+            dispatch(getUserProductReviewFailure(e.message));
         }
     };
 }

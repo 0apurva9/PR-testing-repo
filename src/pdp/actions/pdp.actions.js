@@ -1245,6 +1245,9 @@ export function addProductReview(productCode, productReview) {
     if (productReview.headline) {
         reviewData.append("headline", productReview.headline);
     }
+	if (productReview.id) {
+        reviewData.append("id", productReview.id);
+    }
     let accessToken = getCustomerAccessToken();
     return async (dispatch, getState, { api }) => {
         dispatch(addProductReviewRequest());

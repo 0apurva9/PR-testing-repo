@@ -5,8 +5,45 @@ import PropTypes from "prop-types";
 class RnRQualitiesSectionComponent extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+			initialParams: null,
+			initialParamsLength: 0,
+			paramsFromUserProductReview: null,
+			paramsFromUserProductReviewLength: 0,
+		};
     }
+
+	componentDidMount() {
+		// if user is submiting params first time
+		if(this.props.paramsEligibleToRateDetails &&
+			this.props.paramsEligibleToRateDetails.eligibleParamToCaptureRating &&
+			this.props.paramsEligibleToRateDetails.eligibleParamToCaptureRating.length > 0) {
+				this.setState({
+					initialParams : this.props.paramsEligibleToRateDetails.eligibleParamToCaptureRating,
+					initialParamsLength : this.props.paramsEligibleToRateDetails.eligibleParamToCaptureRating.length
+				});
+			}
+
+		// if user is editing rating/review from published review section
+		if(this.props.userProductReviewDetails &&
+			this.props.userProductReviewDetails.eligibleParamCaptured &&
+			this.props.userProductReviewDetails.eligibleParamCaptured.length > 0 ) {
+				this.setState({
+					paramsFromUserProductReview: this.props.userProductReviewDetails.eligibleParamCaptured,
+					paramsFromUserProductReviewLength: this.props.userProductReviewDetails.eligibleParamCaptured.length
+				});
+				// initially set submit btn active
+				let paramsDataForAPI = this.props.userProductReviewDetails.eligibleParamCaptured.map((existingParam) => {
+					let {paramVisibility, ...otherParamsObj} = existingParam;
+					return otherParamsObj;
+				});
+				this.props.getUpdatedParameters(
+					paramsDataForAPI,
+					paramsDataForAPI,
+					this.props.userProductReviewDetails.eligibleParamCaptured.length
+				);
+			}
+	}
 
     getClsNameHighRating = number => {
         switch (number) {
@@ -62,53 +99,70 @@ class RnRQualitiesSectionComponent extends Component {
     };
 
     setParameters = (index, qtyParam, parameterName) => {
-        let paramsData = this.state.paramsData ? this.state.paramsData : {};
-        paramsData[`${index}`] = qtyParam;
-        this.setState({ paramsData });
+		if(this.state.paramsFromUserProductReview) {
+			// if user is editing rating/review from published review section
+			let existingParams = this.state.paramsFromUserProductReview;
+			existingParams[index].parameterRating = qtyParam;
+			this.setState({paramsFromUserProductReview : existingParams});
 
-        let paramsDataForAPI = this.state.paramsDataForAPI ? this.state.paramsDataForAPI : [];
-        let eachParam = { parameterName: parameterName, parameterRating: qtyParam };
+			let paramsDataForAPI = existingParams.map((existingParam) => {
+				let {paramVisibility, ...otherParamsObj} = existingParam;
+				return otherParamsObj;
+			});
+			this.props.getUpdatedParameters(paramsDataForAPI, paramsDataForAPI, this.state.paramsFromUserProductReviewLength);
+		} else {
+			// if user is submiting params first time
+			let paramsData = this.state.paramsData ? this.state.paramsData : {};
+			paramsData[`${index}`] = qtyParam;
+			this.setState({ paramsData });
 
-        if (paramsDataForAPI.length === 0) {
-            paramsDataForAPI.push(eachParam);
-            this.setState({ paramsDataForAPI });
-        } else {
-            let currentIndex;
-            let alreadySelectedParam =
-                paramsDataForAPI &&
-                paramsDataForAPI.filter((data, index) => {
-                    if (data.parameterName === parameterName) {
-                        currentIndex = index;
-                        return data;
-                    }
-                });
-            if (alreadySelectedParam.length === 0) {
-                paramsDataForAPI.push(eachParam);
-                this.setState({ paramsDataForAPI });
-            } else {
-                paramsDataForAPI.splice(currentIndex, 1);
-                paramsDataForAPI.push(eachParam);
-                this.setState({ paramsDataForAPI });
-            }
-        }
-        this.props.getUpdatedParameters(paramsData, paramsDataForAPI);
+			let paramsDataForAPI = this.state.paramsDataForAPI ? this.state.paramsDataForAPI : [];
+			let eachParam = { parameterName: parameterName, parameterRating: qtyParam };
+
+			if (paramsDataForAPI.length === 0) {
+				paramsDataForAPI.push(eachParam);
+				this.setState({ paramsDataForAPI });
+			} else {
+				let currentIndex;
+				let alreadySelectedParam =
+					paramsDataForAPI &&
+					paramsDataForAPI.filter((data, index) => {
+						if (data.parameterName === parameterName) {
+							currentIndex = index;
+							return data;
+						}
+					});
+				if (alreadySelectedParam.length === 0) {
+					paramsDataForAPI.push(eachParam);
+					this.setState({ paramsDataForAPI });
+				} else {
+					paramsDataForAPI.splice(currentIndex, 1);
+					paramsDataForAPI.push(eachParam);
+					this.setState({ paramsDataForAPI });
+				}
+			}
+			this.props.getUpdatedParameters(paramsData, paramsDataForAPI, this.state.initialParamsLength);
+		}
     };
 
     render() {
-        const { paramsEligibleToRateDetails } = this.props;
+		let params = this.state.initialParams;
+		if(this.state.paramsFromUserProductReview){
+			params = this.state.paramsFromUserProductReview;
+		}
 
         return (
             <React.Fragment>
                 <div className={styles.heading}>Help us understand what you liked</div>
                 <div className={styles.ratingDetailsContainer}>
-                    {paramsEligibleToRateDetails &&
-					paramsEligibleToRateDetails.eligibleParamToCaptureRating &&
-                        paramsEligibleToRateDetails.eligibleParamToCaptureRating.length > 0 &&
-                        paramsEligibleToRateDetails.eligibleParamToCaptureRating.map((eachQuality, index) => {
+                    {params && params.map((eachQuality, index) => {
                             let currentRating = this.state.paramsData && this.state.paramsData[index];
+							if(this.state.paramsFromUserProductReview){
+								currentRating = eachQuality.parameterRating;
+							}
                             return (
                                 <div key={eachQuality.parameterName}>
-                                    {eachQuality.parameterCapture ? (
+                                    {eachQuality.parameterCapture || eachQuality.paramVisibility ? (
                                         <React.Fragment>
                                             <div className={styles.qualityName}>{eachQuality.parameterName}</div>
                                             <div className={styles.eachRatingContainer}>

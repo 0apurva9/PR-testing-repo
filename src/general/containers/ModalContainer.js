@@ -107,6 +107,7 @@ const mapStateToProps = state => {
         getTitleSuggestionsDetails: state.productDescription.getTitleSuggestionsDetails,
         addReviewDetails: state.productDescription.addReviewDetails,
         submitParameterRatingDetails: state.productDescription.submitParameterRatingDetails,
+		userProductReviewDetails: state.profile.getUserProductReviewDetails,
     };
 };
 

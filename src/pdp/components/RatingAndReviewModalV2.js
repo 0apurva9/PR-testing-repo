@@ -29,6 +29,9 @@ export default class RatingAndReviewModalV2 extends Component {
             title: null,
             reviewDetails: null,
             titleSuggestionsDetails: null,
+			userProductReviewDetails: null,
+			id: null,
+			actualParamsCount: 0,
         };
     }
 
@@ -54,6 +57,11 @@ export default class RatingAndReviewModalV2 extends Component {
         if (this.props.getTitleSuggestionsDetails !== prevProps.getTitleSuggestionsDetails) {
             this.setState({ titleSuggestionsDetails: this.props.getTitleSuggestionsDetails });
         }
+
+		// get user reviews
+		if(this.props.userProductReviewDetails !== prevProps.userProductReviewDetails) {
+			this.setState({userProductReviewDetails : this.props.userProductReviewDetails});
+		}
     }
 
     activateSection = section => {
@@ -94,8 +102,8 @@ export default class RatingAndReviewModalV2 extends Component {
         // this.activateSection(2);
     };
 
-    getUpdatedParameters = (paramsData, paramsDataForAPI) => {
-        this.setState({ currentParamsData: paramsData });
+    getUpdatedParameters = (paramsData, paramsDataForAPI, actualParamsCount) => {
+        this.setState({ currentParamsData: paramsData, actualParamsCount });
         let qualities = {
             userRating: this.state.currentRating,
             parameterRating: paramsDataForAPI,
@@ -125,9 +133,9 @@ export default class RatingAndReviewModalV2 extends Component {
         }
     };
 
-    getUpdatedReviewDetails = (title, reviewDetails) => {
+    getUpdatedReviewDetails = (title, reviewDetails, id) => {
         if (title && reviewDetails) {
-            this.setState({ disableReviewSubmit: false, title: title, reviewDetails: reviewDetails });
+            this.setState({ disableReviewSubmit: false, title, reviewDetails, id });
         } else {
             this.setState({ disableReviewSubmit: true });
         }
@@ -141,6 +149,9 @@ export default class RatingAndReviewModalV2 extends Component {
             productReview.rating = this.state.currentRating;
             productReview.headline = this.state.title;
             productReview.comment = this.state.reviewDetails;
+			if(this.state.userProductReviewDetails && this.state.id) {
+				productReview.id = this.state.id;
+			}
             this.props.addProductReview(this.props.productCode, productReview);
             // on success
             // this.activateSection(4);
@@ -192,20 +203,26 @@ export default class RatingAndReviewModalV2 extends Component {
                     {this.state.sectionActive === 2 && (
                         <RnRQualitiesSectionComponent
                             paramsEligibleToRateDetails={paramsEligibleToRateDetails}
-                            getUpdatedParameters={(paramsData, paramsDataForAPI) =>
-                                this.getUpdatedParameters(paramsData, paramsDataForAPI)
+                            getUpdatedParameters={(paramsData, paramsDataForAPI, actualParamsCount) =>
+                                this.getUpdatedParameters(paramsData, paramsDataForAPI, actualParamsCount)
                             }
+							userProductReviewDetails={this.state.userProductReviewDetails}
                         />
                     )}
                     {this.state.sectionActive === 3 && (
                         <RnRReviewSectionComponent
                             titleSuggestionsDetails={this.state.titleSuggestionsDetails}
-                            getUpdatedReviewDetails={(title, reviewDetails) =>
-                                this.getUpdatedReviewDetails(title, reviewDetails)
+                            getUpdatedReviewDetails={(title, reviewDetails, id) =>
+                                this.getUpdatedReviewDetails(title, reviewDetails, id)
                             }
+							userProductReviewDetails={this.state.userProductReviewDetails}
                         />
                     )}
-                    {this.state.sectionActive === 4 && <RnRSuccessSectionComponent />}
+                    {this.state.sectionActive === 4 && (
+						<RnRSuccessSectionComponent
+							selectedRating={this.state.currentRating}
+						/>
+					)}
                 </div>
 
                 {this.state.sectionActive !== 4 && (
@@ -232,7 +249,7 @@ export default class RatingAndReviewModalV2 extends Component {
                                     <div className={styles.iconContainer}>
                                         <Icon
                                             image={
-                                                currentParamsDataLength !== 5 ? rnrQualitiesBlank : rnrQualitiesFilled
+                                                currentParamsDataLength !== this.state.actualParamsCount ? rnrQualitiesBlank : rnrQualitiesFilled
                                             }
                                             size={30}
                                         />
@@ -291,7 +308,7 @@ export default class RatingAndReviewModalV2 extends Component {
                                 borderRadius="4px"
                                 fontFamily="regular"
                                 handleClick={() => this.submitQualities()}
-                                disabled={currentParamsDataLength !== 5 ? true : false}
+                                disabled={currentParamsDataLength !== this.state.actualParamsCount ? true : false}
                             />
                         </React.Fragment>
                     )}
@@ -341,4 +358,5 @@ RatingAndReviewModalV2.propTypes = {
     addReviewDetails: PropTypes.object,
     submitParameterRatingDetails: PropTypes.object,
 	section: PropTypes.number,
+	userProductReviewDetails: PropTypes.object,
 };
