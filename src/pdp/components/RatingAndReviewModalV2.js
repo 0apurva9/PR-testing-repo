@@ -218,7 +218,11 @@ export default class RatingAndReviewModalV2 extends Component {
 							userProductReviewDetails={this.state.userProductReviewDetails}
                         />
                     )}
-                    {this.state.sectionActive === 4 && <RnRSuccessSectionComponent />}
+                    {this.state.sectionActive === 4 && (
+						<RnRSuccessSectionComponent
+							selectedRating={this.state.currentRating}
+						/>
+					)}
                 </div>
 
                 {this.state.sectionActive !== 4 && (

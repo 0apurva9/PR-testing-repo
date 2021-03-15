@@ -56,7 +56,10 @@ class RnRReviewSectionComponent extends Component {
     };
 
     render() {
-		const {id} = this.props.userProductReviewDetails;
+		let id = null;
+		if(this.props.userProductReviewDetails && this.props.userProductReviewDetails.id) {
+			id = this.props.userProductReviewDetails.id;
+		}
 
         return (
             <React.Fragment>

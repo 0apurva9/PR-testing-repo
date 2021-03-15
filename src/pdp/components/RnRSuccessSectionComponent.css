@@ -2,6 +2,12 @@
     font-size: 24px;
     font-family: "semibold";
     text-align: center;
-    width: 327px;
+    width: 302px;
     margin: 0 auto;
+}
+
+.iconContainer {
+	display: flex;
+	justify-content: center;
+	margin-top: 26px;
 }
