@@ -565,7 +565,7 @@ export default class FilterDesktop extends React.Component {
                                                 val.childFilters[0] &&
                                                 /*  !val.childFilters[0].selected && */
                                                 val.childFilters[0].childFilters &&
-                                                val.childFilters[0].childFilters.length > 0 &&
+                                                val.childFilters[0].childFilters.length === 1 &&
                                                 val.childFilters[0].childFilters[0].childFilters &&
                                                 val.childFilters[0].childFilters[0].childFilters.length ===
                                                     1 /*  &&
