@@ -113,6 +113,7 @@ PendingPublishedReviews.propTypes = {
 	getPublishedReviews: PropTypes.func,
 	pendingReviewsDetails: PropTypes.object,
 	publishedReviewsDetails: PropTypes.object,
+	submitRating: PropTypes.func,
 };
 
 export default PendingPublishedReviews;

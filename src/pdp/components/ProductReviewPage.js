@@ -323,28 +323,72 @@ export default class ProductReviewPage extends Component {
     applyFilters = checkedItems => {
         // get product ids and send to api
         let variantOptions = this.props.reviews.variantOptions;
-        let selectedFilter;
+
+		let selectedColorVariant = [];
+		let selectedSizeVariant = [];
+
         checkedItems.forEach((value, key) => {
             if (value) {
-                selectedFilter = variantOptions.filter(variant => {
-                    if (variant.colorlink.color === key || variant.sizelink.size === key) {
+                // for color
+				let selectedColorFilter = variantOptions.filter(variant => {
+                    if (variant.colorlink.color === key) {
                         return variant;
                     }
                 });
+				if(selectedColorFilter && selectedColorFilter.length > 0){
+					selectedColorFilter.forEach((data) => {
+						selectedColorVariant.push(data);
+					});
+				}
+
+				// for size
+				let selectedSizeFilter = variantOptions.filter(variant => {
+                    if (variant.sizelink.size === key) {
+                        return variant;
+                    }
+                });
+				if(selectedSizeFilter && selectedSizeFilter.length > 0){
+					selectedSizeFilter.forEach((data) => {
+						selectedSizeVariant.push(data);
+					});
+				}
             }
         });
 
-        let productIds = [];
-        selectedFilter &&
-            selectedFilter.forEach(filterDetails => {
-                productIds.push(filterDetails.sizelink.productCode);
+		// for color
+        let productIdsForColor = [];
+        selectedColorVariant &&
+		selectedColorVariant.forEach(filterDetails => {
+				if(!productIdsForColor.includes(filterDetails.sizelink.productCode)){
+					productIdsForColor.push(filterDetails.sizelink.productCode);
+				}
             });
 
-        let productCodes = this.props.match.params[0];
-        if (productIds.length > 0) {
-            productCodes = productIds.join(",");
+		// for size
+		let productIdsForSize = [];
+		selectedSizeVariant &&
+		selectedSizeVariant.forEach(filterDetails => {
+				if(!productIdsForSize.includes(filterDetails.sizelink.productCode)){
+					productIdsForSize.push(filterDetails.sizelink.productCode);
+				}
+			});
+
+		let productIds;
+		if(productIdsForColor.length > 0 && productIdsForSize.length === 0){
+			productIds = productIdsForColor;
+		}
+		if(productIdsForColor.length === 0 && productIdsForSize.length > 0){
+			productIds = productIdsForSize;
+		}
+		if(productIdsForColor.length > 0 && productIdsForSize.length > 0){
+			productIds = productIdsForColor.filter(x => productIdsForSize.includes(x));
+		}
+
+        let filteredProducts = null;
+        if (productIds && productIds.length > 0) {
+            filteredProducts = productIds.join(",");
         }
-        this.props.getProductReviews(productCodes, 0, this.state.orderBy, this.state.sort);
+        this.props.getProductReviews(this.props.match.params[0], 0, this.state.orderBy, this.state.sort, filteredProducts);
     };
 
     clearFilters = () => {
@@ -383,6 +427,7 @@ export default class ProductReviewPage extends Component {
 
         let colorSet =
             variantOptions &&
+			variantOptions.length > 0 &&
             variantOptions
                 .map(item => item.colorlink.color)
                 .filter((value, index, self) => {
@@ -393,6 +438,7 @@ export default class ProductReviewPage extends Component {
 
         let colorHexCodeSet =
             variantOptions &&
+			variantOptions.length > 0 &&
             variantOptions
                 .map(item => item.colorlink.colorHexCode)
                 .filter((value, index, self) => {
@@ -403,6 +449,7 @@ export default class ProductReviewPage extends Component {
 
         let sizeSet =
             variantOptions &&
+			variantOptions.length > 0 &&
             variantOptions
                 .map(item => item.sizelink.size)
                 .filter((value, index, self) => {
