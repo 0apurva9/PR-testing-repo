@@ -32,10 +32,10 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
     }
 
     private onClickUseOtp() {
-        if (this.props.mnlApiResponse?.userData.customer.loginVia == "email") {
+        if (this.props.mnlApiResponse?.userData.customer?.loginVia == "email") {
             const mnlApiResponseState = this.props.mnlApiResponse;
             const mnlApiData: MnlApiData = JSON.parse(JSON.stringify(this.props.mnlApiData));
-            mnlApiData.maskedPhoneNumber = mnlApiResponseState.userData.customer.maskedPhoneNumber;
+            mnlApiData.maskedPhoneNumber = mnlApiResponseState.userData.customer?.maskedPhoneNumber;
             this.props.useOtpViaEmail(mnlApiData);
         } else {
             this.props.useOtpViaMobile();
@@ -71,7 +71,7 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
                             </div>
                             <div className={[styles.flexRow50, styles.justify_space].join(" ")}>
                                 <div className={styles.flexRow50Cols}>
-                                    {!!this.props.mnlApiResponse?.userData.customer.maskedPhoneNumber.length && (
+                                    {!!this.props.mnlApiResponse?.userData.customer?.maskedPhoneNumber.length && (
                                         <button
                                             type="button"
                                             className={styles.btnLink}
@@ -82,7 +82,7 @@ export class MnlPassword extends React.Component<MnlPasswordProps, MnlPasswordSt
                                         </button>
                                     )}
                                 </div>
-                                {this.props.mnlApiResponse?.userData.customer.loginVia === "email" && (
+                                {this.props.mnlApiResponse?.userData.customer?.loginVia === "email" && (
                                     <div className={[styles.flexRow50Cols, styles.text_right].join(" ")}>
                                         <button
                                             type="button"

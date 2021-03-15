@@ -6,7 +6,7 @@ import {
     SET_RESEND_OTP_TIME,
     WEB_MNL_LOGIN_SUCCESS,
     WEB_MNL_EMAIL_HIDDEN_SUCCESS,
-    SET_FORGET_PASSWORD
+    SET_FORGET_PASSWORD,
 } from "./mobile-number-login.actions";
 import { PLAT_FORM_NUMBER } from "../../lib/constants";
 import { MobileNumberLoginReduxState } from "../mobile-number-login.types";
@@ -42,17 +42,17 @@ const initailState: MobileNumberLoginReduxState = {
         phoneNumber: "",
         platformNumber: PLAT_FORM_NUMBER,
         newOtp: "",
-        currentOtp: ""
+        currentOtp: "",
     },
     mnlApiResponse: null,
     resendOtpTimmer: 0,
     isMNLLogin: {
         name: "",
-        value: false
+        value: false,
     },
     isWebMNLEmailHidden: {
         name: "",
-        value: false
+        value: false,
     },
     isForgetPasswordValue: false,
 };
@@ -65,7 +65,7 @@ export function mobileNumberLoginReducer(
     switch (action.type) {
         case CHANGE_LOGIN_STEP:
             Object.keys(newState.steps).forEach(
-                (key) => ((newState.steps as any)[key] = key === action.payload ? true : false)
+                key => ((newState.steps as any)[key] = key === action.payload ? true : false)
             );
             return newState;
         case SET_MNL_API_DATA:
@@ -74,7 +74,7 @@ export function mobileNumberLoginReducer(
                 mnlApiData: action.payload,
             };
         case SET_MNL_API_Response:
-            if (newState.mnlApiResponse) {
+            if (newState.mnlApiResponse && action.payload.statusCode !== 0) {
                 newState.mnlApiResponse.userData = { ...newState.mnlApiResponse.userData, ...action.payload.userData };
             } else {
                 newState.mnlApiResponse = action.payload;
@@ -85,7 +85,7 @@ export function mobileNumberLoginReducer(
             return {
                 ...state,
                 resendOtpTimmer: action.payload,
-            }
+            };
         case WEB_MNL_LOGIN_SUCCESS:
             return Object.assign({}, state, {
                 isMNLLogin: action.payload,
@@ -98,7 +98,7 @@ export function mobileNumberLoginReducer(
             return {
                 ...state,
                 isForgetPasswordValue: action.payload,
-            }
+            };
         default:
             return state;
     }

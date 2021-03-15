@@ -67,12 +67,12 @@ export function setLoginCustomerData(mnlApiResponse: MnlApiResponse) {
         const userDetails: UserDetails = {};
 
         if (mnlApiResponseState) {
-            if (mnlApiResponseState.userData.customer.loginVia == "email") {
+            if (mnlApiResponseState.userData.customer?.loginVia == "email") {
                 userDetails.userName = apiData.email;
-                userDetails.loginType = mnlApiResponseState.userData.customer.loginVia;
+                userDetails.loginType = mnlApiResponseState.userData.customer?.loginVia;
             } else {
                 userDetails.userName = apiData.phoneNumber;
-                userDetails.loginType = mnlApiResponseState.userData.customer.loginVia;
+                userDetails.loginType = mnlApiResponseState.userData.customer?.loginVia;
             }
         }
 
@@ -190,13 +190,13 @@ export function validateMnlChallenge() {
         ) {
             dispatch(changeLoginStep("isStepLoginPassword"));
         } else if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.newUser) {
-            mnlApiResponse.userData.customer.loginVia === "email"
+            mnlApiResponse.userData.customer?.loginVia === "email"
                 ? dispatch(changeLoginStep("isStepAddMobileNumber"))
                 : dispatch(changeLoginStep("isStepValidateOtp"));
-        } else if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer.maskedPhoneNumber.length) {
-            if (mnlApiResponse.userData.customer.loginVia === "email") {
+        } else if (mnlApiResponse.userData.customer && mnlApiResponse.userData.customer?.maskedPhoneNumber.length) {
+            if (mnlApiResponse.userData.customer?.loginVia === "email") {
                 /* login with email, varified email/mob and password not set */
-                apiData.maskedPhoneNumber = mnlApiResponse.userData.customer.maskedPhoneNumber;
+                apiData.maskedPhoneNumber = mnlApiResponse.userData.customer?.maskedPhoneNumber;
                 dispatch(setMnlApiData(apiData));
                 dispatch(generateOTP());
             } else {
@@ -206,10 +206,10 @@ export function validateMnlChallenge() {
         } else if (
             mnlApiResponseState &&
             mnlApiResponseState.userData.customer &&
-            mnlApiResponseState.userData.customer.loginVia === "mobile" &&
-            mnlApiResponseState.userData.customer.newUser &&
-            !mnlApiResponseState.userData.customer.numberAdded &&
-            !mnlApiResponseState.userData.customer.passwordSet
+            mnlApiResponseState.userData.customer?.loginVia === "mobile" &&
+            mnlApiResponseState.userData.customer?.newUser &&
+            !mnlApiResponseState.userData.customer?.numberAdded &&
+            !mnlApiResponseState.userData.customer?.passwordSet
         ) {
             dispatch(changeLoginStep("isStepEmail"));
         } else if (
@@ -237,7 +237,7 @@ export function loginWithPassword() {
         if (globalAccessTokenCookie) {
             globalAccessToken = JSON.parse(globalAccessTokenCookie);
         }
-        if (mnlApiResponseState && mnlApiResponseState.userData.customer.numberAdded) {
+        if (mnlApiResponseState && mnlApiResponseState.userData.customer?.numberAdded) {
             const result: Response = await api.post("mobileloginapi/v1/authnuser/authenticate", apiData, null, true, {
                 Authorization: `Bearer ${globalAccessToken.access_token}`,
                 "register-user": false,
@@ -333,7 +333,7 @@ export function generateOTP() {
             mnlApiResponse.userData.customer &&
             mnlApiResponse.userData.validation &&
             mnlApiResponse.userData.validation.validated &&
-            mnlApiResponse.userData.customer.passwordSet
+            mnlApiResponse.userData.customer?.passwordSet
         ) {
             dispatch(changeLoginStep("isForgotPassword"));
         }
@@ -358,8 +358,8 @@ export function validateOtp() {
         if (
             mnlApiResponseState &&
             mnlApiResponseState.userData &&
-            !mnlApiResponseState.userData.customer.passwordSet &&
-            mnlApiResponseState.userData.customer.loginVia === "mobile" &&
+            !mnlApiResponseState.userData.customer?.passwordSet &&
+            mnlApiResponseState.userData.customer?.loginVia === "mobile" &&
             mnlApiResponseState.userData.validation &&
             mnlApiResponseState.userData.validation.validated
         ) {
@@ -377,11 +377,11 @@ export function validateOtp() {
             mnlApiResponseState &&
             mnlApiResponseState.userData &&
             mnlApiResponseState.userData.customer &&
-            mnlApiResponseState.userData.customer.loginVia === "email" &&
+            mnlApiResponseState.userData.customer?.loginVia === "email" &&
             mnlApiResponseState.userData.validation &&
             !mnlApiResponseState.userData.validation.validated &&
-            mnlApiResponseState.userData.customer.newUser &&
-            !mnlApiResponseState.userData.customer.passwordSet &&
+            mnlApiResponseState.userData.customer?.newUser &&
+            !mnlApiResponseState.userData.customer?.passwordSet &&
             !mnlApiResponseState.userData.validation.emailIdChanged
         ) {
             header = {
@@ -394,7 +394,11 @@ export function validateOtp() {
                 platformnumber: PLAT_FORM_NUMBER,
             };
         }
-        if (mnlApiResponseState && mnlApiResponseState.userData && !mnlApiResponseState.userData.customer.numberAdded) {
+        if (
+            mnlApiResponseState &&
+            mnlApiResponseState.userData &&
+            !mnlApiResponseState.userData.customer?.numberAdded
+        ) {
             apiData.pass = "";
         }
         if (
@@ -588,7 +592,7 @@ export function updatePassword() {
             mnlApiResponse.userData.profileUpdate.updated
         ) {
             dispatch(loginWithPassword());
-        } else if (mnlApiResponseState.userData && mnlApiResponseState.userData.customer.maskedPhoneNumber) {
+        } else if (mnlApiResponseState.userData && mnlApiResponseState.userData.customer?.maskedPhoneNumber) {
             await dispatch(validateOtp());
             dispatch(changeLoginStep("isStepLoginSuccess1"));
         } else {
@@ -643,6 +647,9 @@ export function verifyOtpUpdatePassword() {
     const loginId = userDetails.userName || null;
     return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
         const apiData = getState().mobileNumberLogin.mnlApiData;
+        const loginUserData = getState().profile.userDetails;
+        apiData.email = loginUserData.emailID;
+        apiData.phoneNumber = loginUserData.mobileNumber;
         const result: Response = await api.post(
             `marketplacewebservices/v2/mpl/users/${loginId}/verifyOtpUpdatePassword`,
             apiData,
@@ -672,8 +679,11 @@ export function updatePasswordProfile() {
     const loginId = userDetails.userName || null;
     return async (dispatch: Function, getState: () => RootState, { api }: { api: any }) => {
         let apiData: MnlApiData = getState().mobileNumberLogin.mnlApiData;
+        const loginUserData = getState().profile.userDetails;
         apiData.platformNumber = "";
         apiData.maskedPhoneNumber = "";
+        apiData.email = loginUserData.emailID;
+        apiData.phoneNumber = loginUserData.mobileNumber;
         apiData = JSON.parse(JSON.stringify(apiData));
         const result: Response = await api.post(
             `marketplacewebservices/v2/mpl/users/${loginId}/updatepassword`,

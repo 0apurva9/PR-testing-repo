@@ -25,6 +25,7 @@ import {
     webMnlEmailHidden,
     setForgetPassword,
     sendOtpUpdatePassword,
+    setMnlApiResponse,
 } from "./store/mobile-number-login.actions";
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -108,6 +109,15 @@ const mapDispatchToProps = (disptach: Function) => {
             disptach(showSecondaryLoader());
             disptach(setMnlApiData(apiData));
             disptach(sendOtpUpdatePassword());
+        },
+        setMnlApiResponseNull: () => {
+            const mnlApiResponseState = {
+                message: "",
+                status: "",
+                statusCode: 0,
+                userData: {},
+            };
+            disptach(setMnlApiResponse(mnlApiResponseState));
         },
     };
 };
