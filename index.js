@@ -113,18 +113,15 @@ app.get("/.well-known/assetlinks.json", (req, res) => {
 });
 
 app.get("/.well-known/assetlinks.json", (req, res) => {
-    res.json([
-        {
-            relation: ["delegate_permission/common.handle_all_urls"],
-            target: {
-                namespace: "android_app",
-                package_name: "com.tul.tatacliq",
-                sha256_cert_fingerprints: [
-                    "F0:1B:9A:4E:86:01:DC:8D:D8:78:6D:95:05:4C:1B:09:DB:3A:0F:1F:CA:C7:23:B0:5E:BE:7D:54:15:BD:A1:81",
-                ],
-            },
-        },
-    ]);
+    res.json([{
+        relation: ["delegate_permission/common.handle_all_urls"],
+        target: {
+          namespace: "android_app",
+          package_name: "com.tul.tatacliq",
+          sha256_cert_fingerprints:
+          ["1D:D7:6A:44:8A:7D:7C:4B:BA:05:E8:A0:8D:59:EA:7C:7C:C8:93:31:4E:36:76:9A:C6:EF:DB:98:04:4E:BD:2C"]
+        }
+      }]);
 });
 
 app.get("/*", (req, res) => {
