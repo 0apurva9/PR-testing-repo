@@ -14,7 +14,7 @@ import rnrQualitiesBlank from "./img/rnrQualitiesBlank.svg";
 import rnrQualitiesFilled from "./img/rnrQualitiesFilled.svg";
 import rnrReviewBlank from "./img/rnrReviewBlank.svg";
 import rnrReviewFilled from "./img/rnrReviewFilled.svg";
-import { setDataLayerForRatingReviewSection, ADOBE_RATING_REVIEW_MODAL_RATING_SUBMIT } from "../../lib/adobeUtils";
+import { setDataLayerForRatingReviewSection, ADOBE_RATING_REVIEW_MODAL_RATING_SUBMIT, ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT } from "../../lib/adobeUtils";
 
 const success = "success";
 const failure = "failure";
@@ -53,6 +53,8 @@ export default class RatingAndReviewModalV2 extends Component {
 
         // handle submit for parameter submit and redirect to review screen
         if (this.props.submitParameterRatingDetails !== prevProps.submitParameterRatingDetails) {
+			let data = {pageName : this.props.pageName ? this.props.pageName : null, pageAction: "Submit"};
+			setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT, data);
             this.activateSection(3);
         }
 
@@ -75,6 +77,8 @@ export default class RatingAndReviewModalV2 extends Component {
                 this.props.paramsEligibleToRateDetails.status.toLowerCase() === success
             ) {
                 this.setState({ sectionActive: 2 });
+				let data = {pageName : this.props.pageName ? this.props.pageName : null, pageAction: "Skip"};
+				setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT, data);
             }
             if (
                 this.props.paramsEligibleToRateDetails &&

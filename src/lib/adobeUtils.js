@@ -605,6 +605,7 @@ export const ADOBE_RATING_REVIEW_SORT_BY_CLICK = "ADOBE_RATING_REVIEW_SORT_BY_CL
 export const ADOBE_RATING_REVIEW_MODAL_RATING_SECTION = "ADOBE_RATING_REVIEW_MODAL_RATING_SECTION";
 export const ADOBE_RATING_REVIEW_MODAL_RATING_SUBMIT = "ADOBE_RATING_REVIEW_MODAL_RATING_SUBMIT";
 export const ADOBE_RATING_REVIEW_MODAL_QUALITY_SECTION = "ADOBE_RATING_REVIEW_MODAL_QUALITY_SECTION";
+export const ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT = "ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT";
 const ADOBE_RATING_REVIEW_GENERIK_CLICK = "genericClick";
 const ADOBE_RATING_REVIEW_GENERIK_VP = "generic-vp";
 
@@ -4744,6 +4745,21 @@ export function setDataLayerForRatingReviewSection(type, data) {
 		});
 		if (window._satellite) {
             window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_VP);
+        }
+    }
+
+
+	if (type === ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT) {
+		Object.assign(previousDigitalData.page.pageInfo, {
+			pageName: `${data.pageName}:Quality Liked`
+		});
+		Object.assign(previousDigitalData, {
+			event: {
+				linkName: `${data.pageName}:Quality Liked:${data.pageAction}`
+			}
+        });
+		if (window._satellite) {
+            window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_CLICK);
         }
     }
 
