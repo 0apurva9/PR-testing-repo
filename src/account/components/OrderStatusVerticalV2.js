@@ -1100,7 +1100,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
                       </React.Fragment>
                     ) : (
                       <React.Fragment>
-                        {completedSteps.includes(NOT_DELIVERED) ? (
+                        {completedSteps.includes(NOT_DELIVERED) &&
+                         this.props.consignmentStatus !== OUT_FOR_DELIVERY ? (
                           <React.Fragment>
                             <div className={styles.step}>
                               <div className={styles.checkActive} />
@@ -1165,7 +1166,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
                           </React.Fragment>
                         ) : (
                           <React.Fragment>
-                            {completedSteps.includes(UNDELIVERED) ? (
+                            {completedSteps.includes(UNDELIVERED) &&
+                            this.props.consignmentStatus !== OUT_FOR_DELIVERY ? (
                               <div className={styles.stepInactive}>
                                 <div className={styles.checkActive} />
                                 <div className={styles.processNameHolderBold}>
