@@ -211,6 +211,7 @@ export default class RatingAndReviewModalV2 extends Component {
                                 this.getUpdatedParameters(paramsData, paramsDataForAPI, actualParamsCount)
                             }
 							userProductReviewDetails={this.state.userProductReviewDetails}
+							pageName={this.props.pageName}
                         />
                     )}
                     {this.state.sectionActive === 3 && (
@@ -220,6 +221,7 @@ export default class RatingAndReviewModalV2 extends Component {
                                 this.getUpdatedReviewDetails(title, reviewDetails, id)
                             }
 							userProductReviewDetails={this.state.userProductReviewDetails}
+							pageName={this.props.pageName}
                         />
                     )}
                     {this.state.sectionActive === 4 && (
