@@ -159,16 +159,20 @@ export default class FilterDesktop extends React.Component {
         }
     };
 
-    onL1Click = (val, filterType, filterValue, filterName, i) => {
+    onL1Click = (val, filterType, filterValue, filterName, i, l2Deselect = false) => {
         const storedPlpUrl = localStorage.getItem(LAST_PLP_URL);
         const currentUrl = `${this.props.location.pathname}${this.props.location.search}`;
-        if (storedPlpUrl) {
+        if (storedPlpUrl && !l2Deselect) {
             localStorage.removeItem(LAST_PLP_URL);
             localStorage.setItem(LAST_PLP_URL, currentUrl);
             this.onCategorySelect(val, filterType, filterValue, filterName, false, i);
         } else {
-            localStorage.setItem(LAST_PLP_URL, currentUrl);
-            this.onCategorySelect(val, filterType, filterValue, filterName, false, i);
+            if (!l2Deselect) {
+                localStorage.setItem(LAST_PLP_URL, currentUrl);
+                this.onCategorySelect(val, filterType, filterValue, filterName, false, i);
+            } else {
+                this.onCategorySelect(val, filterType, filterValue, filterName, false, i);
+            }
         }
     };
 
@@ -385,7 +389,8 @@ export default class FilterDesktop extends React.Component {
                                         text3FontFamily={"semibold"}
                                         iconMinus={true}
                                         headText={true}
-                                        filtHeadLine={true}>
+                                        filtHeadLine={true}
+                                    >
                                         <div className={styles.newFilterBlock}>
                                             <L1CategoryFilter
                                                 l1filters={facetdatacategory.filters}
@@ -432,7 +437,8 @@ export default class FilterDesktop extends React.Component {
                                                         text3FontFamily={"semibold"}
                                                         iconMinus={true}
                                                         headText={true}
-                                                        filtHeadLine={true}>
+                                                        filtHeadLine={true}
+                                                    >
                                                         <L2CategoryFilter
                                                             l2filters={val.childFilters}
                                                             onClick={this.onL2Click}
@@ -448,6 +454,7 @@ export default class FilterDesktop extends React.Component {
                                                         <SelectedCategoryLevel
                                                             name={val.childFilters[0].categoryName}
                                                             onL1Click={this.onL1Click}
+                                                            l2Deselect={true}
                                                             l1Name={val.categoryName}
                                                             l1CategoryCode={val.categoryCode}
                                                             showCloseIcon={true}
@@ -484,7 +491,8 @@ export default class FilterDesktop extends React.Component {
                                                         text3FontFamily={"semibold"}
                                                         iconMinus={true}
                                                         headText={true}
-                                                        filtHeadLine={true}>
+                                                        filtHeadLine={true}
+                                                    >
                                                         <L3CategoryFilter
                                                             l3filters={val.childFilters[0].childFilters}
                                                             onL3Click={this.onL3Click}
@@ -567,7 +575,7 @@ export default class FilterDesktop extends React.Component {
                                             return (
                                                 <div className={styles.newFilterBlock} key={i}>
                                                     <Accordion
-                                                        text1={"Leaf Node Product Type"}
+                                                        text1={"Subcategory"}
                                                         filterAccHolder={true}
                                                         isOpen={true}
                                                         iconPlus={true}
@@ -575,11 +583,10 @@ export default class FilterDesktop extends React.Component {
                                                         text3FontFamily={"semibold"}
                                                         iconMinus={true}
                                                         headText={true}
-                                                        filtHeadLine={true}>
+                                                        filtHeadLine={true}
+                                                    >
                                                         <L4CategoryFilter
-                                                            l4filters={
-                                                                val.childFilters[0].childFilters[0].childFilters
-                                                            }
+                                                            l4filters={val.childFilters[0].childFilters[0].childFilters}
                                                             onL4Click={this.onL3Click}
                                                         />
                                                     </Accordion>
@@ -601,18 +608,14 @@ export default class FilterDesktop extends React.Component {
                                             return (
                                                 <div className={styles.newFilSelcted} key={i}>
                                                     <div className={styles.newFilterBlock}>
-                                                        <div className={styles.newFilHeader}>
-                                                            Leaf Node Product Type
-                                                        </div>
+                                                        <div className={styles.newFilHeader}>Subcategory</div>
                                                         <SelectedCategoryLevel
                                                             name={
                                                                 val.childFilters[0].childFilters[0].childFilters[0]
                                                                     .categoryName
                                                             }
                                                             onL4Click={this.onL3Click}
-                                                            l3Name={
-                                                                val.childFilters[0].childFilters[0].categoryName
-                                                            }
+                                                            l3Name={val.childFilters[0].childFilters[0].categoryName}
                                                             l3CategoryCode={
                                                                 val.childFilters[0].childFilters[0].categoryCode
                                                             }
@@ -758,7 +761,7 @@ export default class FilterDesktop extends React.Component {
                                                             )}
                                                     </DesktopOnly>
                                                 </div>
-                                                
+
                                                 <div className={styles.filterBrandHolder}>
                                                     {facetDataValues &&
                                                         facetDataValues.name === BRAND &&
@@ -840,7 +843,7 @@ export default class FilterDesktop extends React.Component {
                                                         </div>
                                                     )}
                                             </Accordion>
-                                        </div>                                            
+                                        </div>
                                     )
                                 );
                             })}
@@ -862,14 +865,21 @@ export default class FilterDesktop extends React.Component {
                                         <Accordion
                                             key={i}
                                             text1={facetDataValues.name}
+                                            isOpen={isOpen}
+                                            onOpen={() => this.onOpenAccordion(facetDataValues.name)}
                                             widthForText1="100%"
                                             text1FontFamily={isOpen ? "semibold" : "light"}
                                             text1Color="#212121"
                                             text1Size="14px"
                                             headerFontSize={16}
-                                            isOpen={isOpen}
                                             padding="0px 40px 0px 20px"
-                                            onOpen={() => this.onOpenAccordion(facetDataValues.name)}
+                                            /*filterAccHolder={true}
+                                            iconPlus={true}
+                                            text3Color={"#212121"}
+                                            text3FontFamily={"semibold"}
+                                            iconMinus={true}
+                                            headText={true}
+                                            filtHeadLine={true} */
                                         >
                                             {facetDataValues &&
                                                 facetDataValues.name === COLOUR &&
