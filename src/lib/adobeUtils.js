@@ -606,6 +606,8 @@ export const ADOBE_RATING_REVIEW_MODAL_RATING_SECTION = "ADOBE_RATING_REVIEW_MOD
 export const ADOBE_RATING_REVIEW_MODAL_RATING_SUBMIT = "ADOBE_RATING_REVIEW_MODAL_RATING_SUBMIT";
 export const ADOBE_RATING_REVIEW_MODAL_QUALITY_SECTION = "ADOBE_RATING_REVIEW_MODAL_QUALITY_SECTION";
 export const ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT = "ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT";
+export const ADOBE_RATING_REVIEW_MODAL_REVIEW_SECTION = "ADOBE_RATING_REVIEW_MODAL_REVIEW_SECTION";
+export const ADOBE_RATING_REVIEW_MODAL_REVIEW_SUBMIT = "ADOBE_RATING_REVIEW_MODAL_REVIEW_SUBMIT";
 const ADOBE_RATING_REVIEW_GENERIK_CLICK = "genericClick";
 const ADOBE_RATING_REVIEW_GENERIK_VP = "generic-vp";
 
@@ -4748,7 +4750,6 @@ export function setDataLayerForRatingReviewSection(type, data) {
         }
     }
 
-
 	if (type === ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT) {
 		Object.assign(previousDigitalData.page.pageInfo, {
 			pageName: `${data.pageName}:Quality Liked`
@@ -4756,6 +4757,29 @@ export function setDataLayerForRatingReviewSection(type, data) {
 		Object.assign(previousDigitalData, {
 			event: {
 				linkName: `${data.pageName}:Quality Liked:${data.pageAction}`
+			}
+        });
+		if (window._satellite) {
+            window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_CLICK);
+        }
+    }
+
+	if (type === ADOBE_RATING_REVIEW_MODAL_REVIEW_SECTION) {
+		Object.assign(previousDigitalData.page.pageInfo, {
+			pageName: `${data.pageName}:Write Review`
+		});
+		if (window._satellite) {
+            window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_VP);
+        }
+    }
+
+	if (type === ADOBE_RATING_REVIEW_MODAL_REVIEW_SUBMIT) {
+		Object.assign(previousDigitalData.page.pageInfo, {
+			pageName: `${data.pageName}:Write Review`
+		});
+		Object.assign(previousDigitalData, {
+			event: {
+				linkName: `${data.pageName}:Write Review:${data.pageAction}`
 			}
         });
 		if (window._satellite) {

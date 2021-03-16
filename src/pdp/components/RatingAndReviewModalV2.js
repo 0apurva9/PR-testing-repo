@@ -14,7 +14,7 @@ import rnrQualitiesBlank from "./img/rnrQualitiesBlank.svg";
 import rnrQualitiesFilled from "./img/rnrQualitiesFilled.svg";
 import rnrReviewBlank from "./img/rnrReviewBlank.svg";
 import rnrReviewFilled from "./img/rnrReviewFilled.svg";
-import { setDataLayerForRatingReviewSection, ADOBE_RATING_REVIEW_MODAL_RATING_SUBMIT, ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT } from "../../lib/adobeUtils";
+import { setDataLayerForRatingReviewSection, ADOBE_RATING_REVIEW_MODAL_RATING_SUBMIT, ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT, ADOBE_RATING_REVIEW_MODAL_REVIEW_SUBMIT } from "../../lib/adobeUtils";
 
 const success = "success";
 const failure = "failure";
@@ -47,6 +47,8 @@ export default class RatingAndReviewModalV2 extends Component {
 
             // handle submit for review screen and redirect to success screen
             if (this.state.currentRating && this.state.reviewDetails) {
+				let data = {pageName : this.props.pageName ? this.props.pageName : null, pageAction: "Submit"};
+				setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_REVIEW_SUBMIT, data);
                 this.activateSection(4);
             }
         }
@@ -77,8 +79,6 @@ export default class RatingAndReviewModalV2 extends Component {
                 this.props.paramsEligibleToRateDetails.status.toLowerCase() === success
             ) {
                 this.setState({ sectionActive: 2 });
-				let data = {pageName : this.props.pageName ? this.props.pageName : null, pageAction: "Skip"};
-				setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT, data);
             }
             if (
                 this.props.paramsEligibleToRateDetails &&
@@ -164,6 +164,18 @@ export default class RatingAndReviewModalV2 extends Component {
             // this.activateSection(4);
         }
     };
+
+	skipQualities = (section) => {
+		let data = {pageName : this.props.pageName ? this.props.pageName : null, pageAction: "Skip"};
+		setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT, data);
+		this.activateSection(section);
+	};
+
+	skipReviews = (section) => {
+		let data = {pageName : this.props.pageName ? this.props.pageName : null, pageAction: "Skip"};
+		setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_REVIEW_SUBMIT, data);
+		this.activateSection(section);
+	};
 
     render() {
         const { rating, paramsEligibleToRateDetails } = this.props;
@@ -305,7 +317,7 @@ export default class RatingAndReviewModalV2 extends Component {
                                 border="none"
                                 borderRadius="4px"
                                 fontFamily="light"
-                                handleClick={() => this.activateSection(3)}
+                                handleClick={() => this.skipQualities(3)}
                                 disabled={false}
                             />
                             <CustomButton
@@ -333,7 +345,7 @@ export default class RatingAndReviewModalV2 extends Component {
                                 border="none"
                                 borderRadius="4px"
                                 fontFamily="light"
-                                handleClick={() => this.activateSection(4)}
+                                handleClick={() => this.skipReviews(4)}
                                 disabled={false}
                             />
                             <CustomButton
