@@ -249,7 +249,10 @@ export default class FilterDesktop extends React.Component {
     };
 
     onOpenAccordion = filterName => {
-        const openedFilters = cloneDeep(this.state.openedFilters);
+        const openedFilters = [];
+        openedFilters.push(filterName);
+        this.setState({ openedFilters: openedFilters });
+        /* const openedFilters = cloneDeep(this.state.openedFilters);
         const indexOfFilter = this.state.openedFilters.indexOf(filterName);
         if (indexOfFilter >= 0) {
             openedFilters.splice(indexOfFilter, 1);
@@ -257,7 +260,7 @@ export default class FilterDesktop extends React.Component {
         } else {
             openedFilters.push(filterName);
             this.setState({ openedFilters });
-        }
+        } */
     };
 
     viewMore() {
@@ -404,7 +407,7 @@ export default class FilterDesktop extends React.Component {
                                     facetdatacategory.filters &&
                                     facetdatacategory.filters.length === 1 &&
                                     facetdatacategory.filters.map((val, i) => {
-                                        if (val.quantity > 1) {
+                                        if (val.quantity > 0) {
                                             return (
                                                 <div className={styles.newFilterBlock}>
                                                     <div className={styles.newFilHeader}>Department</div>
@@ -656,6 +659,7 @@ export default class FilterDesktop extends React.Component {
                                 </div> */}
 
                             {autoShowFilters.map((facetDataValues, i) => {
+                                const isOpen = this.state.openedFilters.includes(facetDataValues.name);
                                 return (
                                     facetDataValues && (
                                         <div className={styles.newFilterHolder}>
@@ -669,8 +673,8 @@ export default class FilterDesktop extends React.Component {
                                                 iconMinus={true}
                                                 headText={true}
                                                 filtHeadLine={true}
-                                                isOpen={false}
-                                                // onOpen={() => this.onOpenAccordion(facetDataValues.name)}
+                                                isOpen={isOpen}
+                                                onOpen={() => this.onOpenAccordion(facetDataValues.name)}
                                             >
                                                 <div className={styles.allDataHolder}>
                                                     <div className={styles.colorHolder}>
@@ -853,33 +857,37 @@ export default class FilterDesktop extends React.Component {
                     <div className={styles.filtersOptions}>
                         {filterWithCollapse.map((facetDataValues, i) => {
                             const isOpen =
-                                (facetDataValues.values &&
+                                /*    (facetDataValues.values &&
                                     facetDataValues.values.filter(filter => {
                                         return filter.selected;
-                                    }).length > 0) ||
-                                this.state.openedFilters.includes(facetDataValues.name) ||
-                                facetDataValues.customeRange;
+                                    }).length > 0) || */
+                                this.state.openedFilters.includes(
+                                    facetDataValues.name
+                                ); /* ||
+                                facetDataValues.customeRange; */
                             return (
                                 facetDataValues && (
                                     <div className={styles.facetData}>
                                         <Accordion
                                             key={i}
-                                            text1={facetDataValues.name}
+                                            // text1={facetDataValues.name}
                                             isOpen={isOpen}
                                             onOpen={() => this.onOpenAccordion(facetDataValues.name)}
-                                            widthForText1="100%"
-                                            text1FontFamily={isOpen ? "semibold" : "light"}
-                                            text1Color="#212121"
-                                            text1Size="14px"
-                                            headerFontSize={16}
-                                            padding="0px 40px 0px 20px"
-                                            /*filterAccHolder={true}
+                                            // widthForText1="100%"
+                                            // text1FontFamily={isOpen ? "semibold" : "light"}
+                                            // text1Color="#212121"
+                                            // text1Size="14px"
+                                            // headerFontSize={16}
+                                            // padding="0px 40px 0px 20px"
+                                            text1={facetDataValues.name}
+                                            filterAccHolder={true}
+                                            // isOpen={true}
                                             iconPlus={true}
                                             text3Color={"#212121"}
                                             text3FontFamily={"semibold"}
                                             iconMinus={true}
                                             headText={true}
-                                            filtHeadLine={true} */
+                                            filtHeadLine={true}
                                         >
                                             {facetDataValues &&
                                                 facetDataValues.name === COLOUR &&
