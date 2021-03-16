@@ -16,11 +16,11 @@ class ProductDetailsWithEachReview extends Component {
 		return (
 			<div className={styles.base}>
 				{this.props.isPublishedReview && this.props.canEditDelete ? (
-					<div className={styles.editButtonContainer}>
+					<div className={styles.editButtonContainer} onClick={() => this.editRatingReview(this.props.productcode)}>
 						<div className={styles.editIconContainer}>
 							<Icon image={editReview} size={12} />
 						</div>
-						<div className={styles.editButton} onClick={() => this.editRatingReview(this.props.productcode)}>Edit</div>
+						<div className={styles.editButton}>Edit</div>
 					</div>
 				) : null}
 				<div className={styles.imageContainer}>
