@@ -603,6 +603,7 @@ export const ADOBE_RATING_REVIEW_PDP_REVIEW_PAGE = "ADOBE_RATING_REVIEW_PDP_REVI
 export const ADOBE_RATING_REVIEW_WRITE_REVIEW_CLICK = "ADOBE_RATING_REVIEW_WRITE_REVIEW_CLICK";
 export const ADOBE_RATING_REVIEW_SORT_BY_CLICK = "ADOBE_RATING_REVIEW_SORT_BY_CLICK";
 export const ADOBE_RATING_REVIEW_MODAL_LOADED = "ADOBE_RATING_REVIEW_MODAL_LOADED";
+export const ADOBE_RATING_REVIEW_MODAL_RATING_SUBMIT = "ADOBE_RATING_REVIEW_MODAL_RATING_SUBMIT";
 const ADOBE_RATING_REVIEW_GENERIK_CLICK = "genericClick";
 const ADOBE_RATING_REVIEW_GENERIK_VP = "generic-vp";
 
@@ -4705,7 +4706,7 @@ export function setDataLayerForRatingReviewSection(type, data) {
         Object.assign(previousDigitalData, {
             rating: data.ratingReviewData,
 			event: {
-				linkName: "productReview:sortBy:"+data.sortByValue
+				linkName: `productReview:sortBy:${data.sortByValue}`
 			}
         });
 		if (window._satellite) {
@@ -4715,10 +4716,24 @@ export function setDataLayerForRatingReviewSection(type, data) {
 
 	if (type === ADOBE_RATING_REVIEW_MODAL_LOADED) {
 		Object.assign(previousDigitalData.page.pageInfo, {
-			pageName: data.pageName
+			pageName: `${data.pageName}:Product Rate`
 		});
 		if (window._satellite) {
             window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_VP);
+        }
+    }
+
+	if (type === ADOBE_RATING_REVIEW_MODAL_RATING_SUBMIT) {
+		Object.assign(previousDigitalData.page.pageInfo, {
+			pageName: `${data.pageName}:Product Rate`
+		});
+		Object.assign(previousDigitalData, {
+			event: {
+				linkName: `${data.pageName}:Product Rate:Submit`
+			}
+        });
+		if (window._satellite) {
+            window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_CLICK);
         }
     }
 

@@ -20,7 +20,7 @@ class RnRRatingSectionComponent extends Component {
     }
 
 	componentDidMount() {
-		let data = {pageName : `${this.props.pageName ? this.props.pageName : null}:Product Rate`};
+		let data = {pageName : this.props.pageName ? this.props.pageName : null};
 		setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_LOADED, data);
 	}
 
