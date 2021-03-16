@@ -355,281 +355,320 @@ export default class FilterDesktop extends React.Component {
                     })}
                 <div className={styles.filterScroll} id="filterWrapper_desktop">
                     <div className={styles.filterDetails} id="filter_desktop">
-                        <div className={styles.filtersOptionsList}>
-                            {/*                             <Accordion
-                                text1="Refine"
-                                text2="Clear all"
-                                isOpen={true}
-                                headerFontSize={16}
-                                text1Size={14}
-                                text2Color={"#fe214c"}
-                                text2FontFamily="light"
-                                text2Size={14}
-                                textAlign={"right"}
-                                handleClick={() => this.onClear()}
-                                padding="0px 40px 0px 20px"
-                                backgroundColor="#f9f9f9"
-                            > */}
-                            <div className={styles.subFilterDetails}>
-                                <div className={styles.newFilterHolder}>
-                                    {/* Conditions for handling L1 filters */}
-                                    {this.props.isCategorySelected &&
+                        {/*                             <Accordion
+                            text1="Refine"
+                            text2="Clear all"
+                            isOpen={true}
+                            headerFontSize={16}
+                            text1Size={14}
+                            text2Color={"#fe214c"}
+                            text2FontFamily="light"
+                            text2Size={14}
+                            textAlign={"right"}
+                            handleClick={() => this.onClear()}
+                            padding="0px 40px 0px 20px"
+                            backgroundColor="#f9f9f9"
+                        > */}
+                        <div className={styles.subFilterDetails}>
+                            <div className={styles.newFilterHolder}>
+                                {/* Conditions for handling L1 filters */}
+                                {this.props.isCategorySelected &&
+                                facetdatacategory &&
+                                facetdatacategory.filters &&
+                                facetdatacategory.filters.length > 1 ? (
+                                    <Accordion
+                                        text1={"Department"}
+                                        filterAccHolder={true}
+                                        isOpen={true}
+                                        iconPlus={true}
+                                        text3Color={"#212121"}
+                                        text3FontFamily={"semibold"}
+                                        iconMinus={true}
+                                        headText={true}
+                                        filtHeadLine={true}>
+                                        <div className={styles.newFilterBlock}>
+                                            <L1CategoryFilter
+                                                l1filters={facetdatacategory.filters}
+                                                onL1Click={this.onL1Click}
+                                            />
+                                        </div>
+                                    </Accordion>
+                                ) : null}
+                                {this.props.isCategorySelected &&
                                     facetdatacategory &&
                                     facetdatacategory.filters &&
-                                    facetdatacategory.filters.length > 1 ? (
-                                        <Accordion isOpen={true} padding="0px 40px 0px 20px">
-                                            <div className={styles.newFilterBlock}>
-                                                <div className={styles.newFilHeader}>Department</div>
-                                                <L1CategoryFilter
-                                                    l1filters={facetdatacategory.filters}
-                                                    onL1Click={this.onL1Click}
-                                                />
-                                            </div>
-                                        </Accordion>
-                                    ) : null}
-                                    {this.props.isCategorySelected &&
-                                        facetdatacategory &&
-                                        facetdatacategory.filters &&
-                                        facetdatacategory.filters.length === 1 &&
-                                        facetdatacategory.filters.map((val, i) => {
-                                            if (val.quantity > 1) {
-                                                return (
-                                                    <div className={styles.newFilterBlock}>
-                                                        <div className={styles.newFilHeader}>Department</div>
-                                                        <div className={styles.newFilSelcted} key={i}>
-                                                            <SelectedCategoryLevel
-                                                                name={val.categoryName}
-                                                                showCloseIcon={showCloseIcon}
-                                                                onClickResetL1={this.resetL1Category}
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                );
-                                            } else return null;
-                                        })}
-                                    {/* Conditions for handling L2 filters */}
-                                    {this.props.isCategorySelected &&
-                                        facetdatacategory &&
-                                        facetdatacategory.filters &&
-                                        facetdatacategory.filters.length === 1 &&
-                                        facetdatacategory.filters.map((val, i) => {
-                                            if (val.childFilters && val.childFilters.length > 1) {
-                                                return (
-                                                    <div className={styles.newFilterBlock} key={i}>
-                                                        <div className={styles.newFilHeader}>Category</div>
-                                                        <Accordion isOpen={true} padding="0px 40px 0px 20px">
-                                                            <L2CategoryFilter
-                                                                l2filters={val.childFilters}
-                                                                onClick={this.onL2Click}
-                                                            />
-                                                        </Accordion>
-                                                    </div>
-                                                );
-                                            } else if (val.childFilters && val.childFilters.length === 1) {
-                                                return (
+                                    facetdatacategory.filters.length === 1 &&
+                                    facetdatacategory.filters.map((val, i) => {
+                                        if (val.quantity > 1) {
+                                            return (
+                                                <div className={styles.newFilterBlock}>
+                                                    <div className={styles.newFilHeader}>Department</div>
                                                     <div className={styles.newFilSelcted} key={i}>
-                                                        <div className={styles.newFilterBlock}>
-                                                            <div className={styles.newFilHeader}>Category</div>
-                                                            <SelectedCategoryLevel
-                                                                name={val.childFilters[0].categoryName}
-                                                                onL1Click={this.onL1Click}
-                                                                l1Name={val.categoryName}
-                                                                l1CategoryCode={val.categoryCode}
-                                                                showCloseIcon={true}
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                );
-                                            } else return null;
-                                        })}
-                                    {/* Conditions for handling L3 filters */}
-                                    {this.props.isCategorySelected &&
-                                        facetdatacategory &&
-                                        facetdatacategory.filters &&
-                                        facetdatacategory.filters.length === 1 &&
-                                        facetdatacategory.filters.map((val, i) => {
-                                            if (
-                                                val.childFilters &&
-                                                val.childFilters.length === 1 &&
-                                                /*  !val.selected && */
-                                                val.childFilters[0] &&
-                                                /* val.childFilters[0].selected && */
-                                                val.childFilters[0].childFilters &&
-                                                /* val.childFilters[0].childFilters.length > 0 */
-                                                val.childFilters[0].childFilters.length > 1
-                                            ) {
-                                                return (
-                                                    <div className={styles.newFilterBlock} key={i}>
-                                                        <div className={styles.newFilHeader}>Product Type</div>
-                                                        <Accordion isOpen={true} padding="0px 40px 0px 20px">
-                                                            <L3CategoryFilter
-                                                                l3filters={val.childFilters[0].childFilters}
-                                                                onL3Click={this.onL3Click}
-                                                            />
-                                                        </Accordion>
-                                                    </div>
-                                                );
-                                            } else if (
-                                                val.childFilters &&
-                                                val.childFilters.length === 1 &&
-                                                /*  !val.selected && */
-                                                val.childFilters[0] &&
-                                                val.childFilters[0].childFilters &&
-                                                val.childFilters[0].childFilters.length ===
-                                                    1 /*&&
-                                                     val.childFilters[0].childFilters[0].selected */
-                                            ) {
-                                                return (
-                                                    <div className={styles.newFilSelcted} key={i}>
-                                                        <div className={styles.newFilterBlock}>
-                                                            <div className={styles.newFilHeader}>Product Type</div>
-                                                            <SelectedCategoryLevel
-                                                                name={val.childFilters[0].childFilters[0].categoryName}
-                                                                onClick={this.onL2Click}
-                                                                l2Name={val.childFilters[0].categoryName}
-                                                                l2CategoryCode={val.childFilters[0].categoryCode}
-                                                                showCloseIcon={true}
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                );
-                                            } else if (
-                                                // eslint-disable-next-line no-dupe-else-if
-                                                val.childFilters &&
-                                                val.childFilters.length === 1 &&
-                                                /*  !val.selected && */
-                                                val.childFilters[0] &&
-                                                val.childFilters[0].childFilters &&
-                                                val.childFilters[0].childFilters.length === 1 &&
-                                                val.childFilters[0].childFilters[0].childFilters &&
-                                                val.childFilters[0].childFilters[0].childFilters.length ===
-                                                    1 /*&&
-                                                     val.childFilters[0].childFilters[0].childFilters[0].selected */
-                                            ) {
-                                                return (
-                                                    <div className={styles.newFilSelcted} key={i}>
-                                                        <div className={styles.newFilterBlock}>
-                                                            <div className={styles.newFilHeader}>Product Type</div>
-                                                            <SelectedCategoryLevel
-                                                                name={val.childFilters[0].childFilters[0].categoryName}
-                                                                onClick={this.onL2Click}
-                                                                l2Name={val.childFilters[0].categoryName}
-                                                                l2CategoryCode={val.childFilters[0].categoryCode}
-                                                                showCloseIcon={true}
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                );
-                                            } else return null;
-                                        })}
-                                    {/* Conditions for handling L4 filters */}
-                                    {this.props.isCategorySelected &&
-                                        facetdatacategory &&
-                                        facetdatacategory.filters &&
-                                        facetdatacategory.filters.length === 1 &&
-                                        facetdatacategory.filters.map((val, i) => {
-                                            if (
-                                                val.childFilters &&
-                                                val.childFilters.length === 1 &&
-                                                /*  !val.selected && */
-                                                val.childFilters[0] &&
-                                                /* !val.childFilters[0].selected && */
-                                                val.childFilters[0].childFilters &&
-                                                val.childFilters[0].childFilters.length === 1 &&
-                                                val.childFilters[0].childFilters[0].childFilters &&
-                                                val.childFilters[0].childFilters[0].childFilters.length >
-                                                    1 /*&&
-                                                     val.childFilters[0].childFilters[0].selected */
-                                            ) {
-                                                return (
-                                                    <div className={styles.newFilterBlock} key={i}>
-                                                        <div className={styles.newFilterBlock}>
-                                                            <div className={styles.newFilHeader}>
-                                                                Leaf Node Product Type
-                                                            </div>
-                                                            <Accordion isOpen={true} padding="0px 40px 0px 20px">
-                                                                <L4CategoryFilter
-                                                                    l4filters={
-                                                                        val.childFilters[0].childFilters[0].childFilters
-                                                                    }
-                                                                    onL4Click={this.onL3Click}
-                                                                />
-                                                            </Accordion>
-                                                        </div>
-                                                    </div>
-                                                );
-                                            } else if (
-                                                val.childFilters &&
-                                                val.childFilters.length === 1 &&
-                                                /* !val.selected && */
-                                                val.childFilters[0] &&
-                                                /*  !val.childFilters[0].selected && */
-                                                val.childFilters[0].childFilters &&
-                                                val.childFilters[0].childFilters.length === 1 &&
-                                                val.childFilters[0].childFilters[0].childFilters &&
-                                                val.childFilters[0].childFilters[0].childFilters.length ===
-                                                    1 /*  &&
-                                                    val.childFilters[0].childFilters[0].childFilters[0].selected */
-                                            ) {
-                                                return (
-                                                    <div className={styles.newFilSelcted} key={i}>
-                                                        <div className={styles.newFilterBlock}>
-                                                            <div className={styles.newFilHeader}>
-                                                                Leaf Node Product Type
-                                                            </div>
-                                                            <SelectedCategoryLevel
-                                                                name={
-                                                                    val.childFilters[0].childFilters[0].childFilters[0]
-                                                                        .categoryName
-                                                                }
-                                                                onL4Click={this.onL3Click}
-                                                                l3Name={
-                                                                    val.childFilters[0].childFilters[0].categoryName
-                                                                }
-                                                                l3CategoryCode={
-                                                                    val.childFilters[0].childFilters[0].categoryCode
-                                                                }
-                                                                showCloseIcon={true}
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                );
-                                            } else return null;
-                                        })}
-                                </div>
-                                {/*   <div className={styles.filterHeader}>Category</div>
-                                    <div className={styles.catagoryHolder}>
-                                        {this.props.isCategorySelected &&
-                                            facetdatacategory &&
-                                            facetdatacategory.filters &&
-                                            facetdatacategory.filters.map((val, i) => {
-                                                if (val.quantity > 0) {
-                                                    return (
-                                                        <FilterCategoryL1
+                                                        <SelectedCategoryLevel
                                                             name={val.categoryName}
-                                                            count={val.quantity}
-                                                            value={val.categoryCode}
+                                                            showCloseIcon={showCloseIcon}
+                                                            onClickResetL1={this.resetL1Category}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            );
+                                        } else return null;
+                                    })}
+                                {/* Conditions for handling L2 filters */}
+                                {this.props.isCategorySelected &&
+                                    facetdatacategory &&
+                                    facetdatacategory.filters &&
+                                    facetdatacategory.filters.length === 1 &&
+                                    facetdatacategory.filters.map((val, i) => {
+                                        if (val.childFilters && val.childFilters.length > 1) {
+                                            return (
+                                                <div className={styles.newFilterBlock} key={i}>
+                                                    <Accordion
+                                                        text1={"Category"}
+                                                        filterAccHolder={true}
+                                                        isOpen={true}
+                                                        iconPlus={true}
+                                                        text3Color={"#212121"}
+                                                        text3FontFamily={"semibold"}
+                                                        iconMinus={true}
+                                                        headText={true}
+                                                        filtHeadLine={true}>
+                                                        <L2CategoryFilter
+                                                            l2filters={val.childFilters}
+                                                            onClick={this.onL2Click}
+                                                        />
+                                                    </Accordion>
+                                                </div>
+                                            );
+                                        } else if (val.childFilters && val.childFilters.length === 1) {
+                                            return (
+                                                <div className={styles.newFilSelcted} key={i}>
+                                                    <div className={styles.newFilterBlock}>
+                                                        <div className={styles.newFilHeader}>Category</div>
+                                                        <SelectedCategoryLevel
+                                                            name={val.childFilters[0].categoryName}
                                                             onL1Click={this.onL1Click}
-                                                            isOpen={val.selected}
+                                                            l1Name={val.categoryName}
+                                                            l1CategoryCode={val.categoryCode}
+                                                            showCloseIcon={true}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            );
+                                        } else return null;
+                                    })}
+                                {/* Conditions for handling L3 filters */}
+                                {this.props.isCategorySelected &&
+                                    facetdatacategory &&
+                                    facetdatacategory.filters &&
+                                    facetdatacategory.filters.length === 1 &&
+                                    facetdatacategory.filters.map((val, i) => {
+                                        if (
+                                            val.childFilters &&
+                                            val.childFilters.length === 1 &&
+                                            /*  !val.selected && */
+                                            val.childFilters[0] &&
+                                            /* val.childFilters[0].selected && */
+                                            val.childFilters[0].childFilters &&
+                                            /* val.childFilters[0].childFilters.length > 0 */
+                                            val.childFilters[0].childFilters.length > 1
+                                        ) {
+                                            return (
+                                                <div className={styles.newFilterBlock} key={i}>
+                                                    <Accordion
+                                                        text1={"Product Type"}
+                                                        filterAccHolder={true}
+                                                        isOpen={true}
+                                                        iconPlus={true}
+                                                        text3Color={"#212121"}
+                                                        text3FontFamily={"semibold"}
+                                                        iconMinus={true}
+                                                        headText={true}
+                                                        filtHeadLine={true}>
+                                                        <L3CategoryFilter
+                                                            l3filters={val.childFilters[0].childFilters}
+                                                            onL3Click={this.onL3Click}
+                                                        />
+                                                    </Accordion>
+                                                </div>
+                                            );
+                                        } else if (
+                                            val.childFilters &&
+                                            val.childFilters.length === 1 &&
+                                            /*  !val.selected && */
+                                            val.childFilters[0] &&
+                                            val.childFilters[0].childFilters &&
+                                            val.childFilters[0].childFilters.length ===
+                                                1 /*&&
+                                                    val.childFilters[0].childFilters[0].selected */
+                                        ) {
+                                            return (
+                                                <div className={styles.newFilSelcted} key={i}>
+                                                    <div className={styles.newFilterBlock}>
+                                                        <div className={styles.newFilHeader}>Product Type</div>
+                                                        <SelectedCategoryLevel
+                                                            name={val.childFilters[0].childFilters[0].categoryName}
+                                                            onClick={this.onL2Click}
+                                                            l2Name={val.childFilters[0].categoryName}
+                                                            l2CategoryCode={val.childFilters[0].categoryCode}
+                                                            showCloseIcon={true}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            );
+                                        } else if (
+                                            // eslint-disable-next-line no-dupe-else-if
+                                            val.childFilters &&
+                                            val.childFilters.length === 1 &&
+                                            /*  !val.selected && */
+                                            val.childFilters[0] &&
+                                            val.childFilters[0].childFilters &&
+                                            val.childFilters[0].childFilters.length === 1 &&
+                                            val.childFilters[0].childFilters[0].childFilters &&
+                                            val.childFilters[0].childFilters[0].childFilters.length ===
+                                                1 /*&&
+                                                    val.childFilters[0].childFilters[0].childFilters[0].selected */
+                                        ) {
+                                            return (
+                                                <div className={styles.newFilSelcted} key={i}>
+                                                    <div className={styles.newFilterBlock}>
+                                                        <div className={styles.newFilHeader}>Product Type</div>
+                                                        <SelectedCategoryLevel
+                                                            name={val.childFilters[0].childFilters[0].categoryName}
+                                                            onClick={this.onL2Click}
+                                                            l2Name={val.childFilters[0].categoryName}
+                                                            l2CategoryCode={val.childFilters[0].categoryCode}
+                                                            showCloseIcon={true}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            );
+                                        } else return null;
+                                    })}
+                                {/* Conditions for handling L4 filters */}
+                                {this.props.isCategorySelected &&
+                                    facetdatacategory &&
+                                    facetdatacategory.filters &&
+                                    facetdatacategory.filters.length === 1 &&
+                                    facetdatacategory.filters.map((val, i) => {
+                                        if (
+                                            val.childFilters &&
+                                            val.childFilters.length === 1 &&
+                                            /*  !val.selected && */
+                                            val.childFilters[0] &&
+                                            /* !val.childFilters[0].selected && */
+                                            val.childFilters[0].childFilters &&
+                                            val.childFilters[0].childFilters.length === 1 &&
+                                            val.childFilters[0].childFilters[0].childFilters &&
+                                            val.childFilters[0].childFilters[0].childFilters.length >
+                                                1 /*&&
+                                                    val.childFilters[0].childFilters[0].selected */
+                                        ) {
+                                            return (
+                                                <div className={styles.newFilterBlock} key={i}>
+                                                    <Accordion
+                                                        text1={"Leaf Node Product Type"}
+                                                        filterAccHolder={true}
+                                                        isOpen={true}
+                                                        iconPlus={true}
+                                                        text3Color={"#212121"}
+                                                        text3FontFamily={"semibold"}
+                                                        iconMinus={true}
+                                                        headText={true}
+                                                        filtHeadLine={true}>
+                                                        <L4CategoryFilter
+                                                            l4filters={
+                                                                val.childFilters[0].childFilters[0].childFilters
+                                                            }
+                                                            onL4Click={this.onL3Click}
+                                                        />
+                                                    </Accordion>
+                                                </div>
+                                            );
+                                        } else if (
+                                            val.childFilters &&
+                                            val.childFilters.length === 1 &&
+                                            /* !val.selected && */
+                                            val.childFilters[0] &&
+                                            /*  !val.childFilters[0].selected && */
+                                            val.childFilters[0].childFilters &&
+                                            val.childFilters[0].childFilters.length === 1 &&
+                                            val.childFilters[0].childFilters[0].childFilters &&
+                                            val.childFilters[0].childFilters[0].childFilters.length ===
+                                                1 /*  &&
+                                                val.childFilters[0].childFilters[0].childFilters[0].selected */
+                                        ) {
+                                            return (
+                                                <div className={styles.newFilSelcted} key={i}>
+                                                    <div className={styles.newFilterBlock}>
+                                                        <div className={styles.newFilHeader}>
+                                                            Leaf Node Product Type
+                                                        </div>
+                                                        <SelectedCategoryLevel
+                                                            name={
+                                                                val.childFilters[0].childFilters[0].childFilters[0]
+                                                                    .categoryName
+                                                            }
+                                                            onL4Click={this.onL3Click}
+                                                            l3Name={
+                                                                val.childFilters[0].childFilters[0].categoryName
+                                                            }
+                                                            l3CategoryCode={
+                                                                val.childFilters[0].childFilters[0].categoryCode
+                                                            }
+                                                            showCloseIcon={true}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            );
+                                        } else return null;
+                                    })}
+                            </div>
+                            {/*   <div className={styles.filterHeader}>Category</div>
+                                <div className={styles.catagoryHolder}>
+                                    {this.props.isCategorySelected &&
+                                        facetdatacategory &&
+                                        facetdatacategory.filters &&
+                                        facetdatacategory.filters.map((val, i) => {
+                                            if (val.quantity > 0) {
+                                                return (
+                                                    <FilterCategoryL1
+                                                        name={val.categoryName}
+                                                        count={val.quantity}
+                                                        value={val.categoryCode}
+                                                        onL1Click={this.onL1Click}
+                                                        isOpen={val.selected}
+                                                        key={i}
+                                                    >
+                                                        <FilterCategory
+                                                            onClick={this.onL2Click}
+                                                            onL3Click={this.onL3Click}
+                                                            categoryTypeList={val.childFilters}
                                                             key={i}
-                                                        >
-                                                            <FilterCategory
-                                                                onClick={this.onL2Click}
-                                                                onL3Click={this.onL3Click}
-                                                                categoryTypeList={val.childFilters}
-                                                                key={i}
-                                                            />
-                                                        </FilterCategoryL1>
-                                                    );
-                                                }
-                                            })}
-                                    </div> */}
+                                                        />
+                                                    </FilterCategoryL1>
+                                                );
+                                            }
+                                        })}
+                                </div> */}
 
-                                {autoShowFilters.map((facetDataValues, i) => {
-                                    return (
-                                        facetDataValues && (
-                                            <div className={styles.facetData} key={i}>
-                                                <div className={styles.filterHeader}>{facetDataValues.name}</div>
+                            {autoShowFilters.map((facetDataValues, i) => {
+                                return (
+                                    facetDataValues && (
+                                        <div className={styles.newFilterHolder}>
+                                            <Accordion
+                                                key={i}
+                                                text1={facetDataValues.name}
+                                                filterAccHolder={true}
+                                                iconPlus={true}
+                                                text3Color={"#212121"}
+                                                text3FontFamily={"semibold"}
+                                                iconMinus={true}
+                                                headText={true}
+                                                filtHeadLine={true}
+                                                isOpen={false}
+                                                // onOpen={() => this.onOpenAccordion(facetDataValues.name)}
+                                            >
                                                 <div className={styles.allDataHolder}>
                                                     <div className={styles.colorHolder}>
                                                         {facetDataValues &&
@@ -719,6 +758,7 @@ export default class FilterDesktop extends React.Component {
                                                             )}
                                                     </DesktopOnly>
                                                 </div>
+                                                
                                                 <div className={styles.filterBrandHolder}>
                                                     {facetDataValues &&
                                                         facetDataValues.name === BRAND &&
@@ -799,121 +839,121 @@ export default class FilterDesktop extends React.Component {
                                                             )}
                                                         </div>
                                                     )}
-                                            </div>
-                                        )
-                                    );
-                                })}
-                            </div>
-                            {/*    </Accordion> */}
+                                            </Accordion>
+                                        </div>                                            
+                                    )
+                                );
+                            })}
                         </div>
-                        <div className={styles.filtersOptions}>
-                            {filterWithCollapse.map((facetDataValues, i) => {
-                                const isOpen =
-                                    (facetDataValues.values &&
-                                        facetDataValues.values.filter(filter => {
-                                            return filter.selected;
-                                        }).length > 0) ||
-                                    this.state.openedFilters.includes(facetDataValues.name) ||
-                                    facetDataValues.customeRange;
-                                return (
-                                    facetDataValues && (
-                                        <div className={styles.facetData}>
-                                            <Accordion
-                                                key={i}
-                                                text1={facetDataValues.name}
-                                                widthForText1="100%"
-                                                text1FontFamily={isOpen ? "semibold" : "light"}
-                                                text1Color="#212121"
-                                                text1Size="14px"
-                                                headerFontSize={16}
-                                                isOpen={isOpen}
-                                                padding="0px 40px 0px 20px"
-                                                onOpen={() => this.onOpenAccordion(facetDataValues.name)}
-                                            >
+                        {/*    </Accordion> */}
+                    </div>
+                    <div className={styles.filtersOptions}>
+                        {filterWithCollapse.map((facetDataValues, i) => {
+                            const isOpen =
+                                (facetDataValues.values &&
+                                    facetDataValues.values.filter(filter => {
+                                        return filter.selected;
+                                    }).length > 0) ||
+                                this.state.openedFilters.includes(facetDataValues.name) ||
+                                facetDataValues.customeRange;
+                            return (
+                                facetDataValues && (
+                                    <div className={styles.facetData}>
+                                        <Accordion
+                                            key={i}
+                                            text1={facetDataValues.name}
+                                            widthForText1="100%"
+                                            text1FontFamily={isOpen ? "semibold" : "light"}
+                                            text1Color="#212121"
+                                            text1Size="14px"
+                                            headerFontSize={16}
+                                            isOpen={isOpen}
+                                            padding="0px 40px 0px 20px"
+                                            onOpen={() => this.onOpenAccordion(facetDataValues.name)}
+                                        >
+                                            {facetDataValues &&
+                                                facetDataValues.name === COLOUR &&
+                                                facetDataValues.values && (
+                                                    <div className={styles.allDataHolder}>
+                                                        {facetDataValues.values.map((val, i) => {
+                                                            return (
+                                                                <ColourSelect
+                                                                    key={i}
+                                                                    typeOfFilter={facetDataValues.name}
+                                                                    colour={val.hexColor}
+                                                                    onSelect={(data, filterType, filterValue) =>
+                                                                        this.onFilterClick(
+                                                                            data,
+                                                                            filterType,
+                                                                            filterValue
+                                                                        )
+                                                                    }
+                                                                    selected={val.selected}
+                                                                    value={val.url}
+                                                                />
+                                                            );
+                                                        })}
+                                                    </div>
+                                                )}
+                                            <div className={styles.filtersSubTab}>
+                                                {facetDataValues && facetDataValues.name === BRAND && (
+                                                    <div className={styles.allDataHolder}>
+                                                        {facetDataValues.values && (
+                                                            <BrandFilterTabDesktop
+                                                                typeOfFilter={facetDataValues.name}
+                                                                brandsList={facetDataValues.values}
+                                                                onBrandSearch={this.onBrandSearch}
+                                                            />
+                                                        )}
+                                                    </div>
+                                                )}
+                                                {facetDataValues && facetDataValues.name === PRICE && (
+                                                    <div className={styles.allDataHolder}>
+                                                        {facetDataValues.values && (
+                                                            <PriceFilterTabDesktop
+                                                                rangeApplied={facetDataValues.rangeApplied}
+                                                                typeOfFilter={facetDataValues.name}
+                                                                priceList={facetDataValues.values}
+                                                                customRange={facetDataValues.customeRange}
+                                                                history={this.props.history}
+                                                                onFilterClick={this.onFilterClick}
+                                                                query={this.props.query}
+                                                            />
+                                                        )}
+                                                    </div>
+                                                )}
                                                 {facetDataValues &&
-                                                    facetDataValues.name === COLOUR &&
+                                                    facetDataValues.name !== COLOUR &&
+                                                    facetDataValues.name !== BRAND &&
+                                                    facetDataValues.name !== PRICE &&
                                                     facetDataValues.values && (
                                                         <div className={styles.allDataHolder}>
                                                             {facetDataValues.values.map((val, i) => {
                                                                 return (
-                                                                    <ColourSelect
-                                                                        key={i}
-                                                                        typeOfFilter={facetDataValues.name}
-                                                                        colour={val.hexColor}
-                                                                        onSelect={(data, filterType, filterValue) =>
-                                                                            this.onFilterClick(
-                                                                                data,
-                                                                                filterType,
-                                                                                filterValue
-                                                                            )
-                                                                        }
+                                                                    <FilterSelect
+                                                                        onClick={this.onFilterClick}
                                                                         selected={val.selected}
-                                                                        value={val.url}
+                                                                        hexColor={val.hexColor}
+                                                                        label={val.name}
+                                                                        count={val.count}
+                                                                        url={val.url}
+                                                                        value={val.value}
+                                                                        isBrand={facetDataValues.name === BRAND}
+                                                                        categoryId={categoryId}
+                                                                        history={this.props.history}
+                                                                        typeOfFilter={facetDataValues.name}
+                                                                        key={i}
                                                                     />
                                                                 );
                                                             })}
                                                         </div>
                                                     )}
-                                                <div className={styles.filtersSubTab}>
-                                                    {facetDataValues && facetDataValues.name === BRAND && (
-                                                        <div className={styles.allDataHolder}>
-                                                            {facetDataValues.values && (
-                                                                <BrandFilterTabDesktop
-                                                                    typeOfFilter={facetDataValues.name}
-                                                                    brandsList={facetDataValues.values}
-                                                                    onBrandSearch={this.onBrandSearch}
-                                                                />
-                                                            )}
-                                                        </div>
-                                                    )}
-                                                    {facetDataValues && facetDataValues.name === PRICE && (
-                                                        <div className={styles.allDataHolder}>
-                                                            {facetDataValues.values && (
-                                                                <PriceFilterTabDesktop
-                                                                    rangeApplied={facetDataValues.rangeApplied}
-                                                                    typeOfFilter={facetDataValues.name}
-                                                                    priceList={facetDataValues.values}
-                                                                    customRange={facetDataValues.customeRange}
-                                                                    history={this.props.history}
-                                                                    onFilterClick={this.onFilterClick}
-                                                                    query={this.props.query}
-                                                                />
-                                                            )}
-                                                        </div>
-                                                    )}
-                                                    {facetDataValues &&
-                                                        facetDataValues.name !== COLOUR &&
-                                                        facetDataValues.name !== BRAND &&
-                                                        facetDataValues.name !== PRICE &&
-                                                        facetDataValues.values && (
-                                                            <div className={styles.allDataHolder}>
-                                                                {facetDataValues.values.map((val, i) => {
-                                                                    return (
-                                                                        <FilterSelect
-                                                                            onClick={this.onFilterClick}
-                                                                            selected={val.selected}
-                                                                            hexColor={val.hexColor}
-                                                                            label={val.name}
-                                                                            count={val.count}
-                                                                            url={val.url}
-                                                                            value={val.value}
-                                                                            isBrand={facetDataValues.name === BRAND}
-                                                                            categoryId={categoryId}
-                                                                            history={this.props.history}
-                                                                            typeOfFilter={facetDataValues.name}
-                                                                            key={i}
-                                                                        />
-                                                                    );
-                                                                })}
-                                                            </div>
-                                                        )}
-                                                </div>
-                                            </Accordion>
-                                        </div>
-                                    )
-                                );
-                            })}
-                        </div>
+                                            </div>
+                                        </Accordion>
+                                    </div>
+                                )
+                            );
+                        })}
                     </div>
                 </div>
             </React.Fragment>

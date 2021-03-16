@@ -139,11 +139,11 @@
 /***New Filter***/
 .newFilterHolder {
     padding: 0;
-    margin: 15px 15px 0 17px;
-    border-top: 1px solid #ececec;
+    margin: 15px 15px 0 15px;
+    /* border-top: 1px solid #ececec;*/
 }
 .newFilterBlock {
-    margin: 15px 0 0;
+    margin: 0;
     padding: 0 0 15px;
     border-bottom: 1px solid #ececec;
     display: inline-block;
@@ -152,8 +152,8 @@
 .newFilHeader {
     font-size: 14px;
     font-family: semibold;
-    color: #212121;
-    margin: 0 0 11px;
+    color: #212121;    
+    margin: 16px 0 11px;
     display: inline-block;
     width: 100%;
 }

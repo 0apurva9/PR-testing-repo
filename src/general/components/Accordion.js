@@ -42,12 +42,14 @@ export default class Accordion extends React.Component {
   }
 
   render() {
-    let iconActive = styles.iconup;
-    let activeheader = styles.textBox;
+    let iconActive = this.props.iconPlus ? styles.iconPlus : styles.iconup;
+    let filterAccHolder = this.props.filterAccHolder ? styles.filterAccHolder : styles.holder;
+    let headText = this.props.headText ? styles.headText : styles.text1;
+    let activeheader = this.props.filtHeadLine ? styles.filtHeadLine : styles.textBox;
     let background = "";
     if (this.state.isOpen) {
-      iconActive = styles.icon;
-      activeheader = styles.textBoxActive;
+      iconActive = this.props.iconMinus ? styles.iconMinus : styles.icon;
+      activeheader = this.props.filtHeadLine ? styles.filtHeadLine : styles.textBoxActive;
       background = this.props.activeBackground;
     }
 
@@ -64,7 +66,7 @@ export default class Accordion extends React.Component {
             backgroundColor: this.props.backgroundColor,
             padding: this.props.padding
           }}
-          className={styles.holder}
+          className={filterAccHolder}
           onClick={() => {
             this.openMenu();
           }}
@@ -79,12 +81,12 @@ export default class Accordion extends React.Component {
             {this.props.text1 && (
               <div
                 style={{
-                  color: this.props.text1Color,
+                  color: this.props.text3Color ? this.props.text3Color : this.props.text1Color,
                   fontSize: this.props.text1Size,
-                  fontFamily: this.props.text1FontFamily,
+                  fontFamily: this.props.text3FontFamily ? this.props.text3FontFamily : this.props.text1FontFamily,
                   width: this.props.widthForText1
                 }}
-                className={styles.text1}
+                className={headText}
               >
                 {this.props.text1}
               </div>
@@ -135,6 +137,7 @@ Accordion.propTypes = {
   text1FontFamily: PropTypes.string,
   widthForText1: PropTypes.string,
   text2Color: PropTypes.string,
+  text3Color: PropTypes.string,
   text2Size: PropTypes.string,
   text2FontFamily: PropTypes.string,
   backgroundColor: PropTypes.string,
@@ -145,7 +148,15 @@ Accordion.propTypes = {
   widthForText2: PropTypes.string,
   faqQuestion: PropTypes.string,
   arrowHide: PropTypes.bool,
-  children: PropTypes.node
+  children: PropTypes.node,
+  filterAccHolder: PropTypes.string,
+  headText: PropTypes.string,
+  text3FontFamily: PropTypes.string,
+  filtHeadLine: PropTypes.string,
+  iconMinus: PropTypes.string,
+  iconPlus: PropTypes.string,
+  text3FontFamily: PropTypes.string, 
+  text3Color: PropTypes.string
 };
 
 Accordion.defaultProps = {
@@ -156,9 +167,9 @@ Accordion.defaultProps = {
   text1Color: "#000",
   text1Size: "14",
   text1FontFamily: "light",
+  text2FontFamily: "regular",
   text2Color: "#000",
   text2Size: "14",
-  text2FontFamily: "regular",
   textAlign: "left",
   widthForText1: "50%",
   widthForText2: "50%"
