@@ -37,6 +37,11 @@ import RatingReviewHeaderComponent from "./PdpBeautyDesktop/DescriptionSection/R
 import AccordionForReviewFilter from "../../general/components/AccordionForReviewFilter";
 import CheckboxMultiSelect from "../../general/components/CheckboxMultiSelect";
 import CustomButton from "../../general/components/CustomButton";
+import {
+	setDataLayerForRatingReviewSection,
+	ADOBE_RATING_REVIEW_WRITE_REVIEW_CLICK,
+	ADOBE_RATING_REVIEW_SORT_BY_CLICK,
+} from "../../lib/adobeUtils";
 const WRITE_REVIEW_TEXT = "Write Review";
 const PRODUCT_QUANTITY = "1";
 export default class ProductReviewPage extends Component {
@@ -296,6 +301,16 @@ export default class ProductReviewPage extends Component {
         });
 
         this.props.getProductReviews(this.props.match.params[0], 0, filterValues[1], filterValues[0]);
+		let ratingReviewData = {
+			averageStar: this.props.productDetails.averageRating ? this.props.productDetails.averageRating : null,
+			totalReview: this.props.productDetails.numberOfReviews ? this.props.productDetails.numberOfReviews : null,
+			rating: this.props.productDetails.ratingCount ? this.props.productDetails.ratingCount : null
+		};
+		let data = {
+			ratingReviewData : ratingReviewData,
+			sortByValue : val.label
+		};
+		setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_SORT_BY_CLICK, data);
     };
 
     renderMetaTags = () => {
@@ -407,8 +422,15 @@ export default class ProductReviewPage extends Component {
             this.props.showAuthPopUp();
             sessionStorage.setItem("showRatingModalAfterLoggedIn", true);
         } else {
-            this.props.openRatingReviewModal({ productCode: this.props.productDetails.productListingId });
+            this.props.openRatingReviewModal({ productCode: this.props.productDetails.productListingId, pageName: "productReview" });
             this.props.getParametersEligibleToRate(this.props.productDetails.productListingId);
+
+			let ratingReviewData = {
+				averageStar: this.props.productDetails.averageRating ? this.props.productDetails.averageRating : null,
+				totalReview: this.props.productDetails.numberOfReviews ? this.props.productDetails.numberOfReviews : null,
+				totalRating: this.props.productDetails.ratingCount ? this.props.productDetails.ratingCount : null
+			};
+			setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_WRITE_REVIEW_CLICK, ratingReviewData);
         }
     };
 
@@ -418,7 +440,7 @@ export default class ProductReviewPage extends Component {
             Cookie.getCookie(LOGGED_IN_USER_DETAILS) &&
             Cookie.getCookie(CUSTOMER_ACCESS_TOKEN)
         ) {
-            this.props.openRatingReviewModal({ productCode: this.props.productDetails.productListingId });
+            this.props.openRatingReviewModal({ productCode: this.props.productDetails.productListingId, pageName: "productReview" });
             this.props.getParametersEligibleToRate(this.props.productDetails.productListingId);
             sessionStorage.removeItem("showRatingModalAfterLoggedIn");
         }
