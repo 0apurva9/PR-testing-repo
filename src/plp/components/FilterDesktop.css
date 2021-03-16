@@ -38,13 +38,13 @@
     margin: 10px 0;
 }
 .filterDetails {
-    padding: 10px 0px;
+    padding: 10px 0px 0;
     border-radius: 4px;
 }
 .filtersOptions {
     background-color: #fff;
-    border-bottom: 1px solid #ececec;
-    margin-bottom: 20px;
+    border-top: 1px solid #ececec;
+    padding: 0 15px 0 15px;
 }
 .filtersOptionsList {
     border-bottom: 1px solid #ececec;
@@ -121,19 +121,19 @@
 .allDataHolder {
     width: 100%;
     height: auto;
-    padding: 0px 20px;
+    /*padding: 0px 20px;*/
 }
 .filterPriceHolder {
     width: 100%;
     height: auto;
     overflow-y: auto;
     max-height: 265px;
-    padding: 0px 20px;
+    padding: 0px;
 }
 .filterBrandHolder {
     width: 100%;
     height: auto;
-    padding: 0px 20px;
+    padding: 0px;
 }
 
 /***New Filter***/
@@ -142,12 +142,17 @@
     margin: 15px 15px 0 15px;
     /* border-top: 1px solid #ececec;*/
 }
+.AvailnewFilterHolder {
+    padding: 0;
+    margin: 0 15px 0 15px;
+    border-top: 1px solid #ececec;
+}
 .newFilterBlock {
     margin: 0;
-    padding: 0 0 15px;
-    border-bottom: 1px solid #ececec;
+    padding: 0;
     display: inline-block;
     width: 100%;
+    border-top: 1px solid #ececec;
 }
 .newFilHeader {
     font-size: 14px;
@@ -162,8 +167,9 @@
     flex-wrap: wrap;
     align-items: center;
     width: 100%;
-    margin: 16px 0 0;
+    margin: 0 0 16px;
     cursor: pointer;
+    min-height: 34px;
 }
 .newFilCheckbox {
     padding: 0;
@@ -209,3 +215,29 @@
     right: 10px;
     top: 10px;
 }
+.newFilSelcted {
+    margin: 0 0 15px;
+}
+.filterClearBlock {
+    background-color: #f5f5f5;
+    padding: 12px 15px 12px;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+}
+.filterClearTxt1 {
+    width: 50%;
+    font-size: 14px;
+    font-family: semibold;
+    color: #212121;
+}
+.filterClearBtn {
+    width: 50%;
+    font-size: 14px;
+    font-family: semibold;
+    text-align: right;
+    color: #da1c5c;
+} 

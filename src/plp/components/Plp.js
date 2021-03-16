@@ -43,7 +43,7 @@ export default class Plp extends React.Component {
         super();
         this.state = {
             totalHeight: 0,
-            fixedScroll: false,
+            fixedScroll: true,
             view: GRID,
             gridBreakup: false,
             isCurrentUrl: 0,
