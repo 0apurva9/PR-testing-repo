@@ -309,7 +309,7 @@ export default class ProductReviewPage extends Component {
 		let data = {
 			ratingReviewData : ratingReviewData,
 			sortByValue : val.label
-		}
+		};
 		setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_SORT_BY_CLICK, data);
     };
 
@@ -422,7 +422,7 @@ export default class ProductReviewPage extends Component {
             this.props.showAuthPopUp();
             sessionStorage.setItem("showRatingModalAfterLoggedIn", true);
         } else {
-            this.props.openRatingReviewModal({ productCode: this.props.productDetails.productListingId });
+            this.props.openRatingReviewModal({ productCode: this.props.productDetails.productListingId, pageName: "productReview" });
             this.props.getParametersEligibleToRate(this.props.productDetails.productListingId);
 
 			let ratingReviewData = {
@@ -440,7 +440,7 @@ export default class ProductReviewPage extends Component {
             Cookie.getCookie(LOGGED_IN_USER_DETAILS) &&
             Cookie.getCookie(CUSTOMER_ACCESS_TOKEN)
         ) {
-            this.props.openRatingReviewModal({ productCode: this.props.productDetails.productListingId });
+            this.props.openRatingReviewModal({ productCode: this.props.productDetails.productListingId, pageName: "productReview" });
             this.props.getParametersEligibleToRate(this.props.productDetails.productListingId);
             sessionStorage.removeItem("showRatingModalAfterLoggedIn");
         }

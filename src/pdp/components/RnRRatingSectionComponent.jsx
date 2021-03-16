@@ -9,6 +9,7 @@ import threeStarRating from "./img/threeStarRating.jpg";
 import fourStarRating from "./img/fourStarRating.jpg";
 import fiveStarRating from "./img/fiveStarRating.jpg";
 import RnREmptyRatingGreyStarComponent from "./RnREmptyRatingGreyStarComponent";
+import { setDataLayerForRatingReviewSection, ADOBE_RATING_REVIEW_MODAL_LOADED } from "../../lib/adobeUtils";
 
 class RnRRatingSectionComponent extends Component {
     constructor(props) {
@@ -17,6 +18,11 @@ class RnRRatingSectionComponent extends Component {
             rating: this.props.selectedRating ? this.props.selectedRating : 0,
         };
     }
+
+	componentDidMount() {
+		let data = {pageName : `${this.props.pageName ? this.props.pageName : null}:Product Rate`};
+		setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_LOADED, data);
+	}
 
     submitRating = rating => {
         this.setState({ rating });

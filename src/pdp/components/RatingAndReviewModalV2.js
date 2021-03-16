@@ -198,6 +198,7 @@ export default class RatingAndReviewModalV2 extends Component {
                         <RnRRatingSectionComponent
 							getUpdatedRating={rating => this.getUpdatedRating(rating)}
 							selectedRating={this.state.currentRating}
+							pageName={this.props.pageName}
 						/>
                     )}
                     {this.state.sectionActive === 2 && (
@@ -359,4 +360,5 @@ RatingAndReviewModalV2.propTypes = {
     submitParameterRatingDetails: PropTypes.object,
 	section: PropTypes.number,
 	userProductReviewDetails: PropTypes.object,
+	pageName: PropTypes.string,
 };
