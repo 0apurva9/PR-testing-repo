@@ -472,7 +472,7 @@ export default class OrderDetails extends React.Component {
     };
 
 	submitRating = (rating, productCode, section) => {
-		this.props.openRatingReviewModal({ productCode, rating, section });
+		this.props.openRatingReviewModal({ productCode, rating, section, pageName: "Order Details" });
 		if(section === 2){
 			this.props.getParametersEligibleToRate(productCode);
 		}

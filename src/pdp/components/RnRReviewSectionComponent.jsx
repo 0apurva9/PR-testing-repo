@@ -3,6 +3,7 @@ import ControlInput from "../../general/components/ControlInput";
 import ControlTextArea from "../../general/components/ControlTextArea";
 import styles from "./RnRReviewSectionComponent.css";
 import PropTypes from "prop-types";
+import { setDataLayerForRatingReviewSection, ADOBE_RATING_REVIEW_MODAL_REVIEW_SECTION } from "../../lib/adobeUtils";
 const success = "success";
 class RnRReviewSectionComponent extends Component {
     constructor(props) {
@@ -30,6 +31,8 @@ class RnRReviewSectionComponent extends Component {
 				this.props.userProductReviewDetails.id
 			);
 		}
+		let data = {pageName : this.props.pageName ? this.props.pageName : null};
+		setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_REVIEW_SECTION, data);
 	}
 
     componentDidUpdate(prevProps) {

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import styles from "./RnRQualitiesSectionComponent.css";
 import PropTypes from "prop-types";
+import { setDataLayerForRatingReviewSection, ADOBE_RATING_REVIEW_MODAL_QUALITY_SECTION } from "../../lib/adobeUtils";
 
 class RnRQualitiesSectionComponent extends Component {
     constructor(props) {
@@ -43,6 +44,9 @@ class RnRQualitiesSectionComponent extends Component {
 					this.props.userProductReviewDetails.eligibleParamCaptured.length
 				);
 			}
+
+		let data = {pageName : this.props.pageName ? this.props.pageName : null};
+		setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_QUALITY_SECTION, data);
 	}
 
     getClsNameHighRating = number => {
