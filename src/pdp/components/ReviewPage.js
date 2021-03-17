@@ -46,8 +46,11 @@ export default class ReviewPage extends React.Component {
                                     Verified Buyer
                                 </span>
                             )}
-
-                            <span className={styles.reviewAge}>{this.props.reviewAge}</span>
+                            {this.props.reviewAge ? (
+                                <span className={styles.reviewAge}>{this.props.reviewAge}</span>
+                            ) : (
+                                <span className={styles.reviewAge}>{date}</span>
+                            )}
                         </span>
                     </div>
                 ) : (

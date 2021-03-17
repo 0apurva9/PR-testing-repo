@@ -333,6 +333,7 @@ class ProductListingsPage extends Component {
               breadcrumbs[0].name &&
               breadcrumbs[0].name.replace(/ /g, "_").toLowerCase() !==
                 window.digitalData.page.category.subCategory1 &&
+              breadcrumbs[1] &&
               breadcrumbs[1].name &&
               breadcrumbs[1].name.replace(/ /g, "_").toLowerCase() !==
                 window.digitalData.page.category.subCategory2) ||
@@ -436,13 +437,7 @@ class ProductListingsPage extends Component {
         page = page - 1;
       }
 
-      let suffix = SUFFIX;
-      const parsedQueryString = queryString.parse(this.props.location.search);
-      if (parsedQueryString.text) {
-        suffix = `${suffix}&qc=true&test=v2`;
-      }
-
-      this.props.getProductListings(searchText, suffix, page);
+      this.props.getProductListings(searchText, SUFFIX, page);
       return;
     }
   }

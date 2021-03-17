@@ -79,6 +79,12 @@ module.exports = env => {
                     toType: "dir",
                     force: true,
                 },
+                {
+                    from: path.resolve(process.cwd(), "src/robots.txt"),
+                    to: path.resolve(process.cwd(), outFolder, "robots.txt"),
+                    toType: "file",
+                    force: true,
+                },
             ],
         }),
         new webpack.ProvidePlugin({

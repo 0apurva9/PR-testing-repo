@@ -33,6 +33,7 @@ import {
     MY_ACCOUNT_EXCHANGE_MODE_SELECTION_PAGE,
     MY_ACCOUNT_CLIQ_GIFT_CARD_PURCHASE_PAGE,
     MY_ACCOUNT_CLIQ_CASH_PURCHASE_PAGE,
+    HOME_ROUTER,
 } from "../../lib/constants.js";
 import AllOrderContainer from "../containers/AllOrderContainer";
 import MyAccountContainer from "../containers/MyAccountContainer";
@@ -78,7 +79,13 @@ export default class MyAccountWrapper extends React.Component {
         } else {
             this.props.setUrlToRedirectToAfterAuth(`${MY_ACCOUNT_PAGE}`);
         }
-        this.props.history.push(LOGIN_PATH);
+        // added check for old and new login toggle
+        if (this.props.isMNLLogin.value) {
+            this.props.openMobileNumberLoginModal();
+            this.props.history.push(HOME_ROUTER);
+        } else {
+            this.props.history.push(LOGIN_PATH);
+        }
         return null;
     }
 
