@@ -55,6 +55,7 @@ const mapDispatchToProps = dispatch => {
 
 const mapStateToProps = state => {
     return {
+        isModalEnabled: state.modal.isModalEnabled,
         modalStatus: state.modal.modalDisplayed,
         beautyPopupModal: state.productDescription.beautyPopupModal,
         scrollPosition: state.modal.scrollPosition,
@@ -65,6 +66,7 @@ const mapStateToProps = state => {
         cartIdForLoggedInUserStatus: state.cart.cartIdForLoggedInUserStatus,
         cartIdForAnonymousUserStatus: state.cart.cartIdForAnonymousUserStatus,
         redirectToAfterAuthUrl: state.auth.redirectToAfterAuthUrl,
+        isMobileNumberLoginModalActive: state.modal.isMobileNumberLoginModalActive,
     };
 };
 

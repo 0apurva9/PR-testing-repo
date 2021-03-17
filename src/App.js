@@ -293,19 +293,19 @@ const CategoriesPageContainer = Loadable({
         return <Loader />;
     },
 });
-const LoginContainer = Loadable({
-    loader: () => import(/* webpackChunkName: "desktop-login" */ "./auth/components/DesktopLogin"),
-    loading() {
-        return <Loader />;
-    },
-});
+// const LoginContainer = Loadable({
+//     loader: () => import(/* webpackChunkName: "desktop-login" */ "./auth/components/DesktopLogin"),
+//     loading() {
+//         return <Loader />;
+//     },
+// });
 
-const SignUpContainer = Loadable({
-    loader: () => import(/* webpackChunkName: "desktop-login" */ "./auth/components/DesktopLogin"),
-    loading() {
-        return <Loader />;
-    },
-});
+// const SignUpContainer = Loadable({
+//     loader: () => import(/* webpackChunkName: "desktop-login" */ "./auth/components/DesktopLogin"),
+//     loading() {
+//         return <Loader />;
+//     },
+// });
 
 const CheckOutContainer = Loadable({
     loader: () => import(/* webpackChunkName: "check-out-container" */ "./cart/containers/CheckOutContainer"),
@@ -360,6 +360,14 @@ const AllSellerReviewContainer = Loadable({
 const CleverTapUnsubscribeEmail = Loadable({
     loader: () =>
         import(/* webpackChunkName: "clever-tap-email-unsubscribe" */ "./general/components/CleverTapEmailUnsubscribe"),
+    loading() {
+        return <Loader />;
+    },
+});
+
+const MobileNumberContainer = Loadable({
+    loader: () =>
+        import(/* webpackChunkName: "mobile-number-login" */ "./mobile-number-login/mobile-number-login.container"),
     loading() {
         return <Loader />;
     },
@@ -507,16 +515,8 @@ class App extends Component {
                         <Route exact path={PANCARD_PAGE} component={PanCardFormContainer} />
                         <Route exact path={CATEGORY_PRODUCT_LISTINGS_WITH_PAGE} component={ProductListingsContainer} />
                         <Route exact path={BRAND_PRODUCT_LISTINGS_WITH_PAGE} component={ProductListingsContainer} />
-                        <Route
-                            exact
-                            path={LOGIN_PATH}
-                            render={routeProps => <LoginContainer {...routeProps} {...this.props} />}
-                        />
-                        <Route
-                            exact
-                            path={SIGN_UP_PATH}
-                            render={routeProps => <SignUpContainer {...routeProps} {...this.props} />}
-                        />
+                        <Route exact path={LOGIN_PATH} render={() => <HomeContainer mnlLoginPath={true} />} />
+                        <Route exact path={SIGN_UP_PATH} render={() => <HomeContainer mnlLoginPath={true} />} />
                         <Route path={CANCEL_PREFIX} component={CancelOrderContainer} />
                         <Route path={CANCEL_RETURN_PREFIX} component={CancelReturnRequestContainer} />
                         <Route path={RETURNS} component={ReturnFlowContainer} />
@@ -655,9 +655,10 @@ class App extends Component {
                             !this.props.location.pathname.includes(LOGIN_PATH) &&
                             !this.props.location.pathname.includes(SIGN_UP_PATH) && <DesktopFooterContainer />}
                     </DesktopOnly>
-                    <ModalContainer />
+                    {this.props.isModalEnabled ? <ModalContainer /> : <React.Fragment />}
                     <ErrorContainer />
                     <ToastContainer />
+                    {this.props.isMobileNumberLoginModalActive && <MobileNumberContainer />}
                 </div>
             </React.Fragment>
         );

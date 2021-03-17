@@ -15,7 +15,7 @@ import {
   setDataLayerForLogin,
   ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER,
   ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
-  ADOBE_LOGOUT_SUCCESSFULL
+  ADOBE_LOGOUT_SUCCESSFULL,
 } from "../../lib/adobeUtils";
 import { RouterPropTypes } from "../../general/router-prop-types";
 
@@ -38,9 +38,13 @@ export default class LogoutButton extends React.Component {
         this.props.location.pathname != "/checkout" &&
         this.props.location.pathname != "/cart"
       ) {
-        this.props.history.push(
-          `${this.props.location.pathname}${this.props.location.search}`
-        );
+        if (this.props.isMNLLogin.value) {
+          this.props.history.push(`${HOME_ROUTER}`);
+        } else {
+          this.props.history.push(
+            `${this.props.location.pathname}${this.props.location.search}`
+          );
+        }
       } else {
         this.props.history.push(`${HOME_ROUTER}`);
       }
@@ -102,11 +106,12 @@ LogoutButton.propTypes = {
   resetUserAddressAfterLogout: PropTypes.func,
   logoutUser: PropTypes.func,
   setBagCount: PropTypes.func,
-  setFalseForAllAuthCallHasSucceedFlag: PropTypes.func
+  setFalseForAllAuthCallHasSucceedFlag: PropTypes.func,
+  isMNLLogin: PropTypes.object,
 };
 LogoutButton.defaultProps = {
   size: "14px",
   label: "Logout",
   color: "#ff1744",
-  fontFamily: "regular"
+  fontFamily: "regular",
 };

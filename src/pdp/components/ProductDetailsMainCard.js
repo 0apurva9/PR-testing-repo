@@ -12,6 +12,7 @@ import MetaTags from "react-meta-tags";
 import { isBrowser } from "browser-or-node";
 
 import { setDataLayerForPdpDirectCalls, SET_DATA_LAYER_FOR_REVIEW_AND_RATING_EVENT } from "../../lib/adobeUtils";
+import ShareLinkComponent from "./ShareLinkComponent";
 const NO_REVIEW_TEXT = "Be the first to review this product";
 export const PRIMARY_OFFER = "PRODUCT_PROMOTION";
 export default class ProductDetailsMainCard extends React.Component {
@@ -125,7 +126,12 @@ export default class ProductDetailsMainCard extends React.Component {
                                 <span itemProp="name">{this.props.brandName}</span>
                             </h2>
                         </div>
-                        <a itemProp="url" href={isBrowser ? window.location.href : ""} onClick={this.handleLinkClick}>
+                        <a
+                            className={styles.linkName}
+                            itemProp="url"
+                            href={isBrowser ? window.location.href : ""}
+                            onClick={this.handleLinkClick}
+                        >
                             <div itemProp="name">
                                 <h1 className={styles.productName}>{this.props.productName}</h1>
                             </div>
@@ -183,10 +189,16 @@ export default class ProductDetailsMainCard extends React.Component {
                                 </div>
                             )}
                         </DesktopOnly>
+                        <div className={styles.shareBlock}>
+                            <ShareLinkComponent
+                                displayToast={this.props.displayToast}
+                                openBeautyPopup={this.props.openBeautyPopup}
+                            />
+                        </div>
                     </div>
                 </div>
 
-                {averageRating && displayRatingReview && (
+                {averageRating && (
                     <div className={styles.ratingHolder} onClick={() => this.seeRatingReview()} id="FRVW">
                         <div
                             className={styles.ratingText}
@@ -262,6 +274,8 @@ ProductDetailsMainCard.propTypes = {
     hasPriceBreakUp: PropTypes.bool,
     doublePrice: PropTypes.number,
     displayRatingReview: PropTypes.bool,
+    displayToast: PropTypes.func,
+    openBeautyPopup: PropTypes.func,
 };
 ProductDetailsMainCard.defaultProps = {
     isPdp: false,

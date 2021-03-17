@@ -113,7 +113,7 @@ export default class AddToWishListButton extends React.Component {
                     this.props.history.push(LOGIN_PATH);
                 } else {
                     if (this.props.showAuthPopUp) {
-                        this.props.showAuthPopUp();
+                        this.props.showAuthPopUp(this.props.isMNLLogin.value);
                     }
                 }
             }
@@ -350,6 +350,7 @@ AddToWishListButton.propTypes = {
     isSizeSelectedForAddToWishlist: PropTypes.bool,
     showSizeSelector: PropTypes.func,
     index: PropTypes.number,
+    isMNLLogin: PropTypes.object,
 };
 AddToWishListButton.defaultProps = {
     size: 20,

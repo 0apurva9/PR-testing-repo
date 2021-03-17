@@ -46,3 +46,19 @@ export function getLoggedInUserDetails() {
     loggedInUserDetailsCookie && JSON.parse(loggedInUserDetailsCookie);
   return loggedInUserDetails;
 }
+
+export function initiateHaptikScript() {
+  const f = document.getElementsByTagName("SCRIPT")[0];
+  const p = document.createElement("SCRIPT");
+  const timestamp = new Date().getTime();
+  const source_url = process.env.HAPTIK_CHATBOT_URL + "/static/aspectwise/js/haptik.js?" + timestamp;
+  p.type = "text/javascript";
+  p.setAttribute("charset", "utf-8");
+  p.setAttribute("clientid", "tatacliq");
+  p.async = true;
+  p.id = "buzzosrc";
+  p.src = source_url;
+  if (!document.getElementById("buzzosrc")) {
+      f.parentNode.insertBefore(p, f);
+  }
+}
