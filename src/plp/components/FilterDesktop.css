@@ -203,12 +203,17 @@
     border-radius: 100px;
     color: #8d8d8d;
     font-size: 14px;
-    padding: 0px 30px 0px 10px;
     background-color: #f5f5f5;
     font-family: light;
     position: relative;
     margin: 0 5px 0 0;
     cursor: pointer;
+}
+.addPadding {
+    padding: 0px 30px 0px 10px;
+}
+.removePadding {
+    padding: 0px 9px 0px 10px;
 }
 .newFilcancelIcon {
     position: absolute;

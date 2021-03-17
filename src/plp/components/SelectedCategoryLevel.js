@@ -29,7 +29,12 @@ export default class SelectedCategoryLevel extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div className={styles.newselectedFilterWithIcon}>
+                <div
+                    className={[
+                        styles.newselectedFilterWithIcon,
+                        this.props.showCloseIcon ? styles.addPadding : styles.removePadding,
+                    ].join(" ")}
+                >
                     {this.props.name}
                     {this.props.showCloseIcon ? (
                         <div className={styles.newFilcancelIcon} onClick={this.onClick}>

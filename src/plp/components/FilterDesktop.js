@@ -264,18 +264,6 @@ export default class FilterDesktop extends React.Component {
         } */
     };
 
-    /*     onCategoryLevelAccordion = accordionName => {
-        const openedCategoryLevelAccordions = cloneDeep(this.state.openedCategoryLevelAccordions);
-        const indexOfFilter = this.state.openedCategoryLevelAccordions.indexOf(accordionName);
-        if (indexOfFilter >= 0) {
-            openedCategoryLevelAccordions.splice(indexOfFilter, 1);
-            this.setState({ openedCategoryLevelAccordions });
-        } else {
-            openedCategoryLevelAccordions.push(accordionName);
-            this.setState({ openedCategoryLevelAccordions });
-        }
-    }; */
-
     viewMore() {
         this.setState({ openBrandPopUp: true });
     }
@@ -409,7 +397,6 @@ export default class FilterDesktop extends React.Component {
                                             text1={"Department"}
                                             filterAccHolder={true}
                                             isOpen={facetdatacategory.filters.length > 1 ? true : false}
-                                            onOpen={() => this.onCategoryLevelAccordion("l1Accordion")}
                                             iconPlus={true}
                                             text3Color={"#212121"}
                                             text3FontFamily={"semibold"}
@@ -457,7 +444,6 @@ export default class FilterDesktop extends React.Component {
                                                         text1={"Category"}
                                                         filterAccHolder={true}
                                                         isOpen={val.childFilters.length > 1 ? true : false}
-                                                        onOpen={() => this.onCategoryLevelAccordion("l2Accordion")}
                                                         iconPlus={true}
                                                         text3Color={"#212121"}
                                                         text3FontFamily={"semibold"}
@@ -514,7 +500,6 @@ export default class FilterDesktop extends React.Component {
                                                         isOpen={
                                                             val.childFilters[0].childFilters.length > 1 ? true : false
                                                         }
-                                                        onOpen={() => this.onCategoryLevelAccordion("l3Accordion")}
                                                         iconPlus={true}
                                                         text3Color={"#212121"}
                                                         text3FontFamily={"semibold"}
@@ -611,7 +596,6 @@ export default class FilterDesktop extends React.Component {
                                                                 ? true
                                                                 : false
                                                         }
-                                                        onOpen={() => this.onCategoryLevelAccordion("l4Accordion")}
                                                         iconPlus={true}
                                                         text3Color={"#212121"}
                                                         text3FontFamily={"semibold"}
