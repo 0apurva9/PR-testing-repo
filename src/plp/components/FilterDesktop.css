@@ -157,7 +157,7 @@
 .newFilHeader {
     font-size: 14px;
     font-family: semibold;
-    color: #212121;    
+    color: #212121;
     margin: 16px 0 11px;
     display: inline-block;
     width: 100%;
@@ -240,4 +240,7 @@
     font-family: semibold;
     text-align: right;
     color: #da1c5c;
-} 
+}
+.pointer {
+    cursor: pointer;
+}
