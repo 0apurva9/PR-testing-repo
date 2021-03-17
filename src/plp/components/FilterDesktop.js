@@ -264,7 +264,7 @@ export default class FilterDesktop extends React.Component {
         } */
     };
 
-    onCategoryLevelAccordion = accordionName => {
+    /*     onCategoryLevelAccordion = accordionName => {
         const openedCategoryLevelAccordions = cloneDeep(this.state.openedCategoryLevelAccordions);
         const indexOfFilter = this.state.openedCategoryLevelAccordions.indexOf(accordionName);
         if (indexOfFilter >= 0) {
@@ -274,7 +274,7 @@ export default class FilterDesktop extends React.Component {
             openedCategoryLevelAccordions.push(accordionName);
             this.setState({ openedCategoryLevelAccordions });
         }
-    };
+    }; */
 
     viewMore() {
         this.setState({ openBrandPopUp: true });
@@ -408,12 +408,7 @@ export default class FilterDesktop extends React.Component {
                                         <Accordion
                                             text1={"Department"}
                                             filterAccHolder={true}
-                                            isOpen={
-                                                this.state.openedCategoryLevelAccordions.includes("l1Accordion") ||
-                                                facetdatacategory.filters.length > 1
-                                                    ? true
-                                                    : false
-                                            }
+                                            isOpen={facetdatacategory.filters.length > 1 ? true : false}
                                             onOpen={() => this.onCategoryLevelAccordion("l1Accordion")}
                                             iconPlus={true}
                                             text3Color={"#212121"}
@@ -461,13 +456,7 @@ export default class FilterDesktop extends React.Component {
                                                     <Accordion
                                                         text1={"Category"}
                                                         filterAccHolder={true}
-                                                        isOpen={
-                                                            this.state.openedCategoryLevelAccordions.includes(
-                                                                "l2Accordion"
-                                                            )
-                                                                ? true
-                                                                : false
-                                                        }
+                                                        isOpen={val.childFilters.length > 1 ? true : false}
                                                         onOpen={() => this.onCategoryLevelAccordion("l2Accordion")}
                                                         iconPlus={true}
                                                         text3Color={"#212121"}
@@ -523,11 +512,7 @@ export default class FilterDesktop extends React.Component {
                                                         text1={"Product Type"}
                                                         filterAccHolder={true}
                                                         isOpen={
-                                                            this.state.openedCategoryLevelAccordions.includes(
-                                                                "l3Accordion"
-                                                            )
-                                                                ? true
-                                                                : false
+                                                            val.childFilters[0].childFilters.length > 1 ? true : false
                                                         }
                                                         onOpen={() => this.onCategoryLevelAccordion("l3Accordion")}
                                                         iconPlus={true}
@@ -622,9 +607,7 @@ export default class FilterDesktop extends React.Component {
                                                         text1={"Subcategory"}
                                                         filterAccHolder={true}
                                                         isOpen={
-                                                            this.state.openedCategoryLevelAccordions.includes(
-                                                                "l4Accordion"
-                                                            )
+                                                            val.childFilters[0].childFilters[0].childFilters.length > 1
                                                                 ? true
                                                                 : false
                                                         }
