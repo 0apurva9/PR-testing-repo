@@ -13,7 +13,7 @@ import { isBrowser } from "browser-or-node";
 
 import { setDataLayerForPdpDirectCalls, SET_DATA_LAYER_FOR_REVIEW_AND_RATING_EVENT } from "../../lib/adobeUtils";
 import ShareLinkComponent from "./ShareLinkComponent";
-const NO_REVIEW_TEXT = "Be the first to review this product";
+const NO_REVIEW_TEXT = "Share your opinion";
 export const PRIMARY_OFFER = "PRODUCT_PROMOTION";
 export default class ProductDetailsMainCard extends React.Component {
     constructor(props) {
@@ -198,7 +198,7 @@ export default class ProductDetailsMainCard extends React.Component {
                     </div>
                 </div>
 
-                {averageRating && (
+                {averageRating && displayRatingReview && (
                     <div className={styles.ratingHolder} onClick={() => this.seeRatingReview()} id="FRVW">
                         <div
                             className={styles.ratingText}
