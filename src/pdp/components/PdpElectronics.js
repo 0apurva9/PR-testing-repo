@@ -508,7 +508,12 @@ export default class PdpElectronics extends React.Component {
                                 </Accordion>
                             )}
                             {productData.knowMore && (
-                                <Accordion text="Know More" headerFontSize={16}>
+                                <Accordion
+                                    text={`${
+                                        productData.rootCategory === "Electronics" ? "Return Policy" : "Know More"
+                                    }`}
+                                    headerFontSize={16}
+                                >
                                     {productData.knowMore &&
                                         productData.knowMore.map((val, index) => {
                                             return (

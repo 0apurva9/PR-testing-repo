@@ -77,6 +77,7 @@ import ProductBundling from "./ProductBundling";
 import { renderMetaTags } from "./../../lib/seoUtils";
 import AppliancesExchange from "./AppliancesExchange";
 import RatingReviewHeaderComponent from "./PdpBeautyDesktop/DescriptionSection/RatingReviewHeaderComponent";
+import { initiateHaptikScript } from "./../../common/services/common.services";
 
 const WASH = "Wash";
 const NECK_COLLAR = "Neck/Collar";
@@ -240,6 +241,7 @@ export default class PdpApparel extends React.Component {
                     });
             }
         }
+        initiateHaptikScript();
         let isACCategory = categoryHierarchyCheck.find(category => {
             return category.category_id === "MSH1230";
         });
@@ -250,6 +252,7 @@ export default class PdpApparel extends React.Component {
     };
 
     componentWillReceiveProps(nextProps) {
+        const productDetailsForBuyNow = localStorage.getItem(BUY_NOW_PRODUCT_DETAIL);
         if (
             nextProps.bundledProductSuggestionStatus === SUCCESS &&
             nextProps.bundledProductSuggestionDetails &&
@@ -292,6 +295,24 @@ export default class PdpApparel extends React.Component {
                 this.setState({ isPickupAvailableForAppliance: false });
             }
         }
+        if (
+            (nextProps.userDetails && nextProps.userDetails.status === "Success") ||
+            !nextProps.isMobileNumberLoginModalActive
+        ) {
+            this.setState({
+                isLoader: false,
+            });
+        }
+
+        if (
+            nextProps.isMNLLogin.value &&
+            productDetailsForBuyNow &&
+            !nextProps.tempCartIdForLoggedInUserLoading &&
+            nextProps.userDetails &&
+            nextProps.userDetails.status === "Success"
+        ) {
+            this.goForBuyNow();
+        }
     }
 
     relevantProductServibilty = async params => {
@@ -330,6 +351,8 @@ export default class PdpApparel extends React.Component {
 
         if (
             this.props.productDetails.isServiceableToPincode !== prevProps.productDetails.isServiceableToPincode &&
+            this.props.productDetails.isServiceableToPincode &&
+            this.props.productDetails.isServiceableToPincode.status &&
             this.props.productDetails.isServiceableToPincode.status === YES
         ) {
             if (this.props.productDetails.bundlingSuggestionAvailable) {
@@ -543,13 +566,17 @@ export default class PdpApparel extends React.Component {
     };
 
     navigateToLogin(isBuyNow) {
-        const url = this.props.location.pathname;
-        if (isBuyNow) {
-            this.props.setUrlToRedirectToAfterAuth(PRODUCT_CART_ROUTER);
+        if (this.props.isMNLLogin.value) {
+            this.props.openMobileNumberLoginModal();
         } else {
-            this.props.setUrlToRedirectToAfterAuth(url);
+            const url = this.props.location.pathname;
+            if (isBuyNow) {
+                this.props.setUrlToRedirectToAfterAuth(PRODUCT_CART_ROUTER);
+            } else {
+                this.props.setUrlToRedirectToAfterAuth(url);
+            }
+            this.props.history.push(LOGIN_PATH);
         }
-        this.props.history.push(LOGIN_PATH);
     }
 
     redirectToLoginPage() {
@@ -1247,6 +1274,8 @@ export default class PdpApparel extends React.Component {
                                                 potentialPromotions={productData.potentialPromotions}
                                                 isPdp={true}
                                                 displayRatingReview={productData.displayRatingReview}
+                                                displayToast={this.props.displayToast}
+                                                openBeautyPopup={this.props.openBeautyPopup}
                                             />
                                         </div>
                                         <div className={styles.wisthListIconHolder}>
@@ -2028,7 +2057,14 @@ export default class PdpApparel extends React.Component {
                                         )}
 
                                         {productData.knowMore && (
-                                            <Accordion text="Know More" headerFontSize={18}>
+                                            <Accordion
+                                                text={`${
+                                                    productData.rootCategory === "Electronics"
+                                                        ? "Return Policy"
+                                                        : "Know More"
+                                                }`}
+                                                headerFontSize={18}
+                                            >
                                                 <div className={styles.containerWithBottomBorder}>
                                                     {productData.rootCategory === "Electronics" &&
                                                         productData.knowMore &&
@@ -2396,4 +2432,10 @@ PdpApparel.propTypes = {
     checkPincodeFromHaptikChatbot: PropTypes.func,
     getProductSpecification: PropTypes.func,
     reviews: PropTypes.object,
+    openMobileNumberLoginModal: PropTypes.func,
+    isMNLLogin: PropTypes.object,
+    userDetails: PropTypes.object,
+    isMobileNumberLoginModalActive: PropTypes.bool,
+    tempCartIdForLoggedInUserLoading: PropTypes.bool,
+    openBeautyPopup: PropTypes.func,
 };
