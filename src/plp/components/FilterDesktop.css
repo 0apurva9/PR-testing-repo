@@ -54,7 +54,7 @@
     width: 100%;
     height: auto;
     background: #fff;
-    display: inline-block;
+    display: block;
 }
 .filterHeader {
     font-size: 14px;
@@ -138,8 +138,8 @@
 
 /***New Filter***/
 .newFilterHolder {
-    padding: 0;
-    margin: 15px 15px 0 15px;
+    padding: 15px 0 0;
+    margin: 0 15px 0 15px;
     /* border-top: 1px solid #ececec;*/
 }
 .AvailnewFilterHolder {
@@ -150,7 +150,7 @@
 .newFilterBlock {
     margin: 0;
     padding: 0;
-    display: inline-block;
+    display: block;
     width: 100%;
     border-top: 1px solid #ececec;
 }
@@ -167,9 +167,9 @@
     flex-wrap: wrap;
     align-items: center;
     width: 100%;
-    margin: 0 0 16px;
+    margin: 0 0 0;
     cursor: pointer;
-    min-height: 34px;
+    min-height: 50px;
 }
 .newFilCheckbox {
     padding: 0;
@@ -229,8 +229,7 @@
     border-top-right-radius: 8px;
     border-top-left-radius: 8px;
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+    flex-wrap: nowrap;
     width: 100%;
 }
 .filterClearTxt1 {
@@ -238,6 +237,7 @@
     font-size: 14px;
     font-family: semibold;
     color: #212121;
+    align-items: flex-start;
 }
 .filterClearBtn {
     width: 50%;
@@ -245,7 +245,17 @@
     font-family: semibold;
     text-align: right;
     color: #da1c5c;
+    align-items: flex-start;
 }
 .pointer {
     cursor: pointer;
+}
+.filterScrollnew {
+    display: block;
+    max-width: 281px;
+    width: 100%;
+    position: relative;
+    height: auto;
+    min-height: 100vh;
+    text-align: left;
 }
