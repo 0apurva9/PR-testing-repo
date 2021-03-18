@@ -213,7 +213,9 @@ export default class OrderStatusVerticalV2 extends React.Component {
       if (refundSuccessfulData && refundSuccessfulData.key) {
         orderEDHD.push(refundSuccessfulData.key);
       }
-      activeOrderStatus = orderEDHD[orderEDHD.length - 1];
+      //activeOrderStatus = orderEDHD[orderEDHD.length - 1];
+      // Taking latest order status from completed steps
+      activeOrderStatus = completedSteps.slice(-1)[0];
     }
     let orderCNC = [];
     if (this.props.isCNC) {
@@ -271,7 +273,9 @@ export default class OrderStatusVerticalV2 extends React.Component {
       if (refundSuccessfulData && refundSuccessfulData.key) {
         orderCNC.push(refundSuccessfulData.key);
       }
-      activeOrderStatus = orderCNC[orderCNC.length - 1];
+      //activeOrderStatus = orderCNC[orderCNC.length - 1];
+      // Taking latest order status from completed steps
+      activeOrderStatus = completedSteps.slice(-1)[0];
     }
     //order confirmed
     let orderConfirmedDate = "";
