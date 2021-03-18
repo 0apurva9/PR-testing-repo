@@ -799,6 +799,7 @@ export default class Plp extends React.Component {
                                         onApply={this.onApply}
                                         onClear={this.props.hideFilter}
                                         onL3CategorySelect={this.onL3CategorySelect}
+                                        productListings={this.props.productListings}
                                     />
                                 </div>
                                 <div

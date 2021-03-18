@@ -1,8 +1,6 @@
 import React from "react";
 import cloneDeep from "lodash.clonedeep";
 import FilterSelect from "./FilterSelect";
-/* import FilterCategory from "./FilterCategory";
-import FilterCategoryL1 from "./FilterCategoryL1"; */
 import styles from "./FilterDesktop.css";
 import queryString from "query-string";
 import { createUrlFromQueryAndCategory } from "./FilterUtils.js";
@@ -38,7 +36,11 @@ export default class FilterDesktop extends React.Component {
             openBrandPopUp: false,
             showAllColor: false,
             restrictedFilterData: [],
-            openedCategoryLevelAccordions: [],
+            l1Accordion: false,
+            l2Accordion: false,
+            l3Accordion: false,
+            l4Accordion: false,
+            otherfacetUpdated: false,
         };
     }
 
@@ -251,17 +253,19 @@ export default class FilterDesktop extends React.Component {
 
     onOpenAccordion = filterName => {
         const openedFilters = [];
-        openedFilters.push(filterName);
-        this.setState({ openedFilters: openedFilters });
-        /* const openedFilters = cloneDeep(this.state.openedFilters);
         const indexOfFilter = this.state.openedFilters.indexOf(filterName);
         if (indexOfFilter >= 0) {
-            openedFilters.splice(indexOfFilter, 1);
-            this.setState({ openedFilters });
+            this.setState({ openedFilters: [], otherfacetUpdated: true });
         } else {
             openedFilters.push(filterName);
-            this.setState({ openedFilters });
-        } */
+            this.setState({ openedFilters: openedFilters, otherfacetUpdated: true });
+        }
+    };
+
+    handleCategoryAccordion = accordionName => {
+        this.setState(prevState => ({
+            [accordionName]: !prevState[accordionName],
+        }));
     };
 
     viewMore() {
@@ -271,6 +275,75 @@ export default class FilterDesktop extends React.Component {
     viewMoreColor() {
         this.setState({ showAllColor: !this.state.showAllColor });
     }
+
+    setCategoryLevelAccordion(incomingProps) {
+        if (
+            incomingProps.productListings &&
+            incomingProps.productListings.facetdatacategory &&
+            incomingProps.productListings.facetdatacategory.filters &&
+            incomingProps.productListings.facetdatacategory.filters.length > 1
+        ) {
+            if (!this.state.l1Accordion) {
+                this.setState({ l1Accordion: true });
+            }
+        }
+        if (
+            incomingProps.productListings &&
+            incomingProps.productListings.facetdatacategory &&
+            incomingProps.productListings.facetdatacategory.filters &&
+            incomingProps.productListings.facetdatacategory.filters.length === 1
+        ) {
+            if (
+                incomingProps.productListings.facetdatacategory.filters[0].childFilters &&
+                incomingProps.productListings.facetdatacategory.filters[0].childFilters.length > 1
+            ) {
+                if (!this.state.l2Accordion) {
+                    this.setState({ l2Accordion: true });
+                }
+            } else if (
+                incomingProps.productListings.facetdatacategory.filters[0].childFilters.length === 1 &&
+                incomingProps.productListings.facetdatacategory.filters[0].childFilters[0].childFilters &&
+                incomingProps.productListings.facetdatacategory.filters[0].childFilters[0].childFilters.length > 1
+            ) {
+                if (!this.state.l3Accordion) {
+                    this.setState({ l3Accordion: true });
+                }
+            } else if (
+                incomingProps.productListings.facetdatacategory.filters[0].childFilters.length === 1 &&
+                incomingProps.productListings.facetdatacategory.filters[0].childFilters[0].childFilters &&
+                incomingProps.productListings.facetdatacategory.filters[0].childFilters[0].childFilters.length === 1 &&
+                incomingProps.productListings.facetdatacategory.filters[0].childFilters[0].childFilters[0] &&
+                incomingProps.productListings.facetdatacategory.filters[0].childFilters[0].childFilters[0]
+                    .childFilters &&
+                incomingProps.productListings.facetdatacategory.filters[0].childFilters[0].childFilters[0].childFilters
+                    .length > 1
+            ) {
+                if (!this.state.l4Accordion) {
+                    this.setState({ l4Accordion: true });
+                }
+            }
+        }
+    }
+
+    conditionToOpenCatLevelAccordion = (propsPrevious, statePrevious) => {
+        if (
+            statePrevious.l1Accordion === this.state.l1Accordion &&
+            statePrevious.l1Accordion === false &&
+            this.state.l1Accordion === false &&
+            statePrevious.l2Accordion === this.state.l2Accordion &&
+            statePrevious.l2Accordion === false &&
+            this.state.l2Accordion === false &&
+            statePrevious.l3Accordion === this.state.l3Accordion &&
+            statePrevious.l3Accordion === false &&
+            this.state.l3Accordion === false &&
+            statePrevious.l4Accordion === this.state.l4Accordion &&
+            statePrevious.l4Accordion === false &&
+            this.state.l4Accordion === false &&
+            this.state.otherfacetUpdated === false
+        ) {
+            return true;
+        }
+    };
 
     componentDidMount() {
         const restrictedFilterCookie = Cookie.getCookie(RESTRICTED_FILTERS);
@@ -283,7 +356,7 @@ export default class FilterDesktop extends React.Component {
         }
     }
 
-    componentDidUpdate() {
+    componentDidUpdate(prevProps, prevState) {
         const restrictedFilterCookie = Cookie.getCookie(RESTRICTED_FILTERS);
         if (!restrictedFilterCookie) {
             if (this.props.getRestrictedFilters) {
@@ -294,6 +367,13 @@ export default class FilterDesktop extends React.Component {
                 this.setState({ restrictedFilterData: JSON.parse(restrictedFilterCookie) });
             }
         }
+        if (this.conditionToOpenCatLevelAccordion(prevProps, prevState)) {
+            this.setCategoryLevelAccordion(this.props);
+        }
+    }
+
+    UNSAFE_componentWillReceiveProps(nextProps) {
+        this.setCategoryLevelAccordion(nextProps);
     }
 
     render() {
@@ -362,21 +442,7 @@ export default class FilterDesktop extends React.Component {
                         );
                     })}
                 <div className={styles.filterScrollnew}>
-                    <div className={styles.filterDetails}>                        
-                        {/* <Accordion
-                            text1="Refine"
-                            text2="Clear all"
-                            isOpen={true}
-                            headerFontSize={16}
-                            text1Size={14}
-                            text2Color={"#fe214c"}
-                            text2FontFamily="light"
-                            text2Size={14}
-                            textAlign={"right"}
-                            handleClick={() => this.onClear()}
-                            padding="0px 40px 0px 20px"
-                            backgroundColor="#f9f9f9"
-                        > */}
+                    <div className={styles.filterDetails}>
                         <div className={styles.filterClearBlock}>
                             <div className={styles.filterClearTxt1}>Filters</div>
                             <div className={styles.filterClearBtn}>
@@ -396,7 +462,8 @@ export default class FilterDesktop extends React.Component {
                                         <Accordion
                                             text1={"Department"}
                                             filterAccHolder={true}
-                                            isOpen={facetdatacategory.filters.length > 1 ? true : false}
+                                            isOpen={this.state.l1Accordion}
+                                            onOpen={() => this.handleCategoryAccordion("l1Accordion")}
                                             iconPlus={true}
                                             text3Color={"#212121"}
                                             text3FontFamily={"semibold"}
@@ -443,7 +510,8 @@ export default class FilterDesktop extends React.Component {
                                                     <Accordion
                                                         text1={"Category"}
                                                         filterAccHolder={true}
-                                                        isOpen={val.childFilters.length > 1 ? true : false}
+                                                        isOpen={this.state.l2Accordion}
+                                                        onOpen={() => this.handleCategoryAccordion("l2Accordion")}
                                                         iconPlus={true}
                                                         text3Color={"#212121"}
                                                         text3FontFamily={"semibold"}
@@ -497,9 +565,8 @@ export default class FilterDesktop extends React.Component {
                                                     <Accordion
                                                         text1={"Product Type"}
                                                         filterAccHolder={true}
-                                                        isOpen={
-                                                            val.childFilters[0].childFilters.length > 1 ? true : false
-                                                        }
+                                                        isOpen={this.state.l3Accordion}
+                                                        onOpen={() => this.handleCategoryAccordion("l3Accordion")}
                                                         iconPlus={true}
                                                         text3Color={"#212121"}
                                                         text3FontFamily={"semibold"}
@@ -591,11 +658,8 @@ export default class FilterDesktop extends React.Component {
                                                     <Accordion
                                                         text1={"Subcategory"}
                                                         filterAccHolder={true}
-                                                        isOpen={
-                                                            val.childFilters[0].childFilters[0].childFilters.length > 1
-                                                                ? true
-                                                                : false
-                                                        }
+                                                        isOpen={this.state.l4Accordion}
+                                                        onOpen={() => this.handleCategoryAccordion("l4Accordion")}
                                                         iconPlus={true}
                                                         text3Color={"#212121"}
                                                         text3FontFamily={"semibold"}
@@ -644,34 +708,6 @@ export default class FilterDesktop extends React.Component {
                                             );
                                         } else return null;
                                     })}
-                                {/*   <div className={styles.filterHeader}>Category</div>
-                                <div className={styles.catagoryHolder}>
-                                    {this.props.isCategorySelected &&
-                                        facetdatacategory &&
-                                        facetdatacategory.filters &&
-                                        facetdatacategory.filters.map((val, i) => {
-                                            if (val.quantity > 0) {
-                                                return (
-                                                    <FilterCategoryL1
-                                                        name={val.categoryName}
-                                                        count={val.quantity}
-                                                        value={val.categoryCode}
-                                                        onL1Click={this.onL1Click}
-                                                        isOpen={val.selected}
-                                                        key={i}
-                                                    >
-                                                        <FilterCategory
-                                                            onClick={this.onL2Click}
-                                                            onL3Click={this.onL3Click}
-                                                            categoryTypeList={val.childFilters}
-                                                            key={i}
-                                                        />
-                                                    </FilterCategoryL1>
-                                                );
-                                            }
-                                        })}
-                                </div> */}
-
                                 {autoShowFilters.map((facetDataValues, i) => {
                                     const isOpen = this.state.openedFilters.includes(facetDataValues.name);
                                     return (
@@ -869,7 +905,6 @@ export default class FilterDesktop extends React.Component {
                                 })}
                             </div>
                         </div>
-                        {/*    </Accordion> */}
                         <div className={styles.subFilterDetails}>
                             <div className={styles.AvailnewFilterHolder}>
                                 {filterWithCollapse.map((facetDataValues, i) => {
@@ -887,18 +922,10 @@ export default class FilterDesktop extends React.Component {
                                             <div className={styles.facetData}>
                                                 <Accordion
                                                     key={i}
-                                                    // text1={facetDataValues.name}
                                                     isOpen={isOpen}
                                                     onOpen={() => this.onOpenAccordion(facetDataValues.name)}
-                                                    // widthForText1="100%"
-                                                    // text1FontFamily={isOpen ? "semibold" : "light"}
-                                                    // text1Color="#212121"
-                                                    // text1Size="14px"
-                                                    // headerFontSize={16}
-                                                    // padding="0px 40px 0px 20px"
                                                     text1={facetDataValues.name}
                                                     filterAccHolder={true}
-                                                    // isOpen={true}
                                                     iconPlus={true}
                                                     text3Color={"#212121"}
                                                     text3FontFamily={"semibold"}
@@ -991,7 +1018,7 @@ export default class FilterDesktop extends React.Component {
                                 })}
                             </div>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
             </React.Fragment>
         );
