@@ -145,15 +145,25 @@ export default class ProductReviewPage extends Component {
         this.props.getProductReviews(this.props.match.params[0], 0, this.state.orderBy, this.state.sort);
         if (this.props.match.path === WRITE_REVIEWS_WITH_SLUG || this.props.match.path === WRITE_REVIEWS) {
             if (!userDetails || !customerCookie) {
-                const url = this.props.location.pathname;
-                this.props.setUrlToRedirectToAfterAuth(url);
-                this.props.hideSecondaryLoader();
-                this.props.history.push(LOGIN_PATH);
+				const url = this.props.location.pathname;
+				this.props.setUrlToRedirectToAfterAuth(url);
+				this.props.showAuthPopUp();
             } else {
                 this.setState({ visible: true });
             }
+			sessionStorage.setItem("showRatingModalAfterLoggedIn", true);
         }
     }
+
+	componentDidUpdate(prevProps) {
+		if(this.props.location !== prevProps.location) {
+			if (this.props.match.path === WRITE_REVIEWS_WITH_SLUG || this.props.match.path === WRITE_REVIEWS) {
+				sessionStorage.setItem("showRatingModalAfterLoggedIn", true);
+				this.props.getProductDescription(this.props.match.params[0], IS_COMING_FOR_REVIEW_PAGE);
+        		this.props.getProductReviews(this.props.match.params[0], 0, this.state.orderBy, this.state.sort);
+			}
+		}
+	}
 
     componentWillUnmount() {
         updatePdpDetailsBackFromReviewPage();
@@ -422,15 +432,17 @@ export default class ProductReviewPage extends Component {
             this.props.showAuthPopUp();
             sessionStorage.setItem("showRatingModalAfterLoggedIn", true);
         } else {
-            this.props.openRatingReviewModal({ productCode: this.props.productDetails.productListingId, pageName: "productReview" });
-            this.props.getParametersEligibleToRate(this.props.productDetails.productListingId);
+			if(this.props.productDetails){
+				this.props.openRatingReviewModal({ productCode: this.props.productDetails.productListingId, pageName: "productReview" });
+				this.props.getParametersEligibleToRate(this.props.productDetails.productListingId);
 
-			let ratingReviewData = {
-				averageStar: this.props.productDetails.averageRating ? this.props.productDetails.averageRating : null,
-				totalReview: this.props.productDetails.numberOfReviews ? this.props.productDetails.numberOfReviews : null,
-				totalRating: this.props.productDetails.ratingCount ? this.props.productDetails.ratingCount : null
-			};
-			setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_WRITE_REVIEW_CLICK, ratingReviewData);
+				let ratingReviewData = {
+					averageStar: this.props.productDetails.averageRating ? this.props.productDetails.averageRating : null,
+					totalReview: this.props.productDetails.numberOfReviews ? this.props.productDetails.numberOfReviews : null,
+					totalRating: this.props.productDetails.ratingCount ? this.props.productDetails.ratingCount : null
+				};
+				setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_WRITE_REVIEW_CLICK, ratingReviewData);
+			}
         }
     };
 
@@ -438,10 +450,12 @@ export default class ProductReviewPage extends Component {
         if (
             sessionStorage.getItem("showRatingModalAfterLoggedIn") &&
             Cookie.getCookie(LOGGED_IN_USER_DETAILS) &&
-            Cookie.getCookie(CUSTOMER_ACCESS_TOKEN)
+            Cookie.getCookie(CUSTOMER_ACCESS_TOKEN) &&
+			this.props.productDetails
         ) {
-            this.props.openRatingReviewModal({ productCode: this.props.productDetails.productListingId, pageName: "productReview" });
-            this.props.getParametersEligibleToRate(this.props.productDetails.productListingId);
+			let productId = this.props.productDetails && this.props.productDetails.productListingId;
+            this.props.openRatingReviewModal({ productCode: productId, pageName: "productReview" });
+            this.props.getParametersEligibleToRate(productId);
             sessionStorage.removeItem("showRatingModalAfterLoggedIn");
         }
 
@@ -667,20 +681,6 @@ export default class ProductReviewPage extends Component {
                             </DesktopOnly>
                         </div>
                         <div className={styles.dropDownHolder}>
-                            <DesktopOnly>
-                                {this.state.visible && (
-                                    <div className={styles.writtingReview}>
-                                        <div className={styles.headerWrapper}>
-                                            <div className={styles.headerWithRating}>
-                                                <div className={styles.header1}>
-                                                    <h3>Ratings and Reviews</h3>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className={styles.reviewHolder}>{this.renderReviewSection()}</div>
-                                    </div>
-                                )}
-                            </DesktopOnly>
                             <MobileOnly>
                                 <div className={styles.dropDownHolderWithReviewText}>
                                     <div className={styles.headerWrapper}>

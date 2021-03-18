@@ -17,6 +17,7 @@ import {
     updateReturnCancellation,
     updateReturnForHOTC,
     getGenesysCallConfigData,
+	getPendingReviews,
 } from "../../account/actions/account.actions";
 import {
     getTncForBankOffer,
@@ -108,6 +109,7 @@ const mapStateToProps = state => {
         addReviewDetails: state.productDescription.addReviewDetails,
         submitParameterRatingDetails: state.productDescription.submitParameterRatingDetails,
 		userProductReviewDetails: state.profile.getUserProductReviewDetails,
+		pendingReviewsDetails: state.profile.getPendingReviewsDetails,
     };
 };
 
@@ -423,6 +425,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         getTitleSuggestions: (productCode, userRating) => {
             dispatch(getTitleSuggestions(productCode, userRating));
         },
+		getPendingReviews: (currentPage, isRatingReviewSuccessScreen) => {
+			dispatch(getPendingReviews(currentPage, isRatingReviewSuccessScreen));
+		}
     };
 };
 const ModalContainer = withRouter(connect(mapStateToProps, mapDispatchToProps)(ModalRoot));
