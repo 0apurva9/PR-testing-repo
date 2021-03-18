@@ -8,15 +8,15 @@ import Icon from "../../xelpmoc-core/Icon";
 import editReview from "./img/editReview.svg";
 
 class ProductDetailsWithEachReview extends Component {
-	editRatingReview = (productcode) => {
-		this.props.editRatingReview(productcode);
+	editRatingReview = (productcode, rating) => {
+		this.props.editRatingReview(productcode, rating);
 	};
 
 	render() {
 		return (
 			<div className={styles.base}>
 				{this.props.isPublishedReview && this.props.canEditDelete ? (
-					<div className={styles.editButtonContainer} onClick={() => this.editRatingReview(this.props.productcode)}>
+					<div className={styles.editButtonContainer} onClick={() => this.editRatingReview(this.props.productcode, this.props.userRating)}>
 						<div className={styles.editIconContainer}>
 							<Icon image={editReview} size={12} />
 						</div>

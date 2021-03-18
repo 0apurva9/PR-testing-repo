@@ -67,7 +67,13 @@ class RnRRatingSectionComponent extends Component {
                     <React.Fragment>
                         <div className={styles.heading}>Thank you for Rating this product!</div>
                         <img src={this.getUIForSelectedRating(this.state.rating)} className={styles.ratingSuccess} />
-                    </React.Fragment>
+						<div className={styles.emptyRatingContainer}>
+							<RnREmptyRatingGreyStarComponent
+								submitRating={(rating) => this.submitRating(rating)}
+								isRatingClicked={true}
+							/>
+						</div>
+					</React.Fragment>
                 )}
             </div>
         );

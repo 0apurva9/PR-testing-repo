@@ -18,7 +18,9 @@ class RnREmptyRatingGreyStarComponent extends Component {
 					<div className={styles.eachRating} onClick={() => this.submitRating(4)} />
 					<div className={styles.eachRating} onClick={() => this.submitRating(5)} />
 				</div>
-				<img src={EmptyRatingStarGrey} className={styles.emptyRatingStarGrey} />
+				{!this.props.isRatingClicked ? (
+					<img src={EmptyRatingStarGrey} className={styles.emptyRatingStarGrey} />
+				) : null}
 			</div>
 		);
 	}
@@ -26,6 +28,7 @@ class RnREmptyRatingGreyStarComponent extends Component {
 
 RnREmptyRatingGreyStarComponent.propTypes = {
 	submitRating: PropTypes.func,
+	isRatingClicked: PropTypes.bool,
 };
 
 export default RnREmptyRatingGreyStarComponent;
