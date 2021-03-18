@@ -11,6 +11,7 @@ export default class PendingPublishedReviewList extends React.Component {
 				{this.props.reviewList &&
 				this.props.reviewList.length > 0 &&
 				this.props.reviewList.map((data, i) => {
+					if(!data) { return null };
 					let userName = data.userName;
 					let alias = data.alias;
 						return (
