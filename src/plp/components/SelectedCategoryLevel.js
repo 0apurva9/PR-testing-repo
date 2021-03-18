@@ -6,7 +6,14 @@ import styles from "./FilterDesktop.css";
 export default class SelectedCategoryLevel extends React.Component {
     onClick = () => {
         if (this.props.onL1Click) {
-            this.props.onL1Click(this.props.l1CategoryCode, "Category", this.props.l1Name, this.props.l1Name);
+            this.props.onL1Click(
+                this.props.l1CategoryCode,
+                "Category",
+                this.props.l1Name,
+                this.props.l1Name,
+                "",
+                this.props.l2Deselect
+            );
         }
         if (this.props.onClick) {
             this.props.onClick(this.props.l2CategoryCode, "Category", this.props.l2Name, this.props.l2Name);
@@ -22,7 +29,12 @@ export default class SelectedCategoryLevel extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <div className={styles.newselectedFilterWithIcon}>
+                <div
+                    className={[
+                        styles.newselectedFilterWithIcon,
+                        this.props.showCloseIcon ? styles.addPadding : styles.removePadding,
+                    ].join(" ")}
+                >
                     {this.props.name}
                     {this.props.showCloseIcon ? (
                         <div className={styles.newFilcancelIcon} onClick={this.onClick}>

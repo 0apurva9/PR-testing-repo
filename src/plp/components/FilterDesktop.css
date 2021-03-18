@@ -38,13 +38,13 @@
     margin: 10px 0;
 }
 .filterDetails {
-    padding: 10px 0px;
+    padding: 10px 0px 0;
     border-radius: 4px;
 }
 .filtersOptions {
     background-color: #fff;
-    border-bottom: 1px solid #ececec;
-    margin-bottom: 20px;
+    border-top: 1px solid #ececec;
+    padding: 0 15px 0 15px;
 }
 .filtersOptionsList {
     border-bottom: 1px solid #ececec;
@@ -54,7 +54,7 @@
     width: 100%;
     height: auto;
     background: #fff;
-    display: inline-block;
+    display: block;
 }
 .filterHeader {
     font-size: 14px;
@@ -121,38 +121,43 @@
 .allDataHolder {
     width: 100%;
     height: auto;
-    padding: 0px 20px;
+    /*padding: 0px 20px;*/
 }
 .filterPriceHolder {
     width: 100%;
     height: auto;
     overflow-y: auto;
     max-height: 265px;
-    padding: 0px 20px;
+    padding: 0px;
 }
 .filterBrandHolder {
     width: 100%;
     height: auto;
-    padding: 0px 20px;
+    padding: 0px;
 }
 
 /***New Filter***/
 .newFilterHolder {
-    padding: 0;
-    margin: 15px 15px 0 15px;
+    padding: 15px 0 0;
+    margin: 0 15px 0 15px;
     /* border-top: 1px solid #ececec;*/
+}
+.AvailnewFilterHolder {
+    padding: 0;
+    margin: 0 15px 0 15px;
+    border-top: 1px solid #ececec;
 }
 .newFilterBlock {
     margin: 0;
-    padding: 0 0 15px;
-    border-bottom: 1px solid #ececec;
-    display: inline-block;
+    padding: 0;
+    display: block;
     width: 100%;
+    border-top: 1px solid #ececec;
 }
 .newFilHeader {
     font-size: 14px;
     font-family: semibold;
-    color: #212121;    
+    color: #212121;
     margin: 16px 0 11px;
     display: inline-block;
     width: 100%;
@@ -162,8 +167,9 @@
     flex-wrap: wrap;
     align-items: center;
     width: 100%;
-    margin: 16px 0 0;
+    margin: 0 0 0;
     cursor: pointer;
+    min-height: 50px;
 }
 .newFilCheckbox {
     padding: 0;
@@ -197,15 +203,59 @@
     border-radius: 100px;
     color: #8d8d8d;
     font-size: 14px;
-    padding: 0px 30px 0px 10px;
     background-color: #f5f5f5;
     font-family: light;
     position: relative;
     margin: 0 5px 0 0;
     cursor: pointer;
 }
+.addPadding {
+    padding: 0px 30px 0px 10px;
+}
+.removePadding {
+    padding: 0px 9px 0px 10px;
+}
 .newFilcancelIcon {
     position: absolute;
     right: 10px;
     top: 10px;
+}
+.newFilSelcted {
+    margin: 0 0 15px;
+}
+.filterClearBlock {
+    background-color: #f5f5f5;
+    padding: 12px 15px 12px;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+}
+.filterClearTxt1 {
+    width: 50%;
+    font-size: 14px;
+    font-family: semibold;
+    color: #212121;
+    align-items: flex-start;
+}
+.filterClearBtn {
+    width: 50%;
+    font-size: 14px;
+    font-family: semibold;
+    text-align: right;
+    color: #da1c5c;
+    align-items: flex-start;
+}
+.pointer {
+    cursor: pointer;
+}
+.filterScrollnew {
+    display: block;
+    max-width: 281px;
+    width: 100%;
+    position: relative;
+    height: auto;
+    min-height: 100vh;
+    text-align: left;
 }

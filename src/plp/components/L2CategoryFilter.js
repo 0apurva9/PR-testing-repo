@@ -13,7 +13,7 @@ export default class L2CategoryFilter extends React.Component {
         return (
             <React.Fragment>
                 {this.props.l2filters.map((l2filter, i) => {
-                    if (l2filter.quantity > 1) {
+                    if (l2filter.quantity > 0) {
                         return (
                             <div
                                 className={styles.newFilCheckboxBlock}

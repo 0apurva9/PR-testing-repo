@@ -68,6 +68,7 @@ const mapStateToProps = (state, ownProps) => {
             state.productListings.productListings.currentQuery.query
                 ? state.productListings.productListings.currentQuery.query.value
                 : null,
+        getRestrictedFilterStatus: state.productListings.getRestrictedFilterStatus,
     };
 };
 

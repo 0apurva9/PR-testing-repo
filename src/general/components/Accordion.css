@@ -24,9 +24,9 @@
   color: #212121;
   font-size: 14px;
   font-family: semibold;
-  margin: 16px 0 11px;
+  margin: 16px 0 16px;
   text-align: left;
-  transition: all ease-in 300ms;
+  transition: all ease-in 0.2s;
   user-select: none;
   display: inline-block;
   width: 100%;
@@ -61,7 +61,7 @@
 }
 .filterAccHolder {
   width: 100%;
-  transition: all ease-in 300ms;
+  transition: all ease-in 0.2s;
   position: relative;
   padding-right: 40px;
 }
@@ -74,7 +74,7 @@
   top: 0;
   bottom: 0;
   margin: auto;
-  transition: all ease-in 300ms;
+  transition: all ease-in 0.2s;
   cursor: pointer;
 }
 .iconPlus:after {
@@ -107,7 +107,7 @@
   top: 0;
   bottom: 0;
   margin: auto;
-  transition: all ease-in 300ms;
+  transition: all ease-in 0.2s;
   cursor: pointer;
 }
 .iconMinus:after {
