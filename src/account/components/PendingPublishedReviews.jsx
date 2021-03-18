@@ -88,7 +88,7 @@ class PendingPublishedReviews extends Component {
 											reviewList={this.state.publishedReviewsDetails.reviews}
 											submitRating={(rating, productCode, section) => this.props.submitRating(rating, productCode, section)}
 											isPublishedReview={true}
-											editRatingReview={(productcode) => this.props.editRatingReview(productcode)}
+											editRatingReview={(productcode, rating) => this.props.editRatingReview(productcode, rating)}
 										/>
 									)}
 									{this.state.publishedReviewsDetails.pageNumber + 1 < this.state.publishedReviewsDetails.totalNoOfPages ? (
