@@ -5513,7 +5513,7 @@ export function getPendingReviewsFailure(error) {
     };
 }
 
-export function getPendingReviews(currentPage) {
+export function getPendingReviews(currentPage, isRatingReviewSuccessScreen) {
     return async (dispatch, getState, { api }) => {
 		let userDetails = await getLoggedInUserDetails();
 		let userName = userDetails.userName;
@@ -5521,8 +5521,12 @@ export function getPendingReviews(currentPage) {
 
         dispatch(getPendingReviewsRequest());
         try {
+			let extraParam = "";
+			if(isRatingReviewSuccessScreen) {
+				extraParam = `&rating=0`;
+			}
 			const result = await api.get(
-				`${USER_PATH}/${userName}/getPendingReviewProducts?fields=BASIC&access_token=${accessToken}&page=${currentPage}&pageSize=${PAGE_SIZE}`
+				`${USER_PATH}/${userName}/getPendingReviewProducts?fields=BASIC&access_token=${accessToken}&page=${currentPage}&pageSize=${PAGE_SIZE}${extraParam}`
 			);
 			const resultJson = await result.json();
 			const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);

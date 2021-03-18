@@ -3,7 +3,7 @@ import React from "react";
 import styles from "./RatingsAndReviewsComponent.css";
 import DesktopOnly from "../../../../../general/components/DesktopOnly";
 
-const NO_REVIEW_TEXT = "Be the first to review this product";
+const NO_REVIEW_TEXT = "Share your opinion";
 const WRITE_REVIEW = "/write-review";
 const ADJUST_FACTOR = 10;
 
