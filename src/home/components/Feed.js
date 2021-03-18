@@ -321,187 +321,151 @@ const SimpleBannerComponentMonetization = Loadable({
 });
 
 export const typeComponentMapping = {
-  "Product Capsules Component": props => (
-    <ProductCapsulesContainer {...props} />
-  ),
-  "Landing Page Header Component": props => {
-    return <BrandCardHeader {...props} />;
-  },
-  quickLinksComponent: props => <AllQuickLinks {...props} />,
-  "01QLC-P": props => <PersonalisedQuickLinks {...props} />,
-  "01BOC-P": props => <BankOfferPersonalisedComponent {...props} />,
-  "01MPB-P": props => <ConnectWidgetPersonalisedComponent {...props} />,
-  "01MBC-P": props => <MultipleBannersPersonalisedComponent {...props} />,
-  "01TBT-P": props => <CuratedFeatureForPersonalisedComponent {...props} />,
-  "01HBC-P": props => <HeroBannerPersonalisedComponent {...props} />,
-  // "01LEC-P":props => <LuxEditorial
-  "Hero Banner Component": props => <HeroBanner {...props} />, // no hard coded data
-  "Theme Offers Component": props => <ThemeOffer {...props} />, // no hard coded data
-  "Desktop Theme Offer Component": props => <ThemeOffer {...props} />,
-  themeOffersComponent: props => <ThemeOffer {...props} />,
-  "Auto Product Recommendation Component": props => (
-    <RecommendationWidget {...props} />
-  ),
-  "Content Component": props => <ContentWidgetWrapper {...props} />,
-  "Banner Product Carousel Component": props => (
-    <BannerProductCarousel {...props} />
-  ),
-  "Video Product Carousel Component": props => (
-    <VideoProductCarousel {...props} />
-  ),
-  // "Automated Banner Product Carousel Component": props => (
-  //   <PreAutomatedBrandProductCarousel {...props} />
-  // ),
-  "Auto Following Brands Component": props => <FollowingBrands {...props} />,
-  multipleBannerComponent: props => <MultipleBanners {...props} />,
-  "Flash Sales Component": props => <FlashSale {...props} />, // wired up
-  "Offers Component": props => <OfferWidget {...props} />, // wired up
-  "Multipurpose Banner Component": props => <ConnectWidget {...props} />, // modal not working - need to figure out what to show here.
-  "Desktop Multi Click Component": props => <ThemeProductWidget {...props} />,
-  "Auto Fresh From Brands Component": props => <FollowBase {...props} />, // wired up with clickable url
-  "Banner Separator Component": props => <BannerSeparator {...props} />,
-  "Auto Discover More Component": props => <DiscoverMore {...props} />,
-  "Top Categories Component": props => <TopCategories {...props} />,
-  "Recently viewed product": props => <RecommendationWidget {...props} />,
-  "Single Banner Component": props => <MonoBanner {...props} />,
-  "Curated Listing Strip Component": props => <LatestCollections {...props} />,
-  "Two by Two Banner Component": props => <CuratedFeature {...props} />,
-  "Curated Products Component": props => (
-    <CuratedProductsComponent {...props} />
-  ),
-  bankOfferComponent: props => <BankOfferBanner {...props} />,
-  "Sub Brands Banner Component": props => <SubBrandsBanner {...props} />,
-  "Desktop Sub Brands Component": props => <SubBrandsBanner {...props} />,
-  "Landing Page Hierarchy": props => <AllBrandTypes {...props} />,
-  "Landing Page Hierarchy Component": props => <AllBrandTypes {...props} />,
-  "CMS Paragraph Component": props => <CMSParagraphComponent {...props} />,
-  "Banner And Links Component": props => (
-    <ShopeByPriceDesktopComponent {...props} />
-  ),
-  "Desktop Popular Brands Component": props => (
-    <PopularBrandsDesktopComponent {...props} />
-  ),
-  "Split Banner Component": props => (
-    <SplitBannerForDesktopComponent {...props} />
-  ),
-  "Desktop Top Selling Brands Component": props => (
-    <TopSellingBrandSliderComponent {...props} />
-  ),
-  "Multi Click Banner Component": props => (
-    <MultiClickBannerComponent {...props} />
-  ),
-  AutoWidget: props => <AutomatedWidgetsForHome {...props} />,
-  msdAutomatedBannerProductCarouselComponent: props => (
-    <MsdAutomatedBrandProductCarousel {...props} />
-  ),
-  AutoWishlist: props => <HomeAutoWishlistComponent {...props} />,
-  msdAutoDiscoverMoreComponent: props => <DiscoverMoreMsd {...props} />,
+    "Product Capsules Component": props => <ProductCapsulesContainer {...props} />,
+    "Landing Page Header Component": props => {
+        return <BrandCardHeader {...props} />;
+    },
+    quickLinksComponent: props => <AllQuickLinks {...props} />,
+    "01QLC-P": props => <PersonalisedQuickLinks {...props} />,
+    "01BOC-P": props => <BankOfferPersonalisedComponent {...props} />,
+    "01MPB-P": props => <ConnectWidgetPersonalisedComponent {...props} />,
+    "01MBC-P": props => <MultipleBannersPersonalisedComponent {...props} />,
+    "01TBT-P": props => <CuratedFeatureForPersonalisedComponent {...props} />,
+    "01HBC-P": props => <HeroBannerPersonalisedComponent {...props} />,
+    // "01LEC-P":props => <LuxEditorial
+    "Hero Banner Component": props => <HeroBanner {...props} />, // no hard coded data
+    "Theme Offers Component": props => <ThemeOffer {...props} />, // no hard coded data
+    "Desktop Theme Offer Component": props => <ThemeOffer {...props} />,
+    themeOffersComponent: props => <ThemeOffer {...props} />,
+    "Auto Product Recommendation Component": props => <RecommendationWidget {...props} />,
+    "Content Component": props => <ContentWidgetWrapper {...props} />,
+    "Banner Product Carousel Component": props => <BannerProductCarousel {...props} />,
+    "Video Product Carousel Component": props => <VideoProductCarousel {...props} />,
+    // "Automated Banner Product Carousel Component": props => (
+    //   <PreAutomatedBrandProductCarousel {...props} />
+    // ),
+    "Auto Following Brands Component": props => <FollowingBrands {...props} />,
+    multipleBannerComponent: props => <MultipleBanners {...props} />,
+    "Flash Sales Component": props => <FlashSale {...props} />, // wired up
+    "Offers Component": props => <OfferWidget {...props} />, // wired up
+    "Multipurpose Banner Component": props => <ConnectWidget {...props} />, // modal not working - need to figure out what to show here.
+    "Desktop Multi Click Component": props => <ThemeProductWidget {...props} />,
+    "Auto Fresh From Brands Component": props => <FollowBase {...props} />, // wired up with clickable url
+    "Banner Separator Component": props => <BannerSeparator {...props} />,
+    "Auto Discover More Component": props => <DiscoverMore {...props} />,
+    "Top Categories Component": props => <TopCategories {...props} />,
+    "Recently viewed product": props => <RecommendationWidget {...props} />,
+    "Single Banner Component": props => <MonoBanner {...props} />,
+    "Curated Listing Strip Component": props => <LatestCollections {...props} />,
+    "Two by Two Banner Component": props => <CuratedFeature {...props} />,
+    "Curated Products Component": props => <CuratedProductsComponent {...props} />,
+    bankOfferComponent: props => <BankOfferBanner {...props} />,
+    "Sub Brands Banner Component": props => <SubBrandsBanner {...props} />,
+    "Desktop Sub Brands Component": props => <SubBrandsBanner {...props} />,
+    "Landing Page Hierarchy": props => <AllBrandTypes {...props} />,
+    "Landing Page Hierarchy Component": props => <AllBrandTypes {...props} />,
+    "CMS Paragraph Component": props => <CMSParagraphComponent {...props} />,
+    "Banner And Links Component": props => <ShopeByPriceDesktopComponent {...props} />,
+    "Desktop Popular Brands Component": props => <PopularBrandsDesktopComponent {...props} />,
+    "Split Banner Component": props => <SplitBannerForDesktopComponent {...props} />,
+    "Desktop Top Selling Brands Component": props => <TopSellingBrandSliderComponent {...props} />,
+    "Multi Click Banner Component": props => <MultiClickBannerComponent {...props} />,
+    AutoWidget: props => <AutomatedWidgetsForHome {...props} />,
+    msdAutomatedBannerProductCarouselComponent: props => <MsdAutomatedBrandProductCarousel {...props} />,
+    AutoWishlist: props => <HomeAutoWishlistComponent {...props} />,
+    msdAutoDiscoverMoreComponent: props => <DiscoverMoreMsd {...props} />,
 
-  "Simple Banner Component": props => {
-    return (
-      <div className={styles.simpleBannerHolder}>
-        <SimpleBannerComponent {...props} />
-      </div>
-    );
-  },
-  "CMS Text Component": props => {
-    let parsedContent;
+    "Simple Banner Component": props => {
+        return (
+            <div className={styles.simpleBannerHolder}>
+                <SimpleBannerComponent {...props} />
+            </div>
+        );
+    },
+    "CMS Text Component": props => {
+        let parsedContent;
 
-    try {
-      parsedContent = JSON.parse(props.feedComponentData.content);
-    } catch (e) {
-      if (props.displayToast) {
-        props.displayToast("JSON Parse error, check static page content");
-      }
-    }
-    return (
-      parsedContent &&
-      parsedContent.map((content, index) => {
-        return <CMSTextComponent data={content} key={index} />;
-      })
-    );
-  },
-  "Account Navigation Component": props => (
-    <AccountNavigationComponent {...props} />
-  ),
-  HeroBannerComponentMonetization: props => (
-    <HeroBannerComponentMonetization {...props} />
-  ),
-  SimpleBannerComponentMonetization: props => (
-    <SimpleBannerComponentMonetization {...props} />
-  ),
-  MultiPurposeBanner_Monetization: props => (
-    <MultiPurposeBannerMonetization {...props} />
-  ),
-  DesktopTopSellingBrandsComponent_Monetization: props => (
-    <TopSellingBrandsComponentMonetization {...props} />
-  ),
-  OffersComponent_Monetization: props => (
-    <OffersComponentMonetization {...props} />
-  ),
-  SplitBannerComponent_Monetization: props => (
-    <SplitBannerComponentMonetization {...props} />
-  ),
-  plpBannerComponent: props => <PlpBannerComponent {...props} />,
-  plpShortBannerComponent: props => <PlpBannerComponent {...props} />,
-  plpBannerComponent_Monetization: props => (
-    <PlpBannerComponentMonetization {...props} />
-  ),
-  plpShortBannerComponent_Monetization: props => (
-    <PlpBannerComponentMonetization {...props} />
-  )
+        try {
+            parsedContent = JSON.parse(props.feedComponentData.content);
+        } catch (e) {
+            if (props.displayToast) {
+                props.displayToast("JSON Parse error, check static page content");
+            }
+        }
+        return (
+            parsedContent &&
+            parsedContent.map((content, index) => {
+                return <CMSTextComponent data={content} key={index} />;
+            })
+        );
+    },
+    "Account Navigation Component": props => <AccountNavigationComponent {...props} />,
+    HeroBannerComponentMonetization: props => <HeroBannerComponentMonetization {...props} />,
+    SimpleBannerComponentMonetization: props => <SimpleBannerComponentMonetization {...props} />,
+    MultiPurposeBanner_Monetization: props => <MultiPurposeBannerMonetization {...props} />,
+    DesktopTopSellingBrandsComponent_Monetization: props => <TopSellingBrandsComponentMonetization {...props} />,
+    OffersComponent_Monetization: props => <OffersComponentMonetization {...props} />,
+    SplitBannerComponent_Monetization: props => <SplitBannerComponentMonetization {...props} />,
+    plpBannerComponent: props => <PlpBannerComponent {...props} />,
+    plpShortBannerComponent: props => <PlpBannerComponent {...props} />,
+    plpBannerComponent_Monetization: props => <PlpBannerComponentMonetization {...props} />,
+    plpShortBannerComponent_Monetization: props => <PlpBannerComponentMonetization {...props} />,
 };
 
 class Feed extends Component {
-  constructor(props) {
-    super(props);
-    this.pageSize = this.props.pageSize;
-    this.state = {
-      wishListedItem: null
-    };
-  }
+    constructor(props) {
+        super(props);
+        this.pageSize = this.props.pageSize;
+        this.state = {
+            wishListedItem: null,
+        };
+    }
 
-  componentDidMount() {
-	const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-	setDataLayer(ADOBE_VIRTUAL_PAGELOAD);
-	if (!userDetails) {
-		setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER);
-	}
-	this.props.seo ?
-		this.props.seo.title ?
-		(document.title = this.props.seo.title) :
-		(document.title = DEFAULT_TITLE) :
-		(document.title = DEFAULT_TITLE);
-	const titleObj =
-		this.props.homeFeedData &&
-		this.props.homeFeedData.find(data => {
-			return data.type === "Landing Page Title Component";
-		});
-	if (this.props.feedType === HOME_FEED_TYPE) {
-		if (titleObj) {
-			this.props.setHeaderText(titleObj.title);
-		} else {
-			this.props.setHeaderText(this.props.headerMessage);
-		}
-	} else {
-		if (!this.props.headerMessage) {
-			if (titleObj && this.props.setHeaderText) {
-				this.props.setHeaderText(titleObj.title);
-			}
-		}
-	}
-	if (this.props.clearProductModuleRef) {
-		this.props.clearProductModuleRef();
-	}
-	// get chatbot json details on clp pages
-	if (
-		this.props.feedType === SECONDARY_FEED_TYPE &&
-		this.props.getChatbotDetails
-	) {
-		this.props.getChatbotDetails();
-	}
-	// this.initiateHaptikScript();
-	}
+    componentDidMount() {
+        const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+        if (this.props.mnlLoginPath) {
+            if (!userDetails) {
+                this.props.openMobileNumberLoginModal();
+            } else {
+                this.props.history.push("/");
+            }
+        }
+        setDataLayer(ADOBE_VIRTUAL_PAGELOAD);
+        if (!userDetails) {
+            setDataLayerForLogin(ADOBE_DIRECT_CALL_FOR_ANONYMOUS_USER);
+        }
+        this.props.seo
+            ? this.props.seo.title
+                ? (document.title = this.props.seo.title)
+                : (document.title = DEFAULT_TITLE)
+            : (document.title = DEFAULT_TITLE);
+        const titleObj =
+            this.props.homeFeedData &&
+            this.props.homeFeedData.find(data => {
+                return data.type === "Landing Page Title Component";
+            });
+        if (this.props.feedType === HOME_FEED_TYPE) {
+            if (titleObj) {
+                this.props.setHeaderText(titleObj.title);
+            } else {
+                this.props.setHeaderText(this.props.headerMessage);
+            }
+        } else {
+            if (!this.props.headerMessage) {
+                if (titleObj && this.props.setHeaderText) {
+                    this.props.setHeaderText(titleObj.title);
+                }
+            }
+        }
+        if (this.props.clearProductModuleRef) {
+            this.props.clearProductModuleRef();
+        }
+        // get chatbot json details on clp pages
+        if (this.props.feedType === SECONDARY_FEED_TYPE && this.props.getChatbotDetails) {
+            this.props.getChatbotDetails();
+        }
+        // this.initiateHaptikScript();
+    }
 
     // initiateHaptikScript() {
     //     var f = document.getElementsByTagName("SCRIPT")[0];
@@ -588,7 +552,11 @@ class Feed extends Component {
         }
         return (
             typeComponentMapping[feedDatum.type] && (
-                <WidgetContainer {...props} wishListedItem={this.props.wishlistProductId} wishlistCount={this.props.wishlistCount}>
+                <WidgetContainer
+                    {...props}
+                    wishListedItem={this.props.wishlistProductId}
+                    wishlistCount={this.props.wishlistCount}
+                >
                     {typeComponentMapping[feedDatum.type] && typeComponentMapping[feedDatum.type]}
                 </WidgetContainer>
             )
@@ -754,8 +722,11 @@ Feed.propTypes = {
     clickedElementId: PropTypes.bool,
     background: PropTypes.string,
     wishlistProductId: PropTypes.string,
-	setPageFeedSize: PropTypes.func,
-	wishlistCount: PropTypes.string,
+    setPageFeedSize: PropTypes.func,
+    wishlistCount: PropTypes.string,
+    openMobileNumberLoginModal: PropTypes.func,
+    mnlLoginPath: PropTypes.bool,
+    history: PropTypes.object,
 };
 
 Feed.defaultProps = {

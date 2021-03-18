@@ -12,18 +12,18 @@ import App from "./App.js";
 import { createWishlist } from "./wishlist/actions/wishlist.actions.js";
 import { clearUrlToRedirectToAfterAuth } from "./auth/actions/auth.actions.js";
 import { getFeed } from "./home/actions/home.actions.js";
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
     return {
         homeFeed: () => {
             dispatch(getFeed());
         },
-        showModal: (type) => {
+        showModal: type => {
             dispatch(showModal(type));
         },
-        facebookLogin: (type) => {
+        facebookLogin: type => {
             dispatch(facebookLogin(type));
         },
-        googlePlusLogin: async (type) => {
+        googlePlusLogin: async type => {
             const response = await dispatch(googlePlusLogin(type));
             if (response.code <= 400) {
                 dispatch(createWishlist());
@@ -44,7 +44,7 @@ const mapDispatchToProps = (dispatch) => {
         generateCartIdForAnonymous: async () => {
             return dispatch(generateCartIdForAnonymous());
         },
-        getCartCountForLoggedInUsers: async (guid) => {
+        getCartCountForLoggedInUsers: async guid => {
             return dispatch(getCartCountForLoggedInUser(guid));
         },
         getMinicartProducts: async () => {
@@ -53,9 +53,9 @@ const mapDispatchToProps = (dispatch) => {
     };
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
     return {
-        isModalEnabled : state.modal.isModalEnabled,
+        isModalEnabled: state.modal.isModalEnabled,
         modalStatus: state.modal.modalDisplayed,
         beautyPopupModal: state.productDescription.beautyPopupModal,
         scrollPosition: state.modal.scrollPosition,

@@ -312,7 +312,12 @@ export default class PdpApparel extends React.Component {
             nextProps.userDetails &&
             nextProps.userDetails.status === "Success"
         ) {
-            this.goForBuyNow();
+            // this.goForBuyNow();
+            if (this.state.goToCartPageFlag) {
+                this.goToCart();
+            } else {
+                this.addToCart(true);
+            }
         }
     }
 

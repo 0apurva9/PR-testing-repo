@@ -1,6 +1,11 @@
 import React from "react";
 import styles from "../mobile-number-login.css";
-import { EMAIL_REGULAR_EXPRESSION, MOBILE_PATTERN, PLAT_FORM_NUMBER, MOBILE_PATTERN_11_DIGIT } from "../../lib/constants";
+import {
+    EMAIL_REGULAR_EXPRESSION,
+    MOBILE_PATTERN,
+    PLAT_FORM_NUMBER,
+    MOBILE_PATTERN_11_DIGIT,
+} from "../../lib/constants";
 import { MnlApiData } from "../mobile-number-login.types";
 
 export class MnlChallenge extends React.Component<MnlChallengeProps, MnlChallengeState> {
@@ -12,6 +17,7 @@ export class MnlChallenge extends React.Component<MnlChallengeProps, MnlChalleng
             emailAddress: "",
             isInputValid: false,
         };
+        this.props.setMnlApiResponseNull();
     }
 
     private onChangeInput(event: React.ChangeEvent<HTMLInputElement>) {
@@ -39,7 +45,7 @@ export class MnlChallenge extends React.Component<MnlChallengeProps, MnlChalleng
             phoneNumber: this.state.mobileNumber,
             platformNumber: PLAT_FORM_NUMBER,
             currentOtp: "",
-            newOtp: ""
+            newOtp: "",
         });
     }
 
@@ -51,8 +57,8 @@ export class MnlChallenge extends React.Component<MnlChallengeProps, MnlChalleng
                     {this.state.isMobileNumberActive ? (
                         <p>Please enter your mobile number</p>
                     ) : (
-                            <p>Please enter your email address</p>
-                        )}
+                        <p>Please enter your email address</p>
+                    )}
                 </div>
                 <div className={styles.formSec}>
                     {this.state.isMobileNumberActive ? (
@@ -65,7 +71,7 @@ export class MnlChallenge extends React.Component<MnlChallengeProps, MnlChalleng
                                     name="mobileNumber"
                                     placeholder="Enter Mobile Number"
                                     value={this.state.mobileNumber}
-                                    onChange={(event) => this.onChangeInput(event)}
+                                    onChange={event => this.onChangeInput(event)}
                                 />
                                 <label htmlFor="mobileNumber">Mobile Number</label>
                             </div>
@@ -73,36 +79,48 @@ export class MnlChallenge extends React.Component<MnlChallengeProps, MnlChalleng
                                 <button
                                     type="button"
                                     className={styles.btnLink}
-                                    onClick={() => this.setState({ isMobileNumberActive: false, isInputValid: false, mobileNumber: "" })}
+                                    onClick={() =>
+                                        this.setState({
+                                            isMobileNumberActive: false,
+                                            isInputValid: false,
+                                            mobileNumber: "",
+                                        })
+                                    }
                                 >
                                     Use Email Address
                                 </button>
                             </div>
                         </div>
                     ) : (
-                            <div className={styles.feildSec}>
-                                <div className={styles.form_outer}>
-                                    <input
-                                        type="email"
-                                        className={styles.form_control}
-                                        name="emailAddress"
-                                        placeholder="Enter Email Address"
-                                        value={this.state.emailAddress}
-                                        onChange={(event) => this.onChangeInput(event)}
-                                    />
-                                    <label htmlFor="emailAddress">E-Mail Address</label>
-                                </div>
-                                <div className={styles.formInfoTxt}>
-                                    <button
-                                        type="button"
-                                        className={styles.btnLink}
-                                        onClick={() => this.setState({ isMobileNumberActive: true, isInputValid: false, emailAddress: "" })}
-                                    >
-                                        Use Mobile Number
-                                </button>
-                                </div>
+                        <div className={styles.feildSec}>
+                            <div className={styles.form_outer}>
+                                <input
+                                    type="email"
+                                    className={styles.form_control}
+                                    name="emailAddress"
+                                    placeholder="Enter Email Address"
+                                    value={this.state.emailAddress}
+                                    onChange={event => this.onChangeInput(event)}
+                                />
+                                <label htmlFor="emailAddress">E-Mail Address</label>
                             </div>
-                        )}
+                            <div className={styles.formInfoTxt}>
+                                <button
+                                    type="button"
+                                    className={styles.btnLink}
+                                    onClick={() =>
+                                        this.setState({
+                                            isMobileNumberActive: true,
+                                            isInputValid: false,
+                                            emailAddress: "",
+                                        })
+                                    }
+                                >
+                                    Use Mobile Number
+                                </button>
+                            </div>
+                        </div>
+                    )}
                     <button
                         type="button"
                         disabled={!this.state.isInputValid}
@@ -126,4 +144,5 @@ export interface MnlChallengeState {
 
 export interface MnlChallengeProps {
     setMnlApiData: (mnlApiData: MnlApiData) => void;
+    setMnlApiResponseNull: () => void;
 }

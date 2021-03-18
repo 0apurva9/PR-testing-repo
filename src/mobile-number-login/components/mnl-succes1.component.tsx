@@ -7,7 +7,8 @@ export class MnlSucess1 extends React.Component<MnlSucess1Props> {
         setTimeout(() => {
             this.props.hideMobileNumberLoginModal();
             this.props.changeLoginStep("isStepLoginChallenge");
-        }, 5000);
+            this.props.checkLoginPath();
+        }, 3000);
     }
 
     public render() {
@@ -30,4 +31,5 @@ export class MnlSucess1 extends React.Component<MnlSucess1Props> {
 export interface MnlSucess1Props {
     hideMobileNumberLoginModal: () => void;
     changeLoginStep: (stepKey: string) => void;
+    checkLoginPath: () => void;
 }

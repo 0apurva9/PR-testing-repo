@@ -158,8 +158,14 @@
     "webpack-node-externals": "^2.5.2",
     "workbox-webpack-plugin": "^6.0.2"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": "eslint --fix"
+    "*.{js,jsx,ts,tsx,css}": "prettier --write",
+    "*.{js,jsx,ts,tsx}": ["eslint --fix", "git add"]
   },
   "browserslist": [
     "since 2017-06"
