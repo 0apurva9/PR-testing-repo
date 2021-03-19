@@ -86,7 +86,9 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
     }
 
     private onClickResendOtp() {
-        const mnlApidata = Object.assign({}, this.props.mnlApidata);
+        const mnlApidata = Object.assign({}, this.props.mnlApidata, {
+            otp: "",
+        });
         if (this.props.mnlApiResponse?.userData.customer?.loginVia == "email") {
             this.props.resendOtpEmail(mnlApidata);
         } else {
@@ -185,13 +187,18 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
                                         Use Password
                                     </button>
                                 ) : (
-                                    <button
-                                        type="button"
-                                        className={styles.btnLink}
-                                        onClick={() => this.editMobileNumber()}
-                                    >
-                                        Edit Number
-                                    </button>
+                                    !(
+                                        this.props.mnlApiResponse?.userData.customer?.maskedPhoneNumber &&
+                                        this.props.mnlApiResponse?.userData.customer?.loginVia === "email"
+                                    ) && (
+                                        <button
+                                            type="button"
+                                            className={styles.btnLink}
+                                            onClick={() => this.editMobileNumber()}
+                                        >
+                                            Edit Number
+                                        </button>
+                                    )
                                 )}
                             </div>
                             <div className={[styles.flexRow50Cols, styles.text_right].join(" ")}>
