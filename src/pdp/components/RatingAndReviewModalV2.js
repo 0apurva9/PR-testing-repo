@@ -254,7 +254,7 @@ export default class RatingAndReviewModalV2 extends Component {
                 {this.state.sectionActive !== 4 && (
                     <div className={styles.tabSwitches}>
                         <div className={statusBar} />
-                        <div className={classNameOne}>
+                        <div className={classNameOne} onClick={() => this.activateSection(1)}>
                             <div className={styles.iconContainer}>
                                 <span className={styles.currentRating}>
                                     {this.state.currentRating ? this.state.currentRating : null}
@@ -271,7 +271,7 @@ export default class RatingAndReviewModalV2 extends Component {
                             paramsEligibleToRateDetails.status &&
                             paramsEligibleToRateDetails.status.toLowerCase() === success &&
                             paramsEligibleToRateDetails.eligibleParamToCaptureRating.length > 0 && (
-                                <div className={classNameTwo}>
+                                <div className={classNameTwo} onClick={() => this.activateSection(2)}>
                                     <div className={styles.iconContainer}>
                                         <Icon
                                             image={
@@ -283,7 +283,7 @@ export default class RatingAndReviewModalV2 extends Component {
                                     Qualities you liked
                                 </div>
                             )}
-                        <div className={classNameThree}>
+                        <div className={classNameThree} onClick={() => this.activateSection(3)}>
                             <div className={styles.iconContainer}>
                                 <Icon
                                     image={this.state.disableReviewSubmit ? rnrReviewBlank : rnrReviewFilled}
