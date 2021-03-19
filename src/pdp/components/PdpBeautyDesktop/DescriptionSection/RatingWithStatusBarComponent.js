@@ -68,7 +68,9 @@ export default class RatingWithStatusBarComponent extends Component {
                 <div className={this.props.isFluid ? styles.ratingWithStatusBarFluid : styles.ratingWithStatusBar}>
                     {this.props.currentRating && this.props.showCurrentRating ? (
                         <div className={styles.ratingContainer}>
-                            <span className={styles.currentRatingText}>{this.props.currentRating}</span>
+                            <span className={styles.currentRatingText}>
+								{Math.round(this.props.currentRating * 10) / 10}
+							</span>
                             <span className={styles.ratingText}>/ 5</span>
                         </div>
                     ) : null}

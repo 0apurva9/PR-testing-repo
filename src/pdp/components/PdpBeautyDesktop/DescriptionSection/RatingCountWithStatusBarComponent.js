@@ -22,7 +22,7 @@ export default class RatingCountWithStatusBarComponent extends Component {
                         }}
                     />
                 </span>
-                <span className={styles.ratingCount}>{this.props.ratingCount}</span>
+                <span className={styles.ratingCount}>{this.props.ratingCount ? this.props.ratingCount : 0}</span>
             </div>
         );
     }
