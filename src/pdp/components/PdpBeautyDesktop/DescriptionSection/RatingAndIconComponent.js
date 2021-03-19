@@ -10,14 +10,16 @@ export default class RatingAndIconComponent extends React.Component {
         return (
             <React.Fragment>
                 {this.props.isReviewPage ? (
-                    <div className={styles.ratingTextContainerReviewPage}>
+                    <div
+						className={this.props.averageRating > 2.5 ? styles.highRatingTextContainerReviewPage : styles.lessRatingTextContainerReviewPage}
+					>
                         <div className={styles.ratingTextReviewPage}>
                             {Math.round(this.props.averageRating * 10) / 10}
                         </div>
                         <div className={styles.starContainerReviewPage}>
                             <Icon
                                 image={this.props.averageRating > 2.5 ? FilledStarGreen : FilledStarOrange}
-                                size={11}
+                                size={13}
                             />
                         </div>
                     </div>
@@ -29,7 +31,7 @@ export default class RatingAndIconComponent extends React.Component {
                         <div className={this.props.isFluidUI ? styles.starContainer : styles.starContainerOther}>
                             <Icon
                                 image={this.props.averageRating > 2.5 ? FilledStarGreen : FilledStarOrange}
-                                size={32}
+                                size={31}
                             />
                         </div>
                     </div>

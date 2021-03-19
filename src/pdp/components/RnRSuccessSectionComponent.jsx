@@ -60,7 +60,7 @@ class RnRSuccessSectionComponent extends Component {
 						<div className={styles.title}>Tell us how you felt about these products</div>
 						<div className={styles.allReviewContainer}>
 							{this.state.pendingReviewsDetails.reviews.map((data, i) => {
-								if(!data) { return null };
+								if(!data) { return null }
 								return (
 									<div key={i.toString()} className={styles.eachReviewContainer}>
 										<div className={styles.imageContainer}>

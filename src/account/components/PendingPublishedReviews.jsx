@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import styles from "./PendingPublishedReviews.css";
-import PropTypes from 'prop-types';
-import PendingPublishedReviewList from '../../pdp/components/PendingPublishedReviewList';
-import SectionLoaderDesktop from '../../general/components/SectionLoaderDesktop';
+import PropTypes from "prop-types";
+import PendingPublishedReviewList from "../../pdp/components/PendingPublishedReviewList";
+import SectionLoaderDesktop from "../../general/components/SectionLoaderDesktop";
 import ShowMoreButton from "../../general/components/ShowMoreButton";
 class PendingPublishedReviews extends Component {
 	constructor(props){
@@ -115,6 +115,7 @@ PendingPublishedReviews.propTypes = {
 	pendingReviewsDetails: PropTypes.object,
 	publishedReviewsDetails: PropTypes.object,
 	submitRating: PropTypes.func,
+	editRatingReview: PropTypes.func,
 };
 
 export default PendingPublishedReviews;

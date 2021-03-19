@@ -21,13 +21,14 @@
 }
 
 .starContainerOther {
-	margin: 0 0 0 10px;
+	margin: 0 0 0 8px;
 }
 
-.ratingTextContainerReviewPage {
+.highRatingTextContainerReviewPage {
 	display: flex;
-	width: 48px;
+	width: auto;
 	height: 28px;
+	padding: 0 8px;
 	border-radius: 14px;
 	background-color: #ecf9e5;
 	justify-content: center;
@@ -43,4 +44,16 @@
 
 .starContainerReviewPage {
 	margin: 0 2px;
+}
+
+.lessRatingTextContainerReviewPage {
+	display: flex;
+	width: auto;
+	height: 28px;
+	padding: 0 8px;
+	border-radius: 14px;
+	background-color: #fff9e4;
+	justify-content: center;
+	align-items: center;
+	margin-right: 8px;
 }
