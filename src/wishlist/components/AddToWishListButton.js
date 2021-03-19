@@ -185,8 +185,8 @@ export default class AddToWishListButton extends React.Component {
         if (loggedInUserDetails && props.wishlistItems && Array.isArray(props.wishlistItems)) {
             let self = this;
             let foundWishListItem = props.wishlistItems.find(item => {
-                if (item.ussid) return item.ussid === self.props.ussid;
-                else if (item.USSID) return item.USSID === self.props.ussid;
+                if (item.ussid) return item.ussid === self.props.winningUssID;
+                else if (item.USSID) return item.USSID === self.props.winningUssID;
             });
             if (typeof foundWishListItem === "object" && Object.keys(foundWishListItem).length) {
                 this.setState({ foundInWishList: true });
@@ -318,7 +318,8 @@ export default class AddToWishListButton extends React.Component {
 
         return (
             <div onClick={e => this.onClick(e)}>
-                <Icon image={this.props.isWhite ? wishlistFilled : wishlistUnfilled} size={this.props.size} />
+                {/* <Icon image={this.props.isWhite ? wishlistFilled : wishlistUnfilled} size={this.props.size} /> */}
+                <Icon image={this.state.foundInWishList ? wishlistFilled : wishlistUnfilled} size={this.props.size} />
             </div>
         );
     }

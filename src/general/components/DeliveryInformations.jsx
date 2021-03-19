@@ -380,7 +380,7 @@ DeliveryInformations.propTypes = {
     isClickable: PropTypes.bool,
     inPdpPage: PropTypes.bool,
     numberOfStore: PropTypes.number,
-    selected: PropTypes.bool
+    selected: PropTypes.bool,
 };
 
 DeliveryInformations.defaultProps = {
