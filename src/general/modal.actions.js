@@ -80,6 +80,9 @@ export const APPLIANCES_EXCHANGE_MODAL = "AppliancesExchangeModal";
 export const NON_EMI_ELIGIBLE_TO_WISHLIST = "nonEmiEligibleToWishlist";
 
 export const MDE_FRAUD_DETAILS_MODAL = "MdeFraudDetailsModal";
+export const MOBILE_NUMBER_LOGIN_MODAL_ACTIVE = "MobileNumberLoginModalActive";
+export const MOBILE_NUMBER_LOGIN_MODAL_INACTIVE =
+  "MobileNumberLoginModalInActive";
 
 export function showModal(type, ownProps) {
   const scrollPosition =
@@ -97,5 +100,17 @@ export function hideModal() {
   return {
     type: HIDE_MODAL,
     modalType: null
+  };
+}
+
+export function showMobileNumberLoginModal() {
+  return {
+    type: MOBILE_NUMBER_LOGIN_MODAL_ACTIVE
+  };
+}
+
+export function hideMobileNumberLoginModal() {
+  return {
+    type: MOBILE_NUMBER_LOGIN_MODAL_INACTIVE
   };
 }

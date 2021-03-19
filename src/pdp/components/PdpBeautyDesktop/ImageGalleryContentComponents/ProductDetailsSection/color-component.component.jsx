@@ -62,8 +62,43 @@ export default class ColorComponent extends React.Component {
             const sizeToSetInState = findSelectedSize(variantTheme, productListingId, true);
             this.setState(sizeToSetInState);
         }
-        if (this.props.history && this.props.history.location && this.props.history.location.viewMoreLess) {
-            this.setState({ expandClass: this.props.history.location.viewMoreLess.viewMoreLess }, () => {
+    }
+
+    componentDidUpdate(prevProps) {
+        if (prevProps.productDetails.productListingId !== this.props.productDetails.productListingId) {
+            if (this.colorShadeRef && this.colorShadeRef.current && !this.props.history.location.viewMoreLess) {
+                delay(() => {
+                    if (this.colorShadeRef && this.colorShadeRef.current) {
+                        this.colorShadeRef.current.scrollIntoView({ block: "start", inline: "nearest" });
+                    }
+                }, 200);
+                this.handleScrollToTop(210);
+            }
+            const compDetails = this.props.compDetails ? this.props.compDetails : [];
+            const sizeAndColorComp =
+                Array.isArray(compDetails) &&
+                compDetails.length > 0 &&
+                compDetails.filter(el => el.componentId === COLOR_COMPONENT || el.componentId === SIZE_COMPONENT);
+            this.setState({ sizeAndColorComp: sizeAndColorComp });
+            const variantTheme =
+                this.props.productDetails && this.props.productDetails.variantTheme
+                    ? this.props.productDetails.variantTheme
+                    : [];
+            const productListingId =
+                this.props && this.props.productDetails && this.props.productDetails.productListingId
+                    ? this.props.productDetails.productListingId
+                    : null;
+            if (
+                Array.isArray(variantTheme) &&
+                variantTheme.length > 0 &&
+                sizeAndColorComp &&
+                sizeAndColorComp.length === 2 &&
+                productListingId
+            ) {
+                const sizeToSetInState = findSelectedSize(variantTheme, productListingId, true);
+                this.setState(sizeToSetInState);
+            }
+            if (this.props.history && this.props.history.location && this.props.history.location.viewMoreLess) {
                 if (this.colorShadeRef && this.colorShadeRef.current) {
                     delay(() => {
                         if (this.colorShadeRef && this.colorShadeRef.current) {
@@ -71,7 +106,7 @@ export default class ColorComponent extends React.Component {
                         }
                     }, 200);
                 }
-            });
+            }
         }
     }
 

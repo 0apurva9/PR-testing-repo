@@ -56,6 +56,7 @@ import {
     SIZE_SELECTOR_OOS_MODAL,
     EXCHANGE_MODAL,
     APPLIANCES_EXCHANGE_MODAL,
+    showMobileNumberLoginModal,
 } from "../../general/modal.actions.js";
 import ProductDescriptionPageWrapper from "../components/ProductDescriptionPageWrapper";
 import { withRouter } from "react-router-dom";
@@ -347,6 +348,9 @@ const mapDispatchToProps = dispatch => {
         appliancesExchangeCheckPincode: (productCode, pincode) => {
             dispatch(appliancesExchangeCheckPincode(productCode, pincode));
         },
+        openMobileNumberLoginModal: () => {
+            dispatch(showMobileNumberLoginModal());
+        },
     };
 };
 
@@ -406,6 +410,9 @@ const mapStateToProps = state => {
         appliancesExchangeDetails: state.productDescription.getAppliancesExchangeDetails,
         updatedAppliancesExchangeDetails: state.productDescription.updatedAppliancesExchangeDetails,
         appliancesExchangePincodeDetails: state.productDescription.appliancesExchangeCheckPincodeDetails,
+        isMNLLogin: state.mobileNumberLogin.isMNLLogin,
+        isMobileNumberLoginModalActive: state.modal.isMobileNumberLoginModalActive,
+        tempCartIdForLoggedInUserLoading: state.cart.tempCartIdForLoggedInUserLoading,
     };
 };
 

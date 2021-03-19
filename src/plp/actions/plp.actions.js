@@ -9,6 +9,7 @@ import {
     GLOBAL_ACCESS_TOKEN,
     ANONYMOUS_USER,
 } from "../../lib/constants";
+import { setWebMNLApiSuccess } from "../../mobile-number-login/store/mobile-number-login.actions";
 import { showSecondaryLoader, hideSecondaryLoader } from "../../general/secondaryLoader.actions";
 import {
     setDataLayer,
@@ -71,6 +72,7 @@ export const GET_CHATBOT_DETAILS_FAILURE = "GET_CHATBOT_DETAILS_FAILURE";
 export const CHECK_PIN_CODE_FROM_PLP_REQUEST = "CHECK_PIN_CODE_FROM_PLP_REQUEST";
 export const CHECK_PIN_CODE_FROM_PLP_SUCCESS = "CHECK_PIN_CODE_FROM_PLP_SUCCESS";
 export const CHECK_PIN_CODE_FROM_PLP_FAILURE = "CHECK_PIN_CODE_FROM_PLP_FAILURE";
+export const WEB_MNL_LOGIN_SUCCESS = "WEB_MNL_LOGIN_SUCCESS";
 
 export const GET_DEFAULT_PLP_VIEW_REQUEST = "GET_DEFAULT_PLP_VIEW_REQUEST";
 export const GET_DEFAULT_PLP_VIEW_SUCCESS = "GET_DEFAULT_PLP_VIEW_SUCCESS";
@@ -408,6 +410,28 @@ export function getProductListings(
             if (status.status === "error" || status.isPaginated) {
                 dispatch(nullSearchMsd());
             }
+        }
+    };
+}
+
+export function isMPLWebMNLLogin() {
+    return async (dispatch, getState, { api }) => {
+        try {
+            const result = await api.customGetMiddlewareUrl(
+                `/otatacliq/getApplicationProperties.json?propertyNames=is_MPL_WEB_MNL_Login_True_V1`
+            );
+            const resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+            if (resultJsonStatus.status) {
+                throw new Error(resultJsonStatus.message);
+            }
+
+            Cookie.createCookie("isMNLAPI", JSON.stringify(resultJson.applicationProperties[0]));
+
+            return dispatch(setWebMNLApiSuccess(resultJson.applicationProperties[0]));
+        } catch (e) {
+            throw new Error(`${e.message}`);
         }
     };
 }
