@@ -106,6 +106,7 @@ ProductDetailsWithEachReview.propTypes = {
 	productcode: PropTypes.string,
 	isPublishedReview: PropTypes.bool,
 	canEditDelete: PropTypes.bool,
+	editRatingReview: PropTypes.func,
 };
 
 export default ProductDetailsWithEachReview;

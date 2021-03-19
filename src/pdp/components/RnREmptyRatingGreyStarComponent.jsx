@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import EmptyRatingStarGrey from "./img/EmptyRatingStarGrey.svg";
 import styles from "./RnREmptyRatingGreyStarComponent.css";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 
 class RnREmptyRatingGreyStarComponent extends Component {
 	submitRating = (rating) => {

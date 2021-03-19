@@ -68,6 +68,7 @@ import { TATA_CLIQ_ROOT } from "../../lib/apiRequest";
 import RnREmptyRatingGreyStarComponent from "../../pdp/components/RnREmptyRatingGreyStarComponent";
 import RatingAndIconComponent from "../../pdp/components/PdpBeautyDesktop/DescriptionSection/RatingAndIconComponent";
 import PendingPublishedReviews from "./PendingPublishedReviews";
+import reviewCheck from "./img/reviewCheck.svg";
 const PRODUCT_RETURN = "Return";
 const dateFormat = "DD MMM YYYY";
 const SCROLL_CHECK_INTERVAL = 500;
@@ -827,7 +828,10 @@ export default class AllOrderDetails extends React.Component {
 																						) : null}
 
 																						{product.isRated && product.userRating && product.isReviewed ? (
-																							<div className={styles.reviewSuccess}>Rating and Review Submitted</div>
+																							<div className={styles.reviewSuccess}>
+																								<span className={styles.reviewCheckContainer}><Icon image={reviewCheck} size={16} /></span>
+																								<span>Rating and Review Submitted</span>
+																							</div>
 																						) : null}
                                                                                   </div>
                                                                               )}
