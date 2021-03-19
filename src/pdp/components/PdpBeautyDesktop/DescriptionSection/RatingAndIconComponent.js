@@ -10,7 +10,9 @@ export default class RatingAndIconComponent extends React.Component {
         return (
             <React.Fragment>
                 {this.props.isReviewPage ? (
-                    <div className={styles.ratingTextContainerReviewPage}>
+                    <div
+						className={this.props.averageRating > 2.5 ? styles.highRatingTextContainerReviewPage : styles.lessRatingTextContainerReviewPage}
+					>
                         <div className={styles.ratingTextReviewPage}>
                             {Math.round(this.props.averageRating * 10) / 10}
                         </div>
