@@ -91,7 +91,7 @@ export default class ReviewPage extends React.Component {
                             if (rating.paramVisibility) {
                                 return (
                                     <RatingWithStatusBarComponent
-                                        currentRating={rating.parameterRating}
+                                        currentRating={rating.parameterAvgRating}
                                         showCurrentRating={false}
                                         ratingTitle={rating.parameterName}
                                         isFluid={true}

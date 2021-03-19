@@ -15,6 +15,12 @@
     display: flex;
 }
 
+.switchesBase {
+	display: inline-flex;
+	background-color: #f6f6f6;
+	padding: 4px;
+}
+
 .tabs {
     display: block;
     margin-top: 20px;
@@ -22,33 +28,49 @@
 }
 
 .pendingTitle {
-    padding: 12px 30px;
+	width: 146px;
+    height: 36px;
+    text-align: center;
+    padding: 9px 30px;
     cursor: pointer;
     font-size: 14px;
     font-family: "light";
+	border-radius: 2px;
 }
 
 .pendingTitleActive {
-    padding: 12px 30px;
-    border-bottom: 2px solid #da1c5c;
+	width: 146px;
+    height: 36px;
+    text-align: center;
+    padding: 9px 30px;
     cursor: pointer;
     font-size: 14px;
     font-family: "semibold";
+    background-color: #ffffff;
+	border-radius: 2px;
 }
 
 .publishedTitle {
-    padding: 12px 30px;
+    width: 146px;
+    height: 36px;
+    text-align: center;
+    padding: 9px 30px;
     cursor: pointer;
     font-size: 14px;
     font-family: "light";
+	border-radius: 2px;
 }
 
 .publishedTitleActive {
-    padding: 12px 30px;
-    border-bottom: 2px solid #da1c5c;
+    width: 146px;
+    height: 36px;
+    text-align: center;
+    padding: 9px 30px;
     cursor: pointer;
     font-size: 14px;
     font-family: "semibold";
+    background-color: #ffffff;
+	border-radius: 2px;
 }
 
 .noReviewsText {
@@ -56,4 +78,32 @@
     justify-content: center;
     padding: 20px 0;
     font-size: 14px;
+}
+
+.toModerateIcon {
+	display: inline-block;
+    position: relative;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: #f5d727;
+    margin-left: 8px;
+    vertical-align: middle;
+}
+
+.toModerateIcon::before {
+	content: "";
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    border: 1px solid #f5d727;
+    left: -3px;
+    top: -3px;
+}
+
+.reviewCheckContainer {
+	display: inline-block;
+    vertical-align: middle;
+    margin-left: 6px;
 }

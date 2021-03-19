@@ -14,6 +14,7 @@ class RnRReviewSectionComponent extends Component {
             reviewDetails: null,
             reviewDetailsLength: 0,
         };
+		this.textInput = React.createRef();
     }
 
 	componentDidMount() {
@@ -51,6 +52,7 @@ class RnRReviewSectionComponent extends Component {
     setTitle = (selectedTitle, id) => {
         this.setState({ selectedTitle });
         this.props.getUpdatedReviewDetails(selectedTitle, this.state.reviewDetails, id ? id : null);
+		this.textInput.current.focus();
     };
 
     changeReviewDetails = (reviewDetails, id) => {
@@ -92,6 +94,7 @@ class RnRReviewSectionComponent extends Component {
                         textStyle={{ fontSize: 14 }}
                         height={24}
                         onChange={selectedTitle => this.setTitle(selectedTitle, id)}
+						refForText={this.textInput}
                     />
                     <div className={styles.subHeading}>Write a detailed review about your experience</div>
                     <ControlTextArea

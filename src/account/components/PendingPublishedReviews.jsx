@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import PendingPublishedReviewList from "../../pdp/components/PendingPublishedReviewList";
 import SectionLoaderDesktop from "../../general/components/SectionLoaderDesktop";
 import ShowMoreButton from "../../general/components/ShowMoreButton";
+import Icon from "../../xelpmoc-core/Icon";
+import reviewCheck from "../../account/components/img/reviewCheck.svg";
 class PendingPublishedReviews extends Component {
 	constructor(props){
 		super(props);
@@ -44,8 +46,16 @@ class PendingPublishedReviews extends Component {
 		return (
 			<div className={styles.base}>
 				<div className={styles.switches}>
-					<div className={this.state.activeTab === 1 ? styles.pendingTitleActive : styles.pendingTitle} onClick={() => this.switchTabs(1)}>Pending</div>
-					<div className={this.state.activeTab === 2 ? styles.publishedTitleActive : styles.publishedTitle} onClick={() => this.switchTabs(2)}>Published</div>
+					<div className={styles.switchesBase}>
+						<div className={this.state.activeTab === 1 ? styles.pendingTitleActive : styles.pendingTitle} onClick={() => this.switchTabs(1)}>
+							<span>Pending</span>
+							<div className={styles.toModerateIcon} />
+						</div>
+						<div className={this.state.activeTab === 2 ? styles.publishedTitleActive : styles.publishedTitle} onClick={() => this.switchTabs(2)}>
+							<span>Published</span>
+							<span className={styles.reviewCheckContainer}><Icon image={reviewCheck} size={11} /></span>
+						</div>
+					</div>
 				</div>
 				<div className={styles.tabs}>
 					{this.state.activeTab === 1 ? (
