@@ -8,7 +8,7 @@ export class MnlSucess1 extends React.Component<MnlSucess1Props> {
             this.props.hideMobileNumberLoginModal();
             this.props.changeLoginStep("isStepLoginChallenge");
             this.props.checkLoginPath();
-        }, 5000);
+        }, 3000);
     }
 
     public render() {
