@@ -9,6 +9,7 @@ import UploadFile from './upload-file';
 import Button from "../../general/components/Button.js";
 import { LOGGED_IN_USER_DETAILS, CUSTOMER_ACCESS_TOKEN, LOGIN_PATH, SUCCESS } from './../../lib/constants';
 const USE_ID_NOT_MATCH = "The user ID seems to be different from the one used. Please try again with another user ID.";
+import { SOMETHING_WENT_WRONG } from "../../general/toast.actions";
 
 export default class AttachmentUpload extends Component {
 
@@ -74,6 +75,13 @@ export default class AttachmentUpload extends Component {
 
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.customerQueriesFieldError !== this.props.customerQueriesFieldError) {
+            this.props.alertPopUp({ btnLabel: "GOT IT", txt: SOMETHING_WENT_WRONG, reDirectHomePage: true, isGotItHomePage: true });
+        }
+    }
+
+
     deleteFile(index) {
         const copyuploadedAttachment = [...this.state.uploadedAttachment];
         var files = [...this.state.file];
@@ -119,16 +127,16 @@ export default class AttachmentUpload extends Component {
 
                 } else {
                     if (totalFile.length > maxFileLimit) {
-                        this.props.alertPopUp({ btnLabel: "GOT IT", txt: errorData.heading, reDirectHomePage: false });
+                        this.props.alertPopUp({ btnLabel: "GOT IT", txt: errorData.heading, reDirectHomePage: false, isGotItHomePage: false });
                     }
                     else {
-                        this.props.alertPopUp({ btnLabel: "GOT IT", txt: `File size should be less then ${maxFileSize} MB`, reDirectHomePage: false });
+                        this.props.alertPopUp({ btnLabel: "GOT IT", txt: `File size should be less then ${maxFileSize} MB`, reDirectHomePage: false, isGotItHomePage: false });
                     }
                 }
             }
         } else {
             if (this.props.alertPopUp) {
-                this.props.alertPopUp({ btnLabel: "GOT IT", txt: "Upload JPEG, PNG, or PDF only", reDirectHomePage: false });
+                this.props.alertPopUp({ btnLabel: "GOT IT", txt: "Upload JPEG, PNG, or PDF only", reDirectHomePage: false, isGotItHomePage: false });
             }
         }
     }
@@ -169,7 +177,7 @@ export default class AttachmentUpload extends Component {
 
     showAlertRetry() {
         if (this.props.alertPopUp) {
-            this.props.alertPopUp({ btnLabel: "RETRY", txt: USE_ID_NOT_MATCH, reDirectHomePage: true });
+            this.props.alertPopUp({ btnLabel: "RETRY", txt: USE_ID_NOT_MATCH, reDirectHomePage: true, isGotItHomePage: false });
         }
     }
 
@@ -206,9 +214,9 @@ export default class AttachmentUpload extends Component {
                 <div className={Styles.attachmentSection}>
                     <div className={Styles.attachHeading}>
                         Add attachments {" "}
-                      {attachmentData && attachmentData.isMandatory
+                        {attachmentData && attachmentData.isMandatory
                             ? "*"
-                            : " (optional)"} 
+                            : " (optional)"}
                     </div>
                     <UploadFile
                         attachmentComponent={attachmentData}
