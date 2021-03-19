@@ -48,6 +48,7 @@ import {
     getCartDetailsForAnonymousInUser,
 } from "../../lib/getCookieDetails.js";
 import { MSD_ROOT_PATH } from "../../../src/plp/actions/plp.actions";
+export const SUBMIT_RATING_TEXT = "Thanks! Rating submitted successfully";
 export const SUBMIT_REVIEW_TEXT = "Thanks! Review submitted successfully";
 export const PRODUCT_DESCRIPTION_REQUEST = "PRODUCT_DESCRIPTION_REQUEST";
 export const PRODUCT_DESCRIPTION_SUCCESS = "PRODUCT_DESCRIPTION_SUCCESS";
@@ -1276,7 +1277,12 @@ export function addProductReview(productCode, productReview) {
                 }
                 dispatch(addProductReviewFailure(errorMessage));
             } else {
-                dispatch(displayToast(SUBMIT_REVIEW_TEXT));
+				if(productReview.rating && !productReview.comment) {
+					dispatch(displayToast(SUBMIT_RATING_TEXT));
+				}
+				if(productReview.rating && productReview.comment) {
+					dispatch(displayToast(SUBMIT_REVIEW_TEXT));
+				}
                 setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_SUBMIT_REVIEW);
                 dispatch(addProductReviewSuccess(productReview));
             }
