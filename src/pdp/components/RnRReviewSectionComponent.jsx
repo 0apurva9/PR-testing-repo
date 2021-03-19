@@ -113,6 +113,7 @@ RnRReviewSectionComponent.propTypes = {
     titleSuggestionsDetails: PropTypes.object,
     getUpdatedReviewDetails: PropTypes.func,
 	userProductReviewDetails: PropTypes.object,
+	pageName: PropTypes.string,
 };
 
 export default RnRReviewSectionComponent;

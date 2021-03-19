@@ -231,6 +231,8 @@ class RnRQualitiesSectionComponent extends Component {
 RnRQualitiesSectionComponent.propTypes = {
     getUpdatedParameters: PropTypes.func,
     paramsEligibleToRateDetails: PropTypes.object,
+	userProductReviewDetails: PropTypes.object,
+	pageName: PropTypes.string,
 };
 
 export default RnRQualitiesSectionComponent;
