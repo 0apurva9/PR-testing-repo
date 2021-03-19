@@ -114,3 +114,14 @@
 .ratingWithStatusBarContainer:last-child {
 	margin-right: 0;
 }
+
+.ratingStatus:first-child,
+.ratingStatusHigh1,
+.ratingStatusLow1 {
+	border-bottom-left-radius: 4px;
+}
+
+.ratingStatus:last-child,
+.ratingStatusHigh5 {
+	border-bottom-right-radius: 4px;
+}

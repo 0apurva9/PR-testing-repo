@@ -33,7 +33,9 @@ export default class RatingReviewHeaderComponent extends React.Component {
         totalCountOfEachStarRating &&
             totalCountOfEachStarRating.length > 0 &&
             totalCountOfEachStarRating.forEach(eachStarRating => {
-                eachStarRatingArray.push(eachStarRating.totalRatingCount);
+				if(eachStarRating.totalRatingCount) {
+					eachStarRatingArray.push(eachStarRating.totalRatingCount);
+				}
             });
         const sumOfRating =
             eachStarRatingArray.length > 0 && eachStarRatingArray.reduce((total, value) => total + value);
@@ -46,7 +48,10 @@ export default class RatingReviewHeaderComponent extends React.Component {
 
     getComponentForTotalCount = (totalCountOfEachStarRating, sumOfStarRating) => {
         const totalCountComponent = totalCountOfEachStarRating.map((eachStarRating, index) => {
-            let statusBarWidth = Math.round((eachStarRating.totalRatingCount / sumOfStarRating) * 100);
+            let statusBarWidth = 0;
+			if(eachStarRating.totalRatingCount) {
+				statusBarWidth = Math.round((eachStarRating.totalRatingCount / sumOfStarRating) * 100);
+			}
             return (
                 <RatingCountWithStatusBarComponent
                     key={index.toString()}
@@ -102,7 +107,7 @@ export default class RatingReviewHeaderComponent extends React.Component {
                                 averageRating={this.props.productDetails.averageRating}
                                 isFluidUI={true}
                             />
-                            <RatingReviewCountComponent productDetails={this.props.productDetails} isFluidUI={true} />
+                            <RatingReviewCountComponent productDetails={this.props.productDetails} />
                             <div className={styles.bb} />
                         </div>
                     )}
@@ -118,7 +123,6 @@ export default class RatingReviewHeaderComponent extends React.Component {
                                 />
                                 <RatingReviewCountComponent
                                     productDetails={this.props.productDetails}
-                                    isFluidUI={false}
                                 />
                             </div>
 

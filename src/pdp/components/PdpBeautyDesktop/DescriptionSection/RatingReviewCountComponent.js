@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 export default class RatingReviewCountComponent extends React.Component {
     render() {
         return (
-            <div className={this.props.isFluidUI ? styles.labelText : styles.labelTextOther}>
+            <div className={styles.labelText}>
                 <span className={styles.ratingLabel} itemProp="ratingCount">
                     {this.props.productDetails.ratingCount}
                 </span>
@@ -25,7 +25,6 @@ export default class RatingReviewCountComponent extends React.Component {
 }
 
 RatingReviewCountComponent.propTypes = {
-    isFluidUI: PropTypes.bool,
     productDetails: PropTypes.objectOf(
         PropTypes.shape({
             ratingCount: PropTypes.number,
