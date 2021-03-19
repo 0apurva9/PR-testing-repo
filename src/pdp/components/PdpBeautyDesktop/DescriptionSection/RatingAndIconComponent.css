@@ -21,13 +21,14 @@
 }
 
 .starContainerOther {
-	margin: 0 0 0 10px;
+	margin: 0 0 0 8px;
 }
 
 .ratingTextContainerReviewPage {
 	display: flex;
-	width: 48px;
+	width: auto;
 	height: 28px;
+	padding: 0 8px;
 	border-radius: 14px;
 	background-color: #ecf9e5;
 	justify-content: center;

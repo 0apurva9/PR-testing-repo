@@ -17,7 +17,7 @@ export default class RatingAndIconComponent extends React.Component {
                         <div className={styles.starContainerReviewPage}>
                             <Icon
                                 image={this.props.averageRating > 2.5 ? FilledStarGreen : FilledStarOrange}
-                                size={11}
+                                size={13}
                             />
                         </div>
                     </div>
@@ -29,7 +29,7 @@ export default class RatingAndIconComponent extends React.Component {
                         <div className={this.props.isFluidUI ? styles.starContainer : styles.starContainerOther}>
                             <Icon
                                 image={this.props.averageRating > 2.5 ? FilledStarGreen : FilledStarOrange}
-                                size={32}
+                                size={31}
                             />
                         </div>
                     </div>
