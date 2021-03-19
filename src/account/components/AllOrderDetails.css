@@ -401,3 +401,9 @@
 .writeReviewTitle {
 	cursor: pointer;
 }
+
+.reviewCheckContainer {
+	display: inline-block;
+	vertical-align: sub;
+	margin-right: 8px;
+}
