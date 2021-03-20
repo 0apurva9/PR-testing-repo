@@ -3,7 +3,8 @@ import {
   fetchOrderDetails,
   sendInvoice,
   fetchOrderItemDetails,
-  retryPayment
+  retryPayment,
+  getUserProductReview,
 } from "../actions/account.actions";
 import { withRouter } from "react-router-dom";
 import OrderDetails from "../components/OrderDetails";
@@ -81,6 +82,9 @@ const mapDispatchToProps = dispatch => {
 	},
 	getTitleSuggestions: (productCode, rating) => {
 		dispatch(getTitleSuggestions(productCode, rating));
+	},
+	getUserProductReview : productCode => {
+		dispatch(getUserProductReview(productCode));
 	},
   };
 };

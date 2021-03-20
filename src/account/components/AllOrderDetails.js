@@ -446,6 +446,14 @@ export default class AllOrderDetails extends React.Component {
 		}, 1000);
 	};
 
+	showRatingReviewModal = (productCode, rating, pageName) => {
+		this.props.openRatingReviewModal({ productCode, pageName, rating });
+		this.props.getParametersEligibleToRate(productCode);
+		setTimeout(() => {
+			this.props.getUserProductReview(productCode);
+		}, 1000);
+	};
+
     render() {
         let userData;
         const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
@@ -580,6 +588,8 @@ export default class AllOrderDetails extends React.Component {
 											publishedReviewsDetails={this.props.publishedReviewsDetails}
 											submitRating={(rating, productCode, section) => this.submitRating(rating, productCode, section)}
 											editRatingReview={(productcode, rating) => this.editRatingReview(productcode, rating)}
+											openRatingReviewModal={true}
+											showRatingReviewModal={(productcode, rating) => this.showRatingReviewModal(productcode, rating, "Pending Reviews")}
 										/>
                                     </div>
                                 )}
@@ -795,6 +805,8 @@ export default class AllOrderDetails extends React.Component {
 																						  {product.userRating && product.isRated ? (
 																							<RatingAndIconComponent
 																								averageRating={product.userRating}
+																								openRatingReviewModal={true}
+																								showRatingReviewModal={() => this.showRatingReviewModal(product.productcode, product.userRating, "Order History")}
 																							/>
 																						  ) : (
 																							<RnREmptyRatingGreyStarComponent

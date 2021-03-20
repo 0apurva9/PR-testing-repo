@@ -31,6 +31,8 @@ export default class PendingPublishedReviewList extends React.Component {
 									isPublishedReview={this.props.isPublishedReview}
 									canEditDelete={data.canEditDelete}
 									editRatingReview={(productcode, rating) => this.props.editRatingReview(productcode, rating)}
+									openRatingReviewModal={this.props.openRatingReviewModal}
+									showRatingReviewModal={(productcode, rating) => this.props.showRatingReviewModal(productcode, rating)}
 								/>
 
 								{/* to show on pending/published review page conditionally */}
