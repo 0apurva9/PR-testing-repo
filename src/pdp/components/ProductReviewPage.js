@@ -139,8 +139,7 @@ export default class ProductReviewPage extends Component {
     componentDidMount() {
         const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
         const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-        this.throttledScroll = this.handleScroll();
-        window.addEventListener("scroll", this.throttledScroll);
+		this.smoothScroll();
         this.props.getProductDescription(this.props.match.params[0], IS_COMING_FOR_REVIEW_PAGE);
         this.props.getProductReviews(this.props.match.params[0], 0, this.state.orderBy, this.state.sort);
         if (this.props.match.path === WRITE_REVIEWS_WITH_SLUG || this.props.match.path === WRITE_REVIEWS) {
@@ -167,7 +166,6 @@ export default class ProductReviewPage extends Component {
 
     componentWillUnmount() {
         updatePdpDetailsBackFromReviewPage();
-        window.removeEventListener("scroll", this.throttledScroll);
     }
 
     reviewSection = () => {
