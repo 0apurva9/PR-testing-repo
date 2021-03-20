@@ -81,9 +81,10 @@ export default class RatingAndReviewModalV2 extends Component {
                 this.setState({ sectionActive: 2 });
             }
             if (
-                this.props.paramsEligibleToRateDetails &&
+                !this.props.paramsEligibleToRateDetails ||
+				(this.props.paramsEligibleToRateDetails &&
                 this.props.paramsEligibleToRateDetails.status &&
-                this.props.paramsEligibleToRateDetails.status.toLowerCase() === failure
+                this.props.paramsEligibleToRateDetails.status.toLowerCase() === failure)
             ) {
                 this.props.getTitleSuggestions(this.props.productCode, this.state.currentRating);
                 this.setState({ sectionActive: 3 });
