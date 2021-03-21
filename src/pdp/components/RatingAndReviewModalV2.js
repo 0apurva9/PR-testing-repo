@@ -33,6 +33,7 @@ export default class RatingAndReviewModalV2 extends Component {
 			userProductReviewDetails: null,
 			id: null,
 			actualParamsCount: 0,
+			paramsEligibleToRateDetails: null,
         };
     }
 
@@ -68,6 +69,11 @@ export default class RatingAndReviewModalV2 extends Component {
 		// get user reviews
 		if(this.props.userProductReviewDetails !== prevProps.userProductReviewDetails) {
 			this.setState({userProductReviewDetails : this.props.userProductReviewDetails});
+		}
+
+		// get params
+		if(this.props.paramsEligibleToRateDetails !== prevProps.paramsEligibleToRateDetails) {
+			this.setState({paramsEligibleToRateDetails : this.props.paramsEligibleToRateDetails});
 		}
     }
 
@@ -221,9 +227,10 @@ export default class RatingAndReviewModalV2 extends Component {
 							pageName={this.props.pageName}
 						/>
                     )}
-                    {this.state.sectionActive === 2 && (
+                    {this.state.sectionActive === 2 &&
+					(this.state.paramsEligibleToRateDetails || this.state.userProductReviewDetails) && (
                         <RnRQualitiesSectionComponent
-                            paramsEligibleToRateDetails={paramsEligibleToRateDetails}
+                            paramsEligibleToRateDetails={this.state.paramsEligibleToRateDetails}
                             getUpdatedParameters={(paramsData, paramsDataForAPI, actualParamsCount) =>
                                 this.getUpdatedParameters(paramsData, paramsDataForAPI, actualParamsCount)
                             }

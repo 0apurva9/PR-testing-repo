@@ -481,6 +481,14 @@ export default class OrderDetails extends React.Component {
 		}
 	};
 
+	showRatingReviewModal = (productCode, rating) => {
+		this.props.openRatingReviewModal({ productCode, pageName: "Order Details", rating });
+		this.props.getParametersEligibleToRate(productCode);
+		setTimeout(() => {
+			this.props.getUserProductReview(productCode);
+		}, 1000);
+	};
+
     render() {
         if (this.props.loadingForFetchOrderDetails) {
             this.props.showSecondaryLoader();
@@ -807,6 +815,8 @@ export default class OrderDetails extends React.Component {
 																{products.userRating && products.isRated ? (
 																<RatingAndIconComponent
 																	averageRating={products.userRating}
+																	openRatingReviewModal={true}
+																	showRatingReviewModal={() => this.showRatingReviewModal(products.productcode, products.userRating)}
 																/>
 																) : (
 																<RnREmptyRatingGreyStarComponent
@@ -1398,6 +1408,7 @@ OrderDetails.propTypes = {
 	openRatingReviewModal: PropTypes.func,
 	getParametersEligibleToRate: PropTypes.func,
 	getTitleSuggestions: PropTypes.func,
+	getUserProductReview: PropTypes.func,
 };
 OrderDetails.defaultProps = {
     underlineButtonLabel: "Request Invoice",
