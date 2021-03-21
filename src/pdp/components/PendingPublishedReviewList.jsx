@@ -67,4 +67,6 @@ PendingPublishedReviewList.propTypes = {
 	submitRating: PropTypes.func,
 	isPublishedReview: PropTypes.bool,
 	editRatingReview: PropTypes.func,
+	openRatingReviewModal: PropTypes.bool,
+	showRatingReviewModal: PropTypes.func,
 };

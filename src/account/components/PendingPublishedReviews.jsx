@@ -128,6 +128,8 @@ PendingPublishedReviews.propTypes = {
 	publishedReviewsDetails: PropTypes.object,
 	submitRating: PropTypes.func,
 	editRatingReview: PropTypes.func,
+	openRatingReviewModal: PropTypes.bool,
+	showRatingReviewModal: PropTypes.func,
 };
 
 export default PendingPublishedReviews;
