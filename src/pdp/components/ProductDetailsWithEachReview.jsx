@@ -48,6 +48,8 @@ class ProductDetailsWithEachReview extends Component {
 							{this.props.userRating && this.props.isRated ? (
 								<RatingAndIconComponent
 									averageRating={this.props.userRating}
+									openRatingReviewModal={this.props.openRatingReviewModal}
+									showRatingReviewModal={() => this.props.showRatingReviewModal(this.props.productcode, this.props.userRating)}
 								/>
 							) : (
 								<RnREmptyRatingGreyStarComponent
@@ -107,6 +109,8 @@ ProductDetailsWithEachReview.propTypes = {
 	isPublishedReview: PropTypes.bool,
 	canEditDelete: PropTypes.bool,
 	editRatingReview: PropTypes.func,
+	openRatingReviewModal: PropTypes.bool,
+	showRatingReviewModal: PropTypes.func,
 };
 
 export default ProductDetailsWithEachReview;

@@ -70,6 +70,8 @@ class PendingPublishedReviews extends Component {
 										<PendingPublishedReviewList
 											reviewList={this.state.pendingReviewsDetails.reviews}
 											submitRating={(rating, productCode, section) => this.props.submitRating(rating, productCode, section)}
+											openRatingReviewModal={this.props.openRatingReviewModal}
+											showRatingReviewModal={(productcode, rating) => this.props.showRatingReviewModal(productcode, rating)}
 										/>
 									)}
 									{this.state.pendingReviewsDetails.pageNumber + 1 < this.state.pendingReviewsDetails.totalNoOfPages ? (
@@ -126,6 +128,8 @@ PendingPublishedReviews.propTypes = {
 	publishedReviewsDetails: PropTypes.object,
 	submitRating: PropTypes.func,
 	editRatingReview: PropTypes.func,
+	openRatingReviewModal: PropTypes.bool,
+	showRatingReviewModal: PropTypes.func,
 };
 
 export default PendingPublishedReviews;
