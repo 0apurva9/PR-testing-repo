@@ -440,18 +440,12 @@ export default class AllOrderDetails extends React.Component {
 
 	editRatingReview = (productCode, rating) => {
 		this.props.openRatingReviewModal({ productCode, pageName: "Published Reviews", rating });
-		this.props.getParametersEligibleToRate(productCode);
-		setTimeout(() => {
-			this.props.getUserProductReview(productCode);
-		}, 1500);
+		this.props.getParametersEligibleToRate(productCode, true);
 	};
 
 	showRatingReviewModal = (productCode, rating, pageName) => {
 		this.props.openRatingReviewModal({ productCode, pageName, rating });
-		this.props.getParametersEligibleToRate(productCode);
-		setTimeout(() => {
-			this.props.getUserProductReview(productCode);
-		}, 1500);
+		this.props.getParametersEligibleToRate(productCode, true);
 	};
 
     render() {
