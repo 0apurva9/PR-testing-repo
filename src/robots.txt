@@ -1,5 +1,7 @@
 User-agent: *
 
+Allow: /
+
 Disallow: */quickView
 Disallow: /search/
 Disallow: /p-sizeGuide
@@ -17,8 +19,12 @@ Disallow: */drag_and_drop_handler
 Disallow: */util
 Disallow: */node
 
+User-Agent: Googlebot
+Allow: /
+User-Agent: Googlebot-Mobile
+Allow: /
+User-Agent: Googlebot-Image
+Allow: /
 
 Sitemap: https://www.tatacliq.com/sitemap.xml
 Sitemap: https://www.tatacliq.com/que/sitemap.xml
-User-agent: Test Certificate Info
-Disallow: /
