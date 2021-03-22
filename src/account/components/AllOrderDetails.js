@@ -430,7 +430,7 @@ export default class AllOrderDetails extends React.Component {
 
 	submitRating = (rating, productCode, section) => {
 		this.props.openRatingReviewModal({ productCode, rating, section, pageName: "Order History" });
-		if(section === 2){
+		if(section === 1 || section === 2){
 			this.props.getParametersEligibleToRate(productCode);
 		}
 		if(section === 3){
@@ -440,18 +440,12 @@ export default class AllOrderDetails extends React.Component {
 
 	editRatingReview = (productCode, rating) => {
 		this.props.openRatingReviewModal({ productCode, pageName: "Published Reviews", rating });
-		this.props.getParametersEligibleToRate(productCode);
-		setTimeout(() => {
-			this.props.getUserProductReview(productCode);
-		}, 1000);
+		this.props.getParametersEligibleToRate(productCode, true);
 	};
 
 	showRatingReviewModal = (productCode, rating, pageName) => {
 		this.props.openRatingReviewModal({ productCode, pageName, rating });
-		this.props.getParametersEligibleToRate(productCode);
-		setTimeout(() => {
-			this.props.getUserProductReview(productCode);
-		}, 1000);
+		this.props.getParametersEligibleToRate(productCode, true);
 	};
 
     render() {
@@ -810,7 +804,7 @@ export default class AllOrderDetails extends React.Component {
 																							/>
 																						  ) : (
 																							<RnREmptyRatingGreyStarComponent
-																								submitRating={(rating) => this.submitRating(rating, product.productcode)}
+																								submitRating={(rating) => this.submitRating(rating, product.productcode, 1)}
 																							/>
 																						  )}
                                                                                       </div>
