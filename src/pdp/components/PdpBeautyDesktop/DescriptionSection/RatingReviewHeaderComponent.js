@@ -84,8 +84,12 @@ export default class RatingReviewHeaderComponent extends React.Component {
     };
 
     render() {
-        const { parameterizedRating, totalCountOfEachStarRating } = this.props.reviews;
-        const sumOfStarRating = this.getSumOfStarRating(totalCountOfEachStarRating);
+		if(!this.props.reviews) {
+			return null;
+		}
+        const sumOfStarRating = this.props.reviews &&
+			this.props.reviews.totalCountOfEachStarRating &&
+			this.getSumOfStarRating(this.props.reviews.totalCountOfEachStarRating);
 
         return (
             <React.Fragment>
@@ -100,8 +104,8 @@ export default class RatingReviewHeaderComponent extends React.Component {
 
                 {this.props.productDetails.averageRating &&
                     this.props.reviews &&
-                    !parameterizedRating &&
-                    !totalCountOfEachStarRating && (
+                    !this.props.reviews.parameterizedRating &&
+                    !this.props.reviews.totalCountOfEachStarRating && (
                         <div className={styles.reviewListHolder}>
                             <RatingAndIconComponent
                                 averageRating={this.props.productDetails.averageRating}
@@ -114,7 +118,7 @@ export default class RatingReviewHeaderComponent extends React.Component {
 
                 {this.props.productDetails.averageRating &&
                     this.props.reviews &&
-                    (parameterizedRating || this.props.reviews.totalCountOfEachStarRating) && (
+                    (this.props.reviews.parameterizedRating || this.props.reviews.totalCountOfEachStarRating) && (
                         <div className={styles.reviewListHolderOther}>
                             <div className={styles.sectionOne}>
                                 <RatingAndIconComponent
@@ -126,15 +130,15 @@ export default class RatingReviewHeaderComponent extends React.Component {
                                 />
                             </div>
 
-                            {totalCountOfEachStarRating && this.getLength(totalCountOfEachStarRating) > 0 ? (
+                            {this.props.reviews.totalCountOfEachStarRating && this.getLength(this.props.reviews.totalCountOfEachStarRating) > 0 ? (
                                 <div className={styles.sectionTwo}>
-                                    {this.getComponentForTotalCount(totalCountOfEachStarRating, sumOfStarRating)}
+                                    {this.getComponentForTotalCount(this.props.reviews.totalCountOfEachStarRating, sumOfStarRating)}
                                 </div>
                             ) : null}
 
-                            {parameterizedRating && this.getLength(parameterizedRating) > 0 ? (
+                            {this.props.reviews.parameterizedRating && this.getLength(this.props.reviews.parameterizedRating) > 0 ? (
                                 <div className={styles.sectionThree}>
-                                    {this.getComponentForParameterizedRating(parameterizedRating)}
+                                    {this.getComponentForParameterizedRating(this.props.reviews.parameterizedRating)}
                                 </div>
                             ) : null}
 
