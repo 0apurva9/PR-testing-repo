@@ -48,6 +48,7 @@ import {
     getCartDetailsForAnonymousInUser,
 } from "../../lib/getCookieDetails.js";
 import { MSD_ROOT_PATH } from "../../../src/plp/actions/plp.actions";
+import { getUserProductReview } from "../../../src/account/actions/account.actions";
 export const SUBMIT_RATING_TEXT = "Thanks! Rating submitted successfully";
 export const SUBMIT_REVIEW_TEXT = "Thanks! Review submitted successfully";
 export const PRODUCT_DESCRIPTION_REQUEST = "PRODUCT_DESCRIPTION_REQUEST";
@@ -2830,7 +2831,7 @@ export function getParametersEligibleToRateFailure(error) {
     };
 }
 
-export function getParametersEligibleToRate(productCode) {
+export function getParametersEligibleToRate(productCode, callgetUserProductReviewAPI) {
     let accessToken = getGlobalAccessToken();
 
     return async (dispatch, getState, { api }) => {
@@ -2845,6 +2846,9 @@ export function getParametersEligibleToRate(productCode) {
                 dispatch(getParametersEligibleToRateFailure());
             }
             dispatch(getParametersEligibleToRateSuccess(resultJson));
+			if(callgetUserProductReviewAPI) {
+				dispatch(getUserProductReview(productCode));
+			}
         } catch (e) {
             dispatch(getParametersEligibleToRateFailure(e.message));
         }

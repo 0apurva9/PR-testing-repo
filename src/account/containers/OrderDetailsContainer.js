@@ -4,7 +4,6 @@ import {
   sendInvoice,
   fetchOrderItemDetails,
   retryPayment,
-  getUserProductReview,
 } from "../actions/account.actions";
 import { withRouter } from "react-router-dom";
 import OrderDetails from "../components/OrderDetails";
@@ -77,14 +76,11 @@ const mapDispatchToProps = dispatch => {
 	openRatingReviewModal: data => {
 		dispatch(showModal(RATING_REVIEW_MODAL_V2, data));
 	},
-	getParametersEligibleToRate: productCode => {
-		dispatch(getParametersEligibleToRate(productCode));
+	getParametersEligibleToRate: (productCode, callgetUserProductReviewAPI) => {
+		dispatch(getParametersEligibleToRate(productCode, callgetUserProductReviewAPI));
 	},
 	getTitleSuggestions: (productCode, rating) => {
 		dispatch(getTitleSuggestions(productCode, rating));
-	},
-	getUserProductReview : productCode => {
-		dispatch(getUserProductReview(productCode));
 	},
   };
 };

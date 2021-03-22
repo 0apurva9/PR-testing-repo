@@ -8,7 +8,6 @@ import {
   getRetryOrderDetails,
   getPendingReviews,
   getPublishedReviews,
-  getUserProductReview,
 } from "../actions/account.actions";
 import { withRouter } from "react-router-dom";
 import AllOrderDetails from "../components/AllOrderDetails";
@@ -77,8 +76,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 	openRatingReviewModal: data => {
 		dispatch(showModal(RATING_REVIEW_MODAL_V2, data));
 	},
-	getParametersEligibleToRate: productCode => {
-		dispatch(getParametersEligibleToRate(productCode));
+	getParametersEligibleToRate: (productCode, callgetUserProductReviewAPI) => {
+		dispatch(getParametersEligibleToRate(productCode, callgetUserProductReviewAPI));
 	},
 	getTitleSuggestions: (productCode, rating) => {
 		dispatch(getTitleSuggestions(productCode, rating));
@@ -88,9 +87,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 	},
 	getPublishedReviews: (currentPage) => {
 		dispatch(getPublishedReviews(currentPage));
-	},
-	getUserProductReview : productCode => {
-		dispatch(getUserProductReview(productCode));
 	},
   };
 };

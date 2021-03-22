@@ -53,7 +53,7 @@ class ProductDetailsWithEachReview extends Component {
 								/>
 							) : (
 								<RnREmptyRatingGreyStarComponent
-									submitRating={(rating) => this.props.submitRating(rating, this.props.productcode)}
+									submitRating={(rating) => this.props.submitRating(rating, this.props.productcode, 1)}
 								/>
 							)}
 						</div>
