@@ -227,17 +227,40 @@ export default class RatingAndReviewModalV2 extends Component {
 							pageName={this.props.pageName}
 						/>
                     )}
-                    {this.state.sectionActive === 2 &&
-					(this.state.paramsEligibleToRateDetails || this.state.userProductReviewDetails) && (
-                        <RnRQualitiesSectionComponent
-                            paramsEligibleToRateDetails={this.state.paramsEligibleToRateDetails}
-                            getUpdatedParameters={(paramsData, paramsDataForAPI, actualParamsCount) =>
-                                this.getUpdatedParameters(paramsData, paramsDataForAPI, actualParamsCount)
-                            }
-							userProductReviewDetails={this.state.userProductReviewDetails}
-							pageName={this.props.pageName}
-                        />
-                    )}
+                    {this.state.sectionActive === 2 && (
+						<React.Fragment>
+							{this.state.paramsEligibleToRateDetails && this.state.userProductReviewDetails ? (
+								<RnRQualitiesSectionComponent
+									paramsEligibleToRateDetails={this.state.paramsEligibleToRateDetails}
+									getUpdatedParameters={(paramsData, paramsDataForAPI, actualParamsCount) =>
+										this.getUpdatedParameters(paramsData, paramsDataForAPI, actualParamsCount)
+									}
+									userProductReviewDetails={this.state.userProductReviewDetails}
+									pageName={this.props.pageName}
+								/>
+							) : (
+								this.state.paramsEligibleToRateDetails && !this.state.userProductReviewDetails ? (
+									<RnRQualitiesSectionComponent
+										paramsEligibleToRateDetails={this.state.paramsEligibleToRateDetails}
+										getUpdatedParameters={(paramsData, paramsDataForAPI, actualParamsCount) =>
+											this.getUpdatedParameters(paramsData, paramsDataForAPI, actualParamsCount)
+										}
+										pageName={this.props.pageName}
+									/>
+								) : (
+									!this.state.paramsEligibleToRateDetails && this.state.userProductReviewDetails ? (
+										<RnRQualitiesSectionComponent
+											getUpdatedParameters={(paramsData, paramsDataForAPI, actualParamsCount) =>
+												this.getUpdatedParameters(paramsData, paramsDataForAPI, actualParamsCount)
+											}
+											userProductReviewDetails={this.state.userProductReviewDetails}
+											pageName={this.props.pageName}
+										/>
+									) : null
+								)
+							)}
+						</React.Fragment>
+					)}
                     {this.state.sectionActive === 3 && (
                         <RnRReviewSectionComponent
                             titleSuggestionsDetails={this.state.titleSuggestionsDetails}
