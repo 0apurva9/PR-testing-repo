@@ -66,14 +66,14 @@ export default class RatingAndReviewModalV2 extends Component {
             this.setState({ titleSuggestionsDetails: this.props.getTitleSuggestionsDetails });
         }
 
-		// get user reviews
-		if(this.props.userProductReviewDetails !== prevProps.userProductReviewDetails) {
-			this.setState({userProductReviewDetails : this.props.userProductReviewDetails});
-		}
-
 		// get params
 		if(this.props.paramsEligibleToRateDetails !== prevProps.paramsEligibleToRateDetails) {
 			this.setState({paramsEligibleToRateDetails : this.props.paramsEligibleToRateDetails});
+		}
+
+		// get user reviews
+		if(this.props.userProductReviewDetails !== prevProps.userProductReviewDetails) {
+			this.setState({userProductReviewDetails : this.props.userProductReviewDetails});
 		}
     }
 

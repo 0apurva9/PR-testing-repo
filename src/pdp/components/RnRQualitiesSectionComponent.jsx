@@ -154,6 +154,9 @@ class RnRQualitiesSectionComponent extends Component {
 		if(this.state.paramsFromUserProductReview){
 			params = this.state.paramsFromUserProductReview;
 		}
+		if(!params) {
+			return null;
+		}
 
         return (
             <React.Fragment>
