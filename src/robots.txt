@@ -1,7 +1,5 @@
 User-agent: *
 
-Allow: /
-
 Disallow: */quickView
 Disallow: /search/
 Disallow: /p-sizeGuide
