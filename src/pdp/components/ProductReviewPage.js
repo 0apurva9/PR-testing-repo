@@ -432,7 +432,6 @@ export default class ProductReviewPage extends Component {
         } else {
 			if(this.props.productDetails){
 				this.props.openRatingReviewModal({ productCode: this.props.productDetails.productListingId, pageName: "productReview" });
-				this.props.getParametersEligibleToRate(this.props.productDetails.productListingId);
 
 				let ratingReviewData = {
 					averageStar: this.props.productDetails.averageRating ? this.props.productDetails.averageRating : null,
@@ -453,7 +452,6 @@ export default class ProductReviewPage extends Component {
         ) {
 			let productId = this.props.productDetails && this.props.productDetails.productListingId;
             this.props.openRatingReviewModal({ productCode: productId, pageName: "productReview" });
-            this.props.getParametersEligibleToRate(productId);
             sessionStorage.removeItem("showRatingModalAfterLoggedIn");
         }
 

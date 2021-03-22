@@ -6,7 +6,6 @@ import {
     getProductReviews,
     getProductDescription,
     addProductReview,
-    getParametersEligibleToRate,
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions";
 import { showSecondaryLoader, hideSecondaryLoader } from "../../general/secondaryLoader.actions";
@@ -62,9 +61,6 @@ const mapDispatchToProps = dispatch => {
         },
         openRatingReviewModal: data => {
             dispatch(showModal(RATING_REVIEW_MODAL_V2, data));
-        },
-        getParametersEligibleToRate: productCode => {
-            dispatch(getParametersEligibleToRate(productCode));
         },
     };
 };

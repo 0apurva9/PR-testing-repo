@@ -21,7 +21,6 @@ import {
 } from "../../general/modal.actions";
 import {
   getProductDescription,
-  getParametersEligibleToRate,
   getTitleSuggestions,
 } from "../../pdp/actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions";
@@ -75,9 +74,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
 	openRatingReviewModal: data => {
 		dispatch(showModal(RATING_REVIEW_MODAL_V2, data));
-	},
-	getParametersEligibleToRate: (productCode, callgetUserProductReviewAPI) => {
-		dispatch(getParametersEligibleToRate(productCode, callgetUserProductReviewAPI));
 	},
 	getTitleSuggestions: (productCode, rating) => {
 		dispatch(getTitleSuggestions(productCode, rating));

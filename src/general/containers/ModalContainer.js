@@ -48,6 +48,7 @@ import {
     addProductReview,
     submitParameterRating,
     getTitleSuggestions,
+	getParametersEligibleToRate,
 } from "../../pdp/actions/pdp.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 import * as Cookies from "../../lib/Cookie";
@@ -427,7 +428,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
 		getPendingReviews: (currentPage, isRatingReviewSuccessScreen) => {
 			dispatch(getPendingReviews(currentPage, isRatingReviewSuccessScreen));
-		}
+		},
+		getParametersEligibleToRate: (productCode, callgetUserProductReviewAPI) => {
+            dispatch(getParametersEligibleToRate(productCode, callgetUserProductReviewAPI));
+        },
     };
 };
 const ModalContainer = withRouter(connect(mapStateToProps, mapDispatchToProps)(ModalRoot));

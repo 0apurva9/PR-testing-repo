@@ -37,6 +37,14 @@ export default class RatingAndReviewModalV2 extends Component {
         };
     }
 
+	componentDidMount() {
+		let callgetUserProductReviewAPI = true;
+		if(this.props.pageName === "productReview") {
+			callgetUserProductReviewAPI = false;
+		}
+		this.props.getParametersEligibleToRate(this.props.productCode, callgetUserProductReviewAPI);
+	}
+
     componentDidUpdate(prevProps) {
         if (this.props.addReviewDetails !== prevProps.addReviewDetails) {
             // handle submit for rating submit and redirect to parameter screen
@@ -420,4 +428,5 @@ RatingAndReviewModalV2.propTypes = {
 	getPendingReviews: PropTypes.func,
 	pendingReviewsDetails: PropTypes.object,
 	history: PropTypes.object,
+	getParametersEligibleToRate: PropTypes.func,
 };

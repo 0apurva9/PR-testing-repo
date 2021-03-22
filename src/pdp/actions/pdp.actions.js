@@ -2844,10 +2844,11 @@ export function getParametersEligibleToRate(productCode, callgetUserProductRevie
             const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
             if (resultJsonStatus.status || result.status !== 200) {
                 dispatch(getParametersEligibleToRateFailure());
-            }
-            dispatch(getParametersEligibleToRateSuccess(resultJson));
-			if(callgetUserProductReviewAPI) {
-				dispatch(getUserProductReview(productCode));
+            } else {
+				dispatch(getParametersEligibleToRateSuccess(resultJson));
+				if(callgetUserProductReviewAPI) {
+					dispatch(getUserProductReview(productCode));
+				}
 			}
         } catch (e) {
             dispatch(getParametersEligibleToRateFailure(e.message));
