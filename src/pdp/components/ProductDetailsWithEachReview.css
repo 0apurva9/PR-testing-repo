@@ -119,3 +119,9 @@
     color: #979797;
     margin-left: 5px;
 }
+
+.reviewCheckContainer {
+	display: inline-block;
+	vertical-align: sub;
+	margin-right: 8px;
+}

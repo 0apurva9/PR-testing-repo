@@ -14,10 +14,9 @@
 
 .ratingInitial {
     display: block;
-    background-color: #ccc;
     width: 120px;
-    height: 98px;
-    margin: 65px auto 124px auto;
+    height: auto;
+    margin: 65px auto 102px auto;
 }
 
 .ratingSuccess {
