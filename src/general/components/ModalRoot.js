@@ -1324,6 +1324,7 @@ export default class ModalRoot extends React.Component {
 						this.props.getPendingReviews(currentPage, isRatingReviewSuccessScreen)}
 					pendingReviewsDetails={this.props.pendingReviewsDetails}
 					history={this.props.history}
+					getParametersEligibleToRate={(productCode, callgetUserProductReviewAPI) => this.props.getParametersEligibleToRate(productCode, callgetUserProductReviewAPI)}
                 />
             ),
         };

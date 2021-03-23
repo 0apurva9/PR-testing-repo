@@ -10,6 +10,7 @@
 }
 
 .detailsContainer {
+	width: calc(100% - 150px);
     display: inline-block;
     vertical-align: middle;
     margin-left: 16px;

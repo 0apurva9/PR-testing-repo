@@ -24,7 +24,6 @@ import {
 } from "../../general/secondaryLoader.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 import {
-	getParametersEligibleToRate,
 	getTitleSuggestions,
 } from "../../pdp/actions/pdp.actions";
 
@@ -75,9 +74,6 @@ const mapDispatchToProps = dispatch => {
     },
 	openRatingReviewModal: data => {
 		dispatch(showModal(RATING_REVIEW_MODAL_V2, data));
-	},
-	getParametersEligibleToRate: (productCode, callgetUserProductReviewAPI) => {
-		dispatch(getParametersEligibleToRate(productCode, callgetUserProductReviewAPI));
 	},
 	getTitleSuggestions: (productCode, rating) => {
 		dispatch(getTitleSuggestions(productCode, rating));

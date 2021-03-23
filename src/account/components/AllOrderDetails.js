@@ -430,9 +430,6 @@ export default class AllOrderDetails extends React.Component {
 
 	submitRating = (rating, productCode, section) => {
 		this.props.openRatingReviewModal({ productCode, rating, section, pageName: "Order History" });
-		if(section === 1 || section === 2){
-			this.props.getParametersEligibleToRate(productCode);
-		}
 		if(section === 3){
 			this.props.getTitleSuggestions(productCode, rating);
 		}
@@ -440,12 +437,10 @@ export default class AllOrderDetails extends React.Component {
 
 	editRatingReview = (productCode, rating) => {
 		this.props.openRatingReviewModal({ productCode, pageName: "Published Reviews", rating });
-		this.props.getParametersEligibleToRate(productCode, true);
 	};
 
 	showRatingReviewModal = (productCode, rating, pageName) => {
 		this.props.openRatingReviewModal({ productCode, pageName, rating });
-		this.props.getParametersEligibleToRate(productCode, true);
 	};
 
     render() {
