@@ -14,7 +14,6 @@
 	margin: 0 auto;
 	border-top: 2px solid #f3f3f3;
 	justify-content: space-around;
-    align-items: center;
 }
 
 .subSection {
@@ -33,6 +32,8 @@
     display: flex;
     margin: 5px 0;
     justify-content: center;
+	height: 30px;
+	align-items: center;
 }
 
 .buttonContainer {
