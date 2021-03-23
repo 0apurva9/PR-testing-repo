@@ -110,8 +110,12 @@ export async function get(url, channel) {
     return await coreGet(newUrl);
 }
 
-export async function coreGetMiddlewareUrl(url) {
-    return await fetch(`${API_URL_ROOT}/${url}`, {
+export async function coreGetMiddlewareUrl(url, actionType) {
+    let ROOT_URL = API_URL_ROOT;
+    if (actionType == "productSearch") {
+        ROOT_URL = process.env.productSearchBaseURL;
+    }
+    return await fetch(`${ROOT_URL}/${url}`, {
         headers: {
             Authorization: "Basic " + btoa("gauravj@dewsolutions.in:gauravj@12#"),
             mode: "no-cors",
@@ -119,8 +123,8 @@ export async function coreGetMiddlewareUrl(url) {
     });
 }
 
-export async function getMiddlewareUrl(url) {
-    const result = await coreGetMiddlewareUrl(url);
+export async function getMiddlewareUrl(url, actionType) {
+    const result = await coreGetMiddlewareUrl(url, actionType);
     const resultClone = await result.clone();
     const resultJson = await resultClone.json();
     const errorStatus = ErrorHandling.getFailureResponse(resultJson);
