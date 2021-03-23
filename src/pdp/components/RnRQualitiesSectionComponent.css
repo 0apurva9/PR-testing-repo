@@ -8,10 +8,11 @@
 
 .ratingDetailsContainer {
 	display: block;
-    width: 310px;
-    margin: 19px auto 0 auto;
+    width: 331px;
+    margin: 19px auto 0 70px;
     height: 330px;
     overflow-y: scroll;
+    padding-right: 21px;
 }
 
 .eachRatingContainer {
