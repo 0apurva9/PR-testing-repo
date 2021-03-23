@@ -33,7 +33,7 @@ export const NULL_SEARCH_MSD_REQUEST = "NULL_SEARCH_MSD_REQUEST";
 export const NULL_SEARCH_MSD_SUCCESS = "NULL_SEARCH_MSD_SUCCESS";
 export const PLP_HAS_BEEN_VISITED = "PLP_HAS_BEEN_VISITED";
 export const PLP_HAS_NOT_BEEN_VISITED = "PLP_HAS_NOT_BEEN_VISITED";
-export const PRODUCT_LISTINGS_PATH = "v2/mpl/products/searchProducts";
+export const PRODUCT_LISTINGS_PATH = "products/mpl/search";
 let NO_OF_PRODUCT = 20;
 if (!checkUserAgentIsMobile()) {
     NO_OF_PRODUCT = 40;
@@ -290,7 +290,7 @@ export function getProductListings(
             }
             queryString = `${queryString}&page=${pageNumber}`;
             queryString = `${queryString}${PRODUCT_LISTINGS_SUFFIX}`;
-            const result = await api.getMiddlewareUrl(queryString);
+            const result = await api.getMiddlewareUrl(queryString, "productSearch");
             const resultJson = await result.json();
             if (resultJson && resultJson.currentQuery && isBrowser) {
                 keyWordRedirect = resultJson.currentQuery.isKeywordRedirect;
