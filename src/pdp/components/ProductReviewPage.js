@@ -595,6 +595,7 @@ export default class ProductReviewPage extends Component {
                                     border="1px solid #da1c5c"
                                     borderRadius="4px"
                                     fontFamily="semibold"
+									margin="10px 0"
                                 />
                                 {this.props.reviews && this.props.reviews.variantOptions && (
                                     <div>
