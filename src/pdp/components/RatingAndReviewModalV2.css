@@ -4,7 +4,7 @@
 
 .tabContent {
     display: block;
-    min-height: 407px;
+    min-height: 404px;
 }
 
 .tabSwitches {
@@ -14,7 +14,6 @@
 	margin: 0 auto;
 	border-top: 2px solid #f3f3f3;
 	justify-content: space-around;
-    align-items: center;
 }
 
 .subSection {
@@ -33,6 +32,8 @@
     display: flex;
     margin: 5px 0;
     justify-content: center;
+	height: 30px;
+	align-items: center;
 }
 
 .buttonContainer {
@@ -60,7 +61,8 @@
 
 .currentRating {
     font-family: 'semibold';
-    margin-right: 5px;
+    margin-right: 2px;
+	font-size: 18px;
 }
 
 .width33 {

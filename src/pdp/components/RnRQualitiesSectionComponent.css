@@ -8,10 +8,11 @@
 
 .ratingDetailsContainer {
 	display: block;
-    width: 310px;
-    margin: 19px auto 0 auto;
-    height: 340px;
+    width: 331px;
+    margin: 19px auto 0 70px;
+    height: 330px;
     overflow-y: scroll;
+    padding-right: 21px;
 }
 
 .eachRatingContainer {
@@ -47,30 +48,37 @@
 
 .ratingStatusLow1 {
     background-color: #ffefbd;
+	color: #ffefbd;
 }
 
 .ratingStatusLow2 {
     background-color: #ffe692;
+	color: #ffe692;
 }
 
 .ratingStatusHigh1 {
     background-color: #b4e59b;
+	color: #b4e59b;
 }
 
 .ratingStatusHigh2 {
     background-color: #94d175;
+	color: #94d175;
 }
 
 .ratingStatusHigh3 {
     background-color: #7cb95c;
+	color: #7cb95c;
 }
 
 .ratingStatusHigh4 {
     background-color: #519f29;
+	color: #519f29;
 }
 
 .ratingStatusHigh5 {
     background-color: #338715;
+	color: #338715;
 }
 
 .eachRating:first-child {

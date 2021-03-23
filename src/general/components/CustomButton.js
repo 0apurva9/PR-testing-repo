@@ -19,6 +19,7 @@ export default class CustomButton extends Component {
                             fontSize: this.props.fontSize,
                             borderRadius: this.props.borderRadius,
                             fontFamily: this.props.fontFamily,
+							margin: this.props.margin,
                         }}
                     >
                         {this.props.text}
@@ -34,6 +35,7 @@ export default class CustomButton extends Component {
                             border: this.props.border,
                             borderRadius: this.props.borderRadius,
                             fontFamily: this.props.fontFamily,
+							margin: this.props.margin,
                         }}
                         onClick={() => this.handleClick()}
                     >
@@ -56,6 +58,7 @@ CustomButton.propTypes = {
     fontFamily: PropTypes.string,
     handleClick: PropTypes.func,
     disabled: PropTypes.bool,
+	margin: PropTypes.string,
 };
 
 CustomButton.defaultProps = {

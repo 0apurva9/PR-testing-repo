@@ -298,7 +298,7 @@ export default class RatingAndReviewModalV2 extends Component {
                                 <span className={styles.currentRating}>
                                     {this.state.currentRating ? this.state.currentRating : null}
                                 </span>
-                                <Icon image={!this.state.currentRating ? rnrRatingBlank : rnrRatingFilled} size={16} />
+                                <Icon image={!this.state.currentRating ? rnrRatingBlank : rnrRatingFilled} size={14} />
                             </div>
                             {rating || this.state.currentRating ? (
                                 <span>You rated this product</span>
@@ -337,7 +337,7 @@ export default class RatingAndReviewModalV2 extends Component {
                 <div className={styles.buttonContainer}>
                     {this.state.sectionActive === 1 && (
                         <CustomButton
-                            text="Submit"
+                            text="Continue"
                             width="120px"
                             height="36px"
                             fontSize="12px"
@@ -364,7 +364,7 @@ export default class RatingAndReviewModalV2 extends Component {
                                 disabled={false}
                             />
                             <CustomButton
-                                text="Submit"
+                                text="Continue"
                                 width="120px"
                                 height="36px"
                                 fontSize="12px"

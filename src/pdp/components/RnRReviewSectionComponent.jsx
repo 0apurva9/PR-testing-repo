@@ -13,6 +13,8 @@ class RnRReviewSectionComponent extends Component {
             selectedTitle: null,
             reviewDetails: null,
             reviewDetailsLength: 0,
+			inputBorderColor: "",
+			textBoxBorderColor: "#8d8d8d",
         };
 		this.textInput = React.createRef();
     }
@@ -50,7 +52,7 @@ class RnRReviewSectionComponent extends Component {
     }
 
     setTitle = (selectedTitle, id) => {
-        this.setState({ selectedTitle });
+        this.setState({ selectedTitle, inputBorderColor : "#212121" });
         this.props.getUpdatedReviewDetails(selectedTitle, this.state.reviewDetails, id ? id : null);
 		this.textInput.current.focus();
     };
@@ -59,6 +61,22 @@ class RnRReviewSectionComponent extends Component {
         this.setState({ reviewDetails, reviewDetailsLength: reviewDetails.length });
         this.props.getUpdatedReviewDetails(this.state.selectedTitle, reviewDetails, id ? id : null);
     };
+
+	handleInputOnFocus = () => {
+		this.setState({ inputBorderColor : "#212121" });
+	};
+
+	handleInputOnBlur = () => {
+		this.setState({ inputBorderColor : "" });
+	};
+
+	handleTextBoxOnFocus = () => {
+		this.setState({ textBoxBorderColor : "#212121" });
+	};
+
+	handleTextboxOnBlur = () => {
+		this.setState({ textBoxBorderColor : "" });
+	};
 
     render() {
 		let id = null;
@@ -95,6 +113,9 @@ class RnRReviewSectionComponent extends Component {
                         height={24}
                         onChange={selectedTitle => this.setTitle(selectedTitle, id)}
 						refForText={this.textInput}
+						borderColor={this.state.inputBorderColor}
+						onFocus={() => this.handleInputOnFocus()}
+						onBlur={() => this.handleInputOnBlur()}
                     />
                     <div className={styles.subHeading}>Write a detailed review about your experience</div>
                     <ControlTextArea
@@ -102,6 +123,9 @@ class RnRReviewSectionComponent extends Component {
                         placeholder="Tell us about your experience with this product (Min 50 characters)"
                         value={this.state.reviewDetails ? this.state.reviewDetails : null}
                         onChange={reviewDetails => this.changeReviewDetails(reviewDetails, id)}
+						borderColor={this.state.textBoxBorderColor}
+						onFocus={() => this.handleTextBoxOnFocus()}
+						onBlur={() => this.handleTextboxOnBlur()}
                     />
                     {this.state.reviewDetailsLength <= 130 ? (
                         <span className={styles.reviewDetailsCount}>{this.state.reviewDetailsLength}</span>
