@@ -29,6 +29,7 @@ const MAX_PRICE_FROM_API_2 = "Greater than";
 const MAX_PRICE_FROM_UI = "-₹9,999,999";
 const CATEGORY_TEXT = "category";
 const DEFAULT_PLP_VIEW = "defaultPlpView";
+
 class ProductListingsPage extends Component {
     constructor(props) {
         super(props);
@@ -233,6 +234,7 @@ class ProductListingsPage extends Component {
 
     componentDidMount() {
         const defaultViewCookie = Cookie.getCookie(DEFAULT_PLP_VIEW);
+
         if (!defaultViewCookie) {
             if (this.props.getDefaultPlpView) {
                 this.props.getDefaultPlpView();
@@ -283,6 +285,7 @@ class ProductListingsPage extends Component {
                             breadcrumbs[0].name &&
                             breadcrumbs[0].name.replace(/ /g, "_").toLowerCase() !==
                                 window.digitalData.page.category.subCategory1 &&
+                            breadcrumbs[1] &&
                             breadcrumbs[1].name &&
                             breadcrumbs[1].name.replace(/ /g, "_").toLowerCase() !==
                                 window.digitalData.page.category.subCategory2) ||
@@ -381,13 +384,7 @@ class ProductListingsPage extends Component {
                 page = page - 1;
             }
 
-            let suffix = SUFFIX;
-            const parsedQueryString = queryString.parse(this.props.location.search);
-            if (parsedQueryString.text) {
-                suffix = `${suffix}&qc=true&test=v2`;
-            }
-
-            this.props.getProductListings(searchText, suffix, page);
+            this.props.getProductListings(searchText, SUFFIX, page);
             return;
         }
     }

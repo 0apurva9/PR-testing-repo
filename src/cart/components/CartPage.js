@@ -25,8 +25,8 @@ import {
     DEFAULT_PIN_CODE_ID_LOCAL_STORAGE,
     AC_CART_EXCHANGE_DETAILS,
     NO_COST_EMI_COUPON,
-	OLD_CART_GU_ID,
-	MDE_FRAUD_CHECK_ERROR
+    OLD_CART_GU_ID,
+    MDE_FRAUD_CHECK_ERROR,
 } from "../../lib/constants";
 import SavedProduct from "./SavedProduct";
 import filter from "lodash.filter";
@@ -196,11 +196,11 @@ class CartPage extends React.Component {
                     : Cookie.getCookie(OLD_CART_GU_ID).guid;
             let cartId = JSON.parse(cartDetailsLoggedInUser).code;
             this.props.removeNoCostEmi(emiCoupon, carGuId, cartId);
-		}
-		const mdeFraudCheckError = sessionStorage.getItem(MDE_FRAUD_CHECK_ERROR);
+        }
+        const mdeFraudCheckError = sessionStorage.getItem(MDE_FRAUD_CHECK_ERROR);
         if (mdeFraudCheckError) {
             this.props.openMdeFraudDetailsModal({
-                errorMessage: mdeFraudCheckError
+                errorMessage: mdeFraudCheckError,
             });
         }
     }
@@ -278,7 +278,7 @@ class CartPage extends React.Component {
             }
         }
         if (this.props.cart.cartDetails !== prevProps.cart.cartDetails) {
-			this.validateLocalStorageProducts();
+            this.validateLocalStorageProducts();
             let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
             let parsedExchangeDetails = cartExchangeDetails && JSON.parse(cartExchangeDetails);
             if (parsedExchangeDetails && parsedExchangeDetails.length > 0) {
@@ -287,8 +287,8 @@ class CartPage extends React.Component {
                 });
                 let productIds = [];
                 exchangeProductUssids.map(exchangeProductUssid => {
-					this.props.cart.cartDetails &&
-						this.props.cart.cartDetails.products &&
+                    this.props.cart.cartDetails &&
+                        this.props.cart.cartDetails.products &&
                         Array.isArray(this.props.cart.cartDetails.products) &&
                         this.props.cart.cartDetails.products.map(product => {
                             if (product.USSID === exchangeProductUssid) {
@@ -409,7 +409,7 @@ class CartPage extends React.Component {
             this.props.history.push(LOGIN_PATH);
         } else {
             if (this.props.showAuthPopUp) {
-                this.props.showAuthPopUp();
+                this.props.showAuthPopUp(this.props.isMNLLogin.value);
             }
             return null;
         }
@@ -515,7 +515,7 @@ class CartPage extends React.Component {
                     this.props.history.push(LOGIN_PATH);
                 } else {
                     if (this.props.showAuthPopUp) {
-                        this.props.showAuthPopUp();
+                        this.props.showAuthPopUp(this.props.isMNLLogin.value);
                         return null;
                     }
                 }
@@ -683,39 +683,32 @@ class CartPage extends React.Component {
         cliqAndPiqDetails.pincodeResponse = firstSlaveData;
         cliqAndPiqDetails.pincode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
         this.props.showPdpCliqAndPiqPage(cliqAndPiqDetails);
-	}
+    }
 
-	validateLocalStorageProducts() {
-		let cartProducts =
-		  this.props.cart &&
-		  this.props.cart.cartDetails &&
-		  this.props.cart.cartDetails.products;
-		let cartProductsUssids =
-		  cartProducts &&
-		  cartProducts.map(product => {
-			return product.USSID;
-		  });
-		const cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
-		let parsedExchangeDetails =
-		  cartExchangeDetails && JSON.parse(cartExchangeDetails);
-		if (parsedExchangeDetails && parsedExchangeDetails.length > 0) {
-		  let productToBeRemovedIndex = [];
-		  parsedExchangeDetails.map((product, index) => {
-			if (cartProductsUssids && !cartProductsUssids.includes(product.ussid)) {
-			  productToBeRemovedIndex.push(index);
-			}
-		  });
-		  if (productToBeRemovedIndex) {
-			for (var i = productToBeRemovedIndex.length - 1; i >= 0; i--) {
-			  parsedExchangeDetails.splice(productToBeRemovedIndex[i], 1);
-			}
-		  }
-		  localStorage.setItem(
-			AC_CART_EXCHANGE_DETAILS,
-			JSON.stringify(parsedExchangeDetails)
-		  );
-		}
-	  }
+    validateLocalStorageProducts() {
+        let cartProducts = this.props.cart && this.props.cart.cartDetails && this.props.cart.cartDetails.products;
+        let cartProductsUssids =
+            cartProducts &&
+            cartProducts.map(product => {
+                return product.USSID;
+            });
+        const cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+        let parsedExchangeDetails = cartExchangeDetails && JSON.parse(cartExchangeDetails);
+        if (parsedExchangeDetails && parsedExchangeDetails.length > 0) {
+            let productToBeRemovedIndex = [];
+            parsedExchangeDetails.map((product, index) => {
+                if (cartProductsUssids && !cartProductsUssids.includes(product.ussid)) {
+                    productToBeRemovedIndex.push(index);
+                }
+            });
+            if (productToBeRemovedIndex) {
+                for (var i = productToBeRemovedIndex.length - 1; i >= 0; i--) {
+                    parsedExchangeDetails.splice(productToBeRemovedIndex[i], 1);
+                }
+            }
+            localStorage.setItem(AC_CART_EXCHANGE_DETAILS, JSON.stringify(parsedExchangeDetails));
+        }
+    }
 
     render() {
         const getPinCode =
@@ -1305,8 +1298,9 @@ CartPage.propTypes = {
     updateQuantityInCartLoggedIn: PropTypes.func,
     updateQuantityInCartLoggedOut: PropTypes.func,
     verifyIMEINumber: PropTypes.func,
-	wishListCount: PropTypes.number,
-	openMdeFraudDetailsModal: PropTypes.func,
+    wishListCount: PropTypes.number,
+    openMdeFraudDetailsModal: PropTypes.func,
+    isMNLLogin: PropTypes.object,
 };
 
 CartPage.defaultProps = {

@@ -4,6 +4,7 @@ import DesktopHeader from "./DesktopHeader.js";
 import * as Cookie from "../../lib/Cookie";
 import styles from "./HeaderWrapper.css";
 import queryString from "query-string";
+import throttle from "lodash.throttle";
 import {
     CNCTOHD,
     HOME_ROUTER,
@@ -65,20 +66,23 @@ export default class HeaderWrapper extends React.Component {
 
     handleScroll = () => {
         let lastScrollTop = window.pageYOffset;
-        document.addEventListener(
-            "scroll",
-            () => {
+        return throttle(() => {
+            if (UserAgent.checkUserAgentIsMobile()) {
+                if (window.pageYOffset < 30 && this.state.stickyHeader) {
+                    this.setState({ stickyHeader: false });
+                } else if (window.pageYOffset > 30 && !this.state.stickyHeader) {
+                    this.setState({ stickyHeader: true });
+                }
+            } else {
                 let ScrollSticky = window.pageYOffset || document.documentElement.scrollTop - 1;
                 if (ScrollSticky > lastScrollTop + 1) {
                     this.setState({ stickyHeader: true });
                 } else if (ScrollSticky < lastScrollTop + 1) {
                     this.setState({ stickyHeader: false });
                 }
-                lastScrollTop = ScrollSticky <= 0 ? 0 : ScrollSticky; // For Mobile or negative scrolling
-            },
-            false
-        );
-        this.setState({ stickyHeader: false });
+                lastScrollTop = ScrollSticky <= 0 ? 0 : ScrollSticky;
+            }
+        }, 50);
     };
 
     handleSelect(val) {
@@ -119,6 +123,7 @@ export default class HeaderWrapper extends React.Component {
 
     componentDidMount() {
         // this.props.getWishListItems();
+        this.props.isMPLWebMNLLogin();
         if (this.props.location.pathname !== HOME_ROUTER && !this.props.location.pathname.includes(SAVE_LIST_PAGE)) {
             this.props.getWishlist();
         }
@@ -160,11 +165,15 @@ export default class HeaderWrapper extends React.Component {
     };
 
     openSignUp = () => {
-        if (this.props.location.pathname !== "/checkout" && this.props.location.pathname !== "/cart") {
-            this.props.setUrlToRedirectToAfterAuth(`${this.props.location.pathname}${this.props.location.search}`);
+        if (this.props.isMNLLogin.value) {
+            this.props.openMobileNumberLoginModal();
+        } else {
+            if (this.props.location.pathname !== "/checkout" && this.props.location.pathname !== "/cart") {
+                this.props.setUrlToRedirectToAfterAuth(`${this.props.location.pathname}${this.props.location.search}`);
+            }
+            this.props.history.push(LOGIN_PATH);
+            return null;
         }
-        this.props.history.push(LOGIN_PATH);
-        return null;
     };
 
     render() {

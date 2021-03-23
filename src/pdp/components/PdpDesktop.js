@@ -78,6 +78,7 @@ import PropTypes from "prop-types";
 import ProductBundling from "./ProductBundling";
 import { renderMetaTags } from "./../../lib/seoUtils";
 import AppliancesExchange from "./AppliancesExchange";
+import { initiateHaptikScript } from "./../../common/services/common.services";
 
 const WASH = "Wash";
 const NECK_COLLAR = "Neck/Collar";
@@ -241,6 +242,7 @@ export default class PdpApparel extends React.Component {
                     });
             }
         }
+        initiateHaptikScript();
         let isACCategory = categoryHierarchyCheck.find(category => {
             return category.category_id === "MSH1230";
         });
@@ -251,6 +253,7 @@ export default class PdpApparel extends React.Component {
     };
 
     componentWillReceiveProps(nextProps) {
+        const productDetailsForBuyNow = localStorage.getItem(BUY_NOW_PRODUCT_DETAIL);
         if (
             nextProps.bundledProductSuggestionStatus === SUCCESS &&
             nextProps.bundledProductSuggestionDetails &&
@@ -292,6 +295,24 @@ export default class PdpApparel extends React.Component {
             } else {
                 this.setState({ isPickupAvailableForAppliance: false });
             }
+        }
+        if (
+            (nextProps.userDetails && nextProps.userDetails.status === "Success") ||
+            !nextProps.isMobileNumberLoginModalActive
+        ) {
+            this.setState({
+                isLoader: false,
+            });
+        }
+
+        if (
+            nextProps.isMNLLogin.value &&
+            productDetailsForBuyNow &&
+            !nextProps.tempCartIdForLoggedInUserLoading &&
+            nextProps.userDetails &&
+            nextProps.userDetails.status === "Success"
+        ) {
+            this.goForBuyNow();
         }
     }
 
@@ -546,13 +567,17 @@ export default class PdpApparel extends React.Component {
     };
 
     navigateToLogin(isBuyNow) {
-        const url = this.props.location.pathname;
-        if (isBuyNow) {
-            this.props.setUrlToRedirectToAfterAuth(PRODUCT_CART_ROUTER);
+        if (this.props.isMNLLogin.value) {
+            this.props.openMobileNumberLoginModal();
         } else {
-            this.props.setUrlToRedirectToAfterAuth(url);
+            const url = this.props.location.pathname;
+            if (isBuyNow) {
+                this.props.setUrlToRedirectToAfterAuth(PRODUCT_CART_ROUTER);
+            } else {
+                this.props.setUrlToRedirectToAfterAuth(url);
+            }
+            this.props.history.push(LOGIN_PATH);
         }
-        this.props.history.push(LOGIN_PATH);
     }
 
     redirectToLoginPage() {
@@ -2449,5 +2474,10 @@ PdpApparel.propTypes = {
     cartCountDetailsLoading: PropTypes.bool,
     checkPincodeFromHaptikChatbot: PropTypes.func,
     getProductSpecification: PropTypes.func,
+    openMobileNumberLoginModal: PropTypes.func,
+    isMNLLogin: PropTypes.object,
+    userDetails: PropTypes.object,
+    isMobileNumberLoginModalActive: PropTypes.bool,
+    tempCartIdForLoggedInUserLoading: PropTypes.bool,
     openBeautyPopup: PropTypes.func,
 };

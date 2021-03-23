@@ -26,6 +26,21 @@ export default class SizeComponent extends React.Component {
         }
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        const variantTheme =
+            this.props.productDetails && this.props.productDetails.variantTheme
+                ? this.props.productDetails.variantTheme
+                : [];
+
+        const productListingId = this.props && this.props.productDetails && this.props.productDetails.productListingId;
+        if (Array.isArray(variantTheme) && variantTheme.length > 0 && productListingId) {
+            const sizeToSetInState = findSelectedSize(variantTheme, productListingId);
+            if (prevState.selectedIndex !== sizeToSetInState.selectedIndex) {
+                this.setState(sizeToSetInState);
+            }
+        }
+    }
+
     handleSizeOptionClick(url) {
         this.props.history.push(url);
     }

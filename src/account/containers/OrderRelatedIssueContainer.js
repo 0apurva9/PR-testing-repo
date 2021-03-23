@@ -19,6 +19,7 @@ import {
     getCliq2CallConfig,
     placeCustomerCallRequest,
     getRecentTicketHistoryDetails,
+    getHaptikBotConfig,
 } from "../actions/account.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 import { showSecondaryLoader, hideSecondaryLoader } from "../../general/secondaryLoader.actions";
@@ -30,6 +31,7 @@ import {
     TIME_SLOT_POP_UP,
     CUSTOMER_QUERY_ERROR_MODAL,
     CUSTOMER_CALL_QUERY_SUCCESS,
+    showMobileNumberLoginModal,
 } from "../../general/modal.actions";
 
 const mapDispatchToProps = dispatch => {
@@ -59,7 +61,6 @@ const mapDispatchToProps = dispatch => {
         getAllOrdersDetails: () => {
             dispatch(getAllOrdersDetails(false, false, false, false));
         },
-
         getUserDetails: () => {
             dispatch(getUserDetails());
         },
@@ -114,6 +115,12 @@ const mapDispatchToProps = dispatch => {
         clearOrderTransactionDetails: () => {
             dispatch(clearOrderTransactionDetails());
         },
+        openMobileNumberLoginModal: () => {
+            dispatch(showMobileNumberLoginModal());
+        },
+        getHaptikBotConfig: pageId => {
+            dispatch(getHaptikBotConfig(pageId));
+        },
     };
 };
 const mapStateToProps = state => {
@@ -152,6 +159,9 @@ const mapStateToProps = state => {
         ticketDetailsDataLoading: state.profile.ticketDetailsDataLoading,
         ticketHistoryDetails: state.profile.ticketHistoryDetails,
         initialTicketDetailsData: state.profile.initialTicketDetailsData,
+        isMNLLogin: state.mobileNumberLogin.isMNLLogin,
+        haptikBotConfigDataLoading: state.profile.haptikBotConfigDataLoading,
+        haptikBotConfigData: state.profile.haptikBotConfigData,
     };
 };
 
