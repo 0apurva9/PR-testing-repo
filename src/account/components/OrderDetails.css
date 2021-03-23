@@ -404,4 +404,10 @@
 		width: calc(100% - 315px);
 		text-align: right;
 	}
+
+	.reviewCheckContainer {
+		display: inline-block;
+		vertical-align: sub;
+		margin-right: 8px;
+	}
 }
