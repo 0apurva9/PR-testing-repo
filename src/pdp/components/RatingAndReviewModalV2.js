@@ -298,7 +298,7 @@ export default class RatingAndReviewModalV2 extends Component {
                                 <span className={styles.currentRating}>
                                     {this.state.currentRating ? this.state.currentRating : null}
                                 </span>
-                                <Icon image={!this.state.currentRating ? rnrRatingBlank : rnrRatingFilled} size={16} />
+                                <Icon image={!this.state.currentRating ? rnrRatingBlank : rnrRatingFilled} size={14} />
                             </div>
                             {rating || this.state.currentRating ? (
                                 <span>You rated this product</span>

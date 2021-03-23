@@ -61,7 +61,8 @@
 
 .currentRating {
     font-family: 'semibold';
-    margin-right: 5px;
+    margin-right: 2px;
+	font-size: 18px;
 }
 
 .width33 {
