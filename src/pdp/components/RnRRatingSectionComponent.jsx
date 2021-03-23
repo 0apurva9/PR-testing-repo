@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styles from "./RnRRatingSectionComponent.css";
 import PropTypes from "prop-types";
 
-import InitialRatingStarGrey from "./img/InitialRatingStarGrey.jpg";
+import InitialRatingStarGrey from "./img/InitialRatingStarGrey.svg";
 import oneStarRating from "./img/oneStarRating.jpg";
 import twoStarRating from "./img/twoStarRating.jpg";
 import threeStarRating from "./img/threeStarRating.jpg";
@@ -10,6 +10,7 @@ import fourStarRating from "./img/fourStarRating.jpg";
 import fiveStarRating from "./img/fiveStarRating.jpg";
 import RnREmptyRatingGreyStarComponent from "./RnREmptyRatingGreyStarComponent";
 import { setDataLayerForRatingReviewSection, ADOBE_RATING_REVIEW_MODAL_RATING_SECTION } from "../../lib/adobeUtils";
+import Icon from "../../xelpmoc-core/Icon";
 
 class RnRRatingSectionComponent extends Component {
     constructor(props) {
@@ -58,7 +59,9 @@ class RnRRatingSectionComponent extends Component {
                 {this.state.rating === 0 ? (
                     <React.Fragment>
                         <div className={styles.heading}>Tell us how you felt about these product</div>
-                        <img src={InitialRatingStarGrey} className={styles.ratingInitial} />
+						<div className={styles.ratingInitial}>
+							<Icon image={InitialRatingStarGrey} size={120}/>
+						</div>
 						<RnREmptyRatingGreyStarComponent
 							submitRating={(rating) => this.submitRating(rating)}
 						/>

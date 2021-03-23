@@ -6,6 +6,7 @@ import RatingAndIconComponent from "./PdpBeautyDesktop/DescriptionSection/Rating
 import RnREmptyRatingGreyStarComponent from "./RnREmptyRatingGreyStarComponent";
 import Icon from "../../xelpmoc-core/Icon";
 import editReview from "./img/editReview.svg";
+import reviewCheck from "../../account/components/img/reviewCheck.svg";
 
 class ProductDetailsWithEachReview extends Component {
 	editRatingReview = (productcode, rating) => {
@@ -83,7 +84,10 @@ class ProductDetailsWithEachReview extends Component {
 						) : null}
 
 						{this.props.isRated && this.props.userRating && this.props.isReviewed ? (
-							<div className={styles.reviewSuccess}>Rating and Review Submitted</div>
+							<div className={styles.reviewSuccess}>
+								<span className={styles.reviewCheckContainer}><Icon image={reviewCheck} size={16} /></span>
+								<span>Rating and Review Submitted</span>
+							</div>
 						) : null}
 					</div>
 				) : (
