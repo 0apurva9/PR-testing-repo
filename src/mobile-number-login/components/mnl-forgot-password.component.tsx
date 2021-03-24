@@ -63,6 +63,7 @@ export class MnlForgotPassword extends React.Component<MnlPasswordProps, MnlPass
                                     className={passwordIcon}
                                     onClick={() => this.setState({ showPassword: !this.state.showPassword })}
                                 ></button>
+                                <span className={styles.passwordFormat}>Password must be 8-20 characters and contain at least one Number, Upper and Lower case characters.</span>
                             </div>
                         </div>
 
