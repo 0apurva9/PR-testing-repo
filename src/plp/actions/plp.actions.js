@@ -263,10 +263,10 @@ export function getProductListings(
         }
         try {
             const searchState = getState().search;
-            const currentKeywordRedirect =
-                getState().productListings && getState().productListings.productListings
-                    ? getState().productListings.productListings.currentQuery.isKeywordRedirect
-                    : null;
+            const currentKeywordRedirect = false;
+            // getState().productListings && getState().productListings.productListings
+            //     ? getState().productListings.productListings.currentQuery.isKeywordRedirect
+            //     : null;
 
             const listingsPageNumber = getState().productListings.pageNumber;
             const pageNumber = listingsPageNumber ? listingsPageNumber : 0;
