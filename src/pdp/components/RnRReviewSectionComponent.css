@@ -49,3 +49,56 @@
     bottom: 8px;
     right: 8px;
 }
+
+.reviewGuidelines {
+	font-size: 13px;
+    color: #da1c5c;
+    position: absolute;
+    bottom: 8px;
+    left: 10px;
+    cursor: pointer;
+}
+
+.reviewGuidelinesBase {
+	position: fixed;
+    right: -340px;
+    bottom: 0;
+    width: 323px;
+    height: auto;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0px 0px 3px 2px rgb(0 0 0 / 15%);
+    padding: 24px;
+}
+
+.headerForGuidelines {
+    font-family: semibold;
+    font-size: 14px;
+    color: #212121;
+}
+
+.reviewBody {
+    padding-top: 19px;
+}
+
+.contentHeader {
+	font-family: semibold;
+    font-size: 14px;
+	color: #4a4a4a;
+}
+
+.contentContainer {
+	padding-left: 15px;
+    margin: 9px 0 12px 0;
+}
+
+.contentContainer:last-child {
+	padding-left: 15px;
+    margin: 9px 0 0 0;
+}
+
+.reviewTipsText {
+	font-size: 13px;
+    font-family: light;
+    line-height: 20px;
+}

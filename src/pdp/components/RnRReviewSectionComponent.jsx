@@ -15,6 +15,7 @@ class RnRReviewSectionComponent extends Component {
             reviewDetailsLength: 0,
 			inputBorderColor: "",
 			textBoxBorderColor: "#8d8d8d",
+			showReviewGuidelines: false,
         };
 		this.textInput = React.createRef();
     }
@@ -78,6 +79,10 @@ class RnRReviewSectionComponent extends Component {
 		this.setState({ textBoxBorderColor : "" });
 	};
 
+	toggleReviewGuidelines = () => {
+		this.setState({showReviewGuidelines : !this.state.showReviewGuidelines});
+	};
+
     render() {
 		let id = null;
 		if(this.props.userProductReviewDetails && this.props.userProductReviewDetails.id) {
@@ -127,9 +132,40 @@ class RnRReviewSectionComponent extends Component {
 						onFocus={() => this.handleTextBoxOnFocus()}
 						onBlur={() => this.handleTextboxOnBlur()}
                     />
+					<span className={styles.reviewGuidelines} onClick={() => this.toggleReviewGuidelines()}>Review Guidelines</span>
                     {this.state.reviewDetailsLength <= 130 ? (
                         <span className={styles.reviewDetailsCount}>{this.state.reviewDetailsLength}</span>
                     ) : null}
+					{this.state.showReviewGuidelines ? (
+						<div className={styles.reviewGuidelinesBase}>
+							<div className={styles.headerForGuidelines}>
+							How To Write a Good Customer Review
+							</div>
+							<div className={styles.reviewBody}>
+									<div className={styles.contentHeader}>Do's</div>
+									<ul className={styles.contentContainer}>
+										<li className={styles.reviewTipsText}>
+										Describe your experience using the product.
+										</li>
+										<li className={styles.reviewTipsText}>
+										Share details about what you like or dislike.
+										</li>
+									</ul>
+									<div className={styles.contentHeader}>Dont's</div>
+									<ul className={styles.contentContainer}>
+										<li className={styles.reviewTipsText}>
+										Don't share personal information such as email address, phone number or order number.
+										</li>
+										<li className={styles.reviewTipsText}>
+										Don't share prices or availability details from our site or our competitors.
+										</li>
+										<li className={styles.reviewTipsText}>
+										Use inappropriate language, discriminatory language, or other languages not suitable for a public forum.
+										</li>
+									</ul>
+							</div>
+						</div>
+					) : null}
                 </div>
             </React.Fragment>
         );
