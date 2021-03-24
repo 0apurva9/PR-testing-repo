@@ -367,6 +367,7 @@ export default class PdpElectronics extends React.Component {
                                     ratingCount={productData.ratingCount}
                                     goToReviewPage={this.goToReviewPage}
                                     discount={discountPdp}
+                                    displayRatingReview={productData.displayRatingReview}
                                 />
                             )}
                             {productData.rootCategory === "Watches" && (
