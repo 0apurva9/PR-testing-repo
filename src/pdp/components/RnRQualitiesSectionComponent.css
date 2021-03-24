@@ -49,6 +49,8 @@
 .ratingStatusLow1 {
     background-color: #ffefbd;
 	color: #ffefbd;
+	border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
 }
 
 .ratingStatusLow2 {
@@ -59,6 +61,8 @@
 .ratingStatusHigh1 {
     background-color: #b4e59b;
 	color: #b4e59b;
+	border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
 }
 
 .ratingStatusHigh2 {
@@ -79,6 +83,8 @@
 .ratingStatusHigh5 {
     background-color: #338715;
 	color: #338715;
+	border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
 }
 
 .eachRating:first-child {
