@@ -785,7 +785,7 @@ export default class AllOrderDetails extends React.Component {
                                                                                   <div className={styles.reviewHolder}>
                                                                                       <div
                                                                                           className={
-                                                                                              styles.reviewHeading
+																							product.userRating && product.isRated ? styles.reviewHeading : styles.reviewHeadingInitial
                                                                                           }
                                                                                       >
                                                                                           {product.userRating && product.isRated ? "Your Rating" : "Rate this product"}
