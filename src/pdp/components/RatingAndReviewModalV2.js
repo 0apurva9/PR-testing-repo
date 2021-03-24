@@ -49,23 +49,17 @@ export default class RatingAndReviewModalV2 extends Component {
         if (this.props.addReviewDetails !== prevProps.addReviewDetails) {
             // handle submit for rating submit and redirect to parameter screen
             if (this.state.currentRating && !this.state.reviewDetails) {
-				let data = {pageName : this.props.pageName ? this.props.pageName : null};
-				setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_RATING_SUBMIT, data);
                 this.activateSection(2);
             }
 
             // handle submit for review screen and redirect to success screen
             if (this.state.currentRating && this.state.reviewDetails) {
-				let data = {pageName : this.props.pageName ? this.props.pageName : null, pageAction: "Submit"};
-				setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_REVIEW_SUBMIT, data);
                 this.activateSection(4);
             }
         }
 
         // handle submit for parameter submit and redirect to review screen
         if (this.props.submitParameterRatingDetails !== prevProps.submitParameterRatingDetails) {
-			let data = {pageName : this.props.pageName ? this.props.pageName : null, pageAction: "Submit"};
-			setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT, data);
             this.activateSection(3);
         }
 
@@ -120,8 +114,8 @@ export default class RatingAndReviewModalV2 extends Component {
         let productReview = {};
         productReview.rating = this.state.currentRating;
         this.props.addProductReview(this.props.productCode, productReview);
-        // on success
-        // this.activateSection(2);
+		let data = {pageName : this.props.pageName ? this.props.pageName : null};
+		setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_RATING_SUBMIT, data);
     };
 
     getUpdatedParameters = (paramsData, paramsDataForAPI, actualParamsCount) => {
@@ -135,8 +129,8 @@ export default class RatingAndReviewModalV2 extends Component {
 
     submitQualities = () => {
         this.props.submitParameterRating(this.props.productCode, this.state.qualities);
-        // on success
-        // this.activateSection(3);
+		let data = {pageName : this.props.pageName ? this.props.pageName : null, pageAction: "Submit"};
+		setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT, data);
     };
 
     getStatusBarClass = acvtiveSession => {
@@ -175,8 +169,8 @@ export default class RatingAndReviewModalV2 extends Component {
 				productReview.id = this.state.id;
 			}
             this.props.addProductReview(this.props.productCode, productReview);
-            // on success
-            // this.activateSection(4);
+			let data = {pageName : this.props.pageName ? this.props.pageName : null, pageAction: "Submit"};
+			setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_REVIEW_SUBMIT, data);
         }
     };
 
