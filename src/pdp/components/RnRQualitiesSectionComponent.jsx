@@ -210,6 +210,10 @@ class RnRQualitiesSectionComponent extends Component {
                                                     onClick={() =>
                                                         this.setParameters(index, 5, eachQuality.parameterName)
                                                     }
+													style={{
+														borderTopRightRadius: "4px",
+														borderBottomRightRadius: "4px",
+													}}
                                                 >
                                                     5
                                                 </div>
