@@ -42,7 +42,7 @@ class ProductDetailsWithEachReview extends Component {
 
 				{!this.props.isPendingForApproval && !this.props.isPublishedReview ? (
 					<div className={styles.reviewHolder}>
-						<div className={styles.reviewHeading}>
+						<div className={this.props.userRating && this.props.isRated ? styles.reviewHeading : styles.reviewHeadingInitial}>
 							{this.props.userRating && this.props.isRated ? "Your Rating" : "Rate this item"}
 						</div>
 						<div className={styles.ratingBar}>

@@ -407,3 +407,11 @@
 	vertical-align: sub;
 	margin-right: 8px;
 }
+
+.reviewHeadingInitial {
+    margin-bottom: 20px;
+    font-family: semibold;
+    font-size: 14px;
+    color: #212121;
+    letter-spacing: 0;
+}

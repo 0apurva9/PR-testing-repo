@@ -802,7 +802,7 @@ export default class OrderDetails extends React.Component {
                                                 products.consignmentStatus != "ORDER_UNCOLLECTED" && (
                                                     <React.Fragment>
 														<div className={styles.reviewHolder}>
-															<div className={styles.reviewHeading}>
+															<div className={products.userRating && products.isRated ? styles.reviewHeading : styles.reviewHeadingInitial}>
 																{products.userRating && products.isRated ? "Your Rating" : "Rate this product"}
 															</div>
 															<div className={styles.ratingBar}>
