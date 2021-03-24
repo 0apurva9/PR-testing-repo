@@ -15,10 +15,14 @@ export default class RatingReviewHeaderComponent extends React.Component {
 	componentDidMount() {
 		// on initial page load
 		if(this.props.productDetails) {
+			let averageStar = null;
+			if(this.props.productDetails && this.props.productDetails.averageRating) {
+				averageStar = Math.round(this.props.productDetails.averageRating * 10) / 10;
+			}
 			const ratingReviewData = {
-				averageStar: this.props.productDetails.averageRating ? this.props.productDetails.averageRating : null,
+				averageStar: averageStar,
 				totalReview: this.props.productDetails.numberOfReviews ? this.props.productDetails.numberOfReviews : null,
-				rating: this.props.productDetails.ratingCount ? this.props.productDetails.ratingCount : null
+				totalRating: this.props.productDetails.ratingCount ? this.props.productDetails.ratingCount : null
 			};
 			if(!this.props.isReviewPage) {
 				setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_PDP_INITIAL_DATA, ratingReviewData);

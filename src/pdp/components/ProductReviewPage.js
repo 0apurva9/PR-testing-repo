@@ -309,10 +309,15 @@ export default class ProductReviewPage extends Component {
         });
 
         this.props.getProductReviews(this.props.match.params[0], 0, filterValues[1], filterValues[0]);
+
+		let averageStar = null;
+		if(this.props.productDetails && this.props.productDetails.averageRating) {
+			averageStar = Math.round(this.props.productDetails.averageRating * 10) / 10;
+		}
 		let ratingReviewData = {
-			averageStar: this.props.productDetails.averageRating ? this.props.productDetails.averageRating : null,
+			averageStar: averageStar,
 			totalReview: this.props.productDetails.numberOfReviews ? this.props.productDetails.numberOfReviews : null,
-			rating: this.props.productDetails.ratingCount ? this.props.productDetails.ratingCount : null
+			totalRating: this.props.productDetails.ratingCount ? this.props.productDetails.ratingCount : null
 		};
 		let data = {
 			ratingReviewData : ratingReviewData,
@@ -433,8 +438,12 @@ export default class ProductReviewPage extends Component {
 			if(this.props.productDetails){
 				this.props.openRatingReviewModal({ productCode: this.props.productDetails.productListingId, pageName: "productReview" });
 
+				let averageStar = null;
+				if(this.props.productDetails && this.props.productDetails.averageRating) {
+					averageStar = Math.round(this.props.productDetails.averageRating * 10) / 10;
+				}
 				let ratingReviewData = {
-					averageStar: this.props.productDetails.averageRating ? this.props.productDetails.averageRating : null,
+					averageStar: averageStar,
 					totalReview: this.props.productDetails.numberOfReviews ? this.props.productDetails.numberOfReviews : null,
 					totalRating: this.props.productDetails.ratingCount ? this.props.productDetails.ratingCount : null
 				};
