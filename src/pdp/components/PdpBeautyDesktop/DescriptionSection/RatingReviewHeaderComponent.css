@@ -50,6 +50,8 @@
 	height: 92px;
 	vertical-align: middle;
 	padding: 0 30px 0 10px;
+	justify-content: center;
+    align-items: center;
 }
 
 .sectionTwo {
