@@ -142,7 +142,7 @@ class RnRReviewSectionComponent extends Component {
 							How To Write a Good Customer Review
 							</div>
 							<div className={styles.reviewBody}>
-									<div className={styles.contentHeader}>Do's</div>
+									<div className={styles.contentHeader}>Do&#39;s</div>
 									<ul className={styles.contentContainer}>
 										<li className={styles.reviewTipsText}>
 										Describe your experience using the product.
@@ -151,13 +151,13 @@ class RnRReviewSectionComponent extends Component {
 										Share details about what you like or dislike.
 										</li>
 									</ul>
-									<div className={styles.contentHeader}>Dont's</div>
+									<div className={styles.contentHeader}>Dont&#39;s</div>
 									<ul className={styles.contentContainer}>
 										<li className={styles.reviewTipsText}>
-										Don't share personal information such as email address, phone number or order number.
+										Don&#39;t share personal information such as email address, phone number or order number.
 										</li>
 										<li className={styles.reviewTipsText}>
-										Don't share prices or availability details from our site or our competitors.
+										Don&#39;t share prices or availability details from our site or our competitors.
 										</li>
 										<li className={styles.reviewTipsText}>
 										Use inappropriate language, discriminatory language, or other languages not suitable for a public forum.
