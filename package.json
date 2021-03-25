@@ -164,7 +164,7 @@
     }
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx,css}": "prettier --write",
+    "*.{js,jsx,ts,tsx,css,html}": "prettier --write",
     "*.{js,jsx,ts,tsx}": ["eslint --fix", "git add"]
   },
   "browserslist": [
