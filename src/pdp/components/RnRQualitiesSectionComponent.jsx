@@ -115,7 +115,11 @@ class RnRQualitiesSectionComponent extends Component {
 
 			let paramsDataForAPI = existingParams.map((existingParam) => {
 				let {paramVisibility, ...otherParamsObj} = existingParam;
-				return otherParamsObj;
+				if(otherParamsObj) {
+					return otherParamsObj;
+				} else {
+					return paramVisibility;
+				}
 			});
 			this.props.getUpdatedParameters(paramsDataForAPI, paramsDataForAPI, this.state.paramsFromUserProductReviewLength);
 		} else {
