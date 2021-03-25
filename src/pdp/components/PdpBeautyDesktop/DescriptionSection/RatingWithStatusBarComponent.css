@@ -1,0 +1,127 @@
+.ratingWithStatusBarContainer {
+	width: auto;
+	margin-right: 20px;
+}
+
+.ratingWithStatusBar {
+	width: 55px;
+	height: 32px;
+	border-radius: 7.2px;
+	border: 1px solid #d5d5d5;
+	text-align: center;
+	margin: 0 auto;
+}
+
+.ratingWithStatusBarFluid {
+	width: auto;
+	height: 32px;
+	border-radius: 7.2px;
+	border: 1px solid #d5d5d5;
+	text-align: center;
+	margin: 0 auto;
+}
+
+.ratingContainer {
+	width: 100%;
+	height: 22px;
+	padding: 2px 0 0 0;
+}
+
+.ratingContainerFluid {
+	width: 100%;
+	height: 22px;
+	padding: 2px 15px 0 15px;
+}
+
+.currentRatingText {
+	font-size: 14px;
+	color: #6c6c6c;
+}
+
+.ratingText {
+	font-size: 14px;
+	color: #6c6c6c;
+	font-family: light;
+	margin-top: 5px;
+	text-align: center;
+}
+
+.statusBarContainer {
+	width: 100%;
+	height: 8px;
+}
+
+.ratingStatus {
+	float: left;
+	width: 20%;
+	background-color: #e8e8e8;
+	height: 8px;
+}
+
+.ratingStatusLow1 {
+	display: block;
+	width: 100%;
+	height: 8px;
+	background-color: #ffefbd;
+}
+
+.ratingStatusLow2 {
+	display: block;
+	width: 100%;
+	height: 8px;
+	background-color: #ffe692;
+}
+
+.ratingStatusHigh1 {
+	display: block;
+	width: 100%;
+	height: 8px;
+	background-color: #b4e59b;
+}
+
+.ratingStatusHigh2 {
+	display: block;
+	width: 100%;
+	height: 8px;
+	background-color: #94d175;
+}
+
+.ratingStatusHigh3 {
+	display: block;
+	width: 100%;
+	height: 8px;
+	background-color: #7cb95c;
+}
+
+.ratingStatusHigh4 {
+	display: block;
+	width: 100%;
+	height: 8px;
+	background-color: #519f29;
+}
+
+.ratingStatusHigh5 {
+	display: block;
+	width: 100%;
+	height: 8px;
+	background-color: #338715;
+}
+
+.ratingStatusHigh {
+	display: block;
+}
+
+.ratingWithStatusBarContainer:last-child {
+	margin-right: 0;
+}
+
+.ratingStatus:first-child,
+.ratingStatusHigh1,
+.ratingStatusLow1 {
+	border-bottom-left-radius: 5px;
+}
+
+.ratingStatus:last-child,
+.ratingStatusHigh5 {
+	border-bottom-right-radius: 6px;
+}

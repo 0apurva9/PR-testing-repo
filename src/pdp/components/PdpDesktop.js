@@ -69,8 +69,6 @@ import PdpDeliveryModes from "./PdpDeliveryModes";
 import PDPRecommendedSectionsContainer from "../containers/PDPRecommendedSectionsContainer";
 import ColourSelector from "./ColourSelector";
 import FlixMediaContainer from "./FlixMediaContainer";
-import Icon from "../../xelpmoc-core/Icon";
-import FilledStarBlack from "../../general/components/img/star-fill-black.svg";
 import { setTracker, VIEW_PRODUCT, ADD_TO_CART } from "../../lib/onlinesalesUtils";
 import ExchangeDetailsPDPDesktop from "./ExchangeDetailsPDPDesktop";
 import Chatbot from "../../plp/components/Chatbot";
@@ -78,6 +76,7 @@ import PropTypes from "prop-types";
 import ProductBundling from "./ProductBundling";
 import { renderMetaTags } from "./../../lib/seoUtils";
 import AppliancesExchange from "./AppliancesExchange";
+import RatingReviewHeaderComponent from "./PdpBeautyDesktop/DescriptionSection/RatingReviewHeaderComponent";
 import { initiateHaptikScript } from "./../../common/services/common.services";
 
 const WASH = "Wash";
@@ -312,7 +311,12 @@ export default class PdpApparel extends React.Component {
             nextProps.userDetails &&
             nextProps.userDetails.status === "Success"
         ) {
-            this.goForBuyNow();
+            // this.goForBuyNow();
+            if (this.state.goToCartPageFlag) {
+                this.goToCart();
+            } else {
+                this.addToCart(true);
+            }
         }
     }
 
@@ -1274,6 +1278,7 @@ export default class PdpApparel extends React.Component {
                                                 impulseOfferCalloutList={this.props.impulseOfferCalloutList}
                                                 potentialPromotions={productData.potentialPromotions}
                                                 isPdp={true}
+                                                displayRatingReview={productData.displayRatingReview}
                                                 displayToast={this.props.displayToast}
                                                 openBeautyPopup={this.props.openBeautyPopup}
                                             />
@@ -1413,6 +1418,7 @@ export default class PdpApparel extends React.Component {
                                                                     getProductDescription={
                                                                         this.props.getProductDescription
                                                                     }
+																	getProductReviews={this.props.getProductReviews}
                                                                 />
                                                             </div>
                                                         )}
@@ -2188,58 +2194,14 @@ export default class PdpApparel extends React.Component {
                                         <React.Fragment>
                                             {productData.numberOfReviews &&
                                             (productData.numberOfReviews !== 0 ||
-                                                productData.numberOfReviews !== "0") ? (
+                                                productData.numberOfReviews !== "0") &&
+                                            productData.displayRatingReview ? (
                                                 <div className={styles.reviewsHolder} ref={this.reviewListRef}>
-                                                    <div className={styles.reviewsHeader}>
-                                                        <h3>Ratings and Reviews</h3>
-                                                        <div className={styles.reviewsButton}>
-                                                            <UnderLinedButton
-                                                                color="#ff1744"
-                                                                label="See All"
-                                                                fontFamily="light"
-                                                                onClick={this.goToReviewPage}
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                    {productData.averageRating && (
-                                                        <div className={styles.reviewListHolder}>
-                                                            <div className={styles.ratingTextContainer}>
-                                                                <div className={styles.ratingText}>
-                                                                    {Math.round(productData.averageRating * 10) / 10}
-                                                                </div>
-                                                                <div className={styles.starPLPElectronics}>
-                                                                    <Icon image={FilledStarBlack} size={26} />
-                                                                </div>
-                                                            </div>
-                                                            <div className={styles.labelText}>
-                                                                <span
-                                                                    className={styles.ratingLabel}
-                                                                    itemProp="ratingCount"
-                                                                >
-                                                                    {productData.ratingCount}
-                                                                </span>
-                                                                <span>
-                                                                    {productData.ratingCount > 1 ? "Ratings" : "Rating"}
-                                                                </span>
-                                                                {productData.numberOfReviews ? (
-                                                                    <React.Fragment>
-                                                                        {" &"}
-                                                                        <span
-                                                                            className={styles.ratingLabel}
-                                                                            itemProp="reviewCount"
-                                                                        >
-                                                                            {productData.numberOfReviews}
-                                                                        </span>
-                                                                        <span>
-                                                                            {productData.numberOfReviews > 1
-                                                                                ? "Reviews"
-                                                                                : "Review"}
-                                                                        </span>
-                                                                    </React.Fragment>
-                                                                ) : null}
-                                                            </div>
-                                                        </div>
-                                                    )}
+                                                    <RatingReviewHeaderComponent
+                                                        goToReviewPage={() => this.goToReviewPage()}
+                                                        productDetails={productData}
+                                                        reviews={this.props.reviews}
+                                                    />
                                                     <ProductReviewListContainer
                                                         limit={true}
                                                         productId={productData.productListingId}
@@ -2388,6 +2350,7 @@ PdpApparel.propTypes = {
         ),
         productName: PropTypes.string,
         categoryL4Code: PropTypes.string,
+        displayRatingReview: PropTypes.bool,
     }),
     getUserAddress: PropTypes.func,
     getPdpOffers: PropTypes.func,
@@ -2474,10 +2437,12 @@ PdpApparel.propTypes = {
     cartCountDetailsLoading: PropTypes.bool,
     checkPincodeFromHaptikChatbot: PropTypes.func,
     getProductSpecification: PropTypes.func,
+    reviews: PropTypes.object,
     openMobileNumberLoginModal: PropTypes.func,
     isMNLLogin: PropTypes.object,
     userDetails: PropTypes.object,
     isMobileNumberLoginModalActive: PropTypes.bool,
     tempCartIdForLoggedInUserLoading: PropTypes.bool,
     openBeautyPopup: PropTypes.func,
+	getProductReviews: PropTypes.func,
 };
