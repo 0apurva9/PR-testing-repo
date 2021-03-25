@@ -1,9 +1,9 @@
 .base {
-  width: 100%;
-  padding: 10px;
-  position: relative;
+    width: 100%;
+    padding: 18px 10px;
+    position: relative;
 }
 .banner {
-  composes: base;
-  padding: 10px 0;
+    composes: base;
+    padding: 10px 0;
 }
