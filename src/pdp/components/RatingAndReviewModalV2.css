@@ -1,0 +1,98 @@
+.base {
+    margin-top: 30px;
+}
+
+.tabContent {
+    display: block;
+    min-height: 404px;
+}
+
+.tabSwitches {
+	display: flex;
+	position: relative;
+	width: 366px;
+	margin: 0 auto;
+	border-top: 2px solid #f3f3f3;
+	justify-content: space-around;
+}
+
+.subSection {
+    display: inline-block;
+    width: 33%;
+    text-align: center;
+    font-size: 14px;
+    padding: 0 20px;
+}
+
+.subSection:nth-child(3) {
+    padding: 0 21px;
+}
+
+.iconContainer {
+    display: flex;
+    margin: 5px 0;
+    justify-content: center;
+	height: 30px;
+	align-items: center;
+}
+
+.buttonContainer {
+    display: flex;
+    margin-top: 20px;
+	justify-content: space-around;
+}
+
+.subSectionOneActive,
+.subSectionTwoActive {
+    display: inline-block;
+    width: 33%;
+    text-align: center;
+    font-size: 16px;
+    padding: 0 15px;
+}
+
+.subSectionThreeActive {
+    display: inline-block;
+    width: 33%;
+    text-align: center;
+    font-size: 16px;
+    padding: 0 16px;
+}
+
+.currentRating {
+    font-family: 'semibold';
+    margin-right: 2px;
+	font-size: 18px;
+}
+
+.width33 {
+	position: absolute;
+	width: 33.33%;
+	left: 0;
+	top: -2px;
+	border-top: 2px solid #499b1f;
+}
+
+.width66 {
+	position: absolute;
+	width: 66.66%;
+	left: 0;
+	top: -2px;
+	border-top: 2px solid #499b1f;
+}
+
+.width50 {
+	position: absolute;
+	width: 50%;
+	left: 0;
+	top: -2px;
+	border-top: 2px solid #499b1f;
+}
+
+.width100 {
+	position: absolute;
+	width: 100%;
+	left: 0;
+	top: -2px;
+	border-top: 2px solid #499b1f;
+}

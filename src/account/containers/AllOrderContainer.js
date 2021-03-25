@@ -5,7 +5,9 @@ import {
   reSendEmailForGiftCard,
   retryPayment,
   submitProductRatingByUser,
-  getRetryOrderDetails
+  getRetryOrderDetails,
+  getPendingReviews,
+  getPublishedReviews,
 } from "../actions/account.actions";
 import { withRouter } from "react-router-dom";
 import AllOrderDetails from "../components/AllOrderDetails";
@@ -14,11 +16,12 @@ import {
   showModal,
   hideModal,
   DESKTOP_AUTH,
-  RATING_AND_REVIEW_MODAL
+  RATING_AND_REVIEW_MODAL,
+  RATING_REVIEW_MODAL_V2,
 } from "../../general/modal.actions";
 import {
-  addProductReview,
-  getProductDescription
+  getProductDescription,
+  getTitleSuggestions,
 } from "../../pdp/actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions";
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -60,9 +63,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     showRatingAndReviewModal: data => {
       dispatch(showModal(RATING_AND_REVIEW_MODAL, data));
     },
-    addProductReview: (productCode, productReview) => {
-      return dispatch(addProductReview(productCode, productReview));
-    },
     hideModal: () => {
       dispatch(hideModal());
     },
@@ -71,7 +71,19 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     getRetryOrderDetails: orderId => {
       return dispatch(getRetryOrderDetails(orderId));
-    }
+    },
+	openRatingReviewModal: data => {
+		dispatch(showModal(RATING_REVIEW_MODAL_V2, data));
+	},
+	getTitleSuggestions: (productCode, rating) => {
+		dispatch(getTitleSuggestions(productCode, rating));
+	},
+	getPendingReviews: (currentPage) => {
+		dispatch(getPendingReviews(currentPage));
+	},
+	getPublishedReviews: (currentPage) => {
+		dispatch(getPublishedReviews(currentPage));
+	},
   };
 };
 const mapStateToProps = (state, ownProps) => {
@@ -81,7 +93,9 @@ const mapStateToProps = (state, ownProps) => {
     userAddress: state.profile.userAddress,
     ratedProductDetails: state.profile.ratedProductDetails,
     addReviewStatus: state.productDescription.addReviewStatus,
-    ...ownProps
+    ...ownProps,
+	pendingReviewsDetails: state.profile.getPendingReviewsDetails,
+	publishedReviewsDetails: state.profile.getPublishedReviewsDetails,
   };
 };
 

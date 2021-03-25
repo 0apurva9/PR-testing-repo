@@ -597,6 +597,20 @@ export const ADOBE_SELF_SERVE_NON_ORDER_QUESTION_CLICK = "ADOBE_SELF_SERVE_NON_O
 export const ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD = "ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD";
 export const ADOBE_SELF_SERVE_FAQ_PAGE_LOAD = "ADOBE_SELF_SERVE_FAQ_PAGE_LOAD";
 
+// for rating n review new UI
+export const ADOBE_RATING_REVIEW_PDP_INITIAL_DATA = "ADOBE_RATING_REVIEW_PDP_INITIAL_DATA";
+export const ADOBE_RATING_REVIEW_PDP_REVIEW_PAGE = "ADOBE_RATING_REVIEW_PDP_REVIEW_PAGE";
+export const ADOBE_RATING_REVIEW_WRITE_REVIEW_CLICK = "ADOBE_RATING_REVIEW_WRITE_REVIEW_CLICK";
+export const ADOBE_RATING_REVIEW_SORT_BY_CLICK = "ADOBE_RATING_REVIEW_SORT_BY_CLICK";
+export const ADOBE_RATING_REVIEW_MODAL_RATING_SECTION = "ADOBE_RATING_REVIEW_MODAL_RATING_SECTION";
+export const ADOBE_RATING_REVIEW_MODAL_RATING_SUBMIT = "ADOBE_RATING_REVIEW_MODAL_RATING_SUBMIT";
+export const ADOBE_RATING_REVIEW_MODAL_QUALITY_SECTION = "ADOBE_RATING_REVIEW_MODAL_QUALITY_SECTION";
+export const ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT = "ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT";
+export const ADOBE_RATING_REVIEW_MODAL_REVIEW_SECTION = "ADOBE_RATING_REVIEW_MODAL_REVIEW_SECTION";
+export const ADOBE_RATING_REVIEW_MODAL_REVIEW_SUBMIT = "ADOBE_RATING_REVIEW_MODAL_REVIEW_SUBMIT";
+const ADOBE_RATING_REVIEW_GENERIK_CLICK = "genericClick";
+const ADOBE_RATING_REVIEW_GENERIK_VP = "generic-vp";
+
 export async function setDataLayer(type, apiResponse, icid, icidType, behaviorOfPage) {
     const response = cloneDeep(apiResponse);
 
@@ -4660,4 +4674,118 @@ export function setDataLayerForCLiQCarePage(type, data, pageName) {
             window._satellite.track(LOGIN_START);
         }
     }
+}
+
+export function setDataLayerForRatingReviewSection(type, data) {
+	let previousDigitalData = cloneDeep(window.digitalData);
+
+	if (type === ADOBE_RATING_REVIEW_PDP_INITIAL_DATA) {
+        Object.assign(previousDigitalData, {
+            rating: data,
+        });
+    }
+
+	if (type === ADOBE_RATING_REVIEW_PDP_REVIEW_PAGE) {
+        Object.assign(previousDigitalData, {
+            rating: data,
+			event: {
+				linkName: "pdp:seeAll"
+			}
+        });
+    }
+
+	if (type === ADOBE_RATING_REVIEW_WRITE_REVIEW_CLICK) {
+        Object.assign(previousDigitalData, {
+            rating: data,
+			event: {
+				linkName: "productReview:WriteReview"
+			}
+        });
+		if (window._satellite) {
+            window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_CLICK);
+        }
+    }
+
+	if (type === ADOBE_RATING_REVIEW_SORT_BY_CLICK) {
+        Object.assign(previousDigitalData, {
+            rating: data.ratingReviewData,
+			event: {
+				linkName: `productReview:sortBy:${data.sortByValue}`
+			}
+        });
+		if (window._satellite) {
+            window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_CLICK);
+        }
+    }
+
+	if (type === ADOBE_RATING_REVIEW_MODAL_RATING_SECTION) {
+		Object.assign(previousDigitalData.page.pageInfo, {
+			pageName: `${data.pageName}:Product Rate`
+		});
+		if (window._satellite) {
+            window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_VP);
+        }
+    }
+
+	if (type === ADOBE_RATING_REVIEW_MODAL_RATING_SUBMIT) {
+		Object.assign(previousDigitalData.page.pageInfo, {
+			pageName: `${data.pageName}:Product Rate`
+		});
+		Object.assign(previousDigitalData, {
+			event: {
+				linkName: `${data.pageName}:Product Rate:Submit`
+			}
+        });
+		if (window._satellite) {
+            window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_CLICK);
+        }
+    }
+
+	if (type === ADOBE_RATING_REVIEW_MODAL_QUALITY_SECTION) {
+		Object.assign(previousDigitalData.page.pageInfo, {
+			pageName: `${data.pageName}:Quality Liked`
+		});
+		if (window._satellite) {
+            window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_VP);
+        }
+    }
+
+	if (type === ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT) {
+		Object.assign(previousDigitalData.page.pageInfo, {
+			pageName: `${data.pageName}:Quality Liked`
+		});
+		Object.assign(previousDigitalData, {
+			event: {
+				linkName: `${data.pageName}:Quality Liked:${data.pageAction}`
+			}
+        });
+		if (window._satellite) {
+            window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_CLICK);
+        }
+    }
+
+	if (type === ADOBE_RATING_REVIEW_MODAL_REVIEW_SECTION) {
+		Object.assign(previousDigitalData.page.pageInfo, {
+			pageName: `${data.pageName}:Write Review`
+		});
+		if (window._satellite) {
+            window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_VP);
+        }
+    }
+
+	if (type === ADOBE_RATING_REVIEW_MODAL_REVIEW_SUBMIT) {
+		Object.assign(previousDigitalData.page.pageInfo, {
+			pageName: `${data.pageName}:Write Review`
+		});
+		Object.assign(previousDigitalData, {
+			event: {
+				linkName: `${data.pageName}:Write Review:${data.pageAction}`
+			}
+        });
+		if (window._satellite) {
+            window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_CLICK);
+        }
+    }
+
+	window.digitalData = previousDigitalData;
 }

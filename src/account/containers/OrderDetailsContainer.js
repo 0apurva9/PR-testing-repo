@@ -3,7 +3,7 @@ import {
   fetchOrderDetails,
   sendInvoice,
   fetchOrderItemDetails,
-  retryPayment
+  retryPayment,
 } from "../actions/account.actions";
 import { withRouter } from "react-router-dom";
 import OrderDetails from "../components/OrderDetails";
@@ -15,13 +15,17 @@ import {
   showModal,
   SHOW_RETURN_CONFIRM_POP_UP,
   DESKTOP_AUTH,
-  SHOW_DELIVERY_CONFIRM_POP_UP
+  SHOW_DELIVERY_CONFIRM_POP_UP,
+  RATING_REVIEW_MODAL_V2,
 } from "../../general/modal.actions";
 import {
   showSecondaryLoader,
   hideSecondaryLoader
 } from "../../general/secondaryLoader.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
+import {
+	getTitleSuggestions,
+} from "../../pdp/actions/pdp.actions";
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -67,7 +71,13 @@ const mapDispatchToProps = dispatch => {
     },
     showDeliveryConfirmModal: data => {
       dispatch(showModal(SHOW_DELIVERY_CONFIRM_POP_UP, data));
-    }
+    },
+	openRatingReviewModal: data => {
+		dispatch(showModal(RATING_REVIEW_MODAL_V2, data));
+	},
+	getTitleSuggestions: (productCode, rating) => {
+		dispatch(getTitleSuggestions(productCode, rating));
+	},
   };
 };
 const mapStateToProps = state => {

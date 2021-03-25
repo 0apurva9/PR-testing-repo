@@ -1,0 +1,33 @@
+.base {
+	position: relative;
+    width: 455px;
+    height: 407px;
+}
+
+.heading {
+    font-size: 24px;
+    font-family: "semibold";
+    text-align: center;
+    width: 288px;
+    margin: 0 auto;
+}
+
+.ratingInitial {
+    display: block;
+    width: 120px;
+    height: auto;
+    margin: 65px auto 102px auto;
+}
+
+.ratingSuccess {
+    display: block;
+    width: 316px;
+    height: 246px;
+    margin: 65px auto 40px auto;
+}
+
+.emptyRatingContainer {
+	position: absolute;
+	bottom: 66px;
+	left: 68px;
+}
