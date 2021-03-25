@@ -28,6 +28,7 @@ const COLOUR = "Colour";
 const PRICE = "Price";
 const RESTRICTED_FILTERS = "restrictedFilters";
 const LAST_PLP_URL = "lastPlpUrl";
+const LANDING_SEARCH_URL = "landingSearchUrl";
 export default class FilterDesktop extends React.Component {
     constructor() {
         super();
@@ -45,52 +46,60 @@ export default class FilterDesktop extends React.Component {
     }
 
     onClear = () => {
-        const searchQuery = this.props.location.search;
-        const parsedQueryString = queryString.parse(this.props.location.search);
-        const query = parsedQueryString.q;
+        const url = localStorage.getItem(LANDING_SEARCH_URL);
+        if (url) {
+            this.props.history.push(url, {
+                isFilter: false,
+            });
+        } else {
+            const searchQuery = this.props.location.search;
+            const parsedQueryString = queryString.parse(this.props.location.search);
+            const query = parsedQueryString.q;
 
-        const EOOF_Flag = "%3AinStockFlag%3Atrue";
-        if (query) {
-            const firstChar = query.charAt(0);
-            if (firstChar !== ":") {
-                const splitQuery = query.split(":");
-                const searchText = splitQuery[0];
-                let url = "";
+            const EOOF_Flag = "%3AinStockFlag%3Atrue";
+            if (query) {
+                const firstChar = query.charAt(0);
+                if (firstChar !== ":") {
+                    const splitQuery = query.split(":");
+                    const searchText = splitQuery[0];
+                    let url = "";
 
-                if (searchText != null || searchText != undefined) {
-                    url = `${this.props.location.pathname}?q=${searchText}`;
-                    if (searchQuery.match(/inStockFlag%3Atrue/i)) {
-                        url = `${this.props.location.pathname}?q=${searchText}${EOOF_Flag}`;
+                    if (searchText != null || searchText != undefined) {
+                        url = `${this.props.location.pathname}?q=${searchText}`;
+                        if (searchQuery.match(/inStockFlag%3Atrue/i)) {
+                            url = `${this.props.location.pathname}?q=${searchText}${EOOF_Flag}`;
+                        }
+                    } else {
+                        let queryparam = this.props.location.search.split("%3");
+                        url = `${this.props.location.pathname}${queryparam[0]}`;
                     }
-                } else {
-                    let queryparam = this.props.location.search.split("%3");
-                    url = `${this.props.location.pathname}${queryparam[0]}`;
-                }
 
-                this.props.history.push(url, {
-                    isFilter: false,
-                });
-            } else {
-                let brandOrCategoryId = null;
-                brandOrCategoryId = /category:([a-zA-Z0-9]+)/.exec(query);
-                if (!brandOrCategoryId) {
-                    brandOrCategoryId = /brand:([a-zA-Z0-9]+)/.exec(query);
-                }
-
-                if (brandOrCategoryId) {
-                    const brandOrCategoryIdIndex = brandOrCategoryId.index;
-                    const clearedQuery = query.substring(0, brandOrCategoryIdIndex + brandOrCategoryId[0].length);
-
-                    let url = `${this.props.location.pathname}?q=${clearedQuery}`;
-                    if (searchQuery.match(/inStockFlag%3Atrue/i)) {
-                        url = `${this.props.location.pathname}?q=${clearedQuery}${EOOF_Flag}`;
-                    }
                     this.props.history.push(url, {
                         isFilter: false,
                     });
+                } else {
+                    let brandOrCategoryId = null;
+                    brandOrCategoryId = /category:([a-zA-Z0-9]+)/.exec(query);
+                    if (!brandOrCategoryId) {
+                        brandOrCategoryId = /brand:([a-zA-Z0-9]+)/.exec(query);
+                    }
+
+                    if (brandOrCategoryId) {
+                        const brandOrCategoryIdIndex = brandOrCategoryId.index;
+                        const clearedQuery = query.substring(0, brandOrCategoryIdIndex + brandOrCategoryId[0].length);
+
+                        let url = `${this.props.location.pathname}?q=${clearedQuery}`;
+                        if (searchQuery.match(/inStockFlag%3Atrue/i)) {
+                            url = `${this.props.location.pathname}?q=${clearedQuery}${EOOF_Flag}`;
+                        }
+                        this.props.history.push(url, {
+                            isFilter: false,
+                        });
+                    }
                 }
             }
         }
+
         if (this.props.onClear) {
             this.props.onClear();
         }
@@ -189,7 +198,7 @@ export default class FilterDesktop extends React.Component {
 
     resetL1Category = (isFilter = false) => {
         const storedPlpUrl = localStorage.getItem(LAST_PLP_URL);
-        if (storedPlpUrl && storedPlpUrl.includes("/search/?searchCategory")) {
+        if ((storedPlpUrl && storedPlpUrl.includes("/search/?searchCategory")) || storedPlpUrl.includes("/search/")) {
             localStorage.removeItem(LAST_PLP_URL);
             this.props.history.push(storedPlpUrl, {
                 isFilter,
@@ -414,12 +423,23 @@ export default class FilterDesktop extends React.Component {
         const storedPlpUrl = localStorage.getItem(LAST_PLP_URL);
         if (
             storedPlpUrl &&
-            storedPlpUrl.includes("/search/?searchCategory") &&
+            (storedPlpUrl.includes("/search/?searchCategory") || storedPlpUrl.includes("/search/")) &&
             this.props.location &&
             this.props.location.state &&
             !this.props.location.state.categoryOrBrand
         ) {
             showCloseIcon = true;
+        }
+
+        const filterContainer = document.getElementById("filter-container");
+        if (filterContainer && this.state.openBrandPopUp) {
+            filterContainer.classList.add(styles.brandModalFix);
+        }
+
+        if (!this.state.openBrandPopUp) {
+            if (filterContainer) {
+                filterContainer.classList.remove(styles.brandModalFix);
+            }
         }
 
         return (

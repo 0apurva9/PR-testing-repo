@@ -259,3 +259,6 @@
     min-height: 100vh;
     text-align: left;
 }
+.brandModalFix {
+    position: static !important;
+}

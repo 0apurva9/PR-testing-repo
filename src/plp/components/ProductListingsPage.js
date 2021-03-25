@@ -29,6 +29,7 @@ const MAX_PRICE_FROM_API_2 = "Greater than";
 const MAX_PRICE_FROM_UI = "-₹9,999,999";
 const CATEGORY_TEXT = "category";
 const DEFAULT_PLP_VIEW = "defaultPlpView";
+const LANDING_SEARCH_URL = "landingSearchUrl";
 
 class ProductListingsPage extends Component {
     constructor(props) {
@@ -233,6 +234,11 @@ class ProductListingsPage extends Component {
     }
 
     componentDidMount() {
+        const urlOfFirstLand = `${this.props.location.pathname}${this.props.location.search}`;
+        if (urlOfFirstLand.includes("/search/?searchCategory")) {
+            localStorage.setItem(LANDING_SEARCH_URL, urlOfFirstLand);
+        }
+
         const defaultViewCookie = Cookie.getCookie(DEFAULT_PLP_VIEW);
 
         if (!defaultViewCookie) {
@@ -390,6 +396,15 @@ class ProductListingsPage extends Component {
     }
 
     componentDidUpdate(prevProps) {
+        if (
+            prevProps.location.pathname !== this.props.location.pathname ||
+            prevProps.location.search !== this.props.location.search
+        ) {
+            const updatedUrlOfFirstLand = `${this.props.location.pathname}${this.props.location.search}`;
+            if (updatedUrlOfFirstLand.includes("/search/?searchCategory")) {
+                localStorage.setItem(LANDING_SEARCH_URL, updatedUrlOfFirstLand);
+            }
+        }
         const defaultViewCookie = Cookie.getCookie(DEFAULT_PLP_VIEW);
 
         if (!defaultViewCookie) {

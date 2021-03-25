@@ -11,6 +11,7 @@ export const CATEGORY_CAPTURE_REGEX = /c-msh([a-zA-Z0-9]+)/;
 export const BRAND_CAPTURE_REGEX = /c-mbh([a-zA-Z0-9]+)/;
 export const BRAND_CATEGORY_PREFIX = "c-";
 const RICH_QUERYSTRING = /[?&]richplp=/;
+const CATEGORY_BRAND_LANDING_URL = "categoryBrandLandingUrl";
 
 const ProductListingsContainer = Loadable({
     loader: () => import(/* webpackChunkName: "product-listing-container"  */ "../containers/ProductListingsContainer"),
@@ -40,6 +41,8 @@ export default class PlpBrandCategoryWrapper extends React.Component {
     }
 
     componentDidMount() {
+        const categoryOrBrandLandingPageUrl = `${this.props.location.pathname}${this.props.location.search}`;
+        localStorage.setItem(CATEGORY_BRAND_LANDING_URL, categoryOrBrandLandingPageUrl);
         try {
             const url = this.props.location.pathname;
             let categoryOrBrandId = null;
