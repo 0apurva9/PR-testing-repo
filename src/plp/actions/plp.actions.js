@@ -263,6 +263,11 @@ export function getProductListings(
         }
         try {
             const searchState = getState().search;
+            const currentKeywordRedirect =
+                getState().productListings && getState().productListings.productListings
+                    ? getState().productListings.productListings.currentQuery.isKeywordRedirect
+                    : null;
+
             const listingsPageNumber = getState().productListings.pageNumber;
             const pageNumber = listingsPageNumber ? listingsPageNumber : 0;
             let encodedString =
@@ -278,7 +283,8 @@ export function getProductListings(
             if (isBrowser) {
                 dispatch(setLastPlpPath(""));
             }
-            let queryString = `${PRODUCT_LISTINGS_PATH}/?searchText=${encodedString}&isKeywordRedirect=false&isKeywordRedirectEnabled=true&channel=WEB&isMDE=true`;
+            let keyWordRedirect = currentKeywordRedirect ? currentKeywordRedirect : false;
+            let queryString = `${PRODUCT_LISTINGS_PATH}/?searchText=${encodedString}&isKeywordRedirect=${keyWordRedirect}&isKeywordRedirectEnabled=true&channel=WEB&isMDE=true`;
             if (suffix) {
                 queryString = `${queryString}${suffix}`;
             }
@@ -287,7 +293,8 @@ export function getProductListings(
             const result = await api.getMiddlewareUrl(queryString);
             const resultJson = await result.json();
             if (resultJson && resultJson.currentQuery && isBrowser) {
-                if (resultJson.currentQuery.isKeywordRedirect && resultJson.currentQuery.pageRedirectType) {
+                keyWordRedirect = resultJson.currentQuery.isKeywordRedirect;
+                if (keyWordRedirect && resultJson.currentQuery.pageRedirectType) {
                     dispatch(setSearchUrlWithKeywordRedirect(resultJson, encodedString));
                 }
             }
