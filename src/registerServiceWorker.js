@@ -21,7 +21,7 @@ const isLocalhost = Boolean(
 export default function register(displayToastFunc) {
   if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
     window.addEventListener("load", () => {
-      const swUrl = `/sw.js`;
+      const swUrl = `/service-worker.js`;
 
       if (isLocalhost) {
         // This is running on localhost. Lets check if a service worker still exists or not.
@@ -54,7 +54,7 @@ function registerValidSW(swUrl, displayToastFunc) {
               // At this point, everything has been precached.
               // It's the perfect time to display a
               // "Content is cached for offline use." message.
-              console.log("Content is cached for offline use.");
+              console.info("Content is cached for offline use.");
             }
           }
         };
