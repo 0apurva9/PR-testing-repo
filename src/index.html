@@ -258,7 +258,6 @@
     //added to avoid msite view in desktop , it removes msite service worker if it is present
     if ('serviceWorker' in navigator && navigator.userAgent.indexOf("Mobile") === -1) {
       //check if name equals to msite service worker
-      if (navigator.serviceWorker.controller && navigator.serviceWorker.controller.scriptURL.includes("service-worker.js")) {
         navigator.serviceWorker.getRegistration().then(function (registration) {
           var serviceWorkerUnregistered = false;
           if (registration) {
@@ -267,7 +266,6 @@
           }
           serviceWorkerUnregistered && window.location.reload();
         });
-      }
     }
   </script>
   <% if(htmlWebpackPlugin.options.local === "true" || htmlWebpackPlugin.options.watch === "true") { %>
