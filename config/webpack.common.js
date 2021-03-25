@@ -85,6 +85,12 @@ module.exports = env => {
                     toType: "file",
                     force: true,
                 },
+                {
+                    from: path.resolve(process.cwd(), "public/images/icons/"),
+                    to: path.resolve(process.cwd(), `${outFolder}/images/icons/`),
+                    toType: "dir",
+                    force: true,
+                },
             ],
         }),
         new webpack.ProvidePlugin({

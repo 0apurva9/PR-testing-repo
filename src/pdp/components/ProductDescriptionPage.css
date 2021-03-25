@@ -583,19 +583,6 @@
         margin-top: 60px;
         padding-top: 40px;
     }
-    .reviewsHeader {
-        width: 100%;
-        font-size: 20px;
-        color: #212121;
-        font-family: semibold;
-        margin-bottom: 10px;
-        position: relative;
-    }
-    .reviewsButton {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-    }
     .sideContent {
         width: 100%;
         margin: 0;
@@ -1227,29 +1214,9 @@
     margin-right: 6px;
     font-size: 14px;
     color: #212121;
-    /* padding-top: 10px; */
     font-family: light;
     padding-left: 18px;
     float: left;
-}
-.reviewListHolder {
-    width: 100%;
-    height: auto;
-    display: flex;
-    align-items: center;
-}
-.ratingTextContainer {
-    display: flex;
-    align-items: center;
-}
-.ratingText {
-    font-family: regular;
-    font-size: 40px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    text-align: center;
-    color: #212121;
 }
 
 .starPLPElectronics {

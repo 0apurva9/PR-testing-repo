@@ -39,7 +39,6 @@ import {
     RETRY_PAYMENT_CART_ID,
     RETRY_PAYMENT_DETAILS,
     CHECKOUT_ROUTER,
-    WRITE_REVIEW,
     PRODUCT_CANCEL,
     CANCEL_RETURN_REQUEST,
     SUCCESS,
@@ -51,7 +50,6 @@ import {
 } from "../../lib/constants";
 import {
     setDataLayer,
-    ADOBE_MY_ACCOUNT_WRITE_REVIEW,
     setDataLayerForMyAccountDirectCalls,
     ADOBE_MY_ACCOUNT_ORDER_RETURN_CANCEL,
     ADOBE_RETURN_LINK_CLICKED,
@@ -63,6 +61,9 @@ import {
     ADOBE_MDE_CLICK_ON_RETURN_WITH_EXCHANGE,
 } from "../../lib/adobeUtils";
 import { TATA_CLIQ_ROOT } from "../../lib/apiRequest.js";
+import RnREmptyRatingGreyStarComponent from "../../pdp/components/RnREmptyRatingGreyStarComponent";
+import RatingAndIconComponent from "../../pdp/components/PdpBeautyDesktop/DescriptionSection/RatingAndIconComponent";
+import reviewCheck from "./img/reviewCheck.svg";
 
 const dateFormat = "DD MMM YYYY";
 const PRODUCT_RETURN = "Return";
@@ -158,11 +159,6 @@ export default class OrderDetails extends React.Component {
                 orderDate: orderDate,
             },
         });
-    }
-
-    writeReview(productCode) {
-        setDataLayer(ADOBE_MY_ACCOUNT_WRITE_REVIEW);
-        this.props.history.push(`/p-${productCode.toLowerCase()}${WRITE_REVIEW}`);
     }
 
     getNonWorkingDays(mplWorkingDays) {
@@ -475,6 +471,17 @@ export default class OrderDetails extends React.Component {
             }
         }
     };
+
+	submitRating = (rating, productCode, section) => {
+		this.props.openRatingReviewModal({ productCode, rating, section, pageName: "Order Details" });
+		if(section === 3){
+			this.props.getTitleSuggestions(productCode, rating);
+		}
+	};
+
+	showRatingReviewModal = (productCode, rating) => {
+		this.props.openRatingReviewModal({ productCode, pageName: "Order Details", rating });
+	};
 
     render() {
         if (this.props.loadingForFetchOrderDetails) {
@@ -789,42 +796,60 @@ export default class OrderDetails extends React.Component {
                                                 products.consignmentStatus != "UNDELIVERED" &&
                                                 products.consignmentStatus != "CANCELLATION_INITIATED" &&
                                                 products.consignmentStatus != "PAYMENT_TIMEOUT" &&
+												products.consignmentStatus != "PAYMENT_SUCCESSFUL" &&
+                                                products.consignmentStatus != "PAYMENT_FAILED" &&
                                                 products.consignmentStatus != "PICK_CONFIRMED" &&
                                                 products.consignmentStatus != "ORDER_UNCOLLECTED" && (
                                                     <React.Fragment>
-                                                        {/* <div className={styles.rateThisItem}>
-                              Rate this item
-                            </div> */}
-                                                        {/* <div
-                              className={styles.ratingReviewHolder}
-                              onClick={val =>
-                                this.writeReview(products.productcode)
-                              }
-                            >
-                              <Icon image={rating} size={25} />
-                              <div className={styles.marginIcon} />
-                              <Icon image={rating} size={25} />
-                              <div className={styles.marginIcon} />
-                              <Icon image={rating} size={25} />
-                              <div className={styles.marginIcon} />
-                              <Icon image={rating} size={25} />
-                              <div className={styles.marginIcon} />
-                              <Icon image={rating} size={25} />
-                            </div> */}
-                                                        <div
-                                                            className={
-                                                                products.consignmentStatus === "DELIVERED"
-                                                                    ? styles.boxReview
-                                                                    : styles.boxReviewMargin
-                                                            }
-                                                        >
-                                                            <div
-                                                                className={styles.reviewText}
-                                                                onClick={() => this.writeReview(products.productcode)}
-                                                            >
-                                                                WRITE A REVIEW
-                                                            </div>
-                                                        </div>
+														<div className={styles.reviewHolder}>
+															<div className={products.userRating && products.isRated ? styles.reviewHeading : styles.reviewHeadingInitial}>
+																{products.userRating && products.isRated ? "Your Rating" : "Rate this product"}
+															</div>
+															<div className={styles.ratingBar}>
+																{products.userRating && products.isRated ? (
+																<RatingAndIconComponent
+																	averageRating={products.userRating}
+																	openRatingReviewModal={true}
+																	showRatingReviewModal={() => this.showRatingReviewModal(products.productcode, products.userRating)}
+																/>
+																) : (
+																<RnREmptyRatingGreyStarComponent
+																	submitRating={(rating) => this.submitRating(rating, products.productcode, 1)}
+																/>
+																)}
+															</div>
+
+															{!products.isReviewed && products.isRated && products.userRating ? (
+																<React.Fragment>
+																	{products.isParamConfigured && !products.isParamRatingPresent ? (
+																	<div className={styles.writeReviewText}>
+																		<span
+																			className={styles.writeReviewTitle}
+																			onClick={() => this.submitRating(products.userRating, products.productcode, 2)}
+																		>
+																			Rate Qualities
+																		</span>
+																	</div>
+																	) : (
+																	<div className={styles.writeReviewText}>
+																		<span
+																			className={styles.writeReviewTitle}
+																			onClick={() => this.submitRating(products.userRating, products.productcode, 3)}
+																		>
+																			Write a Review
+																		</span>
+																	</div>
+																	)}
+																</React.Fragment>
+															) : null}
+
+															{products.isRated && products.userRating && products.isReviewed ? (
+																<div className={styles.reviewSuccess}>
+																	<span className={styles.reviewCheckContainer}><Icon image={reviewCheck} size={16} /></span>
+																	<span>Rating and Review Submitted</span>
+																</div>
+															) : null}
+														</div>
                                                     </React.Fragment>
                                                 )}
 
@@ -1377,6 +1402,10 @@ OrderDetails.propTypes = {
     underlineButtonColour: PropTypes.string,
     underlineButtonLabel: PropTypes.string,
     userAddress: PropTypes.object,
+	openRatingReviewModal: PropTypes.func,
+	getParametersEligibleToRate: PropTypes.func,
+	getTitleSuggestions: PropTypes.func,
+	getUserProductReview: PropTypes.func,
 };
 OrderDetails.defaultProps = {
     underlineButtonLabel: "Request Invoice",

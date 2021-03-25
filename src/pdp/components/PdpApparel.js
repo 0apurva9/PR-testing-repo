@@ -443,6 +443,7 @@ export default class PdpApparel extends React.Component {
                             numberOfReviews={productData.numberOfReviews}
                             goToReviewPage={this.goToReviewPage}
                             discount={discountPdp}
+                            displayRatingReview={productData.displayRatingReview}
                         />
                     </div>
                     <PdpPaymentInfo
