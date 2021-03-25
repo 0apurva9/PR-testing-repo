@@ -1,0 +1,135 @@
+.base {
+    position: relative;
+}
+
+.imageContainer {
+    width: 70px;
+    height: 93px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.detailsContainer {
+	width: calc(100% - 150px);
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 16px;
+}
+
+.brandName {
+    font-size: 14px;
+    color: #4a4a4a;
+    margin-bottom: 8px;
+}
+
+.productName {
+    font-size: 14px;
+    color: #4a4a4a;
+    font-family: "light";
+    margin-bottom: 12px;
+}
+
+.toModerate {
+    display: inline-block;
+    margin-left: 7px;
+    font-size: 13px;
+    color: #4a4a4a;
+    font-family: "light";
+}
+
+.toModerateIcon {
+    display: inline-block;
+    position: relative;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #f5d727;
+}
+
+.toModerateIcon::before {
+    content: "";
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1px solid #f5d727;
+    left: -3px;
+    top: -3px;
+}
+
+.reviewSuccess {
+    display: inline-block;
+    width: calc(100% - 315px);
+    text-align: right;
+    font-size: 14px;
+    font-family: 'light';
+    color: #009700;
+}
+
+.writeReviewTitle {
+    cursor: pointer;
+}
+
+.reviewHolder {
+    width: 100%;
+    height: auto;
+    padding: 10px 0;
+}
+
+.reviewHeading {
+    margin: 10px 0;
+    font-family: semibold;
+    font-size: 14px;
+    color: #212121;
+    letter-spacing: 0;
+}
+
+.ratingBar {
+    display: inline-block;
+    width: 315px;
+}
+
+.writeReviewText {
+    display: inline-block;
+    color: #da1c5c;
+    font-size: 14px;
+    font-family: semibold;
+    text-align: right;
+    width: calc(100% - 315px);
+    text-align: right;
+}
+
+.bb {
+    border-bottom: 1px solid #eeeeee;
+    padding-bottom: 10px;
+}
+
+.editButtonContainer {
+    float: right;
+    cursor: pointer;
+}
+
+.editIconContainer {
+    display: inline-block;
+}
+
+.editButton {
+    display: inline-block;
+    font-size: 13px;
+    color: #979797;
+    margin-left: 5px;
+}
+
+.reviewCheckContainer {
+	display: inline-block;
+	vertical-align: sub;
+	margin-right: 8px;
+}
+
+.reviewHeadingInitial {
+    margin: 20px 0;
+    font-family: semibold;
+    font-size: 14px;
+    color: #212121;
+    letter-spacing: 0;
+}

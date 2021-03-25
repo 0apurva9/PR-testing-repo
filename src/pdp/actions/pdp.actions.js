@@ -18,6 +18,7 @@ import {
     AC_PDP_EXCHANGE_DETAILS,
     PLATFORM,
     AC_CART_EXCHANGE_DETAILS,
+	FAILURE_UPPERCASE,
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -47,6 +48,8 @@ import {
     getCartDetailsForAnonymousInUser,
 } from "../../lib/getCookieDetails.js";
 import { MSD_ROOT_PATH } from "../../../src/plp/actions/plp.actions";
+import { getUserProductReview } from "../../../src/account/actions/account.actions";
+export const SUBMIT_RATING_TEXT = "Thanks! Rating submitted successfully";
 export const SUBMIT_REVIEW_TEXT = "Thanks! Review submitted successfully";
 export const PRODUCT_DESCRIPTION_REQUEST = "PRODUCT_DESCRIPTION_REQUEST";
 export const PRODUCT_DESCRIPTION_SUCCESS = "PRODUCT_DESCRIPTION_SUCCESS";
@@ -240,6 +243,18 @@ export const UPDATE_APPLIANCES_EXCHANGE_DETAILS = "UPDATE_APPLIANCES_EXCHANGE_DE
 export const APPLIANCE_EXCHANGE_CHECK_PINCODE_REQUEST = "APPLIANCE_EXCHANGE_CHECK_PINCODE_REQUEST";
 export const APPLIANCE_EXCHANGE_CHECK_PINCODE_SUCCESS = "APPLIANCE_EXCHANGE_CHECK_PINCODE_SUCCESS";
 export const APPLIANCE_EXCHANGE_CHECK_PINCODE_FAILURE = "APPLIANCE_EXCHANGE_CHECK_PINCODE_FAILURE";
+
+export const PARAMS_ELIGIBLE_TO_RATE_REQUEST = "PARAMS_ELIGIBLE_TO_RATE_REQUEST";
+export const PARAMS_ELIGIBLE_TO_RATE_SUCCESS = "PARAMS_ELIGIBLE_TO_RATE_SUCCESS";
+export const PARAMS_ELIGIBLE_TO_RATE_FAILURE = "PARAMS_ELIGIBLE_TO_RATE_FAILURE";
+
+export const SUMBIT_PARAMETER_RATING_REQUEST = "SUMBIT_PARAMETER_RATING_REQUEST";
+export const SUMBIT_PARAMETER_RATING_SUCCESS = "SUMBIT_PARAMETER_RATING_SUCCESS";
+export const SUMBIT_PARAMETER_RATING_FAILURE = "SUMBIT_PARAMETER_RATING_FAILURE";
+
+export const GET_TITE_SUGGESTIONS_REQUEST = "GET_TITE_SUGGESTIONS_REQUEST";
+export const GET_TITE_SUGGESTIONS_SUCCESS = "GET_TITE_SUGGESTIONS_SUCCESS";
+export const GET_TITE_SUGGESTIONS_FAILURE = "GET_TITE_SUGGESTIONS_FAILURE";
 
 export function getProductDescriptionRequest() {
     return {
@@ -1233,29 +1248,47 @@ export function addProductReviewFailure(error) {
 
 export function addProductReview(productCode, productReview) {
     let reviewData = new FormData();
-    reviewData.append("comment", productReview.comment);
-    reviewData.append("rating", productReview.rating);
-    reviewData.append("headline", productReview.headline);
-    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    if (productReview.comment) {
+        reviewData.append("comment", productReview.comment);
+    }
+    if (productReview.rating) {
+        reviewData.append("rating", productReview.rating);
+    }
+    if (productReview.headline) {
+        reviewData.append("headline", productReview.headline);
+    }
+	if (productReview.id) {
+        reviewData.append("id", productReview.id);
+    }
+    let accessToken = getCustomerAccessToken();
     return async (dispatch, getState, { api }) => {
         dispatch(addProductReviewRequest());
         try {
             const result = await api.postFormData(
-                `${PRODUCT_SIZE_GUIDE_PATH}${productCode}/reviews?access_token=${
-                    JSON.parse(customerCookie).access_token
-                }`,
+                `v2/mpl/reviews/${productCode}/reviews_V1?access_token=${accessToken}&isPwa=true&channel=${CHANNEL}&platform=${PLATFORM}`,
                 reviewData
             );
             const resultJson = await result.json();
             const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-            if (resultJsonStatus.status) {
-                throw new Error(resultJsonStatus.message);
+            if (resultJsonStatus.status ||
+				(result.status !== 200 && result.status !== 201 && resultJson && resultJson.status && resultJson.status === FAILURE_UPPERCASE)) {
+                let errorMessage = resultJsonStatus.message;
+                if (resultJson.status === FAILURE_UPPERCASE && resultJson.errorMessage) {
+                    errorMessage = resultJson.errorMessage;
+                }
+                dispatch(addProductReviewFailure(errorMessage));
+            } else {
+				if(productReview.rating && !productReview.comment) {
+					dispatch(displayToast(SUBMIT_RATING_TEXT));
+				}
+				if(productReview.rating && productReview.comment) {
+					dispatch(displayToast(SUBMIT_REVIEW_TEXT));
+				}
+                setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_SUBMIT_REVIEW);
+                dispatch(addProductReviewSuccess(productReview));
             }
-            dispatch(displayToast(SUBMIT_REVIEW_TEXT));
-            setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_SUBMIT_REVIEW);
-            return dispatch(addProductReviewSuccess(productReview));
         } catch (e) {
-            return dispatch(addProductReviewFailure(e.message));
+            dispatch(addProductReviewFailure(e.message));
         }
     };
 }
@@ -1374,28 +1407,29 @@ export function getProductReviewsFailure(error) {
     };
 }
 
-export function getProductReviews(productCode, pageIndex, orderBy, sortBy) {
-    const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-    const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-    const globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-    let accessToken, userName;
-    if (userDetails && customerCookie) {
-        userName = JSON.parse(userDetails).userName;
-        accessToken = JSON.parse(customerCookie).access_token;
-    } else {
-        userName = ANONYMOUS_USER;
-        accessToken = globalCookie && JSON.parse(globalCookie).access_token;
+export function getProductReviews(productCode, pageIndex, orderBy, sortBy, filteredProducts) {
+    let userDetails = getLoggedInUserDetails();
+    let accessToken = getGlobalAccessToken();
+    let userName = ANONYMOUS_USER;
+    if (userDetails) {
+        userName = userDetails.userName;
+        accessToken = getCustomerAccessToken();
     }
+
     return async (dispatch, getState, { api }) => {
         dispatch(getProductReviewsRequest());
         try {
+			let extraParam = "";
+			if(filteredProducts) {
+				extraParam = `&productCodes=${filteredProducts.toUpperCase()}`;
+			}
             const result = await api.get(
-                `${PRODUCT_SIZE_GUIDE_PATH}${productCode.toUpperCase()}/users/${userName}/reviews?access_token=${accessToken}&page=${pageIndex}&pageSize=${PAGE_NUMBER}&orderBy=${orderBy}&sort=${sortBy}`
+                `v2/mpl/reviews/${productCode.toUpperCase()}/users/${userName}/reviews_V1?access_token=${accessToken}&page=${pageIndex}&pageSize=${PAGE_NUMBER}&orderBy=${orderBy}&sort=${sortBy}${extraParam}`
             );
             const resultJson = await result.json();
             const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-            if (resultJsonStatus.status) {
-                throw new Error(resultJsonStatus.message);
+            if (resultJsonStatus.status || result.status !== 200 || !resultJson.reviews) {
+                dispatch(getProductReviewsFailure());
             }
 
             dispatch(getProductReviewsSuccess(resultJson));
@@ -1563,7 +1597,7 @@ export function getRecentlyViewedProduct() {
             msdRequestObject.append("user_id", userDetails.customerId);
         }
         msdRequestObject.append("api_key", API_KEY);
-        if (process.process.env.environment === "qa2") {
+        if (process.env.environment === "qa2") {
             msdRequestObject.append("mad_uuid", QA2_MCV_ID);
         } else {
             const mcvId = await getMcvId();
@@ -2770,6 +2804,149 @@ export function appliancesExchangeCheckPincode(productCode, pincode) {
             }
         } catch (e) {
             dispatch(appliancesExchangeCheckPincodeFailure(e.message));
+        }
+    };
+}
+
+export function getParametersEligibleToRateRequest() {
+    return {
+        type: PARAMS_ELIGIBLE_TO_RATE_REQUEST,
+        status: REQUESTING,
+    };
+}
+
+export function getParametersEligibleToRateSuccess(data) {
+    return {
+        type: PARAMS_ELIGIBLE_TO_RATE_SUCCESS,
+        status: SUCCESS,
+        data,
+    };
+}
+
+export function getParametersEligibleToRateFailure(error) {
+    return {
+        type: PARAMS_ELIGIBLE_TO_RATE_FAILURE,
+        status: ERROR,
+        error,
+    };
+}
+
+export function getParametersEligibleToRate(productCode, callgetUserProductReviewAPI) {
+    let accessToken = getGlobalAccessToken();
+
+    return async (dispatch, getState, { api }) => {
+        dispatch(getParametersEligibleToRateRequest());
+        try {
+            const result = await api.get(
+                `v2/mpl/reviews/${productCode.toUpperCase()}/getParametersEligibleToRate?access_token=${accessToken}`
+            );
+            const resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+            if (resultJsonStatus.status || result.status !== 200) {
+                dispatch(getParametersEligibleToRateFailure());
+            } else {
+				dispatch(getParametersEligibleToRateSuccess(resultJson));
+				if(callgetUserProductReviewAPI) {
+					dispatch(getUserProductReview(productCode));
+				}
+			}
+        } catch (e) {
+            dispatch(getParametersEligibleToRateFailure(e.message));
+        }
+    };
+}
+
+export function submitParameterRatingRequest() {
+    return {
+        type: SUMBIT_PARAMETER_RATING_REQUEST,
+        status: REQUESTING,
+    };
+}
+
+export function submitParameterRatingSuccess(data) {
+    return {
+        type: SUMBIT_PARAMETER_RATING_SUCCESS,
+        status: SUCCESS,
+        data,
+    };
+}
+
+export function submitParameterRatingFailure(error) {
+    return {
+        type: SUMBIT_PARAMETER_RATING_FAILURE,
+        status: ERROR,
+        error,
+    };
+}
+
+export function submitParameterRating(productCode, parameterizedRating) {
+    let accessToken = getCustomerAccessToken();
+
+    return async (dispatch, getState, { api }) => {
+        dispatch(submitParameterRatingRequest());
+        try {
+            const result = await api.post(
+                `v2/mpl/reviews/${productCode.toUpperCase()}/parameter_rating_V1?access_token=${accessToken}&channel=${CHANNEL}&platform=${PLATFORM}`,
+                parameterizedRating
+            );
+            const resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+            if (resultJsonStatus.status || result.status !== 200) {
+                let errorMessage = resultJsonStatus.message;
+                if (resultJson && resultJson.status && resultJson.status === FAILURE_UPPERCASE && resultJson.errorMessage) {
+                    errorMessage = resultJson.errorMessage;
+                }
+                dispatch(displayToast(errorMessage));
+                dispatch(submitParameterRatingFailure(errorMessage));
+            } else {
+                dispatch(submitParameterRatingSuccess(resultJson));
+            }
+        } catch (e) {
+            dispatch(submitParameterRatingFailure(e.message));
+        }
+    };
+}
+
+export function getTitleSuggestionsRequest() {
+    return {
+        type: GET_TITE_SUGGESTIONS_REQUEST,
+        status: REQUESTING,
+    };
+}
+
+export function getTitleSuggestionsSuccess(data) {
+    return {
+        type: GET_TITE_SUGGESTIONS_SUCCESS,
+        status: SUCCESS,
+        data,
+    };
+}
+
+export function getTitleSuggestionsFailure(error) {
+    return {
+        type: GET_TITE_SUGGESTIONS_FAILURE,
+        status: ERROR,
+        error,
+    };
+}
+
+export function getTitleSuggestions(productCode, userRating) {
+    let accessToken = getGlobalAccessToken();
+
+    return async (dispatch, getState, { api }) => {
+        dispatch(getTitleSuggestionsRequest());
+        try {
+            const result = await api.get(
+                `v2/mpl/reviews/${productCode.toUpperCase()}/getTitleSuggestions?access_token=${accessToken}&userRating=${userRating}`
+            );
+            const resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+            if (resultJsonStatus.status || result.status !== 200) {
+                dispatch(getTitleSuggestionsFailure());
+            }
+            dispatch(getTitleSuggestionsSuccess(resultJson));
+        } catch (e) {
+            dispatch(getTitleSuggestionsFailure(e.message));
         }
     };
 }
