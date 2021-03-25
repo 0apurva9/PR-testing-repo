@@ -36,7 +36,11 @@ class RnRQualitiesSectionComponent extends Component {
 				// initially set submit btn active
 				let paramsDataForAPI = this.props.userProductReviewDetails.eligibleParamCaptured.map((existingParam) => {
 					let {paramVisibility, ...otherParamsObj} = existingParam;
-					return otherParamsObj;
+					if(otherParamsObj) {
+						return otherParamsObj;
+					} else {
+						return paramVisibility;
+					}
 				});
 				this.props.getUpdatedParameters(
 					paramsDataForAPI,
