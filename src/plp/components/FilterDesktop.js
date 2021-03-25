@@ -29,6 +29,7 @@ const PRICE = "Price";
 const RESTRICTED_FILTERS = "restrictedFilters";
 const LAST_PLP_URL = "lastPlpUrl";
 const LANDING_SEARCH_URL = "landingSearchUrl";
+const CATEGORY_BRAND_LANDING_URL = "categoryBrandLandingUrl";
 export default class FilterDesktop extends React.Component {
     constructor() {
         super();
@@ -47,8 +48,13 @@ export default class FilterDesktop extends React.Component {
 
     onClear = () => {
         const url = localStorage.getItem(LANDING_SEARCH_URL);
+        const url2 = localStorage.getItem(CATEGORY_BRAND_LANDING_URL);
         if (url) {
             this.props.history.push(url, {
+                isFilter: false,
+            });
+        } else if (url2) {
+            this.props.history.push(url2, {
                 isFilter: false,
             });
         } else {

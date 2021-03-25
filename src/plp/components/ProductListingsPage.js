@@ -30,7 +30,7 @@ const MAX_PRICE_FROM_UI = "-₹9,999,999";
 const CATEGORY_TEXT = "category";
 const DEFAULT_PLP_VIEW = "defaultPlpView";
 const LANDING_SEARCH_URL = "landingSearchUrl";
-
+const CATEGORY_BRAND_LANDING_URL = "categoryBrandLandingUrl";
 class ProductListingsPage extends Component {
     constructor(props) {
         super(props);
@@ -239,6 +239,15 @@ class ProductListingsPage extends Component {
             localStorage.setItem(LANDING_SEARCH_URL, urlOfFirstLand);
         }
 
+        const categoryOrBrandLandingPageUrl = `${this.props.location.pathname}${this.props.location.search}`;
+        const plpSearchUrl = localStorage.getItem(LANDING_SEARCH_URL);
+        if (this.props.location && this.props.location.state && this.props.location.state.categoryOrBrand) {
+            localStorage.setItem(CATEGORY_BRAND_LANDING_URL, categoryOrBrandLandingPageUrl);
+            if (plpSearchUrl) {
+                localStorage.removeItem(LANDING_SEARCH_URL);
+            }
+        }
+
         const defaultViewCookie = Cookie.getCookie(DEFAULT_PLP_VIEW);
 
         if (!defaultViewCookie) {
@@ -405,6 +414,16 @@ class ProductListingsPage extends Component {
                 localStorage.setItem(LANDING_SEARCH_URL, updatedUrlOfFirstLand);
             }
         }
+
+        const categoryOrBrandLandingPageUrl = `${this.props.location.pathname}${this.props.location.search}`;
+        const plpSearchUrl = localStorage.getItem(LANDING_SEARCH_URL);
+        if (this.props.location && this.props.location.state && this.props.location.state.categoryOrBrand) {
+            localStorage.setItem(CATEGORY_BRAND_LANDING_URL, categoryOrBrandLandingPageUrl);
+            if (plpSearchUrl) {
+                localStorage.removeItem(LANDING_SEARCH_URL);
+            }
+        }
+
         const defaultViewCookie = Cookie.getCookie(DEFAULT_PLP_VIEW);
 
         if (!defaultViewCookie) {
