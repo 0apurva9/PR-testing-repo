@@ -788,18 +788,9 @@ export default class OrderDetails extends React.Component {
                                             )}
 
                                             {products.consignmentStatus &&
-                                                products.consignmentStatus != "ORDER_ALLOCATED" &&
-                                                products.consignmentStatus != "PACKED" &&
-                                                products.consignmentStatus != "RETURNINITIATED_BY_RTO" &&
-                                                products.consignmentStatus != "OUT_FOR_DELIVERY" &&
-                                                products.consignmentStatus != "HOTC" &&
-                                                products.consignmentStatus != "UNDELIVERED" &&
-                                                products.consignmentStatus != "CANCELLATION_INITIATED" &&
-                                                products.consignmentStatus != "PAYMENT_TIMEOUT" &&
-												products.consignmentStatus != "PAYMENT_SUCCESSFUL" &&
-                                                products.consignmentStatus != "PAYMENT_FAILED" &&
-                                                products.consignmentStatus != "PICK_CONFIRMED" &&
-                                                products.consignmentStatus != "ORDER_UNCOLLECTED" && (
+												(products.consignmentStatus === "DELIVERED" ||
+												products.consignmentStatus === "ORDER_COLLECTED" ||
+												products.consignmentStatus === "RETURN_CANCELLED_CUS") && (
                                                     <React.Fragment>
 														<div className={styles.reviewHolder}>
 															<div className={products.userRating && products.isRated ? styles.reviewHeading : styles.reviewHeadingInitial}>
