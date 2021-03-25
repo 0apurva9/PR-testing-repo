@@ -141,7 +141,7 @@
           "rejectButtonText": 'Ask me later',
           "okButtonColor": '#a91e3e',
           "askAgainTimeInSeconds": 604800,
-          "serviceWorkerPath": "/sw.js",
+          "serviceWorkerPath": "/service-worker.js",
           "okCallback": function () {
             clevertap.event.push("Web Push Notifications", {
               "User Accepted": "Yes"
@@ -248,17 +248,17 @@
 
 
   <script type="text/javascript">
-    window.onload = function () {
-      // youPlus(window, document);
-      stripev2();
-      stripev3();
-    };
+    // window.onload = function () {
+    //   // youPlus(window, document);
+    //   stripev2();
+    //   stripev3();
+    // };
   </script>
   <script type="text/javascript">
     //added to avoid msite view in desktop , it removes msite service worker if it is present
     if ('serviceWorker' in navigator && navigator.userAgent.indexOf("Mobile") === -1) {
       //check if name equals to msite service worker
-        navigator.serviceWorker.getRegistration().then(function (registration) {
+        navigator.serviceWorker.getRegistration("/service-worker.js").then(function (registration) {
           var serviceWorkerUnregistered = false;
           if (registration) {
             registration.unregister();
