@@ -256,16 +256,16 @@
   </script>
   <script type="text/javascript">
     //added to avoid msite view in desktop , it removes msite service worker if it is present
-    if ('serviceWorker' in navigator && navigator.userAgent.indexOf("Mobile") === -1) {
-      //check if name equals to msite service worker
-        navigator.serviceWorker.getRegistration("/service-worker.js").then(function (registration) {
-          var serviceWorkerUnregistered = false;
-          if (registration) {
-            registration.unregister();
-            serviceWorkerUnregistered = true;
-          }
-          serviceWorkerUnregistered && window.location.reload();
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js').then(function(registration) {
+          // Registration was successful
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        }, function(err) {
+          // registration failed :(
+          console.log('ServiceWorker registration failed: ', err);
         });
+      });
     }
   </script>
   <% if(htmlWebpackPlugin.options.local === "true" || htmlWebpackPlugin.options.watch === "true") { %>
