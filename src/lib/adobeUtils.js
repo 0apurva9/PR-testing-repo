@@ -598,7 +598,6 @@ export const ADOBE_SELF_SERVE_NON_ORDER_PAGE_LOAD = "ADOBE_SELF_SERVE_NON_ORDER_
 export const ADOBE_SELF_SERVE_FAQ_PAGE_LOAD = "ADOBE_SELF_SERVE_FAQ_PAGE_LOAD";
 
 // for rating n review new UI
-export const ADOBE_RATING_REVIEW_PDP_INITIAL_DATA = "ADOBE_RATING_REVIEW_PDP_INITIAL_DATA";
 export const ADOBE_RATING_REVIEW_PDP_REVIEW_PAGE = "ADOBE_RATING_REVIEW_PDP_REVIEW_PAGE";
 export const ADOBE_RATING_REVIEW_WRITE_REVIEW_CLICK = "ADOBE_RATING_REVIEW_WRITE_REVIEW_CLICK";
 export const ADOBE_RATING_REVIEW_SORT_BY_CLICK = "ADOBE_RATING_REVIEW_SORT_BY_CLICK";
@@ -817,6 +816,20 @@ export async function setDataLayer(type, apiResponse, icid, icidType, behaviorOf
             const badge = window.digitalData.cpj.product.badge;
             Object.assign(digitalDataForPDP.cpj.product, { badge });
         }
+
+        if (response) {
+            let averageStar = null;
+            if (response.averageRating) {
+                averageStar = Math.round(response.averageRating * 10) / 10;
+            }
+            const ratingReviewData = {
+                averageStar: averageStar,
+                totalReview: response.numberOfReviews ? response.numberOfReviews : null,
+                totalRating: response.ratingCount ? response.ratingCount : null,
+            };
+            Object.assign(digitalDataForPDP, { rating: ratingReviewData });
+        }
+
         window.digitalData = Object.assign(window.digitalData, digitalDataForPDP);
         if (response && response.allOOStock) {
             if (window._satellite) {
@@ -1496,87 +1509,69 @@ export function getDigitalDataForPdp(type, pdpResponse, behaviorOfPage) {
         });
     }
     const selectedData =
-    pdpResponse &&
-    pdpResponse.variantOptions &&
-    Array.isArray(pdpResponse.variantOptions) &&
-    pdpResponse.variantOptions.filter(val => {
-      return val.colorlink.selected;
-    });
-  const selectedColour =
-    selectedData &&
-    Array.isArray(selectedData) &&
-    selectedData[0].colorlink &&
-    selectedData[0].colorlink.color;
-  const selectedSize =
-    selectedData &&
-    Array.isArray(selectedData) &&
-    selectedData[0].sizelink &&
-    selectedData[0].sizelink.size;
-  let seasonData = {};
-  if (pdpResponse && pdpResponse.seasonDetails !== undefined) {
-    seasonData =
-      Array.isArray(pdpResponse.seasonDetails) &&
-      pdpResponse.seasonDetails.find(item => {
-        return item.key === "Season";
-      });
-  }
+        pdpResponse &&
+        pdpResponse.variantOptions &&
+        Array.isArray(pdpResponse.variantOptions) &&
+        pdpResponse.variantOptions.filter(val => {
+            return val.colorlink.selected;
+        });
+    const selectedColour =
+        selectedData && Array.isArray(selectedData) && selectedData[0].colorlink && selectedData[0].colorlink.color;
+    const selectedSize =
+        selectedData && Array.isArray(selectedData) && selectedData[0].sizelink && selectedData[0].sizelink.size;
+    let seasonData = {};
+    if (pdpResponse && pdpResponse.seasonDetails !== undefined) {
+        seasonData =
+            Array.isArray(pdpResponse.seasonDetails) &&
+            pdpResponse.seasonDetails.find(item => {
+                return item.key === "Season";
+            });
+    }
 
-  let productTag;
-  if (pdpResponse && pdpResponse.allOOStock === true) {
-    productTag = "Out of Stock";
-  } else if (pdpResponse && pdpResponse.isProductNew === "Y") {
-    productTag = "New";
-  } else if (seasonData && seasonData.key === "Season") {
-    productTag = seasonData.value;
-  } else if (
-    pdpResponse &&
-    pdpResponse.isOnlineExclusive &&
-    pdpResponse.isOnlineExclusive === "Y"
-  ) {
-    productTag = "New";
-  } else if (
-    pdpResponse &&
-    pdpResponse.isExchangeAvailable &&
-    pdpResponse.showExchangeTag &&
-    pdpResponse.isExchangeAvailable === true &&
-    pdpResponse.showExchangeTag === true
-  ) {
-    productTag = "Exchange Offer";
-  } else if (
-    pdpResponse &&
-    pdpResponse.discount &&
-    pdpResponse.discount !== "0"
-  ) {
-    productTag = `${parseInt(pdpResponse.discount, 10)}% off`;
-  } else if (
-    pdpResponse &&
-    pdpResponse.isOfferExisting &&
-    pdpResponse.isOfferExisting == "Y"
-  ) {
-    productTag = "On Offer";
-  } else {
-    productTag = "";
-  }
+    let productTag;
+    if (pdpResponse && pdpResponse.allOOStock === true) {
+        productTag = "Out of Stock";
+    } else if (pdpResponse && pdpResponse.isProductNew === "Y") {
+        productTag = "New";
+    } else if (seasonData && seasonData.key === "Season") {
+        productTag = seasonData.value;
+    } else if (pdpResponse && pdpResponse.isOnlineExclusive && pdpResponse.isOnlineExclusive === "Y") {
+        productTag = "New";
+    } else if (
+        pdpResponse &&
+        pdpResponse.isExchangeAvailable &&
+        pdpResponse.showExchangeTag &&
+        pdpResponse.isExchangeAvailable === true &&
+        pdpResponse.showExchangeTag === true
+    ) {
+        productTag = "Exchange Offer";
+    } else if (pdpResponse && pdpResponse.discount && pdpResponse.discount !== "0") {
+        productTag = `${parseInt(pdpResponse.discount, 10)}% off`;
+    } else if (pdpResponse && pdpResponse.isOfferExisting && pdpResponse.isOfferExisting == "Y") {
+        productTag = "On Offer";
+    } else {
+        productTag = "";
+    }
     let productCategoryId = pdpResponse && pdpResponse.categoryHierarchy;
     let APlusTamplete = pdpResponse && pdpResponse.APlusContent && pdpResponse.APlusContent.temlateName;
     const date = new Date(),
-    dateFormat =
-      date &&
-      [date.getDate(), date.getMonth() + 1, date.getFullYear()].join("/") +
-        " " +
-        [date.getHours(), date.getMinutes()].join(":");
+        dateFormat =
+            date &&
+            [date.getDate(), date.getMonth() + 1, date.getFullYear()].join("/") +
+                " " +
+                [date.getHours(), date.getMinutes()].join(":");
     let data = {
         cpj: {
             product: {
-              id: pdpResponse ? pdpResponse.productListingId : "",
-              category: pdpResponse ? pdpResponse.rootCategory : "",
-              category_id: productCategoryId
-                ? productCategoryId && productCategoryId[productCategoryId.length - 1]
-                : pdpResponse && pdpResponse.categoryL4Code,
-              colour: selectedColour || "",
-              tag: productTag || "",
-              productName: pdpResponse && pdpResponse.productName,
-              size: selectedSize || ""
+                id: pdpResponse ? pdpResponse.productListingId : "",
+                category: pdpResponse ? pdpResponse.rootCategory : "",
+                category_id: productCategoryId
+                    ? productCategoryId && productCategoryId[productCategoryId.length - 1]
+                    : pdpResponse && pdpResponse.categoryL4Code,
+                colour: selectedColour || "",
+                tag: productTag || "",
+                productName: pdpResponse && pdpResponse.productName,
+                size: selectedSize || "",
             },
             brand: {
                 name: pdpResponse ? pdpResponse.brandName : "",
@@ -1864,11 +1859,11 @@ function getDigitalDataForCart(type, cartResponse) {
         });
     }
     const date = new Date(),
-    dateFormat =
-      date &&
-      [date.getDate(), date.getMonth() + 1, date.getFullYear()].join("/") +
-        " " +
-        [date.getHours(), date.getMinutes()].join(":");
+        dateFormat =
+            date &&
+            [date.getDate(), date.getMonth() + 1, date.getFullYear()].join("/") +
+                " " +
+                [date.getHours(), date.getMinutes()].join(":");
     let data = {
         page: {
             category: {
@@ -1896,7 +1891,7 @@ function getDigitalDataForCart(type, cartResponse) {
             productBrandArray,
             categoryArray,
             productCategoryIdArray,
-            productNameArray
+            productNameArray,
         } = getProductData;
         Object.assign(data, {
             cpj: {
@@ -1906,7 +1901,7 @@ function getDigitalDataForCart(type, cartResponse) {
                     price: productPriceArray,
                     category: categoryArray,
                     categoryId: productCategoryIdArray,
-                    productName: productNameArray
+                    productName: productNameArray,
                 },
                 brand: {
                     name: productBrandArray,
@@ -2124,24 +2119,21 @@ function getProductsDigitalData(response, type) {
                     10
                 )
             );
-            product &&
-        product.productCategoryId &&
-        productCategoryIdArray.push(product.productCategoryId);
-      product &&
-        product.productName &&
-        productNameArray.push(product.productName);
-      if (product && product.offerPrice) {
-        productPriceArray.push(parseInt(product.offerPrice, 10));
-      } else if (product && product.pricevalue) {
-        productPriceArray.push(parseInt(product.pricevalue, 10));
-      } else if (product && product.price) {
-        productPriceArray.push(parseInt(product.price, 10));
-      } else if (product && product.mrp && product.mrp.value) {
-        productPriceArray.push(parseInt(product.mrp.value, 10));
-      } else {
-        productPriceArray.push(null);
-      }
-      product.productBrand && productBrandArray.push(product.productBrand && product.productBrand.replace(/ /g, "_").toLowerCase());
+            product && product.productCategoryId && productCategoryIdArray.push(product.productCategoryId);
+            product && product.productName && productNameArray.push(product.productName);
+            if (product && product.offerPrice) {
+                productPriceArray.push(parseInt(product.offerPrice, 10));
+            } else if (product && product.pricevalue) {
+                productPriceArray.push(parseInt(product.pricevalue, 10));
+            } else if (product && product.price) {
+                productPriceArray.push(parseInt(product.price, 10));
+            } else if (product && product.mrp && product.mrp.value) {
+                productPriceArray.push(parseInt(product.mrp.value, 10));
+            } else {
+                productPriceArray.push(null);
+            }
+            product.productBrand &&
+                productBrandArray.push(product.productBrand && product.productBrand.replace(/ /g, "_").toLowerCase());
             if (type && type.isReverse) {
                 let reverseArrayLength = product.categoryHierarchy && product.categoryHierarchy.length;
                 let currentReverseArray = reverseArrayLength - 1;
@@ -2152,7 +2144,7 @@ function getProductsDigitalData(response, type) {
                             : product.categoryHierarchy &&
                                   Array.isArray(product.categoryHierarchy) &&
                                   product.categoryHierarchy[currentReverseArray] &&
-                                 product.categoryHierarchy[currentReverseArray].category_name &&
+                                  product.categoryHierarchy[currentReverseArray].category_name &&
                                   product.categoryHierarchy[currentReverseArray].category_name
                                       .replace(/ /g, "_")
                                       .toLowerCase()
@@ -2166,8 +2158,7 @@ function getProductsDigitalData(response, type) {
                         product.productName === "Gift Card"
                             ? "Gift card"
                             : product.categoryHierarchy &&
-                            Array.isArray(product.categoryHierarchy) &&
-
+                                  Array.isArray(product.categoryHierarchy) &&
                                   product.categoryHierarchy[0] &&
                                   product.categoryHierarchy[0].category_name &&
                                   product.categoryHierarchy[0].category_name.replace(/ /g, "_").toLowerCase()
@@ -2184,7 +2175,7 @@ function getProductsDigitalData(response, type) {
             productBrandArray,
             categoryArray,
             productCategoryIdArray,
-            productNameArray
+            productNameArray,
         };
     } else {
         return null;
@@ -4677,132 +4668,123 @@ export function setDataLayerForCLiQCarePage(type, data, pageName) {
 }
 
 export function setDataLayerForRatingReviewSection(type, data) {
-	let previousDigitalData = cloneDeep(window.digitalData);
+    let previousDigitalData = cloneDeep(window.digitalData);
 
-	if (type === ADOBE_RATING_REVIEW_PDP_INITIAL_DATA) {
+    if (type === ADOBE_RATING_REVIEW_PDP_REVIEW_PAGE) {
         Object.assign(previousDigitalData, {
-            rating: data,
+            event: {
+                linkName: "pdp:seeAll",
+            },
         });
-		window.digitalData = previousDigitalData;
+        window.digitalData = previousDigitalData;
     }
 
-	if (type === ADOBE_RATING_REVIEW_PDP_REVIEW_PAGE) {
+    if (type === ADOBE_RATING_REVIEW_WRITE_REVIEW_CLICK) {
         Object.assign(previousDigitalData, {
             rating: data,
-			event: {
-				linkName: "pdp:seeAll"
-			}
+            event: {
+                linkName: "productReview:WriteReview",
+            },
         });
-		window.digitalData = previousDigitalData;
-    }
+        window.digitalData = previousDigitalData;
 
-	if (type === ADOBE_RATING_REVIEW_WRITE_REVIEW_CLICK) {
-        Object.assign(previousDigitalData, {
-            rating: data,
-			event: {
-				linkName: "productReview:WriteReview"
-			}
-        });
-		window.digitalData = previousDigitalData;
-
-		if (window._satellite) {
+        if (window._satellite) {
             window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_CLICK);
         }
     }
 
-	if (type === ADOBE_RATING_REVIEW_SORT_BY_CLICK) {
+    if (type === ADOBE_RATING_REVIEW_SORT_BY_CLICK) {
         Object.assign(previousDigitalData, {
             rating: data.ratingReviewData,
-			event: {
-				linkName: `productReview:sortBy:${data.sortByValue}`
-			}
+            event: {
+                linkName: `productReview:sortBy:${data.sortByValue}`,
+            },
         });
-		window.digitalData = previousDigitalData;
+        window.digitalData = previousDigitalData;
 
-		if (window._satellite) {
+        if (window._satellite) {
             window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_CLICK);
         }
     }
 
-	if (type === ADOBE_RATING_REVIEW_MODAL_RATING_SECTION) {
-		Object.assign(previousDigitalData.page.pageInfo, {
-			pageName: `${data.pageName}:Product Rate`
-		});
-		window.digitalData = previousDigitalData;
+    if (type === ADOBE_RATING_REVIEW_MODAL_RATING_SECTION) {
+        Object.assign(previousDigitalData.page.pageInfo, {
+            pageName: `${data.pageName}:Product Rate`,
+        });
+        window.digitalData = previousDigitalData;
 
-		if (window._satellite) {
+        if (window._satellite) {
             window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_VP);
         }
     }
 
-	if (type === ADOBE_RATING_REVIEW_MODAL_RATING_SUBMIT) {
-		Object.assign(previousDigitalData.page.pageInfo, {
-			pageName: `${data.pageName}:Product Rate`
-		});
-		Object.assign(previousDigitalData, {
-			event: {
-				linkName: `${data.pageName}:Product Rate:Submit`
-			}
+    if (type === ADOBE_RATING_REVIEW_MODAL_RATING_SUBMIT) {
+        Object.assign(previousDigitalData.page.pageInfo, {
+            pageName: `${data.pageName}:Product Rate`,
         });
-		window.digitalData = previousDigitalData;
+        Object.assign(previousDigitalData, {
+            event: {
+                linkName: `${data.pageName}:Product Rate:Submit`,
+            },
+        });
+        window.digitalData = previousDigitalData;
 
-		if (window._satellite) {
+        if (window._satellite) {
             window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_CLICK);
         }
     }
 
-	if (type === ADOBE_RATING_REVIEW_MODAL_QUALITY_SECTION) {
-		Object.assign(previousDigitalData.page.pageInfo, {
-			pageName: `${data.pageName}:Quality Liked`
-		});
-		window.digitalData = previousDigitalData;
+    if (type === ADOBE_RATING_REVIEW_MODAL_QUALITY_SECTION) {
+        Object.assign(previousDigitalData.page.pageInfo, {
+            pageName: `${data.pageName}:Quality Liked`,
+        });
+        window.digitalData = previousDigitalData;
 
-		if (window._satellite) {
+        if (window._satellite) {
             window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_VP);
         }
     }
 
-	if (type === ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT) {
-		Object.assign(previousDigitalData.page.pageInfo, {
-			pageName: `${data.pageName}:Quality Liked`
-		});
-		Object.assign(previousDigitalData, {
-			event: {
-				linkName: `${data.pageName}:Quality Liked:${data.pageAction}`
-			}
+    if (type === ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT) {
+        Object.assign(previousDigitalData.page.pageInfo, {
+            pageName: `${data.pageName}:Quality Liked`,
         });
-		window.digitalData = previousDigitalData;
+        Object.assign(previousDigitalData, {
+            event: {
+                linkName: `${data.pageName}:Quality Liked:${data.pageAction}`,
+            },
+        });
+        window.digitalData = previousDigitalData;
 
-		if (window._satellite) {
+        if (window._satellite) {
             window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_CLICK);
         }
     }
 
-	if (type === ADOBE_RATING_REVIEW_MODAL_REVIEW_SECTION) {
-		Object.assign(previousDigitalData.page.pageInfo, {
-			pageName: `${data.pageName}:Write Review`
-		});
-		window.digitalData = previousDigitalData;
+    if (type === ADOBE_RATING_REVIEW_MODAL_REVIEW_SECTION) {
+        Object.assign(previousDigitalData.page.pageInfo, {
+            pageName: `${data.pageName}:Write Review`,
+        });
+        window.digitalData = previousDigitalData;
 
-		if (window._satellite) {
+        if (window._satellite) {
             window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_VP);
         }
     }
 
-	if (type === ADOBE_RATING_REVIEW_MODAL_REVIEW_SUBMIT) {
-		Object.assign(previousDigitalData.page.pageInfo, {
-			pageName: `${data.pageName}:Write Review`
-		});
-		Object.assign(previousDigitalData, {
-			event: {
-				linkName: `${data.pageName}:Write Review:${data.pageAction}`
-			}
+    if (type === ADOBE_RATING_REVIEW_MODAL_REVIEW_SUBMIT) {
+        Object.assign(previousDigitalData.page.pageInfo, {
+            pageName: `${data.pageName}:Write Review`,
         });
-		window.digitalData = previousDigitalData;
+        Object.assign(previousDigitalData, {
+            event: {
+                linkName: `${data.pageName}:Write Review:${data.pageAction}`,
+            },
+        });
+        window.digitalData = previousDigitalData;
 
-		if (window._satellite) {
+        if (window._satellite) {
             window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_CLICK);
         }
     }
-
 }
