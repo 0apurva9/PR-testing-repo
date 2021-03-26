@@ -113,8 +113,15 @@ module.exports = env => {
         plugins.push(
             new WorkboxPlugin.InjectManifest({
                 swSrc: join(process.cwd(), "src/service-worker.js"),
-                swDest: join(process.cwd(), "build/public/service-worker.js"),
+                swDest: "service-worker.js",
                 mode: !isLocalMachineBuild ? "production" : "development",
+                exclude: [
+                    /\.map$/,
+                    /manifest$/,
+                    /\.htaccess$/,
+                    /service-worker\.js$/,
+                    /sw\.js$/,
+                ],
             })
         );
         plugins.push(
@@ -131,6 +138,20 @@ module.exports = env => {
                 watch: [path.resolve(process.cwd(), outFolder), path.resolve(process.cwd(), "index.js")],
                 verbose: true,
                 env,
+            })
+        );
+        plugins.push(
+            new WorkboxPlugin.InjectManifest({
+                swSrc: join(process.cwd(), "src/service-worker.js"),
+                swDest: "service-worker.js",
+                mode: "development",
+                exclude: [
+                    /\.map$/,
+                    /manifest$/,
+                    /\.htaccess$/,
+                    /service-worker\.js$/,
+                    /sw\.js$/,
+                ],
             })
         );
     }

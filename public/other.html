@@ -981,203 +981,201 @@
       var clevertap_account_id = "TEST-967-R5K-8R5Z";
       <% } %>
       var clevertap = {
-			event: [],
-			profile: [],
-			account: [],
-			onUserLogin: [],
-			notifications: [],
-			privacy: []
-		};
-		clevertap.account.push({
-			"id": clevertap_account_id
-		});
-		clevertap.privacy.push({
-			optOut: false
-		});
-		clevertap.privacy.push({
-			useIP: false
-		});
+      event: [],
+      profile: [],
+      account: [],
+      onUserLogin: [],
+      notifications: [],
+      privacy: []
+    };
+    clevertap.account.push({
+      "id": clevertap_account_id
+    });
+    clevertap.privacy.push({
+      optOut: false
+    });
+    clevertap.privacy.push({
+      useIP: false
+    });
 
-		function clevertapJS() {
-			var cleverTapJS = ('https:' == document.location.protocol ? 'https://d2r1yp2w7bby2u.cloudfront.net' :
-				'http://static.clevertap.com') + '/js/a.js';
-			loadJS(cleverTapJS);
-			setTimeout(function () {
-				clevertap.notifications.push({
-					"titleText": 'Your favourites are a CLiQ away!',
-					"bodyText": 'Get updates on your favourite brands, the biggest sales and products you love!',
-					"okButtonText": 'Yes, I\'m on Board',
-					"rejectButtonText": 'Ask me later',
-					"okButtonColor": '#a91e3e',
-					"askAgainTimeInSeconds": 604800,
-					"serviceWorkerPath": "/sw.js",
-					"okCallback": function () {
-						clevertap.event.push("Web Push Notifications", {
-							"User Accepted": "Yes"
-						});
-					},
-					"rejectCallback": function () {
-						clevertap.event.push("Web Push Notifications", {
-							"User Accepted": "No"
-						});
-					}
-				});
-			}, 2000);
-		}
+    function clevertapJS() {
+      var cleverTapJS = ('https:' == document.location.protocol ? 'https://d2r1yp2w7bby2u.cloudfront.net' :
+        'http://static.clevertap.com') + '/js/a.js';
+      loadJS(cleverTapJS);
+      setTimeout(function () {
+        clevertap.notifications.push({
+          "titleText": 'Your favourites are a CLiQ away!',
+          "bodyText": 'Get updates on your favourite brands, the biggest sales and products you love!',
+          "okButtonText": 'Yes, I\'m on Board',
+          "rejectButtonText": 'Ask me later',
+          "okButtonColor": '#a91e3e',
+          "askAgainTimeInSeconds": 604800,
+          "serviceWorkerPath": "/service-worker.js",
+          "okCallback": function () {
+            clevertap.event.push("Web Push Notifications", {
+              "User Accepted": "Yes"
+            });
+          },
+          "rejectCallback": function () {
+            clevertap.event.push("Web Push Notifications", {
+              "User Accepted": "No"
+            });
+          }
+        });
+      }, 2000);
+    }
 
 
-		postDomContentLoadedFunction(clevertapJS);
+    postDomContentLoadedFunction(clevertapJS);
 
-		(function () {
-			var geminiJs = document.createElement('script');
-			geminiJs.type = 'text/javascript';
-			geminiJs.async = true;
-			geminiJs.src = ('https:' == document.location.protocol ? 'https://cdn.epsilondelta.co/static/gemGen.js' :
-				'https://cdn.epsilondelta.co/static/gemGen.js');
-			var s1 = document.getElementsByTagName('script')[0];
-			s1.parentNode.insertBefore(geminiJs, s1);
-		})();
-	</script>
-	<script type="text/javascript">
-		if (typeof FontFace !== "undefined") {
-			//onload rest font except regular for bandwidth utilization & improve waterfall , refer - http://usefulangle.com/post/74/javascript-dynamic-font-loading
-			//support - https://caniuse.com/#search=FontFace
-			function loadFonts() {
-				var rubik_bolder = new FontFace(
-					"bolder",
-					'url(https://pwassets.tatacliq.com/fonts/rubik-v7-latin-700.woff2) format("woff2")',
-				);
-				rubik_bolder
-					.load()
-					.then(function (loaded_face) {
-						document.fonts.add(loaded_face);
-						//document.body.style.fontFamily = '"bolder", Arial';
-					})
-					.catch(function (error) {
-						console.log("error rubik_light font");
-					});
-			}
+    (function () {
+      var geminiJs = document.createElement('script');
+      geminiJs.type = 'text/javascript';
+      geminiJs.async = true;
+      geminiJs.src = ('https:' == document.location.protocol ? 'https://cdn.epsilondelta.co/static/gemGen.js' :
+        'https://cdn.epsilondelta.co/static/gemGen.js');
+      var s1 = document.getElementsByTagName('script')[0];
+      s1.parentNode.insertBefore(geminiJs, s1);
+    })();
+  </script>
+  <script type="text/javascript">
+    if (typeof FontFace !== "undefined") {
+      //onload rest font except regular for bandwidth utilization & improve waterfall , refer - http://usefulangle.com/post/74/javascript-dynamic-font-loading
+      //support - https://caniuse.com/#search=FontFace
+      function loadFonts() {
+        var rubik_bolder = new FontFace(
+          "bolder",
+          'url(https://pwassets.tatacliq.com/fonts/rubik-v7-latin-700.woff2) format("woff2")',
+        );
+        rubik_bolder
+          .load()
+          .then(function (loaded_face) {
+            document.fonts.add(loaded_face);
+            //document.body.style.fontFamily = '"bolder", Arial';
+          })
+          .catch(function (error) {
+            console.log("error rubik_light font");
+          });
+      }
 
-			//fire font load on onLoad event
-			postLoadEventFunction(loadFonts);
-		} else {
-			//IE , Edge do not support FontFace so we need to add it directly
+      //fire font load on onLoad event
+      postLoadEventFunction(loadFonts);
+    } else {
+      //IE , Edge do not support FontFace so we need to add it directly
 
-			var bolderFont = document.createElement("style");
-			bolderFont.appendChild(
-				document.createTextNode(
-					"@font-face {font-family:bolder ;src: url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-700.woff2') format('woff2');}",
-				),
-			);
-			document.head.appendChild(bolderFont);
-		}
+      var bolderFont = document.createElement("style");
+      bolderFont.appendChild(
+        document.createTextNode(
+          "@font-face {font-family:bolder ;src: url('https://pwassets.tatacliq.com/fonts/rubik-v7-latin-700.woff2') format('woff2');}",
+        ),
+      );
+      document.head.appendChild(bolderFont);
+    }
 
-		const ReqExForCheckUserAgent = /iPhone|iPad|iPod|Android|BlackBerry|Opera Mini|IEMobile/i;
+    const ReqExForCheckUserAgent = /iPhone|iPad|iPod|Android|BlackBerry|Opera Mini|IEMobile/i;
 
-		function loadScript(url) {
-			document.write('<script src="' + url + '"><\/script>');
-		}
-	</script>
-	<% if(htmlWebpackPlugin.options.stage==="production" ) { %>
-		<script type="text/javascript">
-			let isMobile;
-			if (navigator) {
-				isMobile = ReqExForCheckUserAgent.test(navigator.userAgent);
-				if (isMobile) {
-					loadScript(
-						"//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-08855880a6fbd52183d526aa0c8510335499cc15.js",
-					);
-				} else {
-					loadScript(
-						"//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-5768eb8c6d43533f225815e1e41f7be236249910.js",
-					);
-				}
-			}
-		</script>
-		<% } else { %>
-			<script type="text/javascript">
-				let isMobile;
-				if (navigator) {
+    function loadScript(url) {
+      document.write('<script src="' + url + '"><\/script>');
+    }
+  </script>
+  <% if(htmlWebpackPlugin.options.stage === "production") { %>
+  <script type="text/javascript">
+    let isMobile;
+    if (navigator) {
+      isMobile = ReqExForCheckUserAgent.test(navigator.userAgent);
+      if (isMobile) {
+        loadScript(
+          "//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-08855880a6fbd52183d526aa0c8510335499cc15.js",
+        );
+      } else {
+        loadScript(
+          "//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-5768eb8c6d43533f225815e1e41f7be236249910.js",
+        );
+      }
+    }
+  </script>
+  <% } else { %>
+  <script type="text/javascript">
+    let isMobile;
+    if (navigator) {
 
-					isMobile = ReqExForCheckUserAgent.test(
-						navigator.userAgent
-					)
-					if (isMobile) {
-						loadScript(
-							"//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-08855880a6fbd52183d526aa0c8510335499cc15-staging.js"
-						)
-					} else
-						loadScript(
-							"//assets.adobedtm.com/launch-ENcb19ed3a900646a99c27952210f0d83b-development.min.js"
-						)
-				}
-			</script>
-			<% } %>
-				<script defer="defer" type="text/javascript">
-					window.digitalData = Object.assign(
-						{},
-						{
-							page: {
-								pageInfo: {
-									pageName: "homepage",
-									pageType: "Homepage"
-								},
-							},
-						},
-					);
-					if (window._satellite) {
-						_satellite.pageBottom();
-					}
-				</script>
-				<% if(htmlWebpackPlugin.options.stage==="production" ) { %>
-					<script type="text/javascript">
+      isMobile = ReqExForCheckUserAgent.test(
+        navigator.userAgent
+      )
+      if (isMobile) {
+        loadScript(
+          "//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-08855880a6fbd52183d526aa0c8510335499cc15-staging.js"
+        )
+      } else
+        loadScript(
+          "//assets.adobedtm.com/9fd06d4068c619c47b289b9c496761efd086a233/satelliteLib-5768eb8c6d43533f225815e1e41f7be236249910-staging.js"
+        )
+    }
+  </script>
+  <% } %>
+  <script defer="defer" type="text/javascript">
+    window.digitalData = Object.assign(
+      {},
+      {
+        page: {
+          pageInfo: {
+            pageName: "homepage",
+            pageType: "Homepage"
+          },
+        },
+      },
+    );
+    if (window._satellite) {
+      _satellite.pageBottom();
+    }
+  </script>
+  <% if(htmlWebpackPlugin.options.stage === "production") { %>
+  <script type="text/javascript">
 
-						//  function youPlus(t, e) {
-						//     var n = e.createElement("script"),
-						//       o = e.getElementsByTagName("script")[0];
-						//     (n.async = !0),
-						//       (n.src =
-						//         "https://d1uck549nef0ok.cloudfront.net/youplus.opinion.in.js?v=" +
-						//         Date.now().toString()),
-						//       (n.charset = "UTF-8"),
-						//       (n.type = "text/javascript"),
-						//       o.parentNode.insertBefore(n, o);
-						//   };
-						window.onload = function () {
-							// youPlus(window, document);
+    //  function youPlus(t, e) {
+    //     var n = e.createElement("script"),
+    //       o = e.getElementsByTagName("script")[0];
+    //     (n.async = !0),
+    //       (n.src =
+    //         "https://d1uck549nef0ok.cloudfront.net/youplus.opinion.in.js?v=" +
+    //         Date.now().toString()),
+    //       (n.charset = "UTF-8"),
+    //       (n.type = "text/javascript"),
+    //       o.parentNode.insertBefore(n, o);
+    //   };
+    window.onload = function () {
+      // youPlus(window, document);
 
-							stripev2();
-							stripev3();
-						};
+      stripev2();
+      stripev3();
+    };
 
-					</script>
-					<% } else { %>
-						<script type="text/javascript">
-							// function youPlus(t,e){var n=e.createElement("script"),o=e.getElementsByTagName("script")[0];n.async=!0,n.src="https://d1uck549nef0ok.cloudfront.net/youplus.opinion.dev.js?v="+Date.now().toString(),n.charset="UTF-8",n.type="text/javascript",o.parentNode.insertBefore(n,o)};
-							window.onload = function () {
-								//youPlus(window, document);
-								stripev2();
-								stripev3();
-							};
-						</script>
-						<% } %>
+  </script>
+  <% } else { %>
+  <script type="text/javascript">
+    // function youPlus(t,e){var n=e.createElement("script"),o=e.getElementsByTagName("script")[0];n.async=!0,n.src="https://d1uck549nef0ok.cloudfront.net/youplus.opinion.dev.js?v="+Date.now().toString(),n.charset="UTF-8",n.type="text/javascript",o.parentNode.insertBefore(n,o)};
+    window.onload = function () {
+      //youPlus(window, document);
+      stripev2();
+      stripev3();
+    };
+  </script>
+  <% } %>
 
-							<script type="text/javascript">
-								//added to avoid msite view in desktop , it removes msite service worker if it is present
-								if ('serviceWorker' in navigator && navigator.userAgent.indexOf("Mobile") === -1) {
-									//check if name equals to msite service worker
-									if (navigator.serviceWorker.controller && navigator.serviceWorker.controller.scriptURL.includes("service-worker.js")) {
-										navigator.serviceWorker.getRegistration().then(function (registration) {
-											var serviceWorkerUnregistered = false;
-											if (registration) {
-												registration.unregister();
-												serviceWorkerUnregistered = true;
-											}
-											serviceWorkerUnregistered && window.location.reload();
-										});
-									}
-								}
-							</script>
+  <script type="text/javascript">
+    //added to avoid msite view in desktop , it removes msite service worker if it is present
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/service-worker.js').then(function (registration) {
+          // Registration was successful
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        }, function (err) {
+          // registration failed :(
+          console.log('ServiceWorker registration failed: ', err);
+        });
+      });
+    }
+  </script>
 </body>
 
 </html>
