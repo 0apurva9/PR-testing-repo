@@ -4683,6 +4683,7 @@ export function setDataLayerForRatingReviewSection(type, data) {
         Object.assign(previousDigitalData, {
             rating: data,
         });
+		window.digitalData = previousDigitalData;
     }
 
 	if (type === ADOBE_RATING_REVIEW_PDP_REVIEW_PAGE) {
@@ -4692,6 +4693,7 @@ export function setDataLayerForRatingReviewSection(type, data) {
 				linkName: "pdp:seeAll"
 			}
         });
+		window.digitalData = previousDigitalData;
     }
 
 	if (type === ADOBE_RATING_REVIEW_WRITE_REVIEW_CLICK) {
@@ -4701,6 +4703,8 @@ export function setDataLayerForRatingReviewSection(type, data) {
 				linkName: "productReview:WriteReview"
 			}
         });
+		window.digitalData = previousDigitalData;
+
 		if (window._satellite) {
             window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_CLICK);
         }
@@ -4713,6 +4717,8 @@ export function setDataLayerForRatingReviewSection(type, data) {
 				linkName: `productReview:sortBy:${data.sortByValue}`
 			}
         });
+		window.digitalData = previousDigitalData;
+
 		if (window._satellite) {
             window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_CLICK);
         }
@@ -4722,6 +4728,8 @@ export function setDataLayerForRatingReviewSection(type, data) {
 		Object.assign(previousDigitalData.page.pageInfo, {
 			pageName: `${data.pageName}:Product Rate`
 		});
+		window.digitalData = previousDigitalData;
+
 		if (window._satellite) {
             window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_VP);
         }
@@ -4736,6 +4744,8 @@ export function setDataLayerForRatingReviewSection(type, data) {
 				linkName: `${data.pageName}:Product Rate:Submit`
 			}
         });
+		window.digitalData = previousDigitalData;
+
 		if (window._satellite) {
             window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_CLICK);
         }
@@ -4745,6 +4755,8 @@ export function setDataLayerForRatingReviewSection(type, data) {
 		Object.assign(previousDigitalData.page.pageInfo, {
 			pageName: `${data.pageName}:Quality Liked`
 		});
+		window.digitalData = previousDigitalData;
+
 		if (window._satellite) {
             window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_VP);
         }
@@ -4759,6 +4771,8 @@ export function setDataLayerForRatingReviewSection(type, data) {
 				linkName: `${data.pageName}:Quality Liked:${data.pageAction}`
 			}
         });
+		window.digitalData = previousDigitalData;
+
 		if (window._satellite) {
             window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_CLICK);
         }
@@ -4768,6 +4782,8 @@ export function setDataLayerForRatingReviewSection(type, data) {
 		Object.assign(previousDigitalData.page.pageInfo, {
 			pageName: `${data.pageName}:Write Review`
 		});
+		window.digitalData = previousDigitalData;
+
 		if (window._satellite) {
             window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_VP);
         }
@@ -4782,10 +4798,11 @@ export function setDataLayerForRatingReviewSection(type, data) {
 				linkName: `${data.pageName}:Write Review:${data.pageAction}`
 			}
         });
+		window.digitalData = previousDigitalData;
+
 		if (window._satellite) {
             window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_CLICK);
         }
     }
 
-	window.digitalData = previousDigitalData;
 }
