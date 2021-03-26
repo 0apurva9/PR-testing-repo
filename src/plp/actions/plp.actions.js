@@ -250,9 +250,10 @@ export function getProductListings(
     suffix = null,
     paginated = false,
     isFilter,
+    componentName,
     searchHistory = false,
     searchTrending = false,
-    componentName
+    isRedirect
 ) {
     return async (dispatch, getState, { api }) => {
         dispatch(showSecondaryLoader());
@@ -263,11 +264,6 @@ export function getProductListings(
         }
         try {
             const searchState = getState().search;
-            const currentKeywordRedirect =
-                getState().productListings && getState().productListings.productListings
-                    ? getState().productListings.productListings.currentQuery.isKeywordRedirect
-                    : null;
-
             const listingsPageNumber = getState().productListings.pageNumber;
             const pageNumber = listingsPageNumber ? listingsPageNumber : 0;
             let encodedString =
@@ -283,8 +279,7 @@ export function getProductListings(
             if (isBrowser) {
                 dispatch(setLastPlpPath(""));
             }
-            let keyWordRedirect = currentKeywordRedirect ? currentKeywordRedirect : false;
-            let queryString = `${PRODUCT_LISTINGS_PATH}/?searchText=${encodedString}&isKeywordRedirect=${keyWordRedirect}&isKeywordRedirectEnabled=true&channel=WEB&isMDE=true`;
+            let queryString = `${PRODUCT_LISTINGS_PATH}/?searchText=${encodedString}&isKeywordRedirect=${isRedirect}&isKeywordRedirectEnabled=true&channel=WEB&isMDE=true`;
             if (suffix) {
                 queryString = `${queryString}${suffix}`;
             }
@@ -293,8 +288,7 @@ export function getProductListings(
             const result = await api.getMiddlewareUrl(queryString);
             const resultJson = await result.json();
             if (resultJson && resultJson.currentQuery && isBrowser) {
-                keyWordRedirect = resultJson.currentQuery.isKeywordRedirect;
-                if (keyWordRedirect && resultJson.currentQuery.pageRedirectType) {
+                if (resultJson.currentQuery.isKeywordRedirect && resultJson.currentQuery.pageRedirectType) {
                     dispatch(setSearchUrlWithKeywordRedirect(resultJson, encodedString));
                 }
             }
