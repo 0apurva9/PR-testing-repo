@@ -472,16 +472,16 @@ export default class OrderDetails extends React.Component {
         }
     };
 
-	submitRating = (rating, productCode, section) => {
-		this.props.openRatingReviewModal({ productCode, rating, section, pageName: "Order Details" });
-		if(section === 3){
-			this.props.getTitleSuggestions(productCode, rating);
-		}
-	};
+    submitRating = (rating, productCode, section) => {
+        this.props.openRatingReviewModal({ productCode, rating, section, pageName: "Order Details" });
+        if (section === 3) {
+            this.props.getTitleSuggestions(productCode, rating);
+        }
+    };
 
-	showRatingReviewModal = (productCode, rating) => {
-		this.props.openRatingReviewModal({ productCode, pageName: "Order Details", rating });
-	};
+    showRatingReviewModal = (productCode, rating) => {
+        this.props.openRatingReviewModal({ productCode, pageName: "Order Details", rating });
+    };
 
     render() {
         if (this.props.loadingForFetchOrderDetails) {
@@ -788,59 +788,100 @@ export default class OrderDetails extends React.Component {
                                             )}
 
                                             {products.consignmentStatus &&
-												(products.consignmentStatus === "DELIVERED" ||
-												products.consignmentStatus === "ORDER_COLLECTED" ||
-												products.consignmentStatus === "RETURN_CANCELLED_CUS") && (
+                                                (products.consignmentStatus === "DELIVERED" ||
+                                                    products.consignmentStatus === "ORDER_COLLECTED" ||
+                                                    products.consignmentStatus === "RETURN_CANCELLED_CUS") && (
                                                     <React.Fragment>
-														<div className={styles.reviewHolder}>
-															<div className={products.userRating && products.isRated ? styles.reviewHeading : styles.reviewHeadingInitial}>
-																{products.userRating && products.isRated ? "Your Rating" : "Rate this product"}
-															</div>
-															<div className={styles.ratingBar}>
-																{products.userRating && products.isRated ? (
-																<RatingAndIconComponent
-																	averageRating={products.userRating}
-																	openRatingReviewModal={true}
-																	showRatingReviewModal={() => this.showRatingReviewModal(products.productcode, products.userRating)}
-																/>
-																) : (
-																<RnREmptyRatingGreyStarComponent
-																	submitRating={(rating) => this.submitRating(rating, products.productcode, 1)}
-																/>
-																)}
-															</div>
+                                                        <div className={styles.reviewHolder}>
+                                                            <div
+                                                                className={
+                                                                    products.userRating && products.isRated
+                                                                        ? styles.reviewHeading
+                                                                        : styles.reviewHeadingInitial
+                                                                }
+                                                            >
+                                                                {products.userRating && products.isRated
+                                                                    ? "Your Rating"
+                                                                    : "Rate this product"}
+                                                            </div>
+                                                            <div className={styles.ratingBar}>
+                                                                {products.userRating && products.isRated ? (
+                                                                    <RatingAndIconComponent
+                                                                        averageRating={products.userRating}
+                                                                        openRatingReviewModal={true}
+                                                                        showRatingReviewModal={() =>
+                                                                            this.showRatingReviewModal(
+                                                                                products.productcode,
+                                                                                products.userRating
+                                                                            )
+                                                                        }
+                                                                    />
+                                                                ) : (
+                                                                    <RnREmptyRatingGreyStarComponent
+                                                                        submitRating={rating =>
+                                                                            this.submitRating(
+                                                                                rating,
+                                                                                products.productcode,
+                                                                                1
+                                                                            )
+                                                                        }
+                                                                    />
+                                                                )}
+                                                            </div>
 
-															{!products.isReviewed && products.isRated && products.userRating ? (
-																<React.Fragment>
-																	{products.isParamConfigured && !products.isParamRatingPresent ? (
-																	<div className={styles.writeReviewText}>
-																		<span
-																			className={styles.writeReviewTitle}
-																			onClick={() => this.submitRating(products.userRating, products.productcode, 2)}
-																		>
-																			Rate Qualities
-																		</span>
-																	</div>
-																	) : (
-																	<div className={styles.writeReviewText}>
-																		<span
-																			className={styles.writeReviewTitle}
-																			onClick={() => this.submitRating(products.userRating, products.productcode, 3)}
-																		>
-																			Write a Review
-																		</span>
-																	</div>
-																	)}
-																</React.Fragment>
-															) : null}
+                                                            {!products.isReviewed &&
+                                                            products.isRated &&
+                                                            products.userRating ? (
+                                                                <React.Fragment>
+                                                                    {products.isParamConfigured &&
+                                                                    !products.isParamRatingPresent &&
+                                                                    ("reviewStatus" in products
+                                                                        ? products.reviewStatus !== "rejected"
+                                                                        : true) ? (
+                                                                        <div className={styles.writeReviewText}>
+                                                                            <span
+                                                                                className={styles.writeReviewTitle}
+                                                                                onClick={() =>
+                                                                                    this.submitRating(
+                                                                                        products.userRating,
+                                                                                        products.productcode,
+                                                                                        2
+                                                                                    )
+                                                                                }
+                                                                            >
+                                                                                Rate Qualities
+                                                                            </span>
+                                                                        </div>
+                                                                    ) : (
+                                                                        <div className={styles.writeReviewText}>
+                                                                            <span
+                                                                                className={styles.writeReviewTitle}
+                                                                                onClick={() =>
+                                                                                    this.submitRating(
+                                                                                        products.userRating,
+                                                                                        products.productcode,
+                                                                                        3
+                                                                                    )
+                                                                                }
+                                                                            >
+                                                                                Write a Review
+                                                                            </span>
+                                                                        </div>
+                                                                    )}
+                                                                </React.Fragment>
+                                                            ) : null}
 
-															{products.isRated && products.userRating && products.isReviewed ? (
-																<div className={styles.reviewSuccess}>
-																	<span className={styles.reviewCheckContainer}><Icon image={reviewCheck} size={16} /></span>
-																	<span>Rating and Review Submitted</span>
-																</div>
-															) : null}
-														</div>
+                                                            {products.isRated &&
+                                                            products.userRating &&
+                                                            products.isReviewed ? (
+                                                                <div className={styles.reviewSuccess}>
+                                                                    <span className={styles.reviewCheckContainer}>
+                                                                        <Icon image={reviewCheck} size={16} />
+                                                                    </span>
+                                                                    <span>Rating and Review Submitted</span>
+                                                                </div>
+                                                            ) : null}
+                                                        </div>
                                                     </React.Fragment>
                                                 )}
 
@@ -1393,10 +1434,10 @@ OrderDetails.propTypes = {
     underlineButtonColour: PropTypes.string,
     underlineButtonLabel: PropTypes.string,
     userAddress: PropTypes.object,
-	openRatingReviewModal: PropTypes.func,
-	getParametersEligibleToRate: PropTypes.func,
-	getTitleSuggestions: PropTypes.func,
-	getUserProductReview: PropTypes.func,
+    openRatingReviewModal: PropTypes.func,
+    getParametersEligibleToRate: PropTypes.func,
+    getTitleSuggestions: PropTypes.func,
+    getUserProductReview: PropTypes.func,
 };
 OrderDetails.defaultProps = {
     underlineButtonLabel: "Request Invoice",
