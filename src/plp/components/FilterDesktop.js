@@ -426,7 +426,7 @@ export default class FilterDesktop extends React.Component {
             return <div />;
         }
         let showCloseIcon = false;
-        const storedPlpUrl = localStorage.getItem(LAST_PLP_URL);
+        const storedPlpUrl = localStorage.getItem(LANDING_SEARCH_URL);
         if (
             storedPlpUrl &&
             (storedPlpUrl.includes("/search/?searchCategory") || storedPlpUrl.includes("/search/")) &&
