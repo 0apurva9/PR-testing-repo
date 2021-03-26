@@ -5,41 +5,24 @@ import RatingAndIconComponent from "./RatingAndIconComponent";
 import RatingWithStatusBarComponent from "./RatingWithStatusBarComponent";
 import RatingCountWithStatusBarComponent from "./RatingCountWithStatusBarComponent";
 import PropTypes from "prop-types";
-import {
-	setDataLayerForRatingReviewSection,
-	ADOBE_RATING_REVIEW_PDP_INITIAL_DATA,
-	ADOBE_RATING_REVIEW_PDP_REVIEW_PAGE
-} from "../../../../lib/adobeUtils";
+import { setDataLayerForRatingReviewSection, ADOBE_RATING_REVIEW_PDP_REVIEW_PAGE } from "../../../../lib/adobeUtils";
 
 export default class RatingReviewHeaderComponent extends React.Component {
-	componentDidMount() {
-		// on initial page load
-		if(this.props.productDetails) {
-			let averageStar = null;
-			if(this.props.productDetails && this.props.productDetails.averageRating) {
-				averageStar = Math.round(this.props.productDetails.averageRating * 10) / 10;
-			}
-			const ratingReviewData = {
-				averageStar: averageStar,
-				totalReview: this.props.productDetails.numberOfReviews ? this.props.productDetails.numberOfReviews : null,
-				totalRating: this.props.productDetails.ratingCount ? this.props.productDetails.ratingCount : null
-			};
-			if(!this.props.isReviewPage) {
-				setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_PDP_INITIAL_DATA, ratingReviewData);
-			} else {
-				setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_PDP_REVIEW_PAGE, ratingReviewData);
-			}
-		}
-	}
+    componentDidMount() {
+        // on initial page load
+        if (this.props.isReviewPage) {
+            setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_PDP_REVIEW_PAGE);
+        }
+    }
 
     getSumOfStarRating = totalCountOfEachStarRating => {
         let eachStarRatingArray = [];
         totalCountOfEachStarRating &&
             totalCountOfEachStarRating.length > 0 &&
             totalCountOfEachStarRating.forEach(eachStarRating => {
-				if(eachStarRating.totalRatingCount) {
-					eachStarRatingArray.push(eachStarRating.totalRatingCount);
-				}
+                if (eachStarRating.totalRatingCount) {
+                    eachStarRatingArray.push(eachStarRating.totalRatingCount);
+                }
             });
         const sumOfRating =
             eachStarRatingArray.length > 0 && eachStarRatingArray.reduce((total, value) => total + value);
@@ -53,9 +36,9 @@ export default class RatingReviewHeaderComponent extends React.Component {
     getComponentForTotalCount = (totalCountOfEachStarRating, sumOfStarRating) => {
         const totalCountComponent = totalCountOfEachStarRating.map((eachStarRating, index) => {
             let statusBarWidth = 0;
-			if(eachStarRating.totalRatingCount) {
-				statusBarWidth = Math.round((eachStarRating.totalRatingCount / sumOfStarRating) * 100);
-			}
+            if (eachStarRating.totalRatingCount) {
+                statusBarWidth = Math.round((eachStarRating.totalRatingCount / sumOfStarRating) * 100);
+            }
             return (
                 <RatingCountWithStatusBarComponent
                     key={index.toString()}
@@ -88,12 +71,13 @@ export default class RatingReviewHeaderComponent extends React.Component {
     };
 
     render() {
-		if(!this.props.reviews) {
-			return null;
-		}
-        const sumOfStarRating = this.props.reviews &&
-			this.props.reviews.totalCountOfEachStarRating &&
-			this.getSumOfStarRating(this.props.reviews.totalCountOfEachStarRating);
+        if (!this.props.reviews) {
+            return null;
+        }
+        const sumOfStarRating =
+            this.props.reviews &&
+            this.props.reviews.totalCountOfEachStarRating &&
+            this.getSumOfStarRating(this.props.reviews.totalCountOfEachStarRating);
 
         return (
             <React.Fragment>
@@ -129,18 +113,21 @@ export default class RatingReviewHeaderComponent extends React.Component {
                                     averageRating={this.props.productDetails.averageRating}
                                     isFluidUI={false}
                                 />
-                                <RatingReviewCountComponent
-                                    productDetails={this.props.productDetails}
-                                />
+                                <RatingReviewCountComponent productDetails={this.props.productDetails} />
                             </div>
 
-                            {this.props.reviews.totalCountOfEachStarRating && this.getLength(this.props.reviews.totalCountOfEachStarRating) > 0 ? (
+                            {this.props.reviews.totalCountOfEachStarRating &&
+                            this.getLength(this.props.reviews.totalCountOfEachStarRating) > 0 ? (
                                 <div className={styles.sectionTwo}>
-                                    {this.getComponentForTotalCount(this.props.reviews.totalCountOfEachStarRating, sumOfStarRating)}
+                                    {this.getComponentForTotalCount(
+                                        this.props.reviews.totalCountOfEachStarRating,
+                                        sumOfStarRating
+                                    )}
                                 </div>
                             ) : null}
 
-                            {this.props.reviews.parameterizedRating && this.getLength(this.props.reviews.parameterizedRating) > 0 ? (
+                            {this.props.reviews.parameterizedRating &&
+                            this.getLength(this.props.reviews.parameterizedRating) > 0 ? (
                                 <div className={styles.sectionThree}>
                                     {this.getComponentForParameterizedRating(this.props.reviews.parameterizedRating)}
                                 </div>
