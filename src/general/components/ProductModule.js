@@ -298,6 +298,7 @@ export default class ProductModule extends React.Component {
                     offerText={this.props.offerText}
                     bestDeliveryInfo={this.props.bestDeliveryInfo}
                     maxExchangePrice={this.props.maxExchangePrice}
+					displayRatingReview={this.props.displayRatingReview}
                   />
                 )}
             </div>
@@ -384,7 +385,8 @@ ProductModule.propTypes = {
   ratingCount: PropTypes.number,
   maxExchangePrice: PropTypes.object,
   plpAttrMap: PropTypes.array,
-  price: PropTypes.string
+  price: PropTypes.string,
+  displayRatingReview: PropTypes.bool,
 };
 ProductModule.defaultProps = {
   view: "grid",

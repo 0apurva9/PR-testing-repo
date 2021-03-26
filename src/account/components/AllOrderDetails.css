@@ -80,9 +80,7 @@
 .reviewHolder {
 	width: 100%;
 	height: auto;
-	/* margin-left: 18%; */
-	cursor: pointer;
-	padding: 24px 0 35px 0;
+	padding: 24px 0;
 }
 .orderCardIndividual {
 	width: 100%;
@@ -341,13 +339,12 @@
 	padding: 9px 15px 9px 16px;
 }
 .writeReviewText{
-    height: auto;
-    color: #ff1744;
+	display: inline-block;
+	color: #da1c5c;
     font-size: 14px;
     font-family: semibold;
-    cursor: pointer;
-    float: right;
-    width: 30%;
+    text-align: right;
+	width: calc(100% - 315px);
     text-align: right;
 }
 .boxReview {
@@ -358,16 +355,15 @@
 	margin-bottom: 10px;
 }
 .reviewHeading {
-    margin-bottom: 20px;
+    margin-bottom: 12px;
     font-family: semibold;
     font-size: 14px;
     color: #212121;
     letter-spacing: 0;
 }
 .ratingBar {
-	width: 100%;
-	display: inline-flex;
-	align-items: center;
+	display: inline-block;
+	width: 315px;
 }
 @media screen and (max-width: 1024px) {
 	.base {
@@ -386,10 +382,36 @@
 }
 .ratingReviewHolder {
 	display: flex;
-	/* justify-content: space-between; */
 	padding: 5px 0 0 0;
 	margin-bottom: 34px;
 }
 .marginIcon {
 	margin-right: 24px;
+}
+
+.reviewSuccess {
+	display: inline-block;
+	width: calc(100% - 315px);
+    text-align: right;
+	font-size: 14px;
+    font-family: 'light';
+    color: #009700;
+}
+
+.writeReviewTitle {
+	cursor: pointer;
+}
+
+.reviewCheckContainer {
+	display: inline-block;
+	vertical-align: sub;
+	margin-right: 8px;
+}
+
+.reviewHeadingInitial {
+    margin-bottom: 20px;
+    font-family: semibold;
+    font-size: 14px;
+    color: #212121;
+    letter-spacing: 0;
 }

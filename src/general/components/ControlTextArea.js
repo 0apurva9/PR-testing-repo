@@ -14,6 +14,12 @@ export default class ControlTextArea extends React.Component {
     }
   }
 
+  handleBlur(event) {
+    if (this.props.onBlur) {
+      this.props.onBlur(event);
+    }
+  }
+
   render() {
     return (
       <div className={styles.container}>
@@ -24,9 +30,13 @@ export default class ControlTextArea extends React.Component {
           onChange={event => {
             this.handleChange(event);
           }}
-          style={{ height: `${this.props.height}px` }}
+          style={{
+			  height: `${this.props.height}px`,
+			  borderColor: `${this.props.borderColor}`,
+			}}
           onFocus={event => this.handleFocus(event)}
           maxLength={this.props.maxLength}
+		  onBlur={event => this.handleBlur(event)}
         />
       </div>
     );
@@ -39,6 +49,8 @@ ControlTextArea.propTypes = {
   placeholder: PropTypes.string,
   maxLength: PropTypes.number,
   onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
+  borderColor: PropTypes.string,
 };
 ControlTextArea.defaultProps = {
   height: 100,
