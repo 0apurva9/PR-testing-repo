@@ -115,13 +115,7 @@ module.exports = env => {
                 swSrc: join(process.cwd(), "src/service-worker.js"),
                 swDest: "service-worker.js",
                 mode: !isLocalMachineBuild ? "production" : "development",
-                exclude: [
-                    /\.map$/,
-                    /manifest$/,
-                    /\.htaccess$/,
-                    /service-worker\.js$/,
-                    /sw\.js$/,
-                ],
+                exclude: [/\.map$/, /manifest$/, /\.htaccess$/, /service-worker\.js$/, /sw\.js$/],
             })
         );
         plugins.push(
@@ -145,13 +139,7 @@ module.exports = env => {
                 swSrc: join(process.cwd(), "src/service-worker.js"),
                 swDest: "service-worker.js",
                 mode: "development",
-                exclude: [
-                    /\.map$/,
-                    /manifest$/,
-                    /\.htaccess$/,
-                    /service-worker\.js$/,
-                    /sw\.js$/,
-                ],
+                exclude: [/\.map$/, /manifest$/, /\.htaccess$/, /service-worker\.js$/, /sw\.js$/],
             })
         );
     }

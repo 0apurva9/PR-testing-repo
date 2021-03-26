@@ -1,8 +1,8 @@
 /* eslint-disable no-restricted-globals */
 // importScripts("https://storage.googleapis.com/workbox-cdn/releases/5.1.3/workbox-sw.js");
 import { StaleWhileRevalidate, NetworkFirst, CacheFirst } from "workbox-strategies";
-import { precacheAndRoute, cleanupOutdatedCaches, createHandlerBoundToURL, matchPrecache } from "workbox-precaching";
-import { registerRoute, NavigationRoute, setCatchHandler } from "workbox-routing";
+import { precacheAndRoute, cleanupOutdatedCaches, matchPrecache } from "workbox-precaching";
+import { registerRoute, setCatchHandler } from "workbox-routing";
 import { setCacheNameDetails, skipWaiting, clientsClaim } from "workbox-core";
 import { ExpirationPlugin } from "workbox-expiration/ExpirationPlugin";
 import { CacheableResponsePlugin } from "workbox-cacheable-response";
