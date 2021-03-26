@@ -42,7 +42,7 @@
     border-radius: 4px;
 }
 .filtersOptions {
-    background-color: #fff;
+    background-color: #f9f9f9;
     border-top: 1px solid #ececec;
     padding: 0 15px 0 15px;
 }
@@ -53,7 +53,7 @@
 .subFilterDetails {
     width: 100%;
     height: auto;
-    background: #fff;
+    background: #f9f9f9;
     display: block;
 }
 .filterHeader {
@@ -258,4 +258,7 @@
     height: auto;
     min-height: 100vh;
     text-align: left;
+}
+.brandModalFix {
+    position: static !important;
 }
