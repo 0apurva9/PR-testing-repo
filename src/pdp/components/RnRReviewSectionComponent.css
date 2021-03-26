@@ -51,7 +51,7 @@
 }
 
 .reviewGuidelines {
-	font-size: 13px;
+    font-size: 13px;
     color: #da1c5c;
     position: absolute;
     bottom: 8px;
@@ -60,7 +60,7 @@
 }
 
 .reviewGuidelinesBase {
-	position: fixed;
+    position: fixed;
     right: -340px;
     bottom: 0;
     width: 323px;
@@ -82,23 +82,23 @@
 }
 
 .contentHeader {
-	font-family: semibold;
+    font-family: semibold;
     font-size: 14px;
-	color: #4a4a4a;
+    color: #4a4a4a;
 }
 
 .contentContainer {
-	padding-left: 15px;
+    padding-left: 15px;
     margin: 9px 0 12px 0;
 }
 
 .contentContainer:last-child {
-	padding-left: 15px;
+    padding-left: 15px;
     margin: 9px 0 0 0;
 }
 
 .reviewTipsText {
-	font-size: 13px;
+    font-size: 13px;
     font-family: light;
     line-height: 20px;
 }
