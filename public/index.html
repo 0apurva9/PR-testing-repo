@@ -239,7 +239,7 @@
           "rejectButtonText": 'Ask me later',
           "okButtonColor": '#a91e3e',
           "askAgainTimeInSeconds": 604800,
-          "serviceWorkerPath": "/sw.js",
+          "serviceWorkerPath": "/service-worker.js",
           "okCallback": function () {
             clevertap.event.push("Web Push Notifications", {
               "User Accepted": "Yes"
@@ -448,18 +448,16 @@
   <% } %>
   <script type="text/javascript">
     //added to avoid msite view in desktop , it removes msite service worker if it is present
-    if ('serviceWorker' in navigator && navigator.userAgent.indexOf("Mobile") === -1) {
-      //check if name equals to msite service worker
-      if (navigator.serviceWorker.controller && navigator.serviceWorker.controller.scriptURL.includes("service-worker.js")) {
-        navigator.serviceWorker.getRegistration().then(function (registration) {
-          var serviceWorkerUnregistered = false;
-          if (registration) {
-            registration.unregister();
-            serviceWorkerUnregistered = true;
-          }
-          serviceWorkerUnregistered && window.location.reload();
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/service-worker.js').then(function (registration) {
+          // Registration was successful
+          console.log('ServiceWorker registration successful with scope: ', registration.scope);
+        }, function (err) {
+          // registration failed :(
+          console.log('ServiceWorker registration failed: ', err);
         });
-      }
+      });
     }
   </script>
   <span itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement">
