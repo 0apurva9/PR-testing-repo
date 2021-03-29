@@ -7,7 +7,7 @@
             content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1.0, user-scalable=0"
         />
         <meta name="theme-color" content="#000000" />
-        <% if(htmlWebpackPlugin.options.environment === "production") { %>
+        <% if(htmlWebpackPlugin.options.environment==="production" ) { %>
         <meta name="google-site-verification" content="EU8G54_LSqH0OTlvIXRhrV1fnjGDdh0uBoKYraVKE1I" />
         <% } %>
         <meta property="fb:app_id" content="484004418446735" />
@@ -19,7 +19,7 @@
         <meta property="al:android:url" content="https://www.tatacliq.com/" />
         <meta property="al:android:app_name" content="Tata Cliq" />
         <meta name="fragment" content="!" />
-        <% if(htmlWebpackPlugin.options.environment === "production") { %>
+        <% if(htmlWebpackPlugin.options.environment==="production" ) { %>
         <link rel="dns-prefetch" href="https://assets.adobedtm.com" />
         <link rel="dns-prefetch" href="https://tataunistorelimited.sc.omtrdc.net" />
         <link rel="dns-prefetch" href="https://tataunistore.demdex.net" />
@@ -80,13 +80,13 @@
         <div id="toast-root"></div>
         <div id="service-worker-toast-root"></div>
         <!--
-This HTML file is a template.
-If you open it directly in the browser, you will see an empty page.
-You can add webfonts, meta tags, or analytics to this file.
-The build step will place the bundled scripts into the <body> tag.
-To begin the development, run `npm start` or `yarn start`.
-To create a production bundle, use `npm run build` or `yarn build`.
--->
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+      -->
         <!-- Start -- Adding Script for Gemini Integration-->
         <script>
             ci = "0002321";
@@ -161,7 +161,7 @@ To create a production bundle, use `npm run build` or `yarn build`.
             postDomContentLoadedFunction(clevertapJS);
         </script>
 
-        <% if(htmlWebpackPlugin.options.environment === "production") { %>
+        <% if(htmlWebpackPlugin.options.environment==="production" ) { %>
         <script>
             (function() {
                 var geminiJs = document.createElement("script");
@@ -221,6 +221,7 @@ To create a production bundle, use `npm run build` or `yarn build`.
             };
             window.od.messenger = mc;
         </script>
+
         <script>
             fetch(
                 "https://msg.onedirect.in/kong/mgateway/public/v1/sdk-version?brandHash=NjMyNF8xNTYyMjE5NzU2Njg3XzQ=&channelId=1"
@@ -246,8 +247,8 @@ To create a production bundle, use `npm run build` or `yarn build`.
                 });
         </script>
         <!-- onedirectchat end -->
+
         <script type="text/javascript">
-            //added to avoid msite view in desktop , it removes msite service worker if it is present
             if ("serviceWorker" in navigator) {
                 window.addEventListener("load", function() {
                     navigator.serviceWorker.register("/service-worker.js").then(
@@ -263,7 +264,7 @@ To create a production bundle, use `npm run build` or `yarn build`.
                 });
             }
         </script>
-        <% if(htmlWebpackPlugin.options.local === "true" || htmlWebpackPlugin.options.watch === "true") { %>
+        <% if(htmlWebpackPlugin.options.local==="true" || htmlWebpackPlugin.options.watch==="true" ) { %>
         <script src="/reload/reload.js"></script>
         <% } %>
         <span itemscope="itemscope" itemtype="https://www.schema.org/SiteNavigationElement">
