@@ -78,6 +78,8 @@ class CartPage extends React.Component {
             showCheckoutSection: true,
             isComingFromCliqAndPiq: false,
             appliancesExchangePincodeData: null,
+            isCheckoutBtnClicked: false,
+            isCartDetailsAPITriggered: false,
         };
     }
 
@@ -206,19 +208,27 @@ class CartPage extends React.Component {
     }
 
     async getCartCodeAndGuid(userDetails, customerCookie, defaultPinCode) {
+        this.setState({ isCartDetailsAPITriggered: true });
         let response = await this.props.getCartCodeAndGuidForLoggedInUser();
         if (response && response.status === "Success" && response.count > 0 && response.code) {
+            this.setState({ isCartDetailsAPITriggered: false });
+            Cookie.createCookie(CART_DETAILS_FOR_LOGGED_IN_USER, JSON.stringify(response));
             this.props.getCartDetails(
                 JSON.parse(userDetails).userName,
                 JSON.parse(customerCookie).access_token,
                 response.code,
                 defaultPinCode
             );
-            Cookie.createCookie(CART_DETAILS_FOR_LOGGED_IN_USER, JSON.stringify(response));
         }
     }
 
     componentWillReceiveProps(nextProps) {
+        const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+        const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+        // const globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+        const cartDetailsLoggedInUser = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+        const defaultPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
+        // const cartDetailsAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
         let cartCouponCode =
             nextProps.cart && nextProps.cart.cartDetails && nextProps.cart.cartDetails.appliedCoupon
                 ? nextProps.cart.cartDetails.appliedCoupon
@@ -242,6 +252,14 @@ class CartPage extends React.Component {
             this.setState({
                 appliancesExchangePincodeData: nextProps.appliancesExchangePincodeDetails,
             });
+        }
+        if (nextProps.isMNLLogin.value && userDetails && customerCookie && this.state.isCheckoutBtnClicked) {
+            if (!cartDetailsLoggedInUser && !this.state.isCartDetailsAPITriggered) {
+                this.getCartCodeAndGuid(userDetails, customerCookie, defaultPinCode);
+            } else if (cartDetailsLoggedInUser) {
+                this.setState({ isCheckoutBtnClicked: false });
+                this.goToCheckoutPageAfterLogin();
+            }
         }
     }
 
@@ -430,11 +448,16 @@ class CartPage extends React.Component {
         let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
 
         if (!customerCookie || !userDetails) {
+            this.setState({ isCheckoutBtnClicked: true });
             setDataLayerForCartDirectCalls(ADOBE_CALLS_FOR_ON_CLICK_CHECKOUT);
             return this.navigateToLogin();
         }
-        let pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
 
+        this.goToCheckoutPageAfterLogin();
+    }
+
+    goToCheckoutPageAfterLogin = () => {
+        let pinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
         if (pinCode && this.state.isServiceable === true) {
             setDataLayerForCartDirectCalls(ADOBE_CALLS_FOR_ON_CLICK_CHECKOUT);
             this.navigateToCheckout = true;
@@ -456,7 +479,7 @@ class CartPage extends React.Component {
         } else if (!this.state.isServiceable) {
             this.props.displayToast(PRODUCT_NOT_SERVICEABLE_MESSAGE);
         }
-    }
+    };
 
     checkPinCodeAvailability = (val, addressId = "") => {
         this.setState({
@@ -1301,6 +1324,7 @@ CartPage.propTypes = {
     wishListCount: PropTypes.number,
     openMdeFraudDetailsModal: PropTypes.func,
     isMNLLogin: PropTypes.object,
+    userDetails: PropTypes.object,
 };
 
 CartPage.defaultProps = {
