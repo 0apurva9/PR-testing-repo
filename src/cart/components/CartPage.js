@@ -225,10 +225,8 @@ class CartPage extends React.Component {
     componentWillReceiveProps(nextProps) {
         const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
         const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-        // const globalCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
         const cartDetailsLoggedInUser = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
         const defaultPinCode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
-        // const cartDetailsAnonymous = Cookie.getCookie(CART_DETAILS_FOR_ANONYMOUS);
         let cartCouponCode =
             nextProps.cart && nextProps.cart.cartDetails && nextProps.cart.cartDetails.appliedCoupon
                 ? nextProps.cart.cartDetails.appliedCoupon
