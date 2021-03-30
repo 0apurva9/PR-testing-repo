@@ -699,13 +699,13 @@ export function getDefaultPlpView() {
 export function seachAbVersion() {
     return async (dispatch, getState, { api }) => {
         try {
-            let globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-            if (!globalAccessToken) {
-                await this.props.getGlobalAccessToken();
-                globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-            }
+            let searchCookieValue = Cookie.getCookie("bm_sv") || "";
+            // if (!globalAccessToken) {
+            //     await this.props.getGlobalAccessToken();
+            //     globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
+            // }
             const result = await api.get(
-                `v2/mpl/products/searchab/?sessionUID=${JSON.parse(globalAccessToken).access_token}&channel=web`
+                `v2/mpl/products/searchab/?sessionUID=${JSON.parse(searchCookieValue).access_token}&channel=web`
             );
             const resultJson = await result.json();
             const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
