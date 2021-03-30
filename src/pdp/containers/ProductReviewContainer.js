@@ -6,6 +6,7 @@ import {
     getProductReviews,
     getProductDescription,
     addProductReview,
+    getReviewsOnProductPage,
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions";
 import { showSecondaryLoader, hideSecondaryLoader } from "../../general/secondaryLoader.actions";
@@ -62,6 +63,9 @@ const mapDispatchToProps = dispatch => {
         openRatingReviewModal: data => {
             dispatch(showModal(RATING_REVIEW_MODAL_V2, data));
         },
+        getReviewsOnProductPage: productCode => {
+            dispatch(getReviewsOnProductPage(productCode));
+        },
     };
 };
 
@@ -72,6 +76,7 @@ const mapStateToProps = state => {
         addReviewStatus: state.productDescription.addReviewStatus,
         loadingForAddProduct: state.productDescription.loadingForAddProduct,
         loading: state.productDescription.loading,
+        reviewsOnProductPageDetails: state.productDescription.getReviewsOnProductPageDetails,
     };
 };
 
