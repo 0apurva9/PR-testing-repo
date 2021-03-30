@@ -5439,55 +5439,53 @@ export function resetTicketsDataToInitial() {
 }
 
 export function getHaptikBotConfigRequest() {
-  return {
-    type: GET_HAPTIK_CONFIG_DATA_REQUEST,
-    status: REQUESTING
-  };
+    return {
+        type: GET_HAPTIK_CONFIG_DATA_REQUEST,
+        status: REQUESTING,
+    };
 }
 
 export function getHaptikBotConfigSuccess(haptikBotConfigData) {
-  return {
-    type: GET_HAPTIK_CONFIG_DATA_SUCCESS,
-    status: SUCCESS,
-    haptikBotConfigData
-  };
+    return {
+        type: GET_HAPTIK_CONFIG_DATA_SUCCESS,
+        status: SUCCESS,
+        haptikBotConfigData,
+    };
 }
 
 export function getHaptikBotConfigFailure() {
-  return {
-    type: GET_HAPTIK_CONFIG_DATA_FAILURE,
-    status: FAILURE
-  };
+    return {
+        type: GET_HAPTIK_CONFIG_DATA_FAILURE,
+        status: FAILURE,
+    };
 }
 
 export function getHaptikBotConfig(pageId) {
-  return async (dispatch, getState, { api }) => {
-    dispatch(getHaptikBotConfigRequest());
-    try {
-      const result = await api.get(`${PATH}/cms/defaultpage?pageId=${pageId}`);
-      let resultJson = await result.json();
-      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
-      }
-      let resultJsonParse = "";
-      if (
-        resultJson &&
-        Array.isArray(resultJson.items) &&
-        resultJson.items[0].cmsParagraphComponent &&
-        typeof resultJson.items[0].cmsParagraphComponent === "object" &&
-        resultJson.items[0].cmsParagraphComponent !== null &&
-        resultJson.items[0].cmsParagraphComponent.content
-      ) {
-        resultJsonParse = JSON.parse(
-          resultJson.items[0].cmsParagraphComponent.content
-        );
-      }
-      dispatch(getHaptikBotConfigSuccess(resultJsonParse));
-    } catch (e) {
-      dispatch(getHaptikBotConfigFailure(e.message));
-    }
-  };
+    return async (dispatch, getState, { api }) => {
+        dispatch(getHaptikBotConfigRequest());
+        try {
+            const result = await api.get(`${PATH}/cms/defaultpage?pageId=${pageId}`);
+            let resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+            if (resultJsonStatus.status) {
+                throw new Error(resultJsonStatus.message);
+            }
+            let resultJsonParse = "";
+            if (
+                resultJson &&
+                Array.isArray(resultJson.items) &&
+                resultJson.items[0].cmsParagraphComponent &&
+                typeof resultJson.items[0].cmsParagraphComponent === "object" &&
+                resultJson.items[0].cmsParagraphComponent !== null &&
+                resultJson.items[0].cmsParagraphComponent.content
+            ) {
+                resultJsonParse = JSON.parse(resultJson.items[0].cmsParagraphComponent.content);
+            }
+            dispatch(getHaptikBotConfigSuccess(resultJsonParse));
+        } catch (e) {
+            dispatch(getHaptikBotConfigFailure(e.message));
+        }
+    };
 }
 
 export function getPendingReviewsRequest() {
@@ -5515,26 +5513,26 @@ export function getPendingReviewsFailure(error) {
 
 export function getPendingReviews(currentPage, isRatingReviewSuccessScreen) {
     return async (dispatch, getState, { api }) => {
-		let userDetails = await getLoggedInUserDetails();
-		let userName = userDetails.userName;
-		let accessToken = await getCustomerAccessToken();
+        let userDetails = await getLoggedInUserDetails();
+        let userName = userDetails.userName;
+        let accessToken = await getCustomerAccessToken();
 
         dispatch(getPendingReviewsRequest());
         try {
-			let extraParam = "";
-			if(isRatingReviewSuccessScreen) {
-				extraParam = `&rating=0`;
-			}
-			const result = await api.get(
-				`${USER_PATH}/${userName}/getPendingReviewProducts?fields=BASIC&access_token=${accessToken}&page=${currentPage}&pageSize=${PAGE_SIZE}${extraParam}`
-			);
-			const resultJson = await result.json();
-			const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-            if (resultJsonStatus.status) {
-				dispatch(getPendingReviewsFailure(resultJsonStatus.message));
+            let extraParam = "";
+            if (isRatingReviewSuccessScreen) {
+                extraParam = `&rating=0`;
+            }
+            const result = await api.get(
+                `${USER_PATH}/${userName}/getPendingReviewProducts?fields=BASIC&access_token=${accessToken}&page=${currentPage}&pageSize=${PAGE_SIZE}${extraParam}`
+            );
+            const resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+            if (resultJsonStatus.status || (resultJson && !resultJson.reviews)) {
+                dispatch(getPendingReviewsFailure(resultJsonStatus.message));
             } else {
-				dispatch(getPendingReviewsSuccess(resultJson));
-			}
+                dispatch(getPendingReviewsSuccess(resultJson));
+            }
         } catch (e) {
             dispatch(getPendingReviewsFailure(e.message));
         }
@@ -5566,22 +5564,22 @@ export function getPublishedReviewsFailure(error) {
 
 export function getPublishedReviews(currentPage) {
     return async (dispatch, getState, { api }) => {
-		let userDetails = await getLoggedInUserDetails();
-		let userName = userDetails.userName;
-		let accessToken = await getCustomerAccessToken();
+        let userDetails = await getLoggedInUserDetails();
+        let userName = userDetails.userName;
+        let accessToken = await getCustomerAccessToken();
 
         dispatch(getPublishedReviewsRequest());
         try {
-			const result = await api.get(
-				`${USER_PATH}/${userName}/viewApprovedUserReview?fields=BASIC&access_token=${accessToken}&page=${currentPage}&pageSize=${PAGE_SIZE}`
-			);
-			const resultJson = await result.json();
-			const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+            const result = await api.get(
+                `${USER_PATH}/${userName}/viewApprovedUserReview?fields=BASIC&access_token=${accessToken}&page=${currentPage}&pageSize=${PAGE_SIZE}`
+            );
+            const resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
             if (resultJsonStatus.status) {
-				dispatch(getPublishedReviewsFailure(resultJsonStatus.message));
+                dispatch(getPublishedReviewsFailure(resultJsonStatus.message));
             } else {
-				dispatch(getPublishedReviewsSuccess(resultJson));
-			}
+                dispatch(getPublishedReviewsSuccess(resultJson));
+            }
         } catch (e) {
             dispatch(getPublishedReviewsFailure(e.message));
         }
@@ -5613,9 +5611,9 @@ export function getUserProductReviewFailure(error) {
 
 export function getUserProductReview(productCode) {
     return async (dispatch, getState, { api }) => {
-		let userDetails = await getLoggedInUserDetails();
-		let userName = userDetails.userName;
-		let accessToken = await getCustomerAccessToken();
+        let userDetails = await getLoggedInUserDetails();
+        let userName = userDetails.userName;
+        let accessToken = await getCustomerAccessToken();
 
         dispatch(getUserProductReviewRequest());
         try {
