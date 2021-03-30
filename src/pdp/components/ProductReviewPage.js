@@ -60,6 +60,7 @@ export default class ProductReviewPage extends Component {
             isFilterSelected: false,
             checkedItems: new Map(),
             reviewsOnProductPageDetails: null,
+            filteredProducts: null,
         };
         this.filterOptions = [
             { label: "Oldest First", value: "byDate_asc" },
@@ -314,7 +315,13 @@ export default class ProductReviewPage extends Component {
             sortLabel: val.label,
         });
 
-        this.props.getProductReviews(this.props.match.params[0], 0, filterValues[1], filterValues[0]);
+        this.props.getProductReviews(
+            this.props.match.params[0],
+            0,
+            filterValues[1],
+            filterValues[0],
+            this.state.filteredProducts
+        );
 
         let averageStar = null;
         if (this.props.productDetails && this.props.productDetails.averageRating) {
@@ -429,11 +436,12 @@ export default class ProductReviewPage extends Component {
             this.state.sort,
             filteredProducts
         );
+        this.setState({ filteredProducts });
     };
 
     clearFilters = () => {
         if (this.state.checkedItems && this.state.checkedItems.size > 0) {
-            this.setState({ checkedItems: new Map() });
+            this.setState({ checkedItems: new Map(), filteredProducts: null });
             this.props.getProductReviews(this.props.match.params[0], 0, this.state.orderBy, this.state.sort);
         }
     };
