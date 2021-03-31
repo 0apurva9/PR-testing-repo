@@ -151,6 +151,11 @@ const productDescription = (
         getTitleSuggestionsError: null,
         getTitleSuggestionsDetails: null,
         addReviewDetails: null,
+
+        getReviewsOnProductPageStatus: null,
+        getReviewsOnProductPageLoading: false,
+        getReviewsOnProductPageError: null,
+        getReviewsOnProductPageDetails: null,
     },
     action
 ) => {
@@ -1396,6 +1401,27 @@ const productDescription = (
                 getTitleSuggestionsLoading: false,
                 getTitleSuggestionsError: action.error,
                 getTitleSuggestionsDetails: null,
+            });
+
+        case pdpActions.GET_REVIEWS_ON_PRODUCT_PAGE_REQUEST:
+            return Object.assign({}, state, {
+                getReviewsOnProductPageStatus: action.status,
+                getReviewsOnProductPageLoading: true,
+            });
+
+        case pdpActions.GET_REVIEWS_ON_PRODUCT_PAGE_SUCCESS:
+            return Object.assign({}, state, {
+                getReviewsOnProductPageStatus: action.status,
+                getReviewsOnProductPageLoading: false,
+                getReviewsOnProductPageDetails: action.data,
+            });
+
+        case pdpActions.GET_REVIEWS_ON_PRODUCT_PAGE_FAILURE:
+            return Object.assign({}, state, {
+                getReviewsOnProductPageStatus: action.status,
+                getReviewsOnProductPageLoading: false,
+                getReviewsOnProductPageError: action.error,
+                getReviewsOnProductPageDetails: null,
             });
 
         default:
