@@ -1,7 +1,7 @@
 .base {
     width: 415px;
     height: 233px;
-    padding: 18px 20px 60px 43px;
+    padding: 40px;
     border-radius: 6px;
     background-color: #ffffff;
     display: flex;
@@ -14,7 +14,6 @@
 .content {
     color: #2d2d2d;
     font-family: light;
-    margin-top: 40px;
     font-size: 14px;
     line-height: 21px;
     text-align: center;
