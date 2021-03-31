@@ -147,3 +147,13 @@
   height: 128px;
   pointer-events: none;
 }
+
+.knowMore {
+	display: inline-block;
+    vertical-align: middle;
+	margin-left: 5px;
+	font-size: 12px;
+	font-family: 'semibold';
+	color: #2874f0;
+    cursor: pointer;
+}
