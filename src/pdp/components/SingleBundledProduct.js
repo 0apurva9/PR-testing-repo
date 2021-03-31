@@ -107,6 +107,8 @@ export default class SingleBundledProduct extends React.Component {
         let mainProductImageUrl =
             this.props.productData &&
             this.props.productData.galleryImagesList &&
+            Array.isArray(this.props.productData.galleryImagesList) &&
+            this.props.productData.galleryImagesList.length > 0 &&
             this.props.productData.galleryImagesList[0] &&
             this.props.productData.galleryImagesList[0].galleryImages &&
             this.props.productData.galleryImagesList[0].galleryImages[1] &&
