@@ -59,19 +59,19 @@
     margin-bottom: 13px;
 }
 
-.productDetailsContainer>.productNameContainer {
+.productDetailsContainer > .productNameContainer {
     min-height: 18px;
 }
 
-.productDetailsContainer>.productNameContainer>.productName {
+.productDetailsContainer > .productNameContainer > .productName {
     cursor: pointer;
 }
 
-.productDetailsContainer>.ratingContainer {
+.productDetailsContainer > .ratingContainer {
     height: 25px;
 }
 
-.productDetailsContainer>.buyingTipsContainer {
+.productDetailsContainer > .buyingTipsContainer {
     display: inline-block;
     margin-top: 17px;
     height: 19px;
