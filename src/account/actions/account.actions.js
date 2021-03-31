@@ -502,7 +502,7 @@ export function getDetailsOfCancelledProduct(cancelProductDetails) {
         try {
             const result = await api.postFormData(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/returnProductDetails?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&isMDE=true`,
                 cancelProductObject
             );
@@ -550,7 +550,7 @@ export function updateReturnForHOTC(data) {
             const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
             const result = await api.post(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/updateReturnForHOTC/${data.orderId}/${
-                    data.transactionId
+                data.transactionId
                 }?access_token=${JSON.parse(customerCookie).access_token}&isPwa=true`
             );
             const resultJson = await result.json();
@@ -609,7 +609,7 @@ export function cancelProduct(cancelProductDetails, productDetails) {
         try {
             const result = await api.postFormData(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/initiateRefund?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&login=${JSON.parse(userDetails).userName}&isPwa=true&isMDE=true`,
                 cancelProductObject
             );
@@ -666,7 +666,7 @@ export function returnProductDetails(productDetails) {
         try {
             const result = await api.postFormData(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/newReturnProductDetails?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&isPwa=true`,
                 returnProductFormData
             );
@@ -718,7 +718,7 @@ export function getReturnModes(returnId, orderId, pickUpAddressId, transactionId
 
             const result = await api.postFormData(
                 `v2/mpl/users/${JSON.parse(userDetails).userName}/getPickupAddrReturnPincodeServcblty?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&isPwa=true&isMDE=true`,
                 data
             );
@@ -810,9 +810,9 @@ export function updateReturnConfirmation(
 
             const result = await api.post(
                 `${USER_PATH}/${
-                    JSON.parse(userDetails).userName
+                JSON.parse(userDetails).userName
                 }/updateReturnConfirmation/${orderId}/${transactionId}?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&isPwa=true&isMDE=true`,
                 data
             );
@@ -861,9 +861,9 @@ export function getRefundTransactionSummary(orderId, transactionId, returnId) {
         try {
             const result = await api.get(
                 `${USER_PATH}/${
-                    JSON.parse(userDetails).userName
+                JSON.parse(userDetails).userName
                 }/getReturnTransactionSummary/${orderId}/${transactionId}/${returnId}/?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&isPwa=true&isMDE=true`
             );
             const resultJson = await result.json();
@@ -909,7 +909,7 @@ export function getReturnReasons(orderId, transactionId) {
         try {
             const result = await api.get(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/getReturnCancelReasons?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&orderCode=${orderId}&transactionId=${transactionId}&isPwa=true`
             );
             const resultJson = await result.json();
@@ -960,7 +960,7 @@ export function updateReturnCancellation(data) {
             }
             const result = await api.post(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/updateReturnCancellation/${data.orderId}/${
-                    data.transactionId
+                data.transactionId
                 }?access_token=${JSON.parse(customerCookie).access_token}&isPwa=true&isMDE=true`,
                 apiData
             );
@@ -1012,9 +1012,9 @@ export function getReturnRequest(orderCode, transactionId) {
         try {
             const result = await api.get(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/returnRequest?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&channel=${CHANNEL}&loginId=${
-                    JSON.parse(userDetails).userName
+                JSON.parse(userDetails).userName
                 }&orderCode=${orderCode}&transactionId=${transactionId}`
             );
 
@@ -1067,7 +1067,7 @@ export function newReturnInitial(returnDetails, product = null) {
         try {
             const result = await api.post(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/newReturnInitiate?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&channel=${CHANNEL}`,
                 returnDetails
             );
@@ -1119,9 +1119,9 @@ export function returnPinCode(productDetails) {
         try {
             const result = await api.post(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/returnPincode?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&&orderCode=${productDetails.orderCode}&pincode=${productDetails.pinCode}&transactionId=${
-                    productDetails.transactionId
+                productDetails.transactionId
                 }`
             );
             resultJson = await result.json();
@@ -1172,7 +1172,7 @@ export function quickDropStore(pincode, ussId) {
         try {
             const result = await api.get(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/quickDropStores?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&pincode=${pincode}&&ussid=${ussId}`
             );
 
@@ -1222,7 +1222,7 @@ export function getGiftCardDetails() {
         try {
             const result = await api.get(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/giftCard/egvProductInfo?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }`
             );
             const resultJson = await result.json();
@@ -1288,7 +1288,7 @@ export function createGiftCardDetails(giftCardDetails) {
         try {
             const result = await api.post(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/createElectronicsGiftCardCartGuid?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }`,
                 giftCardDetails
             );
@@ -1337,7 +1337,7 @@ export function getOtpToActivateWallet(customerDetails, isFromCliqCash) {
         try {
             const result = await api.post(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/checkWalletMobileNumber?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&isUpdateProfile=false`,
                 customerDetails
             );
@@ -1392,9 +1392,9 @@ export function verifyWallet(customerDetailsWithOtp, isFromCliqCash) {
         try {
             const result = await api.post(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/verifyWalletOtp?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&otp=${customerDetailsWithOtp.otp}&firstName=${customerDetailsWithOtp.firstName}&lastName=${
-                    customerDetailsWithOtp.lastName
+                customerDetailsWithOtp.lastName
                 }&mobileNumber=${customerDetailsWithOtp.mobileNumber}`
             );
             const resultJson = await result.json();
@@ -1435,7 +1435,7 @@ export function getReturnReasonsWithProductDetails(productDetails) {
         try {
             const result = await api.get(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/getReturnReasons/${productDetails.orderCode}/${
-                    productDetails.transactionId
+                productDetails.transactionId
                 }/?access_token=${JSON.parse(customerCookie).access_token}&isPwa=true&isMDE=true`
             );
 
@@ -1487,7 +1487,7 @@ export function uploadProductImages(orderId, transactionId, file) {
 
             const result = await api.postFormData(
                 `/v2/mpl/users/${JSON.parse(userDetails).userName}/uploadReturnImageFile?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&isPwa=true`,
                 uploadFile
             );
@@ -1556,9 +1556,9 @@ export function getRefundOptionsData(
 
             const result = await api.post(
                 `${USER_PATH}/${
-                    JSON.parse(userDetails).userName
+                JSON.parse(userDetails).userName
                 }/updateReturnReasonGetReturnType/${orderId}/${transactionId}?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&isPwa=true&isMDE=true`,
                 data
             );
@@ -1611,9 +1611,9 @@ export function getRefundModes(orderId, transactionId, returnId, typeOfReturn) {
             });
             const result = await api.post(
                 `${USER_PATH}/${
-                    JSON.parse(userDetails).userName
+                JSON.parse(userDetails).userName
                 }/updateReturnTypeGetRefundMode/${orderId}/${transactionId}?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&isPwa=true&isMDE=true`,
                 data
             );
@@ -1666,9 +1666,9 @@ export function updateRefundMode(orderId, transactionId, returnId, refundMode) {
             });
             const result = await api.post(
                 `${USER_PATH}/${
-                    JSON.parse(userDetails).userName
+                JSON.parse(userDetails).userName
                 }/updateRefundMode/${orderId}/${transactionId}?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&isPwa=true&isMDE=true`,
                 data
             );
@@ -1717,7 +1717,7 @@ export function getCustomerBankDetails() {
         try {
             const result = await api.get(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/getCustomerBankDetails?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&customerId=${JSON.parse(userDetails).customerId}&isPwa=true`
             );
             const resultJson = await result.json();
@@ -1760,7 +1760,7 @@ export function updateCustomerBankDetails(bankDetails) {
         try {
             const result = await api.post(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/updateBankDetails?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&isPwa=true`,
                 bankDetails
             );
@@ -1783,7 +1783,7 @@ export function getCliqCashDetailsRefund() {
         try {
             const result = await api.post(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/cliqcash/getUserCliqCashDetails?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
             );
             const resultJson = await result.json();
@@ -1840,9 +1840,9 @@ export function submitSelfCourierReturnInfo(returnDetails) {
         try {
             const result = await api.postFormData(
                 `${USER_PATH}/${
-                    JSON.parse(userDetails).userName
+                JSON.parse(userDetails).userName
                 }/submitSelfCourierRetrunInfo?channel=${CHANNEL}&access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }`,
                 returnDetailsObject
             );
@@ -1942,7 +1942,7 @@ export function getTransactionDetails() {
         try {
             const result = await api.post(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/getWalletTransactions?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&channel=${CHANNEL}`
             );
             const resultJson = await result.json();
@@ -1986,7 +1986,7 @@ export function getPinCode(pinCode) {
         try {
             const result = await api.get(
                 `${PIN_PATH}/getPincodeData?pincode=${pinCode}&access_token=${
-                    JSON.parse(globalAccessToken).access_token
+                JSON.parse(globalAccessToken).access_token
                 }`
             );
             const resultJson = await result.json();
@@ -2035,7 +2035,7 @@ export function getPinCodeChangeAddressOrderedProduct(address, orderCode) {
         try {
             const result = await api.post(
                 `${PIN_PATH}/users/${
-                    JSON.parse(userAccessToken).userName
+                JSON.parse(userAccessToken).userName
                 }/changeDeliveryAddress/${orderCode}?access_token=${JSON.parse(customerCookie).access_token}`,
                 address
             );
@@ -2081,7 +2081,7 @@ export function removeSavedCardDetails(cardToken) {
         try {
             const result = await api.post(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/payments/removeSavedCards?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&cardToken=${cardToken}`
             );
             const resultJson = await result.json();
@@ -2131,7 +2131,7 @@ export function removeSavedUpiDetails(upiId) {
         try {
             const result = await api.post(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/payments/removeSavedUPIS?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&upiId=${upiId}`
             );
             const resultJson = await result.json();
@@ -2207,7 +2207,7 @@ export function addUPIDetails(upi, pageType, btnType) {
         try {
             const addUPI = `${USER_PATH}/${JSON.parse(userDetails).userName}/payments/upiValidation?access_token=${
                 JSON.parse(customerCookie).access_token
-            }&isPwa=true&channel=web&isUpdatedPwa=true&upiId=${upi}&isToValidateUpi=true&isToSaveUpi=true`;
+                }&isPwa=true&channel=web&isUpdatedPwa=true&upiId=${upi}&isToValidateUpi=true&isToSaveUpi=true`;
             const result = await api.post(addUPI);
             const resultJson = await result.json();
             const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2287,11 +2287,11 @@ export function getAllOrdersDetails(suffix, paginated, isSetDataLayer, showDataA
             if (showDataAccordingToUser) {
                 getOrderDetails = `${USER_PATH}/${JSON.parse(userDetails).userName}/orderhistorylist_V1?access_token=${
                     JSON.parse(customerCookie).access_token
-                }&channel=web&currentPage=${currentPage}&pageSize=${PAGE_SIZE}&orderYear=${showDataAccordingToUser}&isMDE=true`;
+                    }&channel=web&currentPage=${currentPage}&pageSize=${PAGE_SIZE}&orderYear=${showDataAccordingToUser}&isMDE=true`;
             } else {
                 getOrderDetails = `${USER_PATH}/${JSON.parse(userDetails).userName}/orderhistorylist_V1?access_token=${
                     JSON.parse(customerCookie).access_token
-                }&channel=web&currentPage=${currentPage}&pageSize=${PAGE_SIZE}&isMDE=true`;
+                    }&channel=web&currentPage=${currentPage}&pageSize=${PAGE_SIZE}&isMDE=true`;
             }
             const result = await api.get(getOrderDetails);
             let resultJson = await result.json();
@@ -2379,7 +2379,7 @@ export function getAllSellersDetails(isSetDataLayer) {
 
             getSellerDetails = `${PATH}/getSellerFeedbackTransactions?transactionId=${transId}&customerId=${
                 JSON.parse(userDetails).customerId
-            }&access_token=${JSON.parse(customerCookie).access_token}`;
+                }&access_token=${JSON.parse(customerCookie).access_token}`;
             const result = await api.get(getSellerDetails);
             const resultJson = await result.json();
             const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -2433,7 +2433,7 @@ export function getAllSellersReviewDetails() {
             let getSellerDetails = "";
             getSellerDetails = `${PATH}/getSellerReviewTransactions?customerId=${
                 JSON.parse(userDetails).customerId
-            }&access_token=${JSON.parse(customerCookie).access_token}`;
+                }&access_token=${JSON.parse(customerCookie).access_token}`;
 
             const result = await api.get(getSellerDetails);
             const resultJson = await result.json();
@@ -2473,7 +2473,7 @@ export function submitSellerReviewByUser(params) {
             const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
             let reqURL = `${USER_PATH}/${JSON.parse(userDetails).userName}/submitCustomerReview?access_token=${
                 JSON.parse(customerCookie).access_token
-            }`;
+                }`;
 
             const result = await api.post(reqURL, params);
             const resultJson = await result.json();
@@ -2506,7 +2506,7 @@ export function removeSellerReviewByUser(params) {
             const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
             let reqURL = `${USER_PATH}/${JSON.parse(userDetails).userName}/submitCustomerReview?access_token=${
                 JSON.parse(customerCookie).access_token
-            }`;
+                }`;
 
             const result = await api.post(reqURL, params);
             const resultJson = await result.json();
@@ -2548,7 +2548,7 @@ export function getUserDetails(isSetDataLayer) {
             const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
             const result = await api.get(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/getCustomerProfile?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&isPwa=true`
             );
             const resultJson = await result.json();
@@ -2598,7 +2598,7 @@ export function getUserCoupons() {
             const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
             const result = await api.get(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/getCoupons?currentPage=${CURRENT_PAGE}&access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&pageSize=${PAGE_SIZE}&usedCoupon=N&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&channel=${CHANNEL}`
             );
             const resultJson = await result.json();
@@ -2648,7 +2648,7 @@ export function getUserAlerts() {
         try {
             const result = await api.get(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/getOrderTrackingNotifications?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&emailId=${JSON.parse(userDetails).userName}`
             );
             const resultJson = await result.json();
@@ -2701,9 +2701,9 @@ export function removeAddress(addressId) {
         try {
             const result = await api.postFormData(
                 `${USER_PATH}/${
-                    JSON.parse(userDetails).userName
+                JSON.parse(userDetails).userName
                 }/removeAddress?isPwa=true&platformNumber=${PLAT_FORM_NUMBER}&access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }`,
                 addressObject
             );
@@ -2787,7 +2787,7 @@ export function editAddress(addressDetails) {
         try {
             const result = await api.postFormData(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/editAddress?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&pageSize=${PAGE_SIZE}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`,
                 addressObject
             );
@@ -2836,7 +2836,7 @@ export function fetchOrderDetails(orderId, pageName) {
         try {
             const result = await api.get(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/getSelectedOrder_V1/${orderId}?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&isPwa=true&isMDE=true`
             );
             let resultJson = await result.json();
@@ -2876,7 +2876,7 @@ export function getRetryOrderDetails(orderId) {
         try {
             const result = await api.get(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/getSelectedOrder_V1/${orderId}?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&isPwa=true&isMDE=true`
             );
             let resultJson = await result.json();
@@ -2898,9 +2898,9 @@ export function fetchOrderItemDetails(orderId, transactionId) {
         try {
             const result = await api.get(
                 `${USER_PATH}/${
-                    JSON.parse(userDetails).userName
+                JSON.parse(userDetails).userName
                 }/getSelectedTransaction/${orderId}/${transactionId}?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&isPwa=true&isMDE=true`
             );
             const resultJson = await result.json();
@@ -2947,7 +2947,7 @@ export function sendInvoice(lineID, orderNumber) {
         try {
             const result = await api.get(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/sendInvoice?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&orderNumber=${orderNumber}&lineID=${lineID}`,
                 "desktop"
             );
@@ -3197,7 +3197,7 @@ export function followAndUnFollowBrand(brandId, followStatus, pageType, position
                 if (customerCookie) {
                     await api.post(
                         `${PRODUCT_PATH}/${
-                            JSON.parse(customerCookie).access_token
+                        JSON.parse(customerCookie).access_token
                         }/updateFollowedBrands?brands=${brandId}&follow=${updatedFollowedStatus}&isPwa=true`
                     );
                 }
@@ -3294,9 +3294,9 @@ export function changePassword(passwordDetails) {
         try {
             const result = await api.post(
                 `${PATH}/forgottenpasswordtokens/${
-                    JSON.parse(userDetails).userName
+                JSON.parse(userDetails).userName
                 }/resetCustomerPassword?isPwa=true&access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&isPwa=true&old=${encodeURIComponent(passwordDetails.oldPassword)}&newPassword=${encodeURIComponent(
                     passwordDetails.newPassword
                 )}`
@@ -3323,7 +3323,7 @@ export function getCliqCashDetails() {
         try {
             const result = await api.post(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/cliqcash/getUserCliqCashDetails?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
             );
             const resultJson = await result.json();
@@ -3375,7 +3375,7 @@ export function redeemCliqVoucher(cliqCashDetails, fromCheckout) {
         try {
             const result = await api.postFormData(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/cliqcash/redeemCliqVoucher?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&cartGuid=&couponCode=${cliqCashDetails.cardNumber}&passKey=${cliqCashDetails.cardPin}`
             );
             const resultJson = await result.json();
@@ -3467,7 +3467,7 @@ export function logoutUser() {
         try {
             const result = await api.postFormData(
                 `${USER_PATH}/logout?userId=${JSON.parse(userDetails).userName}&access_token=${
-                    JSON.parse(globalAccessToken).access_token
+                JSON.parse(globalAccessToken).access_token
                 }`
             );
             const resultJson = await result.json();
@@ -3578,7 +3578,7 @@ export function reSendEmailForGiftCard(orderId) {
 
             const result = await api.post(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/resendEGV?isPwa=true&access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&orderId=${orderId}`
             );
             const resultJson = await result.json();
@@ -3643,7 +3643,7 @@ export function getOrderRelatedQuestions(transactionId) {
         try {
             const result = await api.post(
                 `${USER_CART_PATH}/${JSON.parse(userDetails).userName}/getOrderRelatedQuestions?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&transactionId=${transactionId}`
             );
 
@@ -3908,6 +3908,10 @@ export function getCustomerQueriesFieldsv2(UItemplateCode, isSelectRadio) {
         try {
             const result = await api.get(`v2/mpl/cms/defaultpage?pageId=${UItemplateCode}`);
             const resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+            if (resultJsonStatus.status) {
+                throw new Error(resultJsonStatus.message);
+            }
             let fetchData = [];
             let redioData = [];
             resultJson &&
@@ -4183,20 +4187,20 @@ const getLabelApiData = (apiData = []) => {
                 : "",
         fontSize:
             items &&
-            items.description &&
-            items.description.split("|") &&
-            items.description.split("|")[1] &&
-            items.description.split("|")[1].split(",") &&
-            items.description.split("|")[1].split(",")[0]
+                items.description &&
+                items.description.split("|") &&
+                items.description.split("|")[1] &&
+                items.description.split("|")[1].split(",") &&
+                items.description.split("|")[1].split(",")[0]
                 ? items.description.split("|")[1].split(",")[0]
                 : "",
         fontStyle:
             items &&
-            items.description &&
-            items.description.split("|") &&
-            items.description.split("|")[1] &&
-            items.description.split("|")[1].split(",") &&
-            items.description.split("|")[1].split(",")[1]
+                items.description &&
+                items.description.split("|") &&
+                items.description.split("|")[1] &&
+                items.description.split("|")[1].split(",") &&
+                items.description.split("|")[1].split(",")[1]
                 ? items.description.split("|")[1].split(",")[1]
                 : "",
         hexCode: items && items.hexCode ? items.hexCode : "",
@@ -4333,9 +4337,9 @@ export function getOrdersTransactionData(paginated) {
         try {
             const result = await api.get(
                 `${USER_PATH}/${
-                    JSON.parse(userDetails).userName
+                JSON.parse(userDetails).userName
                 }/getOrderTransactions?currentPage=${currentPage}&access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&channel=web`
             );
             const resultJson = await result.json();
@@ -4437,7 +4441,7 @@ export function submitOrderDetails(raiseTicketObj) {
         try {
             const result = await api.post(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/raiseTicket?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }`,
                 raiseTicketObj
             );
@@ -4481,7 +4485,7 @@ export function getUserReview(pageIndex) {
         try {
             const result = await api.get(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/viewUserReview?fields=BASIC&access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&page=${pageIndex}&pageSize=${PAGE_NUMBER}`
             );
             const resultJson = await result.json();
@@ -4522,7 +4526,7 @@ export function retryPayment(retryPaymentGuId, retryPaymentUserId) {
         try {
             const result = await api.get(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/payments/failedorderdetails?&access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&cartGuid=${retryPaymentGuId}&retryFlag=true&isUpdatedPwa=true&retryUserId=${retryPaymentUserId}&emiConvChargeFlag=true&isDuplicateImei=true&dcEmiResponse=true`
             );
             const resultJson = await result.json();
@@ -4638,7 +4642,7 @@ export function submitCncToHdDetails(userAddress, transactionId, orderId) {
         try {
             const result = await api.post(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/cncToHd/${orderId}?channel=${CHANNEL}&access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&isPwa=true&orderlineId=${transactionId}`,
                 addressDetails
             );
@@ -4689,7 +4693,7 @@ export function getCliqCashPageConfiguration() {
         try {
             const result = await api.get(
                 `${USER_PATH}/${
-                    JSON.parse(userDetails).userName
+                JSON.parse(userDetails).userName
                 }/getCliqCashPageActions?channel=${CHANNEL}&access_token=${JSON.parse(customerCookie).access_token}`
             );
             let resultJson = await result.json();
@@ -4738,7 +4742,7 @@ export function getCliqCashExpiring() {
         try {
             const result = await api.get(
                 `${USER_PATH}/${
-                    JSON.parse(userDetails).userName
+                JSON.parse(userDetails).userName
                 }/getCliqCashExpiring?access_token=${customerAccessToken}`
             );
             let resultJson = await result.json();
@@ -4784,7 +4788,7 @@ export function getCliqCashbackDetails(cashbackmode) {
         try {
             const result = await api.post(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/getCliqCashbackDetails?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&cashbackmode=${cashbackmode}`
             );
             let resultJson = await result.json();
@@ -4895,7 +4899,7 @@ export function getUserNotifications() {
         try {
             const result = await api.get(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/getUserPreferences?access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }`
             );
             const resultJson = await result.json();
@@ -4939,7 +4943,7 @@ export function setSMSNotification(val) {
         try {
             const result = await api.post(
                 `${USER_PATH}/${
-                    JSON.parse(userDetails).userName
+                JSON.parse(userDetails).userName
                 }/updateUserPreference?channel=web&sms=${val}&access_token=${JSON.parse(customerCookie).access_token}`
             );
             const resultJson = await result.json();
@@ -5054,7 +5058,7 @@ export function getPromotionalCashStatement() {
         try {
             const result = await api.post(
                 `${USER_PATH}/${
-                    JSON.parse(userDetails).userName
+                JSON.parse(userDetails).userName
                 }/getPromotionalCashStatement?access_token=${customerAccessToken}&isPwa=true&platformNumber=${PLAT_FORM_NUMBER}`
             );
             const resultJson = await result.json();
@@ -5076,9 +5080,9 @@ export function getExchangeCashbackDetails(parentOrderId) {
         try {
             const result = await api.get(
                 `${PATH}/${
-                    JSON.parse(userDetails).userName
+                JSON.parse(userDetails).userName
                 }/getAccountInfoForExchange?parentOrderId=${parentOrderId}&access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }`
             );
             const resultJson = await result.json();
@@ -5101,7 +5105,7 @@ export function checkBalance(checkBalanceDetails) {
         try {
             const result = await api.post(
                 `${USER_PATH}/${
-                    JSON.parse(userDetails).userName
+                JSON.parse(userDetails).userName
                 }/giftCardCheckBalance?access_token=${customerAccessToken}&channel=web`,
                 checkBalanceDetails
             );
@@ -5161,7 +5165,7 @@ export function submitExchangeCashbackDetails(orderId, cashbackDetails) {
         try {
             const result = await api.postFormData(
                 `${PATH}/${
-                    JSON.parse(userDetails).userName
+                JSON.parse(userDetails).userName
                 }/submitExchangePaymentInfo?orderId=${orderId}&access_token=${JSON.parse(customerCookie).access_token}`,
                 cashbackDetailsData
             );
@@ -5398,9 +5402,9 @@ export function getRecentTicketHistoryDetails(paginated = false, ticketStatus = 
             }
             const result = await api.get(
                 `${USER_PATH}/${
-                    JSON.parse(userDetails).userName
+                JSON.parse(userDetails).userName
                 }/getTicketHistory?currentPage=${currentPage}&access_token=${
-                    JSON.parse(customerCookie).access_token
+                JSON.parse(customerCookie).access_token
                 }&pageSize=${5}&ticketYear=${ticketYear}&ticketStatus=${ticketStatus === "all" ? "" : ticketStatus}`
             );
             const resultJson = await result.json();
@@ -5423,53 +5427,53 @@ export function resetTicketsDataToInitial() {
 }
 
 export function getHaptikBotConfigRequest() {
-  return {
-    type: GET_HAPTIK_CONFIG_DATA_REQUEST,
-    status: REQUESTING
-  };
+    return {
+        type: GET_HAPTIK_CONFIG_DATA_REQUEST,
+        status: REQUESTING
+    };
 }
 
 export function getHaptikBotConfigSuccess(haptikBotConfigData) {
-  return {
-    type: GET_HAPTIK_CONFIG_DATA_SUCCESS,
-    status: SUCCESS,
-    haptikBotConfigData
-  };
+    return {
+        type: GET_HAPTIK_CONFIG_DATA_SUCCESS,
+        status: SUCCESS,
+        haptikBotConfigData
+    };
 }
 
 export function getHaptikBotConfigFailure() {
-  return {
-    type: GET_HAPTIK_CONFIG_DATA_FAILURE,
-    status: FAILURE
-  };
+    return {
+        type: GET_HAPTIK_CONFIG_DATA_FAILURE,
+        status: FAILURE
+    };
 }
 
 export function getHaptikBotConfig(pageId) {
-  return async (dispatch, getState, { api }) => {
-    dispatch(getHaptikBotConfigRequest());
-    try {
-      const result = await api.get(`${PATH}/cms/defaultpage?pageId=${pageId}`);
-      let resultJson = await result.json();
-      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
-      }
-      let resultJsonParse = "";
-      if (
-        resultJson &&
-        Array.isArray(resultJson.items) &&
-        resultJson.items[0].cmsParagraphComponent &&
-        typeof resultJson.items[0].cmsParagraphComponent === "object" &&
-        resultJson.items[0].cmsParagraphComponent !== null &&
-        resultJson.items[0].cmsParagraphComponent.content
-      ) {
-        resultJsonParse = JSON.parse(
-          resultJson.items[0].cmsParagraphComponent.content
-        );
-      }
-      dispatch(getHaptikBotConfigSuccess(resultJsonParse));
-    } catch (e) {
-      dispatch(getHaptikBotConfigFailure(e.message));
-    }
-  };
+    return async (dispatch, getState, { api }) => {
+        dispatch(getHaptikBotConfigRequest());
+        try {
+            const result = await api.get(`${PATH}/cms/defaultpage?pageId=${pageId}`);
+            let resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+            if (resultJsonStatus.status) {
+                throw new Error(resultJsonStatus.message);
+            }
+            let resultJsonParse = "";
+            if (
+                resultJson &&
+                Array.isArray(resultJson.items) &&
+                resultJson.items[0].cmsParagraphComponent &&
+                typeof resultJson.items[0].cmsParagraphComponent === "object" &&
+                resultJson.items[0].cmsParagraphComponent !== null &&
+                resultJson.items[0].cmsParagraphComponent.content
+            ) {
+                resultJsonParse = JSON.parse(
+                    resultJson.items[0].cmsParagraphComponent.content
+                );
+            }
+            dispatch(getHaptikBotConfigSuccess(resultJsonParse));
+        } catch (e) {
+            dispatch(getHaptikBotConfigFailure(e.message));
+        }
+    };
 }
