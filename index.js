@@ -42,7 +42,7 @@ if (!isLocalMachineBuild) {
 
     app.get("*.js", function(req, res, next) {
         const encodings = req.acceptsEncodings();
-        if (req.url !== "/sw.js") {
+        if (req.url !== "/service-worker.js") {
             if (encodings.indexOf("br") > -1) {
                 // use brotli
                 req.url = req.url + ".br";
