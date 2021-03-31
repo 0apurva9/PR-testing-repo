@@ -253,7 +253,7 @@ export function getProductListings(
     componentName,
     searchHistory = false,
     searchTrending = false,
-    isRedirect
+    isRedirect = false
 ) {
     return async (dispatch, getState, { api }) => {
         dispatch(showSecondaryLoader());
