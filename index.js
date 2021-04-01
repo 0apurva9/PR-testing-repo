@@ -96,6 +96,7 @@ app.get("/marketplacewebservices/v2/mpl/getOrderInvoice/*", (req, res) => {
 
 app.all("/marketplacewebservices/*", proxyMiddleware(process.env.apiBaseUrl));
 app.all("/mobileloginapi/*", proxyMiddleware(process.env.apiBaseUrl));
+app.all("/marketplacemicroscervices/*", proxyMiddleware(process.env.apiBaseUrl));
 
 app.get("/.well-known/assetlinks.json", (req, res) => {
     res.json([
