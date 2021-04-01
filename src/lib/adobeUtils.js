@@ -802,6 +802,28 @@ export async function setDataLayer(type, apiResponse, icid, icidType, behaviorOf
         }
     }
 
+    if (type !== ADOBE_PDP_TYPE) {
+        const pdpRegex = new RegExp(constants.PRODUCT_DESCRIPTION_PRODUCT_CODE);
+        const reviewListPageRegex = new RegExp(constants.PRODUCT_DESCRIPTION_REVIEWS);
+        const writeReviewPageRegex = new RegExp(constants.WRITE_REVIEWS);
+        let currentPath = window.location.pathname;
+        let isRatingReviewRelatedPage = false;
+        if (
+            pdpRegex.test(currentPath) ||
+            reviewListPageRegex.test(currentPath) ||
+            writeReviewPageRegex.test(currentPath)
+        ) {
+            isRatingReviewRelatedPage = true;
+        }
+        if (!isRatingReviewRelatedPage) {
+            let previousDigitalData = cloneDeep(window.digitalData);
+            if (previousDigitalData.rating) {
+                delete previousDigitalData.rating;
+                window.digitalData = previousDigitalData;
+            }
+        }
+    }
+
     if (type === ADOBE_PDP_TYPE) {
         const digitalDataForPDP = getDigitalDataForPdp(type, response, behaviorOfPage);
         //  this is neccasary for when user comes from plp page to pdp
