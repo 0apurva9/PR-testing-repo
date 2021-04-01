@@ -816,7 +816,7 @@ export async function setDataLayer(type, apiResponse, icid, icidType, behaviorOf
             isRatingReviewRelatedPage = true;
         }
         if (!isRatingReviewRelatedPage) {
-            let previousDigitalData = cloneDeep(window.digitalData);
+            let previousDigitalData = { ...window.digitalData };
             if (previousDigitalData.rating) {
                 delete previousDigitalData.rating;
                 window.digitalData = previousDigitalData;
