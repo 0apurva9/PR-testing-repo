@@ -18,7 +18,7 @@ import {
     AC_PDP_EXCHANGE_DETAILS,
     PLATFORM,
     AC_CART_EXCHANGE_DETAILS,
-	FAILURE_UPPERCASE,
+    FAILURE_UPPERCASE,
 } from "../../lib/constants";
 import * as Cookie from "../../lib/Cookie";
 import {
@@ -255,6 +255,10 @@ export const SUMBIT_PARAMETER_RATING_FAILURE = "SUMBIT_PARAMETER_RATING_FAILURE"
 export const GET_TITE_SUGGESTIONS_REQUEST = "GET_TITE_SUGGESTIONS_REQUEST";
 export const GET_TITE_SUGGESTIONS_SUCCESS = "GET_TITE_SUGGESTIONS_SUCCESS";
 export const GET_TITE_SUGGESTIONS_FAILURE = "GET_TITE_SUGGESTIONS_FAILURE";
+
+export const GET_REVIEWS_ON_PRODUCT_PAGE_REQUEST = "GET_REVIEWS_ON_PRODUCT_PAGE_REQUEST";
+export const GET_REVIEWS_ON_PRODUCT_PAGE_SUCCESS = "GET_REVIEWS_ON_PRODUCT_PAGE_SUCCESS";
+export const GET_REVIEWS_ON_PRODUCT_PAGE_FAILURE = "GET_REVIEWS_ON_PRODUCT_PAGE_FAILURE";
 
 export function getProductDescriptionRequest() {
     return {
@@ -1257,7 +1261,7 @@ export function addProductReview(productCode, productReview) {
     if (productReview.headline) {
         reviewData.append("headline", productReview.headline);
     }
-	if (productReview.id) {
+    if (productReview.id) {
         reviewData.append("id", productReview.id);
     }
     let accessToken = getCustomerAccessToken();
@@ -1270,20 +1274,26 @@ export function addProductReview(productCode, productReview) {
             );
             const resultJson = await result.json();
             const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-            if (resultJsonStatus.status ||
-				(result.status !== 200 && result.status !== 201 && resultJson && resultJson.status && resultJson.status === FAILURE_UPPERCASE)) {
+            if (
+                resultJsonStatus.status ||
+                (result.status !== 200 &&
+                    result.status !== 201 &&
+                    resultJson &&
+                    resultJson.status &&
+                    resultJson.status === FAILURE_UPPERCASE)
+            ) {
                 let errorMessage = resultJsonStatus.message;
                 if (resultJson.status === FAILURE_UPPERCASE && resultJson.errorMessage) {
                     errorMessage = resultJson.errorMessage;
                 }
                 dispatch(addProductReviewFailure(errorMessage));
             } else {
-				if(productReview.rating && !productReview.comment) {
-					dispatch(displayToast(SUBMIT_RATING_TEXT));
-				}
-				if(productReview.rating && productReview.comment) {
-					dispatch(displayToast(SUBMIT_REVIEW_TEXT));
-				}
+                if (productReview.rating && !productReview.comment) {
+                    dispatch(displayToast(SUBMIT_RATING_TEXT));
+                }
+                if (productReview.rating && productReview.comment) {
+                    dispatch(displayToast(SUBMIT_REVIEW_TEXT));
+                }
                 setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_SUBMIT_REVIEW);
                 dispatch(addProductReviewSuccess(productReview));
             }
@@ -1419,10 +1429,10 @@ export function getProductReviews(productCode, pageIndex, orderBy, sortBy, filte
     return async (dispatch, getState, { api }) => {
         dispatch(getProductReviewsRequest());
         try {
-			let extraParam = "";
-			if(filteredProducts) {
-				extraParam = `&productCodes=${filteredProducts.toUpperCase()}`;
-			}
+            let extraParam = "";
+            if (filteredProducts) {
+                extraParam = `&productCodes=${filteredProducts.toUpperCase()}`;
+            }
             const result = await api.get(
                 `v2/mpl/reviews/${productCode.toUpperCase()}/users/${userName}/reviews_V1?access_token=${accessToken}&page=${pageIndex}&pageSize=${PAGE_NUMBER}&orderBy=${orderBy}&sort=${sortBy}${extraParam}`
             );
@@ -2845,11 +2855,11 @@ export function getParametersEligibleToRate(productCode, callgetUserProductRevie
             if (resultJsonStatus.status || result.status !== 200) {
                 dispatch(getParametersEligibleToRateFailure());
             } else {
-				dispatch(getParametersEligibleToRateSuccess(resultJson));
-				if(callgetUserProductReviewAPI) {
-					dispatch(getUserProductReview(productCode));
-				}
-			}
+                dispatch(getParametersEligibleToRateSuccess(resultJson));
+                if (callgetUserProductReviewAPI) {
+                    dispatch(getUserProductReview(productCode));
+                }
+            }
         } catch (e) {
             dispatch(getParametersEligibleToRateFailure(e.message));
         }
@@ -2893,7 +2903,12 @@ export function submitParameterRating(productCode, parameterizedRating) {
             const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
             if (resultJsonStatus.status || result.status !== 200) {
                 let errorMessage = resultJsonStatus.message;
-                if (resultJson && resultJson.status && resultJson.status === FAILURE_UPPERCASE && resultJson.errorMessage) {
+                if (
+                    resultJson &&
+                    resultJson.status &&
+                    resultJson.status === FAILURE_UPPERCASE &&
+                    resultJson.errorMessage
+                ) {
                     errorMessage = resultJson.errorMessage;
                 }
                 dispatch(displayToast(errorMessage));
@@ -2947,6 +2962,53 @@ export function getTitleSuggestions(productCode, userRating) {
             dispatch(getTitleSuggestionsSuccess(resultJson));
         } catch (e) {
             dispatch(getTitleSuggestionsFailure(e.message));
+        }
+    };
+}
+
+export function getReviewsOnProductPageRequest() {
+    return {
+        type: GET_REVIEWS_ON_PRODUCT_PAGE_REQUEST,
+        status: REQUESTING,
+    };
+}
+
+export function getReviewsOnProductPageSuccess(data) {
+    return {
+        type: GET_REVIEWS_ON_PRODUCT_PAGE_SUCCESS,
+        status: SUCCESS,
+        data,
+    };
+}
+
+export function getReviewsOnProductPageFailure(error) {
+    return {
+        type: GET_REVIEWS_ON_PRODUCT_PAGE_FAILURE,
+        status: ERROR,
+        error,
+    };
+}
+
+export function getReviewsOnProductPage(productCode) {
+    return async (dispatch, getState, { api }) => {
+        let userDetails = getLoggedInUserDetails();
+        let userName = userDetails.userName;
+        let accessToken = getCustomerAccessToken();
+
+        dispatch(getReviewsOnProductPageRequest());
+        try {
+            const result = await api.get(
+                `v2/mpl/reviews/${productCode.toUpperCase()}/users/${userName}/getReviewsOnProductPage?access_token=${accessToken}`
+            );
+            const resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+            if (resultJsonStatus.status || result.status !== 200) {
+                dispatch(getReviewsOnProductPageFailure());
+            } else {
+                dispatch(getReviewsOnProductPageSuccess(resultJson));
+            }
+        } catch (e) {
+            dispatch(getReviewsOnProductPageFailure(e.message));
         }
     };
 }

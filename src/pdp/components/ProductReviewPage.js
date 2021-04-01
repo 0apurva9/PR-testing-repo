@@ -38,9 +38,9 @@ import AccordionForReviewFilter from "../../general/components/AccordionForRevie
 import CheckboxMultiSelect from "../../general/components/CheckboxMultiSelect";
 import CustomButton from "../../general/components/CustomButton";
 import {
-	setDataLayerForRatingReviewSection,
-	ADOBE_RATING_REVIEW_WRITE_REVIEW_CLICK,
-	ADOBE_RATING_REVIEW_SORT_BY_CLICK,
+    setDataLayerForRatingReviewSection,
+    ADOBE_RATING_REVIEW_WRITE_REVIEW_CLICK,
+    ADOBE_RATING_REVIEW_SORT_BY_CLICK,
 } from "../../lib/adobeUtils";
 const WRITE_REVIEW_TEXT = "Write Review";
 const PRODUCT_QUANTITY = "1";
@@ -59,6 +59,8 @@ export default class ProductReviewPage extends Component {
             filterShow: true,
             isFilterSelected: false,
             checkedItems: new Map(),
+            reviewsOnProductPageDetails: null,
+            filteredProducts: null,
         };
         this.filterOptions = [
             { label: "Oldest First", value: "byDate_asc" },
@@ -139,30 +141,35 @@ export default class ProductReviewPage extends Component {
     componentDidMount() {
         const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
         const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-		this.smoothScroll();
+        this.smoothScroll();
         this.props.getProductDescription(this.props.match.params[0], IS_COMING_FOR_REVIEW_PAGE);
         this.props.getProductReviews(this.props.match.params[0], 0, this.state.orderBy, this.state.sort);
         if (this.props.match.path === WRITE_REVIEWS_WITH_SLUG || this.props.match.path === WRITE_REVIEWS) {
             if (!userDetails || !customerCookie) {
-				const url = this.props.location.pathname;
-				this.props.setUrlToRedirectToAfterAuth(url);
-				this.props.showAuthPopUp();
+                const url = this.props.location.pathname;
+                this.props.setUrlToRedirectToAfterAuth(url);
+                this.props.showAuthPopUp();
             } else {
                 this.setState({ visible: true });
             }
-			sessionStorage.setItem("showRatingModalAfterLoggedIn", true);
+            sessionStorage.setItem("showRatingModalAfterLoggedIn", true);
         }
+
+        sessionStorage.removeItem("getReviewsOnProductPage");
     }
 
-	componentDidUpdate(prevProps) {
-		if(this.props.location !== prevProps.location) {
-			if (this.props.match.path === WRITE_REVIEWS_WITH_SLUG || this.props.match.path === WRITE_REVIEWS) {
-				sessionStorage.setItem("showRatingModalAfterLoggedIn", true);
-				this.props.getProductDescription(this.props.match.params[0], IS_COMING_FOR_REVIEW_PAGE);
-        		this.props.getProductReviews(this.props.match.params[0], 0, this.state.orderBy, this.state.sort);
-			}
-		}
-	}
+    componentDidUpdate(prevProps) {
+        if (this.props.location !== prevProps.location) {
+            if (this.props.match.path === WRITE_REVIEWS_WITH_SLUG || this.props.match.path === WRITE_REVIEWS) {
+                sessionStorage.setItem("showRatingModalAfterLoggedIn", true);
+                this.props.getProductDescription(this.props.match.params[0], IS_COMING_FOR_REVIEW_PAGE);
+                this.props.getProductReviews(this.props.match.params[0], 0, this.state.orderBy, this.state.sort);
+            }
+        }
+        if (this.props.reviewsOnProductPageDetails !== prevProps.reviewsOnProductPageDetails) {
+            this.setState({ reviewsOnProductPageDetails: this.props.reviewsOnProductPageDetails });
+        }
+    }
 
     componentWillUnmount() {
         updatePdpDetailsBackFromReviewPage();
@@ -308,22 +315,28 @@ export default class ProductReviewPage extends Component {
             sortLabel: val.label,
         });
 
-        this.props.getProductReviews(this.props.match.params[0], 0, filterValues[1], filterValues[0]);
+        this.props.getProductReviews(
+            this.props.match.params[0],
+            0,
+            filterValues[1],
+            filterValues[0],
+            this.state.filteredProducts
+        );
 
-		let averageStar = null;
-		if(this.props.productDetails && this.props.productDetails.averageRating) {
-			averageStar = Math.round(this.props.productDetails.averageRating * 10) / 10;
-		}
-		let ratingReviewData = {
-			averageStar: averageStar,
-			totalReview: this.props.productDetails.numberOfReviews ? this.props.productDetails.numberOfReviews : null,
-			totalRating: this.props.productDetails.ratingCount ? this.props.productDetails.ratingCount : null
-		};
-		let data = {
-			ratingReviewData : ratingReviewData,
-			sortByValue : val.label
-		};
-		setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_SORT_BY_CLICK, data);
+        let averageStar = null;
+        if (this.props.productDetails && this.props.productDetails.averageRating) {
+            averageStar = Math.round(this.props.productDetails.averageRating * 10) / 10;
+        }
+        let ratingReviewData = {
+            averageStar: averageStar,
+            totalReview: this.props.productDetails.numberOfReviews ? this.props.productDetails.numberOfReviews : null,
+            totalRating: this.props.productDetails.ratingCount ? this.props.productDetails.ratingCount : null,
+        };
+        let data = {
+            ratingReviewData: ratingReviewData,
+            sortByValue: val.label,
+        };
+        setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_SORT_BY_CLICK, data);
     };
 
     renderMetaTags = () => {
@@ -352,76 +365,83 @@ export default class ProductReviewPage extends Component {
         // get product ids and send to api
         let variantOptions = this.props.reviews.variantOptions;
 
-		let selectedColorVariant = [];
-		let selectedSizeVariant = [];
+        let selectedColorVariant = [];
+        let selectedSizeVariant = [];
 
         checkedItems.forEach((value, key) => {
             if (value) {
                 // for color
-				let selectedColorFilter = variantOptions.filter(variant => {
+                let selectedColorFilter = variantOptions.filter(variant => {
                     if (variant.colorlink.color === key) {
                         return variant;
                     }
                 });
-				if(selectedColorFilter && selectedColorFilter.length > 0){
-					selectedColorFilter.forEach((data) => {
-						selectedColorVariant.push(data);
-					});
-				}
+                if (selectedColorFilter && selectedColorFilter.length > 0) {
+                    selectedColorFilter.forEach(data => {
+                        selectedColorVariant.push(data);
+                    });
+                }
 
-				// for size
-				let selectedSizeFilter = variantOptions.filter(variant => {
+                // for size
+                let selectedSizeFilter = variantOptions.filter(variant => {
                     if (variant.sizelink.size === key) {
                         return variant;
                     }
                 });
-				if(selectedSizeFilter && selectedSizeFilter.length > 0){
-					selectedSizeFilter.forEach((data) => {
-						selectedSizeVariant.push(data);
-					});
-				}
+                if (selectedSizeFilter && selectedSizeFilter.length > 0) {
+                    selectedSizeFilter.forEach(data => {
+                        selectedSizeVariant.push(data);
+                    });
+                }
             }
         });
 
-		// for color
+        // for color
         let productIdsForColor = [];
         selectedColorVariant &&
-		selectedColorVariant.forEach(filterDetails => {
-				if(!productIdsForColor.includes(filterDetails.sizelink.productCode)){
-					productIdsForColor.push(filterDetails.sizelink.productCode);
-				}
+            selectedColorVariant.forEach(filterDetails => {
+                if (!productIdsForColor.includes(filterDetails.sizelink.productCode)) {
+                    productIdsForColor.push(filterDetails.sizelink.productCode);
+                }
             });
 
-		// for size
-		let productIdsForSize = [];
-		selectedSizeVariant &&
-		selectedSizeVariant.forEach(filterDetails => {
-				if(!productIdsForSize.includes(filterDetails.sizelink.productCode)){
-					productIdsForSize.push(filterDetails.sizelink.productCode);
-				}
-			});
+        // for size
+        let productIdsForSize = [];
+        selectedSizeVariant &&
+            selectedSizeVariant.forEach(filterDetails => {
+                if (!productIdsForSize.includes(filterDetails.sizelink.productCode)) {
+                    productIdsForSize.push(filterDetails.sizelink.productCode);
+                }
+            });
 
-		let productIds;
-		if(productIdsForColor.length > 0 && productIdsForSize.length === 0){
-			productIds = productIdsForColor;
-		}
-		if(productIdsForColor.length === 0 && productIdsForSize.length > 0){
-			productIds = productIdsForSize;
-		}
-		if(productIdsForColor.length > 0 && productIdsForSize.length > 0){
-			productIds = productIdsForColor.filter(x => productIdsForSize.includes(x));
-		}
+        let productIds;
+        if (productIdsForColor.length > 0 && productIdsForSize.length === 0) {
+            productIds = productIdsForColor;
+        }
+        if (productIdsForColor.length === 0 && productIdsForSize.length > 0) {
+            productIds = productIdsForSize;
+        }
+        if (productIdsForColor.length > 0 && productIdsForSize.length > 0) {
+            productIds = productIdsForColor.filter(x => productIdsForSize.includes(x));
+        }
 
         let filteredProducts = null;
         if (productIds && productIds.length > 0) {
             filteredProducts = productIds.join(",");
         }
-        this.props.getProductReviews(this.props.match.params[0], 0, this.state.orderBy, this.state.sort, filteredProducts);
+        this.props.getProductReviews(
+            this.props.match.params[0],
+            0,
+            this.state.orderBy,
+            this.state.sort,
+            filteredProducts
+        );
+        this.setState({ filteredProducts });
     };
 
     clearFilters = () => {
         if (this.state.checkedItems && this.state.checkedItems.size > 0) {
-            this.setState({ checkedItems: new Map() });
+            this.setState({ checkedItems: new Map(), filteredProducts: null });
             this.props.getProductReviews(this.props.match.params[0], 0, this.state.orderBy, this.state.sort);
         }
     };
@@ -435,31 +455,47 @@ export default class ProductReviewPage extends Component {
             this.props.showAuthPopUp();
             sessionStorage.setItem("showRatingModalAfterLoggedIn", true);
         } else {
-			if(this.props.productDetails){
-				this.props.openRatingReviewModal({ productCode: this.props.productDetails.productListingId, pageName: "productReview" });
+            if (this.props.productDetails) {
+                this.props.openRatingReviewModal({
+                    productCode: this.props.productDetails.productListingId,
+                    pageName: "productReview",
+                });
 
-				let averageStar = null;
-				if(this.props.productDetails && this.props.productDetails.averageRating) {
-					averageStar = Math.round(this.props.productDetails.averageRating * 10) / 10;
-				}
-				let ratingReviewData = {
-					averageStar: averageStar,
-					totalReview: this.props.productDetails.numberOfReviews ? this.props.productDetails.numberOfReviews : null,
-					totalRating: this.props.productDetails.ratingCount ? this.props.productDetails.ratingCount : null
-				};
-				setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_WRITE_REVIEW_CLICK, ratingReviewData);
-			}
+                let averageStar = null;
+                if (this.props.productDetails && this.props.productDetails.averageRating) {
+                    averageStar = Math.round(this.props.productDetails.averageRating * 10) / 10;
+                }
+                let ratingReviewData = {
+                    averageStar: averageStar,
+                    totalReview: this.props.productDetails.numberOfReviews
+                        ? this.props.productDetails.numberOfReviews
+                        : null,
+                    totalRating: this.props.productDetails.ratingCount ? this.props.productDetails.ratingCount : null,
+                };
+                setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_WRITE_REVIEW_CLICK, ratingReviewData);
+            }
         }
     };
 
     render() {
         if (
+            !sessionStorage.getItem("getReviewsOnProductPage") &&
+            Cookie.getCookie(LOGGED_IN_USER_DETAILS) &&
+            Cookie.getCookie(CUSTOMER_ACCESS_TOKEN) &&
+            this.props.productDetails
+        ) {
+            let productId = this.props.productDetails && this.props.productDetails.productListingId;
+            this.props.getReviewsOnProductPage(productId);
+            sessionStorage.setItem("getReviewsOnProductPage", true);
+        }
+
+        if (
             sessionStorage.getItem("showRatingModalAfterLoggedIn") &&
             Cookie.getCookie(LOGGED_IN_USER_DETAILS) &&
             Cookie.getCookie(CUSTOMER_ACCESS_TOKEN) &&
-			this.props.productDetails
+            this.props.productDetails
         ) {
-			let productId = this.props.productDetails && this.props.productDetails.productListingId;
+            let productId = this.props.productDetails && this.props.productDetails.productListingId;
             this.props.openRatingReviewModal({ productCode: productId, pageName: "productReview" });
             sessionStorage.removeItem("showRatingModalAfterLoggedIn");
         }
@@ -468,7 +504,7 @@ export default class ProductReviewPage extends Component {
 
         let colorSet =
             variantOptions &&
-			variantOptions.length > 0 &&
+            variantOptions.length > 0 &&
             variantOptions
                 .map(item => item.colorlink.color)
                 .filter((value, index, self) => {
@@ -479,7 +515,7 @@ export default class ProductReviewPage extends Component {
 
         let colorHexCodeSet =
             variantOptions &&
-			variantOptions.length > 0 &&
+            variantOptions.length > 0 &&
             variantOptions
                 .map(item => item.colorlink.colorHexCode)
                 .filter((value, index, self) => {
@@ -490,7 +526,7 @@ export default class ProductReviewPage extends Component {
 
         let sizeSet =
             variantOptions &&
-			variantOptions.length > 0 &&
+            variantOptions.length > 0 &&
             variantOptions
                 .map(item => item.sizelink.size)
                 .filter((value, index, self) => {
@@ -594,18 +630,23 @@ export default class ProductReviewPage extends Component {
                                     numberOfReviews={this.props.productDetails.numberOfReviews}
                                     discount={this.props.productDetails.discount}
                                 />
-                                <CustomButton
-                                    handleClick={() => this.openRatingReviewModal()}
-                                    text="WRITE A REVIEW"
-                                    width="238px"
-                                    height="40px"
-                                    fontSize="14px"
-                                    color="#da1c5c"
-                                    border="1px solid #da1c5c"
-                                    borderRadius="4px"
-                                    fontFamily="semibold"
-									margin="10px 0"
-                                />
+                                {this.state.reviewsOnProductPageDetails &&
+                                this.state.reviewsOnProductPageDetails.status &&
+                                this.state.reviewsOnProductPageDetails.status.toLowerCase() === SUCCESS &&
+                                this.state.reviewsOnProductPageDetails.writeReviewEnabled ? (
+                                    <CustomButton
+                                        handleClick={() => this.openRatingReviewModal()}
+                                        text="WRITE A REVIEW"
+                                        width="238px"
+                                        height="40px"
+                                        fontSize="14px"
+                                        color="#da1c5c"
+                                        border="1px solid #da1c5c"
+                                        borderRadius="4px"
+                                        fontFamily="semibold"
+                                        margin="10px 0"
+                                    />
+                                ) : null}
                                 {this.props.reviews && this.props.reviews.variantOptions && (
                                     <div>
                                         <AccordionForReviewFilter
@@ -820,4 +861,6 @@ ProductReviewPage.propTypes = {
     buyNow: PropTypes.func,
     openRatingReviewModal: PropTypes.func,
     getParametersEligibleToRate: PropTypes.func,
+    getReviewsOnProductPage: PropTypes.func,
+    reviewsOnProductPageDetails: PropTypes.object,
 };

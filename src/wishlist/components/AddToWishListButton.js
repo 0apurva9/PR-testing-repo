@@ -171,13 +171,18 @@ export default class AddToWishListButton extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         // After login item is added into wishlist
+        const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+        const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
         if (
             nextProps.isMNLLogin.value &&
             nextProps.productListingId === this.state["productListingId"] &&
             nextProps.winningUssID === this.state["winningUssID"] &&
             nextProps?.userDetails &&
-            nextProps?.userDetails?.status === "Success"
+            nextProps?.userDetails?.status === "Success" &&
+            userDetails &&
+            customerCookie
         ) {
+            this.setState({ productListingId: "", winningUssID: "" });
             this.addItemToWishlist(nextProps);
         }
         this.checkInWishlist(nextProps);
