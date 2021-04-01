@@ -25,6 +25,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         getProductListings: (search, suffix, page, isFilter) => {
             dispatch(setSearchString(search));
             dispatch(setPage(page));
+            let isRedirect = false;
             let suffixWithQc = suffix;
             if (parsedQueryString.qc && parsedQueryString.qc !== "false") {
                 suffixWithQc = `${suffixWithQc}&qc=true`;
@@ -34,7 +35,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             if (parsedQueryString.test) {
                 suffixWithQc = `${suffixWithQc}&test=${parsedQueryString.test}`;
             }
-            dispatch(getProductListings(suffixWithQc, false, isFilter, componentName));
+            if (search.indexOf("category") !== -1) {
+                isRedirect = true;
+            }
+            dispatch(getProductListings(suffixWithQc, false, isFilter, componentName, false, false, isRedirect));
         },
         getPlpBanners: categoryId => dispatch(getPlpBanners(categoryId)),
         paginate: (page, suffix) => {
@@ -51,13 +55,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  return {
-    searchText: ownProps.searchText ? ownProps.searchText : null,
-    clickedProductModuleRef: state.productListings.clickedProductModuleRef,
-    lastVisitedPlpUrl: state.productListings.lastVisitedPlpUrl,
-    urlString: state.productListings.urlString,
-    productListings: state.productListings.productListings
-  };
+    return {
+        searchText: ownProps.searchText ? ownProps.searchText : null,
+        clickedProductModuleRef: state.productListings.clickedProductModuleRef,
+        lastVisitedPlpUrl: state.productListings.lastVisitedPlpUrl,
+        urlString: state.productListings.urlString,
+        productListings: state.productListings.productListings,
+    };
 };
 
 const ProductListingsContainer = withRouter(connect(mapStateToProps, mapDispatchToProps)(ProductListingsPage));
