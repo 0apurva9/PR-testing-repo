@@ -951,6 +951,7 @@ export default class FilterDesktop extends React.Component {
                                                     isOpen={isOpen}
                                                     onOpen={() => this.onOpenAccordion(facetDataValues.name)}
                                                     text1={facetDataValues.name}
+                                                    otherFacet={true}
                                                     filterAccHolder={true}
                                                     iconPlus={true}
                                                     text3Color={"#212121"}

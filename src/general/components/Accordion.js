@@ -81,7 +81,10 @@ export default class Accordion extends React.Component {
                                     fontFamily: this.props.text3FontFamily
                                         ? this.props.text3FontFamily
                                         : this.props.text1FontFamily,
-                                    width: this.props.widthForText1,
+                                    width:
+                                        this.props.widthForText1 && this.props.otherFacet
+                                            ? null
+                                            : this.props.widthForText1,
                                 }}
                                 className={headText}
                             >
@@ -152,6 +155,7 @@ Accordion.propTypes = {
     filtHeadLine: PropTypes.string,
     iconMinus: PropTypes.string,
     iconPlus: PropTypes.string,
+    otherFacet: PropTypes.bool,
 };
 
 Accordion.defaultProps = {
