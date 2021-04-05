@@ -18,9 +18,11 @@
 .displayInline {
     display: inline-block;
     border-bottom: 1px solid #ececec;
+    width: 100%;
 }
 
 .electronicViewElement {
     display: inline-block;
     border-bottom: 1px solid #ececec;
+    width: 100%;
 }
