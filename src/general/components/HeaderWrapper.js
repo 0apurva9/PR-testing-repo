@@ -22,9 +22,11 @@ import {
     MY_ACCOUNT_GIFT_CARD_PAGE,
     MY_ACCOUNT_CLIQ_CASH_PAGE,
     CHECKOUT_RETRY_PAYMENT_ROUTER,
+    SESSION_ID,
 } from "../../../src/lib/constants";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import * as UserAgent from "../../lib/UserAgent.js";
+import { getUniqueId } from '../../lib/commonFunctionsUtils';
 export default class HeaderWrapper extends React.Component {
     constructor(props) {
         super(props);
@@ -127,6 +129,11 @@ export default class HeaderWrapper extends React.Component {
 
     componentDidMount() {
         // this.props.getWishListItems();
+        let sessionId = Cookie.getCookie(SESSION_ID);
+        if(!sessionId) {
+            sessionId = getUniqueId();
+            Cookie.createCookie(SESSION_ID, sessionId);
+        }
         this.props.seachAbVersion();
         if (this.props.location.pathname !== HOME_ROUTER && !this.props.location.pathname.includes(SAVE_LIST_PAGE)) {
             this.props.getWishlist();

@@ -7,3 +7,12 @@ export function trimProductName(productName, requiredLength) {
     return productName;
   }
 }
+
+
+/**
+ * function for creating 16 character unique id based on timestamp
+ * @returns it return 16 character unique string
+ */
+export function getUniqueId() {
+  return `${new Date().getTime().toString(36)}${Math.random().toString(36).substr(2, 8)}`
+}

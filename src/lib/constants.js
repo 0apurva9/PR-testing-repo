@@ -38,7 +38,7 @@ export const USER_SEARCH_LOCAL_STORAGE = "usersearchlocalstorage";
 export const SOFT_RESERVATION_ITEM = "softReservationItem";
 export const ADDRESS_DETAILS_FOR_PAYMENT = "addressDetailsForPayment";
 export const SKU_PAGE = "/custom/:slug";
-
+export const SESSION_ID = "sessionId"
 export const REFRESH_TOKEN = "refresh_token";
 export const BRAND_PAGE = "/c-(mbh[a-zA-Z0-9]+)";
 export const BRAND_PAGE_WITH_SLUG = `/:slug/c-(mbh[0-9a-zA-z]+)`;
