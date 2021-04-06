@@ -26,7 +26,7 @@ import {
 } from "../../../src/lib/constants";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import * as UserAgent from "../../lib/UserAgent.js";
-import { getUniqueId } from '../../lib/commonFunctionsUtils';
+import { getUniqueId } from "../../lib/commonFunctionsUtils";
 export default class HeaderWrapper extends React.Component {
     constructor(props) {
         super(props);
