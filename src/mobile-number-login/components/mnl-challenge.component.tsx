@@ -21,7 +21,7 @@ export class MnlChallenge extends React.Component<MnlChallengeProps, MnlChalleng
     }
 
     private onChangeInput(event: React.ChangeEvent<HTMLInputElement>) {
-        if (event.target.name === "mobileNumber") {
+        if (event.target.name === "mobileNumber" && !isNaN(Number(event.target.value))) {
             if (MOBILE_PATTERN.test(event.target.value) || MOBILE_PATTERN_11_DIGIT.test(event.target.value)) {
                 this.setState({ mobileNumber: event.target.value, isInputValid: true });
                 return;
@@ -66,7 +66,8 @@ export class MnlChallenge extends React.Component<MnlChallengeProps, MnlChalleng
                             <div className={[styles.form_outer, styles.countryCode].join(" ")}>
                                 <div className={styles.dateSlct}>+91</div>
                                 <input
-                                    type="number"
+                                    type="text"
+                                    inputMode="numeric"
                                     className={styles.form_control}
                                     name="mobileNumber"
                                     placeholder="Enter Mobile Number"

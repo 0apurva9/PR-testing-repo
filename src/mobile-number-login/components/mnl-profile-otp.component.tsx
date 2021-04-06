@@ -8,7 +8,6 @@ export class MnlProfileOtp extends React.Component<MnlOtpProps, MnlOtpState> {
         currentOtp: "      ",
         newOtp: "      ",
         isInputValid: false,
-        isInputValid2: false,
         resendOtp: false,
         resendOtpIn: OTP_RESEND_TIME,
     };
@@ -48,7 +47,7 @@ export class MnlProfileOtp extends React.Component<MnlOtpProps, MnlOtpState> {
             const otpArr = this.state.currentOtp.split("");
             otpArr[idx] = " ";
             const currentOtp = otpArr.join("");
-            if (!/ /g.test(currentOtp)) {
+            if (!/ /g.test(currentOtp) && !/ /g.test(this.state.newOtp)) {
                 this.setState({ currentOtp, isInputValid: true });
             } else {
                 this.setState({ currentOtp, isInputValid: false });
@@ -68,10 +67,10 @@ export class MnlProfileOtp extends React.Component<MnlOtpProps, MnlOtpState> {
             const otpArr = this.state.newOtp.split("");
             otpArr[idx] = " ";
             const currentOtp = otpArr.join("");
-            if (!/ /g.test(currentOtp)) {
-                this.setState({ newOtp: currentOtp, isInputValid2: true });
+            if (!/ /g.test(currentOtp) && !/ /g.test(this.state.currentOtp)) {
+                this.setState({ newOtp: currentOtp, isInputValid: true });
             } else {
-                this.setState({ newOtp: currentOtp, isInputValid2: false });
+                this.setState({ newOtp: currentOtp, isInputValid: false });
             }
             if (this._newMobileOtpRef.current) {
                 const focusEle = this._newMobileOtpRef.current.querySelector<HTMLInputElement>(`#${id}`);
@@ -83,13 +82,14 @@ export class MnlProfileOtp extends React.Component<MnlOtpProps, MnlOtpState> {
     }
 
     private onChangeInput(event: React.ChangeEvent<HTMLInputElement>, index: number) {
-        if (!event.target.value || event.target.value.length > 1) {
+        event.target.value = event.target.value.trim();
+        if (!event.target.value || event.target.value.length > 1 || isNaN(Number(event.target.value))) {
             return;
         }
         const otpArr = this.state.currentOtp.split("");
         otpArr[index] = event.target.value;
         const currentOtp = otpArr.join("");
-        if (!/ /g.test(currentOtp)) {
+        if (!/ /g.test(currentOtp) && !/ /g.test(this.state.newOtp)) {
             this.setState({ currentOtp, isInputValid: true });
         } else {
             this.setState({ currentOtp, isInputValid: false });
@@ -97,13 +97,14 @@ export class MnlProfileOtp extends React.Component<MnlOtpProps, MnlOtpState> {
     }
 
     private onChangeInput2(event: React.ChangeEvent<HTMLInputElement>, index: number) {
-        if (!event.target.value || event.target.value.length > 1) {
+        event.target.value = event.target.value.trim();
+        if (!event.target.value || event.target.value.length > 1 || isNaN(Number(event.target.value))) {
             return;
         }
         const otpArr = this.state.newOtp.split("");
         otpArr[index] = event.target.value;
         const currentOtp = otpArr.join("");
-        if (!/ /g.test(currentOtp)) {
+        if (!/ /g.test(currentOtp) && !/ /g.test(this.state.currentOtp)) {
             this.setState({ newOtp: currentOtp, isInputValid: true });
         } else {
             this.setState({ newOtp: currentOtp, isInputValid: false });
@@ -139,7 +140,8 @@ export class MnlProfileOtp extends React.Component<MnlOtpProps, MnlOtpState> {
                                 return (
                                     <div className={styles.otpCol} key={idx}>
                                         <input
-                                            type="number"
+                                            type="text"
+                                            inputMode="numeric"
                                             className={styles.otpInput}
                                             id={`otp_${idx}`}
                                             size={1}
@@ -147,7 +149,6 @@ export class MnlProfileOtp extends React.Component<MnlOtpProps, MnlOtpState> {
                                                 this.moveToNext(event, `otp_${idx + 1}`, this._currentMobileOtpRef)
                                             }
                                             onKeyDown={event => this.onKeyDown(event, `otp_${idx - 1}`, idx)}
-                                            maxLength={1}
                                             value={this.state.currentOtp.split("")[idx]}
                                             onChange={event => this.onChangeInput(event, idx)}
                                         />
@@ -166,7 +167,8 @@ export class MnlProfileOtp extends React.Component<MnlOtpProps, MnlOtpState> {
                                 return (
                                     <div className={styles.otpCol} key={idx}>
                                         <input
-                                            type="number"
+                                            type="text"
+                                            inputMode="numeric"
                                             className={styles.otpInput}
                                             id={`otp_${idx}`}
                                             size={1}
@@ -174,7 +176,6 @@ export class MnlProfileOtp extends React.Component<MnlOtpProps, MnlOtpState> {
                                                 this.moveToNext(event, `otp_${idx + 1}`, this._newMobileOtpRef)
                                             }
                                             onKeyDown={event => this.onKeyDownNew(event, `otp_${idx - 1}`, idx)}
-                                            maxLength={1}
                                             value={this.state.newOtp.split("")[idx]}
                                             onChange={event => this.onChangeInput2(event, idx)}
                                         />
@@ -229,5 +230,4 @@ export interface MnlOtpState {
     isInputValid: boolean;
     resendOtp: boolean;
     resendOtpIn: number;
-    isInputValid2: boolean;
 }

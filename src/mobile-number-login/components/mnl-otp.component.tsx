@@ -68,7 +68,8 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
     }
 
     private onChangeInput(event: React.ChangeEvent<HTMLInputElement>, index: number) {
-        if (!event.target.value || event.target.value.length > 1) {
+        event.target.value = event.target.value.trim();
+        if (!event.target.value || event.target.value.length > 1 || isNaN(Number(event.target.value))) {
             return;
         }
         const otpArr = this.state.otp.split("");
@@ -162,13 +163,13 @@ export class MnlOtp extends React.Component<MnlOtpProps, MnlOtpState> {
                                 return (
                                     <div className={styles.otpCol} key={idx}>
                                         <input
-                                            type="number"
+                                            type="text"
+                                            inputMode="numeric"
                                             className={styles.otpInput}
                                             id={`otp_${idx}`}
                                             size={1}
                                             onKeyUp={event => this.moveToNext(event, `otp_${idx + 1}`)}
                                             onKeyDown={event => this.onKeyDown(event, `otp_${idx - 1}`, idx)}
-                                            maxLength={1}
                                             value={this.state.otp.split("")[idx]}
                                             onChange={event => this.onChangeInput(event, idx)}
                                         />
