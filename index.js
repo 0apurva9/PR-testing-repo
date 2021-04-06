@@ -42,7 +42,7 @@ if (!isLocalMachineBuild) {
 
     app.get("*.js", function(req, res, next) {
         const encodings = req.acceptsEncodings();
-        if (req.url !== "/sw.js") {
+        if (req.url !== "/service-worker.js") {
             if (encodings.indexOf("br") > -1) {
                 // use brotli
                 req.url = req.url + ".br";
@@ -96,6 +96,7 @@ app.get("/marketplacewebservices/v2/mpl/getOrderInvoice/*", (req, res) => {
 
 app.all("/marketplacewebservices/*", proxyMiddleware(process.env.apiBaseUrl));
 app.all("/mobileloginapi/*", proxyMiddleware(process.env.apiBaseUrl));
+app.all("/marketplacemicroscervices/*", proxyMiddleware(process.env.apiBaseUrl));
 
 app.get("/.well-known/assetlinks.json", (req, res) => {
     res.json([

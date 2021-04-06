@@ -41,7 +41,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch(removeProductFromWishList(productDetails, true)).then(response => {
                 if (response.status === SUCCESS) {
                     dispatch(displayToast(REMOVED_SAVELIST));
-                    // dispatch(getWishListItems());
                     dispatch(getWishlist());
                 }
             });
@@ -63,6 +62,7 @@ const mapStateToProps = (state, ownProps) => {
         isSizeSelectedForAddToWishlist: ownProps.isSizeSelectedForAddToWishlist,
         showSizeSelector: ownProps.showSizeSelector,
         isMNLLogin: state.mobileNumberLogin.isMNLLogin,
+        userDetails: state.profile.userDetails,
     };
 };
 const AddToWishListButtonContainer = withRouter(connect(mapStateToProps, mapDispatchToProps)(AddToWishListButton));

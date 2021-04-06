@@ -1,149 +1,182 @@
-.singleProductContainer{
-  padding: 15px 0;
-}
-.divider{
-  border-bottom: 1px solid #e5e5e5;
-  width: 67%;
-  margin-left: 190px;
-}
-.checkboxContainer{
-  display: inline-block;
-  width: 56px;
-  vertical-align: middle;
-}
-.imageContainer{
-  display: inline-block;
-  width: 9%;
-  vertical-align: middle;
-}
-.imageContainerMainProduct{
-  display: inline-block;
-  width: 68px;
-  vertical-align: middle;
-}
-.imageHolder{
-  width: 96px;
-  height: 128px;
-  cursor: pointer;
-}
-.imageHolderMainProduct{
-  width: 68px;
-  height: 90px;
-}
-.productDetailsContainerMainProduct{
-  display: inline-block;
-  width: calc(64% - 68px);
-  vertical-align: middle;
-  padding-left: 35px;
-}
-.productDetailsContainer{
-  display: inline-block;
-  width: 50%;
-  vertical-align: middle;
-  padding-left: 35px;
-}
-.productNameContainer{
-  font-size: 16px;
-  line-height: 1.13;
-  letter-spacing: 0.03px;
-  color: #2c2627;
-  margin-bottom: 13px;
-}
-.productDetailsContainer > .productNameContainer{
-  min-height: 18px;
-}
-.productDetailsContainer > .productNameContainer > .productName{
-  cursor: pointer;
-}
-.productDetailsContainer > .ratingContainer{
-  height: 25px;
-}
-.productDetailsContainer > .buyingTipsContainer{
-  display: inline-block;
-  margin-top: 17px;
-  height: 19px;
-}
-.iconHolder{
-  display: inline-block;
-  width: 12px;
-  vertical-align: text-top;
-}
-.buyingTips{
-  display: inline-block;
-  padding-left: 5px;
-  font-size: 12px;
-  font-family: light;
-  letter-spacing: 0.02px;
-  color: #777374;
-  width: calc(100% - 12px);
-  vertical-align: text-top;
-}
-.productPriceContainer{
-  display: inline-block;
-  width: 31%;
-  vertical-align: middle;
-  padding-left: 40px;
-}
-.productMop{
-  display: inline-block;
-  font-family: semibold;
-  font-size: 18px;
-  line-height: 1.14;
-  letter-spacing: 0.03px;
-  color: #2c2627;
-}
-.productMopGrey{
-  display: inline-block;
-  font-family: semibold;
-  font-size: 18px;
-  line-height: 1.14;
-  letter-spacing: 0.03px;
-  color: #c0bebf;
-}
-.productMrp{
-  display: inline-block;
-  font-size: 14px;
-  line-height: 1.45;
-  letter-spacing: 0.03px;
-  color: #8d8d8d;
-  padding: 0 5px 0 10px;
-  text-decoration: line-through;
-}
-.productMrpGrey{
-  display: inline-block;
-  font-size: 14px;
-  line-height: 1.45;
-  letter-spacing: 0.03px;
-  color: #c0bebf;
-  padding: 0 5px 0 10px;
-  text-decoration: line-through;
-}
-.productDiscount{
-  display: inline-block;
-  font-size: 14px;
-  line-height: 1.45;
-  letter-spacing: 0.03px;
-  color: #338715;
-}
-.hideProducts{
-  display: none;
-}
-.showProducts{
-  display: block;
+.singleProductContainer {
+    padding: 15px 0;
 }
 
-.productNameDisabled{
-	pointer-events: none;
+.divider {
+    border-bottom: 1px solid #e5e5e5;
+    width: 67%;
+    margin-left: 190px;
 }
 
-.imageHolderMainProductDisabled{
-  width: 68px;
-	height: 90px;
-	pointer-events: none;
+.checkboxContainer {
+    display: inline-block;
+    width: 56px;
+    vertical-align: middle;
 }
 
-.imageHolderDisabled{
-  width: 96px;
-  height: 128px;
-  pointer-events: none;
+.imageContainer {
+    display: inline-block;
+    width: 9%;
+    vertical-align: middle;
+}
+
+.imageContainerMainProduct {
+    display: inline-block;
+    width: 68px;
+    vertical-align: middle;
+}
+
+.imageHolder {
+    width: 96px;
+    height: 128px;
+    cursor: pointer;
+}
+
+.imageHolderMainProduct {
+    width: 68px;
+    height: 90px;
+}
+
+.productDetailsContainerMainProduct {
+    display: inline-block;
+    width: calc(64% - 68px);
+    vertical-align: middle;
+    padding-left: 35px;
+}
+
+.productDetailsContainer {
+    display: inline-block;
+    width: 50%;
+    vertical-align: middle;
+    padding-left: 35px;
+}
+
+.productNameContainer {
+    font-size: 16px;
+    line-height: 1.13;
+    letter-spacing: 0.03px;
+    color: #2c2627;
+    margin-bottom: 13px;
+}
+
+.productDetailsContainer > .productNameContainer {
+    min-height: 18px;
+}
+
+.productDetailsContainer > .productNameContainer > .productName {
+    cursor: pointer;
+}
+
+.productDetailsContainer > .ratingContainer {
+    height: 25px;
+}
+
+.productDetailsContainer > .buyingTipsContainer {
+    display: inline-block;
+    margin-top: 17px;
+    height: 19px;
+}
+
+.iconHolder {
+    display: inline-block;
+    width: 12px;
+    vertical-align: text-top;
+}
+
+.buyingTips {
+    display: inline-block;
+    padding-left: 5px;
+    font-size: 12px;
+    font-family: light;
+    letter-spacing: 0.02px;
+    color: #777374;
+    width: calc(100% - 12px);
+    vertical-align: text-top;
+}
+
+.productPriceContainer {
+    display: inline-block;
+    width: 31%;
+    vertical-align: middle;
+    padding-left: 40px;
+}
+
+.productMop {
+    display: inline-block;
+    font-family: semibold;
+    font-size: 18px;
+    line-height: 1.14;
+    letter-spacing: 0.03px;
+    color: #2c2627;
+}
+
+.productMopGrey {
+    display: inline-block;
+    font-family: semibold;
+    font-size: 18px;
+    line-height: 1.14;
+    letter-spacing: 0.03px;
+    color: #c0bebf;
+}
+
+.productMrp {
+    display: inline-block;
+    font-size: 14px;
+    line-height: 1.45;
+    letter-spacing: 0.03px;
+    color: #8d8d8d;
+    padding: 0 5px 0 10px;
+    text-decoration: line-through;
+}
+
+.productMrpGrey {
+    display: inline-block;
+    font-size: 14px;
+    line-height: 1.45;
+    letter-spacing: 0.03px;
+    color: #c0bebf;
+    padding: 0 5px 0 10px;
+    text-decoration: line-through;
+}
+
+.productDiscount {
+    display: inline-block;
+    font-size: 14px;
+    line-height: 1.45;
+    letter-spacing: 0.03px;
+    color: #338715;
+}
+
+.hideProducts {
+    display: none;
+}
+
+.showProducts {
+    display: block;
+}
+
+.productNameDisabled {
+    pointer-events: none;
+}
+
+.imageHolderMainProductDisabled {
+    width: 68px;
+    height: 90px;
+    pointer-events: none;
+}
+
+.imageHolderDisabled {
+    width: 96px;
+    height: 128px;
+    pointer-events: none;
+}
+
+.knowMore {
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 5px;
+    font-size: 12px;
+    font-family: "semibold";
+    color: #2874f0;
+    cursor: pointer;
 }

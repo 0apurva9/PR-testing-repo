@@ -7,7 +7,7 @@ import {
   setDataLayerForPdpDirectCalls,
   SET_DATA_LAYER_FOR_REVIEW_AND_RATING_EVENT
 } from "../../lib/adobeUtils";
-const NO_REVIEW_TEXT = "Be the first to review this product";
+const NO_REVIEW_TEXT = "Share your opinion";
 export default class RatingAndTextLink extends React.Component {
   onClick() {
     setDataLayerForPdpDirectCalls(SET_DATA_LAYER_FOR_REVIEW_AND_RATING_EVENT);

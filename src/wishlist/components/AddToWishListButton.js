@@ -41,6 +41,8 @@ const PRODUCT_REGEX_CART = /cart(.*)/i;
 export default class AddToWishListButton extends React.Component {
     state = {
         foundInWishList: false,
+        productListingId: "",
+        winningUssID: "",
     };
 
     onClick(e) {
@@ -60,7 +62,8 @@ export default class AddToWishListButton extends React.Component {
         if (this.props.exchangeDetails) {
             setDataLayer(ADOBE_MDE_CLICK_ON_SAVE_TO_WISHLIST);
         }
-        const { productListingId, winningUssID, wishlistItems, index } = this.props;
+        const { productListingId, winningUssID, index } = this.props;
+
         let addToWishListObj = Object.assign(
             {},
             {
@@ -73,14 +76,7 @@ export default class AddToWishListButton extends React.Component {
         const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
         const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
         if (!userDetails || !customerCookie) {
-            // const url = this.props.location.pathname;
-            // const { productListingId, winningUssID } = this.props;
-            // this.props.setUrlToRedirectToAfterAuth(url);
-            // this.props.addProductToWishListAfterAuth({
-            //   productListingId: productListingId,
-            //   winningUssID: winningUssID
-            // });
-            // this.props.history.push(LOGIN_PATH);
+            this.setState({ productListingId, winningUssID });
             if (this.props.exchangeDetails) {
                 let addToWlWithExchangeTrue = "addToWlWithExchangeTrue";
                 let quoteId = this.props.exchangeDetails.quoteId;
@@ -117,45 +113,47 @@ export default class AddToWishListButton extends React.Component {
                     }
                 }
             }
-
             return null;
         } else {
-            let indexOfProduct = wishlistItems.findIndex(item => {
-                return item.productCode === productListingId && item.ussid === winningUssID;
-            });
-            // as per MDEQ-226 MDEQ-263 - done following change
-            if (this.props.exchangeDetails) {
-                indexOfProduct = -1;
-            }
-            if (this.props.isSizeSelectedForAddToWishlist) {
-                this.props.showSizeSelector();
-            } else {
-                if (indexOfProduct < 0) {
-                    // if product is having exchange details
-                    if (this.props.exchangeDetails) {
-                        let addToWlWithExchangeTrue = "addToWlWithExchangeTrue";
-                        let quoteId = this.props.exchangeDetails.quoteId;
-                        let IMEINumber = this.props.exchangeDetails.IMEINumber;
-                        let exchangeId = this.props.exchangeDetails.exchangeProductId;
-                        this.props.addProductToWishList({
-                            productListingId,
-                            winningUssID,
-                            addToWlWithExchangeTrue,
-                            quoteId,
-                            IMEINumber,
-                            exchangeId,
-                        });
-                    } else {
-                        this.props.addProductToWishList({
-                            productListingId,
-                            winningUssID,
-                        });
-                    }
-                    if (this.props.isFromCartPage) {
-                        this.props.removeAppliancesExchange(this.props.winningUssID);
-                    }
+            this.addItemToWishlist(this.props);
+        }
+    }
+
+    addItemToWishlist(props) {
+        const { productListingId, winningUssID, wishlistItems } = props;
+        let indexOfProduct = wishlistItems.findIndex(item => {
+            return item.productCode === productListingId && item.ussid === winningUssID;
+        });
+        // as per MDEQ-226 MDEQ-263 - done following change
+        if (props.exchangeDetails) {
+            indexOfProduct = -1;
+        }
+        if (props.isSizeSelectedForAddToWishlist) {
+            props.showSizeSelector();
+        } else {
+            if (indexOfProduct < 0) {
+                // if product is having exchange details
+                if (props.exchangeDetails) {
+                    let addToWlWithExchangeTrue = "addToWlWithExchangeTrue";
+                    let quoteId = props.exchangeDetails.quoteId;
+                    let IMEINumber = props.exchangeDetails.IMEINumber;
+                    let exchangeId = props.exchangeDetails.exchangeProductId;
+                    props.addProductToWishList({
+                        productListingId,
+                        winningUssID,
+                        addToWlWithExchangeTrue,
+                        quoteId,
+                        IMEINumber,
+                        exchangeId,
+                    });
                 } else {
-                    this.props.displayToast();
+                    props.addProductToWishList({
+                        productListingId,
+                        winningUssID,
+                    });
+                }
+                if (props.isFromCartPage) {
+                    props.removeAppliancesExchange(props.winningUssID);
                 }
             }
         }
@@ -172,21 +170,31 @@ export default class AddToWishListButton extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+        // After login item is added into wishlist
+        const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+        const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+        if (
+            nextProps.isMNLLogin.value &&
+            nextProps.productListingId === this.state["productListingId"] &&
+            nextProps.winningUssID === this.state["winningUssID"] &&
+            nextProps?.userDetails &&
+            nextProps?.userDetails?.status === "Success" &&
+            userDetails &&
+            customerCookie
+        ) {
+            this.setState({ productListingId: "", winningUssID: "" });
+            this.addItemToWishlist(nextProps);
+        }
         this.checkInWishlist(nextProps);
     }
 
-    // componentDidUpdate(prevProps) {
-    //   if (this.props.wishlistItems !== prevProps.wishlistItems) {
-    //     this.checkInWishlist(this.props);
-    //   }
-    // }
     checkInWishlist(props) {
         let loggedInUserDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
         if (loggedInUserDetails && props.wishlistItems && Array.isArray(props.wishlistItems)) {
             let self = this;
             let foundWishListItem = props.wishlistItems.find(item => {
-                if (item.ussid) return item.ussid === self.props.ussid;
-                else if (item.USSID) return item.USSID === self.props.ussid;
+                if (item.ussid) return item.ussid === self.props.winningUssID;
+                else if (item.USSID) return item.USSID === self.props.winningUssID;
             });
             if (typeof foundWishListItem === "object" && Object.keys(foundWishListItem).length) {
                 this.setState({ foundInWishList: true });
@@ -204,7 +212,7 @@ export default class AddToWishListButton extends React.Component {
         }
         const productDetails = {};
         productDetails.ussId = ussid;
-
+        this.setState({ productListingId: "", winningUssID: "" });
         if (this.props.removeProductFromWishList) {
             this.props.removeProductFromWishList(productDetails);
         }
@@ -219,11 +227,6 @@ export default class AddToWishListButton extends React.Component {
     }
 
     render() {
-        //let userCookie = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-        // if (userCookie) {
-        //   userCookie = JSON.parse(userCookie);
-        //   this.checkInWishlist(this.props);
-        // }
         if (this.props.type === WISHLIST_FOOTER_BUTTON_TYPE) {
             return (
                 <FooterButton
@@ -351,6 +354,7 @@ AddToWishListButton.propTypes = {
     showSizeSelector: PropTypes.func,
     index: PropTypes.number,
     isMNLLogin: PropTypes.object,
+    userDetails: PropTypes.object,
 };
 AddToWishListButton.defaultProps = {
     size: 20,

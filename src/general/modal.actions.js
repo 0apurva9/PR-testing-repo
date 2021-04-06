@@ -63,8 +63,7 @@ export const CANCEL_RETURN_REQUEST_POP_UP = "CancelReturnRequestPopUp";
 export const SHOW_RETURN_CONFIRM_POP_UP = "ShowReturnConfirmPopup";
 export const SHOW_DELIVERY_CONFIRM_POP_UP = "ShowDeliveryConfirmPopup";
 export const BOTTOM_ALERT_POP_UP = "BottomAlertPopUp";
-export const SELLER_REVIEW_SUBMIT_REMOVAL_POP_UP =
-  "SellerReviewSubmitRemovalPopup";
+export const SELLER_REVIEW_SUBMIT_REMOVAL_POP_UP = "SellerReviewSubmitRemovalPopup";
 export const POP_UP = "PopUp";
 export const PRODUCT_IN_BAG_MODAL = "ProductInBagModal";
 export const CHANGE_EXCHANGE_CASHBACK_MODAL = "ChangeExchangeCashabackModal";
@@ -80,27 +79,26 @@ export const APPLIANCES_EXCHANGE_MODAL = "AppliancesExchangeModal";
 export const NON_EMI_ELIGIBLE_TO_WISHLIST = "nonEmiEligibleToWishlist";
 
 export const MDE_FRAUD_DETAILS_MODAL = "MdeFraudDetailsModal";
+export const RATING_REVIEW_MODAL_V2 = "RatingAndReviewWrapperModalV2";
 export const MOBILE_NUMBER_LOGIN_MODAL_ACTIVE = "MobileNumberLoginModalActive";
-export const MOBILE_NUMBER_LOGIN_MODAL_INACTIVE =
-  "MobileNumberLoginModalInActive";
+export const MOBILE_NUMBER_LOGIN_MODAL_INACTIVE = "MobileNumberLoginModalInActive";
 
 export function showModal(type, ownProps) {
-  const scrollPosition =
-    window.pageYOffset || document.documentElement.scrollTop;
+    const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
 
-  return {
-    type: SHOW_MODAL,
-    modalType: type,
-    scrollPosition: scrollPosition,
-    ownProps
-  };
+    return {
+        type: SHOW_MODAL,
+        modalType: type,
+        scrollPosition: scrollPosition,
+        ownProps,
+    };
 }
 
 export function hideModal() {
-  return {
-    type: HIDE_MODAL,
-    modalType: null
-  };
+    return {
+        type: HIDE_MODAL,
+        modalType: null,
+    };
 }
 
 export function showMobileNumberLoginModal() {

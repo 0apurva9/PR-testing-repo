@@ -31,7 +31,7 @@ export class MnlForgotPassword extends React.Component<MnlPasswordProps, MnlPass
             return false;
         }
         if (this.props.isForgotPasswordProfile) {
-            this.props.changeProfilePassword(mnlApiData)
+            this.props.changeProfilePassword(mnlApiData);
         } else {
             this.props.forgotPassword(mnlApiData);
         }
@@ -55,7 +55,7 @@ export class MnlForgotPassword extends React.Component<MnlPasswordProps, MnlPass
                                     name="password"
                                     placeholder="Enter Password"
                                     value={this.state.password}
-                                    onChange={(event) => this.onChangeInput(event)}
+                                    onChange={event => this.onChangeInput(event)}
                                 />
                                 <label htmlFor="password">Enter Password</label>
                                 <button
@@ -63,6 +63,10 @@ export class MnlForgotPassword extends React.Component<MnlPasswordProps, MnlPass
                                     className={passwordIcon}
                                     onClick={() => this.setState({ showPassword: !this.state.showPassword })}
                                 ></button>
+                                <span className={styles.passwordFormat}>
+                                    Password must be 8-20 characters and contain at least one Number, Upper and Lower
+                                    case characters.
+                                </span>
                             </div>
                         </div>
 
@@ -90,7 +94,7 @@ export interface MnlPasswordProps {
     isForgotPassword: boolean;
     changeProfilePassword: (apiData: MnlApiData) => void;
     isForgotPasswordProfile: boolean;
-    displayToast: (msg: string) => void
+    displayToast: (msg: string) => void;
 }
 
 export interface MnlPasswordState {
