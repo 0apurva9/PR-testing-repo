@@ -31,6 +31,7 @@ import {
     MALE,
     SUCCESSFUL_PRODUCT_RATING_BY_USER,
     PRODUCT_RATING_FAILURE_TEXT,
+    MOBILE_PATTERN_11_DIGIT,
 } from "../../lib/constants";
 import {
     showModal,
@@ -461,6 +462,10 @@ const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
 export const CHECK_BALANCE_REQUEST = "CHECK_BALANCE_REQUEST";
 export const CHECK_BALANCE_SUCCESS = "CHECK_BALANCE_SUCCESS";
 export const CHECK_BALANCE_FAILURE = "CHECK_BALANCE_FAILURE";
+
+export const GET_HAPTIK_CONFIG_DATA_REQUEST = "GET_HAPTIK_CONFIG_DATA_REQUEST";
+export const GET_HAPTIK_CONFIG_DATA_SUCCESS = "GET_HAPTIK_CONFIG_DATA_SUCCESS";
+export const GET_HAPTIK_CONFIG_DATA_FAILURE = "GET_HAPTIK_CONFIG_DATA_FAILURE";
 
 const GENESYS_KEY = "Zgjei@$Pu";
 
@@ -1229,16 +1234,17 @@ export function getGiftCardDetails() {
             ) {
                 if (!resultJson.isWalletOtpVerified) {
                     dispatch(showModal(GENERATE_OTP_FOR_EGV));
-                // eslint-disable-next-line no-dupe-else-if
-                } else if (resultJson.isWalletCreated && !resultJson.isWalletOtpVerified) {
-                    dispatch(
-                        showModal(GENERATE_OTP_FOR_EGV, {
-                            firstName: resultJson.firstName,
-                            lastName: resultJson.lastName,
-                            mobileNumber: resultJson.mobileNumber,
-                        })
-                    );
                 }
+                // wrongly implemented someone will fix it
+                /* else if (resultJson.isWalletCreated  && !resultJson.isWalletOtpVerified) {
+                  dispatch(
+                      showModal(GENERATE_OTP_FOR_EGV, {
+                          firstName: resultJson.firstName,
+                          lastName: resultJson.lastName,
+                          mobileNumber: resultJson.mobileNumber,
+                      })
+                  );
+              } */
                 setDataLayer(ADOBE_MY_ACCOUNT_GIFT_CARD);
                 return dispatch(giftCardSuccess(resultJson));
             } else {
@@ -1382,6 +1388,7 @@ export function verifyWallet(customerDetailsWithOtp, isFromCliqCash) {
         dispatch(verifyWalletRequest());
         const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
         const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+        const customerInfo = getState().user.user && getState().user.user.customerInfo;
         try {
             const result = await api.post(
                 `${USER_PATH}/${JSON.parse(userDetails).userName}/verifyWalletOtp?access_token=${
@@ -1409,6 +1416,7 @@ export function verifyWallet(customerDetailsWithOtp, isFromCliqCash) {
             updatedUserCookie.userName = JSON.parse(userDetails).userName;
             updatedUserCookie.customerId = JSON.parse(userDetails).customerId;
             updatedUserCookie.loginType = JSON.parse(userDetails).loginType;
+            updatedUserCookie.userEmail = customerInfo.emailId;
 
             Cookie.createCookie(LOGGED_IN_USER_DETAILS, JSON.stringify(updatedUserCookie));
             return dispatch(verifyWalletSuccess(resultJson));
@@ -2991,6 +2999,7 @@ export function updateProfileFailure(error) {
 export function updateProfile(accountDetails, otp) {
     let dateOfBirth = format(accountDetails.dateOfBirth, DATE_FORMAT_TO_UPDATE_PROFILE);
     return async (dispatch, getState, { api }) => {
+        const isMNLLogin = getState().mobileNumberLogin && getState().mobileNumberLogin.isMNLLogin;
         dispatch(updateProfileRequest());
         const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
         const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
@@ -3005,17 +3014,11 @@ export function updateProfile(accountDetails, otp) {
         if (accountDetails.dateOfBirth) {
             requestUrl = requestUrl + `&dateOfBirth=${dateOfBirth}`;
         }
-        if (accountDetails.mobileNumber) {
-            requestUrl = requestUrl + `&mobilenumber=${accountDetails.mobileNumber}`;
-        }
         if (accountDetails.gender) {
             requestUrl = requestUrl + `&gender=${accountDetails.gender}`;
         }
-        if (accountDetails.emailId) {
-            requestUrl = requestUrl + `&emailid=${accountDetails.emailId}`;
-        }
         try {
-            updateProfileUrl = `${USER_PATH}/${JSON.parse(userDetails).userName}/updateprofile?${requestUrl}`;
+            updateProfileUrl = `${USER_PATH}/${JSON.parse(userDetails).userName}/updateprofile_V1?${requestUrl}`;
             if (otp) {
                 updateProfileUrl = `${updateProfileUrl}&otp=${otp}`;
             }
@@ -3027,7 +3030,6 @@ export function updateProfile(accountDetails, otp) {
             if (resultJsonStatus.status) {
                 throw new Error(resultJsonStatus.message);
             }
-
             if (accountDetails.gender && accountDetails.isGenderUpdate) {
                 dispatch(updateProfileMsd(accountDetails.gender));
             }
@@ -3035,7 +3037,8 @@ export function updateProfile(accountDetails, otp) {
                 dispatch(showModal(UPDATE_PROFILE_OTP_VERIFICATION, accountDetails));
             } else if (
                 resultJson.emailId !== JSON.parse(userDetails).userName &&
-                !MOBILE_PATTERN.test(JSON.parse(userDetails).userName)
+                !MOBILE_PATTERN_11_DIGIT.test(JSON.parse(userDetails).userName) &&
+                !isMNLLogin.value
             ) {
                 dispatch(setBagCount(0));
                 dispatch(logoutUserByMobileNumber());
@@ -4835,7 +4838,7 @@ export function submitProductRatingByUser(ratingValue, propsData) {
         try {
             const result = await api.postFormData(
                 `${PRODUCT_PATH}/${propsData.productDetails.productcode}
-        /reviews?isPwa=true&access_token=${JSON.parse(customerCookie).access_token}`,
+      /reviews?isPwa=true&access_token=${JSON.parse(customerCookie).access_token}`,
                 reviewData
             );
 
@@ -5421,4 +5424,56 @@ export function resetTicketsDataToInitial() {
     return {
         type: RESET_TICKETS_HISTORY_DATA_TO_INITIAL,
     };
+}
+
+export function getHaptikBotConfigRequest() {
+  return {
+    type: GET_HAPTIK_CONFIG_DATA_REQUEST,
+    status: REQUESTING
+  };
+}
+
+export function getHaptikBotConfigSuccess(haptikBotConfigData) {
+  return {
+    type: GET_HAPTIK_CONFIG_DATA_SUCCESS,
+    status: SUCCESS,
+    haptikBotConfigData
+  };
+}
+
+export function getHaptikBotConfigFailure() {
+  return {
+    type: GET_HAPTIK_CONFIG_DATA_FAILURE,
+    status: FAILURE
+  };
+}
+
+export function getHaptikBotConfig(pageId) {
+  return async (dispatch, getState, { api }) => {
+    dispatch(getHaptikBotConfigRequest());
+    try {
+      const result = await api.get(`${PATH}/cms/defaultpage?pageId=${pageId}`);
+      let resultJson = await result.json();
+      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+      if (resultJsonStatus.status) {
+        throw new Error(resultJsonStatus.message);
+      }
+      let resultJsonParse = "";
+      if (
+        resultJson &&
+        Array.isArray(resultJson.items) &&
+        resultJson.items[0].cmsParagraphComponent &&
+        typeof resultJson.items[0].cmsParagraphComponent === "object" &&
+        resultJson.items[0].cmsParagraphComponent !== null &&
+        resultJson.items[0].cmsParagraphComponent.content
+      ) {
+        resultJsonParse = JSON.parse(
+          resultJson.items[0].cmsParagraphComponent.content
+        );
+      }
+      dispatch(getHaptikBotConfigSuccess(resultJsonParse));
+    } catch (e) {
+      dispatch(getHaptikBotConfigFailure(e.message));
+    }
+  };
 }

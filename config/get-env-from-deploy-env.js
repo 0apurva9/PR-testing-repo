@@ -14,6 +14,7 @@ module.exports = function getEnvFromDeployEnv(deployEnv = "local", localEnv = "t
         case "production":
             env.apiBaseUrl = "https://www.tatacliq.com";
             env.baseUrl = "https://www.tatacliq.com";
+            env.productSearchBaseURL = "https://www.search.tatacliq.com";
             break;
         case "pt1":
             env.apiBaseUrl = "https://pt1.tatacliq.com";
@@ -40,12 +41,13 @@ module.exports = function getEnvFromDeployEnv(deployEnv = "local", localEnv = "t
             env.baseUrl = "https://qa4.tataunistore.com";
             break;
         case "qa1":
-            env.apiBaseUrl = "https://qa1.tataunistore.com";
+            env.apiBaseUrl = "https://www.tatacliq.com";
             env.baseUrl = "https://qa1.tataunistore.com";
             break;
         case "qa2":
             env.apiBaseUrl = "https://qa2.tataunistore.com";
             env.baseUrl = "https://qa2.tataunistore.com";
+            env.productSearchBaseURL = "https://qa2search.tataunistore.com";
             break;
         case "qa3":
             env.apiBaseUrl = "https://qa3.tataunistore.com";
@@ -72,6 +74,7 @@ module.exports = function getEnvFromDeployEnv(deployEnv = "local", localEnv = "t
     }
     if (localEnv === "true") {
         env.baseUrl = `https://localhost:${env.MIDDLEWARE_SERVER_PORT}`;
+        env.productSearchBaseURL = "https://qa2search.tataunistore.com";
     }
     return env;
 };

@@ -2,8 +2,7 @@ export const PANCARD_PAGE = "/panCard/panCardDetailsUpload/(.*)";
 export const SUCCESS = "success";
 export const SUCCESS_UPPERCASE = "SUCCESS";
 export const SUCCESS_CAMEL_CASE = "Success";
-export const SUCCESS_FOR_ADDING_TO_WSHLIST =
-  "Product added successfully to the wishlist";
+export const SUCCESS_FOR_ADDING_TO_WSHLIST = "Product added successfully to the wishlist";
 export const SUCCESS_FOR_ADDING_TO_BAG = "Product added successfully to bag";
 export const ADD_TO_BAG_TEXT = "The item has been added to your bag";
 export const REQUESTING = "requesting";
@@ -15,18 +14,16 @@ export const FAILURE_LOWERCASE = "failure";
 export const WRONG_FAILURE = "faliure";
 export const JUS_PAY_PENDING = "PENDING_VBV";
 export const JUS_PAY_CHARGED = "CHARGED";
-export const PANCARD_SUCCES_MESSAGE =
-  "The Pan Card Copy is submitted successfully.";
+export const PANCARD_SUCCES_MESSAGE = "The Pan Card Copy is submitted successfully.";
 export const JUS_PAY_SUCCESS = "S";
 export const JUS_PAY_AUTHENTICATION_FAILED = "AUTHENTICATION_FAILED";
 export const JUS_PAY_AUTHORIZATION_FAILED = "JUS_PAY_AUTHORIZATION_FAILED";
 export const SINGLE_SELECT_HEADING_COPY = "Thanks!!!";
 export const SINGLE_SELECT_DESCRIPTION_COPY =
-  "We will curate the experience based on your choices. Loading products...";
+    "We will curate the experience based on your choices. Loading products...";
 
 export const MULTI_SELECT_HEADING_COPY = "Thanks!!!";
-export const MULTI_SELECT_DESCRIPTION_COPY =
-  "We will curate the experience based on your choices. Loading products...";
+export const MULTI_SELECT_DESCRIPTION_COPY = "We will curate the experience based on your choices. Loading products...";
 export const MOBILE_PDP_VIEW = "mobilePdpView";
 export const MAIN_ROUTER = "/";
 export const CUSTOMER_ACCESS_TOKEN = "customerAccessToken";
@@ -46,8 +43,7 @@ export const BRAND_PAGE_WITH_QUERY_PARAMS = `/c-(mbh[0-9a-zA-z]+)?&`;
 export const BRAND_PAGE_WITH_SLUG_WITH_QUERY_PARAMS = `/:slug/c-(mbh[0-9a-zA-z]+)?&`;
 export const BRAND_PAGE_WITH_FILTER_SLUG = `/:slug/:slug/c-(mbh[0-9a-zA-Z]+)`;
 
-export const BRAND_AND_CATEGORY_PAGE =
-  "/:slug/c-(msh[a-zA-Z0-9]+)/b-(mbh[a-zA-Z0-9]+)";
+export const BRAND_AND_CATEGORY_PAGE = "/:slug/c-(msh[a-zA-Z0-9]+)/b-(mbh[a-zA-Z0-9]+)";
 
 export const CATEGORY_PAGE = "/c-(msh[0-9A-Za-z]+)";
 export const CATEGORY_PAGE_WITH_SLUG = `/:slug/c-(msh[0-9a-zA-Z]+)`;
@@ -57,18 +53,15 @@ export const CATEGORY_PAGE_WITH_FILTER_SLUG = `/:slug/:slug/c-(msh[0-9a-zA-Z]+)`
 export const PRODUCT_LISTINGS = "/search/(.*)";
 export const PRODUCT_LISTINGS_WITHOUT_SLASH = "/search/";
 export const SKU_PAGE_FILTER = "/CustomSkuCollection/:slug/page-([0-9]+)";
-export const CATEGORY_PRODUCT_LISTINGS_WITH_PAGE =
-  "/:slug/c-(msh[0-9a-zA-Z]+)/page-([0-9]+)?";
+export const CATEGORY_PRODUCT_LISTINGS_WITH_PAGE = "/:slug/c-(msh[0-9a-zA-Z]+)/page-([0-9]+)?";
 
-export const BRAND_PRODUCT_LISTINGS_WITH_PAGE =
-  "/:slug/c-(mbh[0-9a-zA-Z]+)/page-([0-9]+)?";
+export const BRAND_PRODUCT_LISTINGS_WITH_PAGE = "/:slug/c-(mbh[0-9a-zA-Z]+)/page-([0-9]+)?";
 
 export const SEARCH_RESULTS_PAGE = "/search/";
 export const HOME_ROUTER = "/";
 
 export const BRAND_LANDING_PAGE = "/brand";
-export const PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST =
-  "productDetailsForAddToWishList";
+export const PRODUCT_DETAIL_FOR_ADD_TO_WISHLIST = "productDetailsForAddToWishList";
 export const PRODUCT_ADDED_TO_WISHLIST = "Product added to wishlist";
 export const PRODUCT_DESCRIPTION_PRODUCT_CODE = "/p-([a-z0-9A-Z]+)";
 export const PRODUCT_DESCRIPTION_REVIEWS = `${PRODUCT_DESCRIPTION_PRODUCT_CODE}/product-reviews`;
@@ -77,8 +70,7 @@ export const WRITE_REVIEWS = `${PRODUCT_DESCRIPTION_PRODUCT_CODE}/write-review`;
 export const WRITE_REVIEWS_WITH_SLUG = `/:slug${WRITE_REVIEWS}`;
 export const PRODUCT_DESCRIPTION_REVIEWS_WITH_SLUG = `/:slug${PRODUCT_DESCRIPTION_REVIEWS}`;
 export const PRODUCT_OTHER_SELLER_ROUTER = `${PRODUCT_DESCRIPTION_PRODUCT_CODE}/viewSellers`;
-export const PRODUCT_DESCRIPTION_SLUG_PRODUCT_CODE =
-  "/:slug/(p-)([a-zA-Z0-9]+)";
+export const PRODUCT_DESCRIPTION_SLUG_PRODUCT_CODE = "/:slug/(p-)([a-zA-Z0-9]+)";
 export const PRODUCT_REVIEWS_PATH_SUFFIX = "product-reviews";
 export const PRODUCT_DESCRIPTION_ROUTER = PRODUCT_DESCRIPTION_PRODUCT_CODE; //TODO remove this
 export const PRODUCT_REVIEW_ROUTER = "/productReview";
@@ -100,8 +92,7 @@ export const ORDER = "/order";
 export const TRANSACTION_DETAIL_PAGE = "/transaction";
 export const TRANSACTION_HISTORY = "/transactionHistory";
 export const RETURN_SUCCESS_MESSAGE = "Return has been initiated";
-export const MSD_AUTOMATED_BRAND_CAROUSEL =
-  "msdAutomatedBannerProductCarouselComponent";
+export const MSD_AUTOMATED_BRAND_CAROUSEL = "msdAutomatedBannerProductCarouselComponent";
 export const MSD_DISCOVER_MORE = "msdAutoDiscoverMoreComponent";
 // MyAccount Routes
 export const MY_ACCOUNT_PAGE_ROOT = "/my-account/.*";
@@ -125,8 +116,7 @@ export const EDIT_ADDRESS_BOOK = "/my-account/address-book/edit";
 export const COSTUMER_CLIQ_CARE_ROUTE = "/cliq-care";
 export const CUSTOMER_CARE = "Customer Care";
 export const MY_ACCOUNT_USER_NOTIFICATION_PAGE = "/notifications";
-export const MY_ACCOUNT_EXCHANGE_MODE_SELECTION_PAGE =
-  "/getAccountInfoForExchange*";
+export const MY_ACCOUNT_EXCHANGE_MODE_SELECTION_PAGE = "/getAccountInfoForExchange*";
 //returns
 export const RETURNS_PREFIX = "/returns";
 export const RETURNS = "/returns/(.*)";
@@ -142,13 +132,10 @@ export const RETURN_CLIQ_PIQ_DATE = "/dateTime";
 export const RETURN_TO_ADDRESS = "/changeAddress";
 export const EDIT = "/edit";
 export const ADD = "/add";
-export const SUCCESS_MESSAGE_IN_CANCELING_ORDER =
-  "Your order has been cancelled"; //"Your order cancelled successfully";
+export const SUCCESS_MESSAGE_IN_CANCELING_ORDER = "Your order has been cancelled"; //"Your order cancelled successfully";
 export const RETURN_CLIQ_PIQ_RETURN_SUMMARY = "/returnSummary";
-export const SUCCESS_MESSAGE_IN_CANCEL_RETURN_ORDER =
-  "Your return request cancelled successfully";
-export const SUCCESS_MESSAGE_IN_RETURN_TO_HOTC =
-  "Your order is marked as delivered";
+export const SUCCESS_MESSAGE_IN_CANCEL_RETURN_ORDER = "Your return request cancelled successfully";
+export const SUCCESS_MESSAGE_IN_RETURN_TO_HOTC = "Your order is marked as delivered";
 
 export const RETURN_TO_STORE = "/store";
 export const RETURNS_STORE_MAP = "/storePick";
@@ -165,8 +152,7 @@ export const MY_ACCOUNT_ADDRESS_ADD_PAGE = "/address-book/add";
 export const FEEDBACK_PAGE = "/feedback/NPSFeedbackForm(.*)";
 export const RETURN_FEEDBACK_PAGE = "/feedback/ReturnNPSFeedbackForm(.*)";
 export const FEEDBACK_INTERMITTENT_PAGE = "/feedback/NPSFeedback(.*)";
-export const FEEDBACK_RETURN_INTERMITTENT_PAGE =
-  "/feedback/ReturnNPSFeedback(.*)";
+export const FEEDBACK_RETURN_INTERMITTENT_PAGE = "/feedback/ReturnNPSFeedback(.*)";
 export const CLIQ_AND_PIQ = "/select-stores";
 export const PRODUCT_CART_DELIVERY_MODES = "/deliveryModes";
 export const PRODUCT_DELIVERY_ADDRESSES = "/deliveryAddress";
@@ -194,8 +180,7 @@ export const BANK_COUPON_COOKIE = "bankCoupon";
 export const CART_BAG_DETAILS = "cartBagDetails";
 export const APP_VIEW = "isAppView";
 export const ORDER_ID_FOR_ORDER_CONFIRMATION_PAGE = "orderConfirmationPageId";
-export const ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE =
-  "paymentConfirmationPageId";
+export const ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE = "paymentConfirmationPageId";
 export const CART_COUNT_FOR_LOGGED_IN_USER = "bagCount";
 export const PRODUCT_CANCEL = "Cancel Item";
 
@@ -230,10 +215,10 @@ export const COLLECT_TEXT = "CLiQ & PiQ";
 export const FOLLOW = "Follow";
 export const FOLLOWING = "Following";
 export const SHIPPING_TYPES = {
-  HD: "home-delivery",
-  CNC: "click-and-collect",
-  ED: "express-delivery",
-  SDD: "same-day-delivery"
+    HD: "home-delivery",
+    CNC: "click-and-collect",
+    ED: "express-delivery",
+    SDD: "same-day-delivery",
 };
 
 export const PLAT_FORM_NUMBER = "11";
@@ -287,11 +272,9 @@ export const HELP = "Help";
 //STATIC PAGE
 export const STATIC_PAGE = "/:slug";
 export const NOT_FOUND = "/404-not-found";
-export const REVIEW_SUBMIT_TOAST_TEXT =
-  "Your review has been submitted and will be displayed after moderation";
+export const REVIEW_SUBMIT_TOAST_TEXT = "Your review has been submitted and will be displayed after moderation";
 
-export const CDN_URL_ROOT =
-  "https://assets.tatacliq.com/medias/sys_master/pwaImg/";
+export const CDN_URL_ROOT = "https://assets.tatacliq.com/medias/sys_master/pwaImg/";
 export const QUE_MAGAZINE = "https://www.tatacliq.com/que";
 
 export const TERMS_AND_CONDITION_URL = "/terms-of-use";
@@ -338,9 +321,8 @@ export const CATEGORY_FASHION_JEWELLERY = "FashionJewellery";
 // META TAGS CONSTANTS
 
 export const GOOGLE_TAG_TITLE_DEFAULT =
-  "Online Shopping Site in India - Upto 60% Off On Mobiles, Electronics & Fashion at Tata CLiQ";
-export const GOOGLE_TAG_IMAGE_DEFAULT =
-  "https://assets.tatacliq.com/medias/sys_master/images/10963640156190.jpg";
+    "Online Shopping Site in India - Upto 60% Off On Mobiles, Electronics & Fashion at Tata CLiQ";
+export const GOOGLE_TAG_IMAGE_DEFAULT = "https://assets.tatacliq.com/medias/sys_master/images/10963640156190.jpg";
 export const TWITTER_TAG_TITLE_DEFAULT = GOOGLE_TAG_TITLE_DEFAULT;
 export const TWITTER_TAG_IMAGE_DEFAULT = GOOGLE_TAG_IMAGE_DEFAULT;
 export const FACEBOOK_TAG_IMAGE_DEFAULT = GOOGLE_TAG_IMAGE_DEFAULT;
@@ -371,12 +353,10 @@ export const LAST_NAME_TEXT = "Please enter last name";
 export const NAME_VALID_TEXT = "Please enter valid first name";
 export const LAST_VALID_TEXT = "Please enter valid last name";
 export const ADDRESS_TEXT = "Please enter address";
-export const ADDRESS_MINLENGTH_VALID_TEXT =
-  "Minimum address length is 15 characters";
-export const ADDRESS_MAXLENGTH_VALID_TEXT =
-  "Address should not exceed 120 characters";
+export const ADDRESS_MINLENGTH_VALID_TEXT = "Minimum address length is 15 characters";
+export const ADDRESS_MAXLENGTH_VALID_TEXT = "Address should not exceed 120 characters";
 export const ADDRESS_VALIDATION_TEXT =
-  "Special characters accepted are - # & ( ) ' ' . ,  / \\ + _ . Please remove other special characters";
+    "Special characters accepted are - # & ( ) ' ' . ,  / \\ + _ . Please remove other special characters";
 export const EMAIL_TEXT = "Please enter email id";
 export const LANDMARK_TEXT = "Please select landmark";
 export const LANDMARK_ENTER_TEXT = "Please enter landmark";
@@ -392,16 +372,12 @@ export const SELECT_ADDRESS_TYPE = "please select address type";
 export const ISO_CODE = "IN";
 export const OTHER_LANDMARK = "other";
 export const OTP_VERIFICATION_REQUIRED_CODE = "NU0002";
-export const RESET_PASSWORD_SUCCESS_MESSAGE =
-  "Password reset successfully. Kindly login with your new password";
+export const RESET_PASSWORD_SUCCESS_MESSAGE = "Password reset successfully. Kindly login with your new password";
 export const OTP_VERIFICATION_REQUIRED_TEXT = "OTP VERIFICATION REQUIRED";
 export const STORE_NOT_AVAILABLE_TEXT = "Store Not available";
-export const BACK_END_ISSUE_ERROR_MESSAGE =
-  "An exception occurred at back-end.";
-export const TOAST_MESSAGE_AFTER_MERGE_CART =
-  "Your bag contains product from your last visit";
-export const EMAIL_ID_ALREADY_NOT_EXIST_SIGN_UP =
-  "Email Id already exists, please try with another email Id!";
+export const BACK_END_ISSUE_ERROR_MESSAGE = "An exception occurred at back-end.";
+export const TOAST_MESSAGE_AFTER_MERGE_CART = "Your bag contains product from your last visit";
+export const EMAIL_ID_ALREADY_NOT_EXIST_SIGN_UP = "Email Id already exists, please try with another email Id!";
 export const EMAIL_SENT_SUCCESS_MESSAGE = "Email sent successfully";
 export const FEMALE = "FEMALE";
 export const MALE = "MALE";
@@ -425,13 +401,12 @@ export const AMP_CATEGORY_REG_EX = /\/[a-zA-z0-9-]+\/c-msh[0-9a-zA-Z]+/;
 export const AMP_SEARCH_REG_EX = /\/search\//;
 export const AMP_PRODUCT_CODE_REG_EX = /\/p-mp[0-9]+/;
 export const TIME_OUT_FOR_APIS = 5000;
-export const LOW_INTERNET_CONNECTION_MESSAGE =
-  "Slow Internet Connection Detected";
+export const LOW_INTERNET_CONNECTION_MESSAGE = "Slow Internet Connection Detected";
 export const MODE_OF_RETURN = "Select mode of return";
 export const REFUND_DETAILS = "Refund Details";
 export const SELECTED_DELIVERY_MODE = "selectedDeliverMode";
 export const PINCODE_NOT_SERVICEABLE_TEXT =
-  "We are sorry, this pincode is not serviceable. Please enter another pincode.";
+    "We are sorry, this pincode is not serviceable. Please enter another pincode.";
 export const BUY_NOW_PRODUCT_DETAIL = "buyNowTempProduct";
 export const DEFAULT_PINCODE = 110001;
 
@@ -484,8 +459,7 @@ export const DESKTOP_THEME_OFFER_CN = "desktopThemeOfferComponent";
 export const THEME_OFFER_CN = "themeOffersComponent";
 export const REDMI_WALLET_FROM_EMAIL = "/wallet/redimWalletFromEmail/";
 export const RETRY_FAILED_ORDER = "/retryFailedOrder";
-export const RETRY_PAYMENT_CART_AND_USER_ID_DETAILS =
-  "retryPaymentCartIdAndUserID";
+export const RETRY_PAYMENT_CART_AND_USER_ID_DETAILS = "retryPaymentCartIdAndUserID";
 export const PRIMARY_OFFER = "PRODUCT_PROMOTION";
 export const EMI_TENURE = "emiTenure";
 export const WHATSAPP_NOTIFICATION = "whatsappNotification";
@@ -498,10 +472,8 @@ export const EXPIRED_REJECTED_FORMAT = "0001-01-01T00:00:00";
 export const PREVENT_NUMBERS_VALIDATION = /^([^0-9]*)$/;
 export const BANK_ACCOUNT = "BANK_ACCOUNT";
 export const MY_ACCOUNT_SUFFIX = "/my-account/(.*)";
-export const DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION =
-  "digitalDataForPaymentConfirmation";
-export const DIGITAL_DATA_FOR_BEFORE_PAYMENT_CONFIRMATION =
-  "digitalDataForPaymentConfirmationBeforePayment";
+export const DIGITAL_DATA_FOR_PAYMENT_CONFIRMATION = "digitalDataForPaymentConfirmation";
+export const DIGITAL_DATA_FOR_BEFORE_PAYMENT_CONFIRMATION = "digitalDataForPaymentConfirmationBeforePayment";
 // errors
 export const ERROR_CODE_JAVA_NET = "java.net";
 export const ERROR_CODE_REDIS_CLIENT = "redis.clients";
@@ -523,16 +495,13 @@ export const ERROR_CODE_ORG_APACHE = "org.apache";
 export const ERROR_CODE_FLEXIBLE_SEARCH_QUERY = "flexible search query";
 export const ERROR_CODE_INVALID_ACCESS_TOKEN = "invalid access token";
 
-export const FAILURE_TEXT =
-  "Your payment didn't go through, please try again with different payment mode";
-export const RETRY_FAILED_ORDER_COUPON_HEADER =
-  "Your payment hasn't gone through";
+export const FAILURE_TEXT = "Your payment didn't go through, please try again with different payment mode";
+export const RETRY_FAILED_ORDER_COUPON_HEADER = "Your payment hasn't gone through";
 export const RETRY_FAILED_ORDER_COUPON =
-  "You may attempt to pay again now or retry payment again after 20 minutes using the Payment Retry Link available in your Order History under My Account and your email to avail all the applied Coupon discounts and/or Instant Bank Offer discounts on this Order.";
+    "You may attempt to pay again now or retry payment again after 20 minutes using the Payment Retry Link available in your Order History under My Account and your email to avail all the applied Coupon discounts and/or Instant Bank Offer discounts on this Order.";
 export const RETRY_FAILED_ORDER_COUPON_NOTE =
-  "Note: If the amount was debited from your account, it will be fully refunded.";
-export const IS_COMING_FROM_ORDER_CONFIRMATION =
-  "isComingFromOrderConfirmation";
+    "Note: If the amount was debited from your account, it will be fully refunded.";
+export const IS_COMING_FROM_ORDER_CONFIRMATION = "isComingFromOrderConfirmation";
 export const CNC_TO_HD_ORDER = "/my-account/cncToHd/(.*)";
 export const CNCTOHD = "/cncToHd";
 
@@ -575,11 +544,9 @@ export const PLP_SHORT_BANNER_COMPONENT = "plpShortBannerComponent";
 export const HERO_BANNER_MONETIZATION = "HeroBannerComponentMonetization";
 export const SIMPLE_BANNER_MONETIZATION = "SimpleBannerComponentMonetization";
 
-export const SHARE_FACEBOOK_URL =
-  "https://www.facebook.com/sharer/sharer.php?u=";
+export const SHARE_FACEBOOK_URL = "https://www.facebook.com/sharer/sharer.php?u=";
 export const SHARE_TWITTER_URL = "https://twitter.com/intent/tweet?url=";
-export const POP_UP_WINDOW_STYLE =
-  "toolbar=no, menubar=no, width=600, height=700, top=100, left=100";
+export const POP_UP_WINDOW_STYLE = "toolbar=no, menubar=no, width=600, height=700, top=100, left=100";
 
 //SBA
 export const APP_ID_FOR_SBA = "dd669910-e0d3-11e8-b431-1d83bfd113a3";
@@ -606,3 +573,10 @@ export const IS_FORWARD_JOURNEY = "isForwardJourney";
 export const CANCEL_REASON_FOR_BUNDLED_PRODUCT =
   "Other products purchased in the combo might also get canceled";
 export const MDE_FRAUD_CHECK_ERROR = "mdeFraudCheckError";
+export const EMAIL_REGULAR_EXPRESSION = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+export const MOBILE_PATTERN = /^[6,7,8,9]{1}[0-9]{9}$/;
+export const MOBILE_PATTERN_11_DIGIT = /^[6,7,8,9]{1}[0-9]{10}$/;
+export const CLIENT_ID = "gauravj@dewsolutions.in";
+export const CLIENT_SECRET = "secret";
+export const OTP_RESEND_TIME = 20;
+export const GLOBAL_ACCESS_TOKEN_REFRESH_CODE = 5004;

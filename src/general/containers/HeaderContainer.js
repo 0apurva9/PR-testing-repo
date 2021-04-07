@@ -2,8 +2,8 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import HeaderWrapper from "../components/HeaderWrapper";
 import { setHeaderText } from "../header.actions.js";
-import { showFilter, hideFilter, userSelectedOutOfStock } from "../../plp/actions/plp.actions.js";
-import { showModal, DESKTOP_AUTH } from "../../general/modal.actions.js";
+import { showFilter, hideFilter, userSelectedOutOfStock, isMPLWebMNLLogin } from "../../plp/actions/plp.actions.js";
+import { showModal, DESKTOP_AUTH, showMobileNumberLoginModal } from "../../general/modal.actions.js";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 import { getHeader } from "../../clp/actions/clp.actions";
 import { seachAbVersion } from "../../plp/actions/plp.actions.js";
@@ -40,6 +40,12 @@ const mapDispatchToProps = dispatch => {
         seachAbVersion: () => {
             dispatch(seachAbVersion());
         },
+        openMobileNumberLoginModal: () => {
+            dispatch(showMobileNumberLoginModal());
+        },
+        isMPLWebMNLLogin: () => {
+            dispatch(isMPLWebMNLLogin());
+        },
     };
 };
 const mapStateToProps = state => {
@@ -53,6 +59,7 @@ const mapStateToProps = state => {
         // wishListCount: state.wishlistItems.wishlistItems,
         wishListCount: state.wishlistItems,
         minicart: state.cart.minicart,
+        isMNLLogin: state.mobileNumberLogin.isMNLLogin,
     };
 };
 

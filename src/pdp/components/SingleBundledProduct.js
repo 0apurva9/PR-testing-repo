@@ -83,7 +83,8 @@ export default class SingleBundledProduct extends React.Component {
   render() {
     let checked = false;
     if (
-      (this.props.bundledPriceAPIStatus === SUCCESS &&
+      (this.props.bundledPriceAPIStatus &&
+		this.props.bundledPriceAPIStatus.toLowerCase() === SUCCESS &&
         this.state.isCheckboxClicked) ||
       this.props.productData.defaultSelected
     ) {

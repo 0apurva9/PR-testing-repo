@@ -9,6 +9,7 @@ import {
     GLOBAL_ACCESS_TOKEN,
     ANONYMOUS_USER,
 } from "../../lib/constants";
+import { setWebMNLApiSuccess } from "../../mobile-number-login/store/mobile-number-login.actions";
 import { showSecondaryLoader, hideSecondaryLoader } from "../../general/secondaryLoader.actions";
 import {
     setDataLayer,
@@ -71,11 +72,16 @@ export const GET_CHATBOT_DETAILS_FAILURE = "GET_CHATBOT_DETAILS_FAILURE";
 export const CHECK_PIN_CODE_FROM_PLP_REQUEST = "CHECK_PIN_CODE_FROM_PLP_REQUEST";
 export const CHECK_PIN_CODE_FROM_PLP_SUCCESS = "CHECK_PIN_CODE_FROM_PLP_SUCCESS";
 export const CHECK_PIN_CODE_FROM_PLP_FAILURE = "CHECK_PIN_CODE_FROM_PLP_FAILURE";
+export const WEB_MNL_LOGIN_SUCCESS = "WEB_MNL_LOGIN_SUCCESS";
 
 export const GET_DEFAULT_PLP_VIEW_REQUEST = "GET_DEFAULT_PLP_VIEW_REQUEST";
 export const GET_DEFAULT_PLP_VIEW_SUCCESS = "GET_DEFAULT_PLP_VIEW_SUCCESS";
 export const GET_DEFAULT_PLP_VIEW_FAILURE = "GET_DEFAULT_PLP_VIEW_FAILURE";
 const DEFAULT_PLP_VIEW = "defaultPlpView";
+export const GET_RESTRICTED_FILTER_REQUEST = "GET_RESTRICTED_FILTER_REQUEST";
+export const GET_RESTRICTED_FILTER_SUCCESS = "GET_RESTRICTED_FILTER_SUCCESS";
+export const GET_RESTRICTED_FILTER_FAILURE = "GET_RESTRICTED_FILTER_FAILURE";
+const RESTRICTED_FILTERS = "restrictedFilters";
 
 export function setProductModuleRef(ref) {
     return {
@@ -314,19 +320,25 @@ export function getProductListings(
                     window.digitalData.page &&
                     window.digitalData.page.category &&
                     window.digitalData.page.category.subCategory1 &&
+                    breadcrumbs.length > 0 &&
+                    breadcrumbs[0] &&
                     breadcrumbs[0].name &&
                     breadcrumbs[0].name.replace(/ /g, "_").toLowerCase() !==
                         window.digitalData.page.category.subCategory1 &&
+                    breadcrumbs.length > 0 &&
+                    breadcrumbs[1] &&
                     breadcrumbs[1].name &&
                     breadcrumbs[1].name.replace(/ /g, "_").toLowerCase() !==
                         window.digitalData.page.category.subCategory2) ||
                 (breadcrumbs &&
+                    breadcrumbs.length > 0 &&
                     breadcrumbs[0] &&
                     window.digitalData &&
                     window.digitalData.page &&
                     window.digitalData.page.category &&
                     !window.digitalData.page.category.subCategory1) ||
                 (breadcrumbs &&
+                    breadcrumbs.length > 0 &&
                     breadcrumbs[0] &&
                     window.digitalData &&
                     window.digitalData.page &&
@@ -398,6 +410,28 @@ export function getProductListings(
             if (status.status === "error" || status.isPaginated) {
                 dispatch(nullSearchMsd());
             }
+        }
+    };
+}
+
+export function isMPLWebMNLLogin() {
+    return async (dispatch, getState, { api }) => {
+        try {
+            const result = await api.customGetMiddlewareUrl(
+                `/otatacliq/getApplicationProperties.json?propertyNames=is_MPL_WEB_MNL_Login_True_V1`
+            );
+            const resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+            if (resultJsonStatus.status) {
+                throw new Error(resultJsonStatus.message);
+            }
+
+            Cookie.createCookie("isMNLAPI", JSON.stringify(resultJson.applicationProperties[0]));
+
+            return dispatch(setWebMNLApiSuccess(resultJson.applicationProperties[0]));
+        } catch (e) {
+            throw new Error(`${e.message}`);
         }
     };
 }
@@ -687,7 +721,7 @@ export function getDefaultPlpView() {
             }
 
             if (resultJson && resultJson.applicationProperties && resultJson.applicationProperties.length >= 1) {
-                Cookie.createCookie(DEFAULT_PLP_VIEW, JSON.stringify(resultJson.applicationProperties));
+                Cookie.createCookie(DEFAULT_PLP_VIEW, JSON.stringify(resultJson.applicationProperties), 2);
             }
             return dispatch(getDefaultPlpViewSuccess(resultJson));
         } catch (e) {
@@ -695,6 +729,7 @@ export function getDefaultPlpView() {
         }
     };
 }
+
 
 export function seachAbVersion() {
     return async (dispatch, getState, { api }) => {
@@ -717,6 +752,60 @@ export function seachAbVersion() {
             sessionStorage.setItem("testVersion", resultJson.testVersion);
         } catch (e) {
             throw new Error(`${e.message}`);
+        }
+    };
+}
+
+export function getRestrictedFiltersRequest() {
+    return {
+        type: GET_RESTRICTED_FILTER_REQUEST,
+        status: REQUESTING,
+    };
+}
+export function getRestrictedFiltersSuccess(data) {
+    return {
+        type: GET_RESTRICTED_FILTER_SUCCESS,
+        status: SUCCESS,
+        data,
+    };
+}
+
+export function getRestrictedFiltersFailure(error) {
+    return {
+        type: GET_RESTRICTED_FILTER_FAILURE,
+        status: ERROR,
+        error,
+    };
+}
+
+export function getRestrictedFilters() {
+    return async (dispatch, getState, { api }) => {
+        dispatch(getRestrictedFiltersRequest());
+        try {
+            const result = await api.customGetMiddlewareUrl(
+                `/otatacliq/getApplicationProperties.json?propertyNames=MP_DESKTOP_FILTER_FACET`
+            );
+            const resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+            if (resultJsonStatus.status) {
+                throw new Error(resultJsonStatus.message);
+            }
+
+            if (
+                resultJson &&
+                resultJson.applicationProperties &&
+                resultJson.applicationProperties.length >= 1 &&
+                resultJson.applicationProperties[0].value
+            ) {
+                Cookie.createCookie(
+                    RESTRICTED_FILTERS,
+                    JSON.stringify(resultJson.applicationProperties[0].value),
+                    0.0208333
+                );
+            }
+            return dispatch(getRestrictedFiltersSuccess(resultJson));
+        } catch (e) {
+            dispatch(getRestrictedFiltersFailure(e.message));
         }
     };
 }
