@@ -131,7 +131,7 @@ export default class HeaderWrapper extends React.Component {
             sessionId = getUniqueId();
             Cookie.createCookie(SESSION_ID, sessionId);
         }
-        this.props.seachAbVersion();
+        this.props.searchABVersion();
         this.props.isMPLWebMNLLogin();
         if (this.props.location.pathname !== HOME_ROUTER && !this.props.location.pathname.includes(SAVE_LIST_PAGE)) {
             this.props.getWishlist();

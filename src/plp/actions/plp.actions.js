@@ -739,7 +739,7 @@ export function getDefaultPlpView() {
 }
 
 
-export function seachAbVersion() {
+export function searchABVersion() {
     return async (dispatch, getState, { api }) => {
         try {
             let searchCookieValue = Cookie.getCookie(SESSION_ID) || "";
