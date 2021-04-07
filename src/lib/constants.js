@@ -291,6 +291,7 @@ export const HELP_URL = "/help";
 export const CONTACT_URL = "/contactus";
 export const BUYER_POLICY_URL = "/buyer-policies";
 export const MY_ACCOUNT_PROMOS_PAGE = "/promos";
+export const PRODUCT_SEARCH_URL = "productSearchUrl";
 
 // constants for payments method
 export const EASY_MONTHLY_INSTALLMENTS = "Easy monthly installments";

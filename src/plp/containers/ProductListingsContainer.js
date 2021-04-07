@@ -27,7 +27,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch(setPage(page));
 
             let searchSuffixes = suffix;
-            const testVersion = sessionStorage.getItem("testVersion");
+            const testVersion = localStorage.getItem("testVersion");
             const parsedTestVersion = parsedQueryString.test;
 
             if (parsedQueryString.qc && parsedQueryString.qc !== "false") {

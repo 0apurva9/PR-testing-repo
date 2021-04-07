@@ -8,6 +8,8 @@ import {
     CUSTOMER_ACCESS_TOKEN,
     GLOBAL_ACCESS_TOKEN,
     ANONYMOUS_USER,
+    PRODUCT_SEARCH_URL,
+    SESSION_ID,
 } from "../../lib/constants";
 import { setWebMNLApiSuccess } from "../../mobile-number-login/store/mobile-number-login.actions";
 import { showSecondaryLoader, hideSecondaryLoader } from "../../general/secondaryLoader.actions";
@@ -284,13 +286,19 @@ export function getProductListings(
                 dispatch(setLastPlpPath(""));
             }
             let keyWordRedirect = currentKeywordRedirect ? currentKeywordRedirect : false;
-            let queryString = `${PRODUCT_LISTINGS_PATH}/?searchText=${encodedString}&isKeywordRedirect=${keyWordRedirect}&isKeywordRedirectEnabled=true&channel=WEB&isMDE=true`;
+            let isDynamicProductUrl = true;
+            let productSearchUrl = localStorage.getItem(PRODUCT_SEARCH_URL);
+            if(!productSearchUrl) {
+                isDynamicProductUrl = false;
+                productSearchUrl = `${PRODUCT_LISTINGS_PATH}`;
+            }
+            let queryString = `${productSearchUrl}?searchText=${encodedString}&isKeywordRedirect=${keyWordRedirect}&isKeywordRedirectEnabled=true&channel=WEB&isMDE=true`;
             if (suffix) {
                 queryString = `${queryString}${suffix}`;
             }
             queryString = `${queryString}&page=${pageNumber}`;
             queryString = `${queryString}${PRODUCT_LISTINGS_SUFFIX}`;
-            const result = await api.getMiddlewareUrl(queryString);
+            const result = await api.getMiddlewareUrl(queryString, isDynamicProductUrl);
             const resultJson = await result.json();
             if (resultJson && resultJson.currentQuery && isBrowser) {
                 keyWordRedirect = resultJson.currentQuery.isKeywordRedirect;
@@ -734,7 +742,7 @@ export function getDefaultPlpView() {
 export function seachAbVersion() {
     return async (dispatch, getState, { api }) => {
         try {
-            let searchCookieValue = Cookie.getCookie("bm_sv") || "";
+            let searchCookieValue = Cookie.getCookie(SESSION_ID) || "";
             // if (!globalAccessToken) {
             //     await this.props.getGlobalAccessToken();
             //     globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
@@ -749,7 +757,8 @@ export function seachAbVersion() {
                 throw new Error(resultJsonStatus.message);
             }
 
-            sessionStorage.setItem("testVersion", resultJson.testVersion);
+            localStorage.setItem("testVersion", resultJson.testVersion);
+            localStorage.setItem(PRODUCT_SEARCH_URL, resultJson.apiURL);
         } catch (e) {
             throw new Error(`${e.message}`);
         }
