@@ -25,16 +25,24 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         getProductListings: (search, suffix, page, isFilter) => {
             dispatch(setSearchString(search));
             dispatch(setPage(page));
-            let suffixWithQc = suffix;
+
+            let searchSuffixes = suffix;
+            const testVersion = localStorage.getItem("testVersion");
+            const parsedTestVersion = parsedQueryString.test;
+
             if (parsedQueryString.qc && parsedQueryString.qc !== "false") {
-                suffixWithQc = `${suffixWithQc}&qc=true`;
+                searchSuffixes = `${searchSuffixes}&qc=true`;
             } else {
-                suffixWithQc = `${suffixWithQc}&qc=false`;
+                searchSuffixes = `${searchSuffixes}&qc=false`;
             }
-            if (parsedQueryString.test) {
-                suffixWithQc = `${suffixWithQc}&test=${parsedQueryString.test}`;
+
+            if (parsedTestVersion) {
+                searchSuffixes = `${searchSuffixes}&test=${parsedTestVersion}`;
+            } else if (testVersion) {
+                searchSuffixes = `${searchSuffixes}&test=${testVersion}`;
             }
-            dispatch(getProductListings(suffixWithQc, false, isFilter, componentName));
+
+            dispatch(getProductListings(searchSuffixes, false, isFilter, componentName));
         },
         getPlpBanners: categoryId => dispatch(getPlpBanners(categoryId)),
         paginate: (page, suffix) => {
@@ -51,13 +59,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  return {
-    searchText: ownProps.searchText ? ownProps.searchText : null,
-    clickedProductModuleRef: state.productListings.clickedProductModuleRef,
-    lastVisitedPlpUrl: state.productListings.lastVisitedPlpUrl,
-    urlString: state.productListings.urlString,
-    productListings: state.productListings.productListings
-  };
+    return {
+        searchText: ownProps.searchText ? ownProps.searchText : null,
+        clickedProductModuleRef: state.productListings.clickedProductModuleRef,
+        lastVisitedPlpUrl: state.productListings.lastVisitedPlpUrl,
+        urlString: state.productListings.urlString,
+        productListings: state.productListings.productListings,
+    };
 };
 
 const ProductListingsContainer = withRouter(connect(mapStateToProps, mapDispatchToProps)(ProductListingsPage));
