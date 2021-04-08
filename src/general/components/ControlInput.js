@@ -72,6 +72,7 @@ export default class ControlInput extends React.Component {
               autoFocus={this.props.autoFocus}
               onKeyPress={event => this.handleKeyPress(event)}
               data-test={this.props.dataTest}
+			  ref={this.props.refForText}
             />
           </div>
           {this.props.leftChild && (
@@ -123,7 +124,8 @@ ControlInput.propTypes = {
   maxLength: PropTypes.number,
   disabled: PropTypes.bool,
   autoFocus: PropTypes.bool,
-  focused: PropTypes.bool
+  focused: PropTypes.bool,
+  refForText: PropTypes.object,
 };
 
 ControlInput.defaultProps = {
