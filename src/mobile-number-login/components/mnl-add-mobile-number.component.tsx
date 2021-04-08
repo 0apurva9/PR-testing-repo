@@ -10,11 +10,13 @@ export class MnlAddMobileNumber extends React.Component<MnlAddMobileNumberProps,
     };
 
     private onChangeInput(event: React.ChangeEvent<HTMLInputElement>) {
-        if (MOBILE_PATTERN.test(event.target.value) || MOBILE_PATTERN_11_DIGIT.test(event.target.value)) {
-            this.setState({ mobileNumber: event.target.value, isInputValid: true });
-            return;
+        if (!isNaN(Number(event.target.value))) {
+            if (MOBILE_PATTERN.test(event.target.value) || MOBILE_PATTERN_11_DIGIT.test(event.target.value)) {
+                this.setState({ mobileNumber: event.target.value, isInputValid: true });
+                return;
+            }
+            this.setState({ mobileNumber: event.target.value, isInputValid: false });
         }
-        this.setState({ mobileNumber: event.target.value, isInputValid: false });
     }
 
     private onContinueBtnClick() {
@@ -42,7 +44,8 @@ export class MnlAddMobileNumber extends React.Component<MnlAddMobileNumberProps,
                         <div className={[styles.form_outer, styles.countryCode].join(" ")}>
                             <div className={styles.dateSlct}>+91</div>
                             <input
-                                type="number"
+                                type="text"
+                                inputMode="numeric"
                                 className={styles.form_control}
                                 name="mobileNumber"
                                 placeholder="Enter Mobile Number"
