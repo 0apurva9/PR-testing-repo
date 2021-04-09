@@ -51,6 +51,7 @@ export class MnlAddMobileNumber extends React.Component<MnlAddMobileNumberProps,
                                 placeholder="Enter Mobile Number"
                                 value={this.state.mobileNumber}
                                 onChange={event => this.onChangeInput(event)}
+                                autoComplete="off"
                             />
                             <label htmlFor="mobileNumber">Mobile Number</label>
                         </div>

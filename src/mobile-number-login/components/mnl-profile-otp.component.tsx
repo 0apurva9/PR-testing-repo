@@ -151,6 +151,7 @@ export class MnlProfileOtp extends React.Component<MnlOtpProps, MnlOtpState> {
                                             onKeyDown={event => this.onKeyDown(event, `otp_${idx - 1}`, idx)}
                                             value={this.state.currentOtp.split("")[idx]}
                                             onChange={event => this.onChangeInput(event, idx)}
+                                            autoComplete="off"
                                         />
                                     </div>
                                 );
@@ -178,6 +179,7 @@ export class MnlProfileOtp extends React.Component<MnlOtpProps, MnlOtpState> {
                                             onKeyDown={event => this.onKeyDownNew(event, `otp_${idx - 1}`, idx)}
                                             value={this.state.newOtp.split("")[idx]}
                                             onChange={event => this.onChangeInput2(event, idx)}
+                                            autoComplete="off"
                                         />
                                     </div>
                                 );
