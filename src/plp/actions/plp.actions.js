@@ -757,8 +757,8 @@ export function searchABVersion() {
                 throw new Error(resultJsonStatus.message);
             }
 
-            localStorage.setItem("testVersion", resultJson.testVersion);
-            localStorage.setItem(PRODUCT_SEARCH_URL, resultJson.apiURL);
+            localStorage.setItem("testVersion", resultJson?.testVersion);
+            localStorage.setItem(PRODUCT_SEARCH_URL, resultJson?.webApiURL || "");
         } catch (e) {
             throw new Error(`${e.message}`);
         }
