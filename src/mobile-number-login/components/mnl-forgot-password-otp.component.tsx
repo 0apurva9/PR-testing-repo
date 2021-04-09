@@ -122,6 +122,7 @@ export class MnlForgotPasswordOtp extends React.Component<MnlForgotPasswordOtpPr
                                             onKeyDown={event => this.onKeyDown(event, `otp_${idx - 1}`, idx)}
                                             value={this.state.otp.split("")[idx]}
                                             onChange={event => this.onChangeInput(event, idx)}
+                                            autoComplete="off"
                                         />
                                     </div>
                                 );
