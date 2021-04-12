@@ -19,4 +19,12 @@ Disallow: */drag_and_drop_handler
 Disallow: */util
 Disallow: */node
 
-Sitemap: https://linkprotect.cudasvc.com/url?a=https%3a%2f%2fwww.tatacliq.com%2fsitemap.xml&c=E,1,JFlaavz5TM_EV_dqpCttWPP2f6NpyZQ6RR2NJq9Kj4SHNFNzWKUacpupGySDtDLJ0aVxaqacHRMeu_Tg5A78ea8rXx2VPGnQypneOCTGjB5dnEAIhu0,&typo=1
+User-Agent: Googlebot
+Allow: /
+User-Agent: Googlebot-Mobile
+Allow: /
+User-Agent: Googlebot-Image
+Allow: /
+
+Sitemap: https://www.tatacliq.com/sitemap.xml
+Sitemap: https://www.tatacliq.com/que/sitemap.xml

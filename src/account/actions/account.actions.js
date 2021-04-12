@@ -74,7 +74,7 @@ import { showSecondaryLoader, hideSecondaryLoader } from "../../general/secondar
 import * as ErrorHandling from "../../general/ErrorHandling.js";
 import { setBagCount } from "../../general/header.actions";
 import { displayToast } from "../../general/toast.actions";
-import { getCustomerAccessToken } from "../../common/services/common.services";
+import { getCustomerAccessToken, getLoggedInUserDetails } from "../../common/services/common.services";
 
 export const GET_USER_DETAILS_REQUEST = "GET_USER_DETAILS_REQUEST";
 export const GET_USER_DETAILS_SUCCESS = "GET_USER_DETAILS_SUCCESS";
@@ -466,6 +466,18 @@ export const CHECK_BALANCE_FAILURE = "CHECK_BALANCE_FAILURE";
 export const GET_HAPTIK_CONFIG_DATA_REQUEST = "GET_HAPTIK_CONFIG_DATA_REQUEST";
 export const GET_HAPTIK_CONFIG_DATA_SUCCESS = "GET_HAPTIK_CONFIG_DATA_SUCCESS";
 export const GET_HAPTIK_CONFIG_DATA_FAILURE = "GET_HAPTIK_CONFIG_DATA_FAILURE";
+
+export const GET_PENDING_REVIEWS_REQUEST = "GET_PENDING_REVIEWS_REQUEST";
+export const GET_PENDING_REVIEWS_SUCCESS = "GET_PENDING_REVIEWS_SUCCESS";
+export const GET_PENDING_REVIEWS_FAILURE = "GET_PENDING_REVIEWS_FAILURE";
+
+export const GET_PUBLISHED_REVIEWS_REQUEST = "GET_PUBLISHED_REVIEWS_REQUEST";
+export const GET_PUBLISHED_REVIEWS_SUCCESS = "GET_PUBLISHED_REVIEWS_SUCCESS";
+export const GET_PUBLISHED_REVIEWS_FAILURE = "GET_PUBLISHED_REVIEWS_FAILURE";
+
+export const GET_USER_PRODUCT_REVIEWS_REQUEST = "GET_USER_PRODUCT_REVIEWS_REQUEST";
+export const GET_USER_PRODUCT_REVIEWS_SUCCESS = "GET_USER_PRODUCT_REVIEWS_SUCCESS";
+export const GET_USER_PRODUCT_REVIEWS_FAILURE = "GET_USER_PRODUCT_REVIEWS_FAILURE";
 
 const GENESYS_KEY = "Zgjei@$Pu";
 
@@ -5427,53 +5439,195 @@ export function resetTicketsDataToInitial() {
 }
 
 export function getHaptikBotConfigRequest() {
-  return {
-    type: GET_HAPTIK_CONFIG_DATA_REQUEST,
-    status: REQUESTING
-  };
+    return {
+        type: GET_HAPTIK_CONFIG_DATA_REQUEST,
+        status: REQUESTING,
+    };
 }
 
 export function getHaptikBotConfigSuccess(haptikBotConfigData) {
-  return {
-    type: GET_HAPTIK_CONFIG_DATA_SUCCESS,
-    status: SUCCESS,
-    haptikBotConfigData
-  };
+    return {
+        type: GET_HAPTIK_CONFIG_DATA_SUCCESS,
+        status: SUCCESS,
+        haptikBotConfigData,
+    };
 }
 
 export function getHaptikBotConfigFailure() {
-  return {
-    type: GET_HAPTIK_CONFIG_DATA_FAILURE,
-    status: FAILURE
-  };
+    return {
+        type: GET_HAPTIK_CONFIG_DATA_FAILURE,
+        status: FAILURE,
+    };
 }
 
 export function getHaptikBotConfig(pageId) {
-  return async (dispatch, getState, { api }) => {
-    dispatch(getHaptikBotConfigRequest());
-    try {
-      const result = await api.get(`${PATH}/cms/defaultpage?pageId=${pageId}`);
-      let resultJson = await result.json();
-      const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-      if (resultJsonStatus.status) {
-        throw new Error(resultJsonStatus.message);
-      }
-      let resultJsonParse = "";
-      if (
-        resultJson &&
-        Array.isArray(resultJson.items) &&
-        resultJson.items[0].cmsParagraphComponent &&
-        typeof resultJson.items[0].cmsParagraphComponent === "object" &&
-        resultJson.items[0].cmsParagraphComponent !== null &&
-        resultJson.items[0].cmsParagraphComponent.content
-      ) {
-        resultJsonParse = JSON.parse(
-          resultJson.items[0].cmsParagraphComponent.content
-        );
-      }
-      dispatch(getHaptikBotConfigSuccess(resultJsonParse));
-    } catch (e) {
-      dispatch(getHaptikBotConfigFailure(e.message));
-    }
-  };
+    return async (dispatch, getState, { api }) => {
+        dispatch(getHaptikBotConfigRequest());
+        try {
+            const result = await api.get(`${PATH}/cms/defaultpage?pageId=${pageId}`);
+            let resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+            if (resultJsonStatus.status) {
+                throw new Error(resultJsonStatus.message);
+            }
+            let resultJsonParse = "";
+            if (
+                resultJson &&
+                Array.isArray(resultJson.items) &&
+                resultJson.items[0].cmsParagraphComponent &&
+                typeof resultJson.items[0].cmsParagraphComponent === "object" &&
+                resultJson.items[0].cmsParagraphComponent !== null &&
+                resultJson.items[0].cmsParagraphComponent.content
+            ) {
+                resultJsonParse = JSON.parse(resultJson.items[0].cmsParagraphComponent.content);
+            }
+            dispatch(getHaptikBotConfigSuccess(resultJsonParse));
+        } catch (e) {
+            dispatch(getHaptikBotConfigFailure(e.message));
+        }
+    };
+}
+
+export function getPendingReviewsRequest() {
+    return {
+        type: GET_PENDING_REVIEWS_REQUEST,
+        status: REQUESTING,
+    };
+}
+
+export function getPendingReviewsSuccess(data) {
+    return {
+        type: GET_PENDING_REVIEWS_SUCCESS,
+        status: SUCCESS,
+        data,
+    };
+}
+
+export function getPendingReviewsFailure(error) {
+    return {
+        type: GET_PENDING_REVIEWS_FAILURE,
+        status: ERROR,
+        error,
+    };
+}
+
+export function getPendingReviews(currentPage, isRatingReviewSuccessScreen) {
+    return async (dispatch, getState, { api }) => {
+        let userDetails = await getLoggedInUserDetails();
+        let userName = userDetails.userName;
+        let accessToken = await getCustomerAccessToken();
+
+        dispatch(getPendingReviewsRequest());
+        try {
+            let extraParam = "";
+            if (isRatingReviewSuccessScreen) {
+                extraParam = `&rating=0`;
+            }
+            const result = await api.get(
+                `${USER_PATH}/${userName}/getPendingReviewProducts?fields=BASIC&access_token=${accessToken}&page=${currentPage}&pageSize=${PAGE_SIZE}${extraParam}`
+            );
+            const resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+            if (resultJsonStatus.status || (resultJson && !resultJson.reviews)) {
+                dispatch(getPendingReviewsFailure(resultJsonStatus.message));
+            } else {
+                dispatch(getPendingReviewsSuccess(resultJson));
+            }
+        } catch (e) {
+            dispatch(getPendingReviewsFailure(e.message));
+        }
+    };
+}
+
+export function getPublishedReviewsRequest() {
+    return {
+        type: GET_PUBLISHED_REVIEWS_REQUEST,
+        status: REQUESTING,
+    };
+}
+
+export function getPublishedReviewsSuccess(data) {
+    return {
+        type: GET_PUBLISHED_REVIEWS_SUCCESS,
+        status: SUCCESS,
+        data,
+    };
+}
+
+export function getPublishedReviewsFailure(error) {
+    return {
+        type: GET_PUBLISHED_REVIEWS_FAILURE,
+        status: ERROR,
+        error,
+    };
+}
+
+export function getPublishedReviews(currentPage) {
+    return async (dispatch, getState, { api }) => {
+        let userDetails = await getLoggedInUserDetails();
+        let userName = userDetails.userName;
+        let accessToken = await getCustomerAccessToken();
+
+        dispatch(getPublishedReviewsRequest());
+        try {
+            const result = await api.get(
+                `${USER_PATH}/${userName}/viewApprovedUserReview?fields=BASIC&access_token=${accessToken}&page=${currentPage}&pageSize=${PAGE_SIZE}`
+            );
+            const resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+            if (resultJsonStatus.status) {
+                dispatch(getPublishedReviewsFailure(resultJsonStatus.message));
+            } else {
+                dispatch(getPublishedReviewsSuccess(resultJson));
+            }
+        } catch (e) {
+            dispatch(getPublishedReviewsFailure(e.message));
+        }
+    };
+}
+
+export function getUserProductReviewRequest() {
+    return {
+        type: GET_USER_PRODUCT_REVIEWS_REQUEST,
+        status: REQUESTING,
+    };
+}
+
+export function getUserProductReviewSuccess(data) {
+    return {
+        type: GET_USER_PRODUCT_REVIEWS_SUCCESS,
+        status: SUCCESS,
+        data,
+    };
+}
+
+export function getUserProductReviewFailure(error) {
+    return {
+        type: GET_USER_PRODUCT_REVIEWS_FAILURE,
+        status: ERROR,
+        error,
+    };
+}
+
+export function getUserProductReview(productCode) {
+    return async (dispatch, getState, { api }) => {
+        let userDetails = await getLoggedInUserDetails();
+        let userName = userDetails.userName;
+        let accessToken = await getCustomerAccessToken();
+
+        dispatch(getUserProductReviewRequest());
+        try {
+            const result = await api.get(
+                `v2/mpl/reviews/${productCode.toUpperCase()}/users/${userName}/getUserProductReview?access_token=${accessToken}`
+            );
+            const resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+            if (resultJsonStatus.status || result.status !== 200) {
+                dispatch(getUserProductReviewFailure());
+            }
+            dispatch(getUserProductReviewSuccess(resultJson));
+        } catch (e) {
+            dispatch(getUserProductReviewFailure(e.message));
+        }
+    };
 }

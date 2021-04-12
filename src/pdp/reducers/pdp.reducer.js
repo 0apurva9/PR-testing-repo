@@ -135,6 +135,27 @@ const productDescription = (
         appliancesExchangeCheckPincodeLoading: false,
         appliancesExchangeCheckPincodeError: null,
         appliancesExchangeCheckPincodeDetails: null,
+
+        paramsEligibleToRateStatus: null,
+        paramsEligibleToRateLoading: false,
+        paramsEligibleToRateError: null,
+        paramsEligibleToRateDetails: null,
+
+        submitParameterRatingStatus: null,
+        submitParameterRatingLoading: false,
+        submitParameterRatingError: null,
+        submitParameterRatingDetails: null,
+
+        getTitleSuggestionsStatus: null,
+        getTitleSuggestionsLoading: false,
+        getTitleSuggestionsError: null,
+        getTitleSuggestionsDetails: null,
+        addReviewDetails: null,
+
+        getReviewsOnProductPageStatus: null,
+        getReviewsOnProductPageLoading: false,
+        getReviewsOnProductPageError: null,
+        getReviewsOnProductPageDetails: null,
     },
     action
 ) => {
@@ -559,6 +580,7 @@ const productDescription = (
             return Object.assign({}, state, {
                 addReviewStatus: action.status,
                 loadingForAddProduct: false,
+                addReviewDetails: action.productReview,
             });
 
         case pdpActions.ADD_PRODUCT_REVIEW_FAILURE:
@@ -566,6 +588,7 @@ const productDescription = (
                 addReviewStatus: action.status,
                 reviewsError: action.error,
                 loadingForAddProduct: false,
+                addReviewDetails: null,
             });
 
         case pdpActions.EDIT_PRODUCT_REVIEW_REQUEST:
@@ -635,6 +658,7 @@ const productDescription = (
                 reviewsStatus: action.status,
                 reviewsError: action.error,
                 loading: false,
+                reviews: {},
             });
 
         case pdpActions.PRODUCT_MSD_REQUEST:
@@ -1314,6 +1338,90 @@ const productDescription = (
                 appliancesExchangeCheckPincodeLoading: false,
                 appliancesExchangeCheckPincodeError: action.error,
                 appliancesExchangeCheckPincodeDetails: null,
+            });
+
+        case pdpActions.PARAMS_ELIGIBLE_TO_RATE_REQUEST:
+            return Object.assign({}, state, {
+                paramsEligibleToRateStatus: action.status,
+                paramsEligibleToRateLoading: true,
+            });
+
+        case pdpActions.PARAMS_ELIGIBLE_TO_RATE_SUCCESS:
+            return Object.assign({}, state, {
+                paramsEligibleToRateStatus: action.status,
+                paramsEligibleToRateLoading: false,
+                paramsEligibleToRateDetails: action.data,
+            });
+
+        case pdpActions.PARAMS_ELIGIBLE_TO_RATE_FAILURE:
+            return Object.assign({}, state, {
+                paramsEligibleToRateStatus: action.status,
+                paramsEligibleToRateLoading: false,
+                paramsEligibleToRateError: action.error,
+                paramsEligibleToRateDetails: null,
+            });
+
+        case pdpActions.SUMBIT_PARAMETER_RATING_REQUEST:
+            return Object.assign({}, state, {
+                submitParameterRatingStatus: action.status,
+                submitParameterRatingLoading: true,
+            });
+
+        case pdpActions.SUMBIT_PARAMETER_RATING_SUCCESS:
+            return Object.assign({}, state, {
+                submitParameterRatingStatus: action.status,
+                submitParameterRatingLoading: false,
+                submitParameterRatingDetails: action.data,
+            });
+
+        case pdpActions.SUMBIT_PARAMETER_RATING_FAILURE:
+            return Object.assign({}, state, {
+                submitParameterRatingStatus: action.status,
+                submitParameterRatingLoading: false,
+                submitParameterRatingError: action.error,
+                submitParameterRatingDetails: null,
+            });
+
+        case pdpActions.GET_TITE_SUGGESTIONS_REQUEST:
+            return Object.assign({}, state, {
+                getTitleSuggestionsStatus: action.status,
+                getTitleSuggestionsLoading: true,
+            });
+
+        case pdpActions.GET_TITE_SUGGESTIONS_SUCCESS:
+            return Object.assign({}, state, {
+                getTitleSuggestionsStatus: action.status,
+                getTitleSuggestionsLoading: false,
+                getTitleSuggestionsDetails: action.data,
+            });
+
+        case pdpActions.GET_TITE_SUGGESTIONS_FAILURE:
+            return Object.assign({}, state, {
+                getTitleSuggestionsStatus: action.status,
+                getTitleSuggestionsLoading: false,
+                getTitleSuggestionsError: action.error,
+                getTitleSuggestionsDetails: null,
+            });
+
+        case pdpActions.GET_REVIEWS_ON_PRODUCT_PAGE_REQUEST:
+            return Object.assign({}, state, {
+                getReviewsOnProductPageStatus: action.status,
+                getReviewsOnProductPageLoading: true,
+            });
+
+        case pdpActions.GET_REVIEWS_ON_PRODUCT_PAGE_SUCCESS:
+            return Object.assign({}, state, {
+                getReviewsOnProductPageStatus: action.status,
+                getReviewsOnProductPageLoading: false,
+                getReviewsOnProductPageDetails: action.data,
+            });
+
+        case pdpActions.GET_REVIEWS_ON_PRODUCT_PAGE_FAILURE:
+            return Object.assign({}, state, {
+                getReviewsOnProductPageStatus: action.status,
+                getReviewsOnProductPageLoading: false,
+                getReviewsOnProductPageError: action.error,
+                getReviewsOnProductPageDetails: null,
             });
 
         default:
