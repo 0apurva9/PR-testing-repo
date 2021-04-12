@@ -6,19 +6,23 @@ import FilledStarOrange from "../img/orange-filled-star.svg";
 import PropTypes from "prop-types";
 
 export default class RatingAndIconComponent extends React.Component {
-	openRatingReviewModal = () => {
-		if(this.props.openRatingReviewModal) {
-			this.props.showRatingReviewModal();
-		}
-	};
+    openRatingReviewModal = () => {
+        if (this.props.openRatingReviewModal) {
+            this.props.showRatingReviewModal();
+        }
+    };
 
     render() {
         return (
             <React.Fragment>
                 {this.props.isReviewPage ? (
                     <div
-						className={this.props.averageRating > 2.5 ? styles.highRatingTextContainerReviewPage : styles.lessRatingTextContainerReviewPage}
-					>
+                        className={
+                            this.props.averageRating > 2.5
+                                ? styles.highRatingTextContainerReviewPage
+                                : styles.lessRatingTextContainerReviewPage
+                        }
+                    >
                         <div className={styles.ratingTextReviewPage}>
                             {Math.round(this.props.averageRating * 10) / 10}
                         </div>
@@ -33,13 +37,18 @@ export default class RatingAndIconComponent extends React.Component {
                     <div
                         className={this.props.isFluidUI ? styles.ratingTextContainer : styles.ratingTextContainerOther}
                     >
-						<div className={styles.ratingText} onClick={() => this.openRatingReviewModal()}>{Math.round(this.props.averageRating * 10) / 10}</div>
-						<div className={this.props.isFluidUI ? styles.starContainer : styles.starContainerOther} onClick={() => this.openRatingReviewModal()}>
-							<Icon
-								image={this.props.averageRating > 2.5 ? FilledStarGreen : FilledStarOrange}
-								size={31}
-							/>
-						</div>
+                        <div className={styles.ratingText} onClick={() => this.openRatingReviewModal()}>
+                            {Math.round(this.props.averageRating * 10) / 10}
+                        </div>
+                        <div
+                            className={this.props.isFluidUI ? styles.starContainer : styles.starContainerOther}
+                            onClick={() => this.openRatingReviewModal()}
+                        >
+                            <Icon
+                                image={this.props.averageRating > 2.5 ? FilledStarGreen : FilledStarOrange}
+                                size={31}
+                            />
+                        </div>
                     </div>
                 )}
             </React.Fragment>
@@ -51,6 +60,6 @@ RatingAndIconComponent.propTypes = {
     isReviewPage: PropTypes.bool,
     averageRating: PropTypes.number,
     isFluidUI: PropTypes.bool,
-	openRatingReviewModal: PropTypes.bool,
-	showRatingReviewModal: PropTypes.func,
+    openRatingReviewModal: PropTypes.bool,
+    showRatingReviewModal: PropTypes.func,
 };

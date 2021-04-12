@@ -92,10 +92,10 @@
     }
 
     .dropdown {
-		width: 175px;
-		height: auto;
-		margin-left: 10px;
-		padding: 0px;
+        width: 175px;
+        height: auto;
+        margin-left: 10px;
+        padding: 0px;
     }
 
     .dropDownBox {
@@ -151,10 +151,10 @@
     .dropdownWithButton {
         width: 100%;
         height: auto;
-		margin-bottom: 12px;
-		display: flex;
-		justify-content: flex-end;
-		align-items: center;
+        margin-bottom: 12px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
     }
 
     .headerWrapper {
@@ -179,7 +179,7 @@
     .pageIteam {
         width: 7px;
         height: 17px;
-        font-family: 'regular';
+        font-family: "regular";
         font-size: 14px;
         font-weight: 500;
         font-style: normal;
@@ -212,7 +212,7 @@
         text-decoration: none;
         width: 7px;
         height: 17px;
-        font-family: 'regular';
+        font-family: "regular";
         font-size: 14px;
         font-weight: 500;
         font-style: normal;
@@ -259,7 +259,7 @@
     .pageNumberInfoText {
         font-size: 14px;
         color: #2d2d2d;
-        font-family: 'regular';
+        font-family: "regular";
         text-align: center;
     }
 
@@ -269,7 +269,7 @@
     }
 
     .pageInfoText {
-        font-family: 'light';
+        font-family: "light";
         font-size: 14px;
         color: #4a4a4a;
         padding: 10px 0;
@@ -284,7 +284,7 @@
     }
 
     .currentPageNumber {
-        font-family: 'regular';
+        font-family: "regular";
         color: #212121;
     }
 
@@ -298,7 +298,7 @@
         padding: 11px 0 0 33px;
         position: relative;
         font-size: 14px;
-        font-family: 'semibold';
+        font-family: "semibold";
     }
 
     .previousButton::before {
@@ -324,7 +324,7 @@
         padding: 11px 0 0 35px;
         position: relative;
         font-size: 14px;
-        font-family: 'semibold';
+        font-family: "semibold";
     }
 
     .nextButton::after {
@@ -346,7 +346,7 @@
 
     .title {
         font-size: 14px;
-        font-family: 'semibold';
+        font-family: "semibold";
         margin-bottom: 16px;
     }
 
@@ -356,17 +356,17 @@
     }
 
     .colorBox {
-		display: inline-block;
-		width: 28px;
-		height: 28px;
-		border-radius: 7px;
-		vertical-align: middle;
-		margin: 0 0 0 14px;
+        display: inline-block;
+        width: 28px;
+        height: 28px;
+        border-radius: 7px;
+        vertical-align: middle;
+        margin: 0 0 0 14px;
     }
 
     .filterName {
         font-size: 14px;
-        font-family: 'light';
+        font-family: "light";
         margin-left: 14px;
     }
 
@@ -391,8 +391,8 @@
         vertical-align: baseline;
     }
 
-	.sortByLabel {
-		display: block;
-		font-size: 14px;
-	}
+    .sortByLabel {
+        display: block;
+        font-size: 14px;
+    }
 }
