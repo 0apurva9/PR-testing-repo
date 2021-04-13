@@ -31,6 +31,7 @@ import {
     openBeautyPopup,
     getAppliancesExchangeDetails,
     appliancesExchangeCheckPincode,
+    getProductReviews,
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import { showSecondaryLoader, hideSecondaryLoader } from "../../general/secondaryLoader.actions";
@@ -351,6 +352,9 @@ const mapDispatchToProps = dispatch => {
         openMobileNumberLoginModal: () => {
             dispatch(showMobileNumberLoginModal());
         },
+        getProductReviews: (productCode, pageIndex, orderBy, sortBy, filteredProducts) => {
+            dispatch(getProductReviews(productCode, pageIndex, orderBy, sortBy, filteredProducts));
+        },
     };
 };
 
@@ -410,6 +414,7 @@ const mapStateToProps = state => {
         appliancesExchangeDetails: state.productDescription.getAppliancesExchangeDetails,
         updatedAppliancesExchangeDetails: state.productDescription.updatedAppliancesExchangeDetails,
         appliancesExchangePincodeDetails: state.productDescription.appliancesExchangeCheckPincodeDetails,
+        reviews: state.productDescription.reviews,
         isMNLLogin: state.mobileNumberLogin.isMNLLogin,
         isMobileNumberLoginModalActive: state.modal.isMobileNumberLoginModalActive,
         tempCartIdForLoggedInUserLoading: state.cart.tempCartIdForLoggedInUserLoading,

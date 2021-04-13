@@ -272,13 +272,6 @@ position: absolute; right: 10px; background-position: 50%; background-size: auto
      </script>
    </amp-animation>
 
-<!-- NOTE: AMP SERVICE WORKER -->
- <!-- <amp-install-serviceworker
-       src="/sw.js"
-       data-iframe-src="https://ampbyexample.com/sw.html"
-       layout="nodisplay">
-   </amp-install-serviceworker> -->
-
 <div id="product-container">
   <div class="hide-content" [class]="checkPincode ? 'pincode-overlay' : 'hide-content'"
     on="tap:AMP.setState({checkPincode:false, accessPincode: false})" role="check-pincode" tabindex="2">

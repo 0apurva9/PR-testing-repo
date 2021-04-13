@@ -562,6 +562,8 @@ export default class Plp extends React.Component {
         let selectedFilter = [];
         let filterSelected = false;
         let hasSorts = false;
+        let msgOnIncorrectSearch = "";
+        let msgHeaderName = "";
         // let electronicView =
         //   this.props &&
         //   this.props.productListings &&
@@ -592,6 +594,32 @@ export default class Plp extends React.Component {
         }
         const headerName =
             this.props.productListings && this.props.productListings.seo && this.props.productListings.seo.breadcrumbs;
+
+        if (this.props.productListings?.currentQuery?.partialMatch) {
+            msgOnIncorrectSearch = `No result found for “${this.props.productListings?.currentQuery?.searchQuery}” . Showing some other similar products.`;
+            msgHeaderName = "";
+        } else if (this.props.productListings?.spellingSuggestion) {
+            const count = this.props.productListings?.pagination?.totalResults;
+            const searchString = this.props.location.search.split("&")[1].split("=")[1];
+            msgOnIncorrectSearch = `No results found for “${searchString}”. Showing ${count} results for “${this.props.productListings.spellingSuggestion}"`;
+            msgHeaderName = "";
+        } else {
+            msgOnIncorrectSearch = `Showing "${
+                this.props.productListings &&
+                this.props.productListings.pagination &&
+                this.props.productListings.pagination.totalResults
+                    ? this.props.productListings.pagination.totalResults
+                    : 0
+            }" items for "`;
+            msgHeaderName = `${
+                headerName
+                    ? headerName[0].name
+                    : `${this.props.productListings &&
+                          this.props.productListings.currentQuery &&
+                          this.props.productListings.currentQuery.searchQuery.replace("%22", '"')}"`
+            }`;
+        }
+
         return (
             <React.Fragment>
                 {this.props.productListings && (
@@ -627,24 +655,8 @@ export default class Plp extends React.Component {
                             !this.props.productListings.currentQuery.searchQuery.includes(":relevance") ? (
                                 <div className={styles.headerText}>
                                     <div className={styles.plpHeading}>
-                                        {`Showing "${
-                                            this.props.productListings &&
-                                            this.props.productListings.pagination &&
-                                            this.props.productListings.pagination.totalResults
-                                                ? this.props.productListings.pagination.totalResults
-                                                : 0
-                                        }" items for "`}
-                                        <span className={styles.camelCase}>
-                                            {headerName
-                                                ? headerName[0].name
-                                                : this.props.productListings &&
-                                                  this.props.productListings.currentQuery &&
-                                                  this.props.productListings.currentQuery.searchQuery.replace(
-                                                      "%22",
-                                                      '"'
-                                                  )}
-                                            &quot;
-                                        </span>
+                                        {msgOnIncorrectSearch}
+                                        <span className={styles.camelCase}>{msgHeaderName}</span>
                                     </div>
                                 </div>
                             ) : (
