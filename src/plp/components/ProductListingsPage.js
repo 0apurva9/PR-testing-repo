@@ -292,6 +292,7 @@ class ProductListingsPage extends Component {
                         this.props.productListings.seo.breadcrumbs.reverse();
                     if (
                         (breadcrumbs &&
+                            breadcrumbs.length > 0 &&
                             breadcrumbs[0] &&
                             window.digitalData &&
                             window.digitalData.page &&
@@ -304,7 +305,9 @@ class ProductListingsPage extends Component {
                             breadcrumbs[1].name &&
                             breadcrumbs[1].name.replace(/ /g, "_").toLowerCase() !==
                                 window.digitalData.page.category.subCategory2) ||
-                        (breadcrumbs[0] &&
+                        (breadcrumbs &&
+                            breadcrumbs.length > 0 &&
+                            breadcrumbs[0] &&
                             window.digitalData &&
                             window.digitalData.page &&
                             window.digitalData.page.category &&
@@ -391,7 +394,7 @@ class ProductListingsPage extends Component {
             this.props.getProductListings(searchText, SUFFIX, page, false);
             return;
         }
-        if (!this.props.location.state) {
+        if (!this.props.location.state || (this.props.location.state && this.props.location.state.categoryOrBrand)) {
             const searchText = this.getSearchTextFromUrl();
             const pageMatch = PAGE_REGEX.exec(this.props.location.pathname);
             if (pageMatch) {
@@ -532,7 +535,10 @@ class ProductListingsPage extends Component {
                 this.props.getProductListings(searchText, SUFFIX, page);
                 return;
             }
-            if (!this.props.location.state) {
+            if (
+                !this.props.location.state ||
+                (this.props.location.state && this.props.location.state.categoryOrBrand)
+            ) {
                 const searchText = this.getSearchTextFromUrl();
                 const pageMatch = PAGE_REGEX.exec(this.props.location.pathname);
                 if (pageMatch) {

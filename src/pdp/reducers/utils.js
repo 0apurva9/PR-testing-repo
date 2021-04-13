@@ -109,6 +109,12 @@ export function findSelectedSize(variantTheme = [], productListingId, fromColorC
                     } else {
                         sizeToSetInState = { isSelected: true, selectedIndex: i };
                     }
+                } else {
+                    if (fromColorComponent) {
+                        sizeToSetInState = { selectedSizeIndex: -1 };
+                    } else {
+                        sizeToSetInState = { isSelected: false, selectedIndex: -1 };
+                    }
                 }
             });
     }
