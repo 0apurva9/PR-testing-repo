@@ -31,7 +31,7 @@ import {
     openBeautyPopup,
     getAppliancesExchangeDetails,
     appliancesExchangeCheckPincode,
-	getProductReviews
+    getProductReviews,
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import { showSecondaryLoader, hideSecondaryLoader } from "../../general/secondaryLoader.actions";
@@ -352,7 +352,7 @@ const mapDispatchToProps = dispatch => {
         openMobileNumberLoginModal: () => {
             dispatch(showMobileNumberLoginModal());
         },
-		getProductReviews: (productCode, pageIndex, orderBy, sortBy, filteredProducts) => {
+        getProductReviews: (productCode, pageIndex, orderBy, sortBy, filteredProducts) => {
             dispatch(getProductReviews(productCode, pageIndex, orderBy, sortBy, filteredProducts));
         },
     };
