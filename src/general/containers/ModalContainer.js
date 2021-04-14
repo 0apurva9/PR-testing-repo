@@ -17,7 +17,7 @@ import {
     updateReturnCancellation,
     updateReturnForHOTC,
     getGenesysCallConfigData,
-	getPendingReviews,
+    getPendingReviews,
 } from "../../account/actions/account.actions";
 import {
     getTncForBankOffer,
@@ -48,7 +48,7 @@ import {
     addProductReview,
     submitParameterRating,
     getTitleSuggestions,
-	getParametersEligibleToRate,
+    getParametersEligibleToRate,
 } from "../../pdp/actions/pdp.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 import * as Cookies from "../../lib/Cookie";
@@ -109,8 +109,8 @@ const mapStateToProps = state => {
         getTitleSuggestionsDetails: state.productDescription.getTitleSuggestionsDetails,
         addReviewDetails: state.productDescription.addReviewDetails,
         submitParameterRatingDetails: state.productDescription.submitParameterRatingDetails,
-		userProductReviewDetails: state.profile.getUserProductReviewDetails,
-		pendingReviewsDetails: state.profile.getPendingReviewsDetails,
+        userProductReviewDetails: state.profile.getUserProductReviewDetails,
+        pendingReviewsDetails: state.profile.getPendingReviewsDetails,
     };
 };
 
@@ -426,10 +426,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         getTitleSuggestions: (productCode, userRating) => {
             dispatch(getTitleSuggestions(productCode, userRating));
         },
-		getPendingReviews: (currentPage, isRatingReviewSuccessScreen) => {
-			dispatch(getPendingReviews(currentPage, isRatingReviewSuccessScreen));
-		},
-		getParametersEligibleToRate: (productCode, callgetUserProductReviewAPI) => {
+        getPendingReviews: (currentPage, isRatingReviewSuccessScreen) => {
+            dispatch(getPendingReviews(currentPage, isRatingReviewSuccessScreen));
+        },
+        getParametersEligibleToRate: (productCode, callgetUserProductReviewAPI) => {
             dispatch(getParametersEligibleToRate(productCode, callgetUserProductReviewAPI));
         },
     };

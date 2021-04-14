@@ -1309,6 +1309,7 @@ export default class OrderDetails extends React.Component {
                                         deliveryAddress={orderDetails.deliveryAddress}
                                         phoneNumber={orderDetails.deliveryAddress && orderDetails.deliveryAddress.phone}
                                         paymentMethod={orderDetails.paymentMethod}
+                                        cliqCashAmountDeducted={orderDetails && orderDetails.cliqCashAmountDeducted}
                                         isCDA={orderDetails.isCDA}
                                         orderId={orderDetails.orderId}
                                         clickcollect={
