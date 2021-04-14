@@ -68,7 +68,7 @@ export default class SizeSelector extends React.Component {
         }
     }
 
-    async updateSize(productUrl, selectedSize) {
+    async updateSize(productUrl) {
         let productCode;
         const productCodeArray = productUrl.split("/");
         if (productCodeArray[1] && PRODUCT_CODE_REG_EX.test(productCodeArray[1])) {
@@ -117,21 +117,21 @@ export default class SizeSelector extends React.Component {
                         this.props.addProductToWishList(addToWishListObj);
                         this.props.history.replace({
                             pathname: `${productUrl}`,
-                            state: { isSizeSelected: true, goToCartPageFlag: false, selectedSize },
+                            state: { isSizeSelected: true, goToCartPageFlag: false },
                         });
                     }
                 } else {
                     this.props.addProductToCart(productDetailsObj);
                     this.props.history.replace({
                         pathname: `${productUrl}`,
-                        state: { isSizeSelected: true, goToCartPageFlag: true, selectedSize },
+                        state: { isSizeSelected: true, goToCartPageFlag: true },
                     });
                 }
             }
         } else {
             this.props.history.replace({
                 pathname: `${productUrl}`,
-                state: { isSizeSelected: true, goToCartPageFlag: false, selectedSize },
+                state: { isSizeSelected: true, goToCartPageFlag: false },
             });
             this.props.getProductReviews(productCode, 0, "desc", "byDate");
         }
@@ -176,9 +176,7 @@ export default class SizeSelector extends React.Component {
                     key={i}
                     disabled={!datum.sizelink.isAvailable}
                     selected={
-                        datum.colorlink.selected &&
-                        this.props.history.location.state &&
-                        this.props.history.location.state?.selectedSize === datum.sizelink.size
+                        datum.colorlink.selected && this.props.history.location.state
                             ? this.props.history.location.state.isSizeSelected
                             : false
                     }
@@ -186,7 +184,7 @@ export default class SizeSelector extends React.Component {
                     value={datum.sizelink.size}
                     fontSize={this.props.textSize}
                     isSizeOrLength={this.props.isSizeOrLength}
-                    onSelect={() => this.updateSize(datum.sizelink.url, datum.sizelink.size)}
+                    onSelect={() => this.updateSize(datum.sizelink.url)}
                     categoryEyeWear={
                         this.props &&
                         this.props.categoryHierarchy &&
