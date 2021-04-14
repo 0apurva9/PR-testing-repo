@@ -102,13 +102,13 @@ export function hideModal() {
 }
 
 export function showMobileNumberLoginModal() {
-  return {
-    type: MOBILE_NUMBER_LOGIN_MODAL_ACTIVE
-  };
+    return {
+        type: MOBILE_NUMBER_LOGIN_MODAL_ACTIVE,
+    };
 }
 
 export function hideMobileNumberLoginModal() {
-  return {
-    type: MOBILE_NUMBER_LOGIN_MODAL_INACTIVE
-  };
+    return {
+        type: MOBILE_NUMBER_LOGIN_MODAL_INACTIVE,
+    };
 }

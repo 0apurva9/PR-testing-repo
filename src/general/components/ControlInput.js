@@ -56,6 +56,7 @@ export default class ControlInput extends React.Component {
                     >
                         <input
                             type={this.props.type}
+                            autoComplete="off"
                             autoCorrect="off"
                             id={this.props.id}
                             placeholder={this.props.placeholder}
