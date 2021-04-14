@@ -35,7 +35,7 @@ export const USER_SEARCH_LOCAL_STORAGE = "usersearchlocalstorage";
 export const SOFT_RESERVATION_ITEM = "softReservationItem";
 export const ADDRESS_DETAILS_FOR_PAYMENT = "addressDetailsForPayment";
 export const SKU_PAGE = "/custom/:slug";
-
+export const SESSION_ID = "sessionId";
 export const REFRESH_TOKEN = "refresh_token";
 export const BRAND_PAGE = "/c-(mbh[a-zA-Z0-9]+)";
 export const BRAND_PAGE_WITH_SLUG = `/:slug/c-(mbh[0-9a-zA-z]+)`;
@@ -291,6 +291,7 @@ export const HELP_URL = "/help";
 export const CONTACT_URL = "/contactus";
 export const BUYER_POLICY_URL = "/buyer-policies";
 export const MY_ACCOUNT_PROMOS_PAGE = "/promos";
+export const PRODUCT_SEARCH_URL = "productSearchUrl";
 
 // constants for payments method
 export const EASY_MONTHLY_INSTALLMENTS = "Easy monthly installments";

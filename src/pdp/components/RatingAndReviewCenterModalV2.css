@@ -1,17 +1,17 @@
 .base {
-	width: 455px;
-	height: 601px;
-	min-height: 601px;
-	position: fixed;
-	right: 0;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	margin: auto;
-	transform: translateY(100%);
-	animation: slideInUp 200ms forwards;
-	background: #fff;
-	border-radius: 8px;
+    width: 455px;
+    height: 601px;
+    min-height: 601px;
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    transform: translateY(100%);
+    animation: slideInUp 200ms forwards;
+    background: #fff;
+    border-radius: 8px;
 }
 
 .cancel {

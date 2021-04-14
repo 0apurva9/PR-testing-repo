@@ -10,7 +10,7 @@
 }
 
 .detailsContainer {
-	width: calc(100% - 150px);
+    width: calc(100% - 150px);
     display: inline-block;
     vertical-align: middle;
     margin-left: 16px;
@@ -62,7 +62,7 @@
     width: calc(100% - 315px);
     text-align: right;
     font-size: 14px;
-    font-family: 'light';
+    font-family: "light";
     color: #009700;
 }
 
@@ -121,9 +121,9 @@
 }
 
 .reviewCheckContainer {
-	display: inline-block;
-	vertical-align: sub;
-	margin-right: 8px;
+    display: inline-block;
+    vertical-align: sub;
+    margin-right: 8px;
 }
 
 .reviewHeadingInitial {
