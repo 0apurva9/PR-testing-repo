@@ -1,16 +1,15 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Styles from './alert-pop-up.css';
+import Styles from "./alert-pop-up.css";
 import cancleSvg from "../components/img/cancleSvg.svg";
 import Button from "../../general/components/Button.js";
 import { withRouter } from "react-router-dom";
 import BottomSlideModal from "../../general/components/BottomSlideModal";
-import Icon from '../../xelpmoc-core/Icon';
-import { LOGIN_PATH, HOME_ROUTER, } from "../../lib/constants";
-import { SUCCESS } from '../../general/header.actions';
+import Icon from "../../xelpmoc-core/Icon";
+import { LOGIN_PATH, HOME_ROUTER } from "../../lib/constants";
+import { SUCCESS } from "../../general/header.actions";
 
 class AlertPopUp extends Component {
-
     componentWillReceiveProps(nextProps) {
         if (nextProps.logoutUserStatuss !== this.props.logoutUserStatuss) {
             if (nextProps.logoutUserStatuss.toLowerCase() === SUCCESS.toLowerCase()) {
@@ -19,44 +18,47 @@ class AlertPopUp extends Component {
                 this.props.closeModal();
                 this.props.history.push(LOGIN_PATH);
             }
-
         }
     }
 
     closeButtonClickHandle(reDirectHomePage) {
         if (reDirectHomePage) {
             this.props.history.push(HOME_ROUTER);
-        }
-        else {
-            this.props.closeModal()
+        } else {
+            this.props.closeModal();
         }
     }
-    componentWillUnmount(){
-        if(this.props.reDirectHomePage){
+
+    componentWillUnmount() {
+        if (this.props.reDirectHomePage) {
             this.props.history.push(HOME_ROUTER);
         }
-        this.props.closeModal()
+        this.props.closeModal();
     }
 
     navigateLogin() {
-        if (this.props.logoutUser) {
-            this.props.logoutUser()
+        if (this.props.isGotItHomePage) {
+            this.props.history.push(HOME_ROUTER);
+        } else {
+            if (this.props.logoutUser) {
+                this.props.logoutUser();
+            }
         }
-
     }
 
     render() {
-        const { btnLabel, txt, reDirectHomePage } = this.props
+        const { btnLabel, txt, reDirectHomePage } = this.props;
         return (
             <BottomSlideModal>
                 <div className={Styles.base}>
                     <div className={Styles.cotentBody}>
-                        <div className={Styles.closeIconBody} onClick={() => this.closeButtonClickHandle(reDirectHomePage)}>
+                        <div
+                            className={Styles.closeIconBody}
+                            onClick={() => this.closeButtonClickHandle(reDirectHomePage)}
+                        >
                             <Icon image={cancleSvg} size={15} />
                         </div>
-                        <div className={Styles.content}>
-                            {txt}
-                        </div>
+                        <div className={Styles.content}>{txt}</div>
                         <div className={Styles.btnBody}>
                             <Button
                                 type="primary"
@@ -67,17 +69,19 @@ class AlertPopUp extends Component {
                                 width={205}
                                 textStyle={{ color: "#FFF", fontSize: 14 }}
                                 disabled={false}
-                                onClick={() => reDirectHomePage ? this.navigateLogin() : this.closeButtonClickHandle()}
+                                onClick={() =>
+                                    reDirectHomePage ? this.navigateLogin() : this.closeButtonClickHandle()
+                                }
                             />
                         </div>
                     </div>
                 </div>
             </BottomSlideModal>
-        )
+        );
     }
 }
 
-export default withRouter(AlertPopUp)
+export default withRouter(AlertPopUp);
 
 AlertPopUp.propTypes = {
     closeModal: PropTypes.func,
@@ -85,6 +89,14 @@ AlertPopUp.propTypes = {
     setUrlToRedirectToAfterAuth: PropTypes.func,
     reDirectHomePage: PropTypes.bool,
     btnLabel: PropTypes.string,
-    txt: PropTypes.string
-
+    txt: PropTypes.string,
+    isGotItHomePage: PropTypes.bool,
+    logoutUserStatuss: PropTypes.string,
+    history: PropTypes.shape({
+        push: PropTypes.func,
+    }),
+    location: PropTypes.shape({
+        pathname: PropTypes.string,
+        search: PropTypes.string,
+    }),
 };

@@ -57,7 +57,6 @@ const mapStateToProps = state => {
         updateReturnDetailsError: state.profile.updateReturnDetailsError,
         cancelProductDetailsError: state.profile.cancelProductDetailsError,
         cancelProductError: state.profile.cancelProductError,
-        customerQueriesFieldError: state.profile.customerQueriesFieldError,
         orderRelatedQuestionsError: state.profile.orderRelatedQuestionsError,
         submitOrderDetailsError: state.profile.submitOrderDetailsError,
         uploadUserFileError: state.profile.uploadUserFileError,
