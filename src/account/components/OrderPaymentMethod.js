@@ -123,7 +123,7 @@ export default class OrderPaymentMethod extends React.Component {
                 <div className={styles.paymentMethod}>
                   <span className={styles.ffsemibold}>Payment Mode: </span>
                   <span className={styles.paymentMethodMode}>
-                    {this.props.paymentMethod && this.props.paymentMethod}
+                    {this.props.paymentMethod} {!this.props.paymentMethod.toLowerCase().includes("cliq cash") && this.props.cliqCashAmountDeducted > 0 && ` | CLiQ Cash`}
                   </span>
                 </div>
               )}

@@ -14,7 +14,12 @@ import rnrQualitiesBlank from "./img/rnrQualitiesBlank.svg";
 import rnrQualitiesFilled from "./img/rnrQualitiesFilled.svg";
 import rnrReviewBlank from "./img/rnrReviewBlank.svg";
 import rnrReviewFilled from "./img/rnrReviewFilled.svg";
-import { setDataLayerForRatingReviewSection, ADOBE_RATING_REVIEW_MODAL_RATING_SUBMIT, ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT, ADOBE_RATING_REVIEW_MODAL_REVIEW_SUBMIT } from "../../lib/adobeUtils";
+import {
+    setDataLayerForRatingReviewSection,
+    ADOBE_RATING_REVIEW_MODAL_RATING_SUBMIT,
+    ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT,
+    ADOBE_RATING_REVIEW_MODAL_REVIEW_SUBMIT,
+} from "../../lib/adobeUtils";
 
 const success = "success";
 const failure = "failure";
@@ -30,20 +35,20 @@ export default class RatingAndReviewModalV2 extends Component {
             title: null,
             reviewDetails: null,
             titleSuggestionsDetails: null,
-			userProductReviewDetails: null,
-			id: null,
-			actualParamsCount: 0,
-			paramsEligibleToRateDetails: null,
+            userProductReviewDetails: null,
+            id: null,
+            actualParamsCount: 0,
+            paramsEligibleToRateDetails: null,
         };
     }
 
-	componentDidMount() {
-		let callgetUserProductReviewAPI = true;
-		if(this.props.pageName === "productReview") {
-			callgetUserProductReviewAPI = false;
-		}
-		this.props.getParametersEligibleToRate(this.props.productCode, callgetUserProductReviewAPI);
-	}
+    componentDidMount() {
+        let callgetUserProductReviewAPI = true;
+        if (this.props.pageName === "productReview") {
+            callgetUserProductReviewAPI = false;
+        }
+        this.props.getParametersEligibleToRate(this.props.productCode, callgetUserProductReviewAPI);
+    }
 
     componentDidUpdate(prevProps) {
         if (this.props.addReviewDetails !== prevProps.addReviewDetails) {
@@ -68,15 +73,15 @@ export default class RatingAndReviewModalV2 extends Component {
             this.setState({ titleSuggestionsDetails: this.props.getTitleSuggestionsDetails });
         }
 
-		// get params
-		if(this.props.paramsEligibleToRateDetails !== prevProps.paramsEligibleToRateDetails) {
-			this.setState({paramsEligibleToRateDetails : this.props.paramsEligibleToRateDetails});
-		}
+        // get params
+        if (this.props.paramsEligibleToRateDetails !== prevProps.paramsEligibleToRateDetails) {
+            this.setState({ paramsEligibleToRateDetails: this.props.paramsEligibleToRateDetails });
+        }
 
-		// get user reviews
-		if(this.props.userProductReviewDetails !== prevProps.userProductReviewDetails) {
-			this.setState({userProductReviewDetails : this.props.userProductReviewDetails});
-		}
+        // get user reviews
+        if (this.props.userProductReviewDetails !== prevProps.userProductReviewDetails) {
+            this.setState({ userProductReviewDetails: this.props.userProductReviewDetails });
+        }
     }
 
     activateSection = section => {
@@ -90,9 +95,9 @@ export default class RatingAndReviewModalV2 extends Component {
             }
             if (
                 !this.props.paramsEligibleToRateDetails ||
-				(this.props.paramsEligibleToRateDetails &&
-                this.props.paramsEligibleToRateDetails.status &&
-                this.props.paramsEligibleToRateDetails.status.toLowerCase() === failure)
+                (this.props.paramsEligibleToRateDetails &&
+                    this.props.paramsEligibleToRateDetails.status &&
+                    this.props.paramsEligibleToRateDetails.status.toLowerCase() === failure)
             ) {
                 this.props.getTitleSuggestions(this.props.productCode, this.state.currentRating);
                 this.setState({ sectionActive: 3 });
@@ -114,8 +119,8 @@ export default class RatingAndReviewModalV2 extends Component {
         let productReview = {};
         productReview.rating = this.state.currentRating;
         this.props.addProductReview(this.props.productCode, productReview);
-		let data = {pageName : this.props.pageName ? this.props.pageName : null};
-		setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_RATING_SUBMIT, data);
+        let data = { pageName: this.props.pageName ? this.props.pageName : null };
+        setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_RATING_SUBMIT, data);
     };
 
     getUpdatedParameters = (paramsData, paramsDataForAPI, actualParamsCount) => {
@@ -129,8 +134,8 @@ export default class RatingAndReviewModalV2 extends Component {
 
     submitQualities = () => {
         this.props.submitParameterRating(this.props.productCode, this.state.qualities);
-		let data = {pageName : this.props.pageName ? this.props.pageName : null, pageAction: "Submit"};
-		setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT, data);
+        let data = { pageName: this.props.pageName ? this.props.pageName : null, pageAction: "Submit" };
+        setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT, data);
     };
 
     getStatusBarClass = acvtiveSession => {
@@ -165,26 +170,26 @@ export default class RatingAndReviewModalV2 extends Component {
             productReview.rating = this.state.currentRating;
             productReview.headline = this.state.title;
             productReview.comment = this.state.reviewDetails;
-			if(this.state.userProductReviewDetails && this.state.id) {
-				productReview.id = this.state.id;
-			}
+            if (this.state.userProductReviewDetails && this.state.id) {
+                productReview.id = this.state.id;
+            }
             this.props.addProductReview(this.props.productCode, productReview);
-			let data = {pageName : this.props.pageName ? this.props.pageName : null, pageAction: "Submit"};
-			setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_REVIEW_SUBMIT, data);
+            let data = { pageName: this.props.pageName ? this.props.pageName : null, pageAction: "Submit" };
+            setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_REVIEW_SUBMIT, data);
         }
     };
 
-	skipQualities = (section) => {
-		let data = {pageName : this.props.pageName ? this.props.pageName : null, pageAction: "Skip"};
-		setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT, data);
-		this.activateSection(section);
-	};
+    skipQualities = section => {
+        let data = { pageName: this.props.pageName ? this.props.pageName : null, pageAction: "Skip" };
+        setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT, data);
+        this.activateSection(section);
+    };
 
-	skipReviews = (section) => {
-		let data = {pageName : this.props.pageName ? this.props.pageName : null, pageAction: "Skip"};
-		setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_REVIEW_SUBMIT, data);
-		this.activateSection(section);
-	};
+    skipReviews = section => {
+        let data = { pageName: this.props.pageName ? this.props.pageName : null, pageAction: "Skip" };
+        setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_REVIEW_SUBMIT, data);
+        this.activateSection(section);
+    };
 
     render() {
         const { rating, paramsEligibleToRateDetails } = this.props;
@@ -209,9 +214,9 @@ export default class RatingAndReviewModalV2 extends Component {
         }
         if (
             (!paramsEligibleToRateDetails ||
-			paramsEligibleToRateDetails &&
-            paramsEligibleToRateDetails.status &&
-            paramsEligibleToRateDetails.status.toLowerCase() === failure) &&
+                (paramsEligibleToRateDetails &&
+                    paramsEligibleToRateDetails.status &&
+                    paramsEligibleToRateDetails.status.toLowerCase() === failure)) &&
             this.state.sectionActive === 3
         ) {
             statusBar = styles.width50;
@@ -224,64 +229,61 @@ export default class RatingAndReviewModalV2 extends Component {
                 <div className={styles.tabContent}>
                     {this.state.sectionActive === 1 && (
                         <RnRRatingSectionComponent
-							getUpdatedRating={rating => this.getUpdatedRating(rating)}
-							selectedRating={this.state.currentRating}
-							pageName={this.props.pageName}
-						/>
+                            getUpdatedRating={rating => this.getUpdatedRating(rating)}
+                            selectedRating={this.state.currentRating}
+                            pageName={this.props.pageName}
+                        />
                     )}
                     {this.state.sectionActive === 2 && (
-						<React.Fragment>
-							{this.state.paramsEligibleToRateDetails && this.state.userProductReviewDetails ? (
-								<RnRQualitiesSectionComponent
-									paramsEligibleToRateDetails={this.state.paramsEligibleToRateDetails}
-									getUpdatedParameters={(paramsData, paramsDataForAPI, actualParamsCount) =>
-										this.getUpdatedParameters(paramsData, paramsDataForAPI, actualParamsCount)
-									}
-									userProductReviewDetails={this.state.userProductReviewDetails}
-									pageName={this.props.pageName}
-								/>
-							) : (
-								this.state.paramsEligibleToRateDetails && !this.state.userProductReviewDetails ? (
-									<RnRQualitiesSectionComponent
-										paramsEligibleToRateDetails={this.state.paramsEligibleToRateDetails}
-										getUpdatedParameters={(paramsData, paramsDataForAPI, actualParamsCount) =>
-											this.getUpdatedParameters(paramsData, paramsDataForAPI, actualParamsCount)
-										}
-										pageName={this.props.pageName}
-									/>
-								) : (
-									!this.state.paramsEligibleToRateDetails && this.state.userProductReviewDetails ? (
-										<RnRQualitiesSectionComponent
-											getUpdatedParameters={(paramsData, paramsDataForAPI, actualParamsCount) =>
-												this.getUpdatedParameters(paramsData, paramsDataForAPI, actualParamsCount)
-											}
-											userProductReviewDetails={this.state.userProductReviewDetails}
-											pageName={this.props.pageName}
-										/>
-									) : null
-								)
-							)}
-						</React.Fragment>
-					)}
+                        <React.Fragment>
+                            {this.state.paramsEligibleToRateDetails && this.state.userProductReviewDetails ? (
+                                <RnRQualitiesSectionComponent
+                                    paramsEligibleToRateDetails={this.state.paramsEligibleToRateDetails}
+                                    getUpdatedParameters={(paramsData, paramsDataForAPI, actualParamsCount) =>
+                                        this.getUpdatedParameters(paramsData, paramsDataForAPI, actualParamsCount)
+                                    }
+                                    userProductReviewDetails={this.state.userProductReviewDetails}
+                                    pageName={this.props.pageName}
+                                />
+                            ) : this.state.paramsEligibleToRateDetails && !this.state.userProductReviewDetails ? (
+                                <RnRQualitiesSectionComponent
+                                    paramsEligibleToRateDetails={this.state.paramsEligibleToRateDetails}
+                                    getUpdatedParameters={(paramsData, paramsDataForAPI, actualParamsCount) =>
+                                        this.getUpdatedParameters(paramsData, paramsDataForAPI, actualParamsCount)
+                                    }
+                                    pageName={this.props.pageName}
+                                />
+                            ) : !this.state.paramsEligibleToRateDetails && this.state.userProductReviewDetails ? (
+                                <RnRQualitiesSectionComponent
+                                    getUpdatedParameters={(paramsData, paramsDataForAPI, actualParamsCount) =>
+                                        this.getUpdatedParameters(paramsData, paramsDataForAPI, actualParamsCount)
+                                    }
+                                    userProductReviewDetails={this.state.userProductReviewDetails}
+                                    pageName={this.props.pageName}
+                                />
+                            ) : null}
+                        </React.Fragment>
+                    )}
                     {this.state.sectionActive === 3 && (
                         <RnRReviewSectionComponent
                             titleSuggestionsDetails={this.state.titleSuggestionsDetails}
                             getUpdatedReviewDetails={(title, reviewDetails, id) =>
                                 this.getUpdatedReviewDetails(title, reviewDetails, id)
                             }
-							userProductReviewDetails={this.state.userProductReviewDetails}
-							pageName={this.props.pageName}
+                            userProductReviewDetails={this.state.userProductReviewDetails}
+                            pageName={this.props.pageName}
                         />
                     )}
                     {this.state.sectionActive === 4 && (
-						<RnRSuccessSectionComponent
-							selectedRating={this.state.currentRating}
-							getPendingReviews={(currentPage, isRatingReviewSuccessScreen) =>
-								this.props.getPendingReviews(currentPage, isRatingReviewSuccessScreen)}
-							pendingReviewsDetails={this.props.pendingReviewsDetails}
-							history={this.props.history}
-						/>
-					)}
+                        <RnRSuccessSectionComponent
+                            selectedRating={this.state.currentRating}
+                            getPendingReviews={(currentPage, isRatingReviewSuccessScreen) =>
+                                this.props.getPendingReviews(currentPage, isRatingReviewSuccessScreen)
+                            }
+                            pendingReviewsDetails={this.props.pendingReviewsDetails}
+                            history={this.props.history}
+                        />
+                    )}
                 </div>
 
                 {this.state.sectionActive !== 4 && (
@@ -308,7 +310,9 @@ export default class RatingAndReviewModalV2 extends Component {
                                     <div className={styles.iconContainer}>
                                         <Icon
                                             image={
-                                                currentParamsDataLength !== this.state.actualParamsCount ? rnrQualitiesBlank : rnrQualitiesFilled
+                                                currentParamsDataLength !== this.state.actualParamsCount
+                                                    ? rnrQualitiesBlank
+                                                    : rnrQualitiesFilled
                                             }
                                             size={30}
                                         />
@@ -416,11 +420,11 @@ RatingAndReviewModalV2.propTypes = {
     displayToast: PropTypes.func,
     addReviewDetails: PropTypes.object,
     submitParameterRatingDetails: PropTypes.object,
-	section: PropTypes.number,
-	userProductReviewDetails: PropTypes.object,
-	pageName: PropTypes.string,
-	getPendingReviews: PropTypes.func,
-	pendingReviewsDetails: PropTypes.object,
-	history: PropTypes.object,
-	getParametersEligibleToRate: PropTypes.func,
+    section: PropTypes.number,
+    userProductReviewDetails: PropTypes.object,
+    pageName: PropTypes.string,
+    getPendingReviews: PropTypes.func,
+    pendingReviewsDetails: PropTypes.object,
+    history: PropTypes.object,
+    getParametersEligibleToRate: PropTypes.func,
 };

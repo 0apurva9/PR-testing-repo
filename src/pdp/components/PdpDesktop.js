@@ -1418,7 +1418,7 @@ export default class PdpApparel extends React.Component {
                                                                     getProductDescription={
                                                                         this.props.getProductDescription
                                                                     }
-																	getProductReviews={this.props.getProductReviews}
+                                                                    getProductReviews={this.props.getProductReviews}
                                                                 />
                                                             </div>
                                                         )}
@@ -2444,5 +2444,5 @@ PdpApparel.propTypes = {
     isMobileNumberLoginModalActive: PropTypes.bool,
     tempCartIdForLoggedInUserLoading: PropTypes.bool,
     openBeautyPopup: PropTypes.func,
-	getProductReviews: PropTypes.func,
+    getProductReviews: PropTypes.func,
 };
