@@ -59,7 +59,8 @@ const mapStateToProps = state => {
     submitCaptureAttachmentsLoading:
       state.profile.submitCaptureAttachmentsLoading,
     submitCaptureAttachmentsData: state.profile.submitCaptureAttachmentsData,
-    uploadUserFiles: state.profile.uploadUserFile
+    uploadUserFiles: state.profile.uploadUserFile,
+    customerQueriesFieldError: state.profile.customerQueriesFieldError
   };
 };
 

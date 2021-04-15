@@ -33,7 +33,7 @@ export default class ReviewList extends React.Component {
                                         colorlink={data.colorlink}
                                         sizelink={data.sizelink}
                                         eligibleParamCaptured={data.eligibleParamCaptured}
-										gender={data.gender}
+                                        gender={data.gender}
                                     />
                                 );
                             })}
@@ -58,7 +58,7 @@ export default class ReviewList extends React.Component {
                                     colorlink={data.colorlink}
                                     sizelink={data.sizelink}
                                     eligibleParamCaptured={data.eligibleParamCaptured}
-									gender={data.gender}
+                                    gender={data.gender}
                                 />
                             );
                         })}

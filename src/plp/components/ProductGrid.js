@@ -113,7 +113,7 @@ export default class ProductGrid extends React.Component {
                 maxExchangePrice={data.maxExchangePrice}
                 maxExchangeBumpUp={data.maxExchangeBumpUp}
                 variantCount={data.variantCount}
-				displayRatingReview={data.displayRatingReview}
+                displayRatingReview={data.displayRatingReview}
             />
         );
     };

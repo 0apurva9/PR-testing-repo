@@ -213,7 +213,9 @@ export default class OrderStatusVerticalV2 extends React.Component {
       if (refundSuccessfulData && refundSuccessfulData.key) {
         orderEDHD.push(refundSuccessfulData.key);
       }
-      activeOrderStatus = orderEDHD[orderEDHD.length - 1];
+      //activeOrderStatus = orderEDHD[orderEDHD.length - 1];
+      // Taking latest order status from completed steps
+      activeOrderStatus = completedSteps.slice(-1)[0];
     }
     let orderCNC = [];
     if (this.props.isCNC) {
@@ -271,7 +273,9 @@ export default class OrderStatusVerticalV2 extends React.Component {
       if (refundSuccessfulData && refundSuccessfulData.key) {
         orderCNC.push(refundSuccessfulData.key);
       }
-      activeOrderStatus = orderCNC[orderCNC.length - 1];
+      //activeOrderStatus = orderCNC[orderCNC.length - 1];
+      // Taking latest order status from completed steps
+      activeOrderStatus = completedSteps.slice(-1)[0];
     }
     //order confirmed
     let orderConfirmedDate = "";
@@ -1100,7 +1104,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
                       </React.Fragment>
                     ) : (
                       <React.Fragment>
-                        {completedSteps.includes(NOT_DELIVERED) ? (
+                        {completedSteps.includes(NOT_DELIVERED) &&
+                         this.props.consignmentStatus !== OUT_FOR_DELIVERY ? (
                           <React.Fragment>
                             <div className={styles.step}>
                               <div className={styles.checkActive} />
@@ -1165,7 +1170,8 @@ export default class OrderStatusVerticalV2 extends React.Component {
                           </React.Fragment>
                         ) : (
                           <React.Fragment>
-                            {completedSteps.includes(UNDELIVERED) ? (
+                            {completedSteps.includes(UNDELIVERED) &&
+                            this.props.consignmentStatus !== OUT_FOR_DELIVERY ? (
                               <div className={styles.stepInactive}>
                                 <div className={styles.checkActive} />
                                 <div className={styles.processNameHolderBold}>
