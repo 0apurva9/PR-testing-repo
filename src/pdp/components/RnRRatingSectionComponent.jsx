@@ -20,10 +20,10 @@ class RnRRatingSectionComponent extends Component {
         };
     }
 
-	componentDidMount() {
-		let data = {pageName : this.props.pageName ? this.props.pageName : null};
-		setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_RATING_SECTION, data);
-	}
+    componentDidMount() {
+        let data = { pageName: this.props.pageName ? this.props.pageName : null };
+        setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_RATING_SECTION, data);
+    }
 
     submitRating = rating => {
         this.setState({ rating });
@@ -59,24 +59,22 @@ class RnRRatingSectionComponent extends Component {
                 {this.state.rating === 0 ? (
                     <React.Fragment>
                         <div className={styles.heading}>Tell us how you felt about these product</div>
-						<div className={styles.ratingInitial}>
-							<Icon image={InitialRatingStarGrey} size={120}/>
-						</div>
-						<RnREmptyRatingGreyStarComponent
-							submitRating={(rating) => this.submitRating(rating)}
-						/>
+                        <div className={styles.ratingInitial}>
+                            <Icon image={InitialRatingStarGrey} size={120} />
+                        </div>
+                        <RnREmptyRatingGreyStarComponent submitRating={rating => this.submitRating(rating)} />
                     </React.Fragment>
                 ) : (
                     <React.Fragment>
                         <div className={styles.heading}>Thank you for Rating this product!</div>
                         <img src={this.getUIForSelectedRating(this.state.rating)} className={styles.ratingSuccess} />
-						<div className={styles.emptyRatingContainer}>
-							<RnREmptyRatingGreyStarComponent
-								submitRating={(rating) => this.submitRating(rating)}
-								isRatingClicked={true}
-							/>
-						</div>
-					</React.Fragment>
+                        <div className={styles.emptyRatingContainer}>
+                            <RnREmptyRatingGreyStarComponent
+                                submitRating={rating => this.submitRating(rating)}
+                                isRatingClicked={true}
+                            />
+                        </div>
+                    </React.Fragment>
                 )}
             </div>
         );
@@ -85,8 +83,8 @@ class RnRRatingSectionComponent extends Component {
 
 RnRRatingSectionComponent.propTypes = {
     getUpdatedRating: PropTypes.func,
-	selectedRating: PropTypes.number,
-	pageName: PropTypes.string,
+    selectedRating: PropTypes.number,
+    pageName: PropTypes.string,
 };
 
 export default RnRRatingSectionComponent;

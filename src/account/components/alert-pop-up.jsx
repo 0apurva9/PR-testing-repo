@@ -31,17 +31,23 @@ class AlertPopUp extends Component {
             this.props.closeModal()
         }
     }
-    componentWillUnmount(){
-        if(this.props.reDirectHomePage){
+    componentWillUnmount() {
+        if (this.props.reDirectHomePage) {
             this.props.history.push(HOME_ROUTER);
         }
         this.props.closeModal()
     }
 
     navigateLogin() {
-        if (this.props.logoutUser) {
-            this.props.logoutUser()
+        if (this.props.isGotItHomePage) {
+            this.props.history.push(HOME_ROUTER);
         }
+        else {
+            if (this.props.logoutUser) {
+                this.props.logoutUser()
+            }
+        }
+
 
     }
 
@@ -85,6 +91,7 @@ AlertPopUp.propTypes = {
     setUrlToRedirectToAfterAuth: PropTypes.func,
     reDirectHomePage: PropTypes.bool,
     btnLabel: PropTypes.string,
-    txt: PropTypes.string
+    txt: PropTypes.string,
+    isGotItHomePage: PropTypes.bool
 
 };

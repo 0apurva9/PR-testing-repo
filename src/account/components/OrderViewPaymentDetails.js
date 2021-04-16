@@ -55,7 +55,7 @@ export default class OrderViewPaymentDetails extends React.Component {
                     <div className={styles.labelText}>Cliq Cash Applied</div>
 
                     <div className={styles.infoText}>
-                        {`${RUPEE_SYMBOL}${
+                        {`-${RUPEE_SYMBOL}${
                             this.props.cliqCashAmountDeducted ? this.props.cliqCashAmountDeducted : "0.0"
                         }`}
                     </div>
