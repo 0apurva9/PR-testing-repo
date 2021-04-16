@@ -7,7 +7,7 @@ export default class LuxeHeroBannerCarousel extends React.Component {
     renderBanner = val2 => {
         const { feedComponentData } = this.props;
         if (!this.props.loading) {
-            if (val2 && val2.length > 1) {
+            if (val2 && val2.length >= 1) {
                 return <BannerDesktopNew {...feedComponentData} val2={val2} />;
             }
         } else {
