@@ -1,0 +1,45 @@
+.base {
+    width: 455px;
+    height: 601px;
+    min-height: 601px;
+    position: fixed;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    transform: translateY(100%);
+    animation: slideInUp 200ms forwards;
+    background: #fff;
+    border-radius: 8px;
+}
+
+.cancel {
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    background: url(../../plp/components/img/cancelGrey.svg) no-repeat;
+    background-position: center;
+    background-size: 20px;
+    z-index: 2;
+    cursor: pointer;
+}
+
+.content {
+    width: 100%;
+    height: 601px;
+    overflow: auto;
+}
+
+@keyframes slideInUp {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0%);
+        opacity: 1;
+    }
+}

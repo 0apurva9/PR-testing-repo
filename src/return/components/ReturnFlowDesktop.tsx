@@ -1,6 +1,12 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 import * as React from "react";
 import { Route } from "react-router-dom";
-import { IProps, IProductDetailsObj, ReturnStatus, IState, /*IReturnSelectedReason*/ } from "./interface/ReturnFlowDesktop";
+import {
+    IProps,
+    IProductDetailsObj,
+    ReturnStatus,
+    IState /*IReturnSelectedReason*/,
+} from "./interface/ReturnFlowDesktop";
 import { IStateForBank } from "./interface/ReturnBankFormForDesktop";
 import * as Cookie from "../../lib/Cookie";
 import ReturnReasonAndModes from "../../account/components/ReturnReasonAndModes";
@@ -358,7 +364,7 @@ export default class ReturnFlowDesktop extends React.Component<IProps, IState> {
                 <Route
                     exact
                     path={`${RETURNS}${RETURN_TO_ADDRESS}`}
-                    render={() => <ReturnAddressContainer {...this.state} {...this.props} returnFlow={returnFlow} />}
+                    render={() => <ReturnAddressContainer {...this.state} {...this.props} />}
                 />
                 <Route
                     exact

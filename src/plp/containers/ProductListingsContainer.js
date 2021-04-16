@@ -25,7 +25,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         getProductListings: (search, suffix, page, isFilter) => {
             dispatch(setSearchString(search));
             dispatch(setPage(page));
-
+            let isRedirect = false;
             let searchSuffixes = suffix;
             const testVersion = localStorage.getItem("testVersion");
             const parsedTestVersion = parsedQueryString.test;
@@ -41,8 +41,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             } else if (testVersion) {
                 searchSuffixes = `${searchSuffixes}&test=${testVersion}`;
             }
-
-            dispatch(getProductListings(searchSuffixes, false, isFilter, componentName));
+            if (search.indexOf("category") !== -1) {
+                isRedirect = true;
+            }
+            dispatch(getProductListings(searchSuffixes, false, isFilter, componentName, false, false, isRedirect));
         },
         getPlpBanners: categoryId => dispatch(getPlpBanners(categoryId)),
         paginate: (page, suffix) => {

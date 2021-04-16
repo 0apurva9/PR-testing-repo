@@ -231,6 +231,8 @@ const mapStateToProps = state => {
         bundledProductSuggestionStatus: state.productDescription.getBundledProductSuggestionStatus,
         appliancesExchangePincodeDetails: state.productDescription.appliancesExchangeCheckPincodeDetails,
         isMNLLogin: state.mobileNumberLogin.isMNLLogin,
+        userDetails: state.profile.userDetails,
+        bagCount: state.header.bagCount,
     };
 };
 const CartContainer = withRouter(connect(mapStateToProps, mapDispatchToProps)(CartPage));

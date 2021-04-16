@@ -252,9 +252,10 @@ export function getProductListings(
     suffix = null,
     paginated = false,
     isFilter,
+    componentName,
     searchHistory = false,
     searchTrending = false,
-    componentName
+    isRedirect = false
 ) {
     return async (dispatch, getState, { api }) => {
         dispatch(showSecondaryLoader());
@@ -265,11 +266,6 @@ export function getProductListings(
         }
         try {
             const searchState = getState().search;
-            const currentKeywordRedirect =
-                getState().productListings && getState().productListings.productListings
-                    ? getState().productListings.productListings.currentQuery.isKeywordRedirect
-                    : null;
-
             const listingsPageNumber = getState().productListings.pageNumber;
             const pageNumber = listingsPageNumber ? listingsPageNumber : 0;
             let encodedString =
@@ -285,14 +281,13 @@ export function getProductListings(
             if (isBrowser) {
                 dispatch(setLastPlpPath(""));
             }
-            let keyWordRedirect = currentKeywordRedirect ? currentKeywordRedirect : false;
             let isDynamicProductUrl = true;
             let productSearchUrl = localStorage.getItem(PRODUCT_SEARCH_URL);
-            if(!productSearchUrl) {
+            if (!productSearchUrl) {
                 isDynamicProductUrl = false;
                 productSearchUrl = `${PRODUCT_LISTINGS_PATH}`;
             }
-            let queryString = `${productSearchUrl}?searchText=${encodedString}&isKeywordRedirect=${keyWordRedirect}&isKeywordRedirectEnabled=true&channel=WEB&isMDE=true`;
+            let queryString = `${productSearchUrl}?searchText=${encodedString}&isKeywordRedirect=${isRedirect}&isKeywordRedirectEnabled=true&channel=WEB&isMDE=true`;
             if (suffix) {
                 queryString = `${queryString}${suffix}`;
             }
@@ -301,8 +296,7 @@ export function getProductListings(
             const result = await api.getMiddlewareUrl(queryString, isDynamicProductUrl);
             const resultJson = await result.json();
             if (resultJson && resultJson.currentQuery && isBrowser) {
-                keyWordRedirect = resultJson.currentQuery.isKeywordRedirect;
-                if (keyWordRedirect && resultJson.currentQuery.pageRedirectType) {
+                if (resultJson.currentQuery.isKeywordRedirect && resultJson.currentQuery.pageRedirectType) {
                     dispatch(setSearchUrlWithKeywordRedirect(resultJson, encodedString));
                 }
             }
@@ -738,7 +732,6 @@ export function getDefaultPlpView() {
     };
 }
 
-
 export function searchABVersion() {
     return async (dispatch, getState, { api }) => {
         try {
@@ -747,16 +740,20 @@ export function searchABVersion() {
             //     await this.props.getGlobalAccessToken();
             //     globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
             // }
-            const result = await api.get(
-                `v2/mpl/products/searchab/?sessionUID=${searchCookieValue}&channel=web`
-            );
+            const result = await api.get(`v2/mpl/products/searchab/?sessionUID=${searchCookieValue}&channel=web`);
             const resultJson = await result.json();
             const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
 
             if (resultJsonStatus.status) {
                 throw new Error(resultJsonStatus.message);
             }
-
+            if (window && window.digitalData) {
+                Object.assign(window.digitalData, {
+                    search: {
+                        version: resultJson?.testVersion,
+                    },
+                });
+            }
             localStorage.setItem("testVersion", resultJson?.testVersion);
             localStorage.setItem(PRODUCT_SEARCH_URL, resultJson?.webApiURL || "");
         } catch (e) {
