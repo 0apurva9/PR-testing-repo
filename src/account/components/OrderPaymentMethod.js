@@ -174,6 +174,7 @@ export default class OrderPaymentMethod extends React.Component {
             {this.props.paymentMethod && (
               <div className={styles.cashText}>{this.props.paymentMethod}</div>
             )}
+
             {this.props.phoneNumber && (
               <div className={styles.mobileNumber}>
                 {`Ph: +${this.props.phoneNumber}`}
