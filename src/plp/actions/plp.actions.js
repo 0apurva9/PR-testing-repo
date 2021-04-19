@@ -753,7 +753,13 @@ export function searchABVersion() {
             if (resultJsonStatus.status) {
                 throw new Error(resultJsonStatus.message);
             }
-
+            if (window && window.digitalData) {
+                Object.assign(window.digitalData, {
+                    search: {
+                        version: resultJson?.testVersion,
+                    },
+                });
+            }
             localStorage.setItem("testVersion", resultJson?.testVersion);
             localStorage.setItem(PRODUCT_SEARCH_URL, resultJson?.webApiURL || "");
         } catch (e) {
