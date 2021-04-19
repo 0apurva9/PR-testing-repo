@@ -735,11 +735,17 @@ export function getDefaultPlpView() {
 export function searchABVersion() {
     return async (dispatch, getState, { api }) => {
         try {
-            let searchCookieValue = Cookie.getCookie(SESSION_ID) || "";
-            // if (!globalAccessToken) {
-            //     await this.props.getGlobalAccessToken();
-            //     globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
-            // }
+            let searchCookieValue = "";
+            const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+            let customerId = "";
+            if (userDetails) {
+                customerId = JSON.parse(userDetails).customerId;
+            }
+            if (customerId) {
+                searchCookieValue = customerId;
+            } else {
+                searchCookieValue = Cookie.getCookie(SESSION_ID);
+            }
             const result = await api.get(`v2/mpl/products/searchab/?sessionUID=${searchCookieValue}&channel=web`);
             const resultJson = await result.json();
             const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -747,7 +753,13 @@ export function searchABVersion() {
             if (resultJsonStatus.status) {
                 throw new Error(resultJsonStatus.message);
             }
-
+            if (window && window.digitalData) {
+                Object.assign(window.digitalData, {
+                    search: {
+                        version: resultJson?.testVersion,
+                    },
+                });
+            }
             localStorage.setItem("testVersion", resultJson?.testVersion);
             localStorage.setItem(PRODUCT_SEARCH_URL, resultJson?.webApiURL || "");
         } catch (e) {
