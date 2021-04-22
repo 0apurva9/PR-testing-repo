@@ -133,7 +133,14 @@ export default class SizeSelector extends React.Component {
                 pathname: `${productUrl}`,
                 state: { isSizeSelected: true, goToCartPageFlag: false },
             });
-            this.props.getProductReviews(productCode, 0, "desc", "byDate");
+
+            if (
+                this.props.numberOfReviews &&
+                (this.props.numberOfReviews !== 0 || this.props.numberOfReviews !== "0") &&
+                this.props.displayRatingReview
+            ) {
+                this.props.getProductReviews(productCode, 0, "desc", "byDate");
+            }
         }
         if (this.props.closeModal) {
             this.props.closeModal();
@@ -426,6 +433,8 @@ SizeSelector.propTypes = {
     hasSizeGuide: PropTypes.bool,
     renderSize: PropTypes.func,
     getProductReviews: PropTypes.func,
+    displayRatingReview: PropTypes.bool,
+    numberOfReviews: PropTypes.any,
 };
 SizeSelector.defaultProps = {
     headerText: "Size",
