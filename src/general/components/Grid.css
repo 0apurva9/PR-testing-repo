@@ -16,13 +16,9 @@
     display: flex;
 }
 .displayInline {
-    display: inline-block;
-    border-bottom: 1px solid #ececec;
-    width: 100%;
+    display: inline;
 }
 
 .electronicViewElement {
-    display: inline-block;
-    border-bottom: 1px solid #ececec;
-    width: 100%;
+    display: inline;
 }
