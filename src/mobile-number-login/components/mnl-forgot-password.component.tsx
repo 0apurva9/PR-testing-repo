@@ -63,10 +63,14 @@ export class MnlForgotPassword extends React.Component<MnlPasswordProps, MnlPass
                                     className={passwordIcon}
                                     onClick={() => this.setState({ showPassword: !this.state.showPassword })}
                                 ></button>
-                                <span className={styles.passwordFormat}>
-                                    Password must be 8-20 characters and contain at least one Number, Upper and Lower
-                                    case characters.
-                                </span>
+                                {this.props.passwordErrorMsg ? (
+                                    <span className={styles.passwordErrorformat}>{this.props.passwordErrorMsg}</span>
+                                ) : (
+                                    <span className={styles.passwordFormat}>
+                                        Password must be 8-20 characters and contain at least one Number, Upper and
+                                        Lower case characters.
+                                    </span>
+                                )}
                             </div>
                         </div>
 
@@ -95,6 +99,7 @@ export interface MnlPasswordProps {
     changeProfilePassword: (apiData: MnlApiData) => void;
     isForgotPasswordProfile: boolean;
     displayToast: (msg: string) => void;
+    passwordErrorMsg: string;
 }
 
 export interface MnlPasswordState {
