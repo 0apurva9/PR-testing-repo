@@ -68,7 +68,7 @@
 .signIn .form_outer {
     position: relative;
     margin: 0 0 20px;
-    text-align: center;
+    /* text-align: center; */
 }
 .signIn .form_outer.countryCode .form_control {
     padding: 10px 16px 10px 70px;
@@ -349,5 +349,11 @@ label {
 .passwordFormat {
     font-size: 11px;
     color: #332d2dc9;
+    background: #fff;
+}
+
+.passwordErrorformat {
+    font-size: 11px;
+    color: #90112f;;
     background: #fff;
 }
