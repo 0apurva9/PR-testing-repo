@@ -241,7 +241,7 @@ export interface MobileNumberLoginProps extends RouteComponentProps<null> {
     isForgetPasswordValue: boolean;
     resendOtpChangePassword: (apiData: MnlApiData) => void;
     setMnlApiResponseNull: () => void;
-    passwordErrorMsg: string
+    passwordErrorMsg: string;
 }
 
 export interface MobileNumberLoginState {

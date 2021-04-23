@@ -599,10 +599,10 @@ export function updatePassword() {
             return;
         }
 
-        if(mnlApiResponse.statusCode === 5005){
+        if (mnlApiResponse.statusCode === 5005) {
             dispatch(hideSecondaryLoader());
-            if(mnlApiResponse.message) {
-               await dispatch(setPasswordErrorMsg(mnlApiResponse.message))
+            if (mnlApiResponse.message) {
+                await dispatch(setPasswordErrorMsg(mnlApiResponse.message));
             }
             return;
         }
@@ -723,9 +723,9 @@ export function updatePasswordProfile() {
         await dispatch(setPasswordErrorMsg(""));
         if (errorStatus.status) {
             dispatch(hideSecondaryLoader());
-            if(errorStatus.errorcode === "406"){
+            if (errorStatus.errorcode === "406") {
                 await dispatch(setPasswordErrorMsg(errorStatus.message));
-            }else if (errorStatus.message) {
+            } else if (errorStatus.message) {
                 await dispatch(displayToast(errorStatus.message));
             }
             return;
@@ -830,4 +830,4 @@ export type MobileNumberLoginActions =
     | setWebMNLApiSuccessAction
     | SetWebMNLEmailHiddenSuccess
     | SetForgetPassword
-    | SetPasswordErrorMsg
+    | SetPasswordErrorMsg;
