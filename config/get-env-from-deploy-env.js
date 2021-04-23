@@ -40,7 +40,7 @@ module.exports = function getEnvFromDeployEnv(deployEnv = "local", localEnv = "t
             env.baseUrl = "https://qa4.tataunistore.com";
             break;
         case "qa1":
-            env.apiBaseUrl = "https://preprod2.tataunistore.com";
+            env.apiBaseUrl = "https://qa1.tataunistore.com";
             env.baseUrl = "https://qa1.tataunistore.com";
             break;
         case "qa2":

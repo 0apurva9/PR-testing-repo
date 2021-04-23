@@ -334,9 +334,7 @@ export function homeFeedBackUp() {
     return async (dispatch, getState, { api }) => {
         dispatch(homeFeedBackUpRequest());
         try {
-            const result = await api.get(
-                `v2/mpl/cms/defaultpage?pageId=ComponentTestPageRahul&channel=${WCMS_PLATFORM}`
-            );
+            const result = await api.get(`v2/mpl/cms/defaultpage?pageId=defaulthomepage&channel=${WCMS_PLATFORM}`);
             const resultJson = await result.json();
             if (resultJson && resultJson.pageName) {
                 let pageData = {
