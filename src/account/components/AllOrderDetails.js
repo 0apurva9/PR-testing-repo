@@ -585,6 +585,8 @@ export default class AllOrderDetails extends React.Component {
                                             showRatingReviewModal={(productcode, rating) =>
                                                 this.showRatingReviewModal(productcode, rating, "Pending Reviews")
                                             }
+                                            pendingReviewsStatus={this.props.pendingReviewsStatus}
+                                            publishedReviewsStatus={this.props.publishedReviewsStatus}
                                         />
                                     </div>
                                 )}

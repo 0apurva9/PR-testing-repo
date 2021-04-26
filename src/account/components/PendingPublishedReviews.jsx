@@ -6,6 +6,7 @@ import SectionLoaderDesktop from "../../general/components/SectionLoaderDesktop"
 import ShowMoreButton from "../../general/components/ShowMoreButton";
 import Icon from "../../xelpmoc-core/Icon";
 import reviewCheck from "../../account/components/img/reviewCheck.svg";
+import { REQUESTING } from "../../lib/constants";
 class PendingPublishedReviews extends Component {
     constructor(props) {
         super(props);
@@ -68,7 +69,7 @@ class PendingPublishedReviews extends Component {
                 <div className={styles.tabs}>
                     {this.state.activeTab === 1 ? (
                         <div className={styles.reviewsBase}>
-                            {!this.state.pendingReviewsDetails ? <SectionLoaderDesktop /> : null}
+                            {this.props.pendingReviewsStatus === REQUESTING ? <SectionLoaderDesktop /> : null}
                             {this.state.pendingReviewsDetails && this.state.pendingReviewsDetails.totalNoOfReviews ? (
                                 <div className={styles.reviews}>
                                     {this.state.pendingReviewsDetails.reviews &&
@@ -100,7 +101,7 @@ class PendingPublishedReviews extends Component {
 
                     {this.state.activeTab === 2 ? (
                         <div className={styles.reviewsBase}>
-                            {!this.state.publishedReviewsDetails ? <SectionLoaderDesktop /> : null}
+                            {this.props.publishedReviewsStatus === REQUESTING ? <SectionLoaderDesktop /> : null}
                             {this.state.publishedReviewsDetails &&
                             this.state.publishedReviewsDetails.totalNoOfReviews ? (
                                 <div className={styles.reviews}>
@@ -145,6 +146,8 @@ PendingPublishedReviews.propTypes = {
     editRatingReview: PropTypes.func,
     openRatingReviewModal: PropTypes.bool,
     showRatingReviewModal: PropTypes.func,
+    pendingReviewsStatus: PropTypes.string,
+    publishedReviewsStatus: PropTypes.string,
 };
 
 export default PendingPublishedReviews;
