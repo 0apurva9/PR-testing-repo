@@ -182,6 +182,7 @@ export function validateMnlChallenge() {
         });
         const mnlApiResponse: MnlApiResponse = await result.json();
         const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
+        await dispatch(setPasswordErrorMsg(""));
         if (errorStatus.status) {
             if (mnlApiResponse.statusCode === GLOBAL_ACCESS_TOKEN_REFRESH_CODE) {
                 await Cookie.deleteCookie(GLOBAL_ACCESS_TOKEN);
