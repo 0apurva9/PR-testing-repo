@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "../mobile-number-login.css";
 import { MnlApiData } from "../mobile-number-login.types";
-const MNL_PASSWORD_POLICY_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
+// const MNL_PASSWORD_POLICY_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
 
 export class MnlForgotPassword extends React.Component<MnlPasswordProps, MnlPasswordState> {
     public state: Readonly<MnlPasswordState> = {
@@ -11,11 +11,11 @@ export class MnlForgotPassword extends React.Component<MnlPasswordProps, MnlPass
     };
 
     private onChangeInput(event: React.ChangeEvent<HTMLInputElement>) {
-        if (event.target.value.length >= 8) {
-            this.setState({ password: event.target.value, isInputValid: true });
-        } else {
-            this.setState({ password: event.target.value, isInputValid: false });
-        }
+        // if (event.target.value.length >= 8) {
+        //     this.setState({ password: event.target.value});
+        // } else {
+        this.setState({ password: event.target.value });
+        //}
     }
 
     public onForgotPasswordClick() {
@@ -26,10 +26,10 @@ export class MnlForgotPassword extends React.Component<MnlPasswordProps, MnlPass
     public onContinuButtonClick() {
         const mnlApiData: MnlApiData = Object.assign({}, this.props.mnlApiData);
         mnlApiData.pass = this.state.password;
-        if (!MNL_PASSWORD_POLICY_REGEX.test(this.state.password)) {
-            this.props.displayToast("Please enter a valid password");
-            return false;
-        }
+        // if (!MNL_PASSWORD_POLICY_REGEX.test(this.state.password)) {
+        //     this.props.displayToast("Please enter a valid password");
+        //     return false;
+        // }
         if (this.props.isForgotPasswordProfile) {
             this.props.changeProfilePassword(mnlApiData);
         } else {
@@ -77,7 +77,7 @@ export class MnlForgotPassword extends React.Component<MnlPasswordProps, MnlPass
                         <button
                             type="button"
                             className={styles.btnPrimary}
-                            disabled={!this.state.isInputValid}
+                            // disabled={!this.state.isInputValid}
                             onClick={() => this.onContinuButtonClick()}
                         >
                             Continue
