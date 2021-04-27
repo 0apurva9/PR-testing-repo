@@ -725,10 +725,14 @@ export function updatePasswordProfile() {
         if (errorStatus.status) {
             dispatch(hideSecondaryLoader());
             if (errorStatus.errorcode === "406") {
-                await dispatch(setPasswordErrorMsg(errorStatus.message));
+                await dispatch(displayToast(errorStatus.message));
+                dispatch(hideMobileNumberLoginModal());
+                // await dispatch(setPasswordErrorMsg(errorStatus.message));
             } else if (errorStatus.errorcode === "4011") {
+                await dispatch(displayToast(errorStatus.message));
                 dispatch(hideMobileNumberLoginModal());
             } else if (errorStatus.errorcode === "4009") {
+                await dispatch(displayToast(errorStatus.message));
                 dispatch(hideMobileNumberLoginModal());
             } else if (errorStatus.message) {
                 await dispatch(displayToast(errorStatus.message));
