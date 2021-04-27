@@ -1,12 +1,14 @@
 import React from "react";
 import styles from "../mobile-number-login.css";
 import { MnlApiData } from "../mobile-number-login.types";
+import { PASSWORD_VALIDATION_MESSAGE, PASSWORD_VALIDATION } from "./../../lib/constants";
 
 export class MnlForgotPassword extends React.Component<MnlPasswordProps, MnlPasswordState> {
     public state: Readonly<MnlPasswordState> = {
         showPassword: false,
         password: "",
         isInputValid: false,
+        passwordErrorMsg: "",
     };
 
     private onChangeInput(event: React.ChangeEvent<HTMLInputElement>) {
@@ -22,6 +24,19 @@ export class MnlForgotPassword extends React.Component<MnlPasswordProps, MnlPass
         const mnlApiData: MnlApiData = Object.assign({}, this.props.mnlApiData);
         mnlApiData.pass = this.state.password;
         if (this.props.isForgotPasswordProfile) {
+            if (this.state.password.length < 8) {
+                this.setState({
+                    passwordErrorMsg: "Password length should be minimum 8 character",
+                });
+                return false;
+            } else if (!PASSWORD_VALIDATION.test(this.state.password)) {
+                this.setState({
+                    passwordErrorMsg: PASSWORD_VALIDATION_MESSAGE,
+                });
+                return false;
+            } else {
+                this.setState({ passwordErrorMsg: "" });
+            }
             this.props.changeProfilePassword(mnlApiData);
         } else {
             this.props.forgotPassword(mnlApiData);
@@ -56,11 +71,10 @@ export class MnlForgotPassword extends React.Component<MnlPasswordProps, MnlPass
                                 ></button>
                                 {this.props.passwordErrorMsg ? (
                                     <span className={styles.passwordErrorformat}>{this.props.passwordErrorMsg}</span>
+                                ) : this.state["passwordErrorMsg"] ? (
+                                    <span className={styles.passwordErrorformat}>{this.state["passwordErrorMsg"]}</span>
                                 ) : (
-                                    <span className={styles.passwordFormat}>
-                                        Password must be 8-20 characters and contain at least one Number, Upper and
-                                        Lower case characters.
-                                    </span>
+                                    <span className={styles.passwordFormat}>{PASSWORD_VALIDATION_MESSAGE}</span>
                                 )}
                             </div>
                         </div>
@@ -92,4 +106,5 @@ export interface MnlPasswordState {
     showPassword: boolean;
     password: string;
     isInputValid: boolean;
+    passwordErrorMsg: string;
 }

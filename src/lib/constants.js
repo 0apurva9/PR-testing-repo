@@ -580,3 +580,6 @@ export const CLIENT_ID = "gauravj@dewsolutions.in";
 export const CLIENT_SECRET = "secret";
 export const OTP_RESEND_TIME = 20;
 export const GLOBAL_ACCESS_TOKEN_REFRESH_CODE = 5004;
+export const PASSWORD_VALIDATION_MESSAGE = "Password must be 8-20 characters and contain at least one Number, Upper and Lower case characters.";
+export const PASSWORD_VALIDATION = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z\d#$@!%&*?]{8,30}$/;
+export const MINIMUM_PASSWORD_LENGTH = "8";
