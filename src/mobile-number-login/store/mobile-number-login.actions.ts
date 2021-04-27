@@ -10,7 +10,7 @@ import {
 } from "../../auth/actions/user.actions.js";
 import * as ErrorHandling from "../../general/ErrorHandling.js";
 import { displayToast } from "../../general/toast.actions.js";
-import { showMobileNumberLoginModal } from "../../general/modal.actions";
+import { showMobileNumberLoginModal, hideMobileNumberLoginModal } from "../../general/modal.actions";
 import { getUserDetails, logoutUserByMobileNumber } from "../../account/actions/account.actions";
 import { loginUser } from "../../auth/actions/user.actions";
 import { CUSTOMER_ACCESS_TOKEN, LOGGED_IN_USER_DETAILS, GLOBAL_ACCESS_TOKEN_REFRESH_CODE } from "../../lib/constants";
@@ -726,6 +726,10 @@ export function updatePasswordProfile() {
             dispatch(hideSecondaryLoader());
             if (errorStatus.errorcode === "406") {
                 await dispatch(setPasswordErrorMsg(errorStatus.message));
+            } else if (errorStatus.errorcode === "4011") {
+                dispatch(hideMobileNumberLoginModal());
+            } else if (errorStatus.errorcode === "4009") {
+                dispatch(hideMobileNumberLoginModal());
             } else if (errorStatus.message) {
                 await dispatch(displayToast(errorStatus.message));
             }

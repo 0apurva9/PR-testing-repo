@@ -10,13 +10,8 @@ export function getFailureResponse(response) {
             return { status: true, message: response.errors[0].type };
         }
     }
-
-    if (response.error && response.errorCode === "406") {
-        return { status: true, message: response.error, errorcode: response.errorCode };
-    }
-
     if (response.error) {
-        return { status: true, message: response.error };
+        return { status: true, message: response.error, errorcode: response.errorCode };
     }
     if (response.error_message) {
         return { status: true, message: response.error_message };
