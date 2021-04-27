@@ -1,12 +1,12 @@
 .base {
-	width: 100%;
-	height: auto;
-	display: inline-block;
-	padding: 20px;
-	background: #fff;
-	border-radius: 4px;
-	overflow: hidden;
-	border: 1px solid #d5d5d5;
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    padding: 20px;
+    background: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid #d5d5d5;
 }
 
 .productImageHolder {
@@ -26,23 +26,23 @@
 }
 
 .brandName {
-	width: 100%;
-	height: auto;
-	color: #212121;
-	font-family: semibold;
-	margin-bottom: 7px;
-	font-size: 14px;
-	display: inline-block;
+    width: 100%;
+    height: auto;
+    color: #212121;
+    font-family: semibold;
+    margin-bottom: 7px;
+    font-size: 14px;
+    display: inline-block;
 }
 
 .productName {
-	width: 100%;
-	height: auto;
-	color: #4a4a4a;
-	margin-bottom: 17px;
-	font-size: 14px;
-	display: inline-block;
-	font-family: light;
+    width: 100%;
+    height: auto;
+    color: #4a4a4a;
+    margin-bottom: 17px;
+    font-size: 14px;
+    display: inline-block;
+    font-family: light;
 }
 
 .producMaterial {
@@ -57,28 +57,28 @@
 }
 
 .productPrice {
-	width: auto;
-	height: auto;
-	margin-bottom: 5px;
-	display: inline-block;
+    width: auto;
+    height: auto;
+    margin-bottom: 5px;
+    display: inline-block;
 }
 
 .productPrice .onPrice {
-	width: auto;
-	height: auto;
-	color: #212121;
-	font-size: 14px;
-	font-family: 'semibold';
-	padding: 0px 10px 0px 0px;
+    width: auto;
+    height: auto;
+    color: #212121;
+    font-size: 14px;
+    font-family: "semibold";
+    padding: 0px 10px 0px 0px;
 }
 
 .productPrice .deletePrice {
-	width: auto;
-	height: auto;
-	color: #979797;
-	font-size: 14px;
-	font-family: 'light';
-	text-decoration: line-through;
+    width: auto;
+    height: auto;
+    color: #979797;
+    font-size: 14px;
+    font-family: "light";
+    text-decoration: line-through;
 }
 
 .displayRating {
@@ -160,8 +160,8 @@
     font-family: semibold;
 }
 
-.discount{
-	font-size: 14px;
-	padding-left: 8px;
-	color: #338715;
+.discount {
+    font-size: 14px;
+    padding-left: 8px;
+    color: #338715;
 }

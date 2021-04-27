@@ -8,12 +8,12 @@
 }
 
 .tabSwitches {
-	display: flex;
-	position: relative;
-	width: 366px;
-	margin: 0 auto;
-	border-top: 2px solid #f3f3f3;
-	justify-content: space-around;
+    display: flex;
+    position: relative;
+    width: 366px;
+    margin: 0 auto;
+    border-top: 2px solid #f3f3f3;
+    justify-content: space-around;
 }
 
 .subSection {
@@ -32,14 +32,14 @@
     display: flex;
     margin: 5px 0;
     justify-content: center;
-	height: 30px;
-	align-items: center;
+    height: 30px;
+    align-items: center;
 }
 
 .buttonContainer {
     display: flex;
     margin-top: 20px;
-	justify-content: space-around;
+    justify-content: space-around;
 }
 
 .subSectionOneActive,
@@ -60,39 +60,39 @@
 }
 
 .currentRating {
-    font-family: 'semibold';
+    font-family: "semibold";
     margin-right: 2px;
-	font-size: 18px;
+    font-size: 18px;
 }
 
 .width33 {
-	position: absolute;
-	width: 33.33%;
-	left: 0;
-	top: -2px;
-	border-top: 2px solid #499b1f;
+    position: absolute;
+    width: 33.33%;
+    left: 0;
+    top: -2px;
+    border-top: 2px solid #499b1f;
 }
 
 .width66 {
-	position: absolute;
-	width: 66.66%;
-	left: 0;
-	top: -2px;
-	border-top: 2px solid #499b1f;
+    position: absolute;
+    width: 66.66%;
+    left: 0;
+    top: -2px;
+    border-top: 2px solid #499b1f;
 }
 
 .width50 {
-	position: absolute;
-	width: 50%;
-	left: 0;
-	top: -2px;
-	border-top: 2px solid #499b1f;
+    position: absolute;
+    width: 50%;
+    left: 0;
+    top: -2px;
+    border-top: 2px solid #499b1f;
 }
 
 .width100 {
-	position: absolute;
-	width: 100%;
-	left: 0;
-	top: -2px;
-	border-top: 2px solid #499b1f;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: -2px;
+    border-top: 2px solid #499b1f;
 }

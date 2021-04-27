@@ -1,156 +1,156 @@
 .base {
-	width: 100%;
-	height: auto;
-	padding: 15px;
-	background: #ececec;
+    width: 100%;
+    height: auto;
+    padding: 15px;
+    background: #ececec;
 }
 .orderIdHolder {
-	width: 100%;
-	height: auto;
-	display: inline-block;
-	margin-bottom: 10px;
-	position: relative;
-	background-color: #fff;
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    margin-bottom: 10px;
+    position: relative;
+    background-color: #fff;
 }
 .orderIdHolderItemDetails {
-	width: 100%;
-	height: auto;
-	display: inline-block;
-	margin-bottom: 25px;
-	position: relative;
-	background-color: #fff;
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    margin-bottom: 25px;
+    position: relative;
+    background-color: #fff;
 }
 .CancelReturn {
-	color: #ff1744;
-	font-family: semibold;
+    color: #ff1744;
+    font-family: semibold;
 }
 .commonTitle {
-	font-size: 14px;
-	letter-spacing: 0.02px;
-	color: rgb(33, 33, 33);
-	margin-bottom: 14px;
+    font-size: 14px;
+    letter-spacing: 0.02px;
+    color: rgb(33, 33, 33);
+    margin-bottom: 14px;
 }
 .storeDetails {
-	margin-bottom: 35px;
-	border-bottom: 1px solid #ececec;
+    margin-bottom: 35px;
+    border-bottom: 1px solid #ececec;
 }
 .orderColleted {
-	margin-bottom: 35px;
+    margin-bottom: 35px;
 }
 .colon {
-	width: 5%;
-	padding-left: 3px;
-	font-family: semibold;
-	display: inline-block;
+    width: 5%;
+    padding-left: 3px;
+    font-family: semibold;
+    display: inline-block;
 }
 .width20 {
-	width: 20%;
-	height: 16px;
-	display: inline-block;
-	color: #000000;
-	vertical-align: top;
-	font-family: semibold;
-	font-size: 14px;
+    width: 20%;
+    height: 16px;
+    display: inline-block;
+    color: #000000;
+    vertical-align: top;
+    font-family: semibold;
+    font-size: 14px;
 }
 .width75 {
-	width: 75%;
-	display: inline-block;
-	color: #000000;
-	text-transform: capitalize;
-	font-family: light;
-	font-size: 14px;
-	letter-spacing: 0.02px;
-	height: 16px;
+    width: 75%;
+    display: inline-block;
+    color: #000000;
+    text-transform: capitalize;
+    font-family: light;
+    font-size: 14px;
+    letter-spacing: 0.02px;
+    height: 16px;
 }
 .ffsemibold {
-	font-family: semibold;
-	width: 25%;
+    font-family: semibold;
+    width: 25%;
 }
 .buttonHolder {
-	width: 100%;
-	height: auto;
-	margin-top: 5px;
-	padding-top: 20px;
-	display: inline-block;
-	border-top: 1px solid #ececec;
+    width: 100%;
+    height: auto;
+    margin-top: 5px;
+    padding-top: 20px;
+    display: inline-block;
+    border-top: 1px solid #ececec;
 }
 .buttonHolderForPaymentPending {
-	width: 100%;
-	height: auto;
-	/* margin-top: 27px; */
-	padding-top: 20px;
-	display: inline-block;
-	border-top: 1px solid #ececec;
+    width: 100%;
+    height: auto;
+    /* margin-top: 27px; */
+    padding-top: 20px;
+    display: inline-block;
+    border-top: 1px solid #ececec;
 }
 .divider {
-	border-bottom: 1px solid #efefef;
-	padding-top: 10px;
+    border-bottom: 1px solid #efefef;
+    padding-top: 10px;
 }
 .orderItemDateID {
-	font-size: 11px;
-	font-family: light;
-	color: #4a4a4a;
-	margin-bottom: 10px;
-	float: left;
-	width: 100%;
+    font-size: 11px;
+    font-family: light;
+    color: #4a4a4a;
+    margin-bottom: 10px;
+    float: left;
+    width: 100%;
 }
 .orderItemDateID > div {
-	float: left;
-	width: 100%;
-	margin-bottom: 5px;
+    float: left;
+    width: 100%;
+    margin-bottom: 5px;
 }
 .order {
-	width: 100%;
-	height: auto;
-	box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.2);
-	margin-bottom: 15px;
-	background: #fff;
-	padding: 15px;
-	border-radius: 4px;
+    width: 100%;
+    height: auto;
+    box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.2);
+    margin-bottom: 15px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 4px;
 }
 .payment {
-	border-top: 1px solid #ececec;
-	/* margin-bottom: 60px; */
+    border-top: 1px solid #ececec;
+    /* margin-bottom: 60px; */
 }
 .greyishLine {
-	margin-top: 20px;
-	border-top: 1px solid #ececec;
-	padding-top: 20px;
+    margin-top: 20px;
+    border-top: 1px solid #ececec;
+    padding-top: 20px;
 }
 .paymentBase {
-  background: #ffffff;
-  padding: 30px;
-  border-radius: 4px;
-  overflow: hidden;
-  margin-top: 10px;
-  display: inline-block;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-top: 10px;
+    display: inline-block;
 }
 
 .paymentHeading {
-  width: 100%;
-  height: auto;
-  font-size: 14px;
-  font-family: semibold;
-  color: #212121;
+    width: 100%;
+    height: auto;
+    font-size: 14px;
+    font-family: semibold;
+    color: #212121;
 }
 .orderStatusVertical {
-	/* padding: 30px 0px; */
-	padding: 56px 0px 0px;
-	/* margin-top: 52px; */
-	/* border-bottom: 1px solid #ececec; */
-	border-top: 1px solid #ececec;
+    /* padding: 30px 0px; */
+    padding: 56px 0px 0px;
+    /* margin-top: 52px; */
+    /* border-bottom: 1px solid #ececec; */
+    border-top: 1px solid #ececec;
 }
 .helpSupport {
-	width: 30%;
-	float: right;
-	color: #ff1744;
-	font-size: 14px;
-	font-family: semibold;
-	line-height: 35px;
-	cursor: pointer;
-	letter-spacing: 0.02px;
-	text-align: right;
-	/* color: #212121;
+    width: 30%;
+    float: right;
+    color: #ff1744;
+    font-size: 14px;
+    font-family: semibold;
+    line-height: 35px;
+    cursor: pointer;
+    letter-spacing: 0.02px;
+    text-align: right;
+    /* color: #212121;
 	padding-top: 15px;
 	margin-top: 15px;
 	border-top: 1px solid #efefef;
@@ -158,264 +158,264 @@
 	position: relative; */
 }
 .buttonHolderForUpdate {
-	width: 100%;
-	height: auto;
-	display: inline-block;
-	cursor: pointer;
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    cursor: pointer;
 }
 .buttonSupport {
-	width: 25%;
+    width: 25%;
 }
 .replaceHolder {
-	width: 50%;
-	height: auto;
-	display: inline-block;
-	text-align: left;
-	color: #ff1744;
-	cursor: pointer;
-	font-size: 14px;
-	font-family: semibold;
-	margin-bottom: 30px;
+    width: 50%;
+    height: auto;
+    display: inline-block;
+    text-align: left;
+    color: #ff1744;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: semibold;
+    margin-bottom: 30px;
 }
 .replace {
-	font-size: 14px;
-	display: inline-block;
+    font-size: 14px;
+    display: inline-block;
 }
 .reviewHolder {
-	width: 50%;
-	height: auto;
-	display: inline-block;
-	text-align: left;
+    width: 50%;
+    height: auto;
+    display: inline-block;
+    text-align: left;
 }
 .review {
-	font-size: 14px;
-	display: inline-block;
+    font-size: 14px;
+    display: inline-block;
 }
 
 .header {
-	width: 100%;
-	height: auto;
-	font-size: 14px;
-	font-family: semibold;
-	color: #212121;
-	margin-bottom: 5px;
+    width: 100%;
+    height: auto;
+    font-size: 14px;
+    font-family: semibold;
+    color: #212121;
+    margin-bottom: 5px;
 }
 .row {
-	width: 100%;
-	height: auto;
-	font-size: 14px;
-	font-family: light;
-	color: #212121;
-	line-height: 24px;
+    width: 100%;
+    height: auto;
+    font-size: 14px;
+    font-family: light;
+    color: #212121;
+    line-height: 24px;
 }
 .productReturn {
-	width: 35%;
-	height: auto;
-	float: left;
-	padding-right: 40px;
-	color: #ff1744;
-	font-size: 14px;
-	font-family: semibold;
-	line-height: 35px;
-	cursor: pointer;
+    width: 35%;
+    height: auto;
+    float: left;
+    padding-right: 40px;
+    color: #ff1744;
+    font-size: 14px;
+    font-family: semibold;
+    line-height: 35px;
+    cursor: pointer;
 }
 .buttonHolderForRetryPayment {
-	width: auto;
-	height: auto;
-	display: inline-block;
-	/* margin-left: 212px; */
-	text-align: center;
-	/* margin-bottom: 24px; */
+    width: auto;
+    height: auto;
+    display: inline-block;
+    /* margin-left: 212px; */
+    text-align: center;
+    /* margin-bottom: 24px; */
 }
 .retryPayment {
-	width: 100%;
-	height: auto;
-	display: inline-block;
-	text-align: center;
-	background: #ffffff;
-	border-radius: 4px;
-	margin-bottom: 15px;
-	padding: 34px;
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    text-align: center;
+    background: #ffffff;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    padding: 34px;
 }
 .retryPaymentTitle {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	margin: 0 0 20px 0;
-	font-size: 14px;
-	font-family: light;
-	text-align: left;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 20px 0;
+    font-size: 14px;
+    font-family: light;
+    text-align: left;
 }
 .retryCallOutMessage {
-	display: inline-block;
-	margin-left: 22px;
+    display: inline-block;
+    margin-left: 22px;
 }
-.borderTop{
-	width: 100%;
-	display: block;
-	border-top: 1px solid #ececec;
-	padding-top: 35px;
-	margin-top: 25px;
+.borderTop {
+    width: 100%;
+    display: block;
+    border-top: 1px solid #ececec;
+    padding-top: 35px;
+    margin-top: 25px;
 }
 @media screen and (min-width: 1025px) {
-	.base {
-		padding: 80px 0px;
-	}
-	.orderIdAndPlacedHolder {
-		width: 75%;
-		height: auto;
-		position: relative;
-		display: inline-block;
-    padding: 0px 150px 20px 0px;
-		/* margin-bottom: 20px; */
-		border-radius: 4px;
-    overflow: hidden;
-		background: #fff;
-	}
-	.orderIdHolder {
-		width: 100%;
-		height: auto;
-		color: #181818;
-		font-family: light;
-		font-size: 14px;
-		/* padding: 34px 34px 24px 34px; */
-	}
-	.orderIdHolderItemDetails {
-		width: 100%;
-		height: auto;
-		color: #181818;
-		font-family: light;
-		font-size: 14px;
-		padding: 34px 34px 24px 34px;
-	}
-	.orderIdHolder:last-child {
-		margin-bottom: 0px;
-	}
-	.highlightedText {
-		font-family: light;
-		font-size: 14px;
-		line-height: 22px;
-		color: black;
-		bottom: 10px;
-	}
-	.itemDetails {
-		font-size: 16px;
-		color: #000000;
-		margin-bottom: 21px;
-		font-family: semibold;
-	}
-	.buttonGoToBack {
-		width: 25%;
-		height: auto;
-		font-family: semibold;
-		font-size: 14px;
-		color: #ff1744;
-		display: inline-block;
-		vertical-align: top;
-		cursor: pointer;
-	}
-	.order {
-		padding: 34px;
-	}
-	.order:last-child {
-		margin: 0px;
-	}
-	.writeReviedButton {
-		width: auto;
-		height: auto;
-		float: left;
-		box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
-		transition: 300ms;
-		border-radius: 20px;
-		margin-top: -34px;
-		margin-bottom: 69px;
-	}
-	.cancelProduct {
-		width: 35%;
-		height: auto;
-		float: left;
-		padding-right: 40px;
-		color: #ff1744;
-		font-size: 14px;
-		font-family: semibold;
-		line-height: 35px;
-		cursor: pointer;
-	}
-	.returnClosed {
-		width: 100%;
-		height: auto;
-		padding-right: 40px;
-		color: #8d8d8d;
-		font-size: 14px;
-		font-family: light;
-		cursor: pointer;
-	}
-	.writeReviedButton:hover {
-		box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4), 0 0 2px 0 rgba(0, 0, 0, 0.2);
-	}
-	.itemHeader {
-		width: 100%;
-		height: auto;
-		color: rgb(0, 0, 0);
-		font-size: 16px;
-		font-family: semibold;
-		margin-bottom: 20px;
-	}
+    .base {
+        padding: 80px 0px;
+    }
+    .orderIdAndPlacedHolder {
+        width: 75%;
+        height: auto;
+        position: relative;
+        display: inline-block;
+        padding: 0px 150px 20px 0px;
+        /* margin-bottom: 20px; */
+        border-radius: 4px;
+        overflow: hidden;
+        background: #fff;
+    }
+    .orderIdHolder {
+        width: 100%;
+        height: auto;
+        color: #181818;
+        font-family: light;
+        font-size: 14px;
+        /* padding: 34px 34px 24px 34px; */
+    }
+    .orderIdHolderItemDetails {
+        width: 100%;
+        height: auto;
+        color: #181818;
+        font-family: light;
+        font-size: 14px;
+        padding: 34px 34px 24px 34px;
+    }
+    .orderIdHolder:last-child {
+        margin-bottom: 0px;
+    }
+    .highlightedText {
+        font-family: light;
+        font-size: 14px;
+        line-height: 22px;
+        color: black;
+        bottom: 10px;
+    }
+    .itemDetails {
+        font-size: 16px;
+        color: #000000;
+        margin-bottom: 21px;
+        font-family: semibold;
+    }
+    .buttonGoToBack {
+        width: 25%;
+        height: auto;
+        font-family: semibold;
+        font-size: 14px;
+        color: #ff1744;
+        display: inline-block;
+        vertical-align: top;
+        cursor: pointer;
+    }
+    .order {
+        padding: 34px;
+    }
+    .order:last-child {
+        margin: 0px;
+    }
+    .writeReviedButton {
+        width: auto;
+        height: auto;
+        float: left;
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
+        transition: 300ms;
+        border-radius: 20px;
+        margin-top: -34px;
+        margin-bottom: 69px;
+    }
+    .cancelProduct {
+        width: 35%;
+        height: auto;
+        float: left;
+        padding-right: 40px;
+        color: #ff1744;
+        font-size: 14px;
+        font-family: semibold;
+        line-height: 35px;
+        cursor: pointer;
+    }
+    .returnClosed {
+        width: 100%;
+        height: auto;
+        padding-right: 40px;
+        color: #8d8d8d;
+        font-size: 14px;
+        font-family: light;
+        cursor: pointer;
+    }
+    .writeReviedButton:hover {
+        box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4), 0 0 2px 0 rgba(0, 0, 0, 0.2);
+    }
+    .itemHeader {
+        width: 100%;
+        height: auto;
+        color: rgb(0, 0, 0);
+        font-size: 16px;
+        font-family: semibold;
+        margin-bottom: 20px;
+    }
 
-	.reviewSuccess {
-		display: inline-block;
-		width: calc(100% - 315px);
-		text-align: right;
-		font-size: 14px;
-		font-family: 'light';
-		color: #009700;
-	}
+    .reviewSuccess {
+        display: inline-block;
+        width: calc(100% - 315px);
+        text-align: right;
+        font-size: 14px;
+        font-family: "light";
+        color: #009700;
+    }
 
-	.writeReviewTitle {
-		cursor: pointer;
-	}
+    .writeReviewTitle {
+        cursor: pointer;
+    }
 
-	.reviewHolder {
-		width: 100%;
-		height: auto;
-		padding: 24px 0 19px 0;
-		border-top: 1px solid #eeeeee;
-	}
+    .reviewHolder {
+        width: 100%;
+        height: auto;
+        padding: 24px 0 19px 0;
+        border-top: 1px solid #eeeeee;
+    }
 
-	.reviewHeading {
-		margin-bottom: 12px;
-		font-family: semibold;
-		font-size: 14px;
-		color: #212121;
-		letter-spacing: 0;
-	}
+    .reviewHeading {
+        margin-bottom: 12px;
+        font-family: semibold;
+        font-size: 14px;
+        color: #212121;
+        letter-spacing: 0;
+    }
 
-	.ratingBar {
-		display: inline-block;
-		width: 315px;
-	}
+    .ratingBar {
+        display: inline-block;
+        width: 315px;
+    }
 
-	.writeReviewText{
-		display: inline-block;
-		color: #da1c5c;
-		font-size: 14px;
-		font-family: semibold;
-		text-align: right;
-		width: calc(100% - 315px);
-		text-align: right;
-	}
+    .writeReviewText {
+        display: inline-block;
+        color: #da1c5c;
+        font-size: 14px;
+        font-family: semibold;
+        text-align: right;
+        width: calc(100% - 315px);
+        text-align: right;
+    }
 
-	.reviewCheckContainer {
-		display: inline-block;
-		vertical-align: sub;
-		margin-right: 8px;
-	}
+    .reviewCheckContainer {
+        display: inline-block;
+        vertical-align: sub;
+        margin-right: 8px;
+    }
 
-	.reviewHeadingInitial {
-		margin-bottom: 20px;
-		font-family: semibold;
-		font-size: 14px;
-		color: #212121;
-		letter-spacing: 0;
-	}
+    .reviewHeadingInitial {
+        margin-bottom: 20px;
+        font-family: semibold;
+        font-size: 14px;
+        color: #212121;
+        letter-spacing: 0;
+    }
 }

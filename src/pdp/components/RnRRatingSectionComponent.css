@@ -1,5 +1,5 @@
 .base {
-	position: relative;
+    position: relative;
     width: 455px;
     height: 407px;
 }
@@ -27,7 +27,7 @@
 }
 
 .emptyRatingContainer {
-	position: absolute;
-	bottom: 66px;
-	left: 68px;
+    position: absolute;
+    bottom: 66px;
+    left: 68px;
 }

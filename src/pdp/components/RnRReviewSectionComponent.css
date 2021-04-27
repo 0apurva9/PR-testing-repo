@@ -25,7 +25,7 @@
     background-color: #f5f5f5;
     margin: 0 18px 14px 0;
     font-size: 14px;
-    font-family: 'light';
+    font-family: "light";
     border-radius: 4px;
     cursor: pointer;
 }
@@ -37,14 +37,14 @@
     background-color: #212121;
     margin: 0 18px 14px 0;
     font-size: 14px;
-    font-family: 'light';
+    font-family: "light";
     border-radius: 4px;
     cursor: pointer;
 }
 
 .reviewDetailsCount {
     font-size: 13px;
-    font-family: 'light';
+    font-family: "light";
     position: absolute;
     bottom: 8px;
     right: 8px;
