@@ -8,6 +8,8 @@ import {
     CUSTOMER_ACCESS_TOKEN,
     GLOBAL_ACCESS_TOKEN,
     ANONYMOUS_USER,
+    PRODUCT_SEARCH_URL,
+    SESSION_ID,
 } from "../../lib/constants";
 import { setWebMNLApiSuccess } from "../../mobile-number-login/store/mobile-number-login.actions";
 import { showSecondaryLoader, hideSecondaryLoader } from "../../general/secondaryLoader.actions";
@@ -279,13 +281,19 @@ export function getProductListings(
             if (isBrowser) {
                 dispatch(setLastPlpPath(""));
             }
-            let queryString = `${PRODUCT_LISTINGS_PATH}/?searchText=${encodedString}&isKeywordRedirect=${isRedirect}&isKeywordRedirectEnabled=true&channel=WEB&isMDE=true`;
+            let isDynamicProductUrl = true;
+            let productSearchUrl = localStorage.getItem(PRODUCT_SEARCH_URL);
+            if (!productSearchUrl) {
+                isDynamicProductUrl = false;
+                productSearchUrl = `${PRODUCT_LISTINGS_PATH}`;
+            }
+            let queryString = `${productSearchUrl}?searchText=${encodedString}&isKeywordRedirect=${isRedirect}&isKeywordRedirectEnabled=true&channel=WEB&isMDE=true`;
             if (suffix) {
                 queryString = `${queryString}${suffix}`;
             }
             queryString = `${queryString}&page=${pageNumber}`;
             queryString = `${queryString}${PRODUCT_LISTINGS_SUFFIX}`;
-            const result = await api.getMiddlewareUrl(queryString);
+            const result = await api.getMiddlewareUrl(queryString, isDynamicProductUrl);
             const resultJson = await result.json();
             if (resultJson && resultJson.currentQuery && isBrowser) {
                 if (resultJson.currentQuery.isKeywordRedirect && resultJson.currentQuery.pageRedirectType) {
@@ -720,6 +728,42 @@ export function getDefaultPlpView() {
             return dispatch(getDefaultPlpViewSuccess(resultJson));
         } catch (e) {
             dispatch(getDefaultPlpViewFailure(e.message));
+        }
+    };
+}
+
+export function searchABVersion() {
+    return async (dispatch, getState, { api }) => {
+        try {
+            let searchCookieValue = "";
+            const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+            let customerId = "";
+            if (userDetails) {
+                customerId = JSON.parse(userDetails).customerId;
+            }
+            if (customerId) {
+                searchCookieValue = customerId;
+            } else {
+                searchCookieValue = Cookie.getCookie(SESSION_ID);
+            }
+            const result = await api.get(`v2/mpl/products/searchab/?sessionUID=${searchCookieValue}&channel=web`);
+            const resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+            if (resultJsonStatus.status) {
+                throw new Error(resultJsonStatus.message);
+            }
+            if (window && window.digitalData) {
+                Object.assign(window.digitalData, {
+                    search: {
+                        version: resultJson?.testVersion,
+                    },
+                });
+            }
+            localStorage.setItem("testVersion", resultJson?.testVersion);
+            localStorage.setItem(PRODUCT_SEARCH_URL, resultJson?.webApiURL || "");
+        } catch (e) {
+            throw new Error(`${e.message}`);
         }
     };
 }

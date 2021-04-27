@@ -1,12 +1,12 @@
 .labelText {
-	font-size: 14px;
-	color: #6c6c6c;
-	font-family: light;
-	width: 150px;
-	text-align: center;
+    font-size: 14px;
+    color: #6c6c6c;
+    font-family: light;
+    width: 150px;
+    text-align: center;
 }
 
 .ratingLabel {
-	margin: 0 6px;
-	font-family: regular;
+    margin: 0 6px;
+    font-family: regular;
 }

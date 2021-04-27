@@ -6,6 +6,7 @@ import { showFilter, hideFilter, userSelectedOutOfStock, isMPLWebMNLLogin } from
 import { showModal, DESKTOP_AUTH, showMobileNumberLoginModal } from "../../general/modal.actions.js";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
 import { getHeader } from "../../clp/actions/clp.actions";
+import { searchABVersion } from "../../plp/actions/plp.actions.js";
 import { getWishListItems, getWishlist } from "../../wishlist/actions/wishlist.actions";
 const mapDispatchToProps = dispatch => {
     return {
@@ -35,6 +36,9 @@ const mapDispatchToProps = dispatch => {
         },
         getWishlist: () => {
             dispatch(getWishlist());
+        },
+        searchABVersion: () => {
+            dispatch(searchABVersion());
         },
         openMobileNumberLoginModal: () => {
             dispatch(showMobileNumberLoginModal());

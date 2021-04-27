@@ -147,8 +147,12 @@ export default class ProductReviewPage extends Component {
         if (this.props.match.path === WRITE_REVIEWS_WITH_SLUG || this.props.match.path === WRITE_REVIEWS) {
             if (!userDetails || !customerCookie) {
                 const url = this.props.location.pathname;
-                this.props.setUrlToRedirectToAfterAuth(url);
-                this.props.showAuthPopUp();
+                if (this.props.isMNLLogin.value) {
+                    this.props.openMobileNumberLoginModal();
+                } else {
+                    this.props.setUrlToRedirectToAfterAuth(url);
+                    this.props.showAuthPopUp();
+                }
             } else {
                 this.setState({ visible: true });
             }
@@ -863,4 +867,6 @@ ProductReviewPage.propTypes = {
     getParametersEligibleToRate: PropTypes.func,
     getReviewsOnProductPage: PropTypes.func,
     reviewsOnProductPageDetails: PropTypes.object,
+    isMNLLogin: PropTypes.object,
+    openMobileNumberLoginModal: PropTypes.func,
 };
