@@ -453,6 +453,7 @@ export const BUY_NOW_ERROR_MESSAGE = "Something Went wrong.Please try again";
 export const BANK_OFFER_COMPONENT_NAME_HC = "bankOfferComponent";
 export const MULTIPLE_BANNER_COMPONENT_NAME_HC = "multipleBannerComponent";
 export const QUICK_LINKS_COMPONENT_NAME_HC = "quickLinksComponent";
+export const LUXE_HERO_BANNER_CAROUSEL = "luxeHeroBannerCarousel";
 export const HARD_CODED_KEY_FOR_COMPONENT = "singleBannerComponent";
 export const IS_COMING_FOR_REVIEW_PAGE = "isComingForProductReview";
 

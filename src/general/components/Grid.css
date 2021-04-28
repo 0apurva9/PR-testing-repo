@@ -1,24 +1,24 @@
 .base {
-  width: 100%;
-  height: auto;
-  overflow: hidden;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
 }
 .gridHolder {
-  width: 100%;
-  height: auto;
+    width: 100%;
+    height: auto;
 }
 .element {
-  display: inline-block;
-  vertical-align: top;
+    display: inline-block;
+    vertical-align: top;
 }
 
 .displayFlex {
-  display: flex;
+    display: flex;
 }
 .displayInline {
-  display: inline;
+    display: inline;
 }
 
 .electronicViewElement {
-  display: inline;
+    display: inline;
 }
