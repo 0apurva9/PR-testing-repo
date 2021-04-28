@@ -57,7 +57,7 @@ export default class RatingsAndReviewsComponent extends React.Component {
                         </div>
                     </div>
                 )}
-                {averageRating && this.props.isPdp && (
+                {!averageRating && this.props.isPdp && (
                     <DesktopOnly>
                         <div className={styles["no-rating-text"]} onClick={() => this.handleRatingLink()}>
                             {NO_REVIEW_TEXT}
