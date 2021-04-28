@@ -352,8 +352,8 @@ const mapDispatchToProps = dispatch => {
         openMobileNumberLoginModal: () => {
             dispatch(showMobileNumberLoginModal());
         },
-        getProductReviews: (productCode, pageIndex, orderBy, sortBy, filteredProducts) => {
-            dispatch(getProductReviews(productCode, pageIndex, orderBy, sortBy, filteredProducts));
+        getProductReviews: (productCode, pageIndex, orderBy, sortBy, filteredProducts, pageSize) => {
+            dispatch(getProductReviews(productCode, pageIndex, orderBy, sortBy, filteredProducts, pageSize));
         },
     };
 };
