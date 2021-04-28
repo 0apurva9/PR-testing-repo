@@ -265,16 +265,16 @@ export default class PdpApparel extends React.Component {
             this.props.getAppliancesExchangeDetails();
             this.setState({ isACCategory: isACCategory });
         }
-        window.addEventListener("scroll", this.handleScroll);
+        window.addEventListener("scroll", this.handleComponentPreload);
     };
 
-    handleScroll = () => {
+    handleComponentPreload = () => {
         RatingReviewHeaderComponent.preload();
         ProductReviewListContainer.preload();
     };
 
     componentWillUnmount() {
-        window.removeEventListener("scroll", this.handleScroll);
+        window.removeEventListener("scroll", this.handleComponentPreload);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -939,6 +939,8 @@ export default class PdpApparel extends React.Component {
 
     ScrollIntoView() {
         if (this.reviewListRef.current) {
+            this.handleComponentPreload();
+
             let headerOffset = 45,
                 elementPosition = this.reviewListRef.current.getBoundingClientRect().top,
                 offsetPosition = elementPosition - headerOffset;
