@@ -16,6 +16,7 @@ import {
     REVIEW_GUIDLINE_MODAL,
     RATING_AND_REVIEW_MODAL,
     RATING_REVIEW_MODAL_V2,
+    showMobileNumberLoginModal,
 } from "../../general/modal.actions.js";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions";
 
@@ -66,6 +67,9 @@ const mapDispatchToProps = dispatch => {
         getReviewsOnProductPage: productCode => {
             dispatch(getReviewsOnProductPage(productCode));
         },
+        openMobileNumberLoginModal: () => {
+            dispatch(showMobileNumberLoginModal());
+        },
     };
 };
 
@@ -77,6 +81,7 @@ const mapStateToProps = state => {
         loadingForAddProduct: state.productDescription.loadingForAddProduct,
         loading: state.productDescription.loading,
         reviewsOnProductPageDetails: state.productDescription.getReviewsOnProductPageDetails,
+        isMNLLogin: state.mobileNumberLogin.isMNLLogin,
     };
 };
 

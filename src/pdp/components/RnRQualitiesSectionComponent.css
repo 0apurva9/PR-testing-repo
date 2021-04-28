@@ -7,7 +7,7 @@
 }
 
 .ratingDetailsContainer {
-	display: block;
+    display: block;
     width: 331px;
     margin: 19px auto 0 70px;
     height: 330px;
@@ -30,7 +30,7 @@
     justify-content: center;
     align-items: center;
     font-size: 12px;
-    font-family: 'light';
+    font-family: "light";
     color: #8d8d8d;
     border-right: 0.5px solid #ffffff;
     cursor: pointer;
@@ -48,42 +48,42 @@
 
 .ratingStatusLow1 {
     background-color: #ffefbd;
-	color: #ffefbd;
-	border-top-left-radius: 4px;
+    color: #ffefbd;
+    border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
 }
 
 .ratingStatusLow2 {
     background-color: #ffe692;
-	color: #ffe692;
+    color: #ffe692;
 }
 
 .ratingStatusHigh1 {
     background-color: #b4e59b;
-	color: #b4e59b;
-	border-top-left-radius: 4px;
+    color: #b4e59b;
+    border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
 }
 
 .ratingStatusHigh2 {
     background-color: #94d175;
-	color: #94d175;
+    color: #94d175;
 }
 
 .ratingStatusHigh3 {
     background-color: #7cb95c;
-	color: #7cb95c;
+    color: #7cb95c;
 }
 
 .ratingStatusHigh4 {
     background-color: #519f29;
-	color: #519f29;
+    color: #519f29;
 }
 
 .ratingStatusHigh5 {
     background-color: #338715;
-	color: #338715;
-	border-top-right-radius: 4px;
+    color: #338715;
+    border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
 }
 
