@@ -7,6 +7,7 @@ import {
     WEB_MNL_LOGIN_SUCCESS,
     WEB_MNL_EMAIL_HIDDEN_SUCCESS,
     SET_FORGET_PASSWORD,
+    SET_PASSWORD_ERROR_MSG,
 } from "./mobile-number-login.actions";
 import { PLAT_FORM_NUMBER } from "../../lib/constants";
 import { MobileNumberLoginReduxState } from "../mobile-number-login.types";
@@ -55,6 +56,7 @@ const initailState: MobileNumberLoginReduxState = {
         value: false,
     },
     isForgetPasswordValue: false,
+    passwordErrorMsg: "",
 };
 
 export function mobileNumberLoginReducer(
@@ -98,6 +100,11 @@ export function mobileNumberLoginReducer(
             return {
                 ...state,
                 isForgetPasswordValue: action.payload,
+            };
+        case SET_PASSWORD_ERROR_MSG:
+            return {
+                ...state,
+                passwordErrorMsg: action.payload,
             };
         default:
             return state;
