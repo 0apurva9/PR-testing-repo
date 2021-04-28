@@ -607,6 +607,7 @@ export const ADOBE_RATING_REVIEW_MODAL_QUALITY_SECTION = "ADOBE_RATING_REVIEW_MO
 export const ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT = "ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT";
 export const ADOBE_RATING_REVIEW_MODAL_REVIEW_SECTION = "ADOBE_RATING_REVIEW_MODAL_REVIEW_SECTION";
 export const ADOBE_RATING_REVIEW_MODAL_REVIEW_SUBMIT = "ADOBE_RATING_REVIEW_MODAL_REVIEW_SUBMIT";
+export const ADOBE_RATING_REVIEW_MODAL_MY_ACCOUNT = "ADOBE_RATING_REVIEW_MODAL_MY_ACCOUNT";
 const ADOBE_RATING_REVIEW_GENERIK_CLICK = "genericClick";
 const ADOBE_RATING_REVIEW_GENERIK_VP = "generic-vp";
 
@@ -4808,5 +4809,14 @@ export function setDataLayerForRatingReviewSection(type, data) {
         if (window._satellite) {
             window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_CLICK);
         }
+    }
+
+    if (type === ADOBE_RATING_REVIEW_MODAL_MY_ACCOUNT) {
+        Object.assign(previousDigitalData.cpj, {
+            product: {
+                id: data.productId,
+            },
+        });
+        window.digitalData = previousDigitalData;
     }
 }
