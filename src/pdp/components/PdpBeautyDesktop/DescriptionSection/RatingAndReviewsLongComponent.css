@@ -1,34 +1,34 @@
 .container {
-	width: 100%;
-	display: inline-block;
-	max-width: 1200px;
-	text-align: left;
-	position: relative;
-	margin-bottom: 50px;
-	/**margin: 50px auto;
+    width: 100%;
+    display: inline-block;
+    max-width: 1200px;
+    text-align: left;
+    position: relative;
+    margin-bottom: 50px;
+    /**margin: 50px auto;
 	background-color: grey;**/
 }
 
 .ratingReviewComponent {
-	border: 1px solid rgb(213, 213, 213);
-	border-radius: 4px;
-	padding: 52px 75px 52px;
-	-webkit-border-radius: 4px;
+    border: 1px solid rgb(213, 213, 213);
+    border-radius: 4px;
+    padding: 52px 75px 52px;
+    -webkit-border-radius: 4px;
 }
 
 .detailsCard {
-	width: 100%;
-	background: #fff;
-	padding: 20px 40px;
-	border-radius: 4px;
+    width: 100%;
+    background: #fff;
+    padding: 20px 40px;
+    border-radius: 4px;
 }
 
 .detailsCard:empty {
-	display: none;
+    display: none;
 }
 
 .reviewsHolder {
-	composes: detailsCard;
-	margin-top: 60px;
-	padding-top: 40px;
+    composes: detailsCard;
+    margin-top: 60px;
+    padding-top: 40px;
 }

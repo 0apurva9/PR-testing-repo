@@ -26,19 +26,25 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch(setSearchString(search));
             dispatch(setPage(page));
             let isRedirect = false;
-            let suffixWithQc = suffix;
+            let searchSuffixes = suffix;
+            const testVersion = localStorage.getItem("testVersion");
+            const parsedTestVersion = parsedQueryString.test;
+
             if (parsedQueryString.qc && parsedQueryString.qc !== "false") {
-                suffixWithQc = `${suffixWithQc}&qc=true`;
+                searchSuffixes = `${searchSuffixes}&qc=true`;
             } else {
-                suffixWithQc = `${suffixWithQc}&qc=false`;
+                searchSuffixes = `${searchSuffixes}&qc=false`;
             }
-            if (parsedQueryString.test) {
-                suffixWithQc = `${suffixWithQc}&test=${parsedQueryString.test}`;
+
+            if (parsedTestVersion) {
+                searchSuffixes = `${searchSuffixes}&test=${parsedTestVersion}`;
+            } else if (testVersion) {
+                searchSuffixes = `${searchSuffixes}&test=${testVersion}`;
             }
             if (search.indexOf("category") !== -1) {
                 isRedirect = true;
             }
-            dispatch(getProductListings(suffixWithQc, false, isFilter, componentName, false, false, isRedirect));
+            dispatch(getProductListings(searchSuffixes, false, isFilter, componentName, false, false, isRedirect));
         },
         getPlpBanners: categoryId => dispatch(getPlpBanners(categoryId)),
         paginate: (page, suffix) => {
