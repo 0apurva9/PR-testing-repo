@@ -1,93 +1,177 @@
 .base {
-  width: 100%;
-  height: auto;
+    width: 100%;
+    height: auto;
 }
 .holder {
-  width: 100%;
-  transition: 300ms;
-  position: relative;
-  padding-right: 30px;
+    width: 100%;
+    transition: 300ms;
+    position: relative;
+    padding-right: 40px;
 }
 .textBox {
-  height: auto;
-  color: #212121;
-  font-size: 14px;
-  line-height: 50px;
-  font-family: regular;
-  text-align: left;
-  transition: 300ms;
-  user-select: none;
+    height: auto;
+    color: #212121;
+    font-size: 14px;
+    line-height: 50px;
+    font-family: regular;
+    text-align: left;
+    transition: 300ms;
+    user-select: none;
+}
+.filtHeadLine {
+    line-height: 1;
+    height: auto;
+    color: #212121;
+    font-size: 14px;
+    font-family: semibold;
+    margin: 16px 0 16px;
+    text-align: left;
+    transition: all ease-in 0.2s;
+    user-select: none;
+    display: inline-block;
+    width: 100%;
 }
 .textBoxActive {
-  composes: textBox;
-  font-family: semibold;
+    composes: textBox;
+    font-family: semibold;
 }
 .text {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
 }
 .icon {
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
-  background-image: url("./img/arrow.svg");
-  position: absolute;
-  background-size: auto 14px;
-  background-repeat: no-repeat;
-  right: 10px;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  background-position: center;
-  transition: 300ms;
-  transform: rotate(-90deg);
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    background-image: url("./img/arrow.svg");
+    position: absolute;
+    background-size: auto 14px;
+    background-repeat: no-repeat;
+    right: 10px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    background-position: center;
+    transition: 300ms;
+    transform: rotate(-90deg);
+}
+.filterAccHolder {
+    width: 100%;
+    transition: all ease-in 0.2s;
+    position: relative;
+    padding-right: 40px;
+}
+.iconPlus {
+    width: 20px;
+    height: 20px;
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    transition: all ease-in 0.2s;
+    cursor: pointer;
+}
+.iconPlus:after {
+    content: "";
+    width: 11px;
+    height: 1px;
+    display: block;
+    background-color: #c5c5c5;
+    position: absolute;
+    right: 5px;
+    top: 10px;
+}
+.iconPlus:before {
+    content: "";
+    width: 1px;
+    height: 11px;
+    display: block;
+    background-color: #c5c5c5;
+    transform: rotate(0);
+    position: absolute;
+    right: 10px;
+    top: 5px;
+}
+.iconMinus {
+    width: 20px;
+    height: 20px;
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    transition: all ease-in 0.2s;
+    cursor: pointer;
+}
+.iconMinus:after {
+    content: "";
+    width: 11px;
+    height: 1px;
+    display: block;
+    background-color: #c5c5c5;
+    position: absolute;
+    right: 5px;
+    top: 10px;
+}
+.headText {
+    font-size: 14px;
+    font-family: semibold;
+    color: #212121;
+    display: inline-block;
+    width: 100%;
+    margin: 0;
+    vertical-align: top;
+    text-align: left;
 }
 .iconup {
-  composes: icon;
-  transform: rotate(90deg);
+    composes: icon;
+    transform: rotate(90deg);
 }
 .faqQuestion {
-  width: 100%;
-  height: auto;
-  padding: 15px 30px 15px 15px;
-  line-height: normal;
-  font-size: 13px;
+    width: 100%;
+    height: auto;
+    padding: 15px 30px 15px 15px;
+    line-height: normal;
+    font-size: 13px;
 }
 .text1 {
-  display: inline-block;
-  vertical-align: top;
-  text-align: left;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    display: inline-block;
+    vertical-align: top;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .text2 {
-  display: inline-block;
-  vertical-align: top;
+    display: inline-block;
+    vertical-align: top;
 }
 @media screen and (min-width: 1025px) {
-  .textBox {
-    font-family: light;
-    cursor: pointer;
-  }
-  .textBoxActive {
-    font-family: semibold;
-  }
-  .textBoxActive .text1 {
-    line-height: 30px;
-    padding: 10px 0;
-    white-space: normal;
-    overflow: visible;
-    text-overflow: unset;
-  }
-  .faqQuestion {
-    font-size: 14px;
-  }
-  .holder {
-    padding-right: 40px;
-  }
+    .textBox {
+        font-family: light;
+        cursor: pointer;
+    }
+    .textBoxActive {
+        font-family: semibold;
+    }
+    .textBoxActive .text1 {
+        line-height: 30px;
+        padding: 10px 0;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: unset;
+    }
+    .faqQuestion {
+        font-size: 14px;
+    }
+    .holder {
+        padding-right: 40px;
+    }
 }

@@ -692,6 +692,7 @@ export function getDefaultPlpViewRequest() {
         status: REQUESTING,
     };
 }
+
 export function getDefaultPlpViewSuccess(data) {
     return {
         type: GET_DEFAULT_PLP_VIEW_SUCCESS,
