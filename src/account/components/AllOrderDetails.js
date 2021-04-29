@@ -428,8 +428,8 @@ export default class AllOrderDetails extends React.Component {
         });
     }
 
-    submitRating = (rating, productCode, section) => {
-        this.props.openRatingReviewModal({ productCode, rating, section, pageName: "Order History" });
+    submitRating = (rating, productCode, section, pageName) => {
+        this.props.openRatingReviewModal({ productCode, rating, section, pageName });
         if (section === 3) {
             this.props.getTitleSuggestions(productCode, rating);
         }
@@ -576,7 +576,7 @@ export default class AllOrderDetails extends React.Component {
                                             getPublishedReviews={this.props.getPublishedReviews}
                                             publishedReviewsDetails={this.props.publishedReviewsDetails}
                                             submitRating={(rating, productCode, section) =>
-                                                this.submitRating(rating, productCode, section)
+                                                this.submitRating(rating, productCode, section, "Pending Reviews")
                                             }
                                             editRatingReview={(productcode, rating) =>
                                                 this.editRatingReview(productcode, rating)
@@ -828,7 +828,8 @@ export default class AllOrderDetails extends React.Component {
                                                                                                       this.submitRating(
                                                                                                           rating,
                                                                                                           product.productcode,
-                                                                                                          1
+                                                                                                          1,
+                                                                                                          "Order History"
                                                                                                       )
                                                                                                   }
                                                                                               />
@@ -858,7 +859,8 @@ export default class AllOrderDetails extends React.Component {
                                                                                                               this.submitRating(
                                                                                                                   product.userRating,
                                                                                                                   product.productcode,
-                                                                                                                  2
+                                                                                                                  2,
+                                                                                                                  "Order History"
                                                                                                               )
                                                                                                           }
                                                                                                       >
@@ -879,7 +881,8 @@ export default class AllOrderDetails extends React.Component {
                                                                                                               this.submitRating(
                                                                                                                   product.userRating,
                                                                                                                   product.productcode,
-                                                                                                                  3
+                                                                                                                  3,
+                                                                                                                  "Order History"
                                                                                                               )
                                                                                                           }
                                                                                                       >
