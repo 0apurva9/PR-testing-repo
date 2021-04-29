@@ -1417,15 +1417,7 @@ export function getProductReviewsFailure(error) {
     };
 }
 
-export function getProductReviews(productCode, pageIndex, orderBy, sortBy, filteredProducts) {
-    let userDetails = getLoggedInUserDetails();
-    let accessToken = getGlobalAccessToken();
-    let userName = ANONYMOUS_USER;
-    if (userDetails) {
-        userName = userDetails.userName;
-        accessToken = getCustomerAccessToken();
-    }
-
+export function getProductReviews(productCode, pageIndex, orderBy, sortBy, filteredProducts, pageSize) {
     return async (dispatch, getState, { api }) => {
         dispatch(getProductReviewsRequest());
         try {
@@ -1434,7 +1426,9 @@ export function getProductReviews(productCode, pageIndex, orderBy, sortBy, filte
                 extraParam = `&productCodes=${filteredProducts.toUpperCase()}`;
             }
             const result = await api.get(
-                `v2/mpl/reviews/${productCode.toUpperCase()}/users/${userName}/reviews_V1?access_token=${accessToken}&page=${pageIndex}&pageSize=${PAGE_NUMBER}&orderBy=${orderBy}&sort=${sortBy}${extraParam}`
+                `v2/mpl/reviews/${productCode.toUpperCase()}/reviews_V2?&page=${pageIndex}&pageSize=${
+                    pageSize ? pageSize : PAGE_NUMBER
+                }&orderBy=${orderBy}&sort=${sortBy}${extraParam}`
             );
             const resultJson = await result.json();
             const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
