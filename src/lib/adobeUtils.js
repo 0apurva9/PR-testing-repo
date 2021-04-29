@@ -607,6 +607,7 @@ export const ADOBE_RATING_REVIEW_MODAL_QUALITY_SECTION = "ADOBE_RATING_REVIEW_MO
 export const ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT = "ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT";
 export const ADOBE_RATING_REVIEW_MODAL_REVIEW_SECTION = "ADOBE_RATING_REVIEW_MODAL_REVIEW_SECTION";
 export const ADOBE_RATING_REVIEW_MODAL_REVIEW_SUBMIT = "ADOBE_RATING_REVIEW_MODAL_REVIEW_SUBMIT";
+export const ADOBE_RATING_REVIEW_MODAL_MY_ACCOUNT = "ADOBE_RATING_REVIEW_MODAL_MY_ACCOUNT";
 const ADOBE_RATING_REVIEW_GENERIK_CLICK = "genericClick";
 const ADOBE_RATING_REVIEW_GENERIK_VP = "generic-vp";
 
@@ -799,6 +800,28 @@ export async function setDataLayer(type, apiResponse, icid, icidType, behaviorOf
         window.digitalData = Object.assign(window.digitalData, newVariable);
         if (window._satellite) {
             window._satellite.track(ADOBE_INTERNAL_SEARCH_NULL);
+        }
+    }
+
+    if (type !== ADOBE_PDP_TYPE) {
+        const pdpRegex = new RegExp(constants.PRODUCT_DESCRIPTION_PRODUCT_CODE);
+        const reviewListPageRegex = new RegExp(constants.PRODUCT_DESCRIPTION_REVIEWS);
+        const writeReviewPageRegex = new RegExp(constants.WRITE_REVIEWS);
+        let currentPath = window.location.pathname;
+        let isRatingReviewRelatedPage = false;
+        if (
+            pdpRegex.test(currentPath) ||
+            reviewListPageRegex.test(currentPath) ||
+            writeReviewPageRegex.test(currentPath)
+        ) {
+            isRatingReviewRelatedPage = true;
+        }
+        if (!isRatingReviewRelatedPage) {
+            let previousDigitalData = { ...window.digitalData };
+            if (previousDigitalData.rating) {
+                delete previousDigitalData.rating;
+                window.digitalData = previousDigitalData;
+            }
         }
     }
 
@@ -4786,5 +4809,14 @@ export function setDataLayerForRatingReviewSection(type, data) {
         if (window._satellite) {
             window._satellite.track(ADOBE_RATING_REVIEW_GENERIK_CLICK);
         }
+    }
+
+    if (type === ADOBE_RATING_REVIEW_MODAL_MY_ACCOUNT) {
+        Object.assign(previousDigitalData.cpj, {
+            product: {
+                id: data.productId,
+            },
+        });
+        window.digitalData = previousDigitalData;
     }
 }

@@ -19,6 +19,7 @@ import {
     ADOBE_RATING_REVIEW_MODAL_RATING_SUBMIT,
     ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT,
     ADOBE_RATING_REVIEW_MODAL_REVIEW_SUBMIT,
+    ADOBE_RATING_REVIEW_MODAL_MY_ACCOUNT,
 } from "../../lib/adobeUtils";
 
 const success = "success";
@@ -43,9 +44,11 @@ export default class RatingAndReviewModalV2 extends Component {
     }
 
     componentDidMount() {
-        let callgetUserProductReviewAPI = true;
-        if (this.props.pageName === "productReview") {
-            callgetUserProductReviewAPI = false;
+        let callgetUserProductReviewAPI = false;
+        if (this.props.pageName !== "productReview") {
+            callgetUserProductReviewAPI = true;
+            let data = { productId: this.props.productCode };
+            setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_MY_ACCOUNT, data);
         }
         this.props.getParametersEligibleToRate(this.props.productCode, callgetUserProductReviewAPI);
     }

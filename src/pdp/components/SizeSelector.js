@@ -139,7 +139,7 @@ export default class SizeSelector extends React.Component {
                 (this.props.numberOfReviews !== 0 || this.props.numberOfReviews !== "0") &&
                 this.props.displayRatingReview
             ) {
-                this.props.getProductReviews(productCode, 0, "desc", "byDate");
+                this.props.getProductReviews(productCode, 0, "desc", "byDate", null, 5);
             }
         }
         if (this.props.closeModal) {
