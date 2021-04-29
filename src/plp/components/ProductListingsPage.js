@@ -241,10 +241,23 @@ class ProductListingsPage extends Component {
 
         const categoryOrBrandLandingPageUrl = `${this.props.location.pathname}${this.props.location.search}`;
         const plpSearchUrl = localStorage.getItem(LANDING_SEARCH_URL);
+        const existingCategoryOrBrandLandingPageUrl = localStorage.getItem(CATEGORY_BRAND_LANDING_URL);
         if (this.props.location && this.props.location.state && this.props.location.state.categoryOrBrand) {
             localStorage.setItem(CATEGORY_BRAND_LANDING_URL, categoryOrBrandLandingPageUrl);
             if (plpSearchUrl) {
                 localStorage.removeItem(LANDING_SEARCH_URL);
+            }
+        } else {
+            if (
+                existingCategoryOrBrandLandingPageUrl &&
+                this.props.location &&
+                this.props.location.state &&
+                this.props.location.state.categoryLevel
+            ) {
+                // need not handle
+            } else {
+                localStorage.removeItem(CATEGORY_BRAND_LANDING_URL, categoryOrBrandLandingPageUrl);
+                localStorage.setItem(CATEGORY_BRAND_LANDING_URL, categoryOrBrandLandingPageUrl);
             }
         }
 

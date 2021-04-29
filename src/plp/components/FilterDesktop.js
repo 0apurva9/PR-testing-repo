@@ -171,6 +171,7 @@ export default class FilterDesktop extends React.Component {
         this.props.history.push(url, {
             isFilter,
             componentName: "isFilterTrue",
+            categoryLevel: "true",
         });
         if (isFilter === false) {
             this.props.onL3CategorySelect();
