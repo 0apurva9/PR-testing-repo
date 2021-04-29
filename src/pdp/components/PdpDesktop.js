@@ -1447,6 +1447,10 @@ export default class PdpApparel extends React.Component {
                                                                         this.props.getProductDescription
                                                                     }
                                                                     getProductReviews={this.props.getProductReviews}
+                                                                    displayRatingReview={
+                                                                        productData.displayRatingReview
+                                                                    }
+                                                                    numberOfReviews={productData.numberOfReviews}
                                                                 />
                                                             </div>
                                                         )}
