@@ -111,7 +111,7 @@ export async function get(url, channel) {
 }
 
 export async function coreGetMiddlewareUrl(url, isRemoveURLRoot = false) {
-    if(isRemoveURLRoot) {
+    if (isRemoveURLRoot) {
         return await fetch(`${url}`, {
             headers: {
                 Authorization: "Basic " + btoa("gauravj@dewsolutions.in:gauravj@12#"),

@@ -10,7 +10,7 @@ import {
 } from "../../auth/actions/user.actions.js";
 import * as ErrorHandling from "../../general/ErrorHandling.js";
 import { displayToast } from "../../general/toast.actions.js";
-import { showMobileNumberLoginModal } from "../../general/modal.actions";
+import { showMobileNumberLoginModal, hideMobileNumberLoginModal } from "../../general/modal.actions";
 import { getUserDetails, logoutUserByMobileNumber } from "../../account/actions/account.actions";
 import { loginUser } from "../../auth/actions/user.actions";
 import { CUSTOMER_ACCESS_TOKEN, LOGGED_IN_USER_DETAILS, GLOBAL_ACCESS_TOKEN_REFRESH_CODE } from "../../lib/constants";
@@ -23,6 +23,7 @@ export const SET_RESEND_OTP_TIME = "SetResendOtpTimmer";
 export const WEB_MNL_LOGIN_SUCCESS = "WebMNLLoginSuccess";
 export const WEB_MNL_EMAIL_HIDDEN_SUCCESS = "WebMNLEmailHiddenSuccess";
 export const SET_FORGET_PASSWORD = "SetForgotPassword";
+export const SET_PASSWORD_ERROR_MSG = "SetPasswordErrorMsg";
 
 interface ChangeLoginStepAction {
     readonly type: typeof CHANGE_LOGIN_STEP;
@@ -58,6 +59,11 @@ interface SetWebMNLEmailHiddenSuccess {
 interface SetForgetPassword {
     readonly type: typeof SET_FORGET_PASSWORD;
     readonly payload: boolean;
+}
+
+interface SetPasswordErrorMsg {
+    readonly type: typeof SET_PASSWORD_ERROR_MSG;
+    readonly payload: string;
 }
 
 export function setLoginCustomerData(mnlApiResponse: MnlApiResponse) {
@@ -144,6 +150,13 @@ export function setForgetPassword(isForgetPasswordValue: boolean): MobileNumberL
     };
 }
 
+export function setPasswordErrorMsg(passwordErrorMsg: string): MobileNumberLoginActions {
+    return {
+        type: SET_PASSWORD_ERROR_MSG,
+        payload: passwordErrorMsg,
+    };
+}
+
 async function getFetchGlobalAccessToken(dispatch: Function) {
     let globalAccessTokenCookie = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
     if (!globalAccessTokenCookie) {
@@ -169,6 +182,7 @@ export function validateMnlChallenge() {
         });
         const mnlApiResponse: MnlApiResponse = await result.json();
         const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
+        await dispatch(setPasswordErrorMsg(""));
         if (errorStatus.status) {
             if (mnlApiResponse.statusCode === GLOBAL_ACCESS_TOKEN_REFRESH_CODE) {
                 await Cookie.deleteCookie(GLOBAL_ACCESS_TOKEN);
@@ -577,6 +591,7 @@ export function updatePassword() {
         });
         const mnlApiResponse: MnlApiResponse = await result.json();
         const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
+        await dispatch(setPasswordErrorMsg(""));
         if (errorStatus.status) {
             dispatch(hideSecondaryLoader());
             if (errorStatus.message) {
@@ -584,6 +599,15 @@ export function updatePassword() {
             }
             return;
         }
+
+        if (mnlApiResponse.statusCode === 5005) {
+            dispatch(hideSecondaryLoader());
+            if (mnlApiResponse.message) {
+                await dispatch(setPasswordErrorMsg(mnlApiResponse.message));
+            }
+            return;
+        }
+
         dispatch(setMnlApiResponse(mnlApiResponse));
         dispatch(hideSecondaryLoader());
         if (
@@ -661,6 +685,7 @@ export function verifyOtpUpdatePassword() {
         );
         const mnlApiResponse: MnlApiResponse = await result.json();
         const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
+        await dispatch(setPasswordErrorMsg(""));
         if (errorStatus.status) {
             dispatch(hideSecondaryLoader());
             if (errorStatus.message) {
@@ -696,9 +721,20 @@ export function updatePasswordProfile() {
         );
         const mnlApiResponse: MnlApiResponse = await result.json();
         const errorStatus = ErrorHandling.getFailureResponse(mnlApiResponse);
+        await dispatch(setPasswordErrorMsg(""));
         if (errorStatus.status) {
             dispatch(hideSecondaryLoader());
-            if (errorStatus.message) {
+            if (errorStatus.errorcode === "406") {
+                await dispatch(displayToast(errorStatus.message));
+                dispatch(hideMobileNumberLoginModal());
+                // await dispatch(setPasswordErrorMsg(errorStatus.message));
+            } else if (errorStatus.errorcode === "4011") {
+                await dispatch(displayToast(errorStatus.message));
+                dispatch(hideMobileNumberLoginModal());
+            } else if (errorStatus.errorcode === "4009") {
+                await dispatch(displayToast(errorStatus.message));
+                dispatch(hideMobileNumberLoginModal());
+            } else if (errorStatus.message) {
                 await dispatch(displayToast(errorStatus.message));
             }
             return;
@@ -802,4 +838,5 @@ export type MobileNumberLoginActions =
     | SetResendOtpTimmer
     | setWebMNLApiSuccessAction
     | SetWebMNLEmailHiddenSuccess
-    | SetForgetPassword;
+    | SetForgetPassword
+    | SetPasswordErrorMsg;

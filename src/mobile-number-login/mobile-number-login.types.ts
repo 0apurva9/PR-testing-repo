@@ -6,6 +6,7 @@ export interface MobileNumberLoginReduxState {
     isMNLLogin: isMNLLogin;
     isWebMNLEmailHidden: isMNLLogin;
     isForgetPasswordValue: boolean;
+    passwordErrorMsg: string;
 }
 
 export interface MobileNumberLoginSteps {

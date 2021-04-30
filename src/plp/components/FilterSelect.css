@@ -40,6 +40,8 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  font-size: 14px;
+  font-family: regular;
 }
 .contentSelected {
   composes: itemContent;
@@ -92,7 +94,7 @@
 .count {
   font-size: 14px;
   font-family: regular;
-  color: #8d8d8d;
+  color: #c5c5c5;
   transition: 300ms;
 }
 .countSelected {
