@@ -331,28 +331,26 @@ export function homeFeedFailure(error) {
 }
 
 export function homeFeedBackUp() {
-  return async (dispatch, getState, { api }) => {
-    dispatch(homeFeedBackUpRequest());
-    try {
-      const result = await api.get(
-        `v2/mpl/cms/defaultpage?pageId=defaulthomepage&channel=${WCMS_PLATFORM}`
-      );
-      const resultJson = await result.json();
-      if (resultJson && resultJson.pageName) {
-        let pageData = {
-          pageName: resultJson.pageName
-        };
-        setPageNameAndPageType(pageData);
-      }
-      const failureResponse = ErrorHandling.getFailureResponse(resultJson);
-      if (failureResponse.status) {
-        dispatch(new Error(failureResponse.message));
-      }
-      dispatch(homeFeedBackupSuccess(resultJson));
-    } catch (e) {
-      dispatch(homeFeedBackUpFailure(e.message));
-    }
-  };
+    return async (dispatch, getState, { api }) => {
+        dispatch(homeFeedBackUpRequest());
+        try {
+            const result = await api.get(`v2/mpl/cms/defaultpage?pageId=defaulthomepage&channel=${WCMS_PLATFORM}`);
+            const resultJson = await result.json();
+            if (resultJson && resultJson.pageName) {
+                let pageData = {
+                    pageName: resultJson.pageName,
+                };
+                setPageNameAndPageType(pageData);
+            }
+            const failureResponse = ErrorHandling.getFailureResponse(resultJson);
+            if (failureResponse.status) {
+                dispatch(new Error(failureResponse.message));
+            }
+            dispatch(homeFeedBackupSuccess(resultJson));
+        } catch (e) {
+            dispatch(homeFeedBackUpFailure(e.message));
+        }
+    };
 }
 
 export function getTargetMboxDataFailure(error) {
@@ -1007,45 +1005,39 @@ export function autoWishListRequest() {
     };
 }
 export function autoWishlistComponent(productId) {
-  return async (dispatch, getState, { api }) => {
-    try {
-      dispatch(autoWishListRequest());
-    //   let productCodes;
-    //   productCodes = productId;
+    return async (dispatch, getState, { api }) => {
+        try {
+            dispatch(autoWishListRequest());
+            //   let productCodes;
+            //   productCodes = productId;
 
-      let requests =
-        productId &&
-        productId.map(id =>
-          api.getMiddlewareUrl(
-            `v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`
-          )
-        );
-      //requests for individual calls
-      let productList = [];
-      const results = await Promise.allSettled(requests);
-      const successfulPromises = results.filter(
-        request => request.status === "fulfilled"
-      );
-      let productListWithStatus = await Promise.all(
-        successfulPromises
-      ).then(response =>
-        Promise.all(response.map(r => r && r.value && r.value.json()))
-      );
-      productListWithStatus &&
-        productListWithStatus.map(product => {
-          if (product.status === "Success" && product.results) {
-            productList.push(product.results[0]);
-          }
-        });
-      if (Array.isArray(productList) && productList.length > 0) {
-        const viewMore = {
-          productName: "View More"
-        };
-        productList.push(viewMore);
-        dispatch(autoWishListSuccess(productList));
-      }
-    } catch (e) {
-      throw new Error(`${e.message}`);
-    }
-  };
+            let requests =
+                productId &&
+                productId.map(id =>
+                    api.getMiddlewareUrl(`v2/mpl/cms/page/getProductInfo?isPwa=true&productCodes=${id}`)
+                );
+            //requests for individual calls
+            let productList = [];
+            const results = await Promise.allSettled(requests);
+            const successfulPromises = results.filter(request => request.status === "fulfilled");
+            let productListWithStatus = await Promise.all(successfulPromises).then(response =>
+                Promise.all(response.map(r => r && r.value && r.value.json()))
+            );
+            productListWithStatus &&
+                productListWithStatus.map(product => {
+                    if (product.status === "Success" && product.results) {
+                        productList.push(product.results[0]);
+                    }
+                });
+            if (Array.isArray(productList) && productList.length > 0) {
+                const viewMore = {
+                    productName: "View More",
+                };
+                productList.push(viewMore);
+                dispatch(autoWishListSuccess(productList));
+            }
+        } catch (e) {
+            throw new Error(`${e.message}`);
+        }
+    };
 }

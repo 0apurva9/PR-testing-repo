@@ -131,6 +131,7 @@ const mapStateToProps = (state: RootState) => {
         userMobileNumber: (state.profile.userDetails && state.profile.userDetails.mobileNumber) || "",
         isWebMNLEmailHidden: state.mobileNumberLogin.isWebMNLEmailHidden,
         isForgetPasswordValue: state.mobileNumberLogin.isForgetPasswordValue,
+        passwordErrorMsg: state.mobileNumberLogin.passwordErrorMsg,
     };
 };
 const MobileNumberLoginContainer = connect(mapStateToProps, mapDispatchToProps)(withRouter(MobileNumberLogin));

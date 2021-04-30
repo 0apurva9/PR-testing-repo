@@ -320,6 +320,14 @@ const SimpleBannerComponentMonetization = Loadable({
     },
 });
 
+// Commenting this banner as per UPF-3762
+// const LuxeHeroBannerCarousel = Loadable({
+//     loader: () => import("./LuxeHeroBannerCarousel.js"),
+//     loading() {
+//         return <div />;
+//     },
+// });
+
 export const typeComponentMapping = {
     "Product Capsules Component": props => <ProductCapsulesContainer {...props} />,
     "Landing Page Header Component": props => {
@@ -410,6 +418,8 @@ export const typeComponentMapping = {
     plpShortBannerComponent: props => <PlpBannerComponent {...props} />,
     plpBannerComponent_Monetization: props => <PlpBannerComponentMonetization {...props} />,
     plpShortBannerComponent_Monetization: props => <PlpBannerComponentMonetization {...props} />,
+    // Commenting this banner as per UPF-3762
+    // luxeHeroBannerCarousel: props => <LuxeHeroBannerCarousel {...props} />,
 };
 
 class Feed extends Component {
