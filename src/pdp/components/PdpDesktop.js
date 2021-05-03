@@ -265,17 +265,15 @@ export default class PdpApparel extends React.Component {
             this.props.getAppliancesExchangeDetails();
             this.setState({ isACCategory: isACCategory });
         }
-        window.addEventListener("scroll", this.handleComponentPreload);
-    };
 
-    handleComponentPreload = () => {
-        RatingReviewHeaderComponent.preload();
-        ProductReviewListContainer.preload();
+        if (
+            this.props.productDetails.numberOfReviews &&
+            (this.props.productDetails.numberOfReviews !== 0 || this.props.productDetails.numberOfReviews !== "0") &&
+            this.props.productDetails.displayRatingReview
+        ) {
+            this.props.getRatingSummary(this.props.productDetails.productListingId);
+        }
     };
-
-    componentWillUnmount() {
-        window.removeEventListener("scroll", this.handleComponentPreload);
-    }
 
     componentWillReceiveProps(nextProps) {
         const productDetailsForBuyNow = localStorage.getItem(BUY_NOW_PRODUCT_DETAIL);
@@ -939,8 +937,6 @@ export default class PdpApparel extends React.Component {
 
     ScrollIntoView() {
         if (this.reviewListRef.current) {
-            this.handleComponentPreload();
-
             let headerOffset = 45,
                 elementPosition = this.reviewListRef.current.getBoundingClientRect().top,
                 offsetPosition = elementPosition - headerOffset;
@@ -1446,11 +1442,12 @@ export default class PdpApparel extends React.Component {
                                                                     getProductDescription={
                                                                         this.props.getProductDescription
                                                                     }
-                                                                    getProductReviews={this.props.getProductReviews}
                                                                     displayRatingReview={
                                                                         productData.displayRatingReview
                                                                     }
                                                                     numberOfReviews={productData.numberOfReviews}
+                                                                    getRatingSummary={this.props.getRatingSummary}
+                                                                    getPdpReviews={this.props.getPdpReviews}
                                                                 />
                                                             </div>
                                                         )}
@@ -2232,7 +2229,7 @@ export default class PdpApparel extends React.Component {
                                                     <RatingReviewHeaderComponent
                                                         goToReviewPage={() => this.goToReviewPage()}
                                                         productDetails={productData}
-                                                        reviews={this.props.reviews}
+                                                        reviews={this.props.ratingSummaryDetails}
                                                     />
                                                     <ProductReviewListContainer
                                                         limit={true}
@@ -2477,4 +2474,7 @@ PdpApparel.propTypes = {
     tempCartIdForLoggedInUserLoading: PropTypes.bool,
     openBeautyPopup: PropTypes.func,
     getProductReviews: PropTypes.func,
+    getRatingSummary: PropTypes.func,
+    ratingSummaryDetails: PropTypes.object,
+    getPdpReviews: PropTypes.func,
 };

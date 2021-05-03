@@ -32,6 +32,8 @@ import {
     getAppliancesExchangeDetails,
     appliancesExchangeCheckPincode,
     getProductReviews,
+    getRatingSummary,
+    getPdpReviews,
 } from "../actions/pdp.actions";
 import { displayToast } from "../../general/toast.actions.js";
 import { showSecondaryLoader, hideSecondaryLoader } from "../../general/secondaryLoader.actions";
@@ -355,6 +357,12 @@ const mapDispatchToProps = dispatch => {
         getProductReviews: (productCode, pageIndex, orderBy, sortBy, filteredProducts, pageSize) => {
             dispatch(getProductReviews(productCode, pageIndex, orderBy, sortBy, filteredProducts, pageSize));
         },
+        getRatingSummary: productCode => {
+            dispatch(getRatingSummary(productCode));
+        },
+        getPdpReviews: productCode => {
+            dispatch(getPdpReviews(productCode));
+        },
     };
 };
 
@@ -418,6 +426,7 @@ const mapStateToProps = state => {
         isMNLLogin: state.mobileNumberLogin.isMNLLogin,
         isMobileNumberLoginModalActive: state.modal.isMobileNumberLoginModalActive,
         tempCartIdForLoggedInUserLoading: state.cart.tempCartIdForLoggedInUserLoading,
+        ratingSummaryDetails: state.productDescription.getRatingSummaryDetails,
     };
 };
 
