@@ -14,6 +14,7 @@ const mapStateToProps = (state, ownProps) => {
     return {
         ...ownProps,
         reviews: state.productDescription.getPdpReviewsDetails,
+        getPdpReviewsStatus: state.productDescription.getPdpReviewsStatus,
     };
 };
 
