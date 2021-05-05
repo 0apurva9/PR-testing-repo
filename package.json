@@ -4,7 +4,7 @@
   "private": true,
   "sideEffects": true,
   "scripts": {
-    "start": "node config/build.js --env.environment=qa --env.deploy=qa1 --local",
+    "start": "node config/build.js --env.environment=qa --env.deploy=qa6 --local",
     "verify": "node scripts/verify.js",
     "build:PREPROD1": "node config/build.js --env.environment=qa --env.deploy=preprod1",
     "pm2:PREPROD1:start": "node ./scripts/pm2-delete.js tata-cliq-frontend-desktop-preprod1 && pm2 start ecosystem.config.js --only tata-cliq-frontend-desktop-preprod1",
@@ -19,7 +19,7 @@
     "build:QA5": "node config/build.js --env.environment=qa --env.deploy=qa5",
     "pm2:QA5:start": "node ./scripts/pm2-delete.js tata-cliq-frontend-desktop-qa5 && pm2 start ecosystem.config.js --only tata-cliq-frontend-desktop-qa5",
     "build:QA6": "node config/build.js --env.environment=qa --env.deploy=qa6",
-    "pm2:QA6:start": "node ./scripts/pm2-delete.js tata-cliq-frontend-desktop-qa1 && pm2 start ecosystem.config.js --only tata-cliq-frontend-desktop-qa1",
+    "pm2:QA6:start": "node ./scripts/pm2-delete.js tata-cliq-frontend-desktop-qa6 && pm2 start ecosystem.config.js --only tata-cliq-frontend-desktop-qa6",
     "build:PT1": "node config/build.js --env.environment=qa --env.deploy=pt1",
     "pm2:PT1:start": "node ./scripts/pm2-delete.js tata-cliq-frontend-desktop-pt1 && pm2 start ecosystem.config.js --only tata-cliq-frontend-desktop-pt1",
     "build:PT2": "node config/build.js --env.environment=qa --env.deploy=pt2",
@@ -165,7 +165,10 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,css,html}": "prettier --write",
-    "*.{js,jsx,ts,tsx}": ["eslint --fix", "git add"]
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "git add"
+    ]
   },
   "browserslist": [
     "since 2017-06"

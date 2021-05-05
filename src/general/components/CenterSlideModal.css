@@ -1,0 +1,42 @@
+.base {
+    width: 100%;
+    height: auto;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    transform: translateY(100%);
+    animation: slideInUp 200ms forwards;
+}
+.base:before {
+    content: "";
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 20px;
+    top: -40px;
+    pointer-events: none;
+    background: url("./img/closeIcon.svg") no-repeat;
+    background-position: center;
+}
+.content {
+    width: 100%;
+    height: auto;
+}
+@keyframes slideInUp {
+    0% {
+        transform: translateY(100%);
+    }
+    100% {
+        transform: translateY(0%);
+    }
+}
+@media only screen and (min-width: 1025px) {
+    .base {
+        width: 480px;
+        left: initial;
+        bottom: initial;
+    }
+    .base:before {
+        display: none;
+    }
+}

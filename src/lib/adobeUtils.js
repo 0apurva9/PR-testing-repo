@@ -3923,6 +3923,7 @@ export function setDataLayerForAutoSuggestSearch(response) {
                 position: response ? response.position : "",
                 category: response ? response.category : "",
             },
+            version: localStorage.getItem("testVersion") ?? "",
         },
     });
     window.digitalData = data;

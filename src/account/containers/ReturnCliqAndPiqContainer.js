@@ -23,7 +23,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             if (addressDetails.emailId) {
                 let userDetails = {};
                 userDetails.emailId = addressDetails.emailId;
-                dispatch(updateProfile(userDetails)).then((res) => {
+                dispatch(updateProfile(userDetails)).then(res => {
                     if (res.status === SUCCESS || res.status === SUCCESS_CAMEL_CASE) {
                         dispatch(addUserAddress(addressDetails, fromAccount)).then(() => {
                             if (
@@ -42,7 +42,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                     }
                 });
             } else {
-                dispatch(addUserAddress(addressDetails, fromAccount)).then((addAddressResponse) => {
+                dispatch(addUserAddress(addressDetails, fromAccount)).then(addAddressResponse => {
                     if (addAddressResponse.status === SUCCESS) {
                         dispatch(
                             getReturnRequest(
@@ -55,7 +55,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             }
         },
         newReturnInitial: (returnDetails, product) => {
-            dispatch(newReturnInitial(returnDetails, product)).then((res) => {
+            dispatch(newReturnInitial(returnDetails, product)).then(res => {
                 if (res.status === SUCCESS) {
                     dispatch(displayToast(RETURN_SUCCESS_MESSAGE));
                     if (checkUserAgentIsMobile()) {
@@ -70,13 +70,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                 }
             });
         },
-        returnPinCode: (productDetails) => {
+        returnPinCode: productDetails => {
             return dispatch(returnPinCode(productDetails));
         },
-        displayToast: (message) => {
+        displayToast: message => {
             dispatch(displayToast(message));
         },
-        getPinCode: (pinCode) => {
+        getPinCode: pinCode => {
             dispatch(getPinCode(pinCode));
         },
         resetAutoPopulateDataForPinCode: () => {

@@ -1,35 +1,38 @@
 .base {
-  width: 100%;
-  height: auto;
-  border-radius: 4px;
-  padding: 0 15px 15px 15px;
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+    padding: 0 15px 15px 15px;
 }
 .paymentModes {
-  background-color: #fff;
+    background-color: #fff;
 }
 .card {
-  background-color: #fff;
-  padding: 15px;
+    background-color: #fff;
+    padding: 15px;
+}
+.baseLoyaltyCliqCash {
+    padding: 0 0 20px;
 }
 
 @media only screen and (min-width: 1025px) {
-  .base {
-    padding: 0;
-  }
-  .paymentModes {
-    padding: 0 30px;
-    border-radius: 0 0 4px 4px;
-  }
-  .card {
-    padding: 15px 30px;
-    border-radius: 4px 4px 0 0;
-  }
-  .giftCardAccrodian {
-    width: 100%;
-    height: auto;
-    background: #fff;
-    padding: 10px 30px;
-    border-radius: 4px;
-    margin-top: 15px;
-  }
+    .base {
+        padding: 0;
+    }
+    .paymentModes {
+        padding: 0 30px;
+        border-radius: 0 0 4px 4px;
+    }
+    .card {
+        padding: 15px 30px;
+        border-radius: 4px 4px 0 0;
+    }
+    .giftCardAccrodian {
+        width: 100%;
+        height: auto;
+        background: #fff;
+        padding: 10px 30px;
+        border-radius: 4px;
+        margin-top: 15px;
+    }
 }

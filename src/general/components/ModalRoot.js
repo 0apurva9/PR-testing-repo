@@ -22,13 +22,18 @@ import {
 } from "../../lib/constants.js";
 import ItemLevelPopup from "../../cart/components/ItemLevelPopup.js";
 import TermsAndConditionsModal from "../../cart/components/TermsAndConditionsModal.js";
+import CommonTncModal from "../../cart/components/CommonTncModal.js";
 import GoToCartPopUp from "../../pdp/components/GoToCartPopUp";
 import { LOGIN_PATH } from "../../lib/constants";
 import * as UserAgent from "../../lib/UserAgent.js";
 import DesktopAuth from "../../auth/components/DesktopAuth.js";
 import CashBackDetailsPopupContainer from "../containers/CashBackDetailsPopupContainer";
 import CustomerQueryErrorModal from "../../account/components/CustomerQueryErrorModal";
+import CliqCashLoyaltyAlertContainer from "../containers/CliqCashLoyaltyAlertContainer";
+import LpPartialRedemptionContainer from "../containers/LpPartialRedemptionContainer";
 import TimeSlotPopUp from "../../account/components/TimeSlotPopUp";
+import GstPopUpContainer from "../containers/GstPopUpContainer";
+// import ValidateLoyaltyPointPopupContainer from "../../cart/containers/ValidateLoyaltyPointPopupContainer";
 const modalRoot = document.getElementById("modal-root");
 const GenerateOtp = "GenerateOtpForEgv";
 const RestorePasswords = "RestorePassword";
@@ -41,6 +46,7 @@ const CONFIRM_PASSWORD_TEXT = "Please confirm your passowrd";
 const PASSWORD_MATCH_TEXT = "Password did not match";
 const OLD_NEW_PASSWORD_MATCH_TEXT = "Current and New password cannot be same";
 const OfferModal = "OfferDetailsModal";
+
 const Loader = () => {
     return (
         <div>
@@ -420,6 +426,12 @@ const AppliancesExchangeModal = Loadable({
 });
 const ValidateCliqCashPopUpContainer = Loadable({
     loader: () => import("../../cart/containers/ValidateCliqCashPopUpContainer"),
+    loading() {
+        return <Loader />;
+    },
+});
+const ValidateLoyaltyPointPopupContainer = Loadable({
+    loader: () => import("../../cart/containers/ValidateLoyaltyPointPopupContainer"),
     loading() {
         return <Loader />;
     },
@@ -1300,6 +1312,7 @@ export default class ModalRoot extends React.Component {
             MdeFraudDetailsModal: (
                 <MdeFraudDetailsModal {...this.props.ownProps} closeMdeFraudDetailsModal={() => this.handleClose()} />
             ),
+            gstModal: <GstPopUpContainer data={this.props.ownProps} closeModal={() => this.handleClose()} />,
 
             RatingAndReviewWrapperModalV2: (
                 <RatingAndReviewWrapperModalV2
@@ -1329,6 +1342,22 @@ export default class ModalRoot extends React.Component {
                         this.props.getParametersEligibleToRate(productCode, callgetUserProductReviewAPI)
                     }
                 />
+            ),
+            LoyaltyTermsAndConditions: (
+                <CommonTncModal termsAndConditions={this.props.ownProps} closeModal={() => this.handleClose()} />
+            ),
+            ValidateLoyaltyPointPopup: (
+                <ValidateLoyaltyPointPopupContainer
+                    {...this.props.ownProps}
+                    closeModal={() => this.handleClose()}
+                    changePaymentMethod={() => this.handleClose()}
+                />
+            ),
+            cliqCashLoyaltyAlert: (
+                <CliqCashLoyaltyAlertContainer data={this.props.ownProps} closeModal={() => this.handleClose()} />
+            ),
+            lpPartialRedemption: (
+                <LpPartialRedemptionContainer data={this.props.ownProps} closeModal={() => this.handleClose()} />
             ),
         };
 

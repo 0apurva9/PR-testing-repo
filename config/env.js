@@ -240,9 +240,11 @@ if (process.env.REACT_APP_STAGE === "production" || process.env.REACT_APP_STAGE 
 if (process.env.REACT_APP_STAGE === "production" || process.env.REACT_APP_STAGE === "p2") {
     process.env.REACT_APP_STRIPE_API_URL_ROOT = "https://api.stripe.com";
     process.env.REACT_APP_STRIPE_ACCESTOKEN = "pk_live_0mEUvve0oja2ClunVfALIOXt00z52bGLZs";
+    process.env.REACT_APP_TD_LOYALTY_POINTS_API = "https://ppapi.tatadigital.com/api/v1/capillary-api/loyalty-points";
 } else {
     process.env.REACT_APP_STRIPE_API_URL_ROOT = "https://api.stripe.com";
     process.env.REACT_APP_STRIPE_ACCESTOKEN = "pk_test_UvukxCIqd4zofxt7dX2hjPeI";
+    process.env.REACT_APP_TD_LOYALTY_POINTS_API = "https://ppapi.tatadigital.com/api/v1/capillary-api/loyalty-points";
 }
 
 // for samsung chat on pdp

@@ -80,11 +80,11 @@ export default class EmiPanel extends React.Component {
         }
     }
 
-	binValidation = binNo => {
-		if (this.props.binValidation) {
-			this.props.binValidation(PAYMENT_MODE, binNo);
-		}
-	}
+    binValidation = binNo => {
+        if (this.props.binValidation) {
+            this.props.binValidation(PAYMENT_MODE, binNo);
+        }
+    };
 
     getEmiBankDetails = () => {
         if (this.props.getEmiBankDetails) {
@@ -254,9 +254,9 @@ export default class EmiPanel extends React.Component {
     }
 
     render() {
-        if (this.props.isCliqCashApplied) {
-            return null;
-        }
+        // if (this.props.isCliqCashApplied) {
+        //     return null;
+        // }
         let isOpen = this.props.currentPaymentMode === EMI || this.props.currentPaymentMode === INSTACRED;
         let isRetryPaymentFromURL = false;
 
@@ -383,6 +383,10 @@ export default class EmiPanel extends React.Component {
                     </span>
                 )}
                 <MenuDetails
+                    isCliqCashApplied={this.props.isCliqCashApplied}
+                    loyaltyPointsApplied={this.props.loyaltyPointsApplied}
+                    popUpHeading1={"EMI Unavailable"}
+                    popUpHeading2={"Please unselect the Loyalty Points/CLiQ Cash option to pay using EMI"}
                     text={EMI}
                     icon={emiIcon}
                     isOpen={isOpen}
@@ -646,6 +650,7 @@ EmiPanel.propTypes = {
     emiBinValidationErrorMessage: PropTypes.string,
     displayToast: PropTypes.func,
     isCliqCashApplied: PropTypes.bool,
+    loyaltyPointsApplied: PropTypes.bool,
     isPaymentFailed: PropTypes.bool,
     getBankDetailsforDCEmi: PropTypes.func,
     changeNoCostEmiPlan: PropTypes.func,
