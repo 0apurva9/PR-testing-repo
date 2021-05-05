@@ -1,8 +1,6 @@
 import React from "react";
 import styles from "../mobile-number-login.css";
-import {
-    EMAIL_REGULAR_EXPRESSION,
-} from "../../lib/constants";
+import { EMAIL_REGULAR_EXPRESSION } from "../../lib/constants";
 import { MnlApiData, isMNLLogin } from "../mobile-number-login.types";
 
 export class MnlEmail extends React.Component<MnlChallengeProps, MnlChallengeState> {
@@ -32,7 +30,7 @@ export class MnlEmail extends React.Component<MnlChallengeProps, MnlChallengeSta
 
     private onContinueBtnClick() {
         const mnlApidata = Object.assign({}, this.props.mnlApiData, {
-            email: this.state.emailAddress
+            email: this.state.emailAddress,
         });
         this.props.validateOtp(mnlApidata);
     }
@@ -53,20 +51,18 @@ export class MnlEmail extends React.Component<MnlChallengeProps, MnlChallengeSta
                                 name="emailAddress"
                                 placeholder="Enter Email Address"
                                 value={this.state.emailAddress}
-                                onChange={(event) => this.onChangeInput(event)}
+                                onChange={event => this.onChangeInput(event)}
+                                autoComplete="off"
                             />
                             <label htmlFor="emailAddress">E-Mail Address</label>
                         </div>
-                        {!this.props.isWebMNLEmailHidden.value &&
+                        {!this.props.isWebMNLEmailHidden.value && (
                             <div className={styles.formInfoTxt}>
-                                <button
-                                    type="button"
-                                    className={styles.btnLink}
-                                    onClick={() => this.validateCall()}
-                                >
+                                <button type="button" className={styles.btnLink} onClick={() => this.validateCall()}>
                                     Do it later
                                 </button>
-                            </div>}
+                            </div>
+                        )}
                     </div>
                     <button
                         type="button"

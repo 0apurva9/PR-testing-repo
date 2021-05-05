@@ -11,6 +11,8 @@ export const CATEGORY_CAPTURE_REGEX = /c-msh([a-zA-Z0-9]+)/;
 export const BRAND_CAPTURE_REGEX = /c-mbh([a-zA-Z0-9]+)/;
 export const BRAND_CATEGORY_PREFIX = "c-";
 const RICH_QUERYSTRING = /[?&]richplp=/;
+const CATEGORY_BRAND_LANDING_URL = "categoryBrandLandingUrl";
+const LANDING_SEARCH_URL = "landingSearchUrl";
 
 const ProductListingsContainer = Loadable({
     loader: () => import(/* webpackChunkName: "product-listing-container"  */ "../containers/ProductListingsContainer"),
@@ -40,6 +42,27 @@ export default class PlpBrandCategoryWrapper extends React.Component {
     }
 
     componentDidMount() {
+        const categoryOrBrandLandingPageUrl = `${this.props.location.pathname}${this.props.location.search}`;
+        const plpSearchUrl = localStorage.getItem(LANDING_SEARCH_URL);
+        const existingCategoryOrBrandLandingPageUrl = localStorage.getItem(CATEGORY_BRAND_LANDING_URL);
+        if (this.props.location && this.props.location.state && this.props.location.state.categoryOrBrand) {
+            localStorage.setItem(CATEGORY_BRAND_LANDING_URL, categoryOrBrandLandingPageUrl);
+            if (plpSearchUrl) {
+                localStorage.removeItem(LANDING_SEARCH_URL);
+            }
+        } else {
+            if (
+                existingCategoryOrBrandLandingPageUrl &&
+                this.props.location &&
+                this.props.location.state &&
+                this.props.location.state.categoryLevel
+            ) {
+                // need not handle
+            } else {
+                localStorage.removeItem(CATEGORY_BRAND_LANDING_URL, categoryOrBrandLandingPageUrl);
+                localStorage.setItem(CATEGORY_BRAND_LANDING_URL, categoryOrBrandLandingPageUrl);
+            }
+        }
         try {
             const url = this.props.location.pathname;
             let categoryOrBrandId = null;
@@ -66,6 +89,14 @@ export default class PlpBrandCategoryWrapper extends React.Component {
     }
 
     componentDidUpdate() {
+        const categoryOrBrandLandingPageUrl = `${this.props.location.pathname}${this.props.location.search}`;
+        const plpSearchUrl = localStorage.getItem(LANDING_SEARCH_URL);
+        if (this.props.location && this.props.location.state && this.props.location.state.categoryOrBrand) {
+            localStorage.setItem(CATEGORY_BRAND_LANDING_URL, categoryOrBrandLandingPageUrl);
+            if (plpSearchUrl) {
+                localStorage.removeItem(LANDING_SEARCH_URL);
+            }
+        }
         try {
             const url = this.props.location.pathname;
 

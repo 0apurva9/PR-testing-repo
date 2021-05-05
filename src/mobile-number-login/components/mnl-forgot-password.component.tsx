@@ -1,21 +1,18 @@
 import React from "react";
 import styles from "../mobile-number-login.css";
 import { MnlApiData } from "../mobile-number-login.types";
-const MNL_PASSWORD_POLICY_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/;
+import { PASSWORD_VALIDATION_MESSAGE, PASSWORD_VALIDATION } from "./../../lib/constants";
 
 export class MnlForgotPassword extends React.Component<MnlPasswordProps, MnlPasswordState> {
     public state: Readonly<MnlPasswordState> = {
         showPassword: false,
         password: "",
         isInputValid: false,
+        passwordErrorMsg: "",
     };
 
     private onChangeInput(event: React.ChangeEvent<HTMLInputElement>) {
-        if (event.target.value.length >= 8) {
-            this.setState({ password: event.target.value, isInputValid: true });
-        } else {
-            this.setState({ password: event.target.value, isInputValid: false });
-        }
+        this.setState({ password: event.target.value });
     }
 
     public onForgotPasswordClick() {
@@ -26,11 +23,20 @@ export class MnlForgotPassword extends React.Component<MnlPasswordProps, MnlPass
     public onContinuButtonClick() {
         const mnlApiData: MnlApiData = Object.assign({}, this.props.mnlApiData);
         mnlApiData.pass = this.state.password;
-        if (!MNL_PASSWORD_POLICY_REGEX.test(this.state.password)) {
-            this.props.displayToast("Please enter a valid password");
-            return false;
-        }
         if (this.props.isForgotPasswordProfile) {
+            if (this.state.password.length < 8) {
+                this.setState({
+                    passwordErrorMsg: "Password length should be minimum 8 character",
+                });
+                return false;
+            } else if (!PASSWORD_VALIDATION.test(this.state.password)) {
+                this.setState({
+                    passwordErrorMsg: PASSWORD_VALIDATION_MESSAGE,
+                });
+                return false;
+            } else {
+                this.setState({ passwordErrorMsg: "" });
+            }
             this.props.changeProfilePassword(mnlApiData);
         } else {
             this.props.forgotPassword(mnlApiData);
@@ -56,6 +62,7 @@ export class MnlForgotPassword extends React.Component<MnlPasswordProps, MnlPass
                                     placeholder="Enter Password"
                                     value={this.state.password}
                                     onChange={event => this.onChangeInput(event)}
+                                    autoComplete="off"
                                 />
                                 <label htmlFor="password">Enter Password</label>
                                 <button
@@ -63,19 +70,17 @@ export class MnlForgotPassword extends React.Component<MnlPasswordProps, MnlPass
                                     className={passwordIcon}
                                     onClick={() => this.setState({ showPassword: !this.state.showPassword })}
                                 ></button>
-                                <span className={styles.passwordFormat}>
-                                    Password must be 8-20 characters and contain at least one Number, Upper and Lower
-                                    case characters.
-                                </span>
+                                {this.props.passwordErrorMsg ? (
+                                    <span className={styles.passwordErrorformat}>{this.props.passwordErrorMsg}</span>
+                                ) : this.state["passwordErrorMsg"] ? (
+                                    <span className={styles.passwordErrorformat}>{this.state["passwordErrorMsg"]}</span>
+                                ) : (
+                                    <span className={styles.passwordFormat}>{PASSWORD_VALIDATION_MESSAGE}</span>
+                                )}
                             </div>
                         </div>
 
-                        <button
-                            type="button"
-                            className={styles.btnPrimary}
-                            disabled={!this.state.isInputValid}
-                            onClick={() => this.onContinuButtonClick()}
-                        >
+                        <button type="button" className={styles.btnPrimary} onClick={() => this.onContinuButtonClick()}>
                             Continue
                         </button>
                     </div>
@@ -95,10 +100,12 @@ export interface MnlPasswordProps {
     changeProfilePassword: (apiData: MnlApiData) => void;
     isForgotPasswordProfile: boolean;
     displayToast: (msg: string) => void;
+    passwordErrorMsg: string;
 }
 
 export interface MnlPasswordState {
     showPassword: boolean;
     password: string;
     isInputValid: boolean;
+    passwordErrorMsg: string;
 }

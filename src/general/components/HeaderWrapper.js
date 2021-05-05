@@ -22,9 +22,11 @@ import {
     MY_ACCOUNT_GIFT_CARD_PAGE,
     MY_ACCOUNT_CLIQ_CASH_PAGE,
     CHECKOUT_RETRY_PAYMENT_ROUTER,
+    SESSION_ID,
 } from "../../../src/lib/constants";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import * as UserAgent from "../../lib/UserAgent.js";
+import { getUniqueId } from "../../lib/commonFunctionsUtils";
 export default class HeaderWrapper extends React.Component {
     constructor(props) {
         super(props);
@@ -70,15 +72,14 @@ export default class HeaderWrapper extends React.Component {
             if (UserAgent.checkUserAgentIsMobile()) {
                 if (window.pageYOffset < 30 && this.state.stickyHeader) {
                     this.setState({ stickyHeader: false });
-            } else if (window.pageYOffset > 30 && !this.state.stickyHeader) {
+                } else if (window.pageYOffset > 30 && !this.state.stickyHeader) {
                     this.setState({ stickyHeader: true });
                 }
             } else {
                 let ScrollSticky = window.pageYOffset || document.documentElement.scrollTop - 1;
                 if (ScrollSticky > lastScrollTop + 1) {
                     this.setState({ stickyHeader: true });
-                }
-                else if (ScrollSticky < lastScrollTop + 1) {
+                } else if (ScrollSticky < lastScrollTop + 1) {
                     this.setState({ stickyHeader: false });
                 }
                 lastScrollTop = ScrollSticky <= 0 ? 0 : ScrollSticky;
@@ -124,6 +125,12 @@ export default class HeaderWrapper extends React.Component {
 
     componentDidMount() {
         // this.props.getWishListItems();
+        let sessionId = Cookie.getCookie(SESSION_ID);
+        if (!sessionId) {
+            sessionId = getUniqueId();
+            Cookie.createCookie(SESSION_ID, sessionId);
+        }
+        this.props.searchABVersion();
         this.props.isMPLWebMNLLogin();
         if (this.props.location.pathname !== HOME_ROUTER && !this.props.location.pathname.includes(SAVE_LIST_PAGE)) {
             this.props.getWishlist();
@@ -170,7 +177,7 @@ export default class HeaderWrapper extends React.Component {
             this.props.openMobileNumberLoginModal();
         } else {
             if (this.props.location.pathname !== "/checkout" && this.props.location.pathname !== "/cart") {
-              this.props.setUrlToRedirectToAfterAuth(`${this.props.location.pathname}${this.props.location.search}`);
+                this.props.setUrlToRedirectToAfterAuth(`${this.props.location.pathname}${this.props.location.search}`);
             }
             this.props.history.push(LOGIN_PATH);
             return null;

@@ -4,616 +4,609 @@ import { FOLLOW_AND_UN_FOLLOW_BRANDS_IN_HOME_FEED_SUCCESS } from "../../account/
 import cloneDeep from "lodash.clonedeep";
 
 import {
-  HOME_FEED_TYPE,
-  BANK_OFFER_COMPONENT_NAME_HC,
-  MULTIPLE_BANNER_COMPONENT_NAME_HC,
-  QUICK_LINKS_COMPONENT_NAME_HC,
-  HARD_CODED_KEY_FOR_COMPONENT,
-  DESKTOP_THEME_OFFER_CN,
-  THEME_OFFER_CN,
-  MSD_DISCOVER_MORE,
-  MSD_AUTOMATED_BRAND_CAROUSEL,
-  AUTO_WISHLIST,
-  AUTOMATED_WIDGETS_FOR_HOME,
-  HERO_BANNER_PERSONALISED_COMPONENT,
-  QUICK_LINK_PERSONALISED_COMPONENT,
-  BANK_OFFER_PERSONALISED_COMPONENT,
-  MULTI_PURPOSE_BANNER_PERSONALISED_COMPONENT,
-  LUXE_EDITORIAL_PERSONALISED_CAROUSEL,
-  TWO_BY_TWO_PERSONALISED_COMPONENT,
-  LUXE_SHOP_BY_SHOP_PERSONALISED_COMPONENT,
-  MULTI_BANNER_PERSONALISED_COMPONENT,
-  SUB_HEADER_HERO_BANNER,
-  SUB_HEADER_TWO_BY_TWO,
-  PLP_BANNER_COMPONENT,
-  PLP_SHORT_BANNER_COMPONENT,
-  HERO_BANNER_MONETIZATION,
-  SIMPLE_BANNER_MONETIZATION
+    HOME_FEED_TYPE,
+    BANK_OFFER_COMPONENT_NAME_HC,
+    MULTIPLE_BANNER_COMPONENT_NAME_HC,
+    QUICK_LINKS_COMPONENT_NAME_HC,
+    HARD_CODED_KEY_FOR_COMPONENT,
+    DESKTOP_THEME_OFFER_CN,
+    THEME_OFFER_CN,
+    MSD_DISCOVER_MORE,
+    MSD_AUTOMATED_BRAND_CAROUSEL,
+    AUTO_WISHLIST,
+    AUTOMATED_WIDGETS_FOR_HOME,
+    HERO_BANNER_PERSONALISED_COMPONENT,
+    QUICK_LINK_PERSONALISED_COMPONENT,
+    BANK_OFFER_PERSONALISED_COMPONENT,
+    MULTI_PURPOSE_BANNER_PERSONALISED_COMPONENT,
+    LUXE_EDITORIAL_PERSONALISED_CAROUSEL,
+    TWO_BY_TWO_PERSONALISED_COMPONENT,
+    LUXE_SHOP_BY_SHOP_PERSONALISED_COMPONENT,
+    MULTI_BANNER_PERSONALISED_COMPONENT,
+    SUB_HEADER_HERO_BANNER,
+    SUB_HEADER_TWO_BY_TWO,
+    PLP_BANNER_COMPONENT,
+    PLP_SHORT_BANNER_COMPONENT,
+    HERO_BANNER_MONETIZATION,
+    SIMPLE_BANNER_MONETIZATION,
+    LUXE_HERO_BANNER_CAROUSEL,
 } from "../../lib/constants";
 
 import { transformFetchingItemsOrder } from "./utils";
 
 const feed = (
-  state = {
-    homeFeed: [], //array of objects,
-    secondaryFeed: [],
-    status: null,
-    error: null,
-    loading: false,
-    msdIndex: 0,
-    feedType: HOME_FEED_TYPE,
-    productCapsules: null,
-    productCapsulesStatus: null,
-    productCapsulesLoading: null,
-    backUpLoading: false,
-    useBackUpData: false,
-    useBackUpHomeFeed: false,
-    secondaryFeedStatus: null,
-    clickedElementId: null,
-    pageSize: 1,
-    seo: null,
-    loadMsdSkeleton: null,
-    homeMsdData: {},
-    homeAbcMsdData: {},
-    autoWishList: null
-  },
-  action
-) => {
-  let homeFeedData,
-    toUpdate,
-    componentData,
-    homeFeedClonedData,
-    secondaryFeedClonedData,
-    secondaryFeedData,
-    clonedComponent;
-  switch (action.type) {
-    case homeActions.SET_PAGE_FEED_SIZE:
-      return Object.assign({}, state, {
-        pageSize: action.pageSize
-      });
-    case homeActions.SET_CLICKED_ELEMENT_ID:
-      return Object.assign({}, state, {
-        clickedElementId: action.id
-      });
-    case homeActions.SECONDARY_FEED_SUCCESS:
-      secondaryFeedClonedData = cloneDeep(action.data);
-      secondaryFeedData = secondaryFeedClonedData.map(subData => {
-        // we do this because TCS insists on having the data that backs a component have an object that wraps the data we care about.
-        let componentName = subData.componentName;
-        if (
-          componentName === BANK_OFFER_COMPONENT_NAME_HC ||
-          componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
-          componentName === QUICK_LINKS_COMPONENT_NAME_HC ||
-          componentName === MSD_AUTOMATED_BRAND_CAROUSEL ||
-          componentName === MSD_DISCOVER_MORE ||
-          componentName === AUTOMATED_WIDGETS_FOR_HOME ||
-          componentName === QUICK_LINK_PERSONALISED_COMPONENT ||
-          componentName === BANK_OFFER_PERSONALISED_COMPONENT ||
-          componentName === MULTI_PURPOSE_BANNER_PERSONALISED_COMPONENT ||
-          componentName === LUXE_EDITORIAL_PERSONALISED_CAROUSEL ||
-          componentName === LUXE_SHOP_BY_SHOP_PERSONALISED_COMPONENT ||
-          componentName === MULTI_BANNER_PERSONALISED_COMPONENT ||
-          componentName === PLP_BANNER_COMPONENT ||
-          componentName === PLP_SHORT_BANNER_COMPONENT ||
-          componentName === HERO_BANNER_MONETIZATION ||
-          componentName === SIMPLE_BANNER_MONETIZATION
-        ) {
-          componentName = HARD_CODED_KEY_FOR_COMPONENT;
-        }
-        if (componentName === DESKTOP_THEME_OFFER_CN) {
-          componentName = THEME_OFFER_CN;
-        }
-        return {
-          ...subData[componentName],
-          loading: false,
-          status: ""
-        };
-      });
-      return Object.assign({}, state, {
+    state = {
+        homeFeed: [], //array of objects,
+        secondaryFeed: [],
+        status: null,
+        error: null,
         loading: false,
-        secondaryFeedStatus: action.status,
-        secondaryFeed: secondaryFeedData,
-        seo: action.seodata,
-        message: action.message
-      });
-    case homeActions.SECONDARY_FEED_FAILURE:
-      return Object.assign({}, state, {
-        loading: false,
-        secondaryFeedStatus: action.status,
-        secondaryFeed: []
-      });
-    case homeActions.HOME_FEED_BACK_UP_FAILURE:
-      return Object.assign({}, state, {
-        loading: false,
-        status: action.status,
-        error: action.error
-      });
-    case homeActions.HOME_FEED_BACK_UP_REQUEST:
-      return Object.assign({}, state, {
-        loading: true,
-        useBackUpHomeFeed: true,
-        status: action.status
-      });
-    case homeActions.HOME_FEED_BACK_UP_SUCCESS:
-      if (state.useBackUpHomeFeed) {
-        homeFeedClonedData = cloneDeep(action.data.items);
-        homeFeedData = homeFeedClonedData.map(subData => {
-          // we do this because TCS insists on having the data that backs a component have an object that wraps the data we care about.
-          let componentName = subData.componentName;
-          if (
-            componentName === BANK_OFFER_COMPONENT_NAME_HC ||
-            componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
-            componentName === QUICK_LINKS_COMPONENT_NAME_HC ||
-            componentName === MSD_AUTOMATED_BRAND_CAROUSEL ||
-            componentName === MSD_DISCOVER_MORE ||
-            componentName === AUTO_WISHLIST ||
-            componentName === AUTOMATED_WIDGETS_FOR_HOME ||
-            componentName === QUICK_LINK_PERSONALISED_COMPONENT ||
-            componentName === BANK_OFFER_PERSONALISED_COMPONENT ||
-            componentName === MULTI_PURPOSE_BANNER_PERSONALISED_COMPONENT ||
-            componentName === LUXE_EDITORIAL_PERSONALISED_CAROUSEL ||
-            componentName === LUXE_SHOP_BY_SHOP_PERSONALISED_COMPONENT ||
-            componentName === MULTI_BANNER_PERSONALISED_COMPONENT ||
-            componentName === HERO_BANNER_MONETIZATION ||
-            componentName === SIMPLE_BANNER_MONETIZATION
-          ) {
-            componentName = HARD_CODED_KEY_FOR_COMPONENT;
-          }
-          if (componentName === HERO_BANNER_PERSONALISED_COMPONENT) {
-            componentName = SUB_HEADER_HERO_BANNER;
-          }
-          if (componentName === TWO_BY_TWO_PERSONALISED_COMPONENT) {
-            componentName = SUB_HEADER_TWO_BY_TWO;
-          }
-          if (componentName === DESKTOP_THEME_OFFER_CN) {
-            componentName = THEME_OFFER_CN;
-          }
-          return {
-            ...subData[componentName],
-            loading: false,
-            status: ""
-          };
-        });
-        return Object.assign({}, state, {
-          homeFeed: homeFeedData,
-          status: action.status,
-          seo: action.data.seo,
-          loading: false
-        });
-      }
-      return state;
-
-    case homeActions.GET_PRODUCT_CAPSULES_REQUEST:
-      return Object.assign({}, state, {
-        status: action.status,
-        productCapsulesLoading: true
-      });
-    case homeActions.GET_PRODUCT_CAPSULES_FAILURE:
-      return Object.assign({}, state, {
-        status: action.status,
-        productCapsulesLoading: false,
-        error: action.error
-      });
-    case homeActions.GET_PRODUCT_CAPSULES_SUCCESS:
-      homeFeedData = state.homeFeed;
-      clonedComponent = cloneDeep(homeFeedData[action.positionInFeed]);
-      clonedComponent.data = action.productCapsules;
-
-      homeFeedData[action.positionInFeed] = clonedComponent;
-      return Object.assign({}, state, {
-        status: action.status,
-        productCapsulesLoading: false,
-        homeFeed: homeFeedData
-      });
-
-    case homeActions.FEED_REQUEST:
-      return Object.assign({}, state, {
-        status: action.status,
-        loading: true,
-        feedType: action.feedType
-      });
-
-    case homeActions.HOME_FEED_SUCCESS:
-      if (!state.useBackUpHomeFeed) {
-        homeFeedClonedData = cloneDeep(action.data);
-
-        homeFeedData = homeFeedClonedData.map(subData => {
-          // we do this because TCS insists on having the data that backs a component have an object that wraps the data we care about.
-
-          let componentName = subData.componentName;
-          if (
-            componentName === BANK_OFFER_COMPONENT_NAME_HC ||
-            componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
-            componentName === QUICK_LINKS_COMPONENT_NAME_HC ||
-            componentName === MSD_AUTOMATED_BRAND_CAROUSEL ||
-            componentName === MSD_DISCOVER_MORE ||
-            componentName === AUTOMATED_WIDGETS_FOR_HOME ||
-            componentName === QUICK_LINK_PERSONALISED_COMPONENT ||
-            componentName === BANK_OFFER_PERSONALISED_COMPONENT ||
-            componentName === MULTI_PURPOSE_BANNER_PERSONALISED_COMPONENT ||
-            componentName === LUXE_EDITORIAL_PERSONALISED_CAROUSEL ||
-            componentName === LUXE_SHOP_BY_SHOP_PERSONALISED_COMPONENT ||
-            componentName === MULTI_BANNER_PERSONALISED_COMPONENT ||
-            componentName === HERO_BANNER_MONETIZATION ||
-            componentName === SIMPLE_BANNER_MONETIZATION
-          ) {
-            componentName = HARD_CODED_KEY_FOR_COMPONENT;
-          }
-          if (componentName === DESKTOP_THEME_OFFER_CN) {
-            componentName = THEME_OFFER_CN;
-          }
-          return {
-            ...subData[componentName],
-            loading: false,
-            status: ""
-          };
-        });
-
-        return Object.assign({}, state, {
-          status: action.status,
-          homeFeed: homeFeedData,
-          loading: false,
-          feedType: action.feedType
-        });
-      }
-      return state;
-
-    case homeActions.HOME_FEED_FAILURE:
-      if (!state.useBackUpHomeFeed) {
-        return Object.assign({}, state, {
-          status: action.status,
-          error: action.error
-        });
-      }
-      return state;
-
-    case homeActions.COMPONENT_BACK_UP_REQUEST:
-      homeFeedData = state.homeFeed;
-      clonedComponent = cloneDeep(homeFeedData[action.positionInFeed]);
-      clonedComponent.useBackUpData = false;
-      clonedComponent.backUpLoading = true;
-      homeFeedData[action.positionInFeed] = clonedComponent;
-      return Object.assign({}, state, {
-        status: action.status,
-        homeFeed: homeFeedData
-      });
-
-    case homeActions.COMPONENT_BACK_UP_FAILURE:
-      homeFeedData = state.homeFeed;
-      clonedComponent = cloneDeep(homeFeedData[action.positionInFeed]);
-      clonedComponent.useBackUpData = false;
-      clonedComponent.backUpLoading = false;
-      clonedComponent.error = action.error;
-      homeFeedData[action.positionInFeed] = clonedComponent;
-      return Object.assign({}, state, {
-        homeFeed: homeFeedData
-      });
-
-    case homeActions.COMPONENT_BACK_UP_SUCCESS:
-      let componentName = action.data.componentName;
-      if (
-        componentName === BANK_OFFER_COMPONENT_NAME_HC ||
-        componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
-        componentName === QUICK_LINKS_COMPONENT_NAME_HC ||
-        componentName === MSD_AUTOMATED_BRAND_CAROUSEL ||
-        componentName === MSD_DISCOVER_MORE ||
-        componentName === AUTOMATED_WIDGETS_FOR_HOME ||
-        componentName === QUICK_LINK_PERSONALISED_COMPONENT ||
-        componentName === BANK_OFFER_PERSONALISED_COMPONENT ||
-        componentName === MULTI_PURPOSE_BANNER_PERSONALISED_COMPONENT ||
-        componentName === LUXE_EDITORIAL_PERSONALISED_CAROUSEL ||
-        componentName === LUXE_SHOP_BY_SHOP_PERSONALISED_COMPONENT ||
-        componentName === MULTI_BANNER_PERSONALISED_COMPONENT ||
-        componentName === HERO_BANNER_MONETIZATION ||
-        componentName === SIMPLE_BANNER_MONETIZATION
-      ) {
-        componentName = HARD_CODED_KEY_FOR_COMPONENT;
-      }
-      if (componentName === DESKTOP_THEME_OFFER_CN) {
-        componentName = THEME_OFFER_CN;
-      }
-      homeFeedData = state.homeFeed;
-      homeFeedData[action.positionInFeed].useBackUpData = false;
-      homeFeedData[action.positionInFeed].backUpLoading = false;
-      toUpdate = action.data[componentName];
-      componentData = {
-        ...homeFeedData[action.positionInFeed],
-        ...toUpdate,
+        msdIndex: 0,
+        feedType: HOME_FEED_TYPE,
+        productCapsules: null,
+        productCapsulesStatus: null,
+        productCapsulesLoading: null,
         backUpLoading: false,
-        status: action.status,
-        loading: false
-      };
+        useBackUpData: false,
+        useBackUpHomeFeed: false,
+        secondaryFeedStatus: null,
+        clickedElementId: null,
+        pageSize: 1,
+        seo: null,
+        loadMsdSkeleton: null,
+        homeMsdData: {},
+        homeAbcMsdData: {},
+        autoWishList: null,
+    },
+    action
+) => {
+    let homeFeedData,
+        toUpdate,
+        componentData,
+        homeFeedClonedData,
+        secondaryFeedClonedData,
+        secondaryFeedData,
+        clonedComponent;
+    switch (action.type) {
+        case homeActions.SET_PAGE_FEED_SIZE:
+            return Object.assign({}, state, {
+                pageSize: action.pageSize,
+            });
+        case homeActions.SET_CLICKED_ELEMENT_ID:
+            return Object.assign({}, state, {
+                clickedElementId: action.id,
+            });
+        case homeActions.SECONDARY_FEED_SUCCESS:
+            secondaryFeedClonedData = cloneDeep(action.data);
+            secondaryFeedData = secondaryFeedClonedData.map(subData => {
+                // we do this because TCS insists on having the data that backs a component have an object that wraps the data we care about.
+                let componentName = subData.componentName;
+                if (
+                    componentName === BANK_OFFER_COMPONENT_NAME_HC ||
+                    componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
+                    componentName === QUICK_LINKS_COMPONENT_NAME_HC ||
+                    componentName === MSD_AUTOMATED_BRAND_CAROUSEL ||
+                    componentName === MSD_DISCOVER_MORE ||
+                    componentName === AUTOMATED_WIDGETS_FOR_HOME ||
+                    componentName === QUICK_LINK_PERSONALISED_COMPONENT ||
+                    componentName === BANK_OFFER_PERSONALISED_COMPONENT ||
+                    componentName === MULTI_PURPOSE_BANNER_PERSONALISED_COMPONENT ||
+                    componentName === LUXE_EDITORIAL_PERSONALISED_CAROUSEL ||
+                    componentName === LUXE_SHOP_BY_SHOP_PERSONALISED_COMPONENT ||
+                    componentName === MULTI_BANNER_PERSONALISED_COMPONENT ||
+                    componentName === PLP_BANNER_COMPONENT ||
+                    componentName === PLP_SHORT_BANNER_COMPONENT ||
+                    componentName === HERO_BANNER_MONETIZATION ||
+                    componentName === SIMPLE_BANNER_MONETIZATION ||
+                    componentName === LUXE_HERO_BANNER_CAROUSEL
+                ) {
+                    componentName = HARD_CODED_KEY_FOR_COMPONENT;
+                }
+                if (componentName === DESKTOP_THEME_OFFER_CN) {
+                    componentName = THEME_OFFER_CN;
+                }
+                return {
+                    ...subData[componentName],
+                    loading: false,
+                    status: "",
+                };
+            });
+            return Object.assign({}, state, {
+                loading: false,
+                secondaryFeedStatus: action.status,
+                secondaryFeed: secondaryFeedData,
+                seo: action.seodata,
+                message: action.message,
+            });
+        case homeActions.SECONDARY_FEED_FAILURE:
+            return Object.assign({}, state, {
+                loading: false,
+                secondaryFeedStatus: action.status,
+                secondaryFeed: [],
+            });
+        case homeActions.HOME_FEED_BACK_UP_FAILURE:
+            return Object.assign({}, state, {
+                loading: false,
+                status: action.status,
+                error: action.error,
+            });
+        case homeActions.HOME_FEED_BACK_UP_REQUEST:
+            return Object.assign({}, state, {
+                loading: true,
+                useBackUpHomeFeed: true,
+                status: action.status,
+            });
+        case homeActions.HOME_FEED_BACK_UP_SUCCESS:
+            if (state.useBackUpHomeFeed) {
+                homeFeedClonedData = cloneDeep(action.data.items);
+                homeFeedData = homeFeedClonedData.map(subData => {
+                    // we do this because TCS insists on having the data that backs a component have an object that wraps the data we care about.
+                    let componentName = subData.componentName;
+                    if (
+                        componentName === BANK_OFFER_COMPONENT_NAME_HC ||
+                        componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
+                        componentName === QUICK_LINKS_COMPONENT_NAME_HC ||
+                        componentName === MSD_AUTOMATED_BRAND_CAROUSEL ||
+                        componentName === MSD_DISCOVER_MORE ||
+                        componentName === AUTO_WISHLIST ||
+                        componentName === AUTOMATED_WIDGETS_FOR_HOME ||
+                        componentName === QUICK_LINK_PERSONALISED_COMPONENT ||
+                        componentName === BANK_OFFER_PERSONALISED_COMPONENT ||
+                        componentName === MULTI_PURPOSE_BANNER_PERSONALISED_COMPONENT ||
+                        componentName === LUXE_EDITORIAL_PERSONALISED_CAROUSEL ||
+                        componentName === LUXE_SHOP_BY_SHOP_PERSONALISED_COMPONENT ||
+                        componentName === MULTI_BANNER_PERSONALISED_COMPONENT ||
+                        componentName === HERO_BANNER_MONETIZATION ||
+                        componentName === SIMPLE_BANNER_MONETIZATION ||
+                        componentName === LUXE_HERO_BANNER_CAROUSEL
+                    ) {
+                        componentName = HARD_CODED_KEY_FOR_COMPONENT;
+                    }
+                    if (componentName === HERO_BANNER_PERSONALISED_COMPONENT) {
+                        componentName = SUB_HEADER_HERO_BANNER;
+                    }
+                    if (componentName === TWO_BY_TWO_PERSONALISED_COMPONENT) {
+                        componentName = SUB_HEADER_TWO_BY_TWO;
+                    }
+                    if (componentName === DESKTOP_THEME_OFFER_CN) {
+                        componentName = THEME_OFFER_CN;
+                    }
+                    return {
+                        ...subData[componentName],
+                        loading: false,
+                        status: "",
+                    };
+                });
+                return Object.assign({}, state, {
+                    homeFeed: homeFeedData,
+                    status: action.status,
+                    seo: action.data.seo,
+                    loading: false,
+                });
+            }
+            return state;
 
-      homeFeedData[action.positionInFeed] = componentData;
-      return Object.assign({}, state, {
-        status: action.status,
-        homeFeed: homeFeedData
-      });
+        case homeActions.GET_PRODUCT_CAPSULES_REQUEST:
+            return Object.assign({}, state, {
+                status: action.status,
+                productCapsulesLoading: true,
+            });
+        case homeActions.GET_PRODUCT_CAPSULES_FAILURE:
+            return Object.assign({}, state, {
+                status: action.status,
+                productCapsulesLoading: false,
+                error: action.error,
+            });
+        case homeActions.GET_PRODUCT_CAPSULES_SUCCESS:
+            homeFeedData = state.homeFeed;
+            clonedComponent = cloneDeep(homeFeedData[action.positionInFeed]);
+            clonedComponent.data = action.productCapsules;
 
-    case homeActions.SECONDARY_FEED_COMPONENT_DATA_REQUEST:
-      secondaryFeedData = state.secondaryFeed;
-      clonedComponent = cloneDeep(secondaryFeedData[action.positionInFeed]);
-      clonedComponent.loading = true;
-      secondaryFeedData[action.positionInFeed] = clonedComponent;
-      return Object.assign({}, state, {
-        secondaryFeedStatus: action.status,
-        secondaryFeed: homeFeedData
-      });
-    case homeActions.COMPONENT_DATA_REQUEST:
-      homeFeedData = state.homeFeed;
-      clonedComponent = cloneDeep(homeFeedData[action.positionInFeed]);
-      clonedComponent.loading = true;
-      homeFeedData[action.positionInFeed] = clonedComponent;
-      return Object.assign({}, state, {
-        status: action.status,
-        homeFeed: homeFeedData
-      });
+            homeFeedData[action.positionInFeed] = clonedComponent;
+            return Object.assign({}, state, {
+                status: action.status,
+                productCapsulesLoading: false,
+                homeFeed: homeFeedData,
+            });
 
-    case homeActions.SECONDARY_FEED_GET_ITEMS_SUCCESS:
-      secondaryFeedData = state.secondaryFeed;
-      clonedComponent = cloneDeep(secondaryFeedData[action.positionInFeed]);
-      clonedComponent.items = transformFetchingItemsOrder(
-        action.itemIds,
-        action.items
-      );
-      secondaryFeedData[action.positionInFeed] = clonedComponent;
-      return Object.assign({}, state, {
-        secondaryFeed: secondaryFeedData,
-        secondaryFeedStatus: action.status
-      });
+        case homeActions.FEED_REQUEST:
+            return Object.assign({}, state, {
+                status: action.status,
+                loading: true,
+                feedType: action.feedType,
+            });
 
-    case homeActions.GET_ITEMS_SUCCESS:
-      homeFeedData = state.homeFeed;
-      clonedComponent = cloneDeep(homeFeedData[action.positionInFeed]);
-      clonedComponent.items = transformFetchingItemsOrder(
-        action.itemIds,
-        action.items
-      );
+        case homeActions.HOME_FEED_SUCCESS:
+            if (!state.useBackUpHomeFeed) {
+                homeFeedClonedData = cloneDeep(action.data);
 
-      homeFeedData[action.positionInFeed] = clonedComponent;
-      return Object.assign({}, state, {
-        homeFeed: homeFeedData,
-        status: action.status
-      });
-    case homeActions.CLEAR_ITEMS_FOR_PARTICULAR_POSITION:
-      homeFeedData = state.homeFeed;
-      clonedComponent = cloneDeep(homeFeedData[action.positionInFeed]);
-      clonedComponent.items = [];
-      homeFeedData[action.positionInFeed] = clonedComponent;
-      return Object.assign({}, state, {
-        homeFeed: homeFeedData,
-        status: action.status
-      });
+                homeFeedData = homeFeedClonedData.map(subData => {
+                    // we do this because TCS insists on having the data that backs a component have an object that wraps the data we care about.
 
-    case FOLLOW_AND_UN_FOLLOW_BRANDS_IN_HOME_FEED_SUCCESS:
-      homeFeedData = cloneDeep(state.homeFeed);
-      clonedComponent = homeFeedData[action.positionInFeed];
-      const indexOfBrandToBeUpdated = clonedComponent.data.findIndex(item => {
-        return item.id === action.brandId;
-      });
-      clonedComponent.data[indexOfBrandToBeUpdated].isFollowing =
-        action.followStatus;
-      homeFeedData[action.positionInFeed] = clonedComponent;
+                    let componentName = subData.componentName;
+                    if (
+                        componentName === BANK_OFFER_COMPONENT_NAME_HC ||
+                        componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
+                        componentName === QUICK_LINKS_COMPONENT_NAME_HC ||
+                        componentName === MSD_AUTOMATED_BRAND_CAROUSEL ||
+                        componentName === MSD_DISCOVER_MORE ||
+                        componentName === AUTOMATED_WIDGETS_FOR_HOME ||
+                        componentName === QUICK_LINK_PERSONALISED_COMPONENT ||
+                        componentName === BANK_OFFER_PERSONALISED_COMPONENT ||
+                        componentName === MULTI_PURPOSE_BANNER_PERSONALISED_COMPONENT ||
+                        componentName === LUXE_EDITORIAL_PERSONALISED_CAROUSEL ||
+                        componentName === LUXE_SHOP_BY_SHOP_PERSONALISED_COMPONENT ||
+                        componentName === MULTI_BANNER_PERSONALISED_COMPONENT ||
+                        componentName === HERO_BANNER_MONETIZATION ||
+                        componentName === SIMPLE_BANNER_MONETIZATION ||
+                        componentName === LUXE_HERO_BANNER_CAROUSEL
+                    ) {
+                        componentName = HARD_CODED_KEY_FOR_COMPONENT;
+                    }
+                    if (componentName === DESKTOP_THEME_OFFER_CN) {
+                        componentName = THEME_OFFER_CN;
+                    }
+                    return {
+                        ...subData[componentName],
+                        loading: false,
+                        status: "",
+                    };
+                });
 
-      return Object.assign({}, state, {
-        homeFeed: homeFeedData,
-        status: action.status
-      });
-    case homeActions.SECONDARY_FEED_COMPONENT_DATA_SUCCESS:
-      secondaryFeedData = state.secondaryFeed;
-      componentData = {
-        loading: false,
-        secondaryFeedStatus: action.status
-      };
-      if (!action.isMsd) {
-        toUpdate = action.data[action.data.componentName];
-        componentData = {
-          ...secondaryFeedData[action.positionInFeed],
-          ...toUpdate,
-          ...componentData
-        };
-      } else {
-        if (action.data.type) {
-          action.data.category = action.data.type;
-        }
-        componentData = {
-          ...action.data,
-          ...secondaryFeedData[action.positionInFeed],
-          ...componentData
-        };
-      }
-      secondaryFeedData[action.positionInFeed] = componentData;
-      return Object.assign({}, state, {
-        status: action.status,
-        secondaryFeed: secondaryFeedData
-      });
+                return Object.assign({}, state, {
+                    status: action.status,
+                    homeFeed: homeFeedData,
+                    loading: false,
+                    feedType: action.feedType,
+                });
+            }
+            return state;
 
-    case homeActions.COMPONENT_DATA_SUCCESS:
-      if (!state.homeFeed[action.positionInFeed].useBackUpData) {
-        homeFeedData = state.homeFeed;
-        componentData = {
-          loading: false,
-          status: action.status
-        };
-        let componentName = action.data.componentName;
-        if (
-          componentName === BANK_OFFER_COMPONENT_NAME_HC ||
-          componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
-          componentName === QUICK_LINKS_COMPONENT_NAME_HC ||
-          componentName === MSD_AUTOMATED_BRAND_CAROUSEL ||
-          componentName === MSD_DISCOVER_MORE ||
-          componentName === AUTOMATED_WIDGETS_FOR_HOME ||
-          componentName === QUICK_LINK_PERSONALISED_COMPONENT ||
-          componentName === BANK_OFFER_PERSONALISED_COMPONENT ||
-          componentName === MULTI_PURPOSE_BANNER_PERSONALISED_COMPONENT ||
-          componentName === LUXE_EDITORIAL_PERSONALISED_CAROUSEL ||
-          componentName === LUXE_SHOP_BY_SHOP_PERSONALISED_COMPONENT ||
-          componentName === MULTI_BANNER_PERSONALISED_COMPONENT ||
-          componentName === HERO_BANNER_MONETIZATION ||
-          componentName === SIMPLE_BANNER_MONETIZATION
-        ) {
-          componentName = HARD_CODED_KEY_FOR_COMPONENT;
-        }
-        if (componentName === DESKTOP_THEME_OFFER_CN) {
-          componentName = THEME_OFFER_CN;
-        }
-        if (componentName === HERO_BANNER_PERSONALISED_COMPONENT) {
-          componentName = SUB_HEADER_HERO_BANNER;
-        }
-        if (componentName === TWO_BY_TWO_PERSONALISED_COMPONENT) {
-          componentName = SUB_HEADER_TWO_BY_TWO;
-        }
-        if (!action.isMsd) {
-          toUpdate = action.data[componentName];
-          componentData = {
-            ...homeFeedData[action.positionInFeed],
-            ...toUpdate,
-            ...componentData
-          };
-        } else {
-          if (action.data.type) {
-            action.data.category = action.data.type;
-          }
-          componentData = {
-            ...action.data,
-            ...homeFeedData[action.positionInFeed],
-            ...componentData
-          };
-        }
-        homeFeedData[action.positionInFeed] = componentData;
-        return Object.assign({}, state, {
-          status: action.status,
-          homeFeed: homeFeedData
-        });
-      }
-      break;
+        case homeActions.HOME_FEED_FAILURE:
+            if (!state.useBackUpHomeFeed) {
+                return Object.assign({}, state, {
+                    status: action.status,
+                    error: action.error,
+                });
+            }
+            return state;
 
-    case homeActions.SECONDARY_FEED_COMPONENT_DATA_FAILURE:
-      secondaryFeedData = state.secondaryFeed;
-      clonedComponent = cloneDeep(secondaryFeedData[action.positionInFeed]);
-      clonedComponent.loading = true;
-      clonedComponent.status = action.error;
-      secondaryFeedData[action.positionInFeed] = clonedComponent;
+        case homeActions.COMPONENT_BACK_UP_REQUEST:
+            homeFeedData = state.homeFeed;
+            clonedComponent = cloneDeep(homeFeedData[action.positionInFeed]);
+            clonedComponent.useBackUpData = false;
+            clonedComponent.backUpLoading = true;
+            homeFeedData[action.positionInFeed] = clonedComponent;
+            return Object.assign({}, state, {
+                status: action.status,
+                homeFeed: homeFeedData,
+            });
 
-      return Object.assign({}, state, {
-        secondaryFeedStatus: action.status,
-        secondaryFeed: secondaryFeedData
-      });
+        case homeActions.COMPONENT_BACK_UP_FAILURE:
+            homeFeedData = state.homeFeed;
+            clonedComponent = cloneDeep(homeFeedData[action.positionInFeed]);
+            clonedComponent.useBackUpData = false;
+            clonedComponent.backUpLoading = false;
+            clonedComponent.error = action.error;
+            homeFeedData[action.positionInFeed] = clonedComponent;
+            return Object.assign({}, state, {
+                homeFeed: homeFeedData,
+            });
 
-    case homeActions.COMPONENT_DATA_FAILURE:
-      homeFeedData = state.homeFeed;
-      clonedComponent = cloneDeep(homeFeedData[action.positionInFeed]);
-      clonedComponent.loading = true;
-      clonedComponent.status = action.error;
-      homeFeedData[action.positionInFeed] = clonedComponent;
-
-      return Object.assign({}, state, {
-        status: action.status,
-        homeFeed: homeFeedData
-      });
-
-    case homeActions.MSD_HOME_COMPONENT_SUCCESS:
-      return Object.assign({}, state, {
-        loadMsdSkeleton: false,
-        homeMsdData: action.homeMsdData
-      });
-    case homeActions.MSD_HOME_COMPONENT_REQUEST:
-      return Object.assign({}, state, {
-        loadMsdSkeleton: true,
-        loading: false
-      });
-    case homeActions.MSD_HOME_ABC_COMPONENT_SUCCESS:
-      return Object.assign({}, state, {
-        loadMsdSkeleton: false,
-        homeAbcMsdData: action.homeAbcMsdData
-      });
-    case homeActions.MSD_HOME_ABC_COMPONENT_REQUEST:
-      return Object.assign({}, state, {
-        loadMsdSkeleton: true,
-        loading: false
-      });
-    case homeActions.AUTO_WISHLIST_COMPONENT_REQUEST:
-      return Object.assign({}, state, {
-        loadMsdSkeleton: false
-      });
-    case homeActions.AUTO_WISHLIST_COMPONENT_SUCCESS:
-      return Object.assign({}, state, {
-        loadMsdSkeleton: false,
-        autoWishList: action.productList
-      });
-
-    case homeActions.AUTOMATED_WIDGET_HOME_REQUEST:
-      return Object.assign({}, state, {
-        loadMsdSkeleton: true
-      });
-    case homeActions.AUTOMATED_WIDGET_ITEM_REQUEST:
-      return Object.assign({}, state, {
-        loadMsdSkeleton: true
-      });
-    case homeActions.AUTOMATED_MSD_WIDGET_ITEM_DATA:
-      const msdWidgetRecommendedItems = { ...state.automatedWidgetData };
-      msdWidgetRecommendedItems[action.widgetName] = action.automatedData;
-      return Object.assign({}, state, {
-        loadMsdSkeleton: true,
-        automatedWidgetData: msdWidgetRecommendedItems
-      });
-    case homeActions.AUTOMATED_WIDGET_HOME_SUCCESS:
-      const newMsdRecommendedItems = { ...state.homeAutoWidget };
-      let check = {};
-      const filtered = Object.keys(newMsdRecommendedItems).filter(
-        key => key === action.widgetKey
-      );
-      if (
-        action.widgetKey === "4" ||
-        action.widgetKey === "114" ||
-        action.widgetKey === "0"
-      ) {
-        if (newMsdRecommendedItems) {
-          if (filtered && Array.isArray(filtered) && filtered.length > 0) {
-            check[action.productCode] = action.homeAutoWidgetData;
-            newMsdRecommendedItems[action.widgetKey] = {
-              ...check,
-              ...state.homeAutoWidget[action.widgetKey]
+        case homeActions.COMPONENT_BACK_UP_SUCCESS:
+            let componentName = action.data.componentName;
+            if (
+                componentName === BANK_OFFER_COMPONENT_NAME_HC ||
+                componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
+                componentName === QUICK_LINKS_COMPONENT_NAME_HC ||
+                componentName === MSD_AUTOMATED_BRAND_CAROUSEL ||
+                componentName === MSD_DISCOVER_MORE ||
+                componentName === AUTOMATED_WIDGETS_FOR_HOME ||
+                componentName === QUICK_LINK_PERSONALISED_COMPONENT ||
+                componentName === BANK_OFFER_PERSONALISED_COMPONENT ||
+                componentName === MULTI_PURPOSE_BANNER_PERSONALISED_COMPONENT ||
+                componentName === LUXE_EDITORIAL_PERSONALISED_CAROUSEL ||
+                componentName === LUXE_SHOP_BY_SHOP_PERSONALISED_COMPONENT ||
+                componentName === MULTI_BANNER_PERSONALISED_COMPONENT ||
+                componentName === HERO_BANNER_MONETIZATION ||
+                componentName === SIMPLE_BANNER_MONETIZATION ||
+                componentName === LUXE_HERO_BANNER_CAROUSEL
+            ) {
+                componentName = HARD_CODED_KEY_FOR_COMPONENT;
+            }
+            if (componentName === DESKTOP_THEME_OFFER_CN) {
+                componentName = THEME_OFFER_CN;
+            }
+            homeFeedData = state.homeFeed;
+            homeFeedData[action.positionInFeed].useBackUpData = false;
+            homeFeedData[action.positionInFeed].backUpLoading = false;
+            toUpdate = action.data[componentName];
+            componentData = {
+                ...homeFeedData[action.positionInFeed],
+                ...toUpdate,
+                backUpLoading: false,
+                status: action.status,
+                loading: false,
             };
-          } else {
-            check[action.productCode] = action.homeAutoWidgetData;
-            newMsdRecommendedItems[action.widgetKey] = check;
-          }
-        } else {
-          check[action.productCode] = action.homeAutoWidgetData;
-          newMsdRecommendedItems[action.widgetKey] = check;
-        }
-      } else {
-        if (filtered && Array.isArray(filtered) && filtered.length > 0) {
-          check[action.filterData] = action.homeAutoWidgetData;
-          newMsdRecommendedItems[action.widgetKey] = {
-            ...check,
-            ...state.homeAutoWidget[action.widgetKey]
-          };
-        } else {
-          check[action.filterData] = action.homeAutoWidgetData;
-          newMsdRecommendedItems[action.widgetKey] = check;
-        }
-      }
-      return Object.assign({}, state, {
-        loadMsdSkeleton: true,
-        homeAutoWidget: newMsdRecommendedItems,
-        widgetName: action.widgetName
-      });
-    case homeActions.TARGET_MBOX_SUCCESS:
-      let mboxData = action.dataMboxHome;
-      const targetMbox = { ...state.targetMboxData, ...mboxData };
-      return Object.assign({}, state, {
-        targetMboxData: targetMbox
-      });
-    case homeActions.MSD_PRODUCT_ABC_DATA_SUCCESS:
-      return Object.assign({}, state, {
-        loadMsdSkeleton: false,
-        productListABC: action.productData
-      });
-    default:
-      return state;
-  }
+
+            homeFeedData[action.positionInFeed] = componentData;
+            return Object.assign({}, state, {
+                status: action.status,
+                homeFeed: homeFeedData,
+            });
+
+        case homeActions.SECONDARY_FEED_COMPONENT_DATA_REQUEST:
+            secondaryFeedData = state.secondaryFeed;
+            clonedComponent = cloneDeep(secondaryFeedData[action.positionInFeed]);
+            clonedComponent.loading = true;
+            secondaryFeedData[action.positionInFeed] = clonedComponent;
+            return Object.assign({}, state, {
+                secondaryFeedStatus: action.status,
+                secondaryFeed: homeFeedData,
+            });
+        case homeActions.COMPONENT_DATA_REQUEST:
+            homeFeedData = state.homeFeed;
+            clonedComponent = cloneDeep(homeFeedData[action.positionInFeed]);
+            clonedComponent.loading = true;
+            homeFeedData[action.positionInFeed] = clonedComponent;
+            return Object.assign({}, state, {
+                status: action.status,
+                homeFeed: homeFeedData,
+            });
+
+        case homeActions.SECONDARY_FEED_GET_ITEMS_SUCCESS:
+            secondaryFeedData = state.secondaryFeed;
+            clonedComponent = cloneDeep(secondaryFeedData[action.positionInFeed]);
+            clonedComponent.items = transformFetchingItemsOrder(action.itemIds, action.items);
+            secondaryFeedData[action.positionInFeed] = clonedComponent;
+            return Object.assign({}, state, {
+                secondaryFeed: secondaryFeedData,
+                secondaryFeedStatus: action.status,
+            });
+
+        case homeActions.GET_ITEMS_SUCCESS:
+            homeFeedData = state.homeFeed;
+            clonedComponent = cloneDeep(homeFeedData[action.positionInFeed]);
+            clonedComponent.items = transformFetchingItemsOrder(action.itemIds, action.items);
+
+            homeFeedData[action.positionInFeed] = clonedComponent;
+            return Object.assign({}, state, {
+                homeFeed: homeFeedData,
+                status: action.status,
+            });
+        case homeActions.CLEAR_ITEMS_FOR_PARTICULAR_POSITION:
+            homeFeedData = state.homeFeed;
+            clonedComponent = cloneDeep(homeFeedData[action.positionInFeed]);
+            clonedComponent.items = [];
+            homeFeedData[action.positionInFeed] = clonedComponent;
+            return Object.assign({}, state, {
+                homeFeed: homeFeedData,
+                status: action.status,
+            });
+
+        case FOLLOW_AND_UN_FOLLOW_BRANDS_IN_HOME_FEED_SUCCESS:
+            homeFeedData = cloneDeep(state.homeFeed);
+            clonedComponent = homeFeedData[action.positionInFeed];
+            const indexOfBrandToBeUpdated = clonedComponent.data.findIndex(item => {
+                return item.id === action.brandId;
+            });
+            clonedComponent.data[indexOfBrandToBeUpdated].isFollowing = action.followStatus;
+            homeFeedData[action.positionInFeed] = clonedComponent;
+
+            return Object.assign({}, state, {
+                homeFeed: homeFeedData,
+                status: action.status,
+            });
+        case homeActions.SECONDARY_FEED_COMPONENT_DATA_SUCCESS:
+            secondaryFeedData = state.secondaryFeed;
+            componentData = {
+                loading: false,
+                secondaryFeedStatus: action.status,
+            };
+            if (!action.isMsd) {
+                toUpdate = action.data[action.data.componentName];
+                componentData = {
+                    ...secondaryFeedData[action.positionInFeed],
+                    ...toUpdate,
+                    ...componentData,
+                };
+            } else {
+                if (action.data.type) {
+                    action.data.category = action.data.type;
+                }
+                componentData = {
+                    ...action.data,
+                    ...secondaryFeedData[action.positionInFeed],
+                    ...componentData,
+                };
+            }
+            secondaryFeedData[action.positionInFeed] = componentData;
+            return Object.assign({}, state, {
+                status: action.status,
+                secondaryFeed: secondaryFeedData,
+            });
+
+        case homeActions.COMPONENT_DATA_SUCCESS:
+            if (!state.homeFeed[action.positionInFeed].useBackUpData) {
+                homeFeedData = state.homeFeed;
+                componentData = {
+                    loading: false,
+                    status: action.status,
+                };
+                let componentName = action.data.componentName;
+                if (
+                    componentName === BANK_OFFER_COMPONENT_NAME_HC ||
+                    componentName === MULTIPLE_BANNER_COMPONENT_NAME_HC ||
+                    componentName === QUICK_LINKS_COMPONENT_NAME_HC ||
+                    componentName === MSD_AUTOMATED_BRAND_CAROUSEL ||
+                    componentName === MSD_DISCOVER_MORE ||
+                    componentName === AUTOMATED_WIDGETS_FOR_HOME ||
+                    componentName === QUICK_LINK_PERSONALISED_COMPONENT ||
+                    componentName === BANK_OFFER_PERSONALISED_COMPONENT ||
+                    componentName === MULTI_PURPOSE_BANNER_PERSONALISED_COMPONENT ||
+                    componentName === LUXE_EDITORIAL_PERSONALISED_CAROUSEL ||
+                    componentName === LUXE_SHOP_BY_SHOP_PERSONALISED_COMPONENT ||
+                    componentName === MULTI_BANNER_PERSONALISED_COMPONENT ||
+                    componentName === HERO_BANNER_MONETIZATION ||
+                    componentName === SIMPLE_BANNER_MONETIZATION ||
+                    componentName === LUXE_HERO_BANNER_CAROUSEL
+                ) {
+                    componentName = HARD_CODED_KEY_FOR_COMPONENT;
+                }
+                if (componentName === DESKTOP_THEME_OFFER_CN) {
+                    componentName = THEME_OFFER_CN;
+                }
+                if (componentName === HERO_BANNER_PERSONALISED_COMPONENT) {
+                    componentName = SUB_HEADER_HERO_BANNER;
+                }
+                if (componentName === TWO_BY_TWO_PERSONALISED_COMPONENT) {
+                    componentName = SUB_HEADER_TWO_BY_TWO;
+                }
+                if (!action.isMsd) {
+                    toUpdate = action.data[componentName];
+                    componentData = {
+                        ...homeFeedData[action.positionInFeed],
+                        ...toUpdate,
+                        ...componentData,
+                    };
+                } else {
+                    if (action.data.type) {
+                        action.data.category = action.data.type;
+                    }
+                    componentData = {
+                        ...action.data,
+                        ...homeFeedData[action.positionInFeed],
+                        ...componentData,
+                    };
+                }
+                homeFeedData[action.positionInFeed] = componentData;
+                return Object.assign({}, state, {
+                    status: action.status,
+                    homeFeed: homeFeedData,
+                });
+            }
+            break;
+
+        case homeActions.SECONDARY_FEED_COMPONENT_DATA_FAILURE:
+            secondaryFeedData = state.secondaryFeed;
+            clonedComponent = cloneDeep(secondaryFeedData[action.positionInFeed]);
+            clonedComponent.loading = true;
+            clonedComponent.status = action.error;
+            secondaryFeedData[action.positionInFeed] = clonedComponent;
+
+            return Object.assign({}, state, {
+                secondaryFeedStatus: action.status,
+                secondaryFeed: secondaryFeedData,
+            });
+
+        case homeActions.COMPONENT_DATA_FAILURE:
+            homeFeedData = state.homeFeed;
+            clonedComponent = cloneDeep(homeFeedData[action.positionInFeed]);
+            clonedComponent.loading = true;
+            clonedComponent.status = action.error;
+            homeFeedData[action.positionInFeed] = clonedComponent;
+
+            return Object.assign({}, state, {
+                status: action.status,
+                homeFeed: homeFeedData,
+            });
+
+        case homeActions.MSD_HOME_COMPONENT_SUCCESS:
+            return Object.assign({}, state, {
+                loadMsdSkeleton: false,
+                homeMsdData: action.homeMsdData,
+            });
+        case homeActions.MSD_HOME_COMPONENT_REQUEST:
+            return Object.assign({}, state, {
+                loadMsdSkeleton: true,
+                loading: false,
+            });
+        case homeActions.MSD_HOME_ABC_COMPONENT_SUCCESS:
+            return Object.assign({}, state, {
+                loadMsdSkeleton: false,
+                homeAbcMsdData: action.homeAbcMsdData,
+            });
+        case homeActions.MSD_HOME_ABC_COMPONENT_REQUEST:
+            return Object.assign({}, state, {
+                loadMsdSkeleton: true,
+                loading: false,
+            });
+        case homeActions.AUTO_WISHLIST_COMPONENT_REQUEST:
+            return Object.assign({}, state, {
+                loadMsdSkeleton: false,
+            });
+        case homeActions.AUTO_WISHLIST_COMPONENT_SUCCESS:
+            return Object.assign({}, state, {
+                loadMsdSkeleton: false,
+                autoWishList: action.productList,
+            });
+
+        case homeActions.AUTOMATED_WIDGET_HOME_REQUEST:
+            return Object.assign({}, state, {
+                loadMsdSkeleton: true,
+            });
+        case homeActions.AUTOMATED_WIDGET_ITEM_REQUEST:
+            return Object.assign({}, state, {
+                loadMsdSkeleton: true,
+            });
+        case homeActions.AUTOMATED_MSD_WIDGET_ITEM_DATA:
+            const msdWidgetRecommendedItems = { ...state.automatedWidgetData };
+            msdWidgetRecommendedItems[action.widgetName] = action.automatedData;
+            return Object.assign({}, state, {
+                loadMsdSkeleton: true,
+                automatedWidgetData: msdWidgetRecommendedItems,
+            });
+        case homeActions.AUTOMATED_WIDGET_HOME_SUCCESS:
+            const newMsdRecommendedItems = { ...state.homeAutoWidget };
+            let check = {};
+            const filtered = Object.keys(newMsdRecommendedItems).filter(key => key === action.widgetKey);
+            if (action.widgetKey === "4" || action.widgetKey === "114" || action.widgetKey === "0") {
+                if (newMsdRecommendedItems) {
+                    if (filtered && Array.isArray(filtered) && filtered.length > 0) {
+                        check[action.productCode] = action.homeAutoWidgetData;
+                        newMsdRecommendedItems[action.widgetKey] = {
+                            ...check,
+                            ...state.homeAutoWidget[action.widgetKey],
+                        };
+                    } else {
+                        check[action.productCode] = action.homeAutoWidgetData;
+                        newMsdRecommendedItems[action.widgetKey] = check;
+                    }
+                } else {
+                    check[action.productCode] = action.homeAutoWidgetData;
+                    newMsdRecommendedItems[action.widgetKey] = check;
+                }
+            } else {
+                if (filtered && Array.isArray(filtered) && filtered.length > 0) {
+                    check[action.filterData] = action.homeAutoWidgetData;
+                    newMsdRecommendedItems[action.widgetKey] = {
+                        ...check,
+                        ...state.homeAutoWidget[action.widgetKey],
+                    };
+                } else {
+                    check[action.filterData] = action.homeAutoWidgetData;
+                    newMsdRecommendedItems[action.widgetKey] = check;
+                }
+            }
+            return Object.assign({}, state, {
+                loadMsdSkeleton: true,
+                homeAutoWidget: newMsdRecommendedItems,
+                widgetName: action.widgetName,
+            });
+        case homeActions.TARGET_MBOX_SUCCESS:
+            let mboxData = action.dataMboxHome;
+            const targetMbox = { ...state.targetMboxData, ...mboxData };
+            return Object.assign({}, state, {
+                targetMboxData: targetMbox,
+            });
+        case homeActions.MSD_PRODUCT_ABC_DATA_SUCCESS:
+            return Object.assign({}, state, {
+                loadMsdSkeleton: false,
+                productListABC: action.productData,
+            });
+        default:
+            return state;
+    }
 };
 
 export default feed;
