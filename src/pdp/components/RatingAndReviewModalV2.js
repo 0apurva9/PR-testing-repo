@@ -280,8 +280,8 @@ export default class RatingAndReviewModalV2 extends Component {
                     {this.state.sectionActive === 4 && (
                         <RnRSuccessSectionComponent
                             selectedRating={this.state.currentRating}
-                            getPendingReviews={(currentPage, isRatingReviewSuccessScreen) =>
-                                this.props.getPendingReviews(currentPage, isRatingReviewSuccessScreen)
+                            getPendingReviewsSuccessScreen={currentPage =>
+                                this.props.getPendingReviewsSuccessScreen(currentPage)
                             }
                             pendingReviewsDetails={this.props.pendingReviewsDetails}
                             history={this.props.history}
@@ -426,7 +426,7 @@ RatingAndReviewModalV2.propTypes = {
     section: PropTypes.number,
     userProductReviewDetails: PropTypes.object,
     pageName: PropTypes.string,
-    getPendingReviews: PropTypes.func,
+    getPendingReviewsSuccessScreen: PropTypes.func,
     pendingReviewsDetails: PropTypes.object,
     history: PropTypes.object,
     getParametersEligibleToRate: PropTypes.func,

@@ -17,7 +17,7 @@ import {
     updateReturnCancellation,
     updateReturnForHOTC,
     getGenesysCallConfigData,
-    getPendingReviews,
+    getPendingReviewsSuccessScreen,
 } from "../../account/actions/account.actions";
 import {
     getTncForBankOffer,
@@ -110,7 +110,7 @@ const mapStateToProps = state => {
         addReviewDetails: state.productDescription.addReviewDetails,
         submitParameterRatingDetails: state.productDescription.submitParameterRatingDetails,
         userProductReviewDetails: state.profile.getUserProductReviewDetails,
-        pendingReviewsDetails: state.profile.getPendingReviewsDetails,
+        pendingReviewsDetails: state.profile.getPendingReviewsSuccessScreenDetails,
     };
 };
 
@@ -426,8 +426,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         getTitleSuggestions: (productCode, userRating) => {
             dispatch(getTitleSuggestions(productCode, userRating));
         },
-        getPendingReviews: (currentPage, isRatingReviewSuccessScreen) => {
-            dispatch(getPendingReviews(currentPage, isRatingReviewSuccessScreen));
+        getPendingReviewsSuccessScreen: currentPage => {
+            dispatch(getPendingReviewsSuccessScreen(currentPage));
         },
         getParametersEligibleToRate: (productCode, callgetUserProductReviewAPI) => {
             dispatch(getParametersEligibleToRate(productCode, callgetUserProductReviewAPI));
