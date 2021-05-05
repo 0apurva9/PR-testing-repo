@@ -29,30 +29,27 @@ const CATEGORY = "Categories";
 const BRANDS = "Brands";
 
 export default class DesktopHeader extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			hovered: null,
-			hoverInType: null,
-			bagHover: false
-		};
-	}
+    constructor(props) {
+        super(props);
+        this.state = {
+            hovered: null,
+            hoverInType: null,
+            bagHover: false,
+        };
+    }
 
-	redirectToHome() {
-		if (
-			this.props.history.location.pathname.includes("/checkout") ||
-			this.props.history.location.pathname.includes("/cart")
-		) {
-			return;
-		}
-		setDataLayerForHeaderAndFooterDirectCalls(
-			ADOBE_DIRECT_CALL_FOR_HEADER_CLICK,
-			"Tata CLiQ Logo"
-		);
-		if (this.props.redirectToHome) {
-			this.props.redirectToHome();
-		}
-	}
+    redirectToHome() {
+        if (
+            this.props.history.location.pathname.includes("/checkout") ||
+            this.props.history.location.pathname.includes("/cart")
+        ) {
+            return;
+        }
+        setDataLayerForHeaderAndFooterDirectCalls(ADOBE_DIRECT_CALL_FOR_HEADER_CLICK, "Tata CLiQ Logo");
+        if (this.props.redirectToHome) {
+            this.props.redirectToHome();
+        }
+    }
 
     openSignUpPopUp(value) {
         if (this.props.openSignUp) {
@@ -186,7 +183,9 @@ export default class DesktopHeader extends React.Component {
     renderToAnotherURL(webURL, triggerDirectCall, value) {
         if (webURL) {
             let urlSuffix = webURL.replace(TATA_CLIQ_ROOT, "$1");
-            this.props.history.push(urlSuffix);
+            this.props.history.push(urlSuffix, {
+                categoryOrBrand: true,
+            });
             this.props.userSelectedOutOfStock();
             setDataLayerForHeaderAndFooterDirectCalls(ADOBE_DIRECT_CALL_FOR_HEADER_CLICK, "");
             setDataLayerForHeaderAndFooterDirectCalls(triggerDirectCall, value);
@@ -195,7 +194,7 @@ export default class DesktopHeader extends React.Component {
 
     getLuxURL() {
         const hostName = isBrowser ? window.location.href : "";
-        let urlStr= "";
+        let urlStr = "";
         switch (hostName) {
             case "https://tmppprd.tataunistore.com/":
                 urlStr = "https://luxtmppprd.tataunistore.com/";
@@ -401,9 +400,9 @@ export default class DesktopHeader extends React.Component {
                                                             {headerBrandAndCategoryDetails.categoriesTabAZListComponent.map(
                                                                 (categories, i) => {
                                                                     return (
-                                                                        <React.Fragment key ={i}>
+                                                                        <React.Fragment key={i}>
                                                                             <div
-                                                                            key ={i}
+                                                                                key={i}
                                                                                 className={
                                                                                     this.state.hovered ===
                                                                                     categories.category_name
@@ -607,7 +606,10 @@ export default class DesktopHeader extends React.Component {
                                                                     currentBrand.items &&
                                                                     currentBrand.items.map((brandLogo, i) => {
                                                                         return (
-                                                                            <div className={styles.brandLogoDetails} key={i}>
+                                                                            <div
+                                                                                className={styles.brandLogoDetails}
+                                                                                key={i}
+                                                                            >
                                                                                 <BrandImage
                                                                                     image={brandLogo.brandLogo}
                                                                                     text={brandLogo.text}
@@ -679,9 +681,9 @@ DesktopHeader.propTypes = {
     userSelectedOutOfStock: PropTypes.func,
     profileDetails: PropTypes.bool,
     minicart: PropTypes.object,
-    wishListCount: PropTypes.oneOfType([PropTypes.number,  PropTypes.instanceOf(null)]),
+    wishListCount: PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(null)]),
     searchHolder: PropTypes.string,
-    ...RouterPropTypes
+    ...RouterPropTypes,
 };
 DesktopHeader.defaultProps = {
     isSticky: false,

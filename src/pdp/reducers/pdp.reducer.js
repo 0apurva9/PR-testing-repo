@@ -156,6 +156,16 @@ const productDescription = (
         getReviewsOnProductPageLoading: false,
         getReviewsOnProductPageError: null,
         getReviewsOnProductPageDetails: null,
+
+        getRatingSummaryStatus: null,
+        getRatingSummaryLoading: false,
+        getRatingSummaryError: null,
+        getRatingSummaryDetails: null,
+
+        getPdpReviewsStatus: null,
+        getPdpReviewsLoading: false,
+        getPdpReviewsError: null,
+        getPdpReviewsDetails: null,
     },
     action
 ) => {
@@ -1422,6 +1432,48 @@ const productDescription = (
                 getReviewsOnProductPageLoading: false,
                 getReviewsOnProductPageError: action.error,
                 getReviewsOnProductPageDetails: null,
+            });
+
+        case pdpActions.GET_RATING_SUMMARY_REQUEST:
+            return Object.assign({}, state, {
+                getRatingSummaryStatus: action.status,
+                getRatingSummaryLoading: true,
+            });
+
+        case pdpActions.GET_RATING_SUMMARY_SUCCESS:
+            return Object.assign({}, state, {
+                getRatingSummaryStatus: action.status,
+                getRatingSummaryLoading: false,
+                getRatingSummaryDetails: action.data,
+            });
+
+        case pdpActions.GET_RATING_SUMMARY_FAILURE:
+            return Object.assign({}, state, {
+                getRatingSummaryStatus: action.status,
+                getRatingSummaryLoading: false,
+                getRatingSummaryError: action.error,
+                getRatingSummaryDetails: null,
+            });
+
+        case pdpActions.GET_PDP_REVIEWS_REQUEST:
+            return Object.assign({}, state, {
+                getPdpReviewsStatus: action.status,
+                getPdpReviewsLoading: true,
+            });
+
+        case pdpActions.GET_PDP_REVIEWS_SUCCESS:
+            return Object.assign({}, state, {
+                getPdpReviewsStatus: action.status,
+                getPdpReviewsLoading: false,
+                getPdpReviewsDetails: action.data,
+            });
+
+        case pdpActions.GET_PDP_REVIEWS_FAILURE:
+            return Object.assign({}, state, {
+                getPdpReviewsStatus: action.status,
+                getPdpReviewsLoading: false,
+                getPdpReviewsError: action.error,
+                getPdpReviewsDetails: null,
             });
 
         default:

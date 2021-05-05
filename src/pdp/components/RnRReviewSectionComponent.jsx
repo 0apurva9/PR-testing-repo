@@ -85,6 +85,10 @@ class RnRReviewSectionComponent extends Component {
         this.setState({ showReviewGuidelines: !this.state.showReviewGuidelines });
     };
 
+    componentWillUnmount() {
+        this.props.getUpdatedReviewDetails(null, null, null);
+    }
+
     render() {
         let id = null;
         if (this.props.userProductReviewDetails && this.props.userProductReviewDetails.id) {

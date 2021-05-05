@@ -8,7 +8,6 @@ import Accordion from "../../general/components/Accordion.js";
 import JewelleryClassification from "./JewelleryClassification";
 import PriceBreakUp from "./PriceBreakUp";
 import UnderLinedButton from "../../general/components/UnderLinedButton";
-import ProductReviewListContainer from "../containers/ProductReviewListContainer";
 import SizeQuantitySelect from "./SizeQuantitySelect";
 import APlusTemplate from "./APlusTemplate";
 import LoadableVisibility from "react-loadable-visibility/react-loadable";
@@ -76,7 +75,6 @@ import PropTypes from "prop-types";
 import ProductBundling from "./ProductBundling";
 import { renderMetaTags } from "./../../lib/seoUtils";
 import AppliancesExchange from "./AppliancesExchange";
-import RatingReviewHeaderComponent from "./PdpBeautyDesktop/DescriptionSection/RatingReviewHeaderComponent";
 import { initiateHaptikScript } from "./../../common/services/common.services";
 
 const WASH = "Wash";
@@ -98,6 +96,24 @@ let samsungChatUrl = "";
 if (isBrowser) {
     samsungChatUrl = process.env.SAMSUNG_CHAT_URL + window.location.href + process.env.SAMSUNG_CHAT_URL_REFERRER;
 }
+
+const RatingReviewHeaderComponent = LoadableVisibility({
+    loader: () =>
+        import(
+            /* webpackChunkName: "rating-review-header-component"  */ "./PdpBeautyDesktop/DescriptionSection/RatingReviewHeaderComponent"
+        ),
+    loading: () => {
+        return <div />;
+    },
+});
+
+const ProductReviewListContainer = LoadableVisibility({
+    loader: () =>
+        import(/* webpackChunkName: "product-review-list-container"  */ "../containers/ProductReviewListContainer"),
+    loading: () => {
+        return <div />;
+    },
+});
 
 export default class PdpApparel extends React.Component {
     constructor(props) {
@@ -248,6 +264,14 @@ export default class PdpApparel extends React.Component {
         if (isACCategory) {
             this.props.getAppliancesExchangeDetails();
             this.setState({ isACCategory: isACCategory });
+        }
+
+        if (
+            this.props.productDetails.numberOfReviews &&
+            (this.props.productDetails.numberOfReviews !== 0 || this.props.productDetails.numberOfReviews !== "0") &&
+            this.props.productDetails.displayRatingReview
+        ) {
+            this.props.getRatingSummary(this.props.productDetails.productListingId);
         }
     };
 
@@ -1418,7 +1442,12 @@ export default class PdpApparel extends React.Component {
                                                                     getProductDescription={
                                                                         this.props.getProductDescription
                                                                     }
-                                                                    getProductReviews={this.props.getProductReviews}
+                                                                    displayRatingReview={
+                                                                        productData.displayRatingReview
+                                                                    }
+                                                                    numberOfReviews={productData.numberOfReviews}
+                                                                    getRatingSummary={this.props.getRatingSummary}
+                                                                    getPdpReviews={this.props.getPdpReviews}
                                                                 />
                                                             </div>
                                                         )}
@@ -2200,7 +2229,7 @@ export default class PdpApparel extends React.Component {
                                                     <RatingReviewHeaderComponent
                                                         goToReviewPage={() => this.goToReviewPage()}
                                                         productDetails={productData}
-                                                        reviews={this.props.reviews}
+                                                        reviews={this.props.ratingSummaryDetails}
                                                     />
                                                     <ProductReviewListContainer
                                                         limit={true}
@@ -2445,4 +2474,7 @@ PdpApparel.propTypes = {
     tempCartIdForLoggedInUserLoading: PropTypes.bool,
     openBeautyPopup: PropTypes.func,
     getProductReviews: PropTypes.func,
+    getRatingSummary: PropTypes.func,
+    ratingSummaryDetails: PropTypes.object,
+    getPdpReviews: PropTypes.func,
 };

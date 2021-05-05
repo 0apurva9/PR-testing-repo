@@ -97,20 +97,26 @@ export function findSelectedSize(variantTheme = [], productListingId, fromColorC
     let sizeToSetInState = {};
     if (variantTheme && variantTheme.length > 0) {
         sizeOptions = variantTheme && variantTheme.map(el => el.sizelink);
-        sizeOptions &&
-            sizeOptions.filter((el, i) => {
-                if (
-                    (el && el.productCode) === productListingId &&
-                    (el && el.isAvailable) === true &&
-                    (el && el.selected) === true
-                ) {
-                    if (fromColorComponent) {
-                        sizeToSetInState = { selectedSizeIndex: i };
-                    } else {
-                        sizeToSetInState = { isSelected: true, selectedIndex: i };
-                    }
+        for (let i = 0; i < sizeOptions.length; i++) {
+            if (
+                (sizeOptions[i] && sizeOptions[i].productCode) === productListingId &&
+                (sizeOptions[i] && sizeOptions[i].isAvailable) === true &&
+                (sizeOptions[i] && sizeOptions[i].selected) === true
+            ) {
+                if (fromColorComponent) {
+                    sizeToSetInState = { selectedSizeIndex: i };
+                } else {
+                    sizeToSetInState = { isSelected: true, selectedIndex: i };
                 }
-            });
+                return sizeToSetInState;
+            }
+        }
     }
-    return sizeToSetInState;
+    if (fromColorComponent && Object.keys(sizeToSetInState).length === 0) {
+        sizeToSetInState = { selectedSizeIndex: -1 };
+        return sizeToSetInState;
+    } else if (!fromColorComponent && Object.keys(sizeToSetInState).length === 0) {
+        sizeToSetInState = { isSelected: false, selectedIndex: -1 };
+        return sizeToSetInState;
+    }
 }
