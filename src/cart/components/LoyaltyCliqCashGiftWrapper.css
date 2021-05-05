@@ -1,0 +1,34 @@
+.ccLpInfoText {
+    font-size: 12px;
+    padding: 4% 0% 1%;
+    color: #4a4a4a;
+    font-family: "regular";
+}
+.btnCls {
+    margin-top: 2%;
+    text-align: right;
+}
+.alertBtn {
+    color: #6200ee;
+    font-size: 14px;
+    margin-left: 20px;
+    cursor: pointer;
+}
+.modalText {
+    font-size: 14px;
+    opacity: 0.6;
+}
+.loyaltyBase {
+    margin: 10px 0px;
+}
+.cliqCashBase {
+    margin: 10px 0px;
+}
+.giftCardAccrodian {
+    width: 100%;
+    height: auto;
+    background: #fff;
+    padding: 10px 30px;
+    border-radius: 4px;
+    margin-top: 15px;
+}

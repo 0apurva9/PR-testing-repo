@@ -27,12 +27,24 @@ export default class CliqCashAndNoCostEmiPopup extends React.Component {
             <React.Fragment>
                 <MobileOnly>
                     <div className={styles.base}>
-                        <div className={styles.paymentMethodDescription}>
-                            <div className={styles.heading}>Cliq Cash and No Cost Emi can not use together</div>
-                            <div className={styles.subHeading}>
-                                Please choose to use your CliQ Cash balance or continue with No Cost EMI
+                        {this.props.loyaltyApplied ? (
+                            <div className={styles.paymentMethodDescription}>
+                                <div className={styles.heading}>
+                                    Loyalty Points and No Cost Emi can not use together
+                                </div>
+                                <div className={styles.subHeading}>
+                                    Please choose to use your Loyalty Points balance or continue with No Cost EMI
+                                </div>
                             </div>
-                        </div>
+                        ) : (
+                            <div className={styles.paymentMethodDescription}>
+                                <div className={styles.heading}>Cliq Cash and No Cost Emi can not use together</div>
+                                <div className={styles.subHeading}>
+                                    Please choose to use your CliQ Cash balance or continue with No Cost EMI
+                                </div>
+                            </div>
+                        )}
+
                         <div className={styles.buttonHolderForPaymentMode}>
                             <div className={styles.button}>
                                 <Button
@@ -51,7 +63,7 @@ export default class CliqCashAndNoCostEmiPopup extends React.Component {
                                 <Button
                                     type="secondary"
                                     height={36}
-                                    label="Use Cliq Cash"
+                                    label={this.props.loyaltyApplied ? "Use Loyalty Points" : "Use CLiQ Cash"}
                                     width={211}
                                     onClick={() => this.useCliqCash()}
                                 />
@@ -62,12 +74,23 @@ export default class CliqCashAndNoCostEmiPopup extends React.Component {
                 <DesktopOnly>
                     <BottomSlideModal>
                         <div className={styles.base}>
-                            <div className={styles.paymentMethodDescription}>
-                                <div className={styles.heading}>Cliq Cash and No Cost Emi can not use together</div>
-                                <div className={styles.subHeading}>
-                                    Please choose to use your CliQ Cash balance or continue with No Cost EMI
+                            {this.props.loyaltyApplied ? (
+                                <div className={styles.paymentMethodDescription}>
+                                    <div className={styles.heading}>
+                                        Loyalty Points and No Cost Emi can not use together
+                                    </div>
+                                    <div className={styles.subHeading}>
+                                        Please choose to use your Loyalty Points balance or continue with No Cost EMI
+                                    </div>
                                 </div>
-                            </div>
+                            ) : (
+                                <div className={styles.paymentMethodDescription}>
+                                    <div className={styles.heading}>Cliq Cash and No Cost Emi can not use together</div>
+                                    <div className={styles.subHeading}>
+                                        Please choose to use your CliQ Cash balance or continue with No Cost EMI
+                                    </div>
+                                </div>
+                            )}
                             <div className={styles.buttonHolderForPaymentMode}>
                                 <div className={styles.button}>
                                     <Button
@@ -86,7 +109,7 @@ export default class CliqCashAndNoCostEmiPopup extends React.Component {
                                     <Button
                                         type="secondary"
                                         height={36}
-                                        label="Use Cliq Cash"
+                                        label={this.props.loyaltyApplied ? "Use Loyalty Points" : "Use CLiQ Cash"}
                                         width={211}
                                         onClick={() => this.useCliqCash()}
                                     />
@@ -107,4 +130,5 @@ CliqCashAndNoCostEmiPopup.propTypes = {
     removeNoCostEmi: PropTypes.func,
     doCallForApplyCliqCash: PropTypes.func,
     handleClose: PropTypes.func,
+    loyaltyApplied: PropTypes.bool,
 };

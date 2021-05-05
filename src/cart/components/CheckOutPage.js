@@ -89,6 +89,7 @@ import {
     ERROR,
     SELECTED_STORE,
     UPI,
+    LOYALTY_PAYMENT_MODE,
     INSTACRED,
     CARDLESS_EMI,
     IS_DC_EMI_SELECTED,
@@ -101,8 +102,8 @@ import {
     PINCODE_VALID_TEXT,
     CITY_TEXT,
     EMAIL_VALID_TEXT,
-	PHONE_VALID_TEXT,
-	MDE_FRAUD_CHECK_ERROR
+    PHONE_VALID_TEXT,
+    MDE_FRAUD_CHECK_ERROR,
 } from "../../lib/constants";
 import { EMAIL_REGULAR_EXPRESSION, MOBILE_PATTERN } from "../../auth/components/Login";
 import SecondaryLoader from "../../general/components/SecondaryLoader";
@@ -170,6 +171,7 @@ class CheckOutPage extends React.Component {
             isRemainingAmount: true,
             cliqCashAmount: "",
             userCliqCashAmount: "",
+            loyaltyAmount: "",
             bagAmount: "",
             selectedDeliveryDetails: null,
             ratingExperience: false,
@@ -194,7 +196,9 @@ class CheckOutPage extends React.Component {
             egvCartGuid: null,
             noCostEmiBankName: null,
             isCliqCashApplied: false,
+            loyaltyPointsApplied: false,
             cliqCashPaidAmount: "0.00",
+            loyaltyPaidAmount: "0.00",
             showCartDetails: false,
             padding: "15px 125px 15px 15px",
             isOpenTransactionFailedPopUp: true,
@@ -433,6 +437,18 @@ class CheckOutPage extends React.Component {
             }
         } else {
             this.props.setHeaderText(CHECKOUT);
+        }
+        if (localStorage.getItem("cliqCashAppliedWithOffer")) {
+            this.setState({
+                isCliqCashApplied: false,
+                captchaReseponseForCOD: null,
+                PAYMENT_MODE_TYPE: null,
+                binValidationCOD: false,
+                currentPaymentMode: null,
+                paymentModeSelected: null,
+                savedCardDetails: null,
+            });
+            localStorage.removeItem("cliqCashAppliedWithOffer");
         }
     }
 
@@ -1034,25 +1050,23 @@ class CheckOutPage extends React.Component {
             let defaultAddress;
             if (this.state.isFirstAddress) {
                 defaultAddress = nextProps.cart.userAddress.addresses[0];
-				this.setState({ isFirstAddress: false, confirmAddress: true });
-				let isExchangeProductInCart = false;
-				let cartProductsData =
-					nextProps.cart &&
-					nextProps.cart.cartDetailsCNC &&
-					nextProps.cart.cartDetailsCNC.products;
-				let productsExchangeData =
-					cartProductsData &&
-					cartProductsData.filter(product => {
-						return product.exchangeDetails;
-					});
-				if (productsExchangeData && productsExchangeData.length > 0) {
-					isExchangeProductInCart = true;
-				}
+                this.setState({ isFirstAddress: false, confirmAddress: true });
+                let isExchangeProductInCart = false;
+                let cartProductsData =
+                    nextProps.cart && nextProps.cart.cartDetailsCNC && nextProps.cart.cartDetailsCNC.products;
+                let productsExchangeData =
+                    cartProductsData &&
+                    cartProductsData.filter(product => {
+                        return product.exchangeDetails;
+                    });
+                if (productsExchangeData && productsExchangeData.length > 0) {
+                    isExchangeProductInCart = true;
+                }
                 this.props.addAddressToCart(
                     defaultAddress.id,
                     defaultAddress.postalCode,
-					this.state.isComingFromCliqAndPiq,
-					isExchangeProductInCart
+                    this.state.isComingFromCliqAndPiq,
+                    isExchangeProductInCart
                 );
                 if (this.state.isComingFromCliqAndPiq) {
                     this.setState({ confirmAddress: true });
@@ -1455,6 +1469,22 @@ class CheckOutPage extends React.Component {
                 });
             }
         }
+        if (
+            nextProps.cart.loyaltyPoints &&
+            nextProps.cart.loyaltyPoints.loyaltyPointsBalance &&
+            !this.state.isPaymentFailed
+        ) {
+            this.setState({
+                loyaltyAmount:
+                    nextProps.cart.loyaltyPoints.loyaltyPointsBalance.value > 0
+                        ? Math.round(nextProps.cart.loyaltyPoints.loyaltyPointsBalance.value * 100) / 100
+                        : "0.00",
+                loyaltyPaidAmount:
+                    nextProps.cart.loyaltyPoints.loyaltyPointsPaidAmount.value > 0
+                        ? Math.round(nextProps.cart.loyaltyPoints.loyaltyPointsPaidAmount.value * 100) / 100
+                        : "0.00",
+            });
+        }
         if (nextProps.cart.justPayPaymentDetails !== null) {
             if (nextProps.cart.justPayPaymentDetails.payment) {
                 if (
@@ -1509,6 +1539,27 @@ class CheckOutPage extends React.Component {
                 this.props.getPrepaidOrderPaymentConfirmation(stripeDetails);
             }
         }
+        if (
+            nextProps.cart &&
+            nextProps.cart.paymentFailureOrderDetails &&
+            this.props.cart &&
+            this.props.cart.paymentFailureOrderDetails
+        ) {
+            this.setState({
+                loyaltyPointsApplied: this.props.cart.paymentFailureOrderDetails.loyaltyPointsApplied,
+            });
+        }
+        if (
+            this.props.cart &&
+            nextProps.cart &&
+            this.props.cart.loyaltyDetails &&
+            nextProps.cart.loyaltyPoints &&
+            this.props.cart.loyaltyDetails.loyaltyPointsApplied !== nextProps.cart.loyaltyPoints.loyaltyPointsApplied
+        ) {
+            this.setState({
+                loyaltyPointsApplied: nextProps.cart.loyaltyPoints.loyaltyPointsApplied,
+            });
+        }
     }
 
     componentWillUnmount() {
@@ -1546,7 +1597,6 @@ class CheckOutPage extends React.Component {
     }
 
     componentDidMount() {
-
         let n = document.createElement("script");
         n.src = "https://js.stripe.com/v2/";
         n.type = "text/javascript";
@@ -2541,21 +2591,19 @@ class CheckOutPage extends React.Component {
     };
 
     handleSubmit = async () => {
-		localStorage.setItem(ADDRESS_FOR_PLACE_ORDER, JSON.stringify(this.state.selectedAddress));
+        localStorage.setItem(ADDRESS_FOR_PLACE_ORDER, JSON.stringify(this.state.selectedAddress));
 
-		let isExchangeProductInCart = false;
-		let cartProductsData =
-			this.props.cart &&
-			this.props.cart.cartDetailsCNC &&
-			this.props.cart.cartDetailsCNC.products;
-		let productsExchangeData =
-			cartProductsData &&
-			cartProductsData.filter(product => {
-				return product.exchangeDetails;
-			});
-		if (productsExchangeData && productsExchangeData.length > 0) {
-			isExchangeProductInCart = true;
-		}
+        let isExchangeProductInCart = false;
+        let cartProductsData =
+            this.props.cart && this.props.cart.cartDetailsCNC && this.props.cart.cartDetailsCNC.products;
+        let productsExchangeData =
+            cartProductsData &&
+            cartProductsData.filter(product => {
+                return product.exchangeDetails;
+            });
+        if (productsExchangeData && productsExchangeData.length > 0) {
+            isExchangeProductInCart = true;
+        }
 
         if (!this.state.isPaymentFailed) {
             if (this.state.isFirstAddress) {
@@ -2571,8 +2619,8 @@ class CheckOutPage extends React.Component {
                 this.props.addAddressToCart(
                     this.state.addressId,
                     this.state.selectedAddress.postalCode,
-					this.state.isComingFromCliqAndPiq,
-					isExchangeProductInCart
+                    this.state.isComingFromCliqAndPiq,
+                    isExchangeProductInCart
                 );
                 this.setState({ confirmAddress: true });
                 if (this.state.isComingFromCliqAndPiq) {
@@ -2758,6 +2806,15 @@ class CheckOutPage extends React.Component {
                 }
             }
 
+            if (
+                this.props.cart &&
+                this.props.cart.cartDetailsCNC &&
+                this.props.cart.cartDetailsCNC.cartAmount &&
+                this.props.cart.cartDetailsCNC.cartAmount.paybleAmount.value === 0 &&
+                this.state.loyaltyPointsApplied
+            ) {
+                this.props.softReservationForLoyalty(localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE));
+            }
             if (!this.state.isRemainingAmount) {
                 if (this.props.cart.isCreatePaymentOrderFailed) {
                     this.props.createPaymentOrder();
@@ -3127,6 +3184,7 @@ class CheckOutPage extends React.Component {
 
     applyCliqCash = async () => {
         if (this.state.isNoCostEmiApplied) {
+            const loyaltyApplied = false;
             const doCallForApplyCliqCash = () => {
                 this.setState({
                     isCliqCashApplied: true,
@@ -3140,10 +3198,12 @@ class CheckOutPage extends React.Component {
             };
             this.props.showModalForCliqCashOrNoCostEmi({
                 doCallForApplyCliqCash,
+                loyaltyApplied,
             });
         } else {
             this.setState({
                 isCliqCashApplied: true,
+                currentPaymentMode: null,
                 binValidationCOD: false,
                 captchaReseponseForCOD: null,
                 PAYMENT_MODE_TYPE: "Cliq Cash",
@@ -3159,7 +3219,46 @@ class CheckOutPage extends React.Component {
             PAYMENT_MODE_TYPE: null,
             binValidationCOD: false,
         });
-        this.props.removeCliqCash();
+        return this.props.removeCliqCash();
+    };
+
+    applyLoyalty = (guId, method, totalLoyaltyPoints, appliedLoyaltyPoints) => {
+        localStorage.setItem(PAYMENT_MODE_TYPE, LOYALTY_PAYMENT_MODE);
+        if (this.state.isNoCostEmiApplied) {
+            const loyaltyApplied = true;
+            const doCallForApplyCliqCash = () => {
+                this.setState({
+                    loyaltyPointsApplied: true,
+                    currentPaymentMode: null,
+                    isNoCostEmiApplied: false,
+                    binValidationCOD: false,
+                    captchaReseponseForCOD: null,
+                    PAYMENT_MODE_TYPE: LOYALTY_PAYMENT_MODE,
+                });
+                this.props.applyRemoveloyaltyPoints(guId, method, totalLoyaltyPoints, appliedLoyaltyPoints);
+            };
+            this.props.showModalForCliqCashOrNoCostEmi({ doCallForApplyCliqCash, loyaltyApplied });
+        } else {
+            this.setState({
+                loyaltyPointsApplied: true,
+                currentPaymentMode: null,
+                binValidationCOD: false,
+                captchaReseponseForCOD: null,
+                PAYMENT_MODE_TYPE: LOYALTY_PAYMENT_MODE,
+            });
+            this.props.applyRemoveloyaltyPoints(guId, method, totalLoyaltyPoints, appliedLoyaltyPoints);
+        }
+    };
+
+    removeLoyalty = (guId, method, totalLoyaltyPoints, appliedLoyaltyPoints) => {
+        this.setState({
+            loyaltyPointsApplied: false,
+            captchaReseponseForCOD: null,
+            PAYMENT_MODE_TYPE: null,
+            binValidationCOD: false,
+        });
+        this.setState({ currentPaymentMode: null });
+        return this.props.applyRemoveloyaltyPoints(guId, method, totalLoyaltyPoints, appliedLoyaltyPoints);
     };
 
     binValidation = async (paymentMode, binNo, isDebitCard = false) => {
@@ -3443,7 +3542,20 @@ class CheckOutPage extends React.Component {
                 showDetails={this.state.showCartDetails}
                 showHideDetails={this.showHideDetails}
                 isCliqCashApplied={this.state.isCliqCashApplied}
+                loyaltyPointsApplied={this.state.loyaltyPointsApplied}
                 cliqCashPaidAmount={this.state.cliqCashPaidAmount}
+                loyaltyPaidAmount={
+                    this.state.isPaymentFailed
+                        ? this.props.cart &&
+                          this.props.cart.paymentFailureOrderDetails &&
+                          this.props.cart.paymentFailureOrderDetails &&
+                          this.props.cart.paymentFailureOrderDetails.loyaltyPointsPaidAmount &&
+                          this.props.cart.paymentFailureOrderDetails.loyaltyPointsPaidAmount.value
+                        : this.props.cart &&
+                          this.props.cart.loyaltyPoints &&
+                          this.props.cart.loyaltyPoints.loyaltyPointsPaidAmount &&
+                          this.props.cart.loyaltyPoints.loyaltyPointsPaidAmount.value
+                }
                 isFromMyBag={false}
                 isGiftCard={this.state.isGiftCard}
                 cartAmount={
@@ -3683,10 +3795,10 @@ class CheckOutPage extends React.Component {
     }
 
     render() {
-		let mdeFraudCheckErrorMessage = sessionStorage.getItem(MDE_FRAUD_CHECK_ERROR);
-		if (mdeFraudCheckErrorMessage) {
-			this.props.history.push(PRODUCT_CART_ROUTER);
-		}
+        let mdeFraudCheckErrorMessage = sessionStorage.getItem(MDE_FRAUD_CHECK_ERROR);
+        if (mdeFraudCheckErrorMessage) {
+            this.props.history.push(PRODUCT_CART_ROUTER);
+        }
 
         let labelForButton,
             checkoutButtonStatus = false;
@@ -3793,6 +3905,16 @@ class CheckOutPage extends React.Component {
             checkoutButtonStatus = false;
         }
         if (!this.state.isRemainingAmount && this.state.isCliqCashApplied) {
+            checkoutButtonStatus = false;
+            labelForButton = PAY_NOW;
+        }
+        if (
+            this.props.cart &&
+            this.props.cart.cartDetailsCNC &&
+            this.props.cart.cartDetailsCNC.cartAmount &&
+            this.props.cart.cartDetailsCNC.cartAmount.paybleAmount.value === 0 &&
+            this.state.loyaltyPointsApplied
+        ) {
             checkoutButtonStatus = false;
             labelForButton = PAY_NOW;
         }
@@ -3978,6 +4100,10 @@ class CheckOutPage extends React.Component {
                                     )}
                                 {!this.state.isGiftCard &&
                                     this.state.isRemainingAmount &&
+                                    this.props.cart &&
+                                    this.props.cart.cartDetailsCNC &&
+                                    this.props.cart.cartDetailsCNC.cartAmount &&
+                                    this.props.cart.cartDetailsCNC.cartAmount.paybleAmount.value !== 0 &&
                                     !(this.state.isPaymentFailed && this.state.isCliqCashApplied) &&
                                     !this.state.paymentMethod &&
                                     this.state.confirmAddress &&
@@ -4006,6 +4132,7 @@ class CheckOutPage extends React.Component {
                                             applyBankCoupons={val => this.applyBankCoupons(val)}
                                             openBankOfferTncModal={() => this.props.openBankOfferTncModal()}
                                             isCliqCashApplied={this.state.isCliqCashApplied}
+                                            loyaltyPointsApplied={this.state.loyaltyPointsApplied}
                                             isRemainingBalance={this.state.isRemainingAmount}
                                             isPaymentFailed={this.state.isPaymentFailed}
                                             isFromGiftCard={this.state.isGiftCard}
@@ -4026,6 +4153,7 @@ class CheckOutPage extends React.Component {
                                             userCliqCashAmount={this.state.userCliqCashAmount}
                                             applyCliqCash={() => this.applyCliqCash()}
                                             removeCliqCash={() => this.removeCliqCash()}
+                                            cliqCashLoyaltyAlert={data => this.props.cliqCashLoyaltyAlert(data)}
                                             currentPaymentMode={this.state.currentPaymentMode}
                                             cardDetails={this.state.cardDetails}
                                             captchaReseponseForCOD={this.state.captchaReseponseForCOD}
@@ -4165,6 +4293,35 @@ class CheckOutPage extends React.Component {
                                             showSecondaryLoader={this.props.showSecondaryLoader}
                                             hideSecondaryLoader={this.props.hideSecondaryLoader}
                                             whatsappSelected={this.state.whatsappSelected}
+                                            getLoyaltyTncData={() => this.props.getLoyaltyTncData()}
+                                            loyaltyDetails={() => this.props.loyaltyDetails()}
+                                            applyLoyaltyPoints={(
+                                                guId,
+                                                method,
+                                                totalLoyaltyPoints,
+                                                appliedLoyaltyPoints
+                                            ) =>
+                                                this.applyLoyalty(
+                                                    guId,
+                                                    method,
+                                                    totalLoyaltyPoints,
+                                                    appliedLoyaltyPoints
+                                                )
+                                            }
+                                            removeLoyaltyPoints={(
+                                                guId,
+                                                method,
+                                                totalLoyaltyPoints,
+                                                appliedLoyaltyPoints
+                                            ) =>
+                                                this.removeLoyalty(
+                                                    guId,
+                                                    method,
+                                                    totalLoyaltyPoints,
+                                                    appliedLoyaltyPoints
+                                                )
+                                            }
+                                            lpPartialRedemption={data => this.props.lpPartialRedemption(data)}
                                         />
                                     </div>
                                 )}
@@ -4415,6 +4572,7 @@ CheckOutPage.propTypes = {
                 }),
             }),
         }),
+        lpPartialRedemption: PropTypes.func,
     }),
     ...RouterPropTypes,
 };

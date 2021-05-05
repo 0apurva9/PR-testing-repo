@@ -16,6 +16,7 @@ import {
     mergeTempCartWithOldCart,
     getMinicartProducts,
     getAllStoresCNC,
+    getValidateGstDetails,
     getCartCodeAndGuidForLoggedInUser,
     removeNoCostEmi,
 } from "../actions/cart.actions.js";
@@ -36,6 +37,7 @@ import {
     CLIQ_PIQ_MODAL,
     APPLIANCES_EXCHANGE_MODAL,
     MDE_FRAUD_DETAILS_MODAL,
+    GST_MODAL,
 } from "../../general/modal.actions";
 import { SUCCESS, NO } from "../../lib/constants";
 import {
@@ -216,6 +218,12 @@ const mapDispatchToProps = dispatch => {
         openMdeFraudDetailsModal: data => {
             dispatch(showModal(MDE_FRAUD_DETAILS_MODAL, data));
         },
+        getValidateGstDetails: (gstin, companyName, operation) => {
+            dispatch(getValidateGstDetails(gstin, companyName, operation));
+        },
+        gstPopUp: data => {
+            dispatch(showModal(GST_MODAL, data));
+        },
     };
 };
 
@@ -229,6 +237,7 @@ const mapStateToProps = state => {
         bundledProductSuggestionDetails: state.productDescription.getBundledProductSuggestionDetails,
         addBundledProductsToCartDetails: state.productDescription.addBundledProductsToCartDetails,
         bundledProductSuggestionStatus: state.productDescription.getBundledProductSuggestionStatus,
+        gstDetails: state.cart.gstDetails,
         appliancesExchangePincodeDetails: state.productDescription.appliancesExchangeCheckPincodeDetails,
         isMNLLogin: state.mobileNumberLogin.isMNLLogin,
         userDetails: state.profile.userDetails,
