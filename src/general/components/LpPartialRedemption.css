@@ -1,0 +1,144 @@
+.base {
+    width: 100%;
+    height: auto;
+    margin: auto;
+    left: 0;
+}
+.box {
+    width: 100%;
+    height: auto;
+    background: #fff;
+    border-radius: 16px 16px 16px 16px;
+    padding: 25px 12px;
+}
+.content {
+    font-size: 14px;
+    color: #212121;
+    font-family: regular;
+    text-align: left;
+}
+.header {
+    font-family: semibold;
+    font-size: 20px;
+    color: #212121;
+    width: 100%;
+    height: auto;
+}
+.contentHeader {
+    height: auto;
+    font-size: 20px;
+    color: #212121;
+    font-family: regular;
+    text-align: left;
+    border-bottom: 1px solid #d8d8d8;
+    padding: 17px 0px 20px 0px;
+    font-weight: 600;
+}
+
+.divApplyBtn {
+    transition: 300ms;
+    border-radius: 19px;
+}
+.cancelButtonHolder {
+    width: auto;
+    display: inline-block;
+    margin-right: 15px;
+    border-radius: 19px;
+}
+.modalText {
+    font-size: 12px;
+    color: #5c5c5c;
+    padding: 0px 0px 0px 8px;
+}
+.imgHolder {
+    width: 17px;
+    height: 17px;
+    display: inline-block;
+}
+.headerLp {
+    display: flex;
+    margin-bottom: 4%;
+}
+.headerLeft {
+    font-size: 16px;
+    color: #212121;
+    font-weight: 700;
+    letter-spacing: 0;
+    margin: 0 165px 14px 0px;
+}
+.headerRight {
+    font-size: 12px;
+    color: #5c5c5c;
+    display: flex;
+}
+.inputField {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.applyBtn {
+    display: flex;
+    justify-content: center;
+}
+
+.materialField {
+    position: relative;
+}
+
+.materialFieldInput {
+    font-size: 18px;
+    padding: 13px 15px;
+    margin-bottom: 4px;
+    width: 100%;
+    display: block;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+.materialFieldInputError {
+    font-size: 18px;
+    padding: 13px 15px;
+    margin-bottom: 4px;
+    width: calc(100% - 30px);
+    display: block;
+    border-radius: 5px;
+    border: 1px solid #90112f;
+}
+.errorMsg {
+    color: #90112f;
+    font-size: 12px;
+}
+.materialFieldInput:focus {
+    outline: none;
+    border: 2px solid #e7e7e7;
+}
+
+.materialFieldInput:focus ~ .materialFieldLabel {
+    color: #e7e7e7;
+    transform: scale(0.75) translate(-13px, -30px);
+}
+.materialFieldInputFocus {
+    color: #e7e7e7;
+    transform: scale(0.75) translate(-13px, -30px);
+}
+.materialFieldInputFocusError {
+    color: #90112f !important;
+    transform: scale(0.75) translate(-13px, -30px);
+}
+
+.materialFieldLabel {
+    border-bottom: 0px;
+    color: #e7e7e7;
+    background: #fff;
+    font-size: 16px !important;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    top: 15px !important;
+    left: 8px;
+    padding: 0 8px;
+    transition: 150ms cubic-bezier(0.4, 0, 0.2, 1) all;
+    -moz-transition: 150ms cubic-bezier(0.4, 0, 0.2, 1) all;
+    -webkit-transition: 150ms cubic-bezier(0.4, 0, 0.2, 1) all;
+}
+.pointsText {
+    padding: 2px 3px 0px 4px;
+}

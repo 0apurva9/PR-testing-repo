@@ -14,6 +14,18 @@ export default class DesktopCheckout extends React.Component {
     }
 
     handleClick() {
+        if (window && window.digitalData) {
+            Object.assign(window.digitalData, {
+                ...window.digitalData.page,
+                page: {
+                    pageInfo: {
+                        pageName: "Cart Page",
+                        pageType: "Cart",
+                        numberOfGstProduct: this.props.gstProductCount,
+                    },
+                },
+            });
+        }
         if (this.props.onCheckout) {
             this.props.onCheckout();
         }
@@ -172,6 +184,18 @@ export default class DesktopCheckout extends React.Component {
                                     </div>
                                 </div>
                             )}
+
+                        {cartAmount.cartDiscount || cartAmount.noCostEMIDiscountValue ? (
+                            this.props.loyaltyPointsApplied ? (
+                                <div className={styles.row}>
+                                    <div className={styles.label}>Loyalty Applied</div>
+                                    <div className={styles.info}>
+                                        -{RUPEE_SYMBOL}
+                                        {this.addDecimalNumberInPrice(this.props.loyaltyPaidAmount)}
+                                    </div>
+                                </div>
+                            ) : null
+                        ) : null}
                         {cartAmount.cartDiscount && cartAmount.cartDiscount.value !== 0 && (
                             <div className={styles.row}>
                                 <div className={styles.label}>Bank Offer Discount</div>
@@ -229,27 +253,35 @@ export default class DesktopCheckout extends React.Component {
                                 )}
                             </div>
                         )}
-                        {!(cartAmount.cartDiscount || cartAmount.noCostEMIDiscountValue) &&
-                            this.props.isCliqCashApplied && (
+                        {!(cartAmount.cartDiscount || cartAmount.noCostEMIDiscountValue)
+                            ? this.props.isCliqCashApplied && (
+                                  <div className={styles.row}>
+                                      <div className={styles.label}>CLiQ Cash Applied</div>
+                                      <div className={styles.info}>
+                                          -{RUPEE_SYMBOL}
+                                          {this.addDecimalNumberInPrice(this.props.cliqCashPaidAmount)}
+                                      </div>
+                                  </div>
+                              )
+                            : null}
+
+                        {!(cartAmount.cartDiscount || cartAmount.noCostEMIDiscountValue) ? (
+                            this.props.loyaltyPointsApplied ? (
                                 <div className={styles.row}>
-                                    <div className={styles.label}>CLiQ Cash Applied</div>
+                                    <div className={styles.label}>Loyalty Applied</div>
                                     <div className={styles.info}>
                                         -{RUPEE_SYMBOL}
-                                        {this.addDecimalNumberInPrice(this.props.cliqCashPaidAmount)}
+                                        {this.addDecimalNumberInPrice(this.props.loyaltyPaidAmount)}
                                     </div>
                                 </div>
-                            )}
-                            {cartAmount.comboDiscountAmount &&
-                                cartAmount.comboDiscountAmount.value !== 0 && (
-                                    <div className={styles.row}>
-                                        <div className={styles.label}>
-                                        Combo Discount
-                                        </div>
-                                    <div className={styles.info}>
-                                        - {cartAmount.comboDiscountAmount.formattedValue}
-                                    </div>
-                                    </div>
-                            )}
+                            ) : null
+                        ) : null}
+                        {cartAmount.comboDiscountAmount && cartAmount.comboDiscountAmount.value !== 0 && (
+                            <div className={styles.row}>
+                                <div className={styles.label}>Combo Discount</div>
+                                <div className={styles.info}>- {cartAmount.comboDiscountAmount.formattedValue}</div>
+                            </div>
+                        )}
                         {!(
                             !cartAmount.totalDiscountAmount &&
                             !cartAmount.bagDiscount &&
@@ -476,6 +508,7 @@ export default class DesktopCheckout extends React.Component {
 }
 
 DesktopCheckout.propTypes = {
+    gstProductCount: PropTypes.number,
     onContinue: PropTypes.bool,
     isShippingObjAvailable: PropTypes.bool,
     onCheckout: PropTypes.func,
@@ -502,6 +535,8 @@ DesktopCheckout.propTypes = {
     label: PropTypes.string,
     isGiftCard: PropTypes.bool,
     payableForCartPage: PropTypes.string,
+    loyaltyPaidAmount: PropTypes.number,
+    loyaltyPointsApplied: PropTypes.bool,
 };
 
 DesktopCheckout.defaultProps = {

@@ -1,6 +1,11 @@
 // import "isomorphic-fetch";
 import * as Cookie from "./Cookie";
-import { LOGGED_IN_USER_DETAILS, CART_DETAILS_FOR_LOGGED_IN_USER, CART_DETAILS_FOR_ANONYMOUS } from "./constants.js";
+import {
+    LOGGED_IN_USER_DETAILS,
+    CART_DETAILS_FOR_LOGGED_IN_USER,
+    CART_DETAILS_FOR_ANONYMOUS,
+    SAVED_CUSTOMER_GST_DETAILS,
+} from "./constants.js";
 import * as ErrorHandling from "../general/ErrorHandling.js";
 import { CUSTOMER_ACCESS_TOKEN, GLOBAL_ACCESS_TOKEN } from "../lib/constants";
 import { USER_CART_PATH } from "../cart/actions/cart.actions";
@@ -23,6 +28,7 @@ const ACCESS_TOKEN_INVALID_MESSAGE = "Invalid access token";
 const CLIENT_ID = "gauravj@dewsolutions.in";
 const CART_NOT_FOUND_ERROR = "CartError";
 const NO_DATA = "No data found.";
+// export const REACT_APP_TD_LOYALTY_POINTS_API = process.env.REACT_APP_TD_LOYALTY_POINTS_API;
 
 export const API_MSD_URL_ROOT = "https://ap-southeast-1-api.madstreetden.com";
 
@@ -111,7 +117,7 @@ export async function get(url, channel) {
 }
 
 export async function coreGetMiddlewareUrl(url, isRemoveURLRoot = false) {
-    if(isRemoveURLRoot) {
+    if (isRemoveURLRoot) {
         return await fetch(`${url}`, {
             headers: {
                 Authorization: "Basic " + btoa("gauravj@dewsolutions.in:gauravj@12#"),
@@ -238,6 +244,7 @@ export async function logoutUserOnInvalidRefreshToken() {
         throw new Error(resultJsonStatus.message);
     }
     await clearCookie();
+    localStorage.removeItem(SAVED_CUSTOMER_GST_DETAILS);
     window.location.reload();
 }
 
@@ -563,6 +570,15 @@ export async function getDataWithMicroservicesWithHeaders(path, headers) {
         method: "GET",
         headers: headers,
     });
+}
+export async function customGetUrlWithHeadersOption(url, headers) {
+    let reqObj = {
+        method: "GET",
+    };
+    if (headers) {
+        reqObj.headers = headers;
+    }
+    return await fetch(url, reqObj);
 }
 
 // OnlineSales fetch

@@ -22,6 +22,6 @@ export class MnlSocialLogin extends React.Component<MnlSocialLoginProps, MnlSoci
     }
 }
 
-export interface MnlSocialLoginProps { }
+export interface MnlSocialLoginProps {}
 
-export interface MnlSocialLoginState { }
+export interface MnlSocialLoginState {}
