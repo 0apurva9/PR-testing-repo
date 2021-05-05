@@ -29,7 +29,8 @@ const MAX_PRICE_FROM_API_2 = "Greater than";
 const MAX_PRICE_FROM_UI = "-₹9,999,999";
 const CATEGORY_TEXT = "category";
 const DEFAULT_PLP_VIEW = "defaultPlpView";
-
+const LANDING_SEARCH_URL = "landingSearchUrl";
+const CATEGORY_BRAND_LANDING_URL = "categoryBrandLandingUrl";
 class ProductListingsPage extends Component {
     constructor(props) {
         super(props);
@@ -233,6 +234,33 @@ class ProductListingsPage extends Component {
     }
 
     componentDidMount() {
+        const urlOfFirstLand = `${this.props.location.pathname}${this.props.location.search}`;
+        if (urlOfFirstLand.includes("/search/?searchCategory")) {
+            localStorage.setItem(LANDING_SEARCH_URL, urlOfFirstLand);
+        }
+
+        const categoryOrBrandLandingPageUrl = `${this.props.location.pathname}${this.props.location.search}`;
+        const plpSearchUrl = localStorage.getItem(LANDING_SEARCH_URL);
+        const existingCategoryOrBrandLandingPageUrl = localStorage.getItem(CATEGORY_BRAND_LANDING_URL);
+        if (this.props.location && this.props.location.state && this.props.location.state.categoryOrBrand) {
+            localStorage.setItem(CATEGORY_BRAND_LANDING_URL, categoryOrBrandLandingPageUrl);
+            if (plpSearchUrl) {
+                localStorage.removeItem(LANDING_SEARCH_URL);
+            }
+        } else {
+            if (
+                existingCategoryOrBrandLandingPageUrl &&
+                this.props.location &&
+                this.props.location.state &&
+                this.props.location.state.categoryLevel
+            ) {
+                // need not handle
+            } else {
+                localStorage.removeItem(CATEGORY_BRAND_LANDING_URL, categoryOrBrandLandingPageUrl);
+                localStorage.setItem(CATEGORY_BRAND_LANDING_URL, categoryOrBrandLandingPageUrl);
+            }
+        }
+
         const defaultViewCookie = Cookie.getCookie(DEFAULT_PLP_VIEW);
 
         if (!defaultViewCookie) {
@@ -277,6 +305,7 @@ class ProductListingsPage extends Component {
                         this.props.productListings.seo.breadcrumbs.reverse();
                     if (
                         (breadcrumbs &&
+                            breadcrumbs.length > 0 &&
                             breadcrumbs[0] &&
                             window.digitalData &&
                             window.digitalData.page &&
@@ -289,7 +318,9 @@ class ProductListingsPage extends Component {
                             breadcrumbs[1].name &&
                             breadcrumbs[1].name.replace(/ /g, "_").toLowerCase() !==
                                 window.digitalData.page.category.subCategory2) ||
-                        (breadcrumbs[0] &&
+                        (breadcrumbs &&
+                            breadcrumbs.length > 0 &&
+                            breadcrumbs[0] &&
                             window.digitalData &&
                             window.digitalData.page &&
                             window.digitalData.page.category &&
@@ -376,7 +407,7 @@ class ProductListingsPage extends Component {
             this.props.getProductListings(searchText, SUFFIX, page, false);
             return;
         }
-        if (!this.props.location.state) {
+        if (!this.props.location.state || (this.props.location.state && this.props.location.state.categoryOrBrand)) {
             const searchText = this.getSearchTextFromUrl();
             const pageMatch = PAGE_REGEX.exec(this.props.location.pathname);
             if (pageMatch) {
@@ -390,6 +421,25 @@ class ProductListingsPage extends Component {
     }
 
     componentDidUpdate(prevProps) {
+        if (
+            prevProps.location.pathname !== this.props.location.pathname ||
+            prevProps.location.search !== this.props.location.search
+        ) {
+            const updatedUrlOfFirstLand = `${this.props.location.pathname}${this.props.location.search}`;
+            if (updatedUrlOfFirstLand.includes("/search/?searchCategory")) {
+                localStorage.setItem(LANDING_SEARCH_URL, updatedUrlOfFirstLand);
+            }
+        }
+
+        const categoryOrBrandLandingPageUrl = `${this.props.location.pathname}${this.props.location.search}`;
+        const plpSearchUrl = localStorage.getItem(LANDING_SEARCH_URL);
+        if (this.props.location && this.props.location.state && this.props.location.state.categoryOrBrand) {
+            localStorage.setItem(CATEGORY_BRAND_LANDING_URL, categoryOrBrandLandingPageUrl);
+            if (plpSearchUrl) {
+                localStorage.removeItem(LANDING_SEARCH_URL);
+            }
+        }
+
         const defaultViewCookie = Cookie.getCookie(DEFAULT_PLP_VIEW);
 
         if (!defaultViewCookie) {
@@ -498,7 +548,10 @@ class ProductListingsPage extends Component {
                 this.props.getProductListings(searchText, SUFFIX, page);
                 return;
             }
-            if (!this.props.location.state) {
+            if (
+                !this.props.location.state ||
+                (this.props.location.state && this.props.location.state.categoryOrBrand)
+            ) {
                 const searchText = this.getSearchTextFromUrl();
                 const pageMatch = PAGE_REGEX.exec(this.props.location.pathname);
                 if (pageMatch) {

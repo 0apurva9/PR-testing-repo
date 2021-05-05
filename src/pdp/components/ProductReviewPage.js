@@ -808,7 +808,6 @@ export default class ProductReviewPage extends Component {
                                                     <ReviewList
                                                         reviewList={this.props.reviews.reviews}
                                                         totalNoOfReviews={this.props.reviews.totalNoOfPages}
-                                                        NoOfReviews={this.props.reviews.totalNoOfReviews}
                                                         currentreviewList={currentreviewList}
                                                     />
                                                 )}
