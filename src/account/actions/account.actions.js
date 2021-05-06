@@ -3475,11 +3475,15 @@ export function logoutUser() {
     return async (dispatch, getState, { api }) => {
         const globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
         const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+        const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+        const customerAccessToken = customerCookie && JSON.parse(customerCookie).access_token;
         dispatch(logoutUserRequest());
         try {
             const result = await api.postFormData(
-                `${USER_PATH}/logout?userId=${JSON.parse(userDetails).userName}&access_token=${
-                    JSON.parse(globalAccessToken).access_token
+                `${USER_PATH}/logout?access_token=${JSON.parse(globalAccessToken).access_token}&userId=${
+                    JSON.parse(userDetails).userName
+                }&customer_token=${customerAccessToken}&customer_token_refresh=${
+                    JSON.parse(customerCookie).refresh_token
                 }`
             );
             const resultJson = await result.json();
