@@ -4,8 +4,9 @@
   "private": true,
   "sideEffects": true,
   "scripts": {
-    "start": "node config/build.js --env.environment=qa --env.deploy=qa1 --local",
+    "start": "node config/build.js --env.environment=production --env.deploy=production --local",
     "verify": "node scripts/verify.js",
+    "build:LOAD:TEST": "node config/build.js --env.environment=preprod --env.deploy=preprod1",
     "build:PREPROD1": "node config/build.js --env.environment=qa --env.deploy=preprod1",
     "pm2:PREPROD1:start": "node ./scripts/pm2-delete.js tata-cliq-frontend-desktop-preprod1 && pm2 start ecosystem.config.js --only tata-cliq-frontend-desktop-preprod1",
     "build:PREPROD2": "node config/build.js --env.environment=qa --env.deploy=preprod2",
@@ -133,9 +134,11 @@
     "eslint-webpack-plugin": "^2.4.3",
     "extract-css-chunks-webpack-plugin": "^2.0.19",
     "file-loader": "^6.2.0",
+    "gulp": "^4.0.2",
     "html-webpack-plugin": "^5.0.0",
     "husky": "^4.3.6",
     "i": "^0.3.6",
+    "lighthouse": "^7.4.0",
     "lint-staged": "^6.0.0",
     "mini-css-extract-plugin": "^1.3.3",
     "nodemon-webpack-plugin": "^4.3.2",
@@ -143,6 +146,7 @@
     "pm2": "^4.5.0",
     "prettier": "^1.9.2",
     "process": "^0.11.10",
+    "puppeteer": "^9.1.1",
     "redux-mock-store": "^1.4.0",
     "reload": "^3.1.1",
     "shelljs": "^0.8.4",
@@ -165,7 +169,10 @@
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,css,html}": "prettier --write",
-    "*.{js,jsx,ts,tsx}": ["eslint --fix", "git add"]
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "git add"
+    ]
   },
   "browserslist": [
     "since 2017-06"
