@@ -62,7 +62,7 @@ const eslintConfig = {
             ],
             rules: {
                 "@typescript-eslint/no-explicit-any": 2,
-                "@typescript-eslint/no-empty-interface": 2,
+                "@typescript-eslint/no-empty-interface": 0,
                 "@typescript-eslint/explicit-function-return-type": 0,
                 "@typescript-eslint/explicit-module-boundary-types": 0,
                 "@typescript-eslint/no-var-requires": 2,

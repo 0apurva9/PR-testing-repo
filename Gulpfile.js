@@ -4,6 +4,10 @@ const puppeteer = require("puppeteer");
 const lighthouse = require("lighthouse");
 const { URL } = require("url");
 const PORT = 3000;
+// const recomendedStandards = require("./performance-matrics/standardFormats");
+const fs = require("fs");
+const path = require("path");
+const reportsPath = "./performance-matrics/Reports/perfomaceHealth.json";
 
 function creatFreshBuild(cb) {
     shell.exec(
@@ -20,17 +24,11 @@ function creatFreshBuild(cb) {
 }
 
 function startServer(cb) {
-    shell.exec(
-        `node index.js`,
-        {
-            async: true,
-            cwd: process.cwd(),
-        },
-        (code, stdout, stderr) => {
-            cb();
-            console.log(code, stdout, stderr);
-        }
-    );
+    shell.exec(`node index.js`, {
+        async: true,
+        cwd: process.cwd(),
+    });
+    cb();
 }
 
 async function generateReports() {
@@ -38,7 +36,7 @@ async function generateReports() {
 
     // Use Puppeteer to launch headful Chrome and don't use its default 800x600 viewport.
     const browser = await puppeteer.launch({
-        headless: false,
+        headless: true,
         defaultViewport: null,
     });
 
@@ -58,11 +56,34 @@ async function generateReports() {
         logLevel: "info",
     });
 
-    console.log(
-        `Lighthouse scores: ${Object.values(lhr.categories)
-            .map(c => c.score)
-            .join(", ")}`
-    );
+    const currentMatrix = {};
+    Object.values(lhr.categories).forEach(c => (currentMatrix[c["id"]] = c.score * 100));
+
+    const isReportHistoryAvailable = fs.exists(path.resolve(reportsPath), err => {
+        if (!err) {
+            // console.log('Previous reports exists');
+            return true;
+        } else {
+            return false;
+        }
+    });
+
+    if (isReportHistoryAvailable) {
+        fs.unlinkSync(path.resolve(reportsPath), err => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+        });
+    }
+
+    fs.writeFile(path.resolve(reportsPath), JSON.stringify(currentMatrix), err => {
+        if (err) {
+            console.log("Error writing file", err);
+        } else {
+            console.log("Successfully wrote file");
+        }
+    });
 
     await browser.close();
 }
@@ -71,6 +92,4 @@ async function killServer() {
     shell.exec(`kill -9 $(lsof -t -i:${PORT})`, { async: false });
 }
 
-async function compareResults() {}
-
-exports.default = series(creatFreshBuild, startServer, generateReports, killServer, compareResults);
+exports.default = series(creatFreshBuild, startServer, generateReports, killServer);
