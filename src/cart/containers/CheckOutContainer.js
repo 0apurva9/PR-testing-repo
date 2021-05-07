@@ -79,8 +79,12 @@ import {
     instaCredISEnableMidddleLayer,
     getBankDetailsforDCEmi,
     getEMIEligibilityDetails,
-	submitAppliancesExchangeData,
-	addAddressToCart,
+    submitAppliancesExchangeData,
+    addAddressToCart,
+    loyaltyDetails,
+    applyRemoveloyaltyPoints,
+    getLoyaltyTncData,
+    softReservationForLoyalty,
 } from "../actions/cart.actions";
 import { showSecondaryLoader, hideSecondaryLoader } from "../../general/secondaryLoader.actions";
 import {
@@ -96,6 +100,8 @@ import {
     hideModal,
     CLIQ_CASH_MODULE,
     CASHBACK_DETAILS_POPUP,
+    CLIQ_CASH_LOYALTY_ALERT,
+    LP_PARTIAL_REDEMPTION,
     // UPIHOWTOPAY_MODAL
 } from "../../general/modal.actions";
 import {
@@ -174,22 +180,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                     );
                 });
             }
-		},
-		addAddressToCart: (
-			addressId,
-			pinCode,
-			isComingFromCliqAndPiq,
-			isExchangeProductInCart
-		) => {
-			dispatch(
-			  addAddressToCart(
-				addressId,
-				pinCode,
-				isComingFromCliqAndPiq,
-				isExchangeProductInCart
-			  )
-			);
-		},
+        },
+        addAddressToCart: (addressId, pinCode, isComingFromCliqAndPiq, isExchangeProductInCart) => {
+            dispatch(addAddressToCart(addressId, pinCode, isComingFromCliqAndPiq, isExchangeProductInCart));
+        },
         getOrderSummary: pinCode => {
             dispatch(getOrderSummary(pinCode));
         },
@@ -243,7 +237,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             dispatch(applyCliqCash(pinCode));
         },
         removeCliqCash: pinCode => {
-            dispatch(removeCliqCash(pinCode));
+            return dispatch(removeCliqCash(pinCode));
         },
         binValidation: (paymentMode, binNo, isFromRetryUrl, retryCartGuid) => {
             dispatch(binValidation(paymentMode, binNo, isFromRetryUrl, retryCartGuid));
@@ -286,6 +280,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         softReservationForCliqCash: pinCode => {
             dispatch(softReservationForCliqCash(pinCode));
+        },
+        softReservationForLoyalty: pinCode => {
+            dispatch(softReservationForLoyalty(pinCode));
         },
         jusPayTokenizeForGiftCard: cardDetails => {
             dispatch(jusPayTokenizeForGiftCard(cardDetails));
@@ -339,6 +336,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         getEmiTermsAndConditionsForBank: (code, bankName) => {
             dispatch(getEmiTermsAndConditionsForBank(code, bankName));
+        },
+        getLoyaltyTncData: () => {
+            dispatch(getLoyaltyTncData());
         },
         applyNoCostEmi: (couponCode, carGuId, cartId, isFromRetryUrl) => {
             return dispatch(applyNoCostEmi(couponCode, carGuId, cartId, isFromRetryUrl));
@@ -688,6 +688,18 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         },
         submitAppliancesExchangeData: (orderId, status, removeLocalStorage) => {
             dispatch(submitAppliancesExchangeData(orderId, status, removeLocalStorage));
+        },
+        cliqCashLoyaltyAlert: data => {
+            dispatch(showModal(CLIQ_CASH_LOYALTY_ALERT, data));
+        },
+        loyaltyDetails: () => {
+            dispatch(loyaltyDetails());
+        },
+        applyRemoveloyaltyPoints: async (guId, method, totalLoyaltyPoints, appliedLoyaltyPoints) => {
+            return await dispatch(applyRemoveloyaltyPoints(guId, method, totalLoyaltyPoints, appliedLoyaltyPoints));
+        },
+        lpPartialRedemption: data => {
+            dispatch(showModal(LP_PARTIAL_REDEMPTION, data));
         },
     };
 };
