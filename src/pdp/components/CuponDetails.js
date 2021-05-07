@@ -3,6 +3,7 @@ import styles from "./CuponDetails.css";
 import PropTypes from "prop-types";
 import { RUPEE_SYMBOL } from "../../lib/constants.js";
 import { Link } from "react-router-dom";
+import { doRemoveBaseUrl } from "./../../common/services/common.services";
 
 const COUPON_TYPE = "COUPON";
 export default class CuponDetails extends React.Component {
@@ -28,14 +29,14 @@ export default class CuponDetails extends React.Component {
                             <span className={styles.cuponCodeColor}>{this.props.promotionTitle}</span>
                             {this.props.couponType === COUPON_TYPE && this.props.selectItem && (
                                 <div
-                                    className={this.props.selected ? styles.checkBoxHolder : styles.uncheckBoxHolder}
+                                    className={styles.checkBoxHolder}
                                     onClick={val => this.handleClick(val)}
                                     data-test={`coupon-radio-btn-${this.props.promotionTitle}`}
                                 >
                                     <div
                                         className={this.props.selected ? styles.removeApplyCoupon : styles.applyCoupon}
                                     >
-                                        {this.props.selected ? "Applied" : "Apply"}
+                                        {this.props.selected ? "Remove" : "Apply"}
                                     </div>
                                     {/* if have to change button to radiobutton uncomment below code */}
                                     {/* <CheckBox selected={this.props.selected} /> */}
@@ -46,7 +47,7 @@ export default class CuponDetails extends React.Component {
                     <div className={styles.promotionDetailsText}>
                         {this.props.promotionDetail}
                         {this.props.tnc ? (
-                            <Link className={styles.viewtnc} to={this.props.tnc} target="_blank">
+                            <Link className={styles.viewtnc} to={doRemoveBaseUrl(this.props.tnc)} target="_blank">
                                 View T&C
                             </Link>
                         ) : null}

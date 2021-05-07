@@ -3,6 +3,7 @@ import {
     LOGGED_IN_USER_DETAILS,
     CUSTOMER_ACCESS_TOKEN_TD,
     CUSTOMER_DETAILS_TD,
+    NOT_FOUND,
 } from "./../../lib/constants";
 import * as Cookies from "./../../lib/Cookie";
 
@@ -58,5 +59,18 @@ export function initiateHaptikScript() {
     p.src = source_url;
     if (!document.getElementById("buzzosrc")) {
         f.parentNode.insertBefore(p, f);
+    }
+}
+
+export function doRemoveBaseUrl(url) {
+    if (!url) {
+        return NOT_FOUND;
+    }
+
+    try {
+        const location = new URL(url);
+        return `${location.pathname.toLowerCase()}`;
+    } catch (error) {
+        return url.toLowerCase();
     }
 }
