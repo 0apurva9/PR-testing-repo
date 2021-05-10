@@ -7815,7 +7815,3 @@ export function mdeFraudCheck() {
         }
     };
 }
-
-export function newFunc() {
-    console.log("new Func");
-}
