@@ -3,6 +3,7 @@ import styles from "./CuponDetails.css";
 import PropTypes from "prop-types";
 import { RUPEE_SYMBOL } from "../../lib/constants.js";
 import { Link } from "react-router-dom";
+import { doRemoveBaseUrl } from "./../../common/services/common.services";
 
 const COUPON_TYPE = "COUPON";
 export default class CuponDetails extends React.Component {
@@ -46,7 +47,7 @@ export default class CuponDetails extends React.Component {
                     <div className={styles.promotionDetailsText}>
                         {this.props.promotionDetail}
                         {this.props.tnc ? (
-                            <Link className={styles.viewtnc} to={this.props.tnc} target="_blank">
+                            <Link className={styles.viewtnc} to={doRemoveBaseUrl(this.props.tnc)} target="_blank">
                                 View T&C
                             </Link>
                         ) : null}
