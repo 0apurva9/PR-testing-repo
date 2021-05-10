@@ -7817,5 +7817,5 @@ export function mdeFraudCheck() {
 }
 
 export function newFunc() {
-console.log("new Func");
+    console.log("new Func");
 }
