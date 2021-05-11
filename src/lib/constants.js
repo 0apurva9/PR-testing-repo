@@ -573,6 +573,17 @@ export const RESOLVED = "Resolved";
 export const IS_FORWARD_JOURNEY = "isForwardJourney";
 export const CANCEL_REASON_FOR_BUNDLED_PRODUCT = "Other products purchased in the combo might also get canceled";
 export const MDE_FRAUD_CHECK_ERROR = "mdeFraudCheckError";
+export const LOYALTY_PAYMENT_MODE = "Loyalty";
+export const SSO_TOKEN = "ssoToken";
+export const CROMA_ONLINE = "croma.online";
+export const TATACLIQ_WEB_APP = "TATACLIQ-WEB-APP";
+export const LOYALTY_POINT_BALANCE = "LoyaltyPointBalance";
+
+export const gstRegex = "^([0-2][0-9]|3[0-8])[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}Z[0-9A-Z]{1}$";
+
+export const CUSTOMER_ACCESS_TOKEN_TD = "customerAccessTokenTd";
+export const CUSTOMER_DETAILS_TD = "customerDetailsTd";
+
 export const EMAIL_REGULAR_EXPRESSION = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 export const MOBILE_PATTERN = /^[6,7,8,9]{1}[0-9]{9}$/;
 export const MOBILE_PATTERN_11_DIGIT = /^[6,7,8,9]{1}[0-9]{10}$/;
@@ -584,3 +595,5 @@ export const PASSWORD_VALIDATION_MESSAGE =
     "Password must be 8-20 characters and contain at least one Number, Upper and Lower case characters.";
 export const PASSWORD_VALIDATION = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[A-Za-z\d#$@!%&*?]{8,30}$/;
 export const MINIMUM_PASSWORD_LENGTH = "8";
+
+export const SAVED_CUSTOMER_GST_DETAILS = "savedCustomerGstDetails";

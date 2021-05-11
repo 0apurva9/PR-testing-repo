@@ -16,7 +16,7 @@ class RnRSuccessSectionComponent extends Component {
     }
 
     componentDidMount() {
-        this.props.getPendingReviews(0, true);
+        this.props.getPendingReviewsSuccessScreen(0);
     }
 
     componentDidUpdate(prevProps) {
@@ -97,7 +97,7 @@ class RnRSuccessSectionComponent extends Component {
 
 RnRSuccessSectionComponent.propTypes = {
     selectedRating: PropTypes.number,
-    getPendingReviews: PropTypes.func,
+    getPendingReviewsSuccessScreen: PropTypes.func,
     pendingReviewsDetails: PropTypes.object,
     history: PropTypes.object,
 };

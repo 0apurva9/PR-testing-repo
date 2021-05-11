@@ -54,18 +54,26 @@ export default class CliqCashToggle extends React.Component {
                         <Toggle
                             active={this.props.isCliqCashApplied}
                             onToggle={val => this.onToggle(val)}
-                            disabled={toggleDisable}
+                            disabled={
+                                this.props.isCliqCashApplied && this.props.isPaymentFailed
+                                    ? false
+                                    : this.props.isPaymentFailed
+                                    ? true
+                                    : toggleDisable
+                            }
+                            activeDisable={this.props.isCliqCashApplied && this.props.isPaymentFailed ? true : false}
                         />
                     </div>
                 </div>
                 <MediaQuery query="(max-device-width: 1024px)">
-                    {!this.props.isFromGiftCard && (
+                    {!this.props.isFromGiftCard && !this.props.isPaymentFailed && (
                         <div className={styles.actionButtonHolder}>
                             <div className={styles.actionButton}>
                                 <UnderLinedButton
+                                    disabled={this.props.isPaymentFailed}
                                     color="#000"
                                     size="14px"
-                                    label="Add a Gift Card"
+                                    label="Redeem Gift Card"
                                     onClick={() => this.onClick()}
                                 />
                             </div>
@@ -105,6 +113,7 @@ CliqCashToggle.propTypes = {
     isCliqCashApplied: PropTypes.bool,
     isFromGiftCard: PropTypes.bool,
     isRemainingBalance: PropTypes.bool,
+    isPaymentFailed: PropTypes.bool,
 };
 CliqCashToggle.defaultProps = {
     active: false,

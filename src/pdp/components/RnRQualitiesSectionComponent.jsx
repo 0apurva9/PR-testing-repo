@@ -165,6 +165,10 @@ class RnRQualitiesSectionComponent extends Component {
         }
     };
 
+    componentWillUnmount() {
+        this.props.getUpdatedParameters(null, null, 0);
+    }
+
     render() {
         let params = this.state.initialParams;
         if (this.state.paramsFromUserProductReview) {

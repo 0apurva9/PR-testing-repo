@@ -367,6 +367,11 @@ const account = (
         getUserProductReviewLoading: false,
         getUserProductReviewError: null,
         getUserProductReviewDetails: null,
+
+        getPendingReviewsSuccessScreenStatus: null,
+        getPendingReviewsSuccessScreenLoading: false,
+        getPendingReviewsSuccessScreenError: null,
+        getPendingReviewsSuccessScreenDetails: null,
     },
     action
 ) => {
@@ -2336,6 +2341,27 @@ const account = (
                 getUserProductReviewLoading: false,
                 getUserProductReviewError: action.error,
                 getUserProductReviewDetails: null,
+            });
+
+        case accountActions.GET_PENDING_REVIEWS_SUCCESS_SCREEN_REQUEST:
+            return Object.assign({}, state, {
+                getPendingReviewsSuccessScreenStatus: action.status,
+                getPendingReviewsSuccessScreenLoading: true,
+            });
+
+        case accountActions.GET_PENDING_REVIEWS_SUCCESS_SCREEN_SUCCESS:
+            return Object.assign({}, state, {
+                getPendingReviewsSuccessScreenStatus: action.status,
+                getPendingReviewsSuccessScreenLoading: false,
+                getPendingReviewsSuccessScreenDetails: action.data,
+            });
+
+        case accountActions.GET_PENDING_REVIEWS_SUCCESS_SCREEN_FAILURE:
+            return Object.assign({}, state, {
+                getPendingReviewsSuccessScreenStatus: action.status,
+                getPendingReviewsSuccessScreenLoading: false,
+                getPendingReviewsSuccessScreenError: action.error,
+                getPendingReviewsSuccessScreenDetails: null,
             });
 
         default:

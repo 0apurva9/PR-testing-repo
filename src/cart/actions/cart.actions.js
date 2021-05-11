@@ -62,7 +62,9 @@ import {
     INVALID_BANK_COUPON_POPUP,
     VALIDATE_OFFERS_POPUP,
     NON_EMI_ELIGIBLE_TO_WISHLIST,
+    LOYALTY_TERMS_AND_CONDITIONS,
     VALIDATE_CLIQ_CASH_POPUP,
+    VALIDATE_LOYALTY_POINT_POPUP,
 } from "../../general/modal.actions";
 import { displayToast } from "../../general/toast.actions";
 import { setUrlToRedirectToAfterAuth } from "../../auth/actions/auth.actions.js";
@@ -79,6 +81,8 @@ import {
     CART_BAG_DETAILS,
     EMI_TYPE,
     SELECTED_DELIVERY_MODE,
+    TATACLIQ_WEB_APP,
+    CROMA_ONLINE,
 } from "../../lib/constants";
 import queryString from "query-string";
 import { setBagCount } from "../../general/header.actions";
@@ -109,12 +113,13 @@ import {
     ADOBE_CALL_FOR_CLIQ_AND_PICK_APPLIED,
     ADOBE_CALL_FOR_PROCCEED_FROM_DELIVERY_MODE,
 } from "../../lib/adobeUtils";
-import { getCustomerAccessToken } from "../../common/services/common.services";
+import { getCustomerAccessToken, getTDSSOToken } from "../../common/services/common.services";
 import {
     getLoggedInUserDetails,
     getCustomerAccessToken as getCustomerAccessTokenService,
     getCartDetailsForLoggedInUser,
 } from "../../lib/getCookieDetails.js";
+
 import { appliancesExchangeCheckPincode } from "../../pdp/actions/pdp.actions";
 
 const EGV_GIFT_CART_ID = "giftCartId";
@@ -141,6 +146,10 @@ export const COLLECT_PAYMENT_ORDER_FAILURE = "COLLECT_PAYMENT_ORDER_FAILURE";
 export const COLLECT_PAYMENT_ORDER_FOR_CLIQCASH_REQUEST = "COLLECT_PAYMENT_ORDER_FOR_GIFTCARD_REQUEST";
 export const COLLECT_PAYMENT_ORDER_FOR_CLIQCASH_SUCCESS = "COLLECT_PAYMENT_ORDER_FOR_GIFTCARD_SUCCESS";
 export const COLLECT_PAYMENT_ORDER_FOR_CLIQCASH_FAILURE = "COLLECT_PAYMENT_ORDER_FOR_GIFTCARD_FAILURE";
+
+export const COLLECT_PAYMENT_ORDER_FOR_LOYALTY_REQUEST = "COLLECT_PAYMENT_ORDER_FOR_LOYALTY_REQUEST";
+export const COLLECT_PAYMENT_ORDER_FOR_LOYALTY_SUCCESS = "COLLECT_PAYMENT_ORDER_FOR_LOYALTY_SUCCESS";
+export const COLLECT_PAYMENT_ORDER_FOR_LOYALTY_FAILURE = "COLLECT_PAYMENT_ORDER_FOR_LOYALTY_FAILURE";
 
 export const GET_PREPAID_ORDER_PAYMENT_CONFIRMATION_REQUEST = "GET_PREPAID_ORDER_PAYMENT_CONFIRMATION_REQUEST";
 export const GET_PREPAID_ORDER_PAYMENT_CONFIRMATION_SUCCESS = "GET_PREPAID_ORDER_PAYMENT_CONFIRMATION_SUCCESS";
@@ -414,6 +423,15 @@ export const EDD_IN_COMMERCE_REQUEST = "EDD_IN_COMMERCE_REQUEST";
 export const EDD_IN_COMMERCE_FAILURE = "EDD_IN_COMMERCE_FAILURE";
 export const EDD_IN_COMMERCE_SUCCESS = "EDD_IN_COMMERCE_SUCCESS";
 
+export const LOYALTY_POINTS_REQUEST = "LOYALTY_POINTS_REQUEST";
+export const LOYALTY_POINTS_SUCCESS = "LOYALTY_POINTS_SUCCESS";
+export const LOYALTY_POINTS_FAILURE = "LOYALTY_POINTS_FAILURE";
+
+export const LOYALTY_DETAILS_REQUEST = "LOYALTY_DETAILS_REQUEST";
+export const LOYALTY_DETAILS_SUCCESS = "LOYALTY_DETAILS_SUCCESS";
+export const LOYALTY_DETAILS_FAILURE = "LOYALTY_DETAILS_FAILURE";
+export const LOYALTY_DETAILS_DELAYED = "LOYALTY_DETAILS_DELAYED";
+
 export const PAYMENT_MODE = "credit card";
 const CASH_ON_DELIVERY = "COD";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_1 = "B9078";
@@ -424,6 +442,9 @@ const ERROR_CODE_FOR_BANK_OFFER_INVALID_5 = "B9303";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_6 = "B9510";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_7 = "E0056";
 const ERROR_CODE_FOR_BANK_OFFER_INVALID_8 = "E0025";
+const ERROR_CODE_CLIQ_CASH_LP_APPLIED_BANK_OFFER_RELEASED_INVALID_9 = "WBO01";
+export const ERROR_CODE_CLIQ_CASH_LP_APPLIED_BANK_OFFER_RELEASED_INVALID_10 = "E0057";
+
 const INVALID_COUPON_ERROR_MESSAGE = "invalid coupon";
 
 export const CART_ITEM_COOKIE = "cartItems";
@@ -486,6 +507,14 @@ export const MDE_FRAUD_CHECK_REQUEST = "MDE_FRAUD_CHECK_REQUEST";
 export const MDE_FRAUD_CHECK_SUCCESS = "MDE_FRAUD_CHECK_SUCCESS";
 export const MDE_FRAUD_CHECK_FAILURE = "MDE_FRAUD_CHECK_FAILURE";
 
+export const GET_LOYALTY_TNC_REQUEST = "GET_LOYALTY_TNC_REQUEST";
+export const GET_LOYALTY_TNC_SUCCESS = "GET_LOYALTY_TNC_SUCCESS";
+export const GET_LOYALTY_TNC_FAILURE = "GET_LOYALTY_TNC_FAILURE";
+
+export const GET_GST_DETAILS_REQUEST = "GET_GST_DETAILS_REQUEST";
+export const GET_GST_DETAILS_SUCCESS = "GET_GST_DETAILST_SUCCESS";
+export const GET_GST_DETAILS_FAILURE = "GET_GST_DETAILS_FAILURE";
+
 const ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL = "Something went wrong";
 
 export function displayCouponRequest() {
@@ -516,7 +545,7 @@ export function displayCouponsForLoggedInUser(userId, accessToken, cartId) {
 
         try {
             const result = await api.get(
-                `${USER_CART_PATH}/${userId}/displayCouponOffers?access_token=${accessToken}&cartGuid=${cartId}&updatedVisibility=true&channel=web`
+                `${USER_CART_PATH}/${userId}/displayCouponOffers?access_token=${accessToken}&cartGuid=${cartId}&updatedVisibility=true&channel=web&displayBankCoupon=true`
             );
             const resultJson = await result.json();
             const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -538,7 +567,7 @@ export function displayCouponsForAnonymous(userId, accessToken, guid) {
 
         try {
             const result = await api.get(
-                `${USER_CART_PATH}/${userId}/displayOpenCouponOffers?&cartGuid=${guid}&access_token=${accessToken}&updatedVisibility=true&channel=web`
+                `${USER_CART_PATH}/${userId}/displayOpenCouponOffers?&cartGuid=${guid}&access_token=${accessToken}&updatedVisibility=true&channel=web&displayBankCoupon=true`
             );
             const resultJson = await result.json();
             const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -586,6 +615,9 @@ export function getCartDetails(userId, accessToken, cartId, pinCode, isSetDataLa
             const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
             if (resultJsonStatus.status) {
                 throw new Error(resultJsonStatus.message);
+            }
+            if (localStorage.getItem(EGV_GIFT_CART_ID)) {
+                localStorage.removeItem(EGV_GIFT_CART_ID);
             }
             if (isSetDataLayer) {
                 setDataLayer(ADOBE_CART_TYPE, resultJson, getState().icid.value, getState().icid.icidType);
@@ -844,12 +876,10 @@ export function releaseUserCoupon(oldCouponCode, newCouponCode) {
             if (resultJsonStatus.status) {
                 throw new Error(resultJsonStatus.message);
             }
-
             if (cliqCashapplied) {
                 await dispatch(removeCliqCash());
                 await dispatch(applyCliqCash());
             }
-
             if (newCouponCode) {
                 dispatch(releaseUserCouponSuccess(resultJson));
                 return dispatch(applyUserCouponForLoggedInUsers(newCouponCode));
@@ -2275,6 +2305,16 @@ export function collectPaymentOrderForGiftCardUPI(egvCartGuid, bankCode, bankNam
             } else if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_8) {
                 dispatch(displayToast(resultJson && resultJson.errorMessage));
                 dispatch(collectPaymentOrderFailure(resultJson && resultJson.errorMessage));
+            } else if (
+                resultJson.errorCode === ERROR_CODE_CLIQ_CASH_LP_APPLIED_BANK_OFFER_RELEASED_INVALID_9 ||
+                resultJson.errorCode === ERROR_CODE_CLIQ_CASH_LP_APPLIED_BANK_OFFER_RELEASED_INVALID_10
+            ) {
+                dispatch(collectPaymentOrderFailure(resultJson && resultJson.error));
+                return dispatch(
+                    showModal(VALIDATE_LOYALTY_POINT_POPUP, {
+                        result: resultJson,
+                    })
+                );
             } else if (resultJsonStatus.status) {
                 throw new Error(resultJsonStatus.message);
             }
@@ -2930,9 +2970,10 @@ export function removeCliqCash() {
             }
             localStorage.removeItem(CLIQ_CASH_APPLIED_LOCAL_STORAGE);
             setDataLayerForCheckoutDirectCalls(ADOBE_CALL_FOR_CLIQ_CASH_TOGGLE_OFF);
-            dispatch(removeCliqCashSuccess(resultJson));
+            dispatch(loyaltyDetails());
+            return dispatch(removeCliqCashSuccess(resultJson));
         } catch (e) {
-            dispatch(removeCliqCashFailure(e.message));
+            return dispatch(removeCliqCashFailure(e.message));
         }
     };
 }
@@ -3270,6 +3311,39 @@ export function softReservationForCliqCash(pinCode) {
             setDataLayerForCheckoutDirectCalls(ADOBE_FINAL_PAYMENT_MODES);
             dispatch(softReservationForPaymentSuccess(resultJson));
             dispatch(collectPaymentOrderForCliqCash(pinCode, productItems));
+        } catch (e) {
+            dispatch(softReservationForPaymentFailure(e.message));
+        }
+    };
+}
+
+export function softReservationForLoyalty(pinCode) {
+    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    return async (dispatch, getState, { api }) => {
+        let productItems = await getValidDeliveryModeDetails(getState().cart.cartDetailsCNC.products);
+        if (productItems) {
+            localStorage.setItem(CART_ITEM_COOKIE, JSON.stringify(productItems));
+        }
+        let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+        let cartId = JSON.parse(cartDetails).guid;
+        dispatch(softReservationForPaymentRequest());
+        try {
+            const result = await api.post(
+                `${USER_CART_PATH}/${JSON.parse(userDetails).userName}/carts/softReservationForPayment?access_token=${
+                    JSON.parse(customerCookie).access_token
+                }&cartGuid=${cartId}&pincode=${pinCode}`,
+                productItems
+            );
+            const resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+            if (resultJsonStatus.status) {
+                throw new Error(resultJsonStatus.message);
+            }
+            setDataLayerForCheckoutDirectCalls(ADOBE_FINAL_PAYMENT_MODES);
+            dispatch(softReservationForPaymentSuccess(resultJson));
+            dispatch(collectPaymentOrderForLoyalty(pinCode, productItems));
         } catch (e) {
             dispatch(softReservationForPaymentFailure(e.message));
         }
@@ -3623,7 +3697,6 @@ export function createJusPayOrderForNetBanking(
             }
             const resultJson = await result.json();
             const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-
             if (resultJsonStatus.status) {
                 if (
                     resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_1 ||
@@ -5510,6 +5583,194 @@ export function getTncForBankOffer() {
     };
 }
 
+export function getLoyaltyTncRequest() {
+    return {
+        type: GET_LOYALTY_TNC_REQUEST,
+        status: REQUESTING,
+    };
+}
+
+export function getLoyaltyTncSuccess(termsAndConditions) {
+    return {
+        type: GET_LOYALTY_TNC_SUCCESS,
+        termsAndConditions,
+        status: SUCCESS,
+    };
+}
+
+export function getLoyaltyTncFailure(error) {
+    return {
+        type: GET_LOYALTY_TNC_FAILURE,
+        status: FAILURE,
+        error,
+    };
+}
+export function loyaltyPointsRequest() {
+    return {
+        type: LOYALTY_POINTS_REQUEST,
+        status: REQUESTING,
+    };
+}
+
+export function loyaltyPointsSuccess(loyaltyPoints) {
+    return {
+        type: LOYALTY_POINTS_SUCCESS,
+        status: SUCCESS,
+        loyaltyPoints,
+    };
+}
+
+export function loyaltyPointsFailure(error) {
+    return {
+        type: LOYALTY_POINTS_FAILURE,
+        status: ERROR,
+        error,
+    };
+}
+
+/**
+ * This API will handle both apply and removal of loyalty points.
+ * @param {String} guId Cart GUID
+ * @param {String} method apply/remove
+ * @param {Number} totalLoyaltyPoints total number of loyalty points available to the customer
+ * @param {Number} appliedLoyaltyPoints total number of loyalty points being used for the purchase
+ */
+
+export function applyRemoveloyaltyPoints(guId, method, totalLoyaltyPoints, appliedLoyaltyPoints) {
+    let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+    let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+    return async (dispatch, getState, { api }) => {
+        dispatch(loyaltyPointsRequest());
+        try {
+            const result = await api.post(
+                `${USER_CART_PATH}/${JSON.parse(userDetails).userName}/loyaltyPoints?access_token=${
+                    JSON.parse(customerCookie).access_token
+                }&cartGuid=${guId}&isPwa=true&isUpdatedPwa=true&method=${method}&totalLoyaltyPoints=${totalLoyaltyPoints}&appliedLoyaltyPoints=${appliedLoyaltyPoints}`
+            );
+            const resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+            if (resultJsonStatus.status) {
+                throw new Error(resultJsonStatus.message);
+            }
+            return dispatch(loyaltyPointsSuccess(resultJson));
+        } catch (e) {
+            return dispatch(loyaltyPointsFailure(e.message));
+        }
+    };
+}
+/**
+ * EOC
+ */
+/**
+ * API will fetch the loyalty point details of customer.
+ * Note:- Currently the API is till in development phase so it has mock data.
+ * Commiting because a few thing QA wants to check. And in this API we need sso token which UF will provide and they are
+ * still working on that.
+ */
+export function loyaltyDetailsRequest() {
+    return {
+        type: LOYALTY_DETAILS_REQUEST,
+        status: REQUESTING,
+    };
+}
+
+export function loyaltyDetailsSuccess(loyaltyDetails) {
+    return {
+        type: LOYALTY_DETAILS_SUCCESS,
+        status: SUCCESS,
+        loyaltyDetails,
+    };
+}
+
+export function loyaltyDetailsFailure(error) {
+    return {
+        type: LOYALTY_DETAILS_FAILURE,
+        status: ERROR,
+        error,
+    };
+}
+export function loyaltyDetailsDelayed() {
+    return {
+        type: LOYALTY_DETAILS_DELAYED,
+        status: SUCCESS,
+    };
+}
+
+/**
+ * This API will fetch the loyalty point details of customer.
+ * client_id,
+  Authorization,
+  store_id
+ */
+
+export function loyaltyDetails() {
+    // eslint-disable-next-line no-unused-vars
+    return async (dispatch, getState, { api }) => {
+        const tdssoToken = await getTDSSOToken();
+        dispatch(loyaltyDetailsRequest());
+        try {
+            const headers = {
+                store_id: CROMA_ONLINE,
+                client_id: TATACLIQ_WEB_APP,
+                Authorization: `Bearer ${tdssoToken}`,
+            };
+            // let isDelayed = false;
+            // let startTime = new Date().getTime();
+            const result = await api.customGetUrlWithHeadersOption(
+                process.env.REACT_APP_TD_LOYALTY_POINTS_API,
+                headers
+            );
+            const resultJson = await result.json();
+
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+
+            if (resultJsonStatus.status) {
+                throw new Error(resultJsonStatus.message);
+            }
+            // let endTime = new Date().getTime();
+            // if (endTime - startTime > LOYALTY_API_RESPONSE_WAIT_TIME) {
+            //     isDelayed = true;
+            // }
+            // if (isDelayed) {
+            //     dispatch(loyaltyDetailsDelayed());
+            // } else {
+            dispatch(loyaltyDetailsSuccess(resultJson));
+            // }
+        } catch (e) {
+            dispatch(loyaltyDetailsFailure(e.message));
+            dispatch(loyaltyDetailsDelayed());
+        }
+    };
+}
+export function getLoyaltyTncData() {
+    return async (dispatch, getState, { api }) => {
+        const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+        dispatch(getLoyaltyTncRequest());
+        try {
+            const result = await api.get(
+                `v2/mpl/getTncData/loyaltyTnc?access_token=${JSON.parse(customerCookie).access_token}`
+            );
+            let resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+            if (resultJsonStatus.status) {
+                throw new Error(resultJsonStatus.message);
+            }
+            // const resultJson = {
+            //   type: "mplLoyaltyTermsDTO",
+            //   status: "success",
+            //   code: "8796191377027",
+            //   termsAndCondition: "<li>No cost equated monthly installment</li>"
+            // };
+
+            dispatch(getLoyaltyTncSuccess(resultJson));
+            dispatch(showModal(LOYALTY_TERMS_AND_CONDITIONS, resultJson));
+        } catch (e) {
+            dispatch(getLoyaltyTncFailure(e.message));
+        }
+    };
+}
+
 export function getValidDeliveryModeDetails(cartProductDetails, isFromRetryUrl, pincodeDetails) {
     let productItems = {};
     let item = [];
@@ -6444,71 +6705,6 @@ export function createPaymentOrder(guId) {
     };
 }
 
-export function collectPaymentOrderForGiftCard(cardDetails, egvCartGuid, cartdetails, cardBrandName) {
-    return async (dispatch, getState, { api }) => {
-        let browserName = browserAndDeviceDetails.getBrowserAndDeviceDetails(1);
-        let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
-        let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
-        let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
-        let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
-        let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
-        const bankName = localStorage.getItem(SELECTED_BANK_NAME);
-        let paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
-        const binCardType = localStorage.getItem(BIN_CARD_TYPE);
-        let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
-        if (binCardType && paymentMode !== "EMI") {
-            paymentMode = `${binCardType.charAt(0).toUpperCase()}${binCardType.slice(1).toLowerCase()} Card`;
-        }
-        let binNo = cardDetails.cardNumber.replace(/\s/g, "").substring(0, 6);
-        dispatch(collectPaymentOrderForGiftCardRequest());
-        try {
-            const result = await api.post(
-                `${USER_CART_PATH}/${JSON.parse(userDetails).userName}/collectPaymentOrder?access_token=${
-                    JSON.parse(customerCookie).access_token
-                }&saveCard=${true}&sameAsShipping=true&cartGuid=${egvCartGuid}&isPwa=true&platform=11&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=${binNo}&emiTenure=${
-                    cardDetails.emi_tenure
-                }&cardBrandName=${cardBrandName}${whatsappNotification ? "&whatsapp=true" : ""}`,
-                cartdetails
-            );
-            const resultJson = await result.json();
-            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
-            if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_7) {
-                dispatch(collectPaymentOrderFailure(resultJson && resultJson.error));
-                return dispatch(
-                    showModal(VALIDATE_CLIQ_CASH_POPUP, {
-                        result: resultJson,
-                    })
-                );
-            } else if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_8) {
-                dispatch(displayToast(resultJson && resultJson.errorMessage));
-                dispatch(collectPaymentOrderFailure(resultJson && resultJson.errorMessage));
-            } else if (resultJsonStatus.status) {
-                throw new Error(resultJsonStatus.message);
-            }
-            dispatch(collectPaymentOrderForGiftCardSuccess(resultJson, egvCartGuid));
-            let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
-            if (cartExchangeDetails) {
-                dispatch(submitAppliancesExchangeData(resultJson.orderId, STATUS_PROCESSING, false));
-            }
-            localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
-            if ((resultJson.pspName && resultJson.pspName.toLowerCase()) === "juspay") {
-                dispatch(
-                    jusPayPaymentMethodTypeForGiftCard(resultJson.pspAuditId, cardDetails, paymentMode, egvCartGuid)
-                );
-            } else if ((resultJson.pspName && resultJson.pspName.toLowerCase()) === "stripe") {
-                if (resultJson.pspRedirectUrl) {
-                    window.location.href = resultJson.pspRedirectUrl;
-                } else {
-                    dispatch(getPrepaidOrderPaymentConfirmation(resultJson));
-                }
-            }
-        } catch (e) {
-            dispatch(displayToast(ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL + " Please Retry."));
-            dispatch(collectPaymentOrderForGiftCardFailure(e));
-        }
-    };
-}
-
 export function collectPaymentOrder(
     cardDetails,
     address,
@@ -7191,6 +7387,81 @@ export function collectPaymentOrderForNetBanking(
     };
 }
 
+export function collectPaymentOrderForGiftCard(cardDetails, egvCartGuid, cartdetails, cardBrandName) {
+    return async (dispatch, getState, { api }) => {
+        let browserName = browserAndDeviceDetails.getBrowserAndDeviceDetails(1);
+        let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
+        let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
+        let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
+        let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+        let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+        const bankName = localStorage.getItem(SELECTED_BANK_NAME);
+        let paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+        const binCardType = localStorage.getItem(BIN_CARD_TYPE);
+        let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
+        if (binCardType && paymentMode !== "EMI") {
+            paymentMode = `${binCardType.charAt(0).toUpperCase()}${binCardType.slice(1).toLowerCase()} Card`;
+        }
+        let binNo = cardDetails.cardNumber.replace(/\s/g, "").substring(0, 6);
+        dispatch(collectPaymentOrderForGiftCardRequest());
+        try {
+            const result = await api.post(
+                `${USER_CART_PATH}/${JSON.parse(userDetails).userName}/collectPaymentOrder?access_token=${
+                    JSON.parse(customerCookie).access_token
+                }&saveCard=${true}&sameAsShipping=true&cartGuid=${egvCartGuid}&isPwa=true&platform=11&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=${binNo}&emiTenure=${
+                    cardDetails.emi_tenure
+                }&cardBrandName=${cardBrandName}${whatsappNotification ? "&whatsapp=true" : ""}`,
+                cartdetails
+            );
+            const resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+            if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_7) {
+                dispatch(collectPaymentOrderFailure(resultJson && resultJson.error));
+                return dispatch(
+                    showModal(VALIDATE_CLIQ_CASH_POPUP, {
+                        result: resultJson,
+                    })
+                );
+            } else if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_8) {
+                dispatch(displayToast(resultJson && resultJson.errorMessage));
+                dispatch(collectPaymentOrderFailure(resultJson && resultJson.errorMessage));
+            } else if (
+                resultJson.errorCode === ERROR_CODE_CLIQ_CASH_LP_APPLIED_BANK_OFFER_RELEASED_INVALID_9 ||
+                resultJson.errorCode === ERROR_CODE_CLIQ_CASH_LP_APPLIED_BANK_OFFER_RELEASED_INVALID_10
+            ) {
+                dispatch(collectPaymentOrderFailure(resultJson && resultJson.error));
+                return dispatch(
+                    showModal(VALIDATE_LOYALTY_POINT_POPUP, {
+                        result: resultJson,
+                    })
+                );
+            } else if (resultJsonStatus.status) {
+                throw new Error(resultJsonStatus.message);
+            }
+            dispatch(collectPaymentOrderForGiftCardSuccess(resultJson, egvCartGuid));
+            let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+            if (cartExchangeDetails) {
+                dispatch(submitAppliancesExchangeData(resultJson.orderId, STATUS_PROCESSING, false));
+            }
+            localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
+            if ((resultJson.pspName && resultJson.pspName.toLowerCase()) === "juspay") {
+                dispatch(
+                    jusPayPaymentMethodTypeForGiftCard(resultJson.pspAuditId, cardDetails, paymentMode, egvCartGuid)
+                );
+            } else if ((resultJson.pspName && resultJson.pspName.toLowerCase()) === "stripe") {
+                if (resultJson.pspRedirectUrl) {
+                    window.location.href = resultJson.pspRedirectUrl;
+                } else {
+                    dispatch(getPrepaidOrderPaymentConfirmation(resultJson));
+                }
+            }
+        } catch (e) {
+            dispatch(displayToast(ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL + " Please Retry."));
+            dispatch(collectPaymentOrderForGiftCardFailure(e));
+        }
+    };
+}
+
 export function collectPaymentOrderForGiftCardNetBanking(egvCartGuid, bankCode, bankName) {
     return async (dispatch, getState, { api }) => {
         const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
@@ -7264,6 +7535,16 @@ export function collectPaymentOrderForGiftCardNetBanking(egvCartGuid, bankCode, 
             } else if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_8) {
                 dispatch(displayToast(resultJson && resultJson.errorMessage));
                 dispatch(collectPaymentOrderFailure(resultJson && resultJson.errorMessage));
+            } else if (
+                resultJson.errorCode === ERROR_CODE_CLIQ_CASH_LP_APPLIED_BANK_OFFER_RELEASED_INVALID_9 ||
+                resultJson.errorCode === ERROR_CODE_CLIQ_CASH_LP_APPLIED_BANK_OFFER_RELEASED_INVALID_10
+            ) {
+                dispatch(collectPaymentOrderFailure(resultJson && resultJson.error));
+                return dispatch(
+                    showModal(VALIDATE_LOYALTY_POINT_POPUP, {
+                        result: resultJson,
+                    })
+                );
             } else if (resultJsonStatus.status) {
                 throw new Error(resultJsonStatus.message);
             }
@@ -7402,6 +7683,16 @@ export function collectPaymentOrderForCliqCash(pinCode, cartItem, isPaymentFaile
             } else if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_8) {
                 dispatch(displayToast(resultJson && resultJson.errorMessage));
                 dispatch(collectPaymentOrderFailure(resultJson && resultJson.errorMessage));
+            } else if (
+                resultJson.errorCode === ERROR_CODE_CLIQ_CASH_LP_APPLIED_BANK_OFFER_RELEASED_INVALID_9 ||
+                resultJson.errorCode === ERROR_CODE_CLIQ_CASH_LP_APPLIED_BANK_OFFER_RELEASED_INVALID_10
+            ) {
+                dispatch(collectPaymentOrderFailure(resultJson && resultJson.error));
+                return dispatch(
+                    showModal(VALIDATE_LOYALTY_POINT_POPUP, {
+                        result: resultJson,
+                    })
+                );
             } else if (resultJsonStatus.status) {
                 if (
                     resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_1 ||
@@ -7431,6 +7722,169 @@ export function collectPaymentOrderForCliqCash(pinCode, cartItem, isPaymentFaile
         } catch (e) {
             dispatch(displayToast(ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL + " Please Retry."));
             dispatch(collectPaymentOrderForCliqCashFailure(e));
+        }
+    };
+}
+
+export function collectPaymentOrderForLoyaltyRequest() {
+    return {
+        type: COLLECT_PAYMENT_ORDER_FOR_LOYALTY_REQUEST,
+        status: REQUESTING,
+    };
+}
+export function collectPaymentOrderForLoyaltySuccess(collectPaymentOrder, guid) {
+    return {
+        type: COLLECT_PAYMENT_ORDER_FOR_LOYALTY_SUCCESS,
+        status: SUCCESS,
+        collectPaymentOrder,
+        guid,
+    };
+}
+export function collectPaymentOrderForLoyaltyFailure(error) {
+    return {
+        type: COLLECT_PAYMENT_ORDER_FOR_LOYALTY_FAILURE,
+        status: ERROR,
+        error,
+    };
+}
+
+export function collectPaymentOrderForLoyalty(pinCode, cartItem, isPaymentFailed = false) {
+    return async (dispatch, getState, { api }) => {
+        let browserName = browserAndDeviceDetails.getBrowserAndDeviceDetails(1);
+        let fullVersion = browserAndDeviceDetails.getBrowserAndDeviceDetails(2);
+        let deviceInfo = browserAndDeviceDetails.getBrowserAndDeviceDetails(3);
+        let networkType = browserAndDeviceDetails.getBrowserAndDeviceDetails(4);
+        let customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+        let productDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+        let cartGuId = productDetails ? JSON.parse(productDetails).guid : Cookie.getCookie(OLD_CART_GU_ID);
+        let cartDetails;
+        let userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+        let address = JSON.parse(localStorage.getItem(ADDRESS_FOR_PLACE_ORDER));
+        const paymentMode = localStorage.getItem(PAYMENT_MODE_TYPE);
+        const bankName = localStorage.getItem(SELECTED_BANK_NAME);
+        let whatsappNotification = Cookie.getCookie(WHATSAPP_NOTIFICATION);
+        const returnUrl = `${window.location.origin}/checkout/payment-method/cardPayment`;
+        let orderDetails = "";
+        let inventoryItems = cartItem;
+        if (isPaymentFailed) {
+            let url = queryString.parse(window.location.search);
+            cartGuId = url && url.value ? url.value : Cookie.getCookie(OLD_CART_GU_ID);
+        } else {
+            cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+            cartGuId = cartDetails ? JSON.parse(cartDetails).guid : Cookie.getCookie(OLD_CART_GU_ID);
+        }
+        if (inventoryItems && address) {
+            orderDetails = {
+                wrapperItems: [
+                    {
+                        wrapperAddressItems: [
+                            {
+                                addressItems: [
+                                    {
+                                        addressType: "Shipping",
+                                        firstName: address.firstName,
+                                        lastName: address.lastName,
+                                        addressLine1: address.line1,
+                                        addressLine2: address.line2 ? address.line2 : "",
+                                        addressLine3: address.line3 ? address.line3 : "",
+                                        country: address.country && address.country.isocode,
+                                        city: address.city,
+                                        postalCode: address.postalCode,
+                                        state: address.state,
+                                        phone: address.phone,
+                                    },
+                                ],
+                            },
+                        ],
+                        wrapperPspItems: [
+                            {
+                                pspItems: [
+                                    {
+                                        pspName: "Juspay",
+                                        token: "",
+                                        cardToken: "",
+                                        cardFingerprint: "",
+                                        cardRefNo: "",
+                                        returnUrl: returnUrl,
+                                    },
+                                    {
+                                        pspName: "Stripe",
+                                        token: "",
+                                        cardToken: "",
+                                        cardCountry: "",
+                                        cardFingerprint: "",
+                                        cardRefNo: "",
+                                        returnUrl: returnUrl,
+                                    },
+                                ],
+                            },
+                        ],
+                    },
+                ],
+            };
+        }
+
+        dispatch(collectPaymentOrderForLoyaltyRequest());
+        try {
+            const result = await api.post(
+                `${USER_CART_PATH}/${JSON.parse(userDetails).userName}/collectPaymentOrder?access_token=${
+                    JSON.parse(customerCookie).access_token
+                }&saveCard=false&sameAsShipping=true&cartGuid=${cartGuId}&isPwa=true&platform=11&platformNumber=${PLAT_FORM_NUMBER}&bankName=${bankName}&paymentMode=${paymentMode}&channel=${CHANNEL}&isUpdatedPwa=true&appplatform&appversion=&deviceInfo=${deviceInfo}&networkInfo=${networkType}|&browserInfo=${browserName}|${fullVersion}&binNo=&emiTenure=&cardBrandName=${
+                    whatsappNotification ? "&whatsapp=true" : ""
+                }`,
+                orderDetails
+            );
+            const resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+            if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_7) {
+                dispatch(collectPaymentOrderFailure(resultJson && resultJson.error));
+                return dispatch(
+                    showModal(VALIDATE_CLIQ_CASH_POPUP, {
+                        result: resultJson,
+                    })
+                );
+            } else if (resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_8) {
+                dispatch(displayToast(resultJson && resultJson.errorMessage));
+                dispatch(collectPaymentOrderFailure(resultJson && resultJson.errorMessage));
+            } else if (
+                resultJson.errorCode === ERROR_CODE_CLIQ_CASH_LP_APPLIED_BANK_OFFER_RELEASED_INVALID_9 ||
+                resultJson.errorCode === ERROR_CODE_CLIQ_CASH_LP_APPLIED_BANK_OFFER_RELEASED_INVALID_10
+            ) {
+                dispatch(collectPaymentOrderFailure(resultJson && resultJson.error));
+                return dispatch(
+                    showModal(VALIDATE_LOYALTY_POINT_POPUP, {
+                        result: resultJson,
+                    })
+                );
+            } else if (resultJsonStatus.status) {
+                if (
+                    resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_1 ||
+                    resultJson.errorCode === ERROR_CODE_FOR_BANK_OFFER_INVALID_2
+                ) {
+                    dispatch(collectPaymentOrderForLoyaltyFailure(INVALID_COUPON_ERROR_MESSAGE));
+                    return dispatch(
+                        showModal(INVALID_BANK_COUPON_POPUP, {
+                            result: resultJson,
+                        })
+                    );
+                } else {
+                    throw new Error(resultJson.message);
+                }
+            }
+            localStorage.setItem(STRIPE_DETAILS, JSON.stringify(resultJson));
+            dispatch(setBagCount(0));
+            localStorage.setItem(ORDER_ID_FOR_PAYMENT_CONFIRMATION_PAGE, resultJson.orderId);
+            localStorage.setItem(CART_BAG_DETAILS, []);
+            dispatch(collectPaymentOrderForLoyaltySuccess(resultJson));
+            let cartExchangeDetails = localStorage.getItem(AC_CART_EXCHANGE_DETAILS);
+            if (cartExchangeDetails) {
+                dispatch(submitAppliancesExchangeData(resultJson.orderId, STATUS_PROCESSING, false));
+            }
+            dispatch(getPrepaidOrderPaymentConfirmation(resultJson));
+            dispatch(generateCartIdAfterOrderPlace());
+        } catch (e) {
+            dispatch(displayToast(ERROR_MESSAGE_FOR_CREATE_JUS_PAY_CALL + " Please Retry."));
+            dispatch(collectPaymentOrderForLoyaltyFailure(e));
         }
     };
 }
@@ -7812,6 +8266,59 @@ export function mdeFraudCheck() {
             }
         } catch (e) {
             dispatch(mdeFraudCheckFailure(e.message));
+        }
+    };
+}
+
+export function getGstDetailsRequest() {
+    return {
+        type: GET_GST_DETAILS_REQUEST,
+        status: REQUESTING,
+    };
+}
+
+export function getGstDetailsSuccess(getGstDetails) {
+    return {
+        type: GET_GST_DETAILS_SUCCESS,
+        status: SUCCESS,
+        getGstDetails,
+    };
+}
+
+export function getGstDetailsFailure(error) {
+    return {
+        type: GET_GST_DETAILS_FAILURE,
+        status: ERROR,
+        error,
+    };
+}
+
+export function getValidateGstDetails(gstin, companyName, operation) {
+    return async (dispatch, getState, { api }) => {
+        const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+        let cartDetails = Cookie.getCookie(CART_DETAILS_FOR_LOGGED_IN_USER);
+        let cartId = JSON.parse(cartDetails).guid;
+        const customerAccessToken = await getCustomerAccessToken();
+        let gstDetails = {
+            gstin,
+            companyName,
+        };
+        dispatch(getGstDetailsRequest());
+        try {
+            const result = await api.post(
+                `${USER_CART_PATH}/${
+                    JSON.parse(userDetails).userName
+                }/verifyGst?access_token=${customerAccessToken}&cartGuid=${cartId}&channel=${CHANNEL}&operation=${operation}`,
+                gstDetails
+            );
+            let resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+            if (resultJsonStatus.status) {
+                throw new Error(resultJsonStatus.message);
+            }
+            return dispatch(getGstDetailsSuccess(resultJson));
+        } catch (e) {
+            return dispatch(getGstDetailsFailure(e.message));
         }
     };
 }

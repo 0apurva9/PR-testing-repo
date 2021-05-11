@@ -1,0 +1,71 @@
+.base {
+    width: 100%;
+    height: auto;
+    padding: 20px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #ffffff;
+    margin-bottom: 15px;
+}
+.couponInnerBox {
+    width: 100%;
+    height: auto;
+    position: relative;
+    padding: 0px;
+}
+.headingTextGst {
+    width: 100%;
+    font-size: 14px;
+    margin: auto;
+    text-align: left;
+    line-height: 25px;
+    color: #212121;
+    font-family: "Rubik", sans-serif;
+}
+.headingText {
+    width: 100%;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: "Rubik", sans-serif;
+    margin: auto;
+    text-align: left;
+    line-height: 25px;
+    color: #212121;
+}
+.headingTextFont {
+    font-size: 16px;
+}
+.subText {
+    width: 100%;
+    font-size: 14px;
+    margin: auto;
+    text-align: left;
+    line-height: 25px;
+    color: #4a4a4a;
+    font-family: "Rubik", sans-serif;
+}
+.margin {
+    margin-top: 10px;
+}
+
+.apply {
+    width: auto;
+    height: auto;
+    position: absolute;
+    font-size: 14px;
+    font-family: "semibold";
+    top: 3px;
+    right: 0;
+    color: #da1c5c;
+}
+@media screen and (min-width: 1025px) {
+    .base {
+        padding: 15px 30px;
+    }
+    .couponInnerBox {
+        /* padding: 0px 45px 0px 35px; */
+    }
+    .couponIcon {
+        left: 0;
+    }
+}

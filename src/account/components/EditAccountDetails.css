@@ -1,123 +1,152 @@
 .base {
-  width: 100%;
-  height: auto;
-  padding: 0;
-  padding-bottom: 75px;
+    width: 100%;
+    height: auto;
+    padding: 0;
+    padding-bottom: 75px;
 }
 .header {
-  width: 100%;
-  height: auto;
-  font-size: 16px;
-  font-family: semibold;
-  margin-bottom: 15px;
+    width: 100%;
+    height: auto;
+    font-size: 16px;
+    font-family: semibold;
+    margin-bottom: 15px;
 }
 .container {
-  width: 100%;
-  height: auto;
-  margin-bottom: 15px;
-  display: inline-block;
+    width: 100%;
+    height: auto;
+    margin-bottom: 15px;
+    display: inline-block;
 }
 .container:last-child {
-  margin-bottom: 0px;
+    margin-bottom: 0px;
 }
 .buttonHolder {
-  width: 100%;
-  height: auto;
-  padding: 15px;
-  border-top: 1px solid #ececec;
+    width: 100%;
+    height: auto;
+    padding: 15px;
+    border-top: 1px solid #ececec;
 }
 .holder {
-  width: 100%;
-  height: auto;
-  padding: 15px;
+    width: 100%;
+    height: auto;
+    padding: 15px;
 }
 
 .sendNotification {
-  padding: 15px;
+    padding: 15px;
 }
 .profileImage {
-  width: 100%;
-  height: auto;
+    width: 100%;
+    height: auto;
 }
 .changePassword {
-  padding: 15px 15px 5px 15px;
-  border-top: solid 1px #ececec;
-  border-bottom: solid 1px #ececec;
+    padding: 15px 15px 5px 15px;
+    border-top: solid 1px #ececec;
+    border-bottom: solid 1px #ececec;
 }
 .changePasswordPageHolder {
-  width: 100%;
-  height: auto;
+    width: 100%;
+    height: auto;
 }
 @media screen and (min-width: 1025px) {
-  .base {
-    display: inline-block;
-    background-color: #ececec;
-    padding: 80px 0px 100px 0px;
-  }
-  .editAccountDetail {
-    width: 60%;
-    margin: auto;
-    display: inline-block;
-    padding: 0px 22px;
-    max-width: 720px;
-    border-radius: 4px;
-  }
-  .editAccountDetailWithHolder {
-    width: 100%;
-    height: auto;
-    border-radius: 4px;
-    overflow: hidden;
-  }
-  .infoHeader {
-    widows: 100%;
-    line-height: 50px;
-    font-family: semibold;
-    font-size: 14px;
-    background-color: #f9f9f9;
-    padding-left: 30px;
-  }
-  .userDataHolder {
-    width: 100%;
-    height: auto;
-    background-color: #fff;
-    padding: 30px 30px 60px 30px;
-  }
-  .textHolder {
-    width: 20%;
-    height: auto;
-    display: inline-block;
-    font-size: 16px;
-    font-family: regular;
-    vertical-align: top;
-    line-height: 33px;
-    color:#212121;
-  }
-  .inputHolder {
-    width: 80%;
-    height: auto;
-    display: inline-block;
-    position: relative;
-  }
-.inputBoxNew{width:100%;padding:0 28px 0 8px;border:0;border:1px solid #d2d2d2;border-radius: 2px;position: relative;height:34px;}
-.editBtn{background: transparent url(../../account/components/img/editGreyIcon.svg) no-repeat;display:inline-block;position: absolute;right:9px;top:7px;border:0;width:20px;height:20px;cursor: pointer;outline: none;}
-.redLink{display: inline-block;padding:10px 5px 15px;font-size: 18px;color:#ff1744;font-weight:400;background: transparent;outline:none;cursor: pointer;border:0;}
-  .updateButtonHolder {
-    width: 100%;
-    height: auto;
-    margin-top: 30px;
-    text-align: right;
-  }
-  .updateButton {
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
-    transition: 300ms;
-    border-radius: 18px;
-    display: inline-block;
-  }
-  .updateButton:hover {
-    box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4), 0 0 2px 0 rgba(0, 0, 0, 0.2);
-  }
-  .changePassword {
-    cursor: pointer;
-    margin:0 0 60px;
-  }
+    .base {
+        display: inline-block;
+        background-color: #ececec;
+        padding: 80px 0px 100px 0px;
+    }
+    .editAccountDetail {
+        width: 60%;
+        margin: auto;
+        display: inline-block;
+        padding: 0px 22px;
+        max-width: 720px;
+        border-radius: 4px;
+    }
+    .editAccountDetailWithHolder {
+        width: 100%;
+        height: auto;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+    .infoHeader {
+        widows: 100%;
+        line-height: 50px;
+        font-family: semibold;
+        font-size: 14px;
+        background-color: #f9f9f9;
+        padding-left: 30px;
+    }
+    .userDataHolder {
+        width: 100%;
+        height: auto;
+        background-color: #fff;
+        padding: 30px 30px 60px 30px;
+    }
+    .textHolder {
+        width: 20%;
+        height: auto;
+        display: inline-block;
+        font-size: 16px;
+        font-family: regular;
+        vertical-align: top;
+        line-height: 33px;
+        color: #212121;
+    }
+    .inputHolder {
+        width: 80%;
+        height: auto;
+        display: inline-block;
+        position: relative;
+    }
+    .inputBoxNew {
+        width: 100%;
+        padding: 0 28px 0 8px;
+        border: 0;
+        border: 1px solid #d2d2d2;
+        border-radius: 2px;
+        position: relative;
+        height: 34px;
+    }
+    .editBtn {
+        background: transparent url(../../account/components/img/editGreyIcon.svg) no-repeat;
+        display: inline-block;
+        position: absolute;
+        right: 9px;
+        top: 7px;
+        border: 0;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        outline: none;
+    }
+    .redLink {
+        display: inline-block;
+        padding: 10px 5px 15px;
+        font-size: 18px;
+        color: #ff1744;
+        font-weight: 400;
+        background: transparent;
+        outline: none;
+        cursor: pointer;
+        border: 0;
+    }
+    .updateButtonHolder {
+        width: 100%;
+        height: auto;
+        margin-top: 30px;
+        text-align: right;
+    }
+    .updateButton {
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.24), 0 0 2px 0 rgba(0, 0, 0, 0.12);
+        transition: 300ms;
+        border-radius: 18px;
+        display: inline-block;
+    }
+    .updateButton:hover {
+        box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.4), 0 0 2px 0 rgba(0, 0, 0, 0.2);
+    }
+    .changePassword {
+        cursor: pointer;
+        margin: 0 0 60px;
+    }
 }

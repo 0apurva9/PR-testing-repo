@@ -77,8 +77,12 @@ export const CUSTOMER_CALL_QUERY_SUCCESS = "CustomerCallQuerySuccess";
 export const ATTACHMENT_UPLOAD_RESPONSE_POPUP = "AttachmentUploadPopUp";
 export const APPLIANCES_EXCHANGE_MODAL = "AppliancesExchangeModal";
 export const NON_EMI_ELIGIBLE_TO_WISHLIST = "nonEmiEligibleToWishlist";
-
+export const CLIQ_CASH_LOYALTY_ALERT = "cliqCashLoyaltyAlert";
+export const LOYALTY_TERMS_AND_CONDITIONS = "LoyaltyTermsAndConditions";
+export const LP_PARTIAL_REDEMPTION = "lpPartialRedemption";
+export const VALIDATE_LOYALTY_POINT_POPUP = "ValidateLoyaltyPointPopup";
 export const MDE_FRAUD_DETAILS_MODAL = "MdeFraudDetailsModal";
+export const GST_MODAL = "gstModal";
 export const RATING_REVIEW_MODAL_V2 = "RatingAndReviewWrapperModalV2";
 export const MOBILE_NUMBER_LOGIN_MODAL_ACTIVE = "MobileNumberLoginModalActive";
 export const MOBILE_NUMBER_LOGIN_MODAL_INACTIVE = "MobileNumberLoginModalInActive";
