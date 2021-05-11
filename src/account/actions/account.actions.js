@@ -479,6 +479,10 @@ export const GET_USER_PRODUCT_REVIEWS_REQUEST = "GET_USER_PRODUCT_REVIEWS_REQUES
 export const GET_USER_PRODUCT_REVIEWS_SUCCESS = "GET_USER_PRODUCT_REVIEWS_SUCCESS";
 export const GET_USER_PRODUCT_REVIEWS_FAILURE = "GET_USER_PRODUCT_REVIEWS_FAILURE";
 
+export const GET_PENDING_REVIEWS_SUCCESS_SCREEN_REQUEST = "GET_PENDING_REVIEWS_SUCCESS_SCREEN_REQUEST";
+export const GET_PENDING_REVIEWS_SUCCESS_SCREEN_SUCCESS = "GET_PENDING_REVIEWS_SUCCESS_SCREEN_SUCCESS";
+export const GET_PENDING_REVIEWS_SUCCESS_SCREEN_FAILURE = "GET_PENDING_REVIEWS_SUCCESS_SCREEN_FAILURE";
+
 const GENESYS_KEY = "Zgjei@$Pu";
 
 export function getDetailsOfCancelledProductRequest() {
@@ -3475,11 +3479,15 @@ export function logoutUser() {
     return async (dispatch, getState, { api }) => {
         const globalAccessToken = Cookie.getCookie(GLOBAL_ACCESS_TOKEN);
         const userDetails = Cookie.getCookie(LOGGED_IN_USER_DETAILS);
+        const customerCookie = Cookie.getCookie(CUSTOMER_ACCESS_TOKEN);
+        const customerAccessToken = customerCookie && JSON.parse(customerCookie).access_token;
         dispatch(logoutUserRequest());
         try {
             const result = await api.postFormData(
-                `${USER_PATH}/logout?userId=${JSON.parse(userDetails).userName}&access_token=${
-                    JSON.parse(globalAccessToken).access_token
+                `${USER_PATH}/logout?access_token=${JSON.parse(globalAccessToken).access_token}&userId=${
+                    JSON.parse(userDetails).userName
+                }&customer_token=${customerAccessToken}&customer_token_refresh=${
+                    JSON.parse(customerCookie).refresh_token
                 }`
             );
             const resultJson = await result.json();
@@ -5511,7 +5519,7 @@ export function getPendingReviewsFailure(error) {
     };
 }
 
-export function getPendingReviews(currentPage, isRatingReviewSuccessScreen) {
+export function getPendingReviews(currentPage) {
     return async (dispatch, getState, { api }) => {
         let userDetails = await getLoggedInUserDetails();
         let userName = userDetails.userName;
@@ -5519,12 +5527,8 @@ export function getPendingReviews(currentPage, isRatingReviewSuccessScreen) {
 
         dispatch(getPendingReviewsRequest());
         try {
-            let extraParam = "";
-            if (isRatingReviewSuccessScreen) {
-                extraParam = `&rating=0`;
-            }
             const result = await api.get(
-                `${USER_PATH}/${userName}/getPendingReviewProducts?fields=BASIC&access_token=${accessToken}&page=${currentPage}&pageSize=${PAGE_SIZE}${extraParam}`
+                `${USER_PATH}/${userName}/getPendingReviewProducts?fields=BASIC&access_token=${accessToken}&page=${currentPage}&pageSize=${PAGE_SIZE}`
             );
             const resultJson = await result.json();
             const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -5628,6 +5632,53 @@ export function getUserProductReview(productCode) {
             dispatch(getUserProductReviewSuccess(resultJson));
         } catch (e) {
             dispatch(getUserProductReviewFailure(e.message));
+        }
+    };
+}
+
+export function getPendingReviewsSuccessScreenRequest() {
+    return {
+        type: GET_PENDING_REVIEWS_SUCCESS_SCREEN_REQUEST,
+        status: REQUESTING,
+    };
+}
+
+export function getPendingReviewsSuccessScreenSuccess(data) {
+    return {
+        type: GET_PENDING_REVIEWS_SUCCESS_SCREEN_SUCCESS,
+        status: SUCCESS,
+        data,
+    };
+}
+
+export function getPendingReviewsSuccessScreenFailure(error) {
+    return {
+        type: GET_PENDING_REVIEWS_SUCCESS_SCREEN_FAILURE,
+        status: ERROR,
+        error,
+    };
+}
+
+export function getPendingReviewsSuccessScreen(currentPage) {
+    return async (dispatch, getState, { api }) => {
+        let userDetails = await getLoggedInUserDetails();
+        let userName = userDetails.userName;
+        let accessToken = await getCustomerAccessToken();
+
+        dispatch(getPendingReviewsSuccessScreenRequest());
+        try {
+            const result = await api.get(
+                `${USER_PATH}/${userName}/getPendingReviewProducts?fields=BASIC&access_token=${accessToken}&page=${currentPage}&pageSize=${PAGE_SIZE}&rating=0`
+            );
+            const resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+            if (resultJsonStatus.status || (resultJson && !resultJson.reviews)) {
+                dispatch(getPendingReviewsSuccessScreenFailure(resultJsonStatus.message));
+            } else {
+                dispatch(getPendingReviewsSuccessScreenSuccess(resultJson));
+            }
+        } catch (e) {
+            dispatch(getPendingReviewsSuccessScreenFailure(e.message));
         }
     };
 }

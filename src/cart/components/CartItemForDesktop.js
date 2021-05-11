@@ -2,6 +2,8 @@ import React from "react";
 import SelectBoxDesktop from "../../general/components/SelectBoxDesktop";
 import DeliveryInfoSelect from "./DeliveryInfoSelect";
 import PropTypes from "prop-types";
+import gstTick from "./img/gstTick.svg";
+import Image from "../../xelpmoc-core/Image";
 import {
     HOME_DELIVERY,
     EXPRESS,
@@ -248,6 +250,10 @@ export default class CartItemForDesktop extends React.Component {
     }
 
     render() {
+        let isGstProductAvailable = false;
+        if (this.props && this.props.product && this.props.product.gstinvoicingAvailable) {
+            isGstProductAvailable = true;
+        }
         let fetchedQuantityList = [];
         if (this.props.isOutOfStock) {
             fetchedQuantityList = [{}];
@@ -454,6 +460,14 @@ export default class CartItemForDesktop extends React.Component {
                             >
                                 {this.props.removeText}
                             </div>
+                        </div>
+                    )}
+                    {isGstProductAvailable && (
+                        <div className={styles.footer1}>
+                            <span className={styles.checkIconHolder}>
+                                <Image image={gstTick} fit="100%" />
+                            </span>
+                            <div className={styles.gstnLabel}>GSTIN Invoice available</div>
                         </div>
                     )}
                 </div>
@@ -791,6 +805,7 @@ CartItemForDesktop.propTypes = {
     addBundledProductsToCart: PropTypes.func,
     addBundledProductsToCartDetails: PropTypes.object,
     bundledProductSuggestionStatus: PropTypes.string,
+    isGstProductAvailable: PropTypes.bool,
 };
 
 CartItemForDesktop.defaultProps = {

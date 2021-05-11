@@ -29,6 +29,7 @@ import {
     MDE_FRAUD_CHECK_ERROR,
 } from "../../lib/constants";
 import SavedProduct from "./SavedProduct";
+import GstDetails from "./GstDetail";
 import filter from "lodash.filter";
 import { Redirect } from "react-router-dom";
 import TextWithUnderLine from "./TextWithUnderLine.js";
@@ -78,6 +79,8 @@ class CartPage extends React.Component {
             showCheckoutSection: true,
             isComingFromCliqAndPiq: false,
             appliancesExchangePincodeData: null,
+            isGstProductAvailable: false,
+            gstProductCount: 0,
             isCheckoutBtnClicked: false,
             isCartDetailsAPITriggered: false,
         };
@@ -315,6 +318,24 @@ class CartPage extends React.Component {
                 let productIdList = productIds.join(",");
                 const pincode = localStorage.getItem(DEFAULT_PIN_CODE_LOCAL_STORAGE);
                 this.props.appliancesExchangeCheckPincode(productIdList, pincode);
+            }
+        }
+        if (
+            this.props != prevProps &&
+            this.props.cart != prevProps.cart &&
+            this.props.cart.cartDetails &&
+            this.props.cart.cartDetails.products
+        ) {
+            let GstCount = this.props.cart.cartDetails.products.filter(p =>
+                p.gstinvoicingAvailable === true ? true : false
+            );
+            if (GstCount && GstCount.length) {
+                this.setState({ isGstProductAvailable: true, gstProductCount: GstCount.length });
+            } else {
+                this.setState({
+                    isGstProductAvailable: false,
+                    gstProductCount: 0,
+                });
             }
         }
     }
@@ -1156,9 +1177,22 @@ class CartPage extends React.Component {
                                             />
                                         </div>
                                     )}
+                                    {this.state.isGstProductAvailable && (
+                                        <div className={styles.couponCard}>
+                                            <GstDetails
+                                                displayToast={this.props.displayToast}
+                                                gstDetails={this.props.gstDetails}
+                                                gstPopUp={data => this.props.gstPopUp(data)}
+                                                getValidateGstDetails={(gstin, companyName, operation) =>
+                                                    this.props.getValidateGstDetails(gstin, companyName, operation)
+                                                }
+                                            />
+                                        </div>
+                                    )}
                                     {this.state.showCheckoutSection && cartDetails.products && cartDetails.cartAmount && (
                                         <div className={styles.amountDetails}>
                                             <DesktopCheckout
+                                                gstProductCount={this.state.gstProductCount}
                                                 cartAmount={cartDetails.cartAmount}
                                                 disabled={!this.state.isServiceable}
                                                 amount={
@@ -1272,8 +1306,11 @@ here we need to hit call for merging cart id if user
 }
 
 CartPage.propTypes = {
+    gstPopUp: PropTypes.func,
     addBundledProductsToCart: PropTypes.func,
     addBundledProductsToCartDetails: PropTypes.func,
+    getValidateGstDetails: PropTypes.func,
+    gstDetails: PropTypes.object,
     addressModal: PropTypes.func,
     appliancesExchangeCheckPincode: PropTypes.func,
     appliancesExchangePincodeDetails: PropTypes.object,
