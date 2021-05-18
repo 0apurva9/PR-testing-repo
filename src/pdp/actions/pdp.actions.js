@@ -260,6 +260,14 @@ export const GET_REVIEWS_ON_PRODUCT_PAGE_REQUEST = "GET_REVIEWS_ON_PRODUCT_PAGE_
 export const GET_REVIEWS_ON_PRODUCT_PAGE_SUCCESS = "GET_REVIEWS_ON_PRODUCT_PAGE_SUCCESS";
 export const GET_REVIEWS_ON_PRODUCT_PAGE_FAILURE = "GET_REVIEWS_ON_PRODUCT_PAGE_FAILURE";
 
+export const GET_RATING_SUMMARY_REQUEST = "GET_RATING_SUMMARY_REQUEST";
+export const GET_RATING_SUMMARY_SUCCESS = "GET_RATING_SUMMARY_SUCCESS";
+export const GET_RATING_SUMMARY_FAILURE = "GET_RATING_SUMMARY_FAILURE";
+
+export const GET_PDP_REVIEWS_REQUEST = "GET_PDP_REVIEWS_REQUEST";
+export const GET_PDP_REVIEWS_SUCCESS = "GET_PDP_REVIEWS_SUCCESS";
+export const GET_PDP_REVIEWS_FAILURE = "GET_PDP_REVIEWS_FAILURE";
+
 export function getProductDescriptionRequest() {
     return {
         type: PRODUCT_DESCRIPTION_REQUEST,
@@ -1417,15 +1425,7 @@ export function getProductReviewsFailure(error) {
     };
 }
 
-export function getProductReviews(productCode, pageIndex, orderBy, sortBy, filteredProducts) {
-    let userDetails = getLoggedInUserDetails();
-    let accessToken = getGlobalAccessToken();
-    let userName = ANONYMOUS_USER;
-    if (userDetails) {
-        userName = userDetails.userName;
-        accessToken = getCustomerAccessToken();
-    }
-
+export function getProductReviews(productCode, pageIndex, orderBy, sortBy, filteredProducts, pageSize) {
     return async (dispatch, getState, { api }) => {
         dispatch(getProductReviewsRequest());
         try {
@@ -1434,7 +1434,9 @@ export function getProductReviews(productCode, pageIndex, orderBy, sortBy, filte
                 extraParam = `&productCodes=${filteredProducts.toUpperCase()}`;
             }
             const result = await api.get(
-                `v2/mpl/reviews/${productCode.toUpperCase()}/users/${userName}/reviews_V1?access_token=${accessToken}&page=${pageIndex}&pageSize=${PAGE_NUMBER}&orderBy=${orderBy}&sort=${sortBy}${extraParam}`
+                `v2/mpl/reviews/${productCode.toUpperCase()}/reviews_V2?&page=${pageIndex}&pageSize=${
+                    pageSize ? pageSize : PAGE_NUMBER
+                }&orderBy=${orderBy}&sort=${sortBy}${extraParam}`
             );
             const resultJson = await result.json();
             const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
@@ -3009,6 +3011,88 @@ export function getReviewsOnProductPage(productCode) {
             }
         } catch (e) {
             dispatch(getReviewsOnProductPageFailure(e.message));
+        }
+    };
+}
+
+export function getRatingSummaryRequest() {
+    return {
+        type: GET_RATING_SUMMARY_REQUEST,
+        status: REQUESTING,
+    };
+}
+
+export function getRatingSummarySuccess(data) {
+    return {
+        type: GET_RATING_SUMMARY_SUCCESS,
+        status: SUCCESS,
+        data,
+    };
+}
+
+export function getRatingSummaryFailure(error) {
+    return {
+        type: GET_RATING_SUMMARY_FAILURE,
+        status: ERROR,
+        error,
+    };
+}
+
+export function getRatingSummary(productCode) {
+    return async (dispatch, getState, { api }) => {
+        dispatch(getRatingSummaryRequest());
+        try {
+            const result = await api.get(`v2/mpl/reviews/${productCode.toUpperCase()}/ratingSummary`);
+            const resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+            if (resultJsonStatus.status || result.status !== 200) {
+                dispatch(getRatingSummaryFailure());
+            } else {
+                dispatch(getRatingSummarySuccess(resultJson));
+            }
+        } catch (e) {
+            dispatch(getRatingSummaryFailure(e.message));
+        }
+    };
+}
+
+export function getPdpReviewsRequest() {
+    return {
+        type: GET_PDP_REVIEWS_REQUEST,
+        status: REQUESTING,
+    };
+}
+
+export function getPdpReviewsSuccess(data) {
+    return {
+        type: GET_PDP_REVIEWS_SUCCESS,
+        status: SUCCESS,
+        data,
+    };
+}
+
+export function getPdpReviewsFailure(error) {
+    return {
+        type: GET_PDP_REVIEWS_FAILURE,
+        status: ERROR,
+        error,
+    };
+}
+
+export function getPdpReviews(productCode) {
+    return async (dispatch, getState, { api }) => {
+        dispatch(getPdpReviewsRequest());
+        try {
+            const result = await api.get(`v2/mpl/reviews/${productCode.toUpperCase()}/pdpReviews`);
+            const resultJson = await result.json();
+            const resultJsonStatus = ErrorHandling.getFailureResponse(resultJson);
+            if (resultJsonStatus.status || result.status !== 200) {
+                dispatch(getPdpReviewsFailure());
+            } else {
+                dispatch(getPdpReviewsSuccess(resultJson));
+            }
+        } catch (e) {
+            dispatch(getPdpReviewsFailure(e.message));
         }
     };
 }

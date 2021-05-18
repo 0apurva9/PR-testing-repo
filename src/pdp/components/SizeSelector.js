@@ -68,7 +68,7 @@ export default class SizeSelector extends React.Component {
         }
     }
 
-    async updateSize(productUrl) {
+    async updateSize(productUrl, selectedSize) {
         let productCode;
         const productCodeArray = productUrl.split("/");
         if (productCodeArray[1] && PRODUCT_CODE_REG_EX.test(productCodeArray[1])) {
@@ -117,23 +117,31 @@ export default class SizeSelector extends React.Component {
                         this.props.addProductToWishList(addToWishListObj);
                         this.props.history.replace({
                             pathname: `${productUrl}`,
-                            state: { isSizeSelected: true, goToCartPageFlag: false },
+                            state: { isSizeSelected: true, goToCartPageFlag: false, selectedSize },
                         });
                     }
                 } else {
                     this.props.addProductToCart(productDetailsObj);
                     this.props.history.replace({
                         pathname: `${productUrl}`,
-                        state: { isSizeSelected: true, goToCartPageFlag: true },
+                        state: { isSizeSelected: true, goToCartPageFlag: true, selectedSize },
                     });
                 }
             }
         } else {
             this.props.history.replace({
                 pathname: `${productUrl}`,
-                state: { isSizeSelected: true, goToCartPageFlag: false },
+                state: { isSizeSelected: true, goToCartPageFlag: false, selectedSize },
             });
-            this.props.getProductReviews(productCode, 0, "desc", "byDate");
+
+            if (
+                this.props.numberOfReviews &&
+                (this.props.numberOfReviews !== 0 || this.props.numberOfReviews !== "0") &&
+                this.props.displayRatingReview
+            ) {
+                this.props.getRatingSummary(productCode);
+                this.props.getPdpReviews(productCode);
+            }
         }
         if (this.props.closeModal) {
             this.props.closeModal();
@@ -176,7 +184,9 @@ export default class SizeSelector extends React.Component {
                     key={i}
                     disabled={!datum.sizelink.isAvailable}
                     selected={
-                        datum.colorlink.selected && this.props.history.location.state
+                        datum.colorlink.selected &&
+                        this.props.history.location.state &&
+                        this.props.history.location.state?.selectedSize === datum.sizelink.size
                             ? this.props.history.location.state.isSizeSelected
                             : false
                     }
@@ -184,7 +194,7 @@ export default class SizeSelector extends React.Component {
                     value={datum.sizelink.size}
                     fontSize={this.props.textSize}
                     isSizeOrLength={this.props.isSizeOrLength}
-                    onSelect={() => this.updateSize(datum.sizelink.url)}
+                    onSelect={() => this.updateSize(datum.sizelink.url, datum.sizelink.size)}
                     categoryEyeWear={
                         this.props &&
                         this.props.categoryHierarchy &&
@@ -425,7 +435,10 @@ SizeSelector.propTypes = {
     categoryHierarchy: PropTypes.array,
     hasSizeGuide: PropTypes.bool,
     renderSize: PropTypes.func,
-    getProductReviews: PropTypes.func,
+    getRatingSummary: PropTypes.func,
+    displayRatingReview: PropTypes.bool,
+    numberOfReviews: PropTypes.any,
+    getPdpReviews: PropTypes.func,
 };
 SizeSelector.defaultProps = {
     headerText: "Size",

@@ -86,6 +86,8 @@ const mapStateToProps = (state, ownProps) => {
         ...ownProps,
         pendingReviewsDetails: state.profile.getPendingReviewsDetails,
         publishedReviewsDetails: state.profile.getPublishedReviewsDetails,
+        pendingReviewsStatus: state.profile.getPendingReviewsStatus,
+        publishedReviewsStatus: state.profile.getPublishedReviewsStatus,
     };
 };
 

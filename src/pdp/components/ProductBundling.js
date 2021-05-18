@@ -304,8 +304,8 @@ export default class ProductBundling extends React.Component {
 
                             <div className={styles.totalDetailsContainer}>
                                 {this.state.enableAddToCartButton &&
-								bundledPriceAPIStatus &&
-								bundledPriceAPIStatus.toLowerCase() === SUCCESS ? (
+                                bundledPriceAPIStatus &&
+                                bundledPriceAPIStatus.toLowerCase() === SUCCESS ? (
                                     <React.Fragment>
                                         {this.state.enableComboDiscountSection && (
                                             <div className={styles.comboDiscountContainer}>

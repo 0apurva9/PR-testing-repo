@@ -29,14 +29,14 @@ export default class CuponDetails extends React.Component {
                             <span className={styles.cuponCodeColor}>{this.props.promotionTitle}</span>
                             {this.props.couponType === COUPON_TYPE && this.props.selectItem && (
                                 <div
-                                    className={styles.checkBoxHolder}
+                                    className={this.props.selected ? styles.checkBoxHolder : styles.uncheckBoxHolder}
                                     onClick={val => this.handleClick(val)}
                                     data-test={`coupon-radio-btn-${this.props.promotionTitle}`}
                                 >
                                     <div
                                         className={this.props.selected ? styles.removeApplyCoupon : styles.applyCoupon}
                                     >
-                                        {this.props.selected ? "Remove" : "Apply"}
+                                        {this.props.selected ? "Applied" : "Apply"}
                                     </div>
                                     {/* if have to change button to radiobutton uncomment below code */}
                                     {/* <CheckBox selected={this.props.selected} /> */}

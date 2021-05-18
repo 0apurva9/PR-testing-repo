@@ -4,7 +4,7 @@
   "private": true,
   "sideEffects": true,
   "scripts": {
-    "start": "node config/build.js --env.environment=production --env.deploy=production --local",
+    "start": "node config/build.js --env.environment=qa --env.deploy=qa6 --local",
     "verify": "node scripts/verify.js",
     "build:LOAD:TEST": "node config/build.js --env.environment=preprod --env.deploy=preprod1",
     "build:PREPROD1": "node config/build.js --env.environment=qa --env.deploy=preprod1",
@@ -20,7 +20,7 @@
     "build:QA5": "node config/build.js --env.environment=qa --env.deploy=qa5",
     "pm2:QA5:start": "node ./scripts/pm2-delete.js tata-cliq-frontend-desktop-qa5 && pm2 start ecosystem.config.js --only tata-cliq-frontend-desktop-qa5",
     "build:QA6": "node config/build.js --env.environment=qa --env.deploy=qa6",
-    "pm2:QA6:start": "node ./scripts/pm2-delete.js tata-cliq-frontend-desktop-qa1 && pm2 start ecosystem.config.js --only tata-cliq-frontend-desktop-qa1",
+    "pm2:QA6:start": "node ./scripts/pm2-delete.js tata-cliq-frontend-desktop-qa6 && pm2 start ecosystem.config.js --only tata-cliq-frontend-desktop-qa6",
     "build:PT1": "node config/build.js --env.environment=qa --env.deploy=pt1",
     "pm2:PT1:start": "node ./scripts/pm2-delete.js tata-cliq-frontend-desktop-pt1 && pm2 start ecosystem.config.js --only tata-cliq-frontend-desktop-pt1",
     "build:PT2": "node config/build.js --env.environment=qa --env.deploy=pt2",

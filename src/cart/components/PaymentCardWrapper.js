@@ -1,6 +1,5 @@
 import React from "react";
 import find from "lodash.find";
-import CliqCashToggle from "./CliqCashToggle";
 import styles from "./PaymentCardWrapper.css";
 import EmiPanel from "./EmiPanel.js";
 import CheckoutCreditCard from "./CheckoutCreditCard.js";
@@ -13,15 +12,13 @@ import PaytmOption from "./PaytmOption.js";
 import PayPalOptions from "./PayPalOptions";
 import PropTypes from "prop-types";
 import BankOfferWrapper from "./BankOfferWrapper.js";
-import GiftCardPopup from "./GiftCardPopup.js";
 import DesktopOnly from "../../general/components/DesktopOnly";
 import MobileOnly from "../../general/components/MobileOnly";
-import ManueDetails from "../../general/components/MenuDetails.js";
 import CheckOutHeader from "./CheckOutHeader";
-import giftCardIcon from "../../general/components/img/Gift.svg";
 import CheckoutUpi from "./CheckoutUpi";
+import LoyaltyCliqCashGiftWrapper from "./LoyaltyCliqCashGiftWrapper";
 import { setDataLayer, ADOBE_MDE_CLICK_ON_CLIQCASH_CHECKOUT_WITH_EXCHANGE } from "../../lib/adobeUtils";
-const GIFT_CARD = "Have a gift card?";
+
 /**
  * @comment Added condition for showing UPI section of the checkout page in the below const.
  */
@@ -142,6 +139,27 @@ export default class PaymentCardWrapper extends React.Component {
     }
 
     render() {
+        let remainingBalance;
+
+        if (
+            (this.props &&
+                this.props.cart &&
+                this.props.cart.cliqCashPaymentDetails &&
+                this.props.cart.cliqCashPaymentDetails.isRemainingAmount === false) ||
+            (this.props &&
+                this.props.cart &&
+                this.props.cart.loyaltyPoints &&
+                this.props.cart.loyaltyPoints.isRemainingAmount === false &&
+                this.props.cart &&
+                this.props.cart.cartDetailsCNC &&
+                this.props.cart.cartDetailsCNC.cartAmount &&
+                this.props.cart.cartDetailsCNC.cartAmount.paybleAmount.value === 0)
+        ) {
+            remainingBalance = false;
+        } else {
+            remainingBalance = true;
+        }
+
         if (
             this.props &&
             this.props.cart &&
@@ -157,81 +175,92 @@ export default class PaymentCardWrapper extends React.Component {
                 this.props.retryPaymentDetails.orderRetry &&
                 this.props.retryPaymentDetails.retryFlagEmiCoupon;
             return (
-                <div className={styles.base}>
-                    <DesktopOnly>
-                        <div className={styles.card}>
-                            <CheckOutHeader
-                                confirmTitle="Payment Method"
-                                indexNumber={this.props.isFromCliqAndPiq ? "2" : "3"}
-                            />
-                        </div>
-                    </DesktopOnly>
-                    {!this.props.isFromGiftCard && !this.props.isPaymentFailed && !this.props.isFromRetryUrl && (
-                        <div>
-                            <CliqCashToggle
-                                cashText="Use My CLiQ Cash Balance"
-                                price={isNaN(this.props.cliqCashAmount) ? 0 : this.props.cliqCashAmount}
-                                value={
-                                    (this.props.userCliqCashAmount && this.props.userCliqCashAmount !== "0.00") ||
-                                    this.props.isCliqCashApplied === true
-                                        ? this.props.userCliqCashAmount
-                                        : 0
-                                }
-                                onToggle={val => this.handleClick(val)}
-                                isFromGiftCard={this.props.isFromGiftCard}
-                                addGiftCard={() => this.addGiftCard()}
-                                isCliqCashApplied={this.props.isCliqCashApplied}
-                                isRemainingBalance={this.props.isRemainingBalance}
-                                onCheckout={this.props.onCheckout}
-                            />
-                        </div>
-                    )}
-                    <MobileOnly>
-                        {!this.props.isFromGiftCard &&
-                            this.props.isRemainingBalance &&
-                            !(this.props.isPaymentFailed && this.props.isCliqCashApplied) &&
-                            this.props.cart.paymentModes &&
-                            this.props.cart.paymentModes.paymentOffers &&
-                            this.props.cart.paymentModes.paymentOffers.coupons && (
-                                <BankOfferWrapper
-                                    cart={this.props.cart}
-                                    applyBankCoupons={this.props.applyBankCoupons}
-                                    openBankOffers={this.props.openBankOffers}
-                                    openBankOfferTncModal={this.props.openBankOfferTncModal}
-                                />
-                            )}
-                    </MobileOnly>
-                    {this.props.isRemainingBalance && (
-                        <div className={styles.paymentModes}>
-                            <MobileOnly>
-                                <div className={styles.card}>
-                                    <CheckOutHeader confirmTitle="Payment Method" indexNumber="3" />
-                                </div>
-                            </MobileOnly>
-                            {!retryNoCostEMI &&
-                                this.props.cart.paymentModes &&
-                                this.props.cart.paymentModes.savedCardResponse &&
-                                this.props.cart.paymentModes.savedCardResponse.savedCardDetailsMap &&
-                                this.props.cart.paymentModes.savedCardResponse.savedCardDetailsMap.length > 0 &&
-                                this.renderSavedCards()}
-                            {this.props.cart.paymentModes && this.renderPaymentCardsComponents()}
-                        </div>
-                    )}
-                    {!this.props.isFromGiftCard && !this.props.isPaymentFailed && !this.props.isFromRetryUrl && (
+                <div>
+                    <div className={styles.baseLoyaltyCliqCash}>
+                        <LoyaltyCliqCashGiftWrapper
+                            getLoyaltyTncData={() => this.props.getLoyaltyTncData()}
+                            isFromGiftCard={this.props.isFromGiftCard}
+                            isPaymentFailed={this.props.isPaymentFailed}
+                            isFromRetryUrl={this.props.isFromRetryUrl}
+                            cliqCashAmount={this.props.cliqCashAmount}
+                            userCliqCashAmount={this.props.userCliqCashAmount}
+                            isCliqCashApplied={this.props.isCliqCashApplied}
+                            loyaltyPointsApplied={this.props.loyaltyPointsApplied}
+                            handleClick={val => this.handleClick(val)}
+                            addGiftCard={() => this.addGiftCard()}
+                            cart={this.props.cart}
+                            cliqCashLoyaltyAlert={data => this.props.cliqCashLoyaltyAlert(data)}
+                            lpPartialRedemption={data => this.props.lpPartialRedemption(data)}
+                            closeModal={this.props.closeModal}
+                            loyaltyDetails={() => this.props.loyaltyDetails()}
+                            applyCliqCash={() => this.props.applyCliqCash()}
+                            removeCliqCash={() => this.props.removeCliqCash()}
+                            applyLoyaltyPoints={(guId, method, totalLoyaltyPoints, appliedLoyaltyPoints) =>
+                                this.props.applyLoyaltyPoints(guId, method, totalLoyaltyPoints, appliedLoyaltyPoints)
+                            }
+                            removeLoyaltyPoints={(guId, method, totalLoyaltyPoints, appliedLoyaltyPoints) =>
+                                this.props.removeLoyaltyPoints(guId, method, totalLoyaltyPoints, appliedLoyaltyPoints)
+                            }
+                            isRemainingBalance={this.props.isRemainingBalance}
+                            // applyRemoveloyaltyPoints={ (guId, method,totalLoyaltyPoints,
+                            //   appliedLoyaltyPoints)=>this.props.applyRemoveloyaltyPoints(guId, method, totalLoyaltyPoints, appliedLoyaltyPoints)}
+                            hideModal={() => this.props.hideModal()}
+                            onCheckout={this.props.onCheckout}
+                            redeemCliqVoucher={val => this.redeemCliqVoucher(val)}
+                            voucherNumber={this.props.voucherNumber}
+                            voucherPin={this.props.voucherPin}
+                        />
+                    </div>
+                    <div className={styles.base}>
                         <DesktopOnly>
-                            <div className={styles.giftCardAccrodian}>
-                                <ManueDetails text={GIFT_CARD} icon={giftCardIcon} isNoBorderTop={true}>
-                                    <GiftCardPopup
-                                        isGiftCardHeader={false}
-                                        heading="Have a gift card?"
-                                        addGiftCard={val => this.redeemCliqVoucher(val)}
-                                        voucherNumber={this.props.voucherNumber}
-                                        voucherPin={this.props.voucherPin}
-                                    />
-                                </ManueDetails>
-                            </div>
+                            {this.props.cart &&
+                                this.props.cart.cartDetailsCNC &&
+                                this.props.cart.cartDetailsCNC.cartAmount &&
+                                this.props.cart.cartDetailsCNC.cartAmount.paybleAmount.value !== 0 && (
+                                    <div className={styles.card}>
+                                        <CheckOutHeader
+                                            confirmTitle="Payment Method"
+                                            indexNumber={this.props.isFromCliqAndPiq ? "2" : "3"}
+                                        />
+                                    </div>
+                                )}
                         </DesktopOnly>
-                    )}
+
+                        <MobileOnly>
+                            {!this.props.isFromGiftCard &&
+                                this.props.cart &&
+                                this.props.cart.cartDetailsCNC &&
+                                this.props.cart.cartDetailsCNC.cartAmount &&
+                                this.props.cart.cartDetailsCNC.cartAmount.paybleAmount.value !== 0 &&
+                                !(this.props.isPaymentFailed && this.props.isCliqCashApplied) &&
+                                this.props.cart.paymentModes &&
+                                this.props.cart.paymentModes.paymentOffers &&
+                                this.props.cart.paymentModes.paymentOffers.coupons && (
+                                    <BankOfferWrapper
+                                        cart={this.props.cart}
+                                        applyBankCoupons={this.props.applyBankCoupons}
+                                        openBankOffers={this.props.openBankOffers}
+                                        openBankOfferTncModal={this.props.openBankOfferTncModal}
+                                    />
+                                )}
+                        </MobileOnly>
+                        {remainingBalance && (
+                            <div className={styles.paymentModes}>
+                                <MobileOnly>
+                                    <div className={styles.card}>
+                                        <CheckOutHeader confirmTitle="Payment Method" indexNumber="3" />
+                                    </div>
+                                </MobileOnly>
+                                {!retryNoCostEMI &&
+                                    this.props.cart.paymentModes &&
+                                    this.props.cart.paymentModes.savedCardResponse &&
+                                    this.props.cart.paymentModes.savedCardResponse.savedCardDetailsMap &&
+                                    this.props.cart.paymentModes.savedCardResponse.savedCardDetailsMap.length > 0 &&
+                                    this.renderSavedCards()}
+                                {this.props.cart.paymentModes && this.renderPaymentCardsComponents()}
+                            </div>
+                        )}
+                    </div>
                 </div>
             );
         } else {
@@ -252,6 +281,14 @@ PaymentCardWrapper.propTypes = {
     applyCliqCash: PropTypes.func,
     onChange: PropTypes.func,
     onFocusInput: PropTypes.func,
+    getLoyaltyTncData: PropTypes.func,
+    loyaltyPointsApplied: PropTypes.func,
+    cliqCashLoyaltyAlert: PropTypes.func,
+    closeModal: PropTypes.func,
+    removeLoyaltyPoints: PropTypes.func,
+    hideModal: PropTypes.func,
+    loyaltyDetails: PropTypes.func,
+    applyLoyaltyPoints: PropTypes.func,
     binValidationForSavedCard: PropTypes.func,
     voucherPin: PropTypes.number,
     voucherNumber: PropTypes.number,
@@ -271,11 +308,15 @@ PaymentCardWrapper.propTypes = {
         orderRetry: PropTypes.bool,
         retryFlagEmiCoupon: PropTypes.string,
     }),
+    lpPartialRedemption: PropTypes.func,
     cart: PropTypes.shape({
         codEligibilityDetails: PropTypes.object,
         orderSummary: PropTypes.shape({
             products: PropTypes.array,
         }),
+        cartDetailsCNC: PropTypes.object,
+        cliqCashPaymentDetails: PropTypes.object,
+        loyaltyPoints: PropTypes.object,
         paymentModes: PropTypes.shape({
             paymentModes: PropTypes.array,
             paymentOffers: PropTypes.shape({

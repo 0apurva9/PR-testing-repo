@@ -35,53 +35,57 @@ export default class CheckoutCOD extends React.Component {
     };
 
     render() {
-        if (this.props.isCliqCashApplied) {
-            return null;
-        } else {
-            return (
-                <div>
-                    {this.props.cart &&
-                    this.props.cart.codEligibilityDetails &&
-                    this.props.cart.codEligibilityDetails.status ? (
-                        <MenuDetails
-                            text={CASH_ON_DELIVERY_PAYMENT_MODE}
-                            isOpen={this.props.currentPaymentMode === CASH_ON_DELIVERY_PAYMENT_MODE}
-                            onOpenMenu={currentPaymentMode => this.props.onChange({ currentPaymentMode })}
-                            icon={creditCardIcon}
-                        >
+        // if (this.props.isCliqCashApplied) {
+        //     return null;
+        // } else {
+        return (
+            <div>
+                {this.props.cart &&
+                this.props.cart.codEligibilityDetails &&
+                this.props.cart.codEligibilityDetails.status ? (
+                    <MenuDetails
+                        isCliqCashApplied={this.props.isCliqCashApplied}
+                        loyaltyPointsApplied={this.props.loyaltyPointsApplied}
+                        popUpHeading1={"Cash on Delivery Unavailable"}
+                        popUpHeading2={"Please unselect the Loyalty Points/CLiQ Cash option to pay using COD"}
+                        text={CASH_ON_DELIVERY_PAYMENT_MODE}
+                        isOpen={this.props.currentPaymentMode === CASH_ON_DELIVERY_PAYMENT_MODE}
+                        onOpenMenu={currentPaymentMode => this.props.onChange({ currentPaymentMode })}
+                        icon={creditCardIcon}
+                    >
+                        <div className={styles.contentHolder}>
+                            <CodForm
+                                cart={this.props.cart}
+                                binValidationForCOD={paymentMode => this.binValidationForCOD(paymentMode)}
+                                verifyCaptcha={this.props.verifyCaptcha}
+                            />
+                        </div>
+                        <DesktopOnly>
                             <div className={styles.contentHolder}>
-                                <CodForm
-                                    cart={this.props.cart}
-                                    binValidationForCOD={paymentMode => this.binValidationForCOD(paymentMode)}
-                                    verifyCaptcha={this.props.verifyCaptcha}
-                                />
-                            </div>
-                            <DesktopOnly>
-                                <div className={styles.contentHolder}>
-                                    <div className={styles.buttonHolder} style={{ top: 60, right: 20 }}>
-                                        <Button
-                                            disabled={this.props.validateCOD()}
-                                            type="primary"
-                                            backgroundColor="#ff1744"
-                                            height={40}
-                                            label="Place order"
-                                            width={150}
-                                            textStyle={{
-                                                color: "#FFF",
-                                                fontSize: 14,
-                                            }}
-                                            onClick={this.handleCheckout}
-                                        />
-                                    </div>
+                                <div className={styles.buttonHolder} style={{ top: 60, right: 20 }}>
+                                    <Button
+                                        disabled={this.props.validateCOD()}
+                                        type="primary"
+                                        backgroundColor="#ff1744"
+                                        height={40}
+                                        label="Place order"
+                                        width={150}
+                                        textStyle={{
+                                            color: "#FFF",
+                                            fontSize: 14,
+                                        }}
+                                        onClick={this.handleCheckout}
+                                    />
                                 </div>
-                            </DesktopOnly>
-                        </MenuDetails>
-                    ) : (
-                        <CodUnavailable message="Cash on delivery not available " />
-                    )}
-                </div>
-            );
-        }
+                            </div>
+                        </DesktopOnly>
+                    </MenuDetails>
+                ) : (
+                    <CodUnavailable message="Cash on delivery not available " />
+                )}
+            </div>
+        );
+        // }
     }
 }
 
@@ -93,6 +97,7 @@ CheckoutCOD.propTypes = {
     onChange: PropTypes.func,
     onCheckout: PropTypes.func,
     isCliqCashApplied: PropTypes.bool,
+    loyaltyPointsApplied: PropTypes.bool,
     currentPaymentMode: PropTypes.string,
     verifyCaptcha: PropTypes.func,
     validateCOD: PropTypes.func,

@@ -19,6 +19,7 @@ import {
     ADOBE_RATING_REVIEW_MODAL_RATING_SUBMIT,
     ADOBE_RATING_REVIEW_MODAL_QUALITY_SUBMIT,
     ADOBE_RATING_REVIEW_MODAL_REVIEW_SUBMIT,
+    ADOBE_RATING_REVIEW_MODAL_MY_ACCOUNT,
 } from "../../lib/adobeUtils";
 
 const success = "success";
@@ -43,9 +44,11 @@ export default class RatingAndReviewModalV2 extends Component {
     }
 
     componentDidMount() {
-        let callgetUserProductReviewAPI = true;
-        if (this.props.pageName === "productReview") {
-            callgetUserProductReviewAPI = false;
+        let callgetUserProductReviewAPI = false;
+        if (this.props.pageName !== "productReview") {
+            callgetUserProductReviewAPI = true;
+            let data = { productId: this.props.productCode };
+            setDataLayerForRatingReviewSection(ADOBE_RATING_REVIEW_MODAL_MY_ACCOUNT, data);
         }
         this.props.getParametersEligibleToRate(this.props.productCode, callgetUserProductReviewAPI);
     }
@@ -277,8 +280,8 @@ export default class RatingAndReviewModalV2 extends Component {
                     {this.state.sectionActive === 4 && (
                         <RnRSuccessSectionComponent
                             selectedRating={this.state.currentRating}
-                            getPendingReviews={(currentPage, isRatingReviewSuccessScreen) =>
-                                this.props.getPendingReviews(currentPage, isRatingReviewSuccessScreen)
+                            getPendingReviewsSuccessScreen={currentPage =>
+                                this.props.getPendingReviewsSuccessScreen(currentPage)
                             }
                             pendingReviewsDetails={this.props.pendingReviewsDetails}
                             history={this.props.history}
@@ -423,7 +426,7 @@ RatingAndReviewModalV2.propTypes = {
     section: PropTypes.number,
     userProductReviewDetails: PropTypes.object,
     pageName: PropTypes.string,
-    getPendingReviews: PropTypes.func,
+    getPendingReviewsSuccessScreen: PropTypes.func,
     pendingReviewsDetails: PropTypes.object,
     history: PropTypes.object,
     getParametersEligibleToRate: PropTypes.func,

@@ -1,4 +1,10 @@
-import { CUSTOMER_ACCESS_TOKEN, LOGGED_IN_USER_DETAILS, NOT_FOUND } from "./../../lib/constants";
+import {
+    CUSTOMER_ACCESS_TOKEN,
+    LOGGED_IN_USER_DETAILS,
+    CUSTOMER_ACCESS_TOKEN_TD,
+    CUSTOMER_DETAILS_TD,
+    NOT_FOUND,
+} from "./../../lib/constants";
 import * as Cookies from "./../../lib/Cookie";
 
 import { refreshCustomerAccessToken, logoutUserOnInvalidRefreshToken } from "./../../lib/apiRequest";
@@ -35,6 +41,10 @@ export function getLoggedInUserDetails() {
     const loggedInUserDetails = loggedInUserDetailsCookie && JSON.parse(loggedInUserDetailsCookie);
     return loggedInUserDetails;
 }
+
+export const getTDSSOToken = () => localStorage.getItem(CUSTOMER_ACCESS_TOKEN_TD) || "";
+
+export const isCustomerLoyal = () => localStorage.getItem(CUSTOMER_DETAILS_TD) || "";
 
 export function initiateHaptikScript() {
     const f = document.getElementsByTagName("SCRIPT")[0];
