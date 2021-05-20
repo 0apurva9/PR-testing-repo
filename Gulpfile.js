@@ -7,7 +7,7 @@ const PORT = 3000;
 // const recomendedStandards = require("./performance-matrics/standardFormats");
 const fs = require("fs");
 const path = require("path");
-const reportsPath = "./performance-matrics/Reports/perfomace-health.json";
+const reportsPath = "./performance-metrics/Reports/perfomace-health.json";
 
 function creatFreshBuild(cb) {
     shell.exec(
