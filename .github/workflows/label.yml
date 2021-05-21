@@ -21,4 +21,4 @@ jobs:
     - uses: actions/labeler@v2
       with:
         repo-token: "${{ secrets.GITHUB_TOKEN }}"
-        configuration-path: .github/assign-label.yml
+        configuration-path: .github/assigning-label.yml
